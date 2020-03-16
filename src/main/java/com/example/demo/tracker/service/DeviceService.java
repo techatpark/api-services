@@ -62,6 +62,14 @@ public class DeviceService {
         }
     }
 
+    public Device update(final Integer id, Device deviceToBeUpdated) {
+        final String query = "UPDATE devices SET code = ?,namespace_id = ?,gsm_code = ?, device_imei_code = ?,sensor = ?,api_flag = ?,remarks = ?,active_flag = ? WHERE id = ? ";
+        jdbcTemplate.update(query, deviceToBeUpdated.getCode(), deviceToBeUpdated.getName(),
+                deviceToBeUpdated.getGsmCode(), deviceToBeUpdated.getDeviceIMEICode(), deviceToBeUpdated.getSensor(),
+                deviceToBeUpdated.getApiFlag(), deviceToBeUpdated.getRemarks(), deviceToBeUpdated.getActiveFlag(), id);
+        return read(id);
+    }
+
     public Integer delete(final Integer id) {
         final String query = "DELETE FROM devices WHERE id = ?";
         return jdbcTemplate.update(query, new Object[] { id });
@@ -82,6 +90,13 @@ public class DeviceService {
         final Device device = new Device();
         device.setId(rs.getInt("id"));
         device.setCode(rs.getString("code"));
+        device.setName(rs.getString("namespace_id"));
+        device.setGsmCode(rs.getString("gsm_code"));
+        device.setDeviceIMEICode(rs.getString("device_imei_code"));
+        device.setSensor(rs.getString("sensor"));
+        device.setApiFlag(rs.getInt("api_flag"));
+        device.setRemarks(rs.getString("remarks"));
+        device.setActiveFlag(rs.getInt("active_flag"));
         return device;
     }
 

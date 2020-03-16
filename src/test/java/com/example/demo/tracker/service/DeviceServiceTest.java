@@ -52,6 +52,15 @@ class DeviceServiceTest {
 
 	}
 
+	@Test
+	void testUpdate() {
+		Device device = deviceService.create(getDeviceForTesting());
+		Integer deviceId = device.getId();
+		device.setName("Updated Name");
+		deviceService.update(deviceId, device);
+		assertEquals("Updated Name", deviceService.read(deviceId).getName(), "Test Update");
+	}
+
 	private Device getDeviceForTesting() {
 		Device device = new Device();
 		device.setActiveFlag(1);
