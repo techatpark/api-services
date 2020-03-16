@@ -1,23 +1,42 @@
 package com.example.demo.tracker.controller;
 
-import org.springframework.web.bind.annotation.RestController;
-
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import com.example.demo.tracker.model.Device;
 
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
+
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 
 @RestController
 @RequestMapping("api/devices")
 @Api(description = "Resources that is responsible to manage devices")
 public class DeviceController {
 
-	@ApiOperation(value = "Post comment for a topic")
-	@RequestMapping(value = "/{topic}", method = RequestMethod.POST)
-	public String postComment(@PathVariable String topic) {
+	@ApiOperation(value = "Create a device")
+	@RequestMapping(method = RequestMethod.POST)
+	public Device create(Device device) {
 		return null;
+	}
+
+	@ApiOperation(value = "Get a device with given ID")
+	@RequestMapping(value = "/{id}",  method = RequestMethod.GET)
+	public Device read(@PathVariable ("id") Long id ) {
+		return null;
+	}
+
+	@ApiOperation(value = "Update a device with given ID")
+	@RequestMapping(value = "/{id}",  method = RequestMethod.POST)
+	public Device update(@PathVariable ("id") Long id, Device device  ) {
+		return null;
+	}
+
+	@ApiOperation(value = "Delete a device with given ID")
+	@RequestMapping(value = "/{id}",  method = RequestMethod.DELETE)
+	public Boolean delete(@PathVariable ("id") Long id) {
+		return true;
 	}
 
 }
