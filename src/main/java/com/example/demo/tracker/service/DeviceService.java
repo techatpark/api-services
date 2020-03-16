@@ -80,9 +80,9 @@ public class DeviceService {
         return jdbcTemplate.update(query);
     }
 
-    public List<Device> list(final Integer id) {
-        final String query = " SELECT * FROM devices WHERE id = ?";
-        final List<Device> devices = jdbcTemplate.query(query, new Object[] { id }, this::mapRow);
+    public List<Device> list() {
+        final String query = "SELECT * FROM devices";
+        final List<Device> devices = jdbcTemplate.query(query, this::mapRow);
         return devices;
     }
 
