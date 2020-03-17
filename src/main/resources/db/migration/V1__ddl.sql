@@ -4,9 +4,11 @@ CREATE TABLE devices (
   code VARCHAR(12) NOT NULL,
   namespace_id VARCHAR(25) NOT NULL,
   gsm_code VARCHAR(25) NOT NULL,
-  device_imei_code VARCHAR(25) NOT NULL,
+  device_imei_code VARCHAR(25) UNIQUE NOT NULL,
   sensor VARCHAR(20),
   api_flag TINYINT NOT NULL,
   remarks VARCHAR(120),
-  active_flag TINYINT NOT NULL
+  active_flag TINYINT NOT NULL,
+  updated_by INTEGER NOT NULL,
+  updated_at DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL
 );

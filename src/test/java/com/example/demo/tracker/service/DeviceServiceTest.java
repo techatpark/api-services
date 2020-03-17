@@ -57,7 +57,9 @@ class DeviceServiceTest {
 	@Test
 	void testList() {
 		deviceService.create(getDeviceForTesting());
-		deviceService.create(getDeviceForTesting());
+		Device device2 = getDeviceForTesting();
+		device2.setDeviceIMEICode("deviceIMEICode");
+		deviceService.create(device2);
 		assertEquals(2, deviceService.list().size(), "Test Listing");
 	}
 

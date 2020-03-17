@@ -49,9 +49,10 @@ public class DeviceService {
      * @return reads the inputed data.
      */
     public Device create(final Device newDevice) {
-
+        // INSERT INTO('ALL COLUMN')
         final SimpleJdbcInsert insert = new SimpleJdbcInsert(dataSource).withTableName("devices")
-                .usingGeneratedKeyColumns("id");
+                .usingGeneratedKeyColumns("id").usingColumns("code", "namespace_id", "gsm_code", "device_imei_code",
+                        "sensor", "api_flag", "remarks", "active_flag", "updated_by");
         final Map<String, Object> valuesMap = new HashMap<>();
         valuesMap.put("code", newDevice.getCode());
         valuesMap.put("namespace_id", newDevice.getName());
@@ -61,7 +62,7 @@ public class DeviceService {
         valuesMap.put("api_flag", newDevice.getApiFlag());
         valuesMap.put("remarks", newDevice.getRemarks());
         valuesMap.put("active_flag", newDevice.getActiveFlag());
-
+        valuesMap.put("updated_by", 1);
         // Actual Query Execution happens
         final Number id = insert.executeAndReturnKey(valuesMap);
         return read(id.intValue());
@@ -90,7 +91,7 @@ public class DeviceService {
      * @return device
      */
     public Device update(final Integer id, final Device deviceToBeUpdated) {
-        final String query = "UPDATE devices SET code = ?,namespace_id = ?,gsm_code = ?, device_imei_code = ?,sensor = ?,api_flag = ?,remarks = ?,active_flag = ? WHERE id = ? ";
+        final String query = "UPDATE devices SET code = ?,namespace_id = ?,gsm_code = ?, device_imei_code = ?,sensor = ?,api_flag = ?,remarks = ?,active_flag = ?,updated_by = 1, updated_at = CURRENT_TIMESTAMP WHERE id = ?";
         jdbcTemplate.update(query, deviceToBeUpdated.getCode(), deviceToBeUpdated.getName(),
                 deviceToBeUpdated.getGsmCode(), deviceToBeUpdated.getDeviceIMEICode(), deviceToBeUpdated.getSensor(),
                 deviceToBeUpdated.getApiFlag(), deviceToBeUpdated.getRemarks(), deviceToBeUpdated.getActiveFlag(), id);
@@ -163,6 +164,8 @@ public class DeviceService {
         device.setApiFlag(rs.getInt("api_flag"));
         device.setRemarks(rs.getString("remarks"));
         device.setActiveFlag(rs.getInt("active_flag"));
+        device.setUpdatedBy(rs.getInt("updated_by"));
+        device.setUpdatedAt(rs.getDate("updated_at"));
         return device;
     }
 

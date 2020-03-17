@@ -1,5 +1,7 @@
 package com.example.demo.tracker.model;
 
+import java.util.Date;
+
 public class Device {
     /**
      * id of the device.
@@ -38,10 +40,19 @@ public class Device {
      */
     private String remarks;
     /**
-     * setting api flag for device.
+     * api flag for device.
      * 
      */
     private int apiFlag;
+    /**
+     * tells who updated recently.
+     */
+    private Integer updatedBy;
+
+    /**
+     * tells when updated recently.
+     */
+    private Date updatedAt;
 
     /**
      * <p>
@@ -216,6 +227,42 @@ public class Device {
 
     public void setId(final int id) {
         this.id = id;
+    }
+
+    /**
+     * this will get the updated by value.
+     * 
+     * @return updated by
+     */
+    public Integer getUpdatedBy() {
+        return updatedBy;
+    }
+
+    /**
+     * this will set updated by.
+     * 
+     * @param updatedBy
+     */
+    public void setUpdatedBy(final Integer updatedBy) {
+        this.updatedBy = updatedBy;
+    }
+
+    /**
+     * this will get updated at date and timestamp.
+     * 
+     * @return updated at
+     */
+    public Date getUpdatedAt() {
+        return updatedAt;
+    }
+
+    /**
+     * this will set updated at date ane time stamp.
+     * 
+     * @param updatedAt
+     */
+    public void setUpdatedAt(final Date updatedAt) {
+        this.updatedAt = updatedAt;
     }
 
 }
