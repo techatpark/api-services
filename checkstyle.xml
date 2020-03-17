@@ -34,7 +34,7 @@
   <!-- Excludes all 'module-info.java' files              -->
   <!-- See https://checkstyle.org/config_filefilters.html -->
   <module name="BeforeExecutionExclusionFileFilter">
-    <property name="fileNamePattern" value=".+Controller\.java$"/>
+    <property name="fileNamePattern" value=".+(Controller|Config|Application|Test)\.java$"/>
   </module>
 
   <!-- https://checkstyle.org/config_filters.html#SuppressionFilter -->
@@ -64,7 +64,7 @@
 
   <!-- Checks for whitespace                               -->
   <!-- See https://checkstyle.org/config_whitespace.html -->
-  <module name="FileTabCharacter"/>
+  <!-- <module name="FileTabCharacter"/> -->
 
   <!-- Miscellaneous other checks.                   -->
   <!-- See https://checkstyle.org/config_misc.html -->

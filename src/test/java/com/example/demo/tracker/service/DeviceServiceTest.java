@@ -16,7 +16,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 class DeviceServiceTest {
 
 	@Autowired
-	DeviceService deviceService;
+	private DeviceService deviceService;
 
 	@BeforeEach
 	void before() {
@@ -28,10 +28,6 @@ class DeviceServiceTest {
 
 	}
 
-	/**
-	 * This test case creates a new device and confirm it exists with same code we
-	 * created with
-	 */
 	@Test
 	void testCreate() {
 		Device device = deviceService.create(getDeviceForTesting());
