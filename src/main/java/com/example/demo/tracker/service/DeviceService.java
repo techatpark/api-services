@@ -123,11 +123,25 @@ public class DeviceService {
      * 
      * @return device
      */
-
     public List<Device> list() {
         final String query = "SELECT * FROM devices";
         final List<Device> devices = jdbcTemplate.query(query, this::mapRow);
         return devices;
+    }
+
+    /**
+     * Find a devie with it IMEI code.
+     * 
+     * @param deviceIMEICode
+     * @return device matching the IMEI code
+     */
+    public Device findByDeviceIMEICode(final String deviceIMEICode) {
+        final String query = "SELECT * FROM devices WHERE device_imei_code = ?";
+        try {
+            return jdbcTemplate.queryForObject(query, new Object[] { deviceIMEICode }, this::mapRow);
+        } catch (EmptyResultDataAccessException e) {
+            return null;
+        }
     }
 
     /**
@@ -138,7 +152,7 @@ public class DeviceService {
      * @return device
      * @throws SQLException
      */
-    public Device mapRow(final ResultSet rs, final int rowNum) throws SQLException {
+    private Device mapRow(final ResultSet rs, final int rowNum) throws SQLException {
         final Device device = new Device();
         device.setId(rs.getInt("id"));
         device.setCode(rs.getString("code"));

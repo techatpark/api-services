@@ -61,6 +61,13 @@ class DeviceServiceTest {
 		assertEquals(2, deviceService.list().size(), "Test Listing");
 	}
 
+	@Test
+	void testFindByDeviceIMEICode() {
+		Device device = deviceService.create(getDeviceForTesting());
+		assertNotNull(deviceService.findByDeviceIMEICode(device.getDeviceIMEICode()),
+				"found a device with the IMEI code");
+	}
+
 	private Device getDeviceForTesting() {
 		Device device = new Device();
 		device.setActiveFlag(1);
