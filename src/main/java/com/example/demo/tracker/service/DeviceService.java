@@ -18,24 +18,38 @@ import org.springframework.stereotype.Service;
 @Service
 public class DeviceService {
 
+    /**
+     * this is used to execute a connection with a database.
+     */
     private final JdbcTemplate jdbcTemplate;
-
+    /**
+     * this is used to connect to relational database.
+     */
     private final DataSource dataSource;
 
+    /**
+     * Creates a device service for device related operations.
+     * 
+     * @param jdbcTemplate
+     * @param dataSource
+     */
     public DeviceService(final JdbcTemplate jdbcTemplate, final DataSource dataSource) {
         this.dataSource = dataSource;
         this.jdbcTemplate = jdbcTemplate;
     }
 
+    /**
+     * INSERT INTO device ( code , namespace_id , gsm_code , device_imei_code,
+     * device_model_id , sensor , api_flag , remarks , active_flag , updated_by ,
+     * updated_at datetime NOT NULL) VALUES
+     * (newDevice.getCode(),newDevice.namespace_id(),newDevice.gsm_code(),newDevice.device_imei_code(),newDevice.device_model_id(),newDevice.sensor(),newDevice.api_flag(),newDevice.remarks(),
+     * newDevice.active_flag(),newDevice.updated_by()).
+     * 
+     * @param newDevice
+     * @return reads the inputed data.
+     */
     public Device create(final Device newDevice) {
-        /**
-         * INSERT INTO device ( code , namespace_id , gsm_code , device_imei_code,
-         * device_model_id , sensor , api_flag , remarks , active_flag , updated_by ,
-         * updated_at datetime NOT NULL) VALUES
-         * (newDevice.getCode(),newDevice.namespace_id(),newDevice.gsm_code(),newDevice.device_imei_code(),newDevice.device_model_id(),newDevice.sensor(),newDevice.api_flag(),newDevice.remarks(),
-         * newDevice.active_flag(),newDevice.updated_by())
-         * 
-         */
+
         final SimpleJdbcInsert insert = new SimpleJdbcInsert(dataSource).withTableName("devices")
                 .usingGeneratedKeyColumns("id");
         final Map<String, Object> valuesMap = new HashMap<>();
@@ -53,6 +67,12 @@ public class DeviceService {
         return read(id.intValue());
     }
 
+    /**
+     * reads a row of data from database with given id.
+     * 
+     * @param id
+     * @return device
+     */
     public Device read(final Integer id) {
         final String query = "SELECT * FROM devices WHERE id = ?";
         try {
@@ -62,7 +82,14 @@ public class DeviceService {
         }
     }
 
-    public Device update(final Integer id, Device deviceToBeUpdated) {
+    /**
+     * Update a table in database.
+     * 
+     * @param id
+     * @param deviceToBeUpdated
+     * @return device
+     */
+    public Device update(final Integer id, final Device deviceToBeUpdated) {
         final String query = "UPDATE devices SET code = ?,namespace_id = ?,gsm_code = ?, device_imei_code = ?,sensor = ?,api_flag = ?,remarks = ?,active_flag = ? WHERE id = ? ";
         jdbcTemplate.update(query, deviceToBeUpdated.getCode(), deviceToBeUpdated.getName(),
                 deviceToBeUpdated.getGsmCode(), deviceToBeUpdated.getDeviceIMEICode(), deviceToBeUpdated.getSensor(),
@@ -70,15 +97,32 @@ public class DeviceService {
         return read(id);
     }
 
+    /**
+     * Delete a row with given id.
+     * 
+     * @param id
+     * @return device.
+     */
     public Integer delete(final Integer id) {
         final String query = "DELETE FROM devices WHERE id = ?";
         return jdbcTemplate.update(query, new Object[] { id });
     }
 
+    /**
+     * Delete all from device.
+     * 
+     * @return device
+     */
     public Integer delete() {
         final String query = "DELETE FROM devices";
         return jdbcTemplate.update(query);
     }
+
+    /**
+     * gets a list of all in device.
+     * 
+     * @return device
+     */
 
     public List<Device> list() {
         final String query = "SELECT * FROM devices";
@@ -86,6 +130,14 @@ public class DeviceService {
         return devices;
     }
 
+    /**
+     * Maps the data from and to the database.
+     * 
+     * @param rs
+     * @param rowNum
+     * @return device
+     * @throws SQLException
+     */
     public Device mapRow(final ResultSet rs, final int rowNum) throws SQLException {
         final Device device = new Device();
         device.setId(rs.getInt("id"));
