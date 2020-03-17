@@ -22,20 +22,20 @@ public class DeviceController {
 	}
 
 	@ApiOperation(value = "Get a device with given ID")
-	@RequestMapping(value = "/{id}",  method = RequestMethod.GET)
-	public Device read(@PathVariable ("id") Long id ) {
+	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
+	public Device read(@PathVariable("id") Long id) {
 		return null;
 	}
 
 	@ApiOperation(value = "Update a device with given ID")
-	@RequestMapping(value = "/{id}",  method = RequestMethod.POST)
-	public Device update(@PathVariable ("id") Long id, Device device  ) {
+	@RequestMapping(value = "/{id}", method = RequestMethod.PUT)
+	public Device update(@PathVariable("id") Long id, Device device) {
 		return null;
 	}
 
 	@ApiOperation(value = "Delete a device with given ID")
-	@RequestMapping(value = "/{id}",  method = RequestMethod.DELETE)
-	public Boolean delete(@PathVariable ("id") Long id) {
+	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+	public Boolean delete(@PathVariable("id") Long id) {
 		return true;
 	}
 

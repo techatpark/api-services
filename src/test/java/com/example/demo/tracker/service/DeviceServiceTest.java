@@ -38,9 +38,6 @@ class DeviceServiceTest {
 		assertEquals("09ABC", device.getCode(), "Test Create");
 	}
 
-	/**
-	 * 
-	 */
 	@Test
 	void testDelete() {
 		Device device = deviceService.create(getDeviceForTesting());
