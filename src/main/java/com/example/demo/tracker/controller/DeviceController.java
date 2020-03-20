@@ -1,5 +1,7 @@
 package com.example.demo.tracker.controller;
 
+import javax.validation.Valid;
+
 import com.example.demo.tracker.model.Device;
 
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,7 +19,7 @@ public class DeviceController {
 
 	@ApiOperation(value = "Create a device")
 	@RequestMapping(method = RequestMethod.POST)
-	public Device create(Device device) {
+	public Device create(@Valid Device device) {
 		return null;
 	}
 

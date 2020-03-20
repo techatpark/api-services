@@ -16,7 +16,6 @@ Content-Type: application/json
   "id": 0,
   "name": "string",
   "remarks": "string",
-  "sensor": "string",
   "updatedAt": "2020-03-20T15:38:56.072Z",
   "updatedBy": 0
 }

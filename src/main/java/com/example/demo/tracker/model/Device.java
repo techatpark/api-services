@@ -2,6 +2,8 @@ package com.example.demo.tracker.model;
 
 import java.util.Date;
 
+import javax.validation.constraints.NotNull;
+
 public class Device {
     /**
      * id of the device.
@@ -34,6 +36,7 @@ public class Device {
     /**
      * Sensor of the device.
      */
+    @NotNull(message = "Sensor cannot be null")
     private String sensor;
     /**
      * Remark about the device.
