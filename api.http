@@ -1,0 +1,22 @@
+@base = http://localhost:8090
+
+#### Basic Metadata
+GET {{base}}
+
+#### Create a Device
+POST {{base}}/api/devices
+Content-Type: application/json
+
+{
+  "activeFlag": 0,
+  "apiFlag": 0,
+  "code": "string",
+  "deviceIMEICode": "string",
+  "gsmCode": "string",
+  "id": 0,
+  "name": "string",
+  "remarks": "string",
+  "sensor": "string",
+  "updatedAt": "2020-03-20T15:38:56.072Z",
+  "updatedBy": 0
+}
