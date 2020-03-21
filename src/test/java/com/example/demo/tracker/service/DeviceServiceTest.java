@@ -73,7 +73,7 @@ class DeviceServiceTest {
 	private Device getDeviceForTesting() {
 		Device device = new Device();
 		device.setActiveFlag(1);
-		device.setApiFlag(1);
+		device.setApiFlag(5);
 		device.setCode("09ABC");
 		device.setDeviceIMEICode("csjh4jkj2");
 		device.setGsmCode("fwfee");

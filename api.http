@@ -9,13 +9,14 @@ Content-Type: application/json
 
 {
   "activeFlag": 0,
-  "apiFlag": 0,
+  "apiFlag": 8,
   "code": "string",
-  "deviceIMEICode": "string",
+  "deviceIMEICode": "streefgging",
   "gsmCode": "string",
   "id": 0,
   "name": "string",
   "remarks": "string",
   "updatedAt": "2020-03-20T15:38:56.072Z",
-  "updatedBy": 0
+  "updatedBy": 0,
+  "sensor": "jkd"
 }

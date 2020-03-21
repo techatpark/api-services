@@ -3,8 +3,11 @@ package com.example.demo.tracker.controller;
 import javax.validation.Valid;
 
 import com.example.demo.tracker.model.Device;
+import com.example.demo.tracker.service.DeviceService;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -16,11 +19,13 @@ import io.swagger.annotations.ApiOperation;
 @RequestMapping("api/devices")
 @Api(description = "Resources that is responsible to manage devices")
 public class DeviceController {
+	@Autowired
+	private DeviceService deviceService;
 
 	@ApiOperation(value = "Create a device")
 	@RequestMapping(method = RequestMethod.POST)
-	public Device create(@Valid Device device) {
-		return null;
+	public Device create(@RequestBody @Valid Device device) {
+		return deviceService.create(device);
 	}
 
 	@ApiOperation(value = "Get a device with given ID")

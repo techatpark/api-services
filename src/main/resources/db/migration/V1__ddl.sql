@@ -8,7 +8,10 @@ CREATE TABLE devices (
   sensor VARCHAR(20),
   api_flag TINYINT NOT NULL,
   remarks VARCHAR(120),
-  active_flag TINYINT NOT NULL,
+  active_flag TINYINT CHECK(
+    active_flag = 1
+    OR active_flag = 0
+  ) NOT NULL,
   updated_by INTEGER NOT NULL,
   updated_at DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL
 );
