@@ -9,6 +9,7 @@ import java.util.Map;
 import javax.sql.DataSource;
 
 import com.example.demo.tracker.model.Device;
+import com.example.demo.tracker.model.Status;
 
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -61,7 +62,7 @@ public class DeviceService {
         valuesMap.put("sensor", newDevice.getSensor());
         valuesMap.put("api_flag", newDevice.getApiFlag());
         valuesMap.put("remarks", newDevice.getRemarks());
-        valuesMap.put("active_flag", newDevice.getActiveFlag());
+        valuesMap.put("active_flag", newDevice.getStatus().getValue());
         valuesMap.put("updated_by", 1);
         // Actual Query Execution happens
         final Number id = insert.executeAndReturnKey(valuesMap);
@@ -94,7 +95,8 @@ public class DeviceService {
         final String query = "UPDATE devices SET code = ?,namespace_id = ?,gsm_code = ?, device_imei_code = ?,sensor = ?,api_flag = ?,remarks = ?,active_flag = ?,updated_by = 1, updated_at = CURRENT_TIMESTAMP WHERE id = ?";
         jdbcTemplate.update(query, deviceToBeUpdated.getCode(), deviceToBeUpdated.getName(),
                 deviceToBeUpdated.getGsmCode(), deviceToBeUpdated.getDeviceIMEICode(), deviceToBeUpdated.getSensor(),
-                deviceToBeUpdated.getApiFlag(), deviceToBeUpdated.getRemarks(), deviceToBeUpdated.getActiveFlag(), id);
+                deviceToBeUpdated.getApiFlag(), deviceToBeUpdated.getRemarks(),
+                deviceToBeUpdated.getStatus().getValue(), id);
         return read(id);
     }
 
@@ -163,7 +165,7 @@ public class DeviceService {
         device.setSensor(rs.getString("sensor"));
         device.setApiFlag(rs.getInt("api_flag"));
         device.setRemarks(rs.getString("remarks"));
-        device.setActiveFlag(rs.getInt("active_flag"));
+        device.setStatus(Status.valueOf(rs.getInt("active_flag")));
         device.setUpdatedBy(rs.getInt("updated_by"));
         device.setUpdatedAt(rs.getDate("updated_at"));
         return device;

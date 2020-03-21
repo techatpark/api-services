@@ -20,7 +20,7 @@ public class Device {
     /**
      * Tells whether the device is active, when set to 1.
      */
-    private int activeFlag;
+    private Status status;
     /**
      * gsm code of the device.
      */
@@ -109,24 +109,6 @@ public class Device {
 
     public void setName(final String name) {
         this.name = name;
-    }
-
-    /**
-     * This will get the activeflag of the device.
-     * 
-     * @return 1 if device active, 0 if not active
-     */
-    public int getActiveFlag() {
-        return activeFlag;
-    }
-
-    /**
-     * this will set the activeflag.
-     * 
-     * @param activeFlag
-     */
-    public void setActiveFlag(final int activeFlag) {
-        this.activeFlag = activeFlag;
     }
 
     /**
@@ -266,6 +248,24 @@ public class Device {
      */
     public void setUpdatedAt(final Date updatedAt) {
         this.updatedAt = updatedAt;
+    }
+
+    /**
+     * get status of device.
+     * 
+     * @return status
+     */
+    public Status getStatus() {
+        return status;
+    }
+
+    /**
+     * set the status of device.
+     * 
+     * @param status
+     */
+    public void setStatus(final Status status) {
+        this.status = status;
     }
 
 }

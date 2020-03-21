@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
 import com.example.demo.tracker.model.Device;
+import com.example.demo.tracker.model.Status;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -72,7 +73,7 @@ class DeviceServiceTest {
 
 	private Device getDeviceForTesting() {
 		Device device = new Device();
-		device.setActiveFlag(1);
+		device.setStatus(Status.ACTIVE);
 		device.setApiFlag(5);
 		device.setCode("09ABC");
 		device.setDeviceIMEICode("csjh4jkj2");
