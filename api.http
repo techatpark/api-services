@@ -7,9 +7,9 @@ Content-Type: application/json
 
 {
   "activeFlag": 0,
-  "apiFlag": 0,
+  "status": 0,
   "code": "string",
-  "deviceIMEICode": "streefgging",
+  "deviceIMEICode": "KKKK",
   "gsmCode": "string",
   "id": 0,
   "name": "string",

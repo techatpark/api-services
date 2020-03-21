@@ -1,5 +1,8 @@
 package com.example.demo.tracker.model;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonValue;
+
 /**
  * defining a status.
  */
@@ -28,7 +31,13 @@ public enum Status {
      * 
      * @return value.
      */
+    @JsonValue
     public Integer getValue() {
         return value;
+    }
+
+    @JsonCreator
+    public static Status of(final Integer value) {
+        return value == 0 ? INACTIVE:ACTIVE;
     }
 }
