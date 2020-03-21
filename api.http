@@ -1,7 +1,5 @@
 @base = http://localhost:8090
 
-#### Basic Metadata
-GET {{base}}
 
 #### Create a Device
 POST {{base}}/api/devices
@@ -9,7 +7,7 @@ Content-Type: application/json
 
 {
   "activeFlag": 0,
-  "apiFlag": 8,
+  "apiFlag": 0,
   "code": "string",
   "deviceIMEICode": "streefgging",
   "gsmCode": "string",
