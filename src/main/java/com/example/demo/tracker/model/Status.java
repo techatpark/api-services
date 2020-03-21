@@ -36,8 +36,14 @@ public enum Status {
         return value;
     }
 
+    /**
+     * this method is used to set status from a json.
+     * 
+     * @param value
+     * @return status
+     */
     @JsonCreator
     public static Status of(final Integer value) {
-        return value == 0 ? INACTIVE:ACTIVE;
+        return value == 0 ? INACTIVE : ACTIVE;
     }
 }
