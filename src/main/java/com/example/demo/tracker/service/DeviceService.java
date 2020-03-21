@@ -165,7 +165,7 @@ public class DeviceService {
         device.setSensor(rs.getString("sensor"));
         device.setApiFlag(rs.getInt("api_flag"));
         device.setRemarks(rs.getString("remarks"));
-        device.setStatus(Status.valueOf(rs.getInt("active_flag")));
+        //device.setStatus(Status.valueOf(rs.getInt("active_flag")));
         device.setUpdatedBy(rs.getInt("updated_by"));
         device.setUpdatedAt(rs.getDate("updated_at"));
         return device;
