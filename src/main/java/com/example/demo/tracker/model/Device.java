@@ -4,19 +4,8 @@ import java.util.Date;
 
 import javax.validation.constraints.NotNull;
 
-public class Device {
-    /**
-     * id of the device.
-     */
-    private int id;
-    /**
-     * code of the device.
-     */
-    private String code;
-    /**
-     * name of the device.
-     */
-    private String name;
+public class Device extends BaseModel {
+
     /**
      * Tells whether the device is active, when set to 1.
      */
@@ -56,60 +45,6 @@ public class Device {
      * tells when updated recently.
      */
     private Date updatedAt;
-
-    /**
-     * <p>
-     * This will get Id of a device.
-     * </p>
-     * 
-     * @return id of the device
-     */
-    public int getId() {
-        return id;
-    }
-
-    /**
-     * <p>
-     * This will get the code of the device.
-     * </p>
-     * 
-     * @return code of the device
-     */
-
-    public String getCode() {
-        return code;
-    }
-
-    /**
-     * <p>
-     * sets the code of the device.
-     * </p>
-     * 
-     * @param code
-     */
-    public void setCode(final String code) {
-        this.code = code;
-    }
-
-    /**
-     * This will get the name of the device.
-     * 
-     * @return name
-     */
-
-    public String getName() {
-        return name;
-    }
-
-    /**
-     * This will set the name of the device.
-     * 
-     * @param name
-     */
-
-    public void setName(final String name) {
-        this.name = name;
-    }
 
     /**
      * this will get the gsmcode of device.
@@ -202,16 +137,6 @@ public class Device {
      */
     public void setApiFlag(final int apiFlag) {
         this.apiFlag = apiFlag;
-    }
-
-    /**
-     * this will set id of device.
-     * 
-     * @param id
-     */
-
-    public void setId(final int id) {
-        this.id = id;
     }
 
     /**
