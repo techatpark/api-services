@@ -14,6 +14,14 @@ public class Vehicle {
      * tells speed limit of vehicle.
      */
     private int overspeedLimit;
+    /**
+     * tells the device attached to this vehicle.
+     */
+    private Device device;
+    /**
+     * tells vehicle type .
+     */
+    private VehicleType vehicleType;
 
     /**
      * gets registration number.
@@ -67,6 +75,42 @@ public class Vehicle {
      */
     public void setOverspeedLimit(final int overspeedLimit) {
         this.overspeedLimit = overspeedLimit;
+    }
+
+    /**
+     * gets device.
+     * 
+     * @return device
+     */
+    public Device getDevice() {
+        return device;
+    }
+
+    /**
+     * sets device.
+     * 
+     * @param device
+     */
+    public void setDevice(final Device device) {
+        this.device = device;
+    }
+
+    /**
+     * gets vehicle type.
+     * 
+     * @return vehicle type
+     */
+    public VehicleType getVehicleType() {
+        return vehicleType;
+    }
+
+    /**
+     * sets vehicle type.
+     * 
+     * @param vehicleType
+     */
+    public void setVehicleType(final VehicleType vehicleType) {
+        this.vehicleType = vehicleType;
     }
 
 }
