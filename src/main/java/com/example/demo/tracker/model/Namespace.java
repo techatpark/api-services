@@ -1,23 +1,8 @@
 package com.example.demo.tracker.model;
 
-import java.sql.Date;
+import java.util.Date;
 
-public class Namespace {
-    /**
-     * id of the namespace.
-     * 
-     */
-    private Integer id;
-
-    /**
-     * code of namespace.
-     */
-    private String code;
-
-    /**
-     * name of namespace.
-     */
-    private String name;
+public class Namespace extends BaseModel {
 
     /**
      * Tells whether the device is active, when set to 1.
@@ -32,60 +17,6 @@ public class Namespace {
      * tells when updated.
      */
     private Date updatedAt;
-
-    /**
-     * gets id.
-     * 
-     * @return id
-     */
-    public Integer getId() {
-        return id;
-    }
-
-    /**
-     * sets id.
-     * 
-     * @param id
-     */
-    public void setId(final Integer id) {
-        this.id = id;
-    }
-
-    /**
-     * get code.
-     * 
-     * @return code
-     */
-    public String getCode() {
-        return code;
-    }
-
-    /**
-     * sets code.
-     * 
-     * @param code
-     */
-    public void setCode(final String code) {
-        this.code = code;
-    }
-
-    /**
-     * get name.
-     * 
-     * @return name
-     */
-    public String getName() {
-        return name;
-    }
-
-    /**
-     * sets name.
-     * 
-     * @param name
-     */
-    public void setName(final String name) {
-        this.name = name;
-    }
 
     /**
      * get the updated by data.
