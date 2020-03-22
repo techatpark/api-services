@@ -1,15 +1,9 @@
 package com.example.demo.tracker.model;
 
-import java.util.Date;
-
 import javax.validation.constraints.NotNull;
 
 public class Device extends BaseModel {
 
-    /**
-     * Tells whether the device is active, when set to 1.
-     */
-    private Status status;
     /**
      * gsm code of the device.
      */
@@ -36,15 +30,6 @@ public class Device extends BaseModel {
      * 
      */
     private int apiFlag;
-    /**
-     * tells who updated recently.
-     */
-    private Integer updatedBy;
-
-    /**
-     * tells when updated recently.
-     */
-    private Date updatedAt;
 
     /**
      * this will get the gsmcode of device.
@@ -137,60 +122,6 @@ public class Device extends BaseModel {
      */
     public void setApiFlag(final int apiFlag) {
         this.apiFlag = apiFlag;
-    }
-
-    /**
-     * this will get the updated by value.
-     * 
-     * @return updated by
-     */
-    public Integer getUpdatedBy() {
-        return updatedBy;
-    }
-
-    /**
-     * this will set updated by.
-     * 
-     * @param updatedBy
-     */
-    public void setUpdatedBy(final Integer updatedBy) {
-        this.updatedBy = updatedBy;
-    }
-
-    /**
-     * this will get updated at date and timestamp.
-     * 
-     * @return updated at
-     */
-    public Date getUpdatedAt() {
-        return updatedAt;
-    }
-
-    /**
-     * this will set updated at date ane time stamp.
-     * 
-     * @param updatedAt
-     */
-    public void setUpdatedAt(final Date updatedAt) {
-        this.updatedAt = updatedAt;
-    }
-
-    /**
-     * get status of device.
-     * 
-     * @return status
-     */
-    public Status getStatus() {
-        return status;
-    }
-
-    /**
-     * set the status of device.
-     * 
-     * @param status
-     */
-    public void setStatus(final Status status) {
-        this.status = status;
     }
 
 }
