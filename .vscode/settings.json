@@ -1,5 +1,6 @@
 {
   "java.checkstyle.configuration": "${workspaceFolder}/checkstyle.xml",
   "editor.formatOnSave": true,
-  "java.checkstyle.version": "8.30"
+  "java.checkstyle.version": "8.30",
+  "java.configuration.updateBuildConfiguration": "automatic"
 }
