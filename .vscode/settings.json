@@ -1,0 +1,4 @@
+{
+  "java.checkstyle.configuration": "${workspaceFolder}/checkstyle.xml",
+  "editor.formatOnSave": true
+}

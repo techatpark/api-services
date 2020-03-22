@@ -28,8 +28,5 @@ bin/
 /.nb-gradle/
 build/
 
-### VS Code ###
-.vscode/
-
 ### MAC ###
 .DS_Store
