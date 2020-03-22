@@ -2,6 +2,7 @@ package com.example.demo.tracker.model;
 
 public class Notification extends BaseModel {
     /**
+<<<<<<< HEAD
      * refference code of notification.
      */
     private String refferenceCode;
@@ -23,20 +24,53 @@ public class Notification extends BaseModel {
     private String responseLog;
     /**
      * mode of notification.
+=======
+     * this is refference Code.
+     */
+    private String refferenceCode;
+    /**
+     * this is the participant Address.
+     */
+    private String participantAddress;
+    /**
+     * this is the no. of transactions.
+     */
+    private Integer transactionCount;
+    /**
+     * This shows the request log.
+     */
+    private String requestLog;
+    /**
+     * This is response log.
+     */
+    private String responseLog;
+    /**
+     * This is notification Mode.
+>>>>>>> d06fc258c77dd3f06c79fc9411e398a78ff32d1b
      */
     private String notificationMode;
 
     /**
+<<<<<<< HEAD
      * gets refference code.
      * 
      * @return refference code
+=======
+     * This method let's us get Reference code.
+     * 
+     * @return reffernce code
+>>>>>>> d06fc258c77dd3f06c79fc9411e398a78ff32d1b
      */
     public String getRefferenceCode() {
         return refferenceCode;
     }
 
     /**
+<<<<<<< HEAD
      * sets refference code.
+=======
+     * to set reffernce code.
+>>>>>>> d06fc258c77dd3f06c79fc9411e398a78ff32d1b
      * 
      * @param refferenceCode
      */
@@ -45,16 +79,26 @@ public class Notification extends BaseModel {
     }
 
     /**
+<<<<<<< HEAD
      * gets participant address.
      * 
      * @return participant address
+=======
+     * This is to get particiapnt address.
+     * 
+     * @return participantAdress
+>>>>>>> d06fc258c77dd3f06c79fc9411e398a78ff32d1b
      */
     public String getParticipantAddress() {
         return participantAddress;
     }
 
     /**
+<<<<<<< HEAD
      * sets participant address.
+=======
+     * This let's us set participant address.
+>>>>>>> d06fc258c77dd3f06c79fc9411e398a78ff32d1b
      * 
      * @param participantAddress
      */
@@ -63,16 +107,26 @@ public class Notification extends BaseModel {
     }
 
     /**
+<<<<<<< HEAD
      * gets transaction count.
      * 
      * @return transaction count
+=======
+     * This is to get transcation Count.
+     * 
+     * @return transcation count
+>>>>>>> d06fc258c77dd3f06c79fc9411e398a78ff32d1b
      */
     public int getTransactionCount() {
         return transactionCount;
     }
 
     /**
+<<<<<<< HEAD
      * sets transaction count.
+=======
+     * This is to set transaction count.
+>>>>>>> d06fc258c77dd3f06c79fc9411e398a78ff32d1b
      * 
      * @param transactionCount
      */
@@ -81,7 +135,11 @@ public class Notification extends BaseModel {
     }
 
     /**
+<<<<<<< HEAD
      * gets the request log.
+=======
+     * This is to get the request log.
+>>>>>>> d06fc258c77dd3f06c79fc9411e398a78ff32d1b
      * 
      * @return request log
      */
@@ -90,7 +148,11 @@ public class Notification extends BaseModel {
     }
 
     /**
+<<<<<<< HEAD
      * sets request log.
+=======
+     * This is to set request log.
+>>>>>>> d06fc258c77dd3f06c79fc9411e398a78ff32d1b
      * 
      * @param requestLog
      */
@@ -99,7 +161,11 @@ public class Notification extends BaseModel {
     }
 
     /**
+<<<<<<< HEAD
      * gets response log.
+=======
+     * This is to get respinse log.
+>>>>>>> d06fc258c77dd3f06c79fc9411e398a78ff32d1b
      * 
      * @return response log
      */
@@ -108,7 +174,11 @@ public class Notification extends BaseModel {
     }
 
     /**
+<<<<<<< HEAD
      * sets response log.
+=======
+     * this is to set response log.
+>>>>>>> d06fc258c77dd3f06c79fc9411e398a78ff32d1b
      * 
      * @param responseLog
      */
@@ -117,16 +187,26 @@ public class Notification extends BaseModel {
     }
 
     /**
+<<<<<<< HEAD
      * gets the notification mode.
      * 
      * @return notification mode
+=======
+     * this is to get Notification Mode.
+     * 
+     * @return getNotificationMode
+>>>>>>> d06fc258c77dd3f06c79fc9411e398a78ff32d1b
      */
     public String getNotificationMode() {
         return notificationMode;
     }
 
     /**
+<<<<<<< HEAD
      * sets notification mode.
+=======
+     * This is to set Notification mode to something.
+>>>>>>> d06fc258c77dd3f06c79fc9411e398a78ff32d1b
      * 
      * @param notificationMode
      */
