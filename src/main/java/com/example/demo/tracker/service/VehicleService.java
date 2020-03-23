@@ -22,16 +22,23 @@ public class VehicleService {
     private final JdbcTemplate jdbcTemplate;
     /** * this is used to connect to relational database. */
     private final DataSource dataSource;
+    /**
+     * .
+     */
+    private final DeviceService deviceService;
 
     /**
      * * Creates a device service for device related operations. * *
      * 
      * @param jdbcTemplate
      * @param dataSource
+     * @param deviceService
      */
-    public VehicleService(final JdbcTemplate jdbcTemplate, final DataSource dataSource) {
+    public VehicleService(final JdbcTemplate jdbcTemplate, final DataSource dataSource,
+            final DeviceService deviceService) {
         this.dataSource = dataSource;
         this.jdbcTemplate = jdbcTemplate;
+        this.deviceService = deviceService;
     }
 
     /**
@@ -43,12 +50,12 @@ public class VehicleService {
     public Vehicle create(final Vehicle newVehicle) {
         // INSERT INTO('ALL COLUMN')
         final SimpleJdbcInsert insert = new SimpleJdbcInsert(dataSource).withTableName("vehicle")
-                .usingGeneratedKeyColumns("id").usingColumns("code", "namespace_id", "device_id", "register_number",
-                        "mobile_number", "overspeed_limit", "vehicle_type_id", "active_flag", "updated_by");
+                .usingGeneratedKeyColumns("id").usingColumns("code", "namespace_id", "register_number", "mobile_number",
+                        "overspeed_limit", "vehicle_type_id", "active_flag", "updated_by");
         final Map<String, Object> valuesMap = new HashMap<>();
         valuesMap.put("code", newVehicle.getCode());
         valuesMap.put("namespace_id", newVehicle.getName());
-        valuesMap.put("device_id", newVehicle.getDevice());
+
         valuesMap.put("register_number", newVehicle.getRegisterNumber());
         valuesMap.put("mobile_number", newVehicle.getMobileNumber());
         valuesMap.put("overspeed_limit", newVehicle.getOverspeedLimit());
@@ -83,11 +90,11 @@ public class VehicleService {
      * @return Vehicle
      */
     public Vehicle update(final Integer id, final Vehicle vehicleToBeUpdated) {
-        final String query = "UPDATE vehicle SET code = ?,namespace_id = ?,device_id = ?, register_number = ?,mobile_number = ?,overspeed_limit = ?,vehicle_type_id = ?,active_flag = ?,updated_by = 1, updated_at = CURRENT_TIMESTAMP WHERE id = ?";
+        final String query = "UPDATE vehicle SET code = ?,namespace_id = ?, register_number = ?,mobile_number = ?,overspeed_limit = ?,vehicle_type_id = ?,active_flag = ?,updated_by = 1, updated_at = CURRENT_TIMESTAMP WHERE id = ?";
         jdbcTemplate.update(query, vehicleToBeUpdated.getCode(), vehicleToBeUpdated.getName(),
-                vehicleToBeUpdated.getDevice(), vehicleToBeUpdated.getRegisterNumber(),
-                vehicleToBeUpdated.getMobileNumber(), vehicleToBeUpdated.getOverspeedLimit(),
-                vehicleToBeUpdated.getVehicleType(), vehicleToBeUpdated.getStatus().getValue(), id);
+                vehicleToBeUpdated.getRegisterNumber(), vehicleToBeUpdated.getMobileNumber(),
+                vehicleToBeUpdated.getOverspeedLimit(), vehicleToBeUpdated.getVehicleType(),
+                vehicleToBeUpdated.getStatus().getValue(), id);
         return read(id);
     }
 
@@ -104,14 +111,16 @@ public class VehicleService {
         vehicle.setId(rs.getInt("id"));
         vehicle.setCode(rs.getString("code"));
         vehicle.setName(rs.getString("namespace_id"));
-        vehicle.setDevice(rs.getInt("device_id"));
+
         vehicle.setRegisterNumber(rs.getString("register_number"));
         vehicle.setMobileNumber(rs.getString("mobile_number"));
         vehicle.setOverspeedLimit(rs.getInt("overspeed_limit"));
-        vehicle.setVehicleType(rs.getInt("vehicle_type_id"));
-        vehicle.setActiveFlag(Status.of(rs.getInt("active_flag")));
+
+        vehicle.setStatus(Status.of(rs.getInt("active_flag")));
         vehicle.setUpdatedBy(rs.getInt("updated_by"));
         vehicle.setUpdatedAt(rs.getDate("updated_at"));
+        // vehicle.setVehicleType(rs.getInt("vehicle_type_id"));
+        vehicle.setDevice(deviceService.read(rs.getInt("device_id")));
         return vehicle;
     }
 
@@ -139,12 +148,24 @@ public class VehicleService {
     /**
      * gets a list of all in device.
      * 
-     * @return device
+     * @return vehicle
      */
     public List<Vehicle> list() {
         final String query = "SELECT * FROM vehicle";
-        final List<Vehicle> devices = jdbcTemplate.query(query, this::mapRow);
-        return vehicle;
+        final List<Vehicle> vehicles = jdbcTemplate.query(query, this::mapRow);
+        return vehicles;
+    }
+
+    /**
+     * checks whether device attached.
+     * 
+     * @param id
+     * @param deviceId
+     * @return successflag
+     */
+    public Boolean attachDevice(final Integer id, final Integer deviceId) {
+
+        return true;
     }
 
 }
