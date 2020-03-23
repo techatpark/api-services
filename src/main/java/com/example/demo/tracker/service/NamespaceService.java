@@ -19,16 +19,18 @@ import org.springframework.stereotype.Service;
 @Service
 public class NamespaceService {
     /**
-     * this is used to execute a connection with a database.
+     * * this is used to execute a connection with a database.
+     * 
      */
     private final JdbcTemplate jdbcTemplate;
     /**
      * this is used to connect to relational database.
+     * 
      */
     private final DataSource dataSource;
 
     /**
-     * Creates a service for namespace related operations.
+     * * Creates a device service for device related operations. *
      * 
      * @param jdbcTemplate
      * @param dataSource
@@ -39,42 +41,43 @@ public class NamespaceService {
     }
 
     /**
-     * insert into query occurs.
+     * inserting into namespace table.
      * 
      * @param newNamespace
-     * @return reads the inputted data
+     * @return reads the input data
      */
     public Namespace create(final Namespace newNamespace) {
         final SimpleJdbcInsert insert = new SimpleJdbcInsert(dataSource).withTableName("namespace")
                 .usingGeneratedKeyColumns("id").usingColumns("code", "name", "active_flag", "updated_by");
         final Map<String, Object> valuesMap = new HashMap<>();
-
         valuesMap.put("code", newNamespace.getCode());
         valuesMap.put("name", newNamespace.getName());
         valuesMap.put("active_flag", newNamespace.getStatus().getValue());
         valuesMap.put("updated_by", 1);
+    
         // Actual Query Execution happens
         final Number id = insert.executeAndReturnKey(valuesMap);
         return read(id.intValue());
     }
 
     /**
-     * reads a row of data from database with given id.
+     * reads from table namespace.
      * 
      * @param id
      * @return namespace
      */
     public Namespace read(final Integer id) {
-        final String query = "SELECT * FROM namespace WHERE id = ?";
+        final String query = "SELECT id,code,name,active_flag,updated_by,updated_at FROM namespace WHERE id = ?";
         try {
             return jdbcTemplate.queryForObject(query, new Object[] { id }, this::mapRow);
         } catch (EmptyResultDataAccessException e) {
             return null;
         }
+
     }
 
     /**
-     * update a table namespace.
+     * update table namespace.
      * 
      * @param id
      * @param namespaceToBeUpdated
@@ -99,7 +102,7 @@ public class NamespaceService {
     }
 
     /**
-     * Delete all from device.
+     * Delete all from namespace.
      * 
      * @return namespace
      */
@@ -114,9 +117,8 @@ public class NamespaceService {
      * @return namespace
      */
     public List<Namespace> list() {
-        final String query = "SELECT * FROM namespace";
-        final List<Namespace> namespace = jdbcTemplate.query(query, this::mapRow);
-        return namespace;
+        final String query = "SELECT id,code,name,active_flag,updated_by,updated_at FROM namespace";
+        return jdbcTemplate.query(query, this::mapRow);
     }
 
     /**

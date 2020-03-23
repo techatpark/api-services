@@ -14,10 +14,6 @@ public class BaseModel {
      * This is string code.
      */
     private String code;
-    /**
-     * This is string name.
-     */
-    private String name;
 
     /**
      * Tells whether the device is active, when set to 1.
@@ -123,21 +119,4 @@ public class BaseModel {
         this.code = code;
     }
 
-    /**
-     * This will get name.
-     * 
-     * @return name
-     */
-    public String getName() {
-        return name;
-    }
-
-    /**
-     * This will help as set name.
-     * 
-     * @param name
-     */
-    public void setName(final String name) {
-        this.name = name;
-    }
 }
