@@ -22,10 +22,6 @@ public class Vehicle extends BaseModel {
      * tells vehicle type .
      */
     private VehicleType vehicleType;
-    /**
-     * tells active flag.
-     */
-    private Integer activeFlag;
 
     /**
      * gets registration number.
@@ -115,24 +111,6 @@ public class Vehicle extends BaseModel {
      */
     public void setVehicleType(final VehicleType vehicleType) {
         this.vehicleType = vehicleType;
-    }
-
-    /**
-     * gets active flag.
-     * 
-     * @return active flag
-     */
-    public Integer getActiveFlag() {
-        return activeFlag;
-    }
-
-    /**
-     * sets active flag.
-     * 
-     * @param activeFlag
-     */
-    public void setActiveFlag(final Integer activeFlag) {
-        this.activeFlag = activeFlag;
     }
 
 }
