@@ -8,6 +8,7 @@ import java.util.Map;
 
 import javax.sql.DataSource;
 
+import com.example.demo.tracker.model.Device;
 import com.example.demo.tracker.model.Status;
 import com.example.demo.tracker.model.Vehicle;
 
@@ -120,7 +121,11 @@ public class VehicleService {
         vehicle.setUpdatedBy(rs.getInt("updated_by"));
         vehicle.setUpdatedAt(rs.getDate("updated_at"));
         // vehicle.setVehicleType(rs.getInt("vehicle_type_id"));
-        vehicle.setDevice(deviceService.read(rs.getInt("device_id")));
+
+        Integer deviceId = rs.getInt("device_id");
+        Device device = deviceService.read(deviceId);
+
+        vehicle.setDevice(device);
         return vehicle;
     }
 
@@ -157,15 +162,15 @@ public class VehicleService {
     }
 
     /**
-     * checks whether device attached.
+     * Attaching a Device to the vehile.
      * 
-     * @param id
-     * @param deviceId
-     * @return successflag
+     * @param vehicleId vehile id to be attached
+     * @param deviceId  device id to be attached to the given vehicle
+     * @return successflag returns true if attachment is successful
      */
-    public Boolean attachDevice(final Integer id, final Integer deviceId) {
-
-        return true;
+    public Boolean attachDevice(final Integer vehicleId, final Integer deviceId) {
+        final String query = "UPDATE vehicle SET device_id = ?,updated_by = 1, updated_at = CURRENT_TIMESTAMP WHERE id = ?";
+        return jdbcTemplate.update(query, deviceId, vehicleId) == 1;
     }
 
 }
