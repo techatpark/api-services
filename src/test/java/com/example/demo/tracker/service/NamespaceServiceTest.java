@@ -65,7 +65,7 @@ class NamespaceServiceTest {
     void testList() {
         namespaceService.create(getNamespaceForTesting());
         Namespace namespace2 = getNamespaceForTesting();
-        namespace2.setName("KPN");
+        namespace2.setCode("12ee4");
         namespaceService.create(namespace2);
         assertEquals(2, namespaceService.list().size(), "Test Listing");
     }
