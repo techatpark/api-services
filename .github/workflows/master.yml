@@ -21,11 +21,6 @@ jobs:
           java-version: 11
       - name: Build with Maven
         run: mvn -B package --file pom.xml
-
-  deploy:
-    runs-on: ubuntu-latest
-
-    steps:
       - name: Copy Artifacts
         uses: appleboy/scp-action@master
         env:
