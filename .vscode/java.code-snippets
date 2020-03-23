@@ -1,0 +1,9 @@
+{
+  "spring": {
+    "prefix": "j-service",
+    "body": [
+      "import javax.sql.DataSource; import org.springframework.jdbc.core.JdbcTemplate; import org.springframework.stereotype.Service; @Service public class $1 { /** * this is used to execute a connection with a database. */ private final JdbcTemplate jdbcTemplate; /** * this is used to connect to relational database. */ private final DataSource dataSource; /** * Creates a device service for device related operations. * * @param jdbcTemplate * @param dataSource */ public $1(final JdbcTemplate jdbcTemplate, final DataSource dataSource) { this.dataSource = dataSource; this.jdbcTemplate = jdbcTemplate; } }"
+    ],
+    "description": "Create a Service Class"
+  }
+}
