@@ -13,7 +13,7 @@ public class Vehicle extends BaseModel {
     /**
      * tells speed limit of vehicle.
      */
-    private int overspeedLimit;
+    private Integer overspeedLimit;
     /**
      * tells the device attached to this vehicle.
      */
@@ -22,6 +22,10 @@ public class Vehicle extends BaseModel {
      * tells vehicle type .
      */
     private VehicleType vehicleType;
+    /**
+     * tells active flag.
+     */
+    private Integer activeFlag;
 
     /**
      * gets registration number.
@@ -64,7 +68,7 @@ public class Vehicle extends BaseModel {
      * 
      * @return speed limit
      */
-    public int getOverspeedLimit() {
+    public Integer getOverspeedLimit() {
         return overspeedLimit;
     }
 
@@ -73,7 +77,7 @@ public class Vehicle extends BaseModel {
      * 
      * @param overspeedLimit
      */
-    public void setOverspeedLimit(final int overspeedLimit) {
+    public void setOverspeedLimit(final Integer overspeedLimit) {
         this.overspeedLimit = overspeedLimit;
     }
 
@@ -111,6 +115,24 @@ public class Vehicle extends BaseModel {
      */
     public void setVehicleType(final VehicleType vehicleType) {
         this.vehicleType = vehicleType;
+    }
+
+    /**
+     * gets active flag.
+     * 
+     * @return active flag
+     */
+    public Integer getActiveFlag() {
+        return activeFlag;
+    }
+
+    /**
+     * sets active flag.
+     * 
+     * @param activeFlag
+     */
+    public void setActiveFlag(final Integer activeFlag) {
+        this.activeFlag = activeFlag;
     }
 
 }
