@@ -29,5 +29,6 @@ jobs:
           PORT: ${{ secrets.PORT }}
           KEY: ${{ secrets.KEY }}
         with:
-          source: "*.jar"
+          source: "target/*.jar"
           target: "~/"
+          strip_components: 1
