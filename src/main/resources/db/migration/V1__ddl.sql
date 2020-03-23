@@ -27,3 +27,19 @@ CREATE TABLE namespace (
   updated_by INTEGER NOT NULL,
   updated_at DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL
 );
+
+DROP TABLE IF EXISTS vehicle;
+CREATE TABLE vehicle (
+  id INTEGER IDENTITY PRIMARY KEY,
+  code VARCHAR(15) NOT NULL,
+  namespace_id INTEGER NOT NULL,
+  name VARCHAR(40) NOT NULL,
+  device_id INTEGER DEFAULT 0 NOT NULL ,
+  register_number VARCHAR(10) NOT NULL,
+  mobile_number VARCHAR(15) NOT NULL,
+  overspeed_limit TINYINT DEFAULT 0 NOT NULL ,
+  vehicle_type_id TINYINT DEFAULT 1 NOT NULL ,
+  active_flag TINYINT NOT NULL,
+  updated_by INTEGER NOT NULL,
+  updated_at DATETIME NOT NULL
+) ;

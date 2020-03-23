@@ -1,6 +1,6 @@
 package com.example.demo.tracker.model;
 
-public class Vehicle {
+public class Vehicle extends BaseModel {
 
     /**
      * tells registration number of vehicle.
