@@ -111,11 +111,11 @@ public class MenuService {
      */
     public Menu update(final Integer id, final Menu menuToBeUpdated) {
         final String query = "UPDATE menu SET code = ?,name = ?,link = ?,action_code = ?,lookup_id = ?,default_flag = ?,display_flag = ?,product_type_id = ?,active_flag = ?,updated_by = 1, updated_at = CURRENT_TIMESTAMP WHERE id = ?";
-        jdbcTemplate.update(query, menuToBeUpdated.getCode(), menuToBeUpdated.getName(), menuToBeUpdated.getLink(),
-                menuToBeUpdated.getActionCode(), menuToBeUpdated.getLookupId(), menuToBeUpdated.getDefaultFlag(),
-                menuToBeUpdated.getDisplayFlag(), menuToBeUpdated.getProductTypeId(),
+        Integer updatedRows = jdbcTemplate.update(query, menuToBeUpdated.getCode(), menuToBeUpdated.getName(),
+                menuToBeUpdated.getLink(), menuToBeUpdated.getActionCode(), menuToBeUpdated.getLookupId(),
+                menuToBeUpdated.getDefaultFlag(), menuToBeUpdated.getDisplayFlag(), menuToBeUpdated.getProductTypeId(),
                 menuToBeUpdated.getStatus().getValue(), id);
-        return read(id).get();
+        return updatedRows == 0 ? null : read(id).get();
     }
 
     /**
