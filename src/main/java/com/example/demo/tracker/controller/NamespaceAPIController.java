@@ -1,12 +1,14 @@
 package com.example.demo.tracker.controller;
 
 import java.util.List;
+import java.util.Optional;
 
 import javax.validation.Valid;
 
 import com.example.demo.tracker.model.Namespace;
 import com.example.demo.tracker.service.NamespaceService;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,7 +17,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
+
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 
 @RestController
 @RequestMapping("/api/namespaces")
@@ -32,9 +39,13 @@ public class NamespaceAPIController {
         return ResponseEntity.ok(namespaceService.list());
     }
 
+    @ApiOperation(value = "Creates a new namespace", notes = "Can be called only by users with 'auth management' rights.")
+    @ApiResponses(value = { @ApiResponse(code = 201, message = "namespace created successfully"),
+            @ApiResponse(code = 400, message = "Role name already in use") })
+    @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
     public ResponseEntity<Namespace> create(@Valid @RequestBody Namespace namespace) {
-        return ResponseEntity.ok(namespaceService.create(namespace));
+        return ResponseEntity.status(HttpStatus.CREATED).body(namespaceService.create(namespace));
     }
 
     @GetMapping("/{id}")
