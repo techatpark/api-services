@@ -73,7 +73,7 @@ public class MenuService {
      * @return menu
      */
     public Optional<Menu> read(final Integer id) {
-        final String query = "Select id,code,name,link,action_code,lookup_id,default_flag,display_flag,product_type_id,active_flag,updated_by,updated_at FROM namespace WHERE id = ?";
+        final String query = "Select id,code,name,link,action_code,lookup_id,default_flag,display_flag,product_type_id,active_flag,updated_by,updated_at FROM menu WHERE id = ?";
         try {
             return Optional.of(jdbcTemplate.queryForObject(query, new Object[] { id }, this::mapRow));
         } catch (EmptyResultDataAccessException e) {
@@ -100,6 +100,22 @@ public class MenuService {
     public Integer delete() {
         final String query = "DELETE FROM menu";
         return jdbcTemplate.update(query);
+    }
+
+    /**
+     * update table menu.
+     * 
+     * @param id
+     * @param menuToBeUpdated
+     * @return menu
+     */
+    public Menu update(final Integer id, final Menu menuToBeUpdated) {
+        final String query = "UPDATE menu SET code = ?,name = ?,link = ?,action_code = ?,lookup_id = ?,default_flag = ?,display_flag = ?,product_type_id = ?,active_flag = ?,updated_by = 1, updated_at = CURRENT_TIMESTAMP WHERE id = ?";
+        jdbcTemplate.update(query, menuToBeUpdated.getCode(), menuToBeUpdated.getName(), menuToBeUpdated.getLink(),
+                menuToBeUpdated.getActionCode(), menuToBeUpdated.getLookupId(), menuToBeUpdated.getDefaultFlag(),
+                menuToBeUpdated.getDisplayFlag(), menuToBeUpdated.getProductTypeId(),
+                menuToBeUpdated.getStatus().getValue(), id);
+        return read(id).get();
     }
 
     /**

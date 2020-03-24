@@ -2,6 +2,7 @@ package com.example.demo.tracker.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import com.example.demo.tracker.model.Menu;
@@ -32,7 +33,8 @@ class MenuServiceTest {
     @Test
     void testCreate() {
         Menu menu = menuService.create(getMenuForTesting());
-        assertEquals("21233", menu.getCode(), "Test Create");
+        assertNotNull(menu.getUpdatedAt(), "Test Create");
+
     }
 
     @Test
@@ -44,11 +46,27 @@ class MenuServiceTest {
         assertTrue(menuService.read(newMenuId).isEmpty(), "Created Device does not exist after delete");
     }
 
+    @Test
+    void testUpdate() {
+        Menu menu = menuService.create(getMenuForTesting());
+        menu.setName("Updated Name");
+        Integer newMenuId = menu.getId();
+        menu = menuService.update(newMenuId, menu);
+        assertEquals("Updated Name", menu.getName(), "Updated");
+    }
+
     private Menu getMenuForTesting() {
         Menu menu = new Menu();
-
         menu.setCode("21233");
-
+        menu.setName("hari");
+        menu.setLink("happy.com");
+        menu.setActionCode("fqjg");
+        menu.setLookupId(345261);
+        menu.setDefaultFlag(1);
+        menu.setDisplayFlag(1);
+        menu.setProductTypeId(3);
+        menu.setStatus(Status.ACTIVE);
+        menu.setUpdatedBy(1);
         return menu;
     }
 }
