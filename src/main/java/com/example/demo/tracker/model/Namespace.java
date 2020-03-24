@@ -1,9 +1,12 @@
 package com.example.demo.tracker.model;
 
+import javax.validation.constraints.NotNull;
+
 public class Namespace extends BaseModel {
     /**
      * tells the name of namespace.
      */
+    @NotNull
     private String name;
 
     /**
