@@ -34,6 +34,9 @@ public class NamespaceAPIController {
         this.namespaceService = namespaceService;
     }
 
+    @ApiOperation(value = "lists all the namespace", notes = "Can be Invoked by auth users only")
+    @ApiResponses(value = { @ApiResponse(code = 200, message = "Listing all the namespaces"),
+            @ApiResponse(code = 404, message = "Requested page Not found") })
     @GetMapping
     public ResponseEntity<List<Namespace>> findAll() {
         return ResponseEntity.ok(namespaceService.list());
