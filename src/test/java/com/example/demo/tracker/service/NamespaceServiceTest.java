@@ -1,8 +1,10 @@
 package com.example.demo.tracker.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import com.example.demo.tracker.model.Namespace;
 import com.example.demo.tracker.model.Status;
@@ -35,29 +37,25 @@ class NamespaceServiceTest {
         assertEquals("12a3", namespace.getCode(), "Test Create");
     }
 
-    private Namespace getNamespaceForTesting() {
-        Namespace namespace = new Namespace();
-        namespace.setStatus(Status.ACTIVE);
-        namespace.setCode("12a3");
-        namespace.setName("KPN");
-        return namespace;
-    }
-
     @Test
     void testDelete() {
         Namespace namespace = namespaceService.create(getNamespaceForTesting());
         Integer newNamespaceId = namespace.getId();
-        assertNotNull(namespaceService.read(newNamespaceId), "Created Device exists before delete");
+        assertFalse(namespaceService.read(newNamespaceId).isEmpty(), "Created Device exists before delete");
         namespaceService.delete(newNamespaceId);
-        assertNull(namespaceService.read(newNamespaceId), "Created Device does not exist after delete");
+        assertTrue(namespaceService.read(newNamespaceId).isEmpty(), "Created Device does not exist after delete");
     }
 
     @Test
     void testUpdate() {
         Namespace namespace = namespaceService.create(getNamespaceForTesting());
-        Integer newNamespaceId = namespace.getId();
+
         namespace.setName("Updated Name");
-        namespaceService.update(newNamespaceId, namespace);
+
+        Integer newNamespaceId = namespace.getId();
+
+        namespace = namespaceService.update(newNamespaceId, namespace);
+
         assertEquals("Updated Name", namespace.getName(), "Updated");
     }
 
@@ -68,6 +66,14 @@ class NamespaceServiceTest {
         namespace2.setCode("12ee4");
         namespaceService.create(namespace2);
         assertEquals(2, namespaceService.list().size(), "Test Listing");
+    }
+
+    private Namespace getNamespaceForTesting() {
+        Namespace namespace = new Namespace();
+        namespace.setStatus(Status.ACTIVE);
+        namespace.setCode("12a3");
+        namespace.setName("KPN");
+        return namespace;
     }
 
 }

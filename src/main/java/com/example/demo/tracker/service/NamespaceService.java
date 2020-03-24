@@ -5,6 +5,7 @@ import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import javax.sql.DataSource;
 
@@ -54,10 +55,10 @@ public class NamespaceService {
         valuesMap.put("name", newNamespace.getName());
         valuesMap.put("active_flag", newNamespace.getStatus().getValue());
         valuesMap.put("updated_by", 1);
-    
+
         // Actual Query Execution happens
         final Number id = insert.executeAndReturnKey(valuesMap);
-        return read(id.intValue());
+        return read(id.intValue()).get();
     }
 
     /**
@@ -66,14 +67,13 @@ public class NamespaceService {
      * @param id
      * @return namespace
      */
-    public Namespace read(final Integer id) {
+    public Optional<Namespace> read(final Integer id) {
         final String query = "SELECT id,code,name,active_flag,updated_by,updated_at FROM namespace WHERE id = ?";
         try {
-            return jdbcTemplate.queryForObject(query, new Object[] { id }, this::mapRow);
+            return Optional.of(jdbcTemplate.queryForObject(query, new Object[] { id }, this::mapRow));
         } catch (EmptyResultDataAccessException e) {
-            return null;
+            return Optional.empty();
         }
-
     }
 
     /**
@@ -87,7 +87,7 @@ public class NamespaceService {
         final String query = "UPDATE namespace SET code = ?,name = ?,active_flag = ?,updated_by = 1, updated_at = CURRENT_TIMESTAMP WHERE id = ?";
         jdbcTemplate.update(query, namespaceToBeUpdated.getCode(), namespaceToBeUpdated.getName(),
                 namespaceToBeUpdated.getStatus().getValue(), id);
-        return read(id);
+        return read(id).get();
     }
 
     /**
