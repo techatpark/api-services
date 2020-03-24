@@ -20,10 +20,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 
+@Api(value = "Namespaces", description = "REST API for Namespaces", tags = { "Namespaces" })
 @RestController
 @RequestMapping("/api/namespaces")
 public class NamespaceAPIController {
@@ -51,6 +53,9 @@ public class NamespaceAPIController {
         return ResponseEntity.status(HttpStatus.CREATED).body(namespaceService.create(namespace));
     }
 
+    @ApiOperation(value = "Get namespace with given id")
+    @ApiResponses(value = { @ApiResponse(code = 200, message = "namespace"),
+            @ApiResponse(code = 404, message = "namespace not found") })
     @GetMapping("/{id}")
     public ResponseEntity<Namespace> findById(@PathVariable Integer id) {
         return ResponseEntity.of(namespaceService.read(id));
