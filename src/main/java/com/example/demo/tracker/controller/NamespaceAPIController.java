@@ -1,7 +1,6 @@
 package com.example.demo.tracker.controller;
 
 import java.util.List;
-import java.util.Optional;
 
 import javax.validation.Valid;
 
@@ -38,10 +37,12 @@ public class NamespaceAPIController {
 
     @ApiOperation(value = "lists all the namespace", notes = "Can be Invoked by auth users only")
     @ApiResponses(value = { @ApiResponse(code = 200, message = "Listing all the namespaces"),
-            @ApiResponse(code = 404, message = "Requested page Not found") })
+            @ApiResponse(code = 204, message = "namespaces are not available") })
     @GetMapping
     public ResponseEntity<List<Namespace>> findAll() {
-        return ResponseEntity.ok(namespaceService.list());
+        List<Namespace> namespaces = namespaceService.list();
+        return namespaces.isEmpty() ? new ResponseEntity<List<Namespace>>(HttpStatus.NO_CONTENT)
+                : ResponseEntity.ok(namespaces);
     }
 
     @ApiOperation(value = "Creates a new namespace", notes = "Can be called only by users with 'auth management' rights.")
