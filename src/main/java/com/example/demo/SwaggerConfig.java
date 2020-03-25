@@ -26,8 +26,8 @@ public class SwaggerConfig {
     }
 
     private ApiInfo apiInfo() {
-        return new ApiInfo("Micro Services", "Micro Sevices List", "API ßTOS", "Terms of service",
-                new Contact("Sathish Kumar", "www.zols.org", "abc@xyz.com"), "License of API", "API license URL",
-                Collections.emptyList());
+        return new ApiInfo("Vehicle Tracker", "This is the ststem that tracks the vehicles andanalyze the operations",
+                "API ßTOS", "Terms of service", new Contact("Sathish Kumar", "www.zols.org", "abc@xyz.com"),
+                "License of API", "API license URL", Collections.emptyList());
     }
 }

@@ -1,7 +1,6 @@
 package com.example.demo.tracker.controller;
 
 import java.util.List;
-import java.util.Optional;
 
 import javax.validation.Valid;
 
@@ -38,15 +37,17 @@ public class NamespaceAPIController {
 
     @ApiOperation(value = "lists all the namespace", notes = "Can be Invoked by auth users only")
     @ApiResponses(value = { @ApiResponse(code = 200, message = "Listing all the namespaces"),
-            @ApiResponse(code = 404, message = "Requested page Not found") })
+            @ApiResponse(code = 204, message = "namespaces are not available") })
     @GetMapping
     public ResponseEntity<List<Namespace>> findAll() {
-        return ResponseEntity.ok(namespaceService.list());
+        List<Namespace> namespaces = namespaceService.list();
+        return namespaces.isEmpty() ? new ResponseEntity<List<Namespace>>(HttpStatus.NO_CONTENT)
+                : ResponseEntity.ok(namespaces);
     }
 
     @ApiOperation(value = "Creates a new namespace", notes = "Can be called only by users with 'auth management' rights.")
     @ApiResponses(value = { @ApiResponse(code = 201, message = "namespace created successfully"),
-            @ApiResponse(code = 400, message = "Role name already in use") })
+            @ApiResponse(code = 400, message = "namespace is invalid") })
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
     public ResponseEntity<Namespace> create(@Valid @RequestBody Namespace namespace) {
@@ -61,14 +62,22 @@ public class NamespaceAPIController {
         return ResponseEntity.of(namespaceService.read(id));
     }
 
+    @ApiOperation(value = "Updates the namespace by given id", notes = "Can be called only by users with 'auth management' rights.")
+    @ApiResponses(value = { @ApiResponse(code = 200, message = "namespace updated successfully"),
+            @ApiResponse(code = 400, message = "namespace is invalid"),
+            @ApiResponse(code = 404, message = "namespace not found") })
     @PutMapping("/{id}")
     public ResponseEntity<Namespace> update(@PathVariable Integer id, @Valid @RequestBody Namespace namespace) {
-        return ResponseEntity.ok(namespaceService.update(id, namespace));
+        Namespace updated = namespaceService.update(id, namespace);
+        return updated == null ? new ResponseEntity<Namespace>(HttpStatus.NOT_FOUND) : ResponseEntity.ok(updated);
     }
 
+    @ApiOperation(value = "Deletes the namespace by given id")
+    @ApiResponses(value = { @ApiResponse(code = 200, message = "namespace deleted successfully"),
+            @ApiResponse(code = 404, message = "namespace not found") })
     @DeleteMapping("/{id}")
-    public ResponseEntity delete(@PathVariable Integer id) {
-        namespaceService.delete(id);
-        return ResponseEntity.ok().build();
+    public ResponseEntity<Void> delete(@PathVariable Integer id) {
+        return namespaceService.delete(id) == 0 ? new ResponseEntity<Void>(HttpStatus.NOT_FOUND)
+                : ResponseEntity.ok().build();
     }
 }
