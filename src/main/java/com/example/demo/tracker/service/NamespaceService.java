@@ -85,9 +85,9 @@ public class NamespaceService {
      */
     public Namespace update(final Integer id, final Namespace namespaceToBeUpdated) {
         final String query = "UPDATE namespace SET code = ?,name = ?,active_flag = ?,updated_by = 1, updated_at = CURRENT_TIMESTAMP WHERE id = ?";
-        jdbcTemplate.update(query, namespaceToBeUpdated.getCode(), namespaceToBeUpdated.getName(),
+        Integer updatedRows = jdbcTemplate.update(query, namespaceToBeUpdated.getCode(), namespaceToBeUpdated.getName(),
                 namespaceToBeUpdated.getStatus().getValue(), id);
-        return read(id).get();
+        return updatedRows == 0 ? null : read(id).get();
     }
 
     /**
