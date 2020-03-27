@@ -62,7 +62,8 @@ class NamespaceServiceTest {
         Namespace namespace2 = getNamespaceForTesting();
         namespace2.setCode("12ee4");
         namespaceService.create(namespace2);
-        assertEquals(2, namespaceService.list().size(), "Test Listing");
+        assertEquals(2, namespaceService.list(1, 2).size(), "Test Listing");
+        assertEquals(1, namespaceService.list(1, 1).size(), "Test Listing with restricted page");
     }
 
     private Namespace getNamespaceForTesting() {

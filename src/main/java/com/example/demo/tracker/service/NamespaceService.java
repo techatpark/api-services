@@ -125,10 +125,13 @@ public class NamespaceService {
     /**
      * gets a list of all in namespace.
      * 
+     * @param pageNumber
+     * @param pageSize
      * @return namespace
      */
-    public List<Namespace> list() {
-        final String query = "SELECT id,code,name,active_flag,updated_by,updated_at FROM namespace";
+    public List<Namespace> list(final Integer pageNumber, final Integer pageSize) {
+        String query = "SELECT id,code,name,active_flag,updated_by,updated_at FROM namespace";
+        query = query + " LIMIT " + pageSize + " OFFSET " + (pageNumber - 1);
         return jdbcTemplate.query(query, this::mapRow);
     }
 

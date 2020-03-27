@@ -117,10 +117,13 @@ public class MenuService {
     /**
      * gets a list of all in menu.
      * 
+     * @param pageNumber
+     * @param pageSize
      * @return menu
      */
-    public List<Menu> list() {
-        final String query = "SELECT id,code,name,link,action_code,lookup_id,default_flag,display_flag,product_type_id,active_flag,updated_by,updated_at FROM menu";
+    public List<Menu> list(final Integer pageNumber, final Integer pageSize) {
+        String query = "SELECT id,code,name,link,action_code,lookup_id,default_flag,display_flag,product_type_id,active_flag,updated_by,updated_at FROM menu";
+        query = query + " LIMIT " + pageSize + " OFFSET " + (pageNumber - 1);
         return jdbcTemplate.query(query, this::mapRow);
     }
 

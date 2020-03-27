@@ -40,7 +40,7 @@ public class NamespaceAPIController {
             @ApiResponse(code = 204, message = "namespaces are not available") })
     @GetMapping
     public ResponseEntity<List<Namespace>> findAll() {
-        List<Namespace> namespaces = namespaceService.list();
+        List<Namespace> namespaces = namespaceService.list(1, 1);
         return namespaces.isEmpty() ? new ResponseEntity<List<Namespace>>(HttpStatus.NO_CONTENT)
                 : ResponseEntity.ok(namespaces);
     }

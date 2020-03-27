@@ -61,7 +61,8 @@ class MenuServiceTest {
         Menu menu2 = getMenuForTesting();
         menu2.setCode("12ee4");
         menuService.create(menu2);
-        assertEquals(2, menuService.list().size(), "Test Listing");
+        assertEquals(2, menuService.list(1, 2).size(), "Test Listing");
+        assertEquals(1, menuService.list(1, 1).size(), "Test Listing with restricted page");
     }
 
     private Menu getMenuForTesting() {
