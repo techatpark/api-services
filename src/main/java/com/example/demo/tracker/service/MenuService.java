@@ -3,13 +3,13 @@ package com.example.demo.tracker.service;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
 import javax.sql.DataSource;
 
 import com.example.demo.tracker.model.Menu;
-
 import com.example.demo.tracker.model.Status;
 
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -73,7 +73,7 @@ public class MenuService {
      * @return menu
      */
     public Optional<Menu> read(final Integer id) {
-        final String query = "Select id,code,name,link,action_code,lookup_id,default_flag,display_flag,product_type_id,active_flag,updated_by,updated_at FROM menu WHERE id = ?";
+        final String query = "Select id,code,name,link,action_code,lookup_id,default_flag,display_flag,product_type_id,active_flag,updated_by,updated_at FROM menu WHERE id = ? AND active_flag = 1";
         try {
             return Optional.of(jdbcTemplate.queryForObject(query, new Object[] { id }, this::mapRow));
         } catch (EmptyResultDataAccessException e) {
@@ -88,7 +88,7 @@ public class MenuService {
      * @return success flag.
      */
     public Boolean delete(final Integer id) {
-        final String query = "DELETE FROM menu WHERE id = ?";
+        final String query = "UPDATE menu SET active_flag = 0 WHERE id = ? AND active_flag = 1";
         Integer updatedRows = jdbcTemplate.update(query, new Object[] { id });
         return !(updatedRows == 0);
     }
@@ -99,8 +99,18 @@ public class MenuService {
      * @return menu
      */
     public Integer delete() {
-        final String query = "DELETE FROM menu";
+        final String query = "UPDATE menu SET active_flag = 0";
         return jdbcTemplate.update(query);
+    }
+
+    /**
+     * gets a list of all in menu.
+     * 
+     * @return menu
+     */
+    public List<Menu> list() {
+        final String query = "SELECT id,code,name,link,action_code,lookup_id,default_flag,display_flag,product_type_id,active_flag,updated_by,updated_at FROM menu";
+        return jdbcTemplate.query(query, this::mapRow);
     }
 
     /**
@@ -111,11 +121,11 @@ public class MenuService {
      * @return menu
      */
     public Menu update(final Integer id, final Menu menuToBeUpdated) {
-        final String query = "UPDATE menu SET code = ?,name = ?,link = ?,action_code = ?,lookup_id = ?,default_flag = ?,display_flag = ?,product_type_id = ?,active_flag = ?,updated_by = 1, updated_at = CURRENT_TIMESTAMP WHERE id = ?";
+        final String query = "UPDATE menu SET code = ?,name = ?,link = ?,action_code = ?,lookup_id = ?,default_flag = ?,display_flag = ?,product_type_id = ?, updated_by = 1, updated_at = CURRENT_TIMESTAMP WHERE id = ? AND active_flag = 1";
         Integer updatedRows = jdbcTemplate.update(query, menuToBeUpdated.getCode(), menuToBeUpdated.getName(),
                 menuToBeUpdated.getLink(), menuToBeUpdated.getActionCode(), menuToBeUpdated.getLookupId(),
                 menuToBeUpdated.getDefaultFlag(), menuToBeUpdated.getDisplayFlag(), menuToBeUpdated.getProductTypeId(),
-                menuToBeUpdated.getStatus().getValue(), id);
+                id);
         return updatedRows == 0 ? null : read(id).get();
     }
 

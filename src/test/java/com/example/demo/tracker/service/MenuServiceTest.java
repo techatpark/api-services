@@ -55,6 +55,15 @@ class MenuServiceTest {
         assertEquals("Updated Name", menu.getName(), "Updated");
     }
 
+    @Test
+    void testList() {
+        menuService.create(getMenuForTesting());
+        Menu menu2 = getMenuForTesting();
+        menu2.setCode("12ee4");
+        menuService.create(menu2);
+        assertEquals(2, menuService.list().size(), "Test Listing");
+    }
+
     private Menu getMenuForTesting() {
         Menu menu = new Menu();
         menu.setCode("21233");
