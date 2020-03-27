@@ -94,12 +94,23 @@ public class MenuService {
     }
 
     /**
-     * Delete all from menu.
+     * soft delete all from menu.
      * 
      * @return menu
      */
     public Integer delete() {
-        final String query = "UPDATE menu SET active_flag = 0";
+        return delete(false);
+    }
+
+    /**
+     * Delete all from menu.
+     * 
+     * @param isHardDelete should hard delete or soft delete by updating active_flag
+     *                     is 0
+     * @return menu
+     */
+    public Integer delete(final Boolean isHardDelete) {
+        final String query = isHardDelete ? "DELETE FROM menu" : "UPDATE menu SET active_flag = 0";
         return jdbcTemplate.update(query);
     }
 

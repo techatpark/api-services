@@ -102,12 +102,23 @@ public class NamespaceService {
     }
 
     /**
-     * Delete all from namespace.
+     * soft delete all from namespace.
      * 
      * @return namespace
      */
     public Integer delete() {
-        final String query = "DELETE FROM namespace";
+        return delete(false);
+    }
+
+    /**
+     * Delete all from namespace.
+     * 
+     * @param isHardDelete should hard delete or soft delete by updating active_flag
+     *                     is 0
+     * @return namespace
+     */
+    public Integer delete(final Boolean isHardDelete) {
+        final String query = isHardDelete ? "DELETE FROM namespace" : "UPDATE namespace SET active_flag = 0";
         return jdbcTemplate.update(query);
     }
 

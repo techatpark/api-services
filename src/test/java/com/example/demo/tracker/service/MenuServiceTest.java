@@ -21,7 +21,7 @@ class MenuServiceTest {
 
     @BeforeEach
     void before() {
-        menuService.delete();
+        menuService.delete(true);
     }
 
     @AfterEach

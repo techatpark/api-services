@@ -20,7 +20,7 @@ class NamespaceServiceTest {
 
     @BeforeEach
     void before() {
-        namespaceService.delete();
+        namespaceService.delete(true);
     }
 
     @AfterEach
