@@ -96,9 +96,10 @@ public class NamespaceService {
      * @param id
      * @return namespace.
      */
-    public Integer delete(final Integer id) {
+    public Boolean delete(final Integer id) {
         final String query = "DELETE FROM namespace WHERE id = ?";
-        return jdbcTemplate.update(query, new Object[] { id });
+        Integer updatedRows = jdbcTemplate.update(query, new Object[] { id });
+        return !(updatedRows == 0);
     }
 
     /**

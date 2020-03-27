@@ -39,10 +39,11 @@ class MenuServiceTest {
 
     @Test
     void testDelete() {
+
         Menu menu = menuService.create(getMenuForTesting());
         Integer newMenuId = menu.getId();
-        assertFalse(menuService.read(newMenuId).isEmpty(), "Created Device exists before delete");
-        menuService.delete(newMenuId);
+        Boolean successFlag = menuService.delete(newMenuId);
+        assertTrue(successFlag, "success flag deleted");
         assertTrue(menuService.read(newMenuId).isEmpty(), "Created Device does not exist after delete");
     }
 

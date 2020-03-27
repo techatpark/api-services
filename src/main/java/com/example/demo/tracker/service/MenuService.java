@@ -85,11 +85,12 @@ public class MenuService {
      * Delete a row with given id.
      * 
      * @param id
-     * @return menu.
+     * @return success flag.
      */
-    public Integer delete(final Integer id) {
+    public Boolean delete(final Integer id) {
         final String query = "DELETE FROM menu WHERE id = ?";
-        return jdbcTemplate.update(query, new Object[] { id });
+        Integer updatedRows = jdbcTemplate.update(query, new Object[] { id });
+        return !(updatedRows == 0);
     }
 
     /**

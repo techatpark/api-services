@@ -39,8 +39,8 @@ class NamespaceServiceTest {
     void testDelete() {
         Namespace namespace = namespaceService.create(getNamespaceForTesting());
         Integer newNamespaceId = namespace.getId();
-        assertFalse(namespaceService.read(newNamespaceId).isEmpty(), "Created Device exists before delete");
-        namespaceService.delete(newNamespaceId);
+        Boolean successFlag = namespaceService.delete(newNamespaceId);
+        assertTrue(successFlag, "success flag deleted");
         assertTrue(namespaceService.read(newNamespaceId).isEmpty(), "Created Device does not exist after delete");
     }
 
