@@ -48,7 +48,7 @@ public class MenuService {
     public Menu create(final Menu newMenu) {
         final SimpleJdbcInsert insert = new SimpleJdbcInsert(dataSource).withTableName("menu")
                 .usingGeneratedKeyColumns("Id").usingColumns("code", "name", "link", "action_code", "lookup_id",
-                        "default_flag", "display_flag", "product_type_id", "active_flag", "updated_by");
+                        "default_flag", "display_flag", "product_type_id", "updated_by");
         final Map<String, Object> valuesMap = new HashMap<>();
         valuesMap.put("code", newMenu.getCode());
         valuesMap.put("name", newMenu.getName());
@@ -58,7 +58,7 @@ public class MenuService {
         valuesMap.put("default_flag", newMenu.getDefaultFlag());
         valuesMap.put("display_flag", newMenu.getDisplayFlag());
         valuesMap.put("product_type_id", newMenu.getProductTypeId());
-        valuesMap.put("active_flag", newMenu.getStatus().getValue());
+
         valuesMap.put("updated_by", 1);
 
         // Actual Query Execution happens

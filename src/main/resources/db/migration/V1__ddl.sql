@@ -3,7 +3,7 @@ CREATE TABLE namespace (
   id INTEGER IDENTITY PRIMARY KEY,
   code VARCHAR(20) UNIQUE NOT NULL,
   name VARCHAR(40) NOT NULL,
-  active_flag TINYINT NOT NULL,
+  active_flag TINYINT DEFAULT 1 NOT NULL,
   updated_by INTEGER NOT NULL,
   updated_at DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL
 );
@@ -49,7 +49,7 @@ CREATE TABLE alert_notification (
   name VARCHAR(40) NOT NULL,
   mobile_numbers VARCHAR(250) NOT NULL,
   reference_codes VARCHAR(250) NOT NULL,
-  active_flag TINYINT NOT NULL,
+  active_flag TINYINT DEFAULT 1 NOT NULL,
   updated_by INTEGER NOT NULL,
   updated_at DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL,
   FOREIGN KEY (namespace_id) REFERENCES namespace(id)
@@ -63,7 +63,7 @@ CREATE TABLE audit_log (
   event VARCHAR(60) NOT NULL,
   log1 VARCHAR(250) DEFAULT NULL,
   log2 VARCHAR(250) DEFAULT NULL,
-  active_flag TINYINT NOT NULL,
+  active_flag TINYINT DEFAULT 1 NOT NULL,
   updated_by INTEGER NOT NULL,
   updated_at DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL
 );
@@ -78,7 +78,7 @@ CREATE TABLE device (
   sensor VARCHAR(20) DEFAULT 'NULL',
   api_flag TINYINT DEFAULT 1 NOT NULL,
   remarks VARCHAR(120) DEFAULT NULL,
-  active_flag TINYINT NOT NULL,
+  active_flag TINYINT DEFAULT 1 NOT NULL,
   updated_by INTEGER NOT NULL,
   updated_at DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL,
   FOREIGN KEY (namespace_id) REFERENCES namespace(id),
@@ -94,7 +94,7 @@ CREATE TABLE event_alert (
   vehicle_codes VARCHAR(250) NOT NULL,
   event_type_id TINYINT DEFAULT 0 NOT NULL,
   alert_notification_codes VARCHAR(250) NOT NULL,
-  active_flag TINYINT NOT NULL,
+  active_flag TINYINT DEFAULT 1 NOT NULL,
   updated_by INTEGER NOT NULL,
   updated_at DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL,
   day_of_week CHAR(7) DEFAULT '1111111' NOT NULL,
@@ -122,7 +122,7 @@ CREATE TABLE geo_location_address_details (
   city VARCHAR(45) NOT NULL,
   state VARCHAR(30) NOT NULL,
   postal_code VARCHAR(6) NOT NULL,
-  active_flag TINYINT NOT NULL,
+  active_flag TINYINT DEFAULT 1 NOT NULL,
   updated_by INTEGER NOT NULL,
   updated_at DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL
 );
@@ -183,7 +183,7 @@ CREATE TABLE namespace_profile (
   namespace_id INTEGER NOT NULL,
   over_speed VARCHAR(25) NOT NULL,
   sender_mail_name VARCHAR(80) DEFAULT 'NA' NOT NULL,
-  active_flag TINYINT NOT NULL,
+  active_flag TINYINT DEFAULT 1 NOT NULL,
   updated_by INTEGER NOT NULL,
   updated_at DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL,
   FOREIGN KEY (namespace_id) REFERENCES namespace(id)
@@ -202,7 +202,7 @@ CREATE TABLE notification_log (
   transaction_count TINYINT NOT NULL,
   request_log VARCHAR(250) NOT NULL,
   response_log VARCHAR(250) NOT NULL,
-  active_flag TINYINT NOT NULL,
+  active_flag TINYINT DEFAULT 1 NOT NULL,
   updated_by INTEGER NOT NULL,
   updated_at DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL,
   FOREIGN KEY (namespace_id) REFERENCES namespace(id)
@@ -214,7 +214,7 @@ CREATE TABLE report_query (
   name VARCHAR(45) NOT NULL,
   description VARCHAR(120) NOT NULL,
   query VARCHAR(120) NOT NULL,
-  active_flag TINYINT NOT NULL,
+  active_flag TINYINT DEFAULT 1 NOT NULL,
   updated_by INTEGER NOT NULL,
   updated_at DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL
 );
@@ -234,7 +234,7 @@ CREATE TABLE trip_details (
   origin_time DATETIME NOT NULL,
   destination_time DATETIME NOT NULL,
   trip_date_time DATETIME NOT NULL,
-  active_flag TINYINT NOT NULL,
+  active_flag TINYINT DEFAULT 1 NOT NULL,
   updated_by INTEGER NOT NULL,
   updated_at DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL,
   CONSTRAINT unx_trip_details_1 UNIQUE(code, namespace_id)
@@ -254,7 +254,7 @@ CREATE TABLE trip_station_point (
   actual_time INTEGER NOT NULL,
   actual_distance double DEFAULT 0 NOT NULL,
   sequence INTEGER DEFAULT 0 NOT NULL,
-  active_flag TINYINT NOT NULL,
+  active_flag TINYINT DEFAULT 1 NOT NULL,
   updated_by INTEGER NOT NULL,
   updated_at DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL,
   FOREIGN KEY (trip_details_id) REFERENCES trip_details(id)
@@ -270,7 +270,7 @@ CREATE TABLE user_app_store (
   os VARCHAR(60) NOT NULL,
   udid VARCHAR(100) NOT NULL,
   gcm_token VARCHAR(250) NOT NULL,
-  active_flag TINYINT NOT NULL,
+  active_flag TINYINT DEFAULT 1 NOT NULL,
   updated_by INTEGER NOT NULL,
   updated_at DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL,
   FOREIGN KEY (namespace_id) REFERENCES namespace(id),
@@ -303,7 +303,7 @@ CREATE TABLE user_vehicle_group_map (
   namespace_id INTEGER NOT NULL,
   user_id INTEGER NOT NULL,
   vehicle_group_codes VARCHAR(250) NOT NULL,
-  active_flag TINYINT NOT NULL,
+  active_flag TINYINT DEFAULT 1 NOT NULL,
   updated_by INTEGER NOT NULL,
   updated_at DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL,
   FOREIGN KEY (namespace_id) REFERENCES namespace(id),
@@ -320,7 +320,7 @@ CREATE TABLE vehicle (
   mobile_number VARCHAR(15) NOT NULL,
   overspeed_limit TINYINT DEFAULT 0 NOT NULL,
   vehicle_type_id TINYINT DEFAULT 1 NOT NULL,
-  active_flag TINYINT NOT NULL,
+  active_flag TINYINT DEFAULT 1 NOT NULL,
   updated_by INTEGER NOT NULL,
   updated_at DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL,
   FOREIGN KEY (namespace_id) REFERENCES namespace(id)
@@ -332,7 +332,7 @@ CREATE TABLE vehicle_group (
   namespace_id INTEGER NOT NULL,
   name VARCHAR(45) NOT NULL,
   vehicle_codes VARCHAR(250) NOT NULL,
-  active_flag TINYINT NOT NULL,
+  active_flag TINYINT DEFAULT 1 NOT NULL,
   updated_by INTEGER NOT NULL,
   updated_at DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL,
   FOREIGN KEY (namespace_id) REFERENCES namespace(id)

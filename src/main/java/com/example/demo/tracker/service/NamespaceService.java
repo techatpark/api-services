@@ -49,11 +49,10 @@ public class NamespaceService {
      */
     public Namespace create(final Namespace newNamespace) {
         final SimpleJdbcInsert insert = new SimpleJdbcInsert(dataSource).withTableName("namespace")
-                .usingGeneratedKeyColumns("id").usingColumns("code", "name", "active_flag", "updated_by");
+                .usingGeneratedKeyColumns("id").usingColumns("code", "name", "updated_by");
         final Map<String, Object> valuesMap = new HashMap<>();
         valuesMap.put("code", newNamespace.getCode());
         valuesMap.put("name", newNamespace.getName());
-        valuesMap.put("active_flag", newNamespace.getStatus().getValue());
         valuesMap.put("updated_by", 1);
 
         // Actual Query Execution happens

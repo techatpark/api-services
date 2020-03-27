@@ -77,7 +77,7 @@ public class NamespaceAPIController {
             @ApiResponse(code = 404, message = "namespace not found") })
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable Integer id) {
-        return namespaceService.delete(id) == 0 ? new ResponseEntity<Void>(HttpStatus.NOT_FOUND)
-                : ResponseEntity.ok().build();
+        return namespaceService.delete(id) ? ResponseEntity.ok().build()
+                : new ResponseEntity<Void>(HttpStatus.NOT_FOUND);
     }
 }
