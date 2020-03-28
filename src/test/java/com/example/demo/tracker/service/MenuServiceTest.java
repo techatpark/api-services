@@ -2,6 +2,7 @@ package com.example.demo.tracker.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import com.example.demo.tracker.model.Menu;
@@ -49,10 +50,14 @@ class MenuServiceTest {
     @Test
     void testUpdate() {
         Menu menu = menuService.create(getMenuForTesting());
+        Menu oldMenu = menu;
         menu.setName("Updated Name");
         Integer newMenuId = menu.getId();
+
         menu = menuService.update(newMenuId, menu);
+
         assertEquals("Updated Name", menu.getName(), "Updated");
+        assertNull(menuService.update(newMenuId, oldMenu), "updated with a conflict");
     }
 
     @Test

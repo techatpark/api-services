@@ -128,18 +128,19 @@ public class MenuService {
     }
 
     /**
-     * update table menu.
+     * update table menu. this call might fail if the id is unavailable, active flag
+     * is not true or updated at is not matching.
      * 
      * @param id
      * @param menuToBeUpdated
      * @return menu
      */
     public Menu update(final Integer id, final Menu menuToBeUpdated) {
-        final String query = "UPDATE menu SET code = ?,name = ?,link = ?,action_code = ?,lookup_id = ?,default_flag = ?,display_flag = ?,product_type_id = ?, updated_by = 1, updated_at = CURRENT_TIMESTAMP WHERE id = ? AND active_flag = 1";
+        final String query = "UPDATE menu SET code = ?,name = ?,link = ?,action_code = ?,lookup_id = ?,default_flag = ?,display_flag = ?,product_type_id = ?, updated_by = 1, updated_at = CURRENT_TIMESTAMP WHERE id = ? AND active_flag = 1 AND updated_at = ?";
         Integer updatedRows = jdbcTemplate.update(query, menuToBeUpdated.getCode(), menuToBeUpdated.getName(),
                 menuToBeUpdated.getLink(), menuToBeUpdated.getActionCode(), menuToBeUpdated.getLookupId(),
                 menuToBeUpdated.getDefaultFlag(), menuToBeUpdated.getDisplayFlag(), menuToBeUpdated.getProductTypeId(),
-                id);
+                id, menuToBeUpdated.getUpdatedAt());
         return updatedRows == 0 ? null : read(id).get();
     }
 
@@ -164,7 +165,7 @@ public class MenuService {
         menu.setProductTypeId(rs.getInt("product_type_id"));
         menu.setStatus(Status.of(rs.getInt("active_flag")));
         menu.setUpdatedBy(rs.getInt("updated_by"));
-        menu.setUpdatedAt(rs.getDate("updated_at"));
+        menu.setUpdatedAt(rs.getTimestamp("updated_at"));
         return menu;
     }
 
