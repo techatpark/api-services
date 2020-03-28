@@ -5,8 +5,6 @@ import org.slf4j.LoggerFactory;
 
 public class ComparisonDemoTest {
 
-    private final static Logger logger = LoggerFactory.getLogger(ComparisonDemoTest.class);
-
     public static void main(String[] args) {
         Parent parentObj = new Parent();
         parentObj.parentFn();
@@ -14,8 +12,6 @@ public class ComparisonDemoTest {
         Child childObj = new Child();
         childObj.childFn();
         childObj.parentFn();
-
-        Parent childObjAsParent = new Child();
 
     }
 
