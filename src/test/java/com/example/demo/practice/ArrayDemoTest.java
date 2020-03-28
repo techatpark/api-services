@@ -1,6 +1,11 @@
 package com.example.demo.practice;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public final class ArrayDemoTest {
+
+    private final static Logger logger = LoggerFactory.getLogger(ArrayDemoTest.class);
 
     public static void main(String[] arguments) {
 
@@ -12,7 +17,7 @@ public final class ArrayDemoTest {
         anArray[0] = 2;
         anArray[1] = 3;
 
-        System.out.println("Hi Java");
+        logger.info("Hi");
     }
 
 }
