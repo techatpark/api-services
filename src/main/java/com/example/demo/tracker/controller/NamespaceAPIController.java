@@ -27,7 +27,7 @@ import io.swagger.annotations.ApiResponses;
 @Api(value = "Namespaces", description = "REST API for Namespaces", tags = { "Namespaces" })
 @RestController
 @RequestMapping("/api/namespaces")
-public class NamespaceAPIController {
+class NamespaceAPIController {
 
     private final NamespaceService namespaceService;
 

@@ -1,4 +1,4 @@
-package com.example.demo.tracker;
+package com.example.demo.archunit;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

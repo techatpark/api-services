@@ -1,14 +1,16 @@
 package com.example.demo;
 
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-public class HelloController {
+class HelloController {
 
     @RequestMapping("/")
-    public String index() {
-        return "Greetings from Spring Boot!";
+    public ResponseEntity<String> index() {
+        return new ResponseEntity<String>("Greetings!", HttpStatus.OK);
     }
 
 }
