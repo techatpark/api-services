@@ -1,3 +1,4 @@
+import java.util.List;
 import java.util.Optional;
 
 import javax.sql.DataSource;
@@ -69,7 +70,7 @@ public class AuditLogService {
      * @param id
      * @return true if deleted
      */
-    public boolean delete(final Integer id) {
+    public Boolean delete(final Integer id) {
         final String query = null;
         return true;
     }
@@ -81,7 +82,7 @@ public class AuditLogService {
      * @param pageSize
      * @return audit log
      */
-    public Optional<AuditLog> list(final Integer pageNumber, final Integer pageSize) {
+    public List<AuditLog> list(final Integer pageNumber, final Integer pageSize) {
 
         final String query = null;
         return null;
