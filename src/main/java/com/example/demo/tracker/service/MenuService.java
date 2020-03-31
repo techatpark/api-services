@@ -73,7 +73,7 @@ public class MenuService {
      * @return menu
      */
     public Optional<Menu> read(final Integer id) {
-        final String query = "Select id,code,name,link,action_code,lookup_id,default_flag,display_flag,product_type_id,active_flag,updated_by,updated_at FROM menu WHERE id = ? AND active_flag = 1";
+        final String query = "SELECT id,code,name,link,action_code,lookup_id,default_flag,display_flag,product_type_id,active_flag,updated_by,updated_at FROM menu WHERE id = ? AND active_flag = 1";
         try {
             return Optional.of(jdbcTemplate.queryForObject(query, new Object[] { id }, this::mapRow));
         } catch (EmptyResultDataAccessException e) {
