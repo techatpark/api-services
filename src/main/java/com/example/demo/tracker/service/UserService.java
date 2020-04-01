@@ -5,13 +5,13 @@ import java.util.Optional;
 
 import javax.sql.DataSource;
 
-import com.example.demo.tracker.model.AuditLog;
+import com.example.demo.tracker.model.User;
 
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
 @Service
-public class AuditLogService {
+public class UserService {
     /**
      * this is used to execute a connection with a database.
      */
@@ -22,70 +22,81 @@ public class AuditLogService {
     private final DataSource dataSource;
 
     /**
-     * Creates a service for Menu related operations.
+     * Creates a service for AlertNotification related operations.
      * 
      * @param jdbcTemplate
      * @param dataSource
      */
-    public AuditLogService(final JdbcTemplate jdbcTemplate, final DataSource dataSource) {
+    public UserService(final JdbcTemplate jdbcTemplate, final DataSource dataSource) {
         this.dataSource = dataSource;
         this.jdbcTemplate = jdbcTemplate;
     }
 
     /**
-     * inserting into audit log table.
+     * inserting into GeoLocationAddress table.
      * 
-     * @param newAuditLog
-     * @return audit log
+     * @param newUser
+     * @return user
      */
-    public AuditLog create(final AuditLog newAuditLog) {
+    public User create(final User newUser) {
         final String query = null;
         return null;
     }
 
     /**
-     * reads from the table audit log with the given id.
-     * 
-     * @param id
-     * @return audit log
-     */
-    public Optional<AuditLog> read(final Integer id) {
-        final String query = null;
-        return null;
-    }
-
-    /**
-     * update the audit log table.
+     * reading from table with the given id.
      * 
      * @param id
-     * @param newAuditLog
-     * @return audit log table
+     * @param newUser
+     * @return user
      */
-    public AuditLog update(final Integer id, final AuditLog newAuditLog) {
+    public Optional<User> read(final Integer id, final User newUser) {
         final String query = null;
         return null;
     }
 
     /**
-     * deletes a data from audit log table with given id.
+     * update table with given id .
+     * 
+     * @param id
+     * @param newUser
+     * @return user
+     */
+    public User update(final Integer id, final User newUser) {
+        final String query = null;
+        return null;
+    }
+
+    /**
+     * delete from table with given id.
      * 
      * @param id
      * @return true if deleted
      */
     public Boolean delete(final Integer id) {
         final String query = null;
-        return true;
+        return null;
     }
 
     /**
-     * lists the data from table with given page number and size of page.
+     * list from table with givn pagenumber and page size.
      * 
      * @param pageNumber
      * @param pageSize
-     * @return audit log
+     * @return user
      */
-    public List<AuditLog> list(final Integer pageNumber, final Integer pageSize) {
+    public List<User> list(final Integer pageNumber, final Integer pageSize) {
+        final String query = null;
+        return null;
+    }
 
+    /**
+     * map data from and to the database table.
+     * 
+     * @param newUser
+     * @return user
+     */
+    public User map(final User newUser) {
         final String query = null;
         return null;
     }

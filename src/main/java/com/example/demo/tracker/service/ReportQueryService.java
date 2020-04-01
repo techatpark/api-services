@@ -10,6 +10,7 @@ import java.util.Optional;
 import javax.sql.DataSource;
 
 import com.example.demo.tracker.model.ReportQuery;
+import com.example.demo.tracker.model.Status;
 
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -75,12 +76,15 @@ public class ReportQueryService {
      * updates a table with id.
      * 
      * @param id
-     * @param reportQuery
+     * @param reportQueryToBeUpdated
      * @return updated report query
      */
-    public ReportQuery update(final Integer id, final ReportQuery reportQuery) {
-        final String query = null;
-        return null;
+    public ReportQuery update(final Integer id, final ReportQuery reportQueryToBeUpdated) {
+        final String query = "UPDATE reportquery SET code = ?, name = ?, description = ?,query = ?, updated_by = 1, updated_at = CURRENT_TIMESTAMP WHERE id = ? AND activeFlag = ? AND updatedAt = ?";
+        Integer updatedRows = jdbcTemplate.update(query, reportQueryToBeUpdated.getCode(),
+                reportQueryToBeUpdated.getName(), reportQueryToBeUpdated.getDescription(),
+                reportQueryToBeUpdated.getQuery(), reportQueryToBeUpdated.getUpdatedAt());
+        return updatedRows == 0 ? null : read(id).get();
     }
 
     /**
@@ -91,20 +95,32 @@ public class ReportQueryService {
      * @return list of reportquery
      */
     public List<ReportQuery> list(final Integer pageNumber, final Integer pageSize) {
-        final String query = null;
-        return null;
+        String query = "SELECT id, code, name, description, query, activeFlag, updatedBy, updatedAt FROM reportquery";
+        query = query + "LIMIT" + pageSize + "OFFSET" + (pageNumber - 1);
+        return jdbcTemplate.query(query, this::mapRow);
 
+    }
+
+    /**
+     * soft delete all from reportquery.
+     * 
+     * @return success
+     */
+    public Boolean delete() {
+        return delete();
     }
 
     /**
      * deletes from table with id.
      * 
      * @param id
+     * @param isHardDelete should hard delete or soft delete by updating active_flag
+     *                     is 0
      * @return success
      */
-    public Boolean delete(final Integer id) {
-        final String query = null;
-        return false;
+    public Boolean delete(final Integer id, final Boolean isHardDelete) {
+        final String query = isHardDelete ? "DELETE FROM menu" : "UPDATE menu SET active_flag = 0";
+        return jdbcTemplate.update(query);
     }
 
     /**
@@ -122,6 +138,8 @@ public class ReportQueryService {
         reportQuery.setCode(rs.getString("code"));
         reportQuery.setName(rs.getString("name"));
         reportQuery.setDescription(rs.getString("description"));
+        reportQuery.setQuery(rs.getString("query"));
+        reportQuery.setStatus(Status.of(rs.getInt("active_flag")));
         reportQuery.setUpdatedBy(rs.getInt("updated_by"));
         reportQuery.setUpdatedAt(rs.getTimestamp("updated_at"));
         return reportQuery;

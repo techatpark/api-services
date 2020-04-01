@@ -105,11 +105,12 @@ CREATE TABLE geo_location_address (
   id INTEGER IDENTITY PRIMARY KEY,
   code VARCHAR(20) UNIQUE NOT NULL,
   latitude VARCHAR(20) NOT NULL,
-  langitude VARCHAR(20) NOT NULL,
+  longitude VARCHAR(20) NOT NULL,
   address_flag TINYINT DEFAULT 1 NOT NULL,
   address VARCHAR(250) DEFAULT NULL,
   active_flag TINYINT DEFAULT 1 NOT NULL,
   updated_at DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL,
+  updated_by INTEGER NOT NULL,
   CONSTRAINT unx_geo_location_address_1 UNIQUE(latitude, langitude)
 );
 DROP TABLE IF EXISTS geo_location_address_details;

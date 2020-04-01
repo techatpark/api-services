@@ -5,13 +5,14 @@ import java.util.Optional;
 
 import javax.sql.DataSource;
 
-import com.example.demo.tracker.model.AuditLog;
+import com.example.demo.tracker.model.Device;
 
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
 @Service
-public class AuditLogService {
+public class DeviceService {
+
     /**
      * this is used to execute a connection with a database.
      */
@@ -27,47 +28,50 @@ public class AuditLogService {
      * @param jdbcTemplate
      * @param dataSource
      */
-    public AuditLogService(final JdbcTemplate jdbcTemplate, final DataSource dataSource) {
+    public DeviceService(final JdbcTemplate jdbcTemplate, final DataSource dataSource) {
         this.dataSource = dataSource;
         this.jdbcTemplate = jdbcTemplate;
     }
 
     /**
-     * inserting into audit log table.
+     * inserting into geolocationaddressdetails table.
      * 
-     * @param newAuditLog
-     * @return audit log
+     * @param newDevice
+     * @return device
      */
-    public AuditLog create(final AuditLog newAuditLog) {
+    public Device create(final Device newDevice) {
         final String query = null;
         return null;
+
     }
 
     /**
-     * reads from the table audit log with the given id.
-     * 
-     * @param id
-     * @return audit log
-     */
-    public Optional<AuditLog> read(final Integer id) {
-        final String query = null;
-        return null;
-    }
-
-    /**
-     * update the audit log table.
+     * reading from table with the given id.
      * 
      * @param id
-     * @param newAuditLog
-     * @return audit log table
+     * @param newDevice
+     * @return device
      */
-    public AuditLog update(final Integer id, final AuditLog newAuditLog) {
+    public Optional<Device> read(final Integer id, final Device newDevice) {
         final String query = null;
         return null;
     }
 
     /**
-     * deletes a data from audit log table with given id.
+     * update table with given id .
+     * 
+     * @param id
+     * @param newDevice
+     * @return device
+     */
+    public Device update(final Integer id, final Device newDevice) {
+
+        final String query = null;
+        return null;
+    }
+
+    /**
+     * delete from table with given id.
      * 
      * @param id
      * @return true if deleted
@@ -78,15 +82,27 @@ public class AuditLogService {
     }
 
     /**
-     * lists the data from table with given page number and size of page.
+     * list from table with givn pagenumber and page size.
      * 
      * @param pageNumber
      * @param pageSize
-     * @return audit log
+     * @return device
      */
-    public List<AuditLog> list(final Integer pageNumber, final Integer pageSize) {
+    public List<Device> list(final Integer pageNumber, final Integer pageSize) {
 
         final String query = null;
         return null;
     }
+
+    /**
+     * map data from and to the database table.
+     * 
+     * @param newDevice
+     * @return device
+     */
+    public Device map(final Device newDevice) {
+        final String query = null;
+        return null;
+    }
+
 }
