@@ -44,15 +44,15 @@ public class NamespaceService {
     /**
      * inserting into namespace table.
      * 
-     * @param newNamespace
+     * @param namespace
      * @return reads the input data
      */
-    public Namespace create(final Namespace newNamespace) {
+    public Namespace create(final Namespace namespace) {
         final SimpleJdbcInsert insert = new SimpleJdbcInsert(dataSource).withTableName("namespace")
                 .usingGeneratedKeyColumns("id").usingColumns("code", "name", "updated_by");
         final Map<String, Object> valuesMap = new HashMap<>();
-        valuesMap.put("code", newNamespace.getCode());
-        valuesMap.put("name", newNamespace.getName());
+        valuesMap.put("code", namespace.getCode());
+        valuesMap.put("name", namespace.getName());
         valuesMap.put("updated_by", 1);
 
         // Actual Query Execution happens
@@ -83,14 +83,14 @@ public class NamespaceService {
      * @return namespace
      */
     public Namespace update(final Integer id, final Namespace namespaceToBeUpdated) {
-        final String query = "UPDATE namespace SET code = ?,name = ?,active_flag = ?,updated_by = 1, updated_at = CURRENT_TIMESTAMP WHERE id = ?";
+        final String query = "UPDATE namespace SET code = ?,name = ?,active_flag = ?,updated_by = 1, updated_at = CURRENT_TIMESTAMP WHERE id = ? ";
         Integer updatedRows = jdbcTemplate.update(query, namespaceToBeUpdated.getCode(), namespaceToBeUpdated.getName(),
                 namespaceToBeUpdated.getStatus().getValue(), id);
         return updatedRows == 0 ? null : read(id).get();
     }
 
     /**
-     * Delete a row with given id.
+     * Soft Delete a row with given id.
      * 
      * @param id
      * @return namespace.

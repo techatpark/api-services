@@ -111,7 +111,7 @@ CREATE TABLE geo_location_address (
   active_flag TINYINT DEFAULT 1 NOT NULL,
   updated_at DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL,
   updated_by INTEGER NOT NULL,
-  CONSTRAINT unx_geo_location_address_1 UNIQUE(latitude, langitude)
+  CONSTRAINT unx_geo_location_address_1 UNIQUE(latitude, longitude)
 );
 DROP TABLE IF EXISTS geo_location_address_details;
 CREATE TABLE geo_location_address_details (
