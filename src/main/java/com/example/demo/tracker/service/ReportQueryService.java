@@ -120,7 +120,8 @@ public class ReportQueryService {
      */
     public Boolean delete(final Integer id, final Boolean isHardDelete) {
         final String query = isHardDelete ? "DELETE FROM menu" : "UPDATE menu SET active_flag = 0";
-        return jdbcTemplate.update(query);
+
+        return active_flag == 0
     }
 
     /**
