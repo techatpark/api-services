@@ -28,8 +28,10 @@ jobs:
           USERNAME: ${{ secrets.USER_NAME }}
           PORT: ${{ secrets.PORT }}
           KEY: ${{ secrets.P_KEY }}
+          PASSPHRASE: ${{ secrets.PASSPHRASE }}
         with:
           source: "target/*.jar"
+          passphrase: ${{ secrets.PASSPHRASE }}
           target: ${{ secrets.TARGET_DIR }}
           strip_components: 1
       - name: Deploy
@@ -39,4 +41,5 @@ jobs:
           username: ${{ secrets.USER_NAME }}
           port: ${{ secrets.PORT }}
           key: ${{ secrets.P_KEY }}
+          passphrase: ${{ secrets.PASSPHRASE }}
           script: bash deploy.sh
