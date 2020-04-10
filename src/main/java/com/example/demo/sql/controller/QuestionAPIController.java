@@ -1,12 +1,18 @@
 package com.example.demo.sql.controller;
 
+import java.util.List;
+
 import javax.validation.Valid;
 
-import com.example.demo.tracker.model.Namespace;
+import com.example.demo.sql.model.Question;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -27,7 +33,43 @@ class QuestionAPIController {
             @ApiResponse(code = 400, message = "question is invalid") })
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
-    public ResponseEntity<Namespace> create(@Valid @RequestBody Namespace namespace) {
+    public ResponseEntity<Question> create(@Valid @RequestBody Question question) {
         return null;
     }
+
+    @ApiOperation(value = "Get question with given id")
+    @ApiResponses(value = { @ApiResponse(code = 200, message = "question"),
+            @ApiResponse(code = 404, message = "question not found") })
+    @GetMapping("/{id}")
+    public ResponseEntity<Question> findById(@PathVariable Integer id) {
+        return null;
+    }
+
+    @ApiOperation(value = "Updates the question by given id", notes = "Can be called only by users with 'auth management' rights.")
+    @ApiResponses(value = { @ApiResponse(code = 200, message = "question updated successfully"),
+            @ApiResponse(code = 400, message = "question is invalid"),
+            @ApiResponse(code = 404, message = "question not found") })
+    @PutMapping("/{id}")
+    public ResponseEntity<Question> update(@PathVariable Integer id, @Valid @RequestBody Question question) {
+
+        return null;
+    }
+
+    @ApiOperation(value = "Deletes the question by given id")
+    @ApiResponses(value = { @ApiResponse(code = 200, message = "question deleted successfully"),
+            @ApiResponse(code = 404, message = "question not found") })
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> delete(@PathVariable Integer id) {
+        return null;
+    }
+
+    @ApiOperation(value = "lists all the question", notes = "Can be Invoked by auth users only")
+    @ApiResponses(value = { @ApiResponse(code = 200, message = "Listing all the question"),
+            @ApiResponse(code = 204, message = "question are not available") })
+    @GetMapping
+    public ResponseEntity<List<Question>> findAll() {
+
+        return null;
+    }
+
 }
