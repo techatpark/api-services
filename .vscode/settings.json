@@ -2,5 +2,18 @@
   "java.checkstyle.configuration": "${workspaceFolder}/checkstyle.xml",
   "editor.formatOnSave": true,
   "java.checkstyle.version": "8.30",
-  "java.configuration.updateBuildConfiguration": "automatic"
+  "java.configuration.updateBuildConfiguration": "automatic",
+  "sqltools.connections": [
+    {
+      "database": "practice_db",
+      "dialect": "PostgreSQL",
+      "isActive": false,
+      "isConnected": true,
+      "name": "Postgres User",
+      "password": "password",
+      "port": 5432,
+      "server": "localhost",
+      "username": "user"
+    }
+  ]
 }
