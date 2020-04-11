@@ -1,7 +1,7 @@
 package com.example.demo.sql.service;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import com.example.demo.sql.model.Question;
 
@@ -9,6 +9,17 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class QuestionService {
+    /**
+     * list of questions.
+     */
+    private final List<Question> questions;
+
+    /**
+     * initiate list.
+     */
+    QuestionService() {
+        this.questions = new ArrayList<>();
+    }
 
     /**
      * inserting into table - question.
@@ -17,7 +28,9 @@ public class QuestionService {
      * @return question
      */
     public Question create(final Question question) {
-        return null;
+        question.setId(this.questions.size() + 1);
+        this.questions.add(question);
+        return question;
     }
 
     /**
@@ -26,8 +39,8 @@ public class QuestionService {
      * @param id
      * @return namespace
      */
-    public Optional<Question> read(final Integer id) {
-        return null;
+    public Question read(final Integer id) {
+        return this.questions.stream().filter(question -> id == question.getId()).findAny().orElse(null);
     }
 
     /**
@@ -38,7 +51,8 @@ public class QuestionService {
      * @return question
      */
     public Question update(final Integer id, final Question question) {
-        return null;
+        this.questions.set(id - 1, question);
+        return question;
     }
 
     /**
@@ -67,7 +81,7 @@ public class QuestionService {
      * @return question
      */
     public boolean delete(final Integer id) {
-        return false;
+        return this.questions.remove(id - 1) != null;
     }
 
     /**
@@ -78,7 +92,7 @@ public class QuestionService {
      * @return question
      */
     public List<Question> lists(final Integer pageNumber, final Integer pageSize) {
-        return null;
+        return this.questions;
     }
 
 }
