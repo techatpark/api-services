@@ -60,10 +60,23 @@ public class QuestionService {
         return delete(false);
     }
 
-    public boolean delete(Integer id) {
+    /**
+     * delete question.
+     * 
+     * @param id
+     * @return question
+     */
+    public boolean delete(final Integer id) {
         return false;
     }
 
+    /**
+     * delete question.
+     * 
+     * @param pageNumber
+     * @param pageSize
+     * @return question
+     */
     public List<Question> lists(final Integer pageNumber, final Integer pageSize) {
         return null;
     }
