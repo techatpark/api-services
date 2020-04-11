@@ -48,7 +48,7 @@ class QuestionAPIController {
                         @ApiResponse(code = 404, message = "question not found") })
         @GetMapping("/{id}")
         public ResponseEntity<Question> findById(@PathVariable Integer id) {
-                return ResponseEntity.ok(questionService.read(id));
+                return ResponseEntity.of(questionService.read(id));
         }
 
         @ApiOperation(value = "Updates the question by given id", notes = "Can be called only by users with 'auth management' rights.")

@@ -2,6 +2,7 @@ package com.example.demo.sql.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import com.example.demo.sql.model.Question;
 
@@ -39,8 +40,9 @@ public class QuestionService {
      * @param id
      * @return namespace
      */
-    public Question read(final Integer id) {
-        return this.questions.stream().filter(question -> id == question.getId()).findAny().orElse(null);
+    public Optional<Question> read(final Integer id) {
+        Optional<Question> question = this.questions.stream().filter(que -> id == que.getId()).findFirst();
+        return question;
     }
 
     /**
