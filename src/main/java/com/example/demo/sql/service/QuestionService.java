@@ -1,5 +1,6 @@
 package com.example.demo.sql.service;
 
+import java.util.List;
 import java.util.Optional;
 
 import com.example.demo.sql.model.Question;
@@ -57,6 +58,14 @@ public class QuestionService {
      */
     public Boolean delete() {
         return delete(false);
+    }
+
+    public boolean delete(Integer id) {
+        return false;
+    }
+
+    public List<Question> lists(final Integer pageNumber, final Integer pageSize) {
+        return null;
     }
 
 }

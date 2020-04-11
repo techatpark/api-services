@@ -5,6 +5,7 @@ import java.util.List;
 import javax.validation.Valid;
 
 import com.example.demo.sql.model.Question;
+import com.example.demo.sql.service.QuestionService;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,6 +28,11 @@ import io.swagger.annotations.ApiResponses;
 @RestController
 @RequestMapping("/api/questions")
 class QuestionAPIController {
+    private final QuestionService questionService;
+
+    QuestionAPIController(final QuestionService questionService) {
+        this.questionService = questionService;
+    }
 
     @ApiOperation(value = "Creates a new question", notes = "Can be called only by users with 'auth management' rights.")
     @ApiResponses(value = { @ApiResponse(code = 201, message = "question created successfully"),
@@ -34,7 +40,7 @@ class QuestionAPIController {
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
     public ResponseEntity<Question> create(@Valid @RequestBody Question question) {
-        return null;
+        return ResponseEntity.status(HttpStatus.CREATED).body(questionService.create(question));
     }
 
     @ApiOperation(value = "Get question with given id")
@@ -42,7 +48,7 @@ class QuestionAPIController {
             @ApiResponse(code = 404, message = "question not found") })
     @GetMapping("/{id}")
     public ResponseEntity<Question> findById(@PathVariable Integer id) {
-        return null;
+        return ResponseEntity.of(questionService.read(id));
     }
 
     @ApiOperation(value = "Updates the question by given id", notes = "Can be called only by users with 'auth management' rights.")
@@ -51,8 +57,9 @@ class QuestionAPIController {
             @ApiResponse(code = 404, message = "question not found") })
     @PutMapping("/{id}")
     public ResponseEntity<Question> update(@PathVariable Integer id, @Valid @RequestBody Question question) {
-
-        return null;
+        Question updatedQuestion = questionService.update(id, question);
+        return updatedQuestion == null ? new ResponseEntity<Question>(HttpStatus.NOT_FOUND)
+                : ResponseEntity.ok(updatedQuestion);
     }
 
     @ApiOperation(value = "Deletes the question by given id")
@@ -60,7 +67,8 @@ class QuestionAPIController {
             @ApiResponse(code = 404, message = "question not found") })
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable Integer id) {
-        return null;
+        return questionService.delete(id) ? ResponseEntity.ok().build()
+                : new ResponseEntity<Void>(HttpStatus.NOT_FOUND);
     }
 
     @ApiOperation(value = "lists all the question", notes = "Can be Invoked by auth users only")
@@ -68,8 +76,9 @@ class QuestionAPIController {
             @ApiResponse(code = 204, message = "question are not available") })
     @GetMapping
     public ResponseEntity<List<Question>> findAll() {
-
-        return null;
+        List<Question> questions = questionService.lists(1, 1);
+        return questions.isEmpty() ? new ResponseEntity<List<Question>>(HttpStatus.NO_CONTENT)
+                : ResponseEntity.ok(questions);
     }
 
 }
