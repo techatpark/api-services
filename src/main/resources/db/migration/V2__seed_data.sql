@@ -1,0 +1,23 @@
+INSERT INTO "practice_db"."public"."audit_log" (
+    active_flag,
+    code,
+    event,
+    log1,
+    log2,
+    namespace_id,
+    table_name,
+    updated_at,
+    updated_by
+  )
+VALUES
+  (
+    '1',
+    'code',
+    'event',
+    'log1',
+    'log2',
+    123,
+    'tablename',
+    CURRENT_TIMESTAMP,
+    1
+  );
