@@ -17,7 +17,7 @@ import io.swagger.annotations.ApiResponses;
 @Api(value = "Answers", description = "REST API for Answers", tags = { "Answers" })
 @RestController
 @RequestMapping("/api/answers")
-public class AnswerAPIController {
+class AnswerAPIController {
     @ApiOperation(value = "Answer a question", notes = "Can be called only by users with 'auth management' rights.")
     @ApiResponses(value = { @ApiResponse(code = 201, message = "Answered a question successfully"),
             @ApiResponse(code = 400, message = "Answer is invalid") })
