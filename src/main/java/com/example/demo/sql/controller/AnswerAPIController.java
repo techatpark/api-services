@@ -1,10 +1,5 @@
 package com.example.demo.sql.controller;
 
-import javax.validation.Valid;
-
-import com.example.demo.sql.model.Question;
-
-import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
