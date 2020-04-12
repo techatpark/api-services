@@ -1,5 +1,9 @@
 package com.example.demo.sql.service;
 
+import java.util.Optional;
+
+import com.example.demo.sql.model.Question;
+
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
@@ -13,12 +17,18 @@ public class AnswerService {
     private final JdbcTemplate jdbcTemplate;
 
     /**
+     * question Service.
+     */
+    private final QuestionService questionService;
+
+    /**
      * Constructs Answer Service.
      * 
      * @param jdbcTemplate
      */
-    AnswerService(final JdbcTemplate jdbcTemplate) {
+    AnswerService(final JdbcTemplate jdbcTemplate, final QuestionService questionService) {
         this.jdbcTemplate = jdbcTemplate;
+        this.questionService = questionService;
     }
 
     /**
@@ -29,8 +39,12 @@ public class AnswerService {
      * @return true
      */
     public final Boolean answer(final Integer questionId, final String answer) {
-
-        return true;
+        Boolean isRigntAnswer = false;
+        Optional<Question> question = questionService.read(questionId);
+        if (question.isPresent()) {
+            String verificationSQL = "select * from tableA minus select * from tableB";
+        }
+        return isRigntAnswer;
     }
 
 }

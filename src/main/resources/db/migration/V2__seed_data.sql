@@ -1,0 +1,22 @@
+INSERT INTO "audit_log" (
+    active_flag,
+    code,
+    event,
+    log1,
+    log2,
+    namespace_id,
+    table_name,
+    updated_at,
+    updated_by
+  )
+VALUES(
+    1,
+    'code2',
+    'event:character',
+    'log1:character',
+    'log2:character',
+    1,
+    'table_name',
+    CURRENT_TIMESTAMP,
+    1
+  );
