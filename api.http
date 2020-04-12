@@ -10,8 +10,14 @@ Content-Type: application/json
   "answer": "SELECT * FROM audit_log WHERE code in ('code1','code2')"
 }
 
-#### List Questions
+#### Incorrect Answer
 POST {{base}}/api/answers/1
 Content-Type: application/json
 
-SELECT * FROM audit_log WHERE code == 'code1' OR code == 'code2'
+SELECT * FROM audit_log WHERE code LIKE 'code1'
+
+#### Correct Answer
+POST {{base}}/api/answers/1
+Content-Type: application/json
+
+SELECT * FROM audit_log WHERE code LIKE 'code1' OR code LIKE 'code2'
