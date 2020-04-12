@@ -7,9 +7,11 @@ Content-Type: application/json
 
 {
   "description": "List all the devices",
-  "answer": "SELECT * FROM device"
+  "answer": "SELECT * FROM audit_log WHERE code in ('code1','code2')"
 }
 
 #### List Questions
-GET {{base}}/api/questions
+POST {{base}}/api/answers/1
 Content-Type: application/json
+
+SELECT * FROM audit_log WHERE code == 'code1' OR code == 'code2'
