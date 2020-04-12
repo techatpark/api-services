@@ -1,20 +1,15 @@
 @base = http://localhost:8090
 
 
-#### Create a Device
-POST {{base}}/api/devices
+#### Create a Question
+POST {{base}}/api/questions
 Content-Type: application/json
 
 {
-  "activeFlag": 0,
-  "status": 1,
-  "code": "string",
-  "deviceIMEICode": "KKKK",
-  "gsmCode": "string",
-  "id": 0,
-  "name": "string",
-  "remarks": "string",
-  "updatedAt": "2020-03-20T15:38:56.072Z",
-  "updatedBy": 0,
-  "sensor": "jkd"
+  "description": "List all the devices",
+  "answer": "SELECT * FROM device"
 }
+
+#### List Questions
+GET {{base}}/api/questions
+Content-Type: application/json
