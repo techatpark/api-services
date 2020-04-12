@@ -1,5 +1,7 @@
 package com.example.demo.sql.controller;
 
+import com.example.demo.sql.service.AnswerService;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -18,12 +20,21 @@ import io.swagger.annotations.ApiResponses;
 @RestController
 @RequestMapping("/api/answers")
 class AnswerAPIController {
+
+    private final AnswerService answerService;
+
+    public AnswerAPIController(AnswerService answerService) {
+        this.answerService = answerService;
+    }
+
     @ApiOperation(value = "Answer a question", notes = "Can be called only by users with 'auth management' rights.")
-    @ApiResponses(value = { @ApiResponse(code = 201, message = "Answered a question successfully"),
-            @ApiResponse(code = 400, message = "Answer is invalid") })
-    @ResponseStatus(HttpStatus.CREATED)
+    @ApiResponses(value = { @ApiResponse(code = 200, message = "Answered a question successfully"),
+            @ApiResponse(code = 406, message = "Answer is invalid") })
+    @ResponseStatus(HttpStatus.OK)
     @PostMapping("/{questionId}")
     public ResponseEntity<Void> answer(@PathVariable Integer questionId, @RequestBody String answer) {
-        return null;
+        return answerService.answer(questionId, answer) ? ResponseEntity.ok().build()
+                : ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).build();
     }
+
 }
