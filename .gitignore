@@ -4,6 +4,7 @@ bin/
 !.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**
 !**/src/test/**
+Postgres User Session.sql
 
 ### STS ###
 .apt_generated
