@@ -42,7 +42,10 @@ public class AnswerService {
         Boolean isRigntAnswer = false;
         Optional<Question> question = questionService.read(questionId);
         if (question.isPresent()) {
-            String verificationSQL = "select * from tableA minus select * from tableB";
+            String verificationSQL = "SELECT COUNT(*) FROM ( " + question.get().getAnswer() + " except " + answer
+                    + " ) AS TOTAL_ROWS";
+            Integer count = jdbcTemplate.queryForObject(verificationSQL, Integer.class);
+            isRigntAnswer = (count == 0);
         }
         return isRigntAnswer;
     }
