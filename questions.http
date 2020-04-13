@@ -1,0 +1,12 @@
+@base = http://localhost:8090
+
+
+#### Create a Question
+POST {{base}}/api/questions
+Content-Type: application/json
+
+{
+  "description": "List all the devices",
+  "answer": "SELECT * FROM audit_log WHERE code in ('code1','code2')"
+}
+
