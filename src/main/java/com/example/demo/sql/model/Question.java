@@ -1,5 +1,7 @@
 package com.example.demo.sql.model;
 
+import javax.validation.constraints.NotBlank;
+
 public class Question {
     /**
      * tells the id of question.
@@ -8,10 +10,12 @@ public class Question {
     /**
      * this is the question.
      */
+    @NotBlank(message = "description is mandatory")
     private String description;
     /**
      * tells the answer.
      */
+    @NotBlank(message = "answer is mandatory")
     private String answer;
 
     /**
