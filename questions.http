@@ -6,7 +6,34 @@ POST {{base}}/api/questions
 Content-Type: application/json
 
 {
-  "description": "List all the devices",
-  "answer": "SELECT * FROM audit_log WHERE code in ('code1','code2')"
+  "description": "List all the table device",
+  "answer": "SELECT * FROM device;"
+}
+
+#### Create a Question
+POST {{base}}/api/questions
+Content-Type: application/json
+
+{
+  "description": "List the unique values of column namespaceid from table device.",
+  "answer": "SELECT DISTINCT namespace_id FROM device;"
+}
+
+#### Create a Question
+POST {{base}}/api/questions
+Content-Type: application/json
+
+{
+  "description": "List all from table namespace according to the value of column updated_by,from the least.If two or more rows are equal,use column id for ordering .",
+  "answer": "SELECT * FROM namespace ORDER BY updated_by, id;"
+}
+
+#### Create a Question
+POST {{base}}/api/questions
+Content-Type: application/json
+
+{
+  "description": "Write a query to display the full location including columns road,area,landmark,city and postal code from table geo_location_address_details,separated by commas and under column - currentlocation",
+  "answer": "SELECT CONCAT(road, ',', area, ',', landmark, ',', city, ',', postal_code) AS currentlocation FROM geo_location_address_details;"
 }
 
