@@ -67,7 +67,7 @@ public class NamespaceService {
      * @return namespace
      */
     public Optional<Namespace> read(final Integer id) {
-        final String query = "SELECT id,code,name,active_flag,updated_by,updated_at FROM namespace WHERE id = ?";
+        final String query = "SELECT id,code,name,active_flag,updated_by,updated_at FROM namespace WHERE id = ? AND active_flag = 1";
         try {
             return Optional.of(jdbcTemplate.queryForObject(query, new Object[] { id }, this::mapRow));
         } catch (EmptyResultDataAccessException e) {
