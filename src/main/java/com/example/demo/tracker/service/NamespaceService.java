@@ -96,7 +96,19 @@ public class NamespaceService {
      * @return successflag.
      */
     public Boolean delete(final Integer id) {
-        final String query = "DELETE FROM namespace WHERE id = ?";
+        return delete(id, false);
+    }
+
+    /**
+     * Soft Delete a row with given id.
+     * 
+     * @param id
+     * @param isHardDelete
+     * @return successflag.
+     */
+    public Boolean delete(final Integer id, final Boolean isHardDelete) {
+        final String query = isHardDelete ? "DELETE FROM namespace WHERE id = ?"
+                : "UPDATE namespace SET active_flag = 0 WHERE id = ?";
         Integer updatedRows = jdbcTemplate.update(query, new Object[] { id });
         return !(updatedRows == 0);
     }
@@ -108,7 +120,19 @@ public class NamespaceService {
      * @return successflag.
      */
     public Boolean delete(final String code) {
-        final String query = "DELETE FROM namespace WHERE code = ?";
+        return delete(code, false);
+    }
+
+    /**
+     * Soft Delete a row with given code.
+     * 
+     * @param code
+     * @param isHardDelete
+     * @return successflag.
+     */
+    public Boolean delete(final String code, final Boolean isHardDelete) {
+        final String query = isHardDelete ? "DELETE FROM namespace WHERE code = ?"
+                : "UPDATE namespace SET active_flag = 0 WHERE code = ?";
         Integer updatedRows = jdbcTemplate.update(query, new Object[] { code });
         return !(updatedRows == 0);
     }

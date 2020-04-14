@@ -21,8 +21,8 @@ class NamespaceServiceTest {
 
     @BeforeEach
     void before() {
-        namespaceService.delete(CODE_0);
-        namespaceService.delete(CODE_1);
+        namespaceService.delete(CODE_0, true);
+        namespaceService.delete(CODE_1, true);
     }
 
     @AfterEach
