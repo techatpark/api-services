@@ -25,6 +25,7 @@ public class AnswerService {
      * Constructs Answer Service.
      * 
      * @param jdbcTemplate
+     * @param questionService
      */
     AnswerService(final JdbcTemplate jdbcTemplate, final QuestionService questionService) {
         this.jdbcTemplate = jdbcTemplate;

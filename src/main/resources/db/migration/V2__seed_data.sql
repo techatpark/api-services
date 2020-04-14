@@ -20,7 +20,7 @@ VALUES(
     CURRENT_TIMESTAMP,
     1
   );
-INSERT INTO "practice_db"."public"."namespace" (
+INSERT INTO "namespace" (
     active_flag,
     code,
     name,

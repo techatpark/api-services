@@ -14,13 +14,15 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
 class NamespaceServiceTest {
-
+    private static final String CODE_0 = "Code_0";
+    private static final String CODE_1 = "Code_1";
     @Autowired
     private NamespaceService namespaceService;
 
     @BeforeEach
     void before() {
-        namespaceService.delete(true);
+        namespaceService.delete(CODE_0);
+        namespaceService.delete(CODE_1);
     }
 
     @AfterEach
@@ -31,7 +33,7 @@ class NamespaceServiceTest {
     @Test
     void testCreate() {
         Namespace namespace = namespaceService.create(getNamespaceForTesting());
-        assertEquals("12a3", namespace.getCode(), "Test Create");
+        assertEquals(CODE_0, namespace.getCode(), "Test Create");
     }
 
     @Test
@@ -60,7 +62,7 @@ class NamespaceServiceTest {
     void testList() {
         namespaceService.create(getNamespaceForTesting());
         Namespace namespace2 = getNamespaceForTesting();
-        namespace2.setCode("12ee4");
+        namespace2.setCode(CODE_1);
         namespaceService.create(namespace2);
         assertEquals(2, namespaceService.list(1, 2).size(), "Test Listing");
         assertEquals(1, namespaceService.list(1, 1).size(), "Test Listing with restricted page");
@@ -69,7 +71,7 @@ class NamespaceServiceTest {
     private Namespace getNamespaceForTesting() {
         Namespace namespace = new Namespace();
         namespace.setStatus(Status.ACTIVE);
-        namespace.setCode("12a3");
+        namespace.setCode(CODE_0);
         namespace.setName("KPN");
         return namespace;
     }

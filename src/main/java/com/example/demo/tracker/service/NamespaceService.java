@@ -93,11 +93,23 @@ public class NamespaceService {
      * Soft Delete a row with given id.
      * 
      * @param id
-     * @return namespace.
+     * @return successflag.
      */
     public Boolean delete(final Integer id) {
         final String query = "DELETE FROM namespace WHERE id = ?";
         Integer updatedRows = jdbcTemplate.update(query, new Object[] { id });
+        return !(updatedRows == 0);
+    }
+
+    /**
+     * Soft Delete a row with given code.
+     * 
+     * @param code
+     * @return successflag.
+     */
+    public Boolean delete(final String code) {
+        final String query = "DELETE FROM namespace WHERE code = ?";
+        Integer updatedRows = jdbcTemplate.update(query, new Object[] { code });
         return !(updatedRows == 0);
     }
 
