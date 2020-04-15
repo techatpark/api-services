@@ -1,13 +1,12 @@
 package com.example.demo.tracker.service;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
 import javax.sql.DataSource;
+import javax.swing.tree.RowMapper;
 
 import com.example.demo.tracker.model.Namespace;
 import com.example.demo.tracker.model.Status;
@@ -29,6 +28,22 @@ public class NamespaceService {
      * 
      */
     private final DataSource dataSource;
+
+    /**
+     * Maps the data from and to the database.
+     * 
+    */
+
+    private final RowMapper<Namespace> rowMapper = (rs, rowNum) -> {
+        final Namespace namespace = new Namespace();
+        namespace.setId(rs.getInt("id"));
+        namespace.setCode(rs.getString("code"));
+        namespace.setName(rs.getString("name"));
+        namespace.setStatus(Status.of(rs.getInt("active_flag")));
+        namespace.setUpdatedBy(rs.getInt("updated_by"));
+        namespace.setUpdatedAt(rs.getDate("updated_at"));
+        return namespace;
+    }
 
     /**
      * * Creates a device service for device related operations. *
@@ -69,7 +84,7 @@ public class NamespaceService {
     public Optional<Namespace> read(final Integer id) {
         final String query = "SELECT id,code,name,active_flag,updated_by,updated_at FROM namespace WHERE id = ? AND active_flag = 1";
         try {
-            return Optional.of(jdbcTemplate.queryForObject(query, new Object[] { id }, this::mapRow));
+            return Optional.of(jdbcTemplate.queryForObject(query, new Object[] { id }, rowMapper));
         } catch (EmptyResultDataAccessException e) {
             return Optional.empty();
         }
@@ -168,26 +183,7 @@ public class NamespaceService {
     public List<Namespace> list(final Integer pageNumber, final Integer pageSize) {
         String query = "SELECT id,code,name,active_flag,updated_by,updated_at FROM namespace";
         query = query + " LIMIT " + pageSize + " OFFSET " + (pageNumber - 1);
-        return jdbcTemplate.query(query, this::mapRow);
-    }
-
-    /**
-     * Maps the data from and to the database.
-     * 
-     * @param rs
-     * @param rowNum
-     * @return namespace
-     * @throws SQLException
-     */
-    private Namespace mapRow(final ResultSet rs, final int rowNum) throws SQLException {
-        final Namespace namespace = new Namespace();
-        namespace.setId(rs.getInt("id"));
-        namespace.setCode(rs.getString("code"));
-        namespace.setName(rs.getString("name"));
-        namespace.setStatus(Status.of(rs.getInt("active_flag")));
-        namespace.setUpdatedBy(rs.getInt("updated_by"));
-        namespace.setUpdatedAt(rs.getDate("updated_at"));
-        return namespace;
+        return jdbcTemplate.query(query, rowMapper);
     }
 
 }
