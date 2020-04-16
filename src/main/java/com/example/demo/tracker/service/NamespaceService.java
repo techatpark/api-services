@@ -6,13 +6,12 @@ import java.util.Map;
 import java.util.Optional;
 
 import javax.sql.DataSource;
-import javax.swing.tree.RowMapper;
-
 import com.example.demo.tracker.model.Namespace;
 import com.example.demo.tracker.model.Status;
 
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Service;
 
@@ -30,9 +29,8 @@ public class NamespaceService {
     private final DataSource dataSource;
 
     /**
-     * Maps the data from and to the database.
-     * 
-    */
+     * Maps the data from and to the database. return namespace
+     */
 
     private final RowMapper<Namespace> rowMapper = (rs, rowNum) -> {
         final Namespace namespace = new Namespace();
@@ -43,7 +41,7 @@ public class NamespaceService {
         namespace.setUpdatedBy(rs.getInt("updated_by"));
         namespace.setUpdatedAt(rs.getDate("updated_at"));
         return namespace;
-    }
+    };
 
     /**
      * * Creates a device service for device related operations. *
