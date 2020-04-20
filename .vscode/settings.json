@@ -1,6 +1,9 @@
 {
   "java.checkstyle.configuration": "${workspaceFolder}/checkstyle.xml",
   "editor.formatOnSave": true,
+  "editor.codeActionsOnSave": {
+    "source.organizeImports": true
+  },
   "java.checkstyle.version": "8.30",
   "java.configuration.updateBuildConfiguration": "automatic",
   "sqltools.connections": [
