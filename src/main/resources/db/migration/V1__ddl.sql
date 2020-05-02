@@ -7,7 +7,8 @@ CREATE TABLE device (
   remarks VARCHAR(50),
   updated_by INTEGER NOT NULL,
   updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL
-) DROP TABLE IF EXISTS vehicle;
+);
+DROP TABLE IF EXISTS vehicle;
 CREATE TABLE vehicle (
   id SERIAL PRIMARY KEY,
   device_id INTEGER NOT NULL,
@@ -19,7 +20,8 @@ CREATE TABLE vehicle (
   updated_by INTEGER NOT NULL,
   updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
   FOREIGN KEY (device_id) REFERENCES device(id)
-) DROP TABLE IF EXISTS vehicle_location;
+);
+DROP TABLE IF EXISTS vehicle_location;
 CREATE TABLE vehicle_location (
   id SERIAL PRIMARY KEY,
   device_id INTEGER NOT NULL,
