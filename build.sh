@@ -1,7 +1,6 @@
 #!/bin/sh
 cd ui
-yarn install
-yarn build
+npm i
 cp -r build/* ../src/main/resources/static
 cd ..
 docker-compose up -d
