@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Optional;
 
 import com.example.demo.sql.model.Question;
-import com.example.demo.sql.service.exceptions.NotValidAnswerException;
 
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
@@ -38,14 +37,14 @@ public class QuestionService {
      */
     public Question create(final Question question) {
         question.setId(this.questions.size() + 1);
-        try {
+        this.questions.add(question);
+        // try {
+        //     jdbcTemplate.queryForObject(question.getAnswer(), Integer.class);
+            
 
-            jdbcTemplate.queryForObject(question.getAnswer(), Integer.class);
-            this.questions.add(question);
-
-        } catch (Exception e) {
-            throw new NotValidAnswerException("your answer is not valid quey", e);
-        }
+        // } catch (Exception e) {
+        //     throw new NotValidAnswerException("your answer is not valid quey", e);
+        // }
         return question;
     }
 
