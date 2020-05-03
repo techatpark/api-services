@@ -24,7 +24,7 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 
-@Api(value = "Questions", description = "REST API for Questions", tags = { "Questions" })
+@Api(value = "Questions", description = "Resource for Questions", tags = { "Questions" })
 @RestController
 @RequestMapping("/api/questions")
 class QuestionAPIController {
