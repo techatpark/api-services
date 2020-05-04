@@ -78,13 +78,13 @@ public class ExamService {
 
     /**
      * update database.
-     * 
+     * @TODO Soft Delete
      * @param exam
      * @param id
      * @return exam
      */
     public Optional<Exam> update(final Integer id, final Exam exam) {
-        final String query = "UPDATE exam SET name = ?WHERE id = ? ";
+        final String query = "UPDATE exam SET name = ? WHERE id = ?";
         Integer updatedRows = jdbcTemplate.update(query, exam.getName(), id);
         return updatedRows == 0 ? null : read(id);
     }
