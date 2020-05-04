@@ -1,6 +1,7 @@
 package com.example.demo.sql.controller;
 
 import java.util.List;
+import java.util.Optional;
 
 import javax.validation.Valid;
 
@@ -39,7 +40,7 @@ class QuestionAPIController {
                         @ApiResponse(code = 400, message = "question is invalid") })
         @ResponseStatus(HttpStatus.CREATED)
         @PostMapping
-        public ResponseEntity<Question> create(@Valid @RequestBody Question question) {
+        public ResponseEntity<Optional<Question>> create(@Valid @RequestBody Question question) {
                 return ResponseEntity.status(HttpStatus.CREATED).body(questionService.create(question));
         }
 
@@ -56,9 +57,9 @@ class QuestionAPIController {
                         @ApiResponse(code = 400, message = "question is invalid"),
                         @ApiResponse(code = 404, message = "question not found") })
         @PutMapping("/{id}")
-        public ResponseEntity<Question> update(@PathVariable Integer id, @Valid @RequestBody Question question) {
-                Question updatedQuestion = questionService.update(id, question);
-                return updatedQuestion == null ? new ResponseEntity<Question>(HttpStatus.NOT_FOUND)
+        public ResponseEntity<Optional<Question>> update(@PathVariable Integer id, @Valid @RequestBody Question question) {
+                Optional<Question> updatedQuestion = questionService.update(id, question);
+                return updatedQuestion == null ? new ResponseEntity<Optional<Question>>(HttpStatus.NOT_FOUND)
                                 : ResponseEntity.ok(updatedQuestion);
         }
 
@@ -76,7 +77,7 @@ class QuestionAPIController {
                         @ApiResponse(code = 204, message = "question are not available") })
         @GetMapping
         public ResponseEntity<List<Question>> findAll() {
-                List<Question> questions = questionService.lists(1, 1);
+                List<Question> questions = questionService.list(1, 1);
                 return questions.isEmpty() ? new ResponseEntity<List<Question>>(HttpStatus.NO_CONTENT)
                                 : ResponseEntity.ok(questions);
         }

@@ -1,6 +1,7 @@
 package com.example.demo.sql.controller;
 
 import java.util.List;
+import java.util.Optional;
 
 import javax.validation.Valid;
 
@@ -40,7 +41,7 @@ class ExamAPIController {
             @ApiResponse(code = 400, message = "exam is invalid") })
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
-    public ResponseEntity<Exam> create(@Valid @RequestBody Exam exam) {
+    public ResponseEntity<Optional<Exam>> create(@Valid @RequestBody Exam exam) {
         return ResponseEntity.status(HttpStatus.CREATED).body(examService.create(exam));
     }
 
@@ -57,9 +58,9 @@ class ExamAPIController {
             @ApiResponse(code = 400, message = "exam is invalid"),
             @ApiResponse(code = 404, message = "exam not found") })
     @PutMapping("/{id}")
-    public ResponseEntity<Exam> update(@PathVariable Integer id, @Valid @RequestBody Exam exam) {
-        Exam updatedexam = examService.update(id, exam);
-        return updatedexam == null ? new ResponseEntity<Exam>(HttpStatus.NOT_FOUND) : ResponseEntity.ok(updatedexam);
+    public ResponseEntity<Optional<Exam>> update(@PathVariable Integer id, @Valid @RequestBody Exam exam) {
+        Optional<Exam> updatedexam = examService.update(id, exam);
+        return updatedexam == null ? new ResponseEntity<Optional<Exam>>(HttpStatus.NOT_FOUND) : ResponseEntity.ok(updatedexam);
     }
 
     @ApiOperation(value = "Deletes the exam by given id")
@@ -67,7 +68,8 @@ class ExamAPIController {
             @ApiResponse(code = 404, message = "exam not found") })
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable Integer id) {
-        return examService.delete(id) ? ResponseEntity.ok().build() : new ResponseEntity<Void>(HttpStatus.NOT_FOUND);
+        return examService.delete(id, true) ? ResponseEntity.ok().build()
+                : new ResponseEntity<Void>(HttpStatus.NOT_FOUND);
     }
 
     @ApiOperation(value = "lists all the exam", notes = "Can be Invoked by auth users only")
@@ -75,7 +77,7 @@ class ExamAPIController {
             @ApiResponse(code = 204, message = "exam are not available") })
     @GetMapping
     public ResponseEntity<List<Exam>> findAll() {
-        List<Exam> exams = examService.lists(1, 1);
+        List<Exam> exams = examService.list(1, 1);
         return exams.isEmpty() ? new ResponseEntity<List<Exam>>(HttpStatus.NO_CONTENT) : ResponseEntity.ok(exams);
     }
 }

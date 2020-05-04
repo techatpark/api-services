@@ -97,7 +97,7 @@ public class ExamService {
      * @return successflag
      */
     public Boolean delete(final Integer id, final boolean b) {
-        return delete(id, false);
+        return delete(id, true);
     }
 
     /**
