@@ -60,7 +60,8 @@ class ExamAPIController {
     @PutMapping("/{id}")
     public ResponseEntity<Optional<Exam>> update(@PathVariable Integer id, @Valid @RequestBody Exam exam) {
         Optional<Exam> updatedexam = examService.update(id, exam);
-        return updatedexam == null ? new ResponseEntity<Optional<Exam>>(HttpStatus.NOT_FOUND) : ResponseEntity.ok(updatedexam);
+        return updatedexam == null ? new ResponseEntity<Optional<Exam>>(HttpStatus.NOT_FOUND)
+                : ResponseEntity.ok(updatedexam);
     }
 
     @ApiOperation(value = "Deletes the exam by given id")
@@ -68,8 +69,7 @@ class ExamAPIController {
             @ApiResponse(code = 404, message = "exam not found") })
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable Integer id) {
-        return examService.delete(id, true) ? ResponseEntity.ok().build()
-                : new ResponseEntity<Void>(HttpStatus.NOT_FOUND);
+        return examService.delete(id) ? ResponseEntity.ok().build() : new ResponseEntity<Void>(HttpStatus.NOT_FOUND);
     }
 
     @ApiOperation(value = "lists all the exam", notes = "Can be Invoked by auth users only")

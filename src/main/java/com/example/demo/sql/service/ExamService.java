@@ -53,7 +53,7 @@ public class ExamService {
      * @return exam
      */
     public Optional<Exam> create(final Exam exam) {
-        final SimpleJdbcInsert insert = new SimpleJdbcInsert(dataSource).withTableName("exam")
+        final SimpleJdbcInsert insert = new SimpleJdbcInsert(dataSource).withTableName("exams")
                 .usingGeneratedKeyColumns("id").usingColumns("name");
         final Map<String, Object> valueMap = new HashMap<>();
         valueMap.put("name", exam.getName());
@@ -68,7 +68,7 @@ public class ExamService {
      * @return exam
      */
     public Optional<Exam> read(final Integer id) {
-        final String query = "SELECT id,name FROM exam WHERE id = ?";
+        final String query = "SELECT id,name FROM exams WHERE id = ?";
         try {
             return Optional.of(jdbcTemplate.queryForObject(query, new Object[] { id }, rowMapper));
         } catch (EmptyResultDataAccessException e) {
@@ -78,13 +78,14 @@ public class ExamService {
 
     /**
      * update database.
+     * 
      * @TODO Soft Delete
      * @param exam
      * @param id
      * @return exam
      */
     public Optional<Exam> update(final Integer id, final Exam exam) {
-        final String query = "UPDATE exam SET name = ? WHERE id = ?";
+        final String query = "UPDATE exams SET name = ? WHERE id = ?";
         Integer updatedRows = jdbcTemplate.update(query, exam.getName(), id);
         return updatedRows == 0 ? null : read(id);
     }
@@ -93,11 +94,12 @@ public class ExamService {
      * deletes from database.
      * 
      * @param id
-     * @param b
      * @return successflag
      */
-    public Boolean delete(final Integer id, final boolean b) {
-        return delete(id, true);
+    public Boolean delete(final Integer id) {
+        String query = "DELETE FROM EXAMS WHERE ID=?";
+        Integer updatedRows = jdbcTemplate.update(query, new Object[] { id });
+        return true;
     }
 
     /**
@@ -108,7 +110,7 @@ public class ExamService {
      * @return list
      */
     public List<Exam> list(final Integer pageNumber, final Integer pageSize) {
-        String query = "SELECT id,name FROM exam";
+        String query = "SELECT id,name FROM exams";
         query = query + " LIMIT " + pageSize + " OFFSET " + (pageNumber - 1);
         return jdbcTemplate.query(query, rowMapper);
     }
