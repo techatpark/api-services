@@ -1,8 +1,9 @@
 package com.example.demo.sql.service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+
+import javax.sql.DataSource;
 
 import com.example.demo.sql.model.Question;
 
@@ -12,103 +13,74 @@ import org.springframework.stereotype.Service;
 @Service
 public class QuestionService {
     /**
-     * * this is used to execute a connection with a database.
-     * 
+     * this helps to execute sql queries.
      */
     private final JdbcTemplate jdbcTemplate;
-    /**
-     * list of questions.
-     */
-    private final List<Question> questions;
 
     /**
-     * @param jdbcTemplate initiate list.
+     * this creates connection functionalities.
      */
-    QuestionService(final JdbcTemplate jdbcTemplate) {
+    private final DataSource dataSource;
+
+    /**
+     * initializes.
+     * 
+     * @param jdbcTemplate
+     * @param dataSource
+     */
+    public QuestionService(final JdbcTemplate jdbcTemplate, final DataSource dataSource) {
         this.jdbcTemplate = jdbcTemplate;
-        this.questions = new ArrayList<>();
+        this.dataSource = dataSource;
     }
 
     /**
-     * inserting into table - question.
+     * inserts data.
      * 
      * @param question
      * @return question
      */
-    public Question create(final Question question) {
-        question.setId(this.questions.size() + 1);
-        this.questions.add(question);
-        // try {
-        //     jdbcTemplate.queryForObject(question.getAnswer(), Integer.class);
-            
-
-        // } catch (Exception e) {
-        //     throw new NotValidAnswerException("your answer is not valid quey", e);
-        // }
-        return question;
-    }
-
-    /**
-     * reads from table question.
-     * 
-     * @param id
-     * @return namespace
-     */
-    public Optional<Question> read(final Integer id) {
-        Optional<Question> question = this.questions.stream().filter(que -> id == que.getId()).findFirst();
-        return question;
-    }
-
-    /**
-     * update table question.
-     * 
-     * @param id
-     * @param question
-     * @return question
-     */
-    public Question update(final Integer id, final Question question) {
-        this.questions.set(id - 1, question);
-        return question;
-    }
-
-    /**
-     * Soft Delete a row with given id.
-     * 
-     * @param b
-     * @return question.
-     */
-    public Boolean delete(final boolean b) {
+    public Optional<Question> create(final Question question) {
         return null;
     }
 
     /**
-     * soft delete all from namespace.
-     * 
-     * @return question
-     */
-    public Boolean delete() {
-        return delete(false);
-    }
-
-    /**
-     * delete question.
+     * reads from question with given id.
      * 
      * @param id
      * @return question
      */
-    public boolean delete(final Integer id) {
-        return this.questions.remove(id - 1) != null;
+    public Optional<Question> read(final Integer id) {
+        return null;
     }
 
     /**
-     * delete question.
+     * updates question with id.
      * 
-     * @param pageNumber
-     * @param pageSize
+     * @param id
+     * @param question
      * @return question
      */
-    public List<Question> lists(final Integer pageNumber, final Integer pageSize) {
-        return this.questions;
+    public Optional<Question> update(final Integer id, final Question question) {
+        return null;
     }
 
+
+    /**
+     * delete.
+     * @param id
+     * @return successflag
+     */
+    public Boolean delete(final Integer id) {
+        return false;
+    }
+
+/**
+ * list of question.
+ * @param pageNumber
+ * @param pageSize
+ * @return question
+ */
+    public List<Question> list(final Integer pageNumber, final Integer pageSize) {
+        return null;
+    }
 }

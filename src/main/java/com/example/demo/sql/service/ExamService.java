@@ -1,75 +1,116 @@
 package com.example.demo.sql.service;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+
+import javax.sql.DataSource;
 
 import com.example.demo.sql.model.Exam;
 
+import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Service;
 
 @Service
 public class ExamService {
-
     /**
-     * list of exams.
+     * this helps to execute sql queries.
      */
-    private final List<Exam> exams = new ArrayList<>();
+    private final JdbcTemplate jdbcTemplate;
+    /**
+     * this is the connection for the database.
+     */
+    private final DataSource dataSource;
 
     /**
-     * Create an exam.
+     * 
+     * @param jdbcTemplate
+     * @param dataSource
+     */
+    public ExamService(final JdbcTemplate jdbcTemplate, final DataSource dataSource) {
+        this.jdbcTemplate = jdbcTemplate;
+        this.dataSource = dataSource;
+    }
+
+    /**
+     * Maps the data from and to the database. return namespace
+     */
+    private final RowMapper<Exam> rowMapper = (rs, rowNum) -> {
+        final Exam exam = new Exam();
+        exam.setId(rs.getInt("id"));
+        exam.setName(rs.getString("name"));
+        return exam;
+    };
+
+    /**
+     * inserts data to database.
      * 
      * @param exam
      * @return exam
      */
-    public Exam create(final Exam exam) {
-        exam.setId(this.exams.size() + 1);
-        this.exams.add(exam);
-        return exam;
+    public Optional<Exam> create(final Exam exam) {
+        final SimpleJdbcInsert insert = new SimpleJdbcInsert(dataSource).withTableName("exam")
+                .usingGeneratedKeyColumns("id").usingColumns("name");
+        final Map<String, Object> valueMap = new HashMap<>();
+        valueMap.put("name", exam.getName());
+        final Number id = insert.executeAndReturnKey(valueMap);
+        return read(id.intValue());
     }
 
     /**
-     * reads from table exame.
+     * reads from the database with given id.
      * 
      * @param id
-     * @return namespace
+     * @return exam
      */
     public Optional<Exam> read(final Integer id) {
-        Optional<Exam> exam = this.exams.stream().filter(aExam -> id == aExam.getId()).findFirst();
-        return exam;
+        final String query = "SELECT id,name FROM exam WHERE id = ?";
+        try {
+            return Optional.of(jdbcTemplate.queryForObject(query, new Object[] { id }, rowMapper));
+        } catch (EmptyResultDataAccessException e) {
+            return Optional.empty();
+        }
     }
 
     /**
-     * update table exam.
+     * update database.
      * 
-     * @param id
      * @param exam
-     * @return exam
-     */
-    public Exam update(final Integer id, final Exam exam) {
-        this.exams.set(id - 1, exam);
-        return exam;
-    }
-
-    /**
-     * delete exam.
-     * 
      * @param id
      * @return exam
      */
-    public boolean delete(final Integer id) {
-        return this.exams.remove(id - 1) != null;
+    public Optional<Exam> update(final Integer id, final Exam exam) {
+        final String query = "UPDATE exam SET name = ?WHERE id = ? ";
+        Integer updatedRows = jdbcTemplate.update(query, exam.getName(), id);
+        return updatedRows == 0 ? null : read(id);
     }
 
     /**
-     * delete exam.
+     * deletes from database.
+     * 
+     * @param id
+     * @param b
+     * @return successflag
+     */
+    public Boolean delete(final Integer id, final boolean b) {
+        return delete(id, false);
+    }
+
+    /**
+     * lists all from table.
      * 
      * @param pageNumber
      * @param pageSize
-     * @return exam
+     * @return list
      */
-    public List<Exam> lists(final Integer pageNumber, final Integer pageSize) {
-        return this.exams;
+    public List<Exam> list(final Integer pageNumber, final Integer pageSize) {
+        String query = "SELECT id,name FROM exam";
+        query = query + " LIMIT " + pageSize + " OFFSET " + (pageNumber - 1);
+        return jdbcTemplate.query(query, rowMapper);
     }
 
 }
