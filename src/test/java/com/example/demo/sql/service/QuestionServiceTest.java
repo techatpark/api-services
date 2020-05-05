@@ -3,10 +3,13 @@ package com.example.demo.sql.service;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
+import java.util.NoSuchElementException;
+
 import com.example.demo.sql.model.Exam;
 import com.example.demo.sql.model.Question;
 
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,7 +35,6 @@ class QuestionServiceTest {
         examService.delete();
         exam = examService.create(getExam()).get();
     }
-
 
     @AfterEach
     void after() {
@@ -60,6 +62,17 @@ class QuestionServiceTest {
         Question question = questionService.create(getQuestion()).get();
         Integer newQuestionId = question.getId();
         assertNotNull(questionService.read(newQuestionId).get(), "Assert Created");
+    }
+
+    @Test
+    void testDelete() {
+
+        Assertions.assertThrows(NoSuchElementException.class, () -> {
+            Question question = questionService.create(getQuestion()).get();
+            Integer newQuestionId = question.getId();
+            questionService.delete(newQuestionId);
+            questionService.read(newQuestionId).get();
+        });
     }
 
     @Test

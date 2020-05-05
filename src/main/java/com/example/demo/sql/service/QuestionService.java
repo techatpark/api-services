@@ -98,13 +98,15 @@ public class QuestionService {
     }
 
     /**
-     * delete.
+     * deletes from database.
      * 
      * @param id
      * @return successflag
      */
     public Boolean delete(final Integer id) {
-        return false;
+        String query = "DELETE FROM questions WHERE ID=?";
+        Integer updatedRows = jdbcTemplate.update(query, new Object[] { id });
+        return !(updatedRows == 0);
     }
 
     /**
