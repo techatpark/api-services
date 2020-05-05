@@ -35,7 +35,7 @@ class ExamAPIController {
     private final ExamService examService;
     private final QuestionService questionService;
 
-    ExamAPIController(final ExamService examService,final QuestionService questionService) {
+    ExamAPIController(final ExamService examService, final QuestionService questionService) {
         this.examService = examService;
         this.questionService = questionService;
     }
@@ -51,11 +51,12 @@ class ExamAPIController {
 
     @ApiOperation(value = "Creates a new question", notes = "Can be called only by users with 'auth management' rights.")
     @ApiResponses(value = { @ApiResponse(code = 201, message = "question created successfully"),
-                    @ApiResponse(code = 400, message = "question is invalid") })
+            @ApiResponse(code = 400, message = "question is invalid") })
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/{examId}/questions")
-    public ResponseEntity<Optional<Question>> create(@PathVariable Integer examId,@Valid @RequestBody Question question) {
-            return ResponseEntity.status(HttpStatus.CREATED).body(questionService.create(examId,question));
+    public ResponseEntity<Optional<Question>> create(@PathVariable Integer examId,
+            @Valid @RequestBody Question question) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(questionService.create(examId, question));
     }
 
     @ApiOperation(value = "Get exam with given id")
@@ -93,4 +94,15 @@ class ExamAPIController {
         List<Exam> exams = examService.list(1, 1);
         return exams.isEmpty() ? new ResponseEntity<List<Exam>>(HttpStatus.NO_CONTENT) : ResponseEntity.ok(exams);
     }
+
+    @ApiOperation(value = "lists all the questions", notes = " Can be invoked by auth users only")
+    @ApiResponses(value = { @ApiResponse(code = 200, message = "Listing all the questions"),
+            @ApiResponse(code = 204, message = "questions are not available") })
+    @GetMapping
+    public ResponseEntity<List<Question>> findAll() {
+        List<Question> questions = questionService.list(1, 1);
+        return questions.isEmpty() ? new ResponseEntity<List<Question>>(HttpStatus.NO_CONTENT)
+                : ResponseEntity.ok(questions);
+    }
+
 }

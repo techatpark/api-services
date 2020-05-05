@@ -62,14 +62,4 @@ class QuestionAPIController {
                                 : new ResponseEntity<Void>(HttpStatus.NOT_FOUND);
         }
 
-        @ApiOperation(value = "lists all the question", notes = "Can be Invoked by auth users only")
-        @ApiResponses(value = { @ApiResponse(code = 200, message = "Listing all the question"),
-                        @ApiResponse(code = 204, message = "question are not available") })
-        @GetMapping
-        public ResponseEntity<List<Question>> findAll() {
-                List<Question> questions = questionService.list(1, 1);
-                return questions.isEmpty() ? new ResponseEntity<List<Question>>(HttpStatus.NO_CONTENT)
-                                : ResponseEntity.ok(questions);
-        }
-
-}
+    }
