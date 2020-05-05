@@ -13,11 +13,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import io.swagger.annotations.Api;
@@ -35,15 +33,6 @@ class QuestionAPIController {
                 this.questionService = questionService;
         }
 
-        @ApiOperation(value = "Creates a new question", notes = "Can be called only by users with 'auth management' rights.")
-        @ApiResponses(value = { @ApiResponse(code = 201, message = "question created successfully"),
-                        @ApiResponse(code = 400, message = "question is invalid") })
-        @ResponseStatus(HttpStatus.CREATED)
-        @PostMapping
-        public ResponseEntity<Optional<Question>> create(@Valid @RequestBody Question question) {
-                return ResponseEntity.status(HttpStatus.CREATED).body(questionService.create(question));
-        }
-
         @ApiOperation(value = "Get question with given id")
         @ApiResponses(value = { @ApiResponse(code = 200, message = "question"),
                         @ApiResponse(code = 404, message = "question not found") })
@@ -57,7 +46,8 @@ class QuestionAPIController {
                         @ApiResponse(code = 400, message = "question is invalid"),
                         @ApiResponse(code = 404, message = "question not found") })
         @PutMapping("/{id}")
-        public ResponseEntity<Optional<Question>> update(@PathVariable Integer id, @Valid @RequestBody Question question) {
+        public ResponseEntity<Optional<Question>> update(@PathVariable Integer id,
+                        @Valid @RequestBody Question question) {
                 Optional<Question> updatedQuestion = questionService.update(id, question);
                 return updatedQuestion == null ? new ResponseEntity<Optional<Question>>(HttpStatus.NOT_FOUND)
                                 : ResponseEntity.ok(updatedQuestion);

@@ -6,7 +6,9 @@ import java.util.Optional;
 import javax.validation.Valid;
 
 import com.example.demo.sql.model.Exam;
+import com.example.demo.sql.model.Question;
 import com.example.demo.sql.service.ExamService;
+import com.example.demo.sql.service.QuestionService;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -31,9 +33,11 @@ import io.swagger.annotations.ApiResponses;
 class ExamAPIController {
 
     private final ExamService examService;
+    private final QuestionService questionService;
 
-    ExamAPIController(final ExamService examService) {
+    ExamAPIController(final ExamService examService,final QuestionService questionService) {
         this.examService = examService;
+        this.questionService = questionService;
     }
 
     @ApiOperation(value = "Creates a new exam", notes = "Can be called only by users with 'auth management' rights.")
@@ -43,6 +47,15 @@ class ExamAPIController {
     @PostMapping
     public ResponseEntity<Optional<Exam>> create(@Valid @RequestBody Exam exam) {
         return ResponseEntity.status(HttpStatus.CREATED).body(examService.create(exam));
+    }
+
+    @ApiOperation(value = "Creates a new question", notes = "Can be called only by users with 'auth management' rights.")
+    @ApiResponses(value = { @ApiResponse(code = 201, message = "question created successfully"),
+                    @ApiResponse(code = 400, message = "question is invalid") })
+    @ResponseStatus(HttpStatus.CREATED)
+    @PostMapping("/{examId}/questions")
+    public ResponseEntity<Optional<Question>> create(@PathVariable Integer examId,@Valid @RequestBody Question question) {
+            return ResponseEntity.status(HttpStatus.CREATED).body(questionService.create(examId,question));
     }
 
     @ApiOperation(value = "Get exam with given id")

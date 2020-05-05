@@ -54,14 +54,15 @@ public class QuestionService {
      * inserts data.
      * 
      * @param question
+     * @param examId
      * @return question
      */
-    public Optional<Question> create(final Question question) {
+    public Optional<Question> create(final Integer examId, final Question question) {
         final SimpleJdbcInsert insert = new SimpleJdbcInsert(dataSource).withTableName("questions")
                 .usingGeneratedKeyColumns("id").usingColumns("exam_id", "question", "answer");
 
         final Map<String, Object> valueMap = new HashMap<>();
-        valueMap.put("exam_id", question.getExamId());
+        valueMap.put("exam_id", examId);
         valueMap.put("question", question.getQuestion());
         valueMap.put("answer", question.getAnswer());
         final Number id = insert.executeAndReturnKey(valueMap);
