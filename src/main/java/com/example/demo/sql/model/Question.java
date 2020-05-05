@@ -7,11 +7,17 @@ public class Question {
      * tells the id of question.
      */
     private Integer id;
+
+    /**
+     * tells the exam_id of the question.
+     */
+    private Integer examId;
+
     /**
      * this is the question.
      */
-    @NotBlank(message = "description is mandatory")
-    private String description;
+    @NotBlank(message = "question is mandatory")
+    private String question;
     /**
      * tells the answer.
      */
@@ -37,21 +43,39 @@ public class Question {
     }
 
     /**
-     * gets the description.
+     * gets the exam id.
      * 
-     * @return description
+     * @return exam_id
      */
-    public String getDescription() {
-        return description;
+    public Integer getExamId() {
+        return examId;
     }
 
     /**
-     * sets the description.
+     * sets the examid of question.
      * 
-     * @param description
+     * @param examId
      */
-    public void setDescription(final String description) {
-        this.description = description;
+    public void setExamId(final Integer examId) {
+        this.examId = examId;
+    }
+
+    /**
+     * gets the question.
+     * 
+     * @return question
+     */
+    public String getQuestion() {
+        return question;
+    }
+
+    /**
+     * sets the question.
+     * 
+     * @param question
+     */
+    public void setQuestion(final String question) {
+        this.question = question;
     }
 
     /**

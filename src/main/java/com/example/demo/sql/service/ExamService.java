@@ -37,7 +37,7 @@ public class ExamService {
     }
 
     /**
-     * Maps the data from and to the database. return namespace
+     * Maps the data from and to the database. return exam
      */
     private final RowMapper<Exam> rowMapper = (rs, rowNum) -> {
         final Exam exam = new Exam();
@@ -64,13 +64,13 @@ public class ExamService {
     /**
      * reads from the database with given id.
      * 
-     * @param id
+     * @param newExamId
      * @return exam
      */
-    public Optional<Exam> read(final Integer id) {
+    public Optional<Exam> read(final Integer newExamId) {
         final String query = "SELECT id,name FROM exams WHERE id = ?";
         try {
-            return Optional.of(jdbcTemplate.queryForObject(query, new Object[] { id }, rowMapper));
+            return Optional.of(jdbcTemplate.queryForObject(query, new Object[] { newExamId }, rowMapper));
         } catch (EmptyResultDataAccessException e) {
             return Optional.empty();
         }
@@ -99,7 +99,15 @@ public class ExamService {
     public Boolean delete(final Integer id) {
         String query = "DELETE FROM EXAMS WHERE ID=?";
         Integer updatedRows = jdbcTemplate.update(query, new Object[] { id });
-        return true;
+        return !(updatedRows == 0);
+    }
+/**
+ * Cleaning up all exams.
+ * @return no.of exams deleted
+ */
+    public Integer delete() {
+        final String query = "DELETE FROM exams";
+        return jdbcTemplate.update(query);
     }
 
     /**

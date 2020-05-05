@@ -1,6 +1,7 @@
 package com.example.demo.sql.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import com.example.demo.sql.model.Exam;
 
@@ -13,25 +14,48 @@ import org.springframework.boot.test.context.SpringBootTest;
 class ExamServiceTest {
 
     private static final String EXAM1 = "Exam 1";
-    private static final Integer ID_1 = new Integer(1);
 
     @Autowired
     ExamService examService;
 
     @BeforeEach
     void before() {
-        boolean isDelete = examService.delete(ID_1);
+        examService.delete();
     }
 
     @Test
-    void create() {
+    void testCreate() {
         Exam exam = examService.create(getExam()).get();
         assertEquals(EXAM1, exam.getName());
     }
 
+    @Test
+    void testUpdate() {
+        Exam exam = examService.create(getExam()).get();
+        exam.setName("Updated Name");
+        Integer newExamId = exam.getId();
+        exam = examService.update(newExamId, exam).get();
+        assertEquals("Updated Name", exam.getName(), "Updated");
+    }
+
+    @Test
+    void testRead() {
+        Exam exam = examService.create(getExam()).get();
+        Integer newExamId = exam.getId();
+        assertNotNull(examService.read(newExamId).get(), "Assert Created");
+    }
+
+    @Test
+    void testList() {
+        examService.create(getExam()).get();
+        Exam exam2 = getExam();
+        examService.create(exam2);
+        assertEquals(2, examService.list(1, 2).size(), "Test Listing");
+        assertEquals(1, examService.list(1, 1).size(), "Test Listing with restricted page");
+    }
+
     Exam getExam() {
         Exam exam = new Exam();
-        exam.setId(ID_1);
         exam.setName(EXAM1);
         return exam;
     }

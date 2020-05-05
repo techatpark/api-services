@@ -1,13 +1,18 @@
 package com.example.demo.sql.service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import javax.sql.DataSource;
 
 import com.example.demo.sql.model.Question;
 
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -34,13 +39,33 @@ public class QuestionService {
     }
 
     /**
+     * Maps the data from and to the database. return question.
+     */
+    private RowMapper<Question> rowMapper = (rs, rowNum) -> {
+        final Question question = new Question();
+        question.setId(rs.getInt("id"));
+        question.setExamId(rs.getInt("exam_id"));
+        question.setQuestion(rs.getString("question"));
+        question.setAnswer(rs.getString("answer"));
+        return question;
+    };
+
+    /**
      * inserts data.
      * 
      * @param question
      * @return question
      */
     public Optional<Question> create(final Question question) {
-        return null;
+        final SimpleJdbcInsert insert = new SimpleJdbcInsert(dataSource).withTableName("questions")
+                .usingGeneratedKeyColumns("id").usingColumns("exam_id", "question", "answer");
+
+        final Map<String, Object> valueMap = new HashMap<>();
+        valueMap.put("exam_id", question.getExamId());
+        valueMap.put("question", question.getQuestion());
+        valueMap.put("answer", question.getAnswer());
+        final Number id = insert.executeAndReturnKey(valueMap);
+        return read(id.intValue());
     }
 
     /**
@@ -50,7 +75,12 @@ public class QuestionService {
      * @return question
      */
     public Optional<Question> read(final Integer id) {
-        return null;
+        final String query = "SELECT id,exam_id,question,answer FROM questions WHERE id = ?";
+        try {
+            return Optional.of(jdbcTemplate.queryForObject(query, new Object[] { id }, rowMapper));
+        } catch (EmptyResultDataAccessException e) {
+            return Optional.empty();
+        }
     }
 
     /**
@@ -61,12 +91,15 @@ public class QuestionService {
      * @return question
      */
     public Optional<Question> update(final Integer id, final Question question) {
-        return null;
+        final String query = "UPDATE questions SET exam_id = ?, question = ?, answer = ? WHERE id = ?";
+        Integer updatedRows = jdbcTemplate.update(query, question.getExamId(), question.getQuestion(),
+                question.getAnswer(), id);
+        return updatedRows == 0 ? null : read(id);
     }
-
 
     /**
      * delete.
+     * 
      * @param id
      * @return successflag
      */
@@ -74,13 +107,26 @@ public class QuestionService {
         return false;
     }
 
-/**
- * list of question.
- * @param pageNumber
- * @param pageSize
- * @return question
- */
+    /**
+     * Cleaning up all exams.
+     * 
+     * @return no.of exams deleted
+     */
+    public Integer delete() {
+        final String query = "DELETE FROM questions";
+        return jdbcTemplate.update(query);
+    }
+
+    /**
+     * list of question.
+     * 
+     * @param pageNumber
+     * @param pageSize
+     * @return question
+     */
     public List<Question> list(final Integer pageNumber, final Integer pageSize) {
-        return null;
+        String query = "SELECT id,exam_id,question,answer FROM questions";
+        query = query + " LIMIT " + pageSize + " OFFSET " + (pageNumber - 1);
+        return jdbcTemplate.query(query, rowMapper);
     }
 }
