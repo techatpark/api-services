@@ -59,6 +59,16 @@ class ExamAPIController {
         return ResponseEntity.status(HttpStatus.CREATED).body(questionService.create(examId, question));
     }
 
+    @ApiOperation(value = "lists all the questions", notes = " Can be invoked by auth users only")
+    @ApiResponses(value = { @ApiResponse(code = 200, message = "Listing all the questions"),
+            @ApiResponse(code = 204, message = "questions are not available") })
+    @GetMapping("/{examId}/questions")
+    public ResponseEntity<List<Question>> findAllQuestions() {
+        List<Question> questions = questionService.list(1, 1);
+        return questions.isEmpty() ? new ResponseEntity<List<Question>>(HttpStatus.NO_CONTENT)
+                : ResponseEntity.ok(questions);
+    }
+
     @ApiOperation(value = "Get exam with given id")
     @ApiResponses(value = { @ApiResponse(code = 200, message = "exam"),
             @ApiResponse(code = 404, message = "exam not found") })
@@ -93,16 +103,6 @@ class ExamAPIController {
     public ResponseEntity<List<Exam>> findAll() {
         List<Exam> exams = examService.list(1, 1);
         return exams.isEmpty() ? new ResponseEntity<List<Exam>>(HttpStatus.NO_CONTENT) : ResponseEntity.ok(exams);
-    }
-
-    @ApiOperation(value = "lists all the questions", notes = " Can be invoked by auth users only")
-    @ApiResponses(value = { @ApiResponse(code = 200, message = "Listing all the questions"),
-            @ApiResponse(code = 204, message = "questions are not available") })
-    @GetMapping
-    public ResponseEntity<List<Question>> findAll() {
-        List<Question> questions = questionService.list(1, 1);
-        return questions.isEmpty() ? new ResponseEntity<List<Question>>(HttpStatus.NO_CONTENT)
-                : ResponseEntity.ok(questions);
     }
 
 }

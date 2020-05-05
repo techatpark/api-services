@@ -1,6 +1,5 @@
 package com.example.demo.sql.controller;
 
-import java.util.List;
 import java.util.Optional;
 
 import javax.validation.Valid;
@@ -62,4 +61,4 @@ class QuestionAPIController {
                                 : new ResponseEntity<Void>(HttpStatus.NOT_FOUND);
         }
 
-    }
+}
