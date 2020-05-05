@@ -3,8 +3,10 @@ package com.example.demo.sql.service;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
+import com.example.demo.sql.model.Exam;
 import com.example.demo.sql.model.Question;
 
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,16 +15,29 @@ import org.springframework.boot.test.context.SpringBootTest;
 @SpringBootTest
 class QuestionServiceTest {
 
-
     private static final String Query1 = "Query for all tables.";
     private static final String Answer1 = "SELECT * FROM exams;";
 
+    private Exam exam;
     @Autowired
     QuestionService questionService;
 
+    @Autowired
+    ExamService examService;
+
     @BeforeEach
     void before() {
+
         questionService.delete();
+        examService.delete();
+        exam = examService.create(getExam()).get();
+    }
+
+
+    @AfterEach
+    void after() {
+        questionService.delete();
+        examService.delete();
     }
 
     @Test
@@ -31,7 +46,6 @@ class QuestionServiceTest {
         assertEquals(Query1, question.getQuestion(), "Created Successfully");
     }
 
-    
     @Test
     void testUpdate() {
         Question question = questionService.create(getQuestion()).get();
@@ -59,9 +73,15 @@ class QuestionServiceTest {
 
     Question getQuestion() {
         Question question = new Question();
-        question.setExamId(33);
+        question.setExamId(exam.getId());
         question.setQuestion(Query1);
         question.setAnswer(Answer1);
         return question;
+    }
+
+    Exam getExam() {
+        Exam exam = new Exam();
+        exam.setName("Test Exam 1");
+        return exam;
     }
 }

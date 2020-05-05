@@ -3,8 +3,11 @@ package com.example.demo.sql.service;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
+import java.util.NoSuchElementException;
+
 import com.example.demo.sql.model.Exam;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,6 +46,17 @@ class ExamServiceTest {
         Exam exam = examService.create(getExam()).get();
         Integer newExamId = exam.getId();
         assertNotNull(examService.read(newExamId).get(), "Assert Created");
+    }
+
+    @Test
+    void testDelete() {
+
+        Assertions.assertThrows(NoSuchElementException.class, () -> {
+            Exam exam = examService.create(getExam()).get();
+            Integer newExamId = exam.getId();
+            examService.delete(newExamId);
+            examService.read(newExamId).get();
+        });
     }
 
     @Test
