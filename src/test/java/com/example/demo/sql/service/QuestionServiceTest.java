@@ -44,13 +44,13 @@ class QuestionServiceTest {
 
     @Test
     void testCreate() {
-        Question question = questionService.create(exam.getId(),getQuestion()).get();
+        Question question = questionService.create(exam.getId(), getQuestion()).get();
         assertEquals(Query1, question.getQuestion(), "Created Successfully");
     }
 
     @Test
     void testUpdate() {
-        Question question = questionService.create(exam.getId(),getQuestion()).get();
+        Question question = questionService.create(exam.getId(), getQuestion()).get();
         question.setQuestion("Updated Query");
         Integer newQuestionId = question.getId();
         question = questionService.update(newQuestionId, question).get();
@@ -59,7 +59,7 @@ class QuestionServiceTest {
 
     @Test
     void testRead() {
-        Question question = questionService.create(exam.getId(),getQuestion()).get();
+        Question question = questionService.create(exam.getId(), getQuestion()).get();
         Integer newQuestionId = question.getId();
         assertNotNull(questionService.read(newQuestionId).get(), "Assert Created");
     }
@@ -68,7 +68,7 @@ class QuestionServiceTest {
     void testDelete() {
 
         Assertions.assertThrows(NoSuchElementException.class, () -> {
-            Question question = questionService.create(exam.getId(),getQuestion()).get();
+            Question question = questionService.create(exam.getId(), getQuestion()).get();
             Integer newQuestionId = question.getId();
             questionService.delete(newQuestionId);
             questionService.read(newQuestionId).get();
@@ -77,11 +77,18 @@ class QuestionServiceTest {
 
     @Test
     void testList() {
-        questionService.create(exam.getId(),getQuestion()).get();
+        questionService.create(exam.getId(), getQuestion()).get();
         Question question2 = getQuestion();
-        questionService.create(exam.getId(),question2);
+        questionService.create(exam.getId(), question2);
         assertEquals(2, questionService.list(1, 2).size(), "Test Listing");
         assertEquals(1, questionService.list(1, 1).size(), "Test Listing with restricted page");
+    }
+
+    @Test
+    void testListWithExamId() {
+        Question question = questionService.create(exam.getId(), getQuestion()).get();
+        Integer newExamId = question.getExamId();
+        assertNotNull(questionService.list(newExamId), "Assert Created");
     }
 
     Question getQuestion() {

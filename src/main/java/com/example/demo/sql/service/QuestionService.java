@@ -122,11 +122,13 @@ public class QuestionService {
 
     /**
      * List questions of exam.
+     * 
      * @param examId
      * @return quetions in given exam
      */
     public List<Question> list(final Integer examId) {
-        return null;
+        String query = "SELECT id,exam_id,question,answer FROM questions WHERE exam_id = ?";
+        return List.of(jdbcTemplate.queryForObject(query, new Object[] { examId }, rowMapper));
     }
 
     /**
