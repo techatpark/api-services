@@ -17,20 +17,36 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
 class QuestionServiceTest {
+    /**
+     * variable to be used for testing.
+     */
+    private static final String QUERY1 = "Query for all tables.";
+     
+    /**
+     * variable to be used for testing.
+     */
+    private static final String ANSWER1 = "SELECT * FROM exams;";
 
-    private static final String Query1 = "Query for all tables.";
-    private static final String Answer1 = "SELECT * FROM exams;";
-
+    /**
+     * Instance of Exam is used for testing Question.
+     */
     private Exam exam;
-    @Autowired
-    QuestionService questionService;
 
+    /**
+     * Connection created with Question Service.
+     */
     @Autowired
-    ExamService examService;
+    private QuestionService questionService;
+
+    /**
+     * Connection created with Question Service.
+     */
+    @Autowired
+    private ExamService examService;
 
     @BeforeEach
     void before() {
-
+ 
         questionService.delete();
         examService.delete();
         exam = examService.create(getExam()).get();
@@ -44,23 +60,23 @@ class QuestionServiceTest {
 
     @Test
     void testCreate() {
-        Question question = questionService.create(exam.getId(), getQuestion()).get();
-        assertEquals(Query1, question.getQuestion(), "Created Successfully");
+        final Question question = questionService.create(exam.getId(), getQuestion()).get();
+        assertEquals(QUERY1, question.getQuestion(), "Created Successfully");
     }
 
     @Test
     void testUpdate() {
         Question question = questionService.create(exam.getId(), getQuestion()).get();
         question.setQuestion("Updated Query");
-        Integer newQuestionId = question.getId();
+        final Integer newQuestionId = question.getId();
         question = questionService.update(newQuestionId, question).get();
         assertEquals("Updated Query", question.getQuestion(), "Updated");
     }
 
     @Test
     void testRead() {
-        Question question = questionService.create(exam.getId(), getQuestion()).get();
-        Integer newQuestionId = question.getId();
+        final Question question = questionService.create(exam.getId(), getQuestion()).get();
+        final Integer newQuestionId = question.getId();
         assertNotNull(questionService.read(newQuestionId).get(), "Assert Created");
     }
 
@@ -68,8 +84,8 @@ class QuestionServiceTest {
     void testDelete() {
 
         Assertions.assertThrows(NoSuchElementException.class, () -> {
-            Question question = questionService.create(exam.getId(), getQuestion()).get();
-            Integer newQuestionId = question.getId();
+            final Question question = questionService.create(exam.getId(), getQuestion()).get();
+            final Integer newQuestionId = question.getId();
             questionService.delete(newQuestionId);
             questionService.read(newQuestionId).get();
         });
@@ -78,7 +94,7 @@ class QuestionServiceTest {
     @Test
     void testList() {
         questionService.create(exam.getId(), getQuestion()).get();
-        Question question2 = getQuestion();
+        final Question question2 = getQuestion();
         questionService.create(exam.getId(), question2);
         assertEquals(2, questionService.list(1, 2).size(), "Test Listing");
         assertEquals(1, questionService.list(1, 1).size(), "Test Listing with restricted page");
@@ -86,20 +102,20 @@ class QuestionServiceTest {
 
     @Test
     void testListWithExamId() {
-        Question question = questionService.create(exam.getId(), getQuestion()).get();
-        Integer newExamId = question.getExamId();
+        final Question question = questionService.create(exam.getId(), getQuestion()).get();
+        final Integer newExamId = question.getExamId();
         assertNotNull(questionService.list(newExamId), "Assert Created");
     }
 
     Question getQuestion() {
-        Question question = new Question();
-        question.setQuestion(Query1);
-        question.setAnswer(Answer1);
+        final Question question = new Question();
+        question.setQuestion(QUERY1);
+        question.setAnswer(ANSWER1);
         return question;
     }
 
     Exam getExam() {
-        Exam exam = new Exam();
+        final Exam exam = new Exam();
         exam.setName("Test Exam 1");
         return exam;
     }
