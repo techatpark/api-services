@@ -1,71 +1,51 @@
 package com.example.demo.sql.model;
 
+import java.sql.Blob;
+
 public class UploadResponse {
     /**
-     * tells the file name.
+     * id of file.
      */
-    private String fileName;
+    private Integer id;
     /**
-     * tells the URI of file.
+     * content of file.
      */
-    private String fileDownloadUri;
-    /**
-     * tells the file size.
-     */
-    private long size;
+    private Blob content;
 
     /**
-     * gets the file name.
+     * gets the id.
      * 
-     * @return file name
+     * @return id
      */
-    public String getFileName() {
-        return fileName;
+    public Integer getId() {
+        return id;
     }
 
     /**
-     * sets the file name.
+     * sets the id.
      * 
-     * @param fileName
+     * @param id
      */
-    public void setFileName(final String fileName) {
-        this.fileName = fileName;
+    public void setId(final Integer id) {
+        this.id = id;
     }
 
     /**
-     * gets the file donload URI.
+     * gets content.
      * 
-     * @return file download URI
+     * @return content
      */
-    public String getFileDownloadUri() {
-        return fileDownloadUri;
+    public Blob getContent() {
+        return content;
     }
 
     /**
-     * sets the file download URI.
+     * set content.
      * 
-     * @param fileDownloadUri
+     * @param content
      */
-    public void setFileDownloadUri(final String fileDownloadUri) {
-        this.fileDownloadUri = fileDownloadUri;
-    }
-
-    /**
-     * gets the file size.
-     * 
-     * @return size
-     */
-    public long getSize() {
-        return size;
-    }
-
-    /**
-     * sets the file size.
-     * 
-     * @param size
-     */
-    public void setSize(final long size) {
-        this.size = size;
+    public void setContent(final Blob content) {
+        this.content = content;
     }
 
 }

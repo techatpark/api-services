@@ -1,0 +1,4 @@
+CREATE TABLE file (
+    id SERIAL PRIMARY KEY,
+    content BYTEA NOT NULL 
+)
