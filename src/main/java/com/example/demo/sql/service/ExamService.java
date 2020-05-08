@@ -61,12 +61,7 @@ public class ExamService {
         return read(id.intValue());
     }
 
-    /**
-     * reads from the database with given id.
-     * 
-     * @param newExamId
-     * @return exam
-     */
+
     public Optional<Exam> read(final Integer newExamId) {
         final String query = "SELECT id,name FROM exams WHERE id = ?";
         try {
