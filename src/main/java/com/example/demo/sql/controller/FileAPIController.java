@@ -19,11 +19,11 @@ import io.swagger.annotations.ApiResponses;
 @Api(value = "Files", description = "Resource for files", tags = { "Files" })
 @RestController
 @RequestMapping("/api/files")
-public class FileAPIController {
+class FileAPIController {
 
     private final FileService fileService;
 
-    public FileAPIController(FileService fileService) {
+    FileAPIController(FileService fileService) {
         this.fileService = fileService;
     }
 
