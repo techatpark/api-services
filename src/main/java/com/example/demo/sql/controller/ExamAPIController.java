@@ -19,8 +19,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -46,8 +48,9 @@ class ExamAPIController {
             @ApiResponse(code = 400, message = "exam is invalid") 
         })
     @ResponseStatus(HttpStatus.CREATED)
-    @PostMapping
-    public ResponseEntity<Optional<Exam>> create(@Valid @RequestBody Exam exam) {
+    @PostMapping(consumes = {"multipart/mixed"})
+    public ResponseEntity<Optional<Exam>> create(@Valid @RequestBody Exam exam,
+            @RequestParam("scripts") MultipartFile[] scripts) {
         return ResponseEntity.status(HttpStatus.CREATED).body(examService.create(exam));
     }
 
