@@ -1,5 +1,5 @@
-DROP TABLE IF EXISTS script_files;
-CREATE TABLE script_files (
+DROP TABLE IF EXISTS exam_scripts;
+CREATE TABLE exam_scripts (
   id SERIAL PRIMARY KEY,
   exam_id int NOT NULL,
   script BYTEA NOT NULL,
