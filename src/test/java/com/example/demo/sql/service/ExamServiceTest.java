@@ -3,9 +3,10 @@ package com.example.demo.sql.service;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.NoSuchElementException;
 
 import com.example.demo.sql.model.Exam;
@@ -93,22 +94,19 @@ class ExamServiceTest {
      * 
      * @return array of sript file
      */
-    File[] getScriptFiles() {
-        File[] files = new File[1];
-
+    Path[] getScriptFiles() {
+        Path[] files = new Path[1];
         String basePath = System.getProperty("java.io.tmpdir");
-        String file = basePath + File.separator + "ddl.sql";
-        File scriptFile = new File(file);
+        Path createdTempFolder = null;
+        Path tempFile = null;
         try {
-            if (scriptFile.createNewFile()) {
-                FileWriter writer = new FileWriter(file);
-                writer.write("Test data");
-                writer.close();
-            }
+            createdTempFolder = Files.createTempDirectory(Paths.get(basePath),"temp");
+            tempFile =  Files.createTempFile(createdTempFolder,"temp",".sql");
+            Files.write(tempFile,"Sample Data".getBytes());
         } catch (IOException e) {
             logger.error("Error in creating the file : " + e.getMessage());
         }
-        files[0] = scriptFile;
+        files[0] = tempFile;
         return files;
     }
 }

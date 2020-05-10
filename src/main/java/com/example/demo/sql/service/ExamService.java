@@ -1,6 +1,6 @@
 package com.example.demo.sql.service;
 
-import java.io.File;
+import java.nio.file.Path;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -54,7 +54,7 @@ public class ExamService {
      * @param scriptFiles
      * @return exam
      */
-    public Optional<Exam> create(final Exam exam, final File[] scriptFiles) {
+    public Optional<Exam> create(final Exam exam, final Path[] scriptFiles) {
         final SimpleJdbcInsert insert = new SimpleJdbcInsert(dataSource).withTableName("exams")
                 .usingGeneratedKeyColumns("id").usingColumns("name");
         final Map<String, Object> valueMap = new HashMap<>();
@@ -63,7 +63,7 @@ public class ExamService {
         final Integer examId = id.intValue();
         // create scripts for exams.
         if (scriptFiles != null) {
-            for (File scriptFile : scriptFiles) {
+            for (Path scriptFile : scriptFiles) {
                 creatScript(examId, scriptFile);
             }
         }
@@ -77,7 +77,7 @@ public class ExamService {
      * @param scriptFile
      * @return successflag
      */
-    private Boolean creatScript(final Integer examId, final File scriptFile) {
+    private Boolean creatScript(final Integer examId, final Path scriptFile) {
         return null;
     }
 
