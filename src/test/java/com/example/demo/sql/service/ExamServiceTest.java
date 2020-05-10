@@ -100,9 +100,9 @@ class ExamServiceTest {
         Path createdTempFolder = null;
         Path tempFile = null;
         try {
-            createdTempFolder = Files.createTempDirectory(Paths.get(basePath),"temp");
-            tempFile =  Files.createTempFile(createdTempFolder,"temp",".sql");
-            Files.write(tempFile,"Sample Data".getBytes());
+            createdTempFolder = Files.createTempDirectory(Paths.get(basePath), "temp");
+            tempFile = Files.createTempFile(createdTempFolder, "temp", ".sql");
+            Files.write(tempFile, "Sample Data".getBytes());
         } catch (IOException e) {
             logger.error("Error in creating the file : " + e.getMessage());
         }
