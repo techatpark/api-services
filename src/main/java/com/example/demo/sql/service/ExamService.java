@@ -1,9 +1,7 @@
 package com.example.demo.sql.service;
 
 import java.io.File;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 import javax.sql.DataSource;
@@ -13,7 +11,6 @@ import com.example.demo.sql.model.Exam;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
-import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -60,11 +57,15 @@ public class ExamService {
         final Map<String, Object> valueMap = new HashMap<>();
         valueMap.put("name", exam.getName());
         final Number id = insert.executeAndReturnKey(valueMap);
+        foreach (File file:scriptFiles) {
+            createScript(id, file);
+        }
         return read(id.intValue());
     }
 
     /**
      * read an exam.
+     * 
      * @param newExamId
      * @return exam
      */
@@ -102,10 +103,12 @@ public class ExamService {
         Integer updatedRows = jdbcTemplate.update(query, new Object[] { id });
         return !(updatedRows == 0);
     }
-/**
- * Cleaning up all exams.
- * @return no.of exams deleted
- */
+
+    /**
+     * Cleaning up all exams.
+     * 
+     * @return no.of exams deleted
+     */
     public Integer delete() {
         final String query = "DELETE FROM exams";
         return jdbcTemplate.update(query);

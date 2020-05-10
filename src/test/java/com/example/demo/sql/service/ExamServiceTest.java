@@ -4,6 +4,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.NoSuchElementException;
 
 import com.example.demo.sql.model.Exam;
@@ -77,10 +79,35 @@ class ExamServiceTest {
 
     /**
      * Create Temporary SQL Files in temp folder. Return Files as array.
+     * 
+     * @return array of sript file
      */
     File[] getScriptFiles() {
+        File[] files = new File[2];
+        // try {
+        // Path tempFile = Files.createTempFile("basicscript", ".txxt");
+        // if(Files.exists(tempFile)) {
+        // //files[0] = Files.
+        // }
+        // } catch (IOException e) {
+        // // TODO Auto-generated catch block
+        // e.printStackTrace();
+        // }
 
-        
-        return null;
+        String basePath = System.getProperty("java.io.tempdir");
+        String file = basePath + System.getProperty("file.separator") + "ddl.sql";
+        File scriptFile = new File(file);
+        try {
+            if (scriptFile.createNewFile()) {
+                FileWriter writer = new FileWriter(file);
+                writer.write("Test data");
+                writer.close();
+            }
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        files[0] = scriptFile;
+        return files;
     }
 }
