@@ -3,6 +3,9 @@ package com.example.demo.sql.service;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.NoSuchElementException;
 
 import com.example.demo.sql.model.Exam;
@@ -28,13 +31,13 @@ class ExamServiceTest {
 
     @Test
     void testCreate() {
-        Exam exam = examService.create(getExam()).get();
+        Exam exam = examService.create(getExam(), getScriptFiles()).get();
         assertEquals(EXAM1, exam.getName());
     }
 
     @Test
     void testUpdate() {
-        Exam exam = examService.create(getExam()).get();
+        Exam exam = examService.create(getExam(), getScriptFiles()).get();
         exam.setName("Updated Name");
         Integer newExamId = exam.getId();
         exam = examService.update(newExamId, exam).get();
@@ -43,7 +46,7 @@ class ExamServiceTest {
 
     @Test
     void testRead() {
-        Exam exam = examService.create(getExam()).get();
+        Exam exam = examService.create(getExam(), getScriptFiles()).get();
         Integer newExamId = exam.getId();
         assertNotNull(examService.read(newExamId).get(), "Assert Created");
     }
@@ -52,7 +55,7 @@ class ExamServiceTest {
     void testDelete() {
 
         Assertions.assertThrows(NoSuchElementException.class, () -> {
-            Exam exam = examService.create(getExam()).get();
+            Exam exam = examService.create(getExam(), getScriptFiles()).get();
             Integer newExamId = exam.getId();
             examService.delete(newExamId);
             examService.read(newExamId).get();
@@ -61,7 +64,7 @@ class ExamServiceTest {
 
     @Test
     void testList() {
-        examService.create(getExam()).get();
+        examService.create(getExam(), getScriptFiles()).get();
         Exam exam2 = getExam();
         examService.create(exam2);
         assertEquals(2, examService.list(1, 2).size(), "Test Listing");
@@ -72,5 +75,39 @@ class ExamServiceTest {
         Exam exam = new Exam();
         exam.setName(EXAM1);
         return exam;
+    }
+
+    /**
+     * Create Temporary SQL Files in temp folder. Return Files as array.
+     * 
+     * @return array of sript file
+     */
+    File[] getScriptFiles() {
+        File[] files = new File[2];
+        // try {
+        // Path tempFile = Files.createTempFile("basicscript", ".txxt");
+        // if(Files.exists(tempFile)) {
+        // //files[0] = Files.
+        // }
+        // } catch (IOException e) {
+        // // TODO Auto-generated catch block
+        // e.printStackTrace();
+        // }
+
+        String basePath = System.getProperty("java.io.tempdir");
+        String file = basePath + System.getProperty("file.separator") + "ddl.sql";
+        File scriptFile = new File(file);
+        try {
+            if (scriptFile.createNewFile()) {
+                FileWriter writer = new FileWriter(file);
+                writer.write("Test data");
+                writer.close();
+            }
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        files[0] = scriptFile;
+        return files;
     }
 }
