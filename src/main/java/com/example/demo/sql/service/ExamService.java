@@ -1,5 +1,6 @@
 package com.example.demo.sql.service;
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -50,9 +51,10 @@ public class ExamService {
      * inserts data to database.
      * 
      * @param exam
+     * @param scriptFiles
      * @return exam
      */
-    public Optional<Exam> create(final Exam exam) {
+    public Optional<Exam> create(final Exam exam, final File[] scriptFiles) {
         final SimpleJdbcInsert insert = new SimpleJdbcInsert(dataSource).withTableName("exams")
                 .usingGeneratedKeyColumns("id").usingColumns("name");
         final Map<String, Object> valueMap = new HashMap<>();
