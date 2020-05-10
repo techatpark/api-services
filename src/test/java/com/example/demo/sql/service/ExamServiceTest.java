@@ -87,10 +87,11 @@ class ExamServiceTest {
      * @return array of sript file
      */
     File[] getScriptFiles() {
-        File[] files = new File[2];
+        File[] files = new File[1];
 
-        String basePath = System.getProperty("java.io.tempdir");
-        String file = basePath + System.getProperty("file.separator") + "ddl.sql";
+        String basePath = System.getProperty("java.io.tmpdir");
+        String file = basePath + File.separator + "ddl.sql";
+        System.out.println("File :" + file);
         File scriptFile = new File(file);
         try {
             if (scriptFile.createNewFile()) {
