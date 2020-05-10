@@ -60,10 +60,25 @@ public class ExamService {
         final Map<String, Object> valueMap = new HashMap<>();
         valueMap.put("name", exam.getName());
         final Number id = insert.executeAndReturnKey(valueMap);
-        foreach (File file:scriptFiles) {
-            createScript(id, file);
+        final Integer examId = id.intValue();
+        // create scripts for exams.
+        if (scriptFiles != null) {
+            for (File scriptFile : scriptFiles) {
+                creatScript(examId, scriptFile);
+            }
         }
-        return read(id.intValue());
+        return read(examId);
+    }
+
+    /**
+     * creating script files which are needed for the exams.
+     * 
+     * @param examId
+     * @param scriptFile
+     * @return successflag
+     */
+    private Boolean creatScript(final Integer examId, final File scriptFile) {
+        return null;
     }
 
     /**
@@ -76,7 +91,7 @@ public class ExamService {
         final String query = "SELECT id,name FROM exams WHERE id = ?";
         try {
             return Optional.of(jdbcTemplate.queryForObject(query, new Object[] { newExamId }, rowMapper));
-        } catch (EmptyResultDataAccessException e) {
+        } catch (final EmptyResultDataAccessException e) {
             return Optional.empty();
         }
     }
@@ -91,7 +106,7 @@ public class ExamService {
      */
     public Optional<Exam> update(final Integer id, final Exam exam) {
         final String query = "UPDATE exams SET name = ? WHERE id = ?";
-        Integer updatedRows = jdbcTemplate.update(query, exam.getName(), id);
+        final Integer updatedRows = jdbcTemplate.update(query, exam.getName(), id);
         return updatedRows == 0 ? null : read(id);
     }
 
@@ -102,8 +117,8 @@ public class ExamService {
      * @return successflag
      */
     public Boolean delete(final Integer id) {
-        String query = "DELETE FROM EXAMS WHERE ID=?";
-        Integer updatedRows = jdbcTemplate.update(query, new Object[] { id });
+        final String query = "DELETE FROM EXAMS WHERE ID=?";
+        final Integer updatedRows = jdbcTemplate.update(query, new Object[] { id });
         return !(updatedRows == 0);
     }
 

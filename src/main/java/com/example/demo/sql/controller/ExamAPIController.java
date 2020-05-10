@@ -51,7 +51,7 @@ class ExamAPIController {
     @PostMapping(consumes = {"multipart/mixed"})
     public ResponseEntity<Optional<Exam>> create(@Valid @RequestBody Exam exam,
             @RequestParam("scripts") MultipartFile[] scripts) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(examService.create(exam));
+        return ResponseEntity.status(HttpStatus.CREATED).body(examService.create(exam, null));
     }
 
     @ApiOperation(value = "Creates a new question", notes = "Can be called only by users with 'auth management' rights.")

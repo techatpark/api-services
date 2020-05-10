@@ -21,7 +21,7 @@ class QuestionServiceTest {
      * variable to be used for testing.
      */
     private static final String QUERY1 = "Query for all tables.";
-     
+
     /**
      * variable to be used for testing.
      */
@@ -46,10 +46,10 @@ class QuestionServiceTest {
 
     @BeforeEach
     void before() {
- 
+
         questionService.delete();
         examService.delete();
-        exam = examService.create(getExam()).get();
+        exam = examService.create(getExam(), null).get();
     }
 
     @AfterEach

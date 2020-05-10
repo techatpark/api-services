@@ -18,11 +18,15 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
 class ExamServiceTest {
-
+    /**
+     * instance used for test cases.
+     */
     private static final String EXAM1 = "Exam 1";
-
+    /**
+     * Service instance to be tested.
+     */
     @Autowired
-    ExamService examService;
+    private ExamService examService;
 
     @BeforeEach
     void before() {
@@ -66,7 +70,7 @@ class ExamServiceTest {
     void testList() {
         examService.create(getExam(), getScriptFiles()).get();
         Exam exam2 = getExam();
-        examService.create(exam2);
+        examService.create(exam2, null);
         assertEquals(2, examService.list(1, 2).size(), "Test Listing");
         assertEquals(1, examService.list(1, 1).size(), "Test Listing with restricted page");
     }
@@ -84,15 +88,6 @@ class ExamServiceTest {
      */
     File[] getScriptFiles() {
         File[] files = new File[2];
-        // try {
-        // Path tempFile = Files.createTempFile("basicscript", ".txxt");
-        // if(Files.exists(tempFile)) {
-        // //files[0] = Files.
-        // }
-        // } catch (IOException e) {
-        // // TODO Auto-generated catch block
-        // e.printStackTrace();
-        // }
 
         String basePath = System.getProperty("java.io.tempdir");
         String file = basePath + System.getProperty("file.separator") + "ddl.sql";
@@ -104,7 +99,6 @@ class ExamServiceTest {
                 writer.close();
             }
         } catch (IOException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
         files[0] = scriptFile;
