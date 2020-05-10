@@ -13,6 +13,8 @@ import com.example.demo.sql.model.Exam;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
@@ -27,6 +29,11 @@ class ExamServiceTest {
      */
     @Autowired
     private ExamService examService;
+
+    /**
+     * logger to log the trace or error.
+     */
+    private Logger logger = LoggerFactory.getLogger(ExamServiceTest.class);
 
     @BeforeEach
     void before() {
@@ -91,7 +98,6 @@ class ExamServiceTest {
 
         String basePath = System.getProperty("java.io.tmpdir");
         String file = basePath + File.separator + "ddl.sql";
-        System.out.println("File :" + file);
         File scriptFile = new File(file);
         try {
             if (scriptFile.createNewFile()) {
@@ -100,7 +106,7 @@ class ExamServiceTest {
                 writer.close();
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            logger.error("Error in creating the file : " + e.getMessage());
         }
         files[0] = scriptFile;
         return files;
