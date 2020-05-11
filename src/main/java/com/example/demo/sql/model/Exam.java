@@ -11,6 +11,11 @@ public class Exam {
     private String name;
 
     /**
+     * Database of the exam
+     */
+    private Database database;
+
+    /**
      * gets the id of exam.
      * 
      * @return id
@@ -45,5 +50,23 @@ public class Exam {
     public void setName(final String name) {
         this.name = name;
     }
+
+    /**
+     * gets databse.
+     * @return database
+     */
+    public Database getDatabase() {
+        return database;
+    }
+
+    /**
+     * sets database.
+     * @param database
+     */
+    public void setDatabase(final Database database) {
+        this.database = database;
+    }
+
+    
 
 }
