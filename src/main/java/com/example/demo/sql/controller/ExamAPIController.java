@@ -1,5 +1,6 @@
 package com.example.demo.sql.controller;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
@@ -43,35 +44,28 @@ class ExamAPIController {
     }
 
     @ApiOperation(value = "Creates a new exam", notes = "Can be called only by users with 'auth management' rights.")
-    @ApiResponses(value = { 
-            @ApiResponse(code = 201, message = "exam created successfully"),
-            @ApiResponse(code = 400, message = "exam is invalid") 
-        })
+    @ApiResponses(value = { @ApiResponse(code = 201, message = "exam created successfully"),
+            @ApiResponse(code = 400, message = "exam is invalid") })
     @ResponseStatus(HttpStatus.CREATED)
-    @PostMapping(consumes = {"multipart/mixed"})
+    @PostMapping(consumes = { "multipart/mixed" })
     public ResponseEntity<Optional<Exam>> create(@Valid @RequestBody Exam exam,
-            @RequestParam("scripts") MultipartFile[] scripts) {
+            @RequestParam("scripts") MultipartFile[] scripts) throws IOException {
         return ResponseEntity.status(HttpStatus.CREATED).body(examService.create(exam, null));
     }
 
     @ApiOperation(value = "Creates a new question", notes = "Can be called only by users with 'auth management' rights.")
-    @ApiResponses(value = { 
-            @ApiResponse(code = 201, message = "question created successfully"),
-            @ApiResponse(code = 400, message = "question is invalid") 
-        })
+    @ApiResponses(value = { @ApiResponse(code = 201, message = "question created successfully"),
+            @ApiResponse(code = 400, message = "question is invalid") })
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/{examId}/questions")
     public ResponseEntity<Optional<Question>> create(@PathVariable Integer examId,
             @Valid @RequestBody Question question) {
-        return ResponseEntity.status(HttpStatus.CREATED)
-                .body(questionService.create(examId, question));
+        return ResponseEntity.status(HttpStatus.CREATED).body(questionService.create(examId, question));
     }
 
     @ApiOperation(value = "lists all the questions", notes = " Can be invoked by auth users only")
-    @ApiResponses(value = { 
-            @ApiResponse(code = 200, message = "Listing all the questions"),
-            @ApiResponse(code = 204, message = "questions are not available") 
-        })
+    @ApiResponses(value = { @ApiResponse(code = 200, message = "Listing all the questions"),
+            @ApiResponse(code = 204, message = "questions are not available") })
     @GetMapping("/{examId}/questions")
     public ResponseEntity<List<Question>> findAllQuestions(@PathVariable Integer examId) {
         List<Question> questions = questionService.list(examId);
@@ -80,21 +74,17 @@ class ExamAPIController {
     }
 
     @ApiOperation(value = "Get exam with given id")
-    @ApiResponses(value = { 
-            @ApiResponse(code = 200, message = "exam"),
-            @ApiResponse(code = 404, message = "exam not found") 
-        })
+    @ApiResponses(value = { @ApiResponse(code = 200, message = "exam"),
+            @ApiResponse(code = 404, message = "exam not found") })
     @GetMapping("/{id}")
     public ResponseEntity<Exam> findById(@PathVariable Integer id) {
         return ResponseEntity.of(examService.read(id));
     }
 
     @ApiOperation(value = "Updates the exam by given id", notes = "Can be called only by users with 'auth management' rights.")
-    @ApiResponses(value = { 
-            @ApiResponse(code = 200, message = "exam updated successfully"),
+    @ApiResponses(value = { @ApiResponse(code = 200, message = "exam updated successfully"),
             @ApiResponse(code = 400, message = "exam is invalid"),
-            @ApiResponse(code = 404, message = "exam not found") 
-        })
+            @ApiResponse(code = 404, message = "exam not found") })
     @PutMapping("/{id}")
     public ResponseEntity<Optional<Exam>> update(@PathVariable Integer id, @Valid @RequestBody Exam exam) {
         Optional<Exam> updatedexam = examService.update(id, exam);
@@ -103,20 +93,16 @@ class ExamAPIController {
     }
 
     @ApiOperation(value = "Deletes the exam by given id")
-    @ApiResponses(value = { 
-            @ApiResponse(code = 200, message = "exam deleted successfully"),
-            @ApiResponse(code = 404, message = "exam not found") 
-        })
+    @ApiResponses(value = { @ApiResponse(code = 200, message = "exam deleted successfully"),
+            @ApiResponse(code = 404, message = "exam not found") })
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable Integer id) {
         return examService.delete(id) ? ResponseEntity.ok().build() : new ResponseEntity<Void>(HttpStatus.NOT_FOUND);
     }
 
     @ApiOperation(value = "lists all the exam", notes = "Can be Invoked by auth users only")
-    @ApiResponses(value = { 
-            @ApiResponse(code = 200, message = "Listing all the exam"),
-            @ApiResponse(code = 204, message = "exam are not available") 
-        })
+    @ApiResponses(value = { @ApiResponse(code = 200, message = "Listing all the exam"),
+            @ApiResponse(code = 204, message = "exam are not available") })
     @GetMapping
     public ResponseEntity<List<Exam>> findAll() {
         List<Exam> exams = examService.list(1, 1);

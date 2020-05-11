@@ -1,6 +1,9 @@
 package com.example.demo.sql.service;
 
+import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.Path;
+import java.sql.Types;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -13,7 +16,9 @@ import com.example.demo.sql.model.Exam;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
+import org.springframework.jdbc.core.support.SqlLobValue;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -53,8 +58,9 @@ public class ExamService {
      * @param exam
      * @param scriptFiles
      * @return exam
+     * @throws IOException
      */
-    public Optional<Exam> create(final Exam exam, final Path[] scriptFiles) {
+    public Optional<Exam> create(final Exam exam, final Path[] scriptFiles) throws IOException {
         final SimpleJdbcInsert insert = new SimpleJdbcInsert(dataSource).withTableName("exams")
                 .usingGeneratedKeyColumns("id").usingColumns("name");
         final Map<String, Object> valueMap = new HashMap<>();
@@ -76,9 +82,17 @@ public class ExamService {
      * @param examId
      * @param scriptFile
      * @return successflag
+     * @throws IOException
      */
-    private Boolean creatScript(final Integer examId, final Path scriptFile) {
-        return null;
+    private Integer creatScript(final Integer examId, final Path scriptFile) throws IOException {
+
+        final SimpleJdbcInsert insert = new SimpleJdbcInsert(dataSource).withTableName("exam_scripts")
+                .usingGeneratedKeyColumns("id").usingColumns("exam_id", "script");
+        final MapSqlParameterSource in = new MapSqlParameterSource();
+        in.addValue("exam_id", examId);
+        in.addValue("script", new SqlLobValue(Files.newInputStream(scriptFile).readAllBytes()), Types.BLOB);
+        final Number id = insert.executeAndReturnKey(in);
+        return id.intValue();
     }
 
     /**

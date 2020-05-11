@@ -3,6 +3,7 @@ package com.example.demo.sql.service;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
+import java.io.IOException;
 import java.util.NoSuchElementException;
 
 import com.example.demo.sql.model.Exam;
@@ -45,7 +46,7 @@ class QuestionServiceTest {
     private ExamService examService;
 
     @BeforeEach
-    void before() {
+    void before() throws IOException {
 
         questionService.delete();
         examService.delete();

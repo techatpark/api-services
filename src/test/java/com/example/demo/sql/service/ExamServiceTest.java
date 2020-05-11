@@ -42,13 +42,13 @@ class ExamServiceTest {
     }
 
     @Test
-    void testCreate() {
+    void testCreate() throws IOException {
         Exam exam = examService.create(getExam(), getScriptFiles()).get();
         assertEquals(EXAM1, exam.getName());
     }
 
     @Test
-    void testUpdate() {
+    void testUpdate() throws IOException {
         Exam exam = examService.create(getExam(), getScriptFiles()).get();
         exam.setName("Updated Name");
         Integer newExamId = exam.getId();
@@ -57,7 +57,7 @@ class ExamServiceTest {
     }
 
     @Test
-    void testRead() {
+    void testRead() throws IOException {
         Exam exam = examService.create(getExam(), getScriptFiles()).get();
         Integer newExamId = exam.getId();
         assertNotNull(examService.read(newExamId).get(), "Assert Created");
@@ -75,10 +75,10 @@ class ExamServiceTest {
     }
 
     @Test
-    void testList() {
+    void testList() throws IOException {
         examService.create(getExam(), getScriptFiles()).get();
         Exam exam2 = getExam();
-        examService.create(exam2, null);
+        examService.create(exam2, getScriptFiles());
         assertEquals(2, examService.list(1, 2).size(), "Test Listing");
         assertEquals(1, examService.list(1, 1).size(), "Test Listing with restricted page");
     }
