@@ -131,8 +131,10 @@ public class ExamService {
      * @return successflag
      */
     public Boolean delete(final Integer id) {
-        final String query = "DELETE FROM EXAMS WHERE ID=?";
-        final Integer updatedRows = jdbcTemplate.update(query, new Object[] { id });
+        String query = "DELETE FROM exam_scripts WHERE exam_id=?";
+        Integer updatedRows = jdbcTemplate.update(query, new Object[] { id });
+        query = "DELETE FROM EXAMS WHERE ID=?";
+        updatedRows = jdbcTemplate.update(query, new Object[] { id });
         return !(updatedRows == 0);
     }
 
@@ -142,7 +144,9 @@ public class ExamService {
      * @return no.of exams deleted
      */
     public Integer delete() {
-        final String query = "DELETE FROM exams";
+        String query = "DELETE FROM exam_scripts";
+        jdbcTemplate.update(query);
+        query = "DELETE FROM exams";
         return jdbcTemplate.update(query);
     }
 

@@ -11,7 +11,7 @@ public class Exam {
     private String name;
 
     /**
-     * Database of the exam
+     * Database of the exam.
      */
     private Database database;
 
@@ -53,6 +53,7 @@ public class Exam {
 
     /**
      * gets databse.
+     * 
      * @return database
      */
     public Database getDatabase() {
@@ -61,12 +62,11 @@ public class Exam {
 
     /**
      * sets database.
+     * 
      * @param database
      */
     public void setDatabase(final Database database) {
         this.database = database;
     }
-
-    
 
 }
