@@ -76,7 +76,11 @@ public class ExamService {
                 creatScript(examId, scriptFile);
             }
         }
-        return read(examId);
+        Optional<Exam> createdExam = read(examId);
+        if (createdExam.isPresent()) {
+            loadScripts(createdExam.get(), scriptFiles);
+        }
+        return createdExam;
     }
 
     /**
@@ -96,6 +100,15 @@ public class ExamService {
         in.addValue("script", new SqlLobValue(Files.newInputStream(scriptFile).readAllBytes()), Types.BLOB);
         final Number id = insert.executeAndReturnKey(in);
         return id.intValue();
+    }
+
+    /**
+     * Load Scripts into Database.
+     * @param exam
+     * @param scriptFiles
+     */
+    private void loadScripts(final Exam exam, final Path[] scriptFiles) {
+
     }
 
     /**
