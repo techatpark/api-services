@@ -9,6 +9,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.NoSuchElementException;
 
+import com.example.demo.sql.model.Database;
 import com.example.demo.sql.model.Exam;
 
 import org.junit.jupiter.api.Assertions;
@@ -51,9 +52,11 @@ class ExamServiceTest {
     void testUpdate() throws IOException {
         Exam exam = examService.create(getExam(), getScriptFiles()).get();
         exam.setName("Updated Name");
+        exam.setDatabase(Database.MYSQL);
         Integer newExamId = exam.getId();
         exam = examService.update(newExamId, exam).get();
         assertEquals("Updated Name", exam.getName(), "Updated");
+        assertEquals("mysql", exam.getDatabase().getValue(), "Updated");
     }
 
     @Test
@@ -86,6 +89,7 @@ class ExamServiceTest {
     Exam getExam() {
         Exam exam = new Exam();
         exam.setName(EXAM1);
+        exam.setDatabase(Database.POSTGRES);
         return exam;
     }
 

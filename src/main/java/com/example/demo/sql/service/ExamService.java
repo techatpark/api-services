@@ -11,6 +11,7 @@ import java.util.Optional;
 
 import javax.sql.DataSource;
 
+import com.example.demo.sql.model.Database;
 import com.example.demo.sql.model.Exam;
 
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -49,6 +50,7 @@ public class ExamService {
         final Exam exam = new Exam();
         exam.setId(rs.getInt("id"));
         exam.setName(rs.getString("name"));
+        exam.setDatabase(Database.of(rs.getString("database_type")));
         return exam;
     };
 
@@ -62,9 +64,10 @@ public class ExamService {
      */
     public Optional<Exam> create(final Exam exam, final Path[] scriptFiles) throws IOException {
         final SimpleJdbcInsert insert = new SimpleJdbcInsert(dataSource).withTableName("exams")
-                .usingGeneratedKeyColumns("id").usingColumns("name");
+                .usingGeneratedKeyColumns("id").usingColumns("name", "database_type");
         final Map<String, Object> valueMap = new HashMap<>();
         valueMap.put("name", exam.getName());
+        valueMap.put("database_type", exam.getDatabase().getValue());
         final Number id = insert.executeAndReturnKey(valueMap);
         final Integer examId = id.intValue();
         // create scripts for exams.
@@ -102,7 +105,7 @@ public class ExamService {
      * @return exam
      */
     public Optional<Exam> read(final Integer newExamId) {
-        final String query = "SELECT id,name FROM exams WHERE id = ?";
+        final String query = "SELECT id,name,database_type FROM exams WHERE id = ?";
         try {
             return Optional.of(jdbcTemplate.queryForObject(query, new Object[] { newExamId }, rowMapper));
         } catch (final EmptyResultDataAccessException e) {
@@ -119,8 +122,8 @@ public class ExamService {
      * @return exam
      */
     public Optional<Exam> update(final Integer id, final Exam exam) {
-        final String query = "UPDATE exams SET name = ? WHERE id = ?";
-        final Integer updatedRows = jdbcTemplate.update(query, exam.getName(), id);
+        final String query = "UPDATE exams SET name = ?, database_type = ? WHERE id = ?";
+        final Integer updatedRows = jdbcTemplate.update(query, exam.getName(), exam.getDatabase().getValue(), id);
         return updatedRows == 0 ? null : read(id);
     }
 
@@ -158,7 +161,7 @@ public class ExamService {
      * @return list
      */
     public List<Exam> list(final Integer pageNumber, final Integer pageSize) {
-        String query = "SELECT id,name FROM exams";
+        String query = "SELECT id,name,database_type FROM exams";
         query = query + " LIMIT " + pageSize + " OFFSET " + (pageNumber - 1);
         return jdbcTemplate.query(query, rowMapper);
     }
