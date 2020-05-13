@@ -1,6 +1,6 @@
 package com.example.demo.sql.service.connector;
 
-import java.io.File;
+import java.nio.file.Path;
 
 import com.example.demo.sql.model.Exam;
 import com.example.demo.sql.model.Question;
@@ -23,5 +23,5 @@ public interface DatabaseConnector {
      * @param scriptFiles
      * @return successflag
      */
-    Boolean loadScript(Exam exam, File[] scriptFiles);
+    Boolean loadScript(Exam exam, Path[] scriptFiles);
 }

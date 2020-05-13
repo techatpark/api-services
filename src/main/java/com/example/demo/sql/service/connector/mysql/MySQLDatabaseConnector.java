@@ -1,6 +1,6 @@
 package com.example.demo.sql.service.connector.mysql;
 
-import java.io.File;
+import java.nio.file.Path;
 
 import com.example.demo.sql.model.Exam;
 import com.example.demo.sql.model.Question;
@@ -15,7 +15,7 @@ public class MySQLDatabaseConnector implements DatabaseConnector {
     }
 
     @Override
-    public final Boolean loadScript(final Exam exam, final File[] scriptFiles) {
+    public final Boolean loadScript(final Exam exam, final Path[] scriptFiles) {
         // TODO Auto-generated method stub
         return null;
     }

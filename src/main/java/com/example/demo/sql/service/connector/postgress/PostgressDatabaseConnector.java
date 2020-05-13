@@ -1,6 +1,6 @@
 package com.example.demo.sql.service.connector.postgress;
 
-import java.io.File;
+import java.nio.file.Path;
 
 import com.example.demo.sql.model.Exam;
 import com.example.demo.sql.model.Question;
@@ -15,8 +15,10 @@ public class PostgressDatabaseConnector implements DatabaseConnector {
     }
 
     @Override
-    public final Boolean loadScript(final Exam exam, final File[] scriptFiles) {
-        // TODO Auto-generated method stub
+    public final Boolean loadScript(final Exam exam, final Path[] scriptFiles) {
+        // 1. Create a new Schema - Schema Name : Exam_<<Examid>>
+        
+        // 2. Load Script Files
         return null;
     }
 

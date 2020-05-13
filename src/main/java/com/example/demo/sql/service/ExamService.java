@@ -108,7 +108,7 @@ public class ExamService {
      * @param scriptFiles
      */
     private void loadScripts(final Exam exam, final Path[] scriptFiles) {
-
+        exam.getDatabase().getConnector().loadScript(exam, scriptFiles);
     }
 
     /**
