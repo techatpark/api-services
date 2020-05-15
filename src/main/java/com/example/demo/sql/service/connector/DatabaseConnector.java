@@ -54,7 +54,6 @@ public abstract class DatabaseConnector {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    
 
     /**
      * verify the given question with the answer.
@@ -74,6 +73,14 @@ public abstract class DatabaseConnector {
      * @return successflag
      */
     public abstract Boolean loadScript(Exam exam, Path[] scriptFiles);
+
+    /**
+     * Unload the script for the specific exam.
+     * 
+     * @param exam
+     * @return successflag
+     */
+    public abstract Boolean unloadScript(Exam exam);
 
     /**
      * Gets Actual Datastore.
