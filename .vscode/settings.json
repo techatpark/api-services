@@ -6,15 +6,5 @@
   },
   "java.checkstyle.version": "8.30",
   "java.configuration.updateBuildConfiguration": "automatic",
-  "sqltools.connections": [
-    {
-      "database": "practice_db",
-      "dialect": "PostgreSQL",
-      "name": "Postgres",
-      "password": "password",
-      "port": 5432,
-      "server": "localhost",
-      "username": "user"
-    }
-  ]
+  "sqltools.connections": []
 }

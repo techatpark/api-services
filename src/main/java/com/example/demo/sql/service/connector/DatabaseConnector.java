@@ -77,10 +77,10 @@ public abstract class DatabaseConnector {
     /**
      * Unload the script for the specific exam.
      * 
-     * @param exam
+     * @param id
      * @return successflag
      */
-    public abstract Boolean unloadScript(Exam exam);
+    public abstract Boolean unloadScript(Integer id);
 
     /**
      * Gets Actual Datastore.

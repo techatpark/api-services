@@ -81,8 +81,7 @@ public class ExamService {
                 loadScripts(createdExam.get(), scriptFiles);
             }
         }
-        
-        
+
         return createdExam;
     }
 
@@ -107,12 +106,23 @@ public class ExamService {
 
     /**
      * Load Scripts into Database.
+     * 
      * @param exam
      * @param scriptFiles
      */
     private void loadScripts(final Exam exam, final Path[] scriptFiles) {
         DatabaseConnector databaseConnector = DatabaseConnector.getDatabaseConnector(exam.getDatabase(), jdbcTemplate);
         databaseConnector.loadScript(exam, scriptFiles);
+    }
+
+    /**
+     * Unload Scripts into Database.
+     * 
+     * @param id
+     */
+    private void unloadScripts(final Integer id) {
+        DatabaseConnector databaseConnector = DatabaseConnector.getDatabaseConnector(exam.getDatabase(), jdbcTemplate);
+        databaseConnector.unloadScript(id);
     }
 
     /**
@@ -155,7 +165,11 @@ public class ExamService {
         Integer updatedRows = jdbcTemplate.update(query, new Object[] { id });
         query = "DELETE FROM EXAMS WHERE ID=?";
         updatedRows = jdbcTemplate.update(query, new Object[] { id });
-        return !(updatedRows == 0);
+        Boolean success = !(updatedRows == 0);
+        if (success) {
+            unloadScripts(id);
+        }
+        return success;
     }
 
     /**

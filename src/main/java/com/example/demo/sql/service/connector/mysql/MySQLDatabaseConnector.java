@@ -30,4 +30,15 @@ public class MySQLDatabaseConnector extends DatabaseConnector {
         return null;
     }
 
+    /**
+     * upload script.
+     */
+    @Override
+    public Boolean unloadScript(final Integer id) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    
+
 }

@@ -18,20 +18,45 @@ public class PostgressDatabaseConnector extends DatabaseConnector {
         super(jdbcTemplate);
     }
 
+    
+    /** 
+     * @param exam
+     * @param question
+     * @param sqlAnswer
+     * @return Boolean
+     */
     @Override
     public final Boolean verify(final Exam exam, final Question question, final String sqlAnswer) {
         // TODO Auto-generated method stub
         return null;
     }
 
+    
+    /** 
+     * @param exam
+     * @param scriptFiles
+     * @return Boolean
+     */
     @Override
     public final Boolean loadScript(final Exam exam, final Path[] scriptFiles) {
         // 1. Create a new Schema - Schema Name : Exam_<<Examid>>
         final Integer id = exam.getId();
-        final String query = "CREATE DATABASE EXAM_" + id + ";";
+        final String query = "CREATE DATABASE EXAM_" + id;
         getJdbcTemplate().update(query);
 
         // 2. Load Script Files
+        return null;
+    }
+
+    
+    /** 
+     * @param id
+     * @return Boolean
+     */
+    @Override
+    public Boolean unloadScript(final Integer id) {
+        final String query = "DROP DATABASE IF EXISTS EXAM_" + id;
+        getJdbcTemplate().update(query);
         return null;
     }
 
