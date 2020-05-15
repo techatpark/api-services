@@ -11,6 +11,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 public class PostgressDatabaseConnector extends DatabaseConnector {
     /**
      * Creates Postgress Connector.
+     * 
      * @param jdbcTemplate
      */
     public PostgressDatabaseConnector(final JdbcTemplate jdbcTemplate) {
@@ -26,7 +27,10 @@ public class PostgressDatabaseConnector extends DatabaseConnector {
     @Override
     public final Boolean loadScript(final Exam exam, final Path[] scriptFiles) {
         // 1. Create a new Schema - Schema Name : Exam_<<Examid>>
-        
+        final Integer id = exam.getId();
+        final String query = "CREATE DATABASE EXAM_" + id + ";";
+        getJdbcTemplate().update(query);
+
         // 2. Load Script Files
         return null;
     }

@@ -10,9 +10,7 @@
     {
       "database": "practice_db",
       "dialect": "PostgreSQL",
-      "isActive": false,
-      "isConnected": true,
-      "name": "Postgres User",
+      "name": "Postgres",
       "password": "password",
       "port": 5432,
       "server": "localhost",
