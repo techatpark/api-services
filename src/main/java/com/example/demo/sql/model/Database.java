@@ -1,7 +1,5 @@
 package com.example.demo.sql.model;
 
-import java.lang.reflect.InvocationTargetException;
-
 import com.example.demo.sql.service.connector.DatabaseConnector;
 import com.example.demo.sql.service.connector.mysql.MySQLDatabaseConnector;
 import com.example.demo.sql.service.connector.postgress.PostgressDatabaseConnector;
@@ -49,35 +47,7 @@ public enum Database {
         return value;
     }
 
-    /**
-     * get the database connector.
-     * 
-     * @return value.
-     */
-    public DatabaseConnector getConnector() {
-        try {
-            return this.clazz.getDeclaredConstructor().newInstance();
-        } catch (InstantiationException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        } catch (IllegalArgumentException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        } catch (InvocationTargetException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        } catch (NoSuchMethodException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        } catch (SecurityException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-        return null;
-    }
+    
 
     /**
      * this method is used to set status from a json.
@@ -88,6 +58,14 @@ public enum Database {
     @JsonCreator
     public static Database of(final String value) {
         return value.equals(POSTGRES.value) ? POSTGRES : MYSQL;
+    }
+
+    /**
+     * get Class thatimplements given Database Connector.
+     * @return clazz
+     */
+    public Class<? extends DatabaseConnector> getConnectorClass() {
+        return clazz;
     }
 
 }

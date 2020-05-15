@@ -6,6 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import java.io.IOException;
 import java.util.NoSuchElementException;
 
+import com.example.demo.sql.model.Database;
 import com.example.demo.sql.model.Exam;
 import com.example.demo.sql.model.Question;
 
@@ -118,6 +119,7 @@ class QuestionServiceTest {
     Exam getExam() {
         final Exam exam = new Exam();
         exam.setName("Test Exam 1");
+        exam.setDatabase(Database.POSTGRES);
         return exam;
     }
 }

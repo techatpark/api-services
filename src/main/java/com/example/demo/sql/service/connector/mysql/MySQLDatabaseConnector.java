@@ -6,7 +6,17 @@ import com.example.demo.sql.model.Exam;
 import com.example.demo.sql.model.Question;
 import com.example.demo.sql.service.connector.DatabaseConnector;
 
-public class MySQLDatabaseConnector implements DatabaseConnector {
+import org.springframework.jdbc.core.JdbcTemplate;
+
+public class MySQLDatabaseConnector extends DatabaseConnector {
+
+    /**
+     * Creates MySQL Connector.
+     * @param jdbcTemplate
+     */
+    public MySQLDatabaseConnector(final JdbcTemplate jdbcTemplate) {
+        super(jdbcTemplate);
+    }
 
     @Override
     public final Boolean verify(final Exam exam, final Question question, final String sqlAnswer) {

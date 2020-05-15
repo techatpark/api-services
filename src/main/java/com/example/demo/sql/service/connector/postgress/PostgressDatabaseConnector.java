@@ -6,7 +6,16 @@ import com.example.demo.sql.model.Exam;
 import com.example.demo.sql.model.Question;
 import com.example.demo.sql.service.connector.DatabaseConnector;
 
-public class PostgressDatabaseConnector implements DatabaseConnector {
+import org.springframework.jdbc.core.JdbcTemplate;
+
+public class PostgressDatabaseConnector extends DatabaseConnector {
+    /**
+     * Creates Postgress Connector.
+     * @param jdbcTemplate
+     */
+    public PostgressDatabaseConnector(final JdbcTemplate jdbcTemplate) {
+        super(jdbcTemplate);
+    }
 
     @Override
     public final Boolean verify(final Exam exam, final Question question, final String sqlAnswer) {

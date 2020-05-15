@@ -13,6 +13,7 @@ import javax.sql.DataSource;
 
 import com.example.demo.sql.model.Database;
 import com.example.demo.sql.model.Exam;
+import com.example.demo.sql.service.connector.DatabaseConnector;
 
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -70,16 +71,18 @@ public class ExamService {
         valueMap.put("database_type", exam.getDatabase().getValue());
         final Number id = insert.executeAndReturnKey(valueMap);
         final Integer examId = id.intValue();
+        Optional<Exam> createdExam = read(examId);
         // create scripts for exams.
         if (scriptFiles != null) {
             for (Path scriptFile : scriptFiles) {
                 creatScript(examId, scriptFile);
             }
+            if (createdExam.isPresent()) {
+                loadScripts(createdExam.get(), scriptFiles);
+            }
         }
-        Optional<Exam> createdExam = read(examId);
-        if (createdExam.isPresent()) {
-            loadScripts(createdExam.get(), scriptFiles);
-        }
+        
+        
         return createdExam;
     }
 
@@ -108,7 +111,8 @@ public class ExamService {
      * @param scriptFiles
      */
     private void loadScripts(final Exam exam, final Path[] scriptFiles) {
-        exam.getDatabase().getConnector().loadScript(exam, scriptFiles);
+        DatabaseConnector databaseConnector = DatabaseConnector.getDatabaseConnector(exam.getDatabase(), jdbcTemplate);
+        databaseConnector.loadScript(exam, scriptFiles);
     }
 
     /**
