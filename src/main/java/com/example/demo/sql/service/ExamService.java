@@ -118,11 +118,12 @@ public class ExamService {
     /**
      * Unload Scripts into Database.
      * 
-     * @param id
+     * @param exam
+     * 
      */
-    private void unloadScripts(final Integer id) {
+    private void unloadScripts(final Exam exam) {
         DatabaseConnector databaseConnector = DatabaseConnector.getDatabaseConnector(exam.getDatabase(), jdbcTemplate);
-        databaseConnector.unloadScript(id);
+        databaseConnector.unloadScript(exam.getId());
     }
 
     /**
@@ -161,13 +162,17 @@ public class ExamService {
      * @return successflag
      */
     public Boolean delete(final Integer id) {
-        String query = "DELETE FROM exam_scripts WHERE exam_id=?";
-        Integer updatedRows = jdbcTemplate.update(query, new Object[] { id });
-        query = "DELETE FROM EXAMS WHERE ID=?";
-        updatedRows = jdbcTemplate.update(query, new Object[] { id });
-        Boolean success = !(updatedRows == 0);
-        if (success) {
-            unloadScripts(id);
+        final Optional<Exam> exam = read(id);
+        Boolean success = false;
+        if (exam.isPresent()) {
+            String query = "DELETE FROM exam_scripts WHERE exam_id=?";
+            Integer updatedRows = jdbcTemplate.update(query, new Object[] { id });
+            query = "DELETE FROM EXAMS WHERE ID=?";
+            updatedRows = jdbcTemplate.update(query, new Object[] { id });
+            success = !(updatedRows == 0);
+            if (success) {
+                unloadScripts(exam.get());
+            }
         }
         return success;
     }
