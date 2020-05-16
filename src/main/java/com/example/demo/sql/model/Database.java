@@ -1,7 +1,6 @@
 package com.example.demo.sql.model;
 
 import com.example.demo.sql.service.connector.DatabaseConnector;
-import com.example.demo.sql.service.connector.mysql.MySQLDatabaseConnector;
 import com.example.demo.sql.service.connector.postgress.PostgressDatabaseConnector;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
@@ -14,7 +13,7 @@ public enum Database {
     /**
      * available database.
      */
-    MYSQL("mysql", MySQLDatabaseConnector.class), POSTGRES("postgres", PostgressDatabaseConnector.class);
+    POSTGRES("postgres", PostgressDatabaseConnector.class);
 
     /**
      * value will be either mysql or postgres.
@@ -47,8 +46,6 @@ public enum Database {
         return value;
     }
 
-    
-
     /**
      * this method is used to set status from a json.
      * 
@@ -57,11 +54,12 @@ public enum Database {
      */
     @JsonCreator
     public static Database of(final String value) {
-        return value.equals(POSTGRES.value) ? POSTGRES : MYSQL;
+        return value.equals(POSTGRES.value) ? POSTGRES : null;
     }
 
     /**
      * get Class thatimplements given Database Connector.
+     * 
      * @return clazz
      */
     public Class<? extends DatabaseConnector> getConnectorClass() {

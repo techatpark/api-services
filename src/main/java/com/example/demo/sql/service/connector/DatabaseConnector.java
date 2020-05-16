@@ -2,6 +2,7 @@ package com.example.demo.sql.service.connector;
 
 import java.lang.reflect.InvocationTargetException;
 import java.nio.file.Path;
+import java.sql.Connection;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -54,7 +55,6 @@ public abstract class DatabaseConnector {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-
     /**
      * verify the given question with the answer.
      * 
@@ -83,7 +83,16 @@ public abstract class DatabaseConnector {
     public abstract Boolean unloadScript(Integer id);
 
     /**
+     * Get connection for specific exam.
+     * 
+     * @param exam
+     * @return connetion
+     */
+    public abstract Connection getConnection(Exam exam);
+
+    /**
      * Gets Actual Datastore.
+     * 
      * @return jdbcTemplate
      */
     public JdbcTemplate getJdbcTemplate() {

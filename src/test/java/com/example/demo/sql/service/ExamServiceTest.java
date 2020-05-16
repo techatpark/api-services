@@ -52,11 +52,11 @@ class ExamServiceTest {
     void testUpdate() throws IOException {
         Exam exam = examService.create(getExam(), getScriptFiles()).get();
         exam.setName("Updated Name");
-        exam.setDatabase(Database.MYSQL);
+        exam.setDatabase(Database.POSTGRES);
         Integer newExamId = exam.getId();
         exam = examService.update(newExamId, exam).get();
         assertEquals("Updated Name", exam.getName(), "Updated");
-        assertEquals("mysql", exam.getDatabase().getValue(), "Updated");
+        assertEquals("postgress", exam.getDatabase().getValue(), "Updated");
     }
 
     @Test
