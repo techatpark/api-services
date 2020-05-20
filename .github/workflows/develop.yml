@@ -23,25 +23,25 @@ jobs:
           java-version: 11
       - name: Build with Maven
         run: mvn -B package --file pom.xml
-      - name: Copy Artifacts
-        uses: appleboy/scp-action@master
-        env:
-          HOST: ${{ secrets.IP_ADDRESS }}
-          USERNAME: ${{ secrets.USER_NAME }}
-          PORT: ${{ secrets.PORT }}
-          KEY: ${{ secrets.P_KEY }}
-          PASSPHRASE: ${{ secrets.PASSPHRASE }}
-        with:
-          source: "target/*.jar"
-          passphrase: ${{ secrets.PASSPHRASE }}
-          target: ${{ secrets.TARGET_DIR }}
-          strip_components: 1
-      - name: Deploy
-        uses: appleboy/ssh-action@master
-        with:
-          host: ${{ secrets.IP_ADDRESS }}
-          username: ${{ secrets.USER_NAME }}
-          port: ${{ secrets.PORT }}
-          key: ${{ secrets.P_KEY }}
-          passphrase: ${{ secrets.PASSPHRASE }}
-          script: bash deploy.sh
+      # - name: Copy Artifacts
+      #   uses: appleboy/scp-action@master
+      #   env:
+      #     HOST: ${{ secrets.IP_ADDRESS }}
+      #     USERNAME: ${{ secrets.USER_NAME }}
+      #     PORT: ${{ secrets.PORT }}
+      #     KEY: ${{ secrets.P_KEY }}
+      #     PASSPHRASE: ${{ secrets.PASSPHRASE }}
+      #   with:
+      #     source: "target/*.jar"
+      #     passphrase: ${{ secrets.PASSPHRASE }}
+      #     target: ${{ secrets.TARGET_DIR }}
+      #     strip_components: 1
+      # - name: Deploy
+      #   uses: appleboy/ssh-action@master
+      #   with:
+      #     host: ${{ secrets.IP_ADDRESS }}
+      #     username: ${{ secrets.USER_NAME }}
+      #     port: ${{ secrets.PORT }}
+      #     key: ${{ secrets.P_KEY }}
+      #     passphrase: ${{ secrets.PASSPHRASE }}
+      #     script: bash deploy.sh
