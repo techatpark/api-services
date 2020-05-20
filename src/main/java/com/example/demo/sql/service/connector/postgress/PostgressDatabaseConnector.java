@@ -62,7 +62,7 @@ public class PostgressDatabaseConnector extends DatabaseConnector {
         getJdbcTemplate().update(query);
         try {
             final Flyway flyway = Flyway.configure().dataSource(getConnection(exam).getMetaData().getURL(),
-                    getConnection(exam).getMetaData().getUserName(), env.getProperty("spring.datasource.password"))
+                    "user", "password")
                     .load();
             flyway.migrate();
         } catch (SQLException sqlException) {

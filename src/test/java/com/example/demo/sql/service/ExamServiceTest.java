@@ -56,7 +56,7 @@ class ExamServiceTest {
         Integer newExamId = exam.getId();
         exam = examService.update(newExamId, exam).get();
         assertEquals("Updated Name", exam.getName(), "Updated");
-        assertEquals("postgress", exam.getDatabase().getValue(), "Updated");
+        assertEquals(Database.POSTGRES, exam.getDatabase(), "Updated");
     }
 
     @Test
