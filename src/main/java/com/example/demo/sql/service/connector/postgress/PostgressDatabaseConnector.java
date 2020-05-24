@@ -11,8 +11,6 @@ import com.example.demo.sql.service.connector.DatabaseConnector;
 import org.flywaydb.core.Flyway;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.env.Environment;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 public class PostgressDatabaseConnector extends DatabaseConnector {
@@ -21,12 +19,6 @@ public class PostgressDatabaseConnector extends DatabaseConnector {
      * logger for thiss class.
      */
     private final Logger logger = LoggerFactory.getLogger(PostgressDatabaseConnector.class);
-
-    /**
-     * Environment to get the values specific to environement.
-     */
-    @Autowired
-    private Environment env;
 
     /**
      * Creates Postgress Connector.
@@ -45,7 +37,6 @@ public class PostgressDatabaseConnector extends DatabaseConnector {
      */
     @Override
     public final Boolean verify(final Exam exam, final Question question, final String sqlAnswer) {
-        // TODO Auto-generated method stub
         return null;
     }
 
@@ -56,18 +47,13 @@ public class PostgressDatabaseConnector extends DatabaseConnector {
      */
     @Override
     public final Boolean loadScript(final Exam exam, final Path[] scriptFiles) {
-        // 1. Create a new Schema - Schema Name : Exam_<<Examid>>
         final Integer id = exam.getId();
         final String query = "CREATE DATABASE EXAM_" + id;
         getJdbcTemplate().update(query);
-        try {
-            final Flyway flyway = Flyway.configure().dataSource(getConnection(exam).getMetaData().getURL(),
-                    "user", "password")
-                    .load();
-            flyway.migrate();
-        } catch (SQLException sqlException) {
-            logger.error("Error loading script files ", sqlException);
-        }
+        final Flyway flyway = Flyway.configure().schemas("EXAM_" + id)
+                .dataSource(getJdbcTemplate().getDataSource())
+                .load();
+        flyway.migrate();
         // 2. Load Script Files
         return null;
     }
