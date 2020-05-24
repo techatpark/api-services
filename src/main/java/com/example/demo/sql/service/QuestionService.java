@@ -1,115 +1,146 @@
 package com.example.demo.sql.service;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
-import com.example.demo.sql.model.Question;
-import com.example.demo.sql.service.exceptions.NotValidAnswerException;
+import javax.sql.DataSource;
 
+import com.example.demo.sql.model.Question;
+
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Service;
 
 @Service
 public class QuestionService {
     /**
-     * * this is used to execute a connection with a database.
-     * 
+     * this helps to execute sql queries.
      */
     private final JdbcTemplate jdbcTemplate;
-    /**
-     * list of questions.
-     */
-    private final List<Question> questions;
 
     /**
-     * @param jdbcTemplate initiate list.
+     * this creates connection functionalities.
      */
-    QuestionService(final JdbcTemplate jdbcTemplate) {
+    private final DataSource dataSource;
+
+    /**
+     * initializes.
+     * 
+     * @param jdbcTemplate
+     * @param dataSource
+     */
+    public QuestionService(final JdbcTemplate jdbcTemplate, final DataSource dataSource) {
         this.jdbcTemplate = jdbcTemplate;
-        this.questions = new ArrayList<>();
+        this.dataSource = dataSource;
     }
 
     /**
-     * inserting into table - question.
+     * Maps the data from and to the database. return question.
+     */
+    private RowMapper<Question> rowMapper = (rs, rowNum) -> {
+        final Question question = new Question();
+        question.setId(rs.getInt("id"));
+        question.setExamId(rs.getInt("exam_id"));
+        question.setQuestion(rs.getString("question"));
+        question.setAnswer(rs.getString("answer"));
+        return question;
+    };
+
+    /**
+     * inserts data.
      * 
      * @param question
+     * @param examId
      * @return question
      */
-    public Question create(final Question question) {
-        question.setId(this.questions.size() + 1);
-        try {
+    public Optional<Question> create(final Integer examId, final Question question) {
+        final SimpleJdbcInsert insert = new SimpleJdbcInsert(dataSource).withTableName("questions")
+                .usingGeneratedKeyColumns("id").usingColumns("exam_id", "question", "answer");
 
-            jdbcTemplate.queryForObject(question.getAnswer(), Integer.class);
-            this.questions.add(question);
-
-        } catch (Exception e) {
-            throw new NotValidAnswerException("your answer is not valid quey", e);
-        }
-        return question;
+        final Map<String, Object> valueMap = new HashMap<>();
+        valueMap.put("exam_id", examId);
+        valueMap.put("question", question.getQuestion());
+        valueMap.put("answer", question.getAnswer());
+        final Number id = insert.executeAndReturnKey(valueMap);
+        return read(id.intValue());
     }
 
     /**
-     * reads from table question.
+     * reads from question with given id.
      * 
      * @param id
-     * @return namespace
+     * @return question
      */
     public Optional<Question> read(final Integer id) {
-        Optional<Question> question = this.questions.stream().filter(que -> id == que.getId()).findFirst();
-        return question;
+        final String query = "SELECT id,exam_id,question,answer FROM questions WHERE id = ?";
+        try {
+            return Optional.of(jdbcTemplate.queryForObject(query, new Object[] { id }, rowMapper));
+        } catch (EmptyResultDataAccessException e) {
+            return Optional.empty();
+        }
     }
 
     /**
-     * update table question.
+     * updates question with id.
      * 
      * @param id
      * @param question
      * @return question
      */
-    public Question update(final Integer id, final Question question) {
-        this.questions.set(id - 1, question);
-        return question;
+    public Optional<Question> update(final Integer id, final Question question) {
+        final String query = "UPDATE questions SET exam_id = ?, question = ?, answer = ? WHERE id = ?";
+        Integer updatedRows = jdbcTemplate.update(query, question.getExamId(), question.getQuestion(),
+                question.getAnswer(), id);
+        return updatedRows == 0 ? null : read(id);
     }
 
     /**
-     * Soft Delete a row with given id.
-     * 
-     * @param b
-     * @return question.
-     */
-    public Boolean delete(final boolean b) {
-        return null;
-    }
-
-    /**
-     * soft delete all from namespace.
-     * 
-     * @return question
-     */
-    public Boolean delete() {
-        return delete(false);
-    }
-
-    /**
-     * delete question.
+     * deletes from database.
      * 
      * @param id
-     * @return question
+     * @return successflag
      */
-    public boolean delete(final Integer id) {
-        return this.questions.remove(id - 1) != null;
+    public Boolean delete(final Integer id) {
+        String query = "DELETE FROM questions WHERE ID=?";
+        Integer updatedRows = jdbcTemplate.update(query, new Object[] { id });
+        return !(updatedRows == 0);
     }
 
     /**
-     * delete question.
+     * Cleaning up all exams.
+     * 
+     * @return no.of exams deleted
+     */
+    public Integer delete() {
+        final String query = "DELETE FROM questions";
+        return jdbcTemplate.update(query);
+    }
+
+    /**
+     * List questions of exam.
+     * 
+     * @param examId
+     * @return quetions in given exam
+     */
+    public List<Question> list(final Integer examId) {
+        String query = "SELECT id,exam_id,question,answer FROM questions WHERE exam_id = ?";
+        return List.of(jdbcTemplate.queryForObject(query, new Object[] { examId }, rowMapper));
+    }
+
+    /**
+     * list of question.
      * 
      * @param pageNumber
      * @param pageSize
      * @return question
      */
-    public List<Question> lists(final Integer pageNumber, final Integer pageSize) {
-        return this.questions;
+    public List<Question> list(final Integer pageNumber, final Integer pageSize) {
+        String query = "SELECT id,exam_id,question,answer FROM questions";
+        query = query + " LIMIT " + pageSize + " OFFSET " + (pageNumber - 1);
+        return jdbcTemplate.query(query, rowMapper);
     }
-
 }

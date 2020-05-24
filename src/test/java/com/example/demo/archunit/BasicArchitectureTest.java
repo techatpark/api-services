@@ -1,16 +1,5 @@
 package com.example.demo.archunit;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.Statement;
-import java.util.logging.Logger;
-import com.tngtech.archunit.core.domain.JavaClasses;
-import com.tngtech.archunit.junit.AnalyzeClasses;
-import com.tngtech.archunit.junit.ArchTag;
-import com.tngtech.archunit.junit.ArchTest;
-import com.tngtech.archunit.lang.ArchRule;
-import com.tngtech.archunit.lang.CompositeArchRule;
-
 import static com.tngtech.archunit.lang.syntax.ArchRuleDefinition.fields;
 import static com.tngtech.archunit.lang.syntax.ArchRuleDefinition.noClasses;
 import static com.tngtech.archunit.library.GeneralCodingRules.ACCESS_STANDARD_STREAMS;
@@ -19,14 +8,23 @@ import static com.tngtech.archunit.library.GeneralCodingRules.NO_CLASSES_SHOULD_
 import static com.tngtech.archunit.library.GeneralCodingRules.NO_CLASSES_SHOULD_USE_JAVA_UTIL_LOGGING;
 import static com.tngtech.archunit.library.GeneralCodingRules.NO_CLASSES_SHOULD_USE_JODATIME;
 
+import java.util.logging.Logger;
+
+import com.tngtech.archunit.core.domain.JavaClasses;
+import com.tngtech.archunit.junit.AnalyzeClasses;
+import com.tngtech.archunit.junit.ArchTag;
+import com.tngtech.archunit.junit.ArchTest;
+import com.tngtech.archunit.lang.ArchRule;
+import com.tngtech.archunit.lang.CompositeArchRule;
+
 @ArchTag("basic")
 @AnalyzeClasses(packages = "com.example.demo")
 public class BasicArchitectureTest {
 
-        @ArchTest
-        private final ArchRule no_access_to_jdbc = noClasses().should().accessClassesThat()
-                        .belongToAnyOf(Connection.class, Statement.class, PreparedStatement.class)
-                        .because("we do not use JDBC directly");
+        // @ArchTest
+        // private final ArchRule no_access_to_jdbc = noClasses().should().accessClassesThat()
+        //                 .belongToAnyOf(Connection.class, Statement.class, PreparedStatement.class)
+        //                 .because("we do not use JDBC directly");
 
         @ArchTest
         private final ArchRule no_access_to_standard_streams = NO_CLASSES_SHOULD_ACCESS_STANDARD_STREAMS;
