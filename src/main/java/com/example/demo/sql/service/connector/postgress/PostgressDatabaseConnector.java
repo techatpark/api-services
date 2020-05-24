@@ -7,8 +7,8 @@ import java.sql.SQLException;
 import com.example.demo.sql.model.Exam;
 import com.example.demo.sql.model.Question;
 import com.example.demo.sql.service.connector.DatabaseConnector;
+import com.example.demo.sql.service.util.FlywayUtil;
 
-import org.flywaydb.core.Flyway;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -50,11 +50,7 @@ public class PostgressDatabaseConnector extends DatabaseConnector {
         final Integer id = exam.getId();
         final String query = "CREATE DATABASE EXAM_" + id;
         getJdbcTemplate().update(query);
-        final Flyway flyway = Flyway.configure().schemas("EXAM_" + id)
-                .dataSource(getJdbcTemplate().getDataSource())
-                .load();
-        flyway.migrate();
-        // 2. Load Script Files
+        FlywayUtil.loadScripts(exam, scriptFiles, getJdbcTemplate().getDataSource());
         return null;
     }
 
