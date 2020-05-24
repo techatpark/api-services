@@ -5,9 +5,9 @@ name: Java CI with Maven
 
 on:
   push:
-    branches: [develop]
+    branches: [master]
   pull_request:
-    branches: [develop]
+    branches: [master]
 
 jobs:
   build:
@@ -22,20 +22,17 @@ jobs:
         with:
           java-version: 11
       - name: Build with Maven
-        run: mvn -B package --file pom.xml
-      # - name: Copy Artifacts
-      #   uses: appleboy/scp-action@master
-      #   env:
-      #     HOST: ${{ secrets.IP_ADDRESS }}
-      #     USERNAME: ${{ secrets.USER_NAME }}
-      #     PORT: ${{ secrets.PORT }}
-      #     KEY: ${{ secrets.P_KEY }}
-      #     PASSPHRASE: ${{ secrets.PASSPHRASE }}
-      #   with:
-      #     source: "target/*.jar"
-      #     passphrase: ${{ secrets.PASSPHRASE }}
-      #     target: ${{ secrets.TARGET_DIR }}
-      #     strip_components: 1
+        run: mvn -B package -DskipTests --file pom.xml
+      - name: Copy Artifacts
+        uses: appleboy/scp-action@master
+        env:
+          HOST: ${{ secrets.HOST }}
+          USERNAME: ${{ secrets.USERNAME }}
+          KEY: ${{ secrets.KEY }}
+        with:
+          source: "target/*.jar"
+          target: ${{ secrets.TARGET_DIR }}
+          strip_components: 1
       # - name: Deploy
       #   uses: appleboy/ssh-action@master
       #   with:
