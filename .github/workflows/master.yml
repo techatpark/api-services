@@ -31,12 +31,11 @@ jobs:
           source: "target/*.jar"
           target: ${{ secrets.TARGET_DIR }}
           strip_components: 1
-      # - name: Deploy
-      #   uses: appleboy/ssh-action@master
-      #   with:
-      #     host: ${{ secrets.IP_ADDRESS }}
-      #     username: ${{ secrets.USER_NAME }}
-      #     port: ${{ secrets.PORT }}
-      #     key: ${{ secrets.P_KEY }}
-      #     passphrase: ${{ secrets.PASSPHRASE }}
-      #     script: bash deploy.sh
+      - name: Deploy
+        uses: appleboy/ssh-action@master
+        env:
+          HOST: ${{ secrets.HOST }}
+          USERNAME: ${{ secrets.USERNAME }}
+          KEY: ${{ secrets.KEY }}
+        with:
+          script: bash deploy.sh
