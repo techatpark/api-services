@@ -3,11 +3,12 @@ package com.example.demo.sql.service;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
+import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
+import java.util.Arrays;
 import java.util.NoSuchElementException;
+import java.util.stream.Collectors;
 
 import com.example.demo.sql.model.Database;
 import com.example.demo.sql.model.Exam;
@@ -98,24 +99,21 @@ class ExamServiceTest {
         return exam;
     }
 
+    @Test
+    void testLoadScripts() {
+        Exam examToBeCrated = getExam();
+        Path[] scripts = getScriptFiles(examToBeCrated);
+        assertEquals(2, scripts.length, "All (2) script files loaded");
+    }
+
     /**
      * Create Temporary SQL Files in temp folder. Return Files as array.
      * @param exam
      * @return array of sript file
      */
     Path[] getScriptFiles(final Exam exam) {
-        Path[] files = new Path[1];
-        String basePath = System.getProperty("java.io.tmpdir");
-        Path createdTempFolder = null;
-        Path tempFile = null;
-        try {
-            createdTempFolder = Files.createTempDirectory(Paths.get(basePath), "temp");
-            tempFile = Files.createTempFile(createdTempFolder, "temp", ".sql");
-            Files.write(tempFile, "Sample Data".getBytes());
-        } catch (IOException e) {
-            logger.error("Error in creating the file : " + e.getMessage());
-        }
-        files[0] = tempFile;
-        return files;
+        Path[] scripts = new Path[2];
+        File file = new File("src/test/resources/" + exam.getDatabase().getValue() + "/scripts");
+        return Arrays.asList(file.listFiles()).stream().map(script -> script.toPath()).collect(Collectors.toList()).toArray(scripts);
     }
 }
