@@ -47,8 +47,7 @@ public final class FlywayUtil {
                         .configuration(flywayConfig).load();
                 flyway.migrate();
             } catch (IOException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
+                
             }
 
         }
