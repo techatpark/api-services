@@ -11,7 +11,7 @@ class HelloController {
 
     @RequestMapping("/")
     public ResponseEntity<String> index() {
-        return new ResponseEntity<String>("Greetings!-2", HttpStatus.OK);
+        return new ResponseEntity<String>("Greetings!-772", HttpStatus.OK);
     }
 
     @RequestMapping("/secured_hello")
