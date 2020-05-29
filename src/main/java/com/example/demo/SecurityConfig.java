@@ -1,5 +1,6 @@
 package com.example.demo;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -9,6 +10,14 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
+	@Value("${jwt.secret}")
+	private String jwtSecret;
+	@Value("${jwt.issuer}")
+	private String jwtIssuer;
+	@Value("${jwt.type}")
+	private String jwtType;
+	@Value("${jwt.audience}")
+	private String jwtAudience;
 
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
@@ -20,7 +29,20 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		http.csrf().disable().httpBasic().and().authorizeRequests().anyRequest().permitAll();
+		http.formLogin();
+		http.csrf().disable().addFilter(
+				new JwtAuthenticationFilter(authenticationManager(), jwtAudience, jwtIssuer, jwtSecret, jwtType))
+				.authorizeRequests().anyRequest().permitAll();
 	}
+
+	// @Override
+	// protected void configure(HttpSecurity http) throws Exception {
+	// http.authorizeRequests(authorizeRequests ->
+	// authorizeRequests.antMatchers("/board/*")
+	// .hasAnyRole("MEMBER",
+	// "BOARD").antMatchers("/members/*").hasRole("MEMBER").antMatchers("/").permitAll())
+	// .httpBasic().realmName("My org ream").and().sessionManagement()
+	// .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+	// }
 
 }
