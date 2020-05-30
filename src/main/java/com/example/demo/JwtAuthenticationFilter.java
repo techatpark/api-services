@@ -5,6 +5,8 @@ import java.util.Date;
 import javax.crypto.SecretKey;
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
+import javax.servlet.ServletRequest;
+import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -110,11 +112,12 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
      * @param filterChain
      * @throws IOException
      * @throws ServletException
+     * @throws java.io.IOException
      */
     @Override
-    protected void doFilterInternal(final HttpServletRequest request, final HttpServletResponse response,
-            final FilterChain filterChain) throws IOException, ServletException {
-        final UsernamePasswordAuthenticationToken authentication = parseToken(request);
+    public void doFilter(final ServletRequest request, final ServletResponse response, final FilterChain filterChain)
+            throws IOException, ServletException, java.io.IOException {
+        final UsernamePasswordAuthenticationToken authentication = parseToken(((HttpServletRequest) request));
 
         if (authentication != null) {
             SecurityContextHolder.getContext().setAuthentication(authentication);
