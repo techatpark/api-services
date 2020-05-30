@@ -44,6 +44,16 @@ class ExamServiceTest {
     }
 
     @Test
+    void testCreateQuesion() throws IOException {
+        
+    }
+
+    @Test
+    void testAnswer() throws IOException {
+        
+    }
+
+    @Test
     void testUpdate() throws IOException {
         Exam examToBeCrated = getExam();
         Exam exam = examService.create(examToBeCrated, getScriptFiles(examToBeCrated)).get();
