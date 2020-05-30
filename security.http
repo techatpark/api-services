@@ -1,0 +1,11 @@
+@base = http://localhost:8090
+
+
+#### Basic
+GET {{base}}/secured_hello
+Authorization: Basic user:password
+Content-Type: application/json
+
+#### JWT
+curl -i -X POST {{base}}/api/login?username=user&password=password
+

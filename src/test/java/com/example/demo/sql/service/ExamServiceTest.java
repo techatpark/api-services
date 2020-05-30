@@ -16,8 +16,6 @@ import com.example.demo.sql.model.Exam;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
@@ -33,11 +31,6 @@ class ExamServiceTest {
     @Autowired
     private ExamService examService;
 
-    /**
-     * logger to log the trace or error.
-     */
-    private Logger logger = LoggerFactory.getLogger(ExamServiceTest.class);
-
     @BeforeEach
     void before() {
         examService.delete();
@@ -48,6 +41,16 @@ class ExamServiceTest {
         Exam examToBeCrated = getExam();
         Exam createdExam = examService.create(examToBeCrated, getScriptFiles(examToBeCrated)).get();
         assertEquals(EXAM1, createdExam.getName());
+    }
+
+    @Test
+    void testCreateQuesion() throws IOException {
+        
+    }
+
+    @Test
+    void testAnswer() throws IOException {
+        
     }
 
     @Test
@@ -72,7 +75,6 @@ class ExamServiceTest {
 
     @Test
     void testDelete() {
-
         Assertions.assertThrows(NoSuchElementException.class, () -> {
             Exam examToBeCrated = getExam();
             Exam exam = examService.create(examToBeCrated, getScriptFiles(examToBeCrated)).get();
