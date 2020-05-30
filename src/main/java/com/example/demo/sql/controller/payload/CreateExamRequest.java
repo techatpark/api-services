@@ -1,5 +1,7 @@
 package com.example.demo.sql.controller.payload;
 
+import com.example.demo.sql.model.Exam;
+
 import org.springframework.web.multipart.MultipartFile;
 
 public class CreateExamRequest {
@@ -7,7 +9,7 @@ public class CreateExamRequest {
     /**
      * exam to be created.
      */
-    private String exam;
+    private Exam exam;
 
     /**
      * db scripts.
@@ -18,7 +20,7 @@ public class CreateExamRequest {
     /** 
      * @return Exam
      */
-    public String getExam() {
+    public Exam getExam() {
         return exam;
     }
 
@@ -26,7 +28,7 @@ public class CreateExamRequest {
     /** 
      * @param exam
      */
-    public void setExam(final String exam) {
+    public void setExam(final Exam exam) {
         this.exam = exam;
     }
 

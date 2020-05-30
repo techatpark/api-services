@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import com.example.demo.sql.controller.payload.CreateExamRequest;
@@ -50,8 +51,8 @@ class ExamAPIController {
         @ApiResponses(value = { @ApiResponse(code = 201, message = "exam created successfully"),
                         @ApiResponse(code = 400, message = "exam is invalid") })
         @ResponseStatus(HttpStatus.CREATED)
-        @PostMapping
-        public ResponseEntity<Optional<Exam>> create(@ModelAttribute CreateExamRequest createExamRequest)
+        @PostMapping()
+        public ResponseEntity<Optional<Exam>> create(HttpServletRequest request,@ModelAttribute CreateExamRequest createExamRequest)
                         throws IOException {
                 // return
                 // ResponseEntity.status(HttpStatus.CREATED).body(examService.create(createExamRequest.getExam(),
