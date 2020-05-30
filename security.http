@@ -1,0 +1,7 @@
+@base = http://localhost:8090
+
+
+#### Correct Answer
+GET {{base}}/secured_hello
+Authorization: Basic user:password
+Content-Type: application/json
