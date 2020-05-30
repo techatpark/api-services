@@ -4,11 +4,13 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import com.example.demo.sql.controller.payload.CreateExamRequest;
 import com.example.demo.sql.model.Exam;
 import com.example.demo.sql.model.Question;
+import com.example.demo.sql.service.AnswerService;
 import com.example.demo.sql.service.ExamService;
 import com.example.demo.sql.service.QuestionService;
 
@@ -37,10 +39,12 @@ class ExamAPIController {
 
         private final ExamService examService;
         private final QuestionService questionService;
+        private final AnswerService answerService;
 
-        ExamAPIController(final ExamService examService, final QuestionService questionService) {
+        ExamAPIController(final ExamService examService, final QuestionService questionService,final AnswerService answerService) {
                 this.examService = examService;
                 this.questionService = questionService;
+                this.answerService = answerService;
         }
 
         @ApiOperation(value = "Creates a new exam", notes = "Can be called only by users with 'auth management' rights.")
@@ -48,7 +52,7 @@ class ExamAPIController {
                         @ApiResponse(code = 400, message = "exam is invalid") })
         @ResponseStatus(HttpStatus.CREATED)
         @PostMapping
-        public ResponseEntity<Optional<Exam>> create(@ModelAttribute CreateExamRequest createExamRequest)
+        public ResponseEntity<Optional<Exam>> create(HttpServletRequest request,@ModelAttribute CreateExamRequest createExamRequest)
                         throws IOException {
                 // return
                 // ResponseEntity.status(HttpStatus.CREATED).body(examService.create(createExamRequest.getExam(),
@@ -64,6 +68,16 @@ class ExamAPIController {
         public ResponseEntity<Optional<Question>> create(@PathVariable Integer examId,
                         @Valid @RequestBody Question question) {
                 return ResponseEntity.status(HttpStatus.CREATED).body(questionService.create(examId, question));
+        }
+
+        @ApiOperation(value = "Answer a question", notes = "Can be called only by users with 'auth management' rights.")
+        @ApiResponses(value = { @ApiResponse(code = 200, message = "Answered a question successfully"),
+                @ApiResponse(code = 406, message = "Answer is invalid") })
+        @ResponseStatus(HttpStatus.ACCEPTED)
+        @PostMapping("/{examId}/questions/{questionId}/answer")
+        public ResponseEntity<Void> answer(@PathVariable Integer questionId, @RequestBody String answer) {
+            return answerService.answer(questionId, answer) ? ResponseEntity.status(HttpStatus.ACCEPTED).build()
+                    : ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).build();
         }
 
         @ApiOperation(value = "lists all the questions", notes = " Can be invoked by auth users only")
