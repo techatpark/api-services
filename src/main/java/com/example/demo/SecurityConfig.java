@@ -29,20 +29,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		http.formLogin();
-		http.csrf().disable().addFilter(
-				new JwtAuthenticationFilter(authenticationManager(), jwtAudience, jwtIssuer, jwtSecret, jwtType))
+		http.csrf().disable().httpBasic().and()
 				.authorizeRequests().anyRequest().permitAll();
 	}
-
-	// @Override
-	// protected void configure(HttpSecurity http) throws Exception {
-	// http.authorizeRequests(authorizeRequests ->
-	// authorizeRequests.antMatchers("/board/*")
-	// .hasAnyRole("MEMBER",
-	// "BOARD").antMatchers("/members/*").hasRole("MEMBER").antMatchers("/").permitAll())
-	// .httpBasic().realmName("My org ream").and().sessionManagement()
-	// .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-	// }
 
 }
