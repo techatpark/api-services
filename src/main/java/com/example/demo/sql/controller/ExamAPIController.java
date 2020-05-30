@@ -51,7 +51,7 @@ class ExamAPIController {
         @ApiResponses(value = { @ApiResponse(code = 201, message = "exam created successfully"),
                         @ApiResponse(code = 400, message = "exam is invalid") })
         @ResponseStatus(HttpStatus.CREATED)
-        @PostMapping()
+        @PostMapping
         public ResponseEntity<Optional<Exam>> create(HttpServletRequest request,@ModelAttribute CreateExamRequest createExamRequest)
                         throws IOException {
                 // return
