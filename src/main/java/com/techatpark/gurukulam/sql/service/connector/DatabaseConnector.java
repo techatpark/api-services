@@ -1,4 +1,4 @@
-package com.techatpark.sql.service.connector;
+package com.techatpark.gurukulam.sql.service.connector;
 
 import java.lang.reflect.InvocationTargetException;
 import java.nio.file.Path;
@@ -6,9 +6,9 @@ import java.sql.Connection;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.techatpark.sql.model.Database;
-import com.techatpark.sql.model.Exam;
-import com.techatpark.sql.model.Question;
+import com.techatpark.gurukulam.sql.model.Database;
+import com.techatpark.gurukulam.sql.model.Exam;
+import com.techatpark.gurukulam.sql.model.Question;
 
 import org.springframework.jdbc.core.JdbcTemplate;
 

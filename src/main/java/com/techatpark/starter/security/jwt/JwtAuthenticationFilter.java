@@ -1,4 +1,4 @@
-package com.techatpark.jwt;
+package com.techatpark.starter.security.jwt;
 
 import java.io.IOException;
 import java.util.ArrayList;

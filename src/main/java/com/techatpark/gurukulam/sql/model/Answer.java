@@ -1,4 +1,4 @@
-package com.techatpark.sql.model;
+package com.techatpark.gurukulam.sql.model;
 
 public class Answer {
 

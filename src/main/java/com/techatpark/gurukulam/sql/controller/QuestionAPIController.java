@@ -1,11 +1,11 @@
-package com.techatpark.sql.controller;
+package com.techatpark.gurukulam.sql.controller;
 
 import java.util.Optional;
 
 import javax.validation.Valid;
 
-import com.techatpark.sql.model.Question;
-import com.techatpark.sql.service.QuestionService;
+import com.techatpark.gurukulam.sql.model.Question;
+import com.techatpark.gurukulam.sql.service.QuestionService;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

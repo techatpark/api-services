@@ -1,4 +1,4 @@
-package com.example.demo.archunit;
+package com.techatpark.archunit;
 
 import static com.tngtech.archunit.library.GeneralCodingRules.NO_CLASSES_SHOULD_USE_JODATIME;
 

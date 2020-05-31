@@ -24,7 +24,7 @@ import org.springframework.jdbc.core.support.SqlLobValue;
 import org.springframework.stereotype.Service;
 
 @Service
-public class ExamService {
+public class SQLExamService {
     /**
      * this helps to execute sql queries.
      */
@@ -39,7 +39,7 @@ public class ExamService {
      * @param jdbcTemplate
      * @param dataSource
      */
-    public ExamService(final JdbcTemplate jdbcTemplate, final DataSource dataSource) {
+    public SQLExamService(final JdbcTemplate jdbcTemplate, final DataSource dataSource) {
         this.jdbcTemplate = jdbcTemplate;
         this.dataSource = dataSource;
     }

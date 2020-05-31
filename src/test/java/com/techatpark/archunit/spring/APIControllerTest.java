@@ -1,4 +1,4 @@
-package com.example.demo.archunit.spring;
+package com.techatpark.archunit.spring;
 
 import static com.tngtech.archunit.lang.syntax.ArchRuleDefinition.classes;
 import static com.tngtech.archunit.lang.syntax.ArchRuleDefinition.methods;

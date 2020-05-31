@@ -1,4 +1,4 @@
-package com.techatpark.sql.service.util;
+package com.techatpark.gurukulam.sql.service.util;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -11,7 +11,7 @@ import java.util.Map;
 
 import javax.sql.DataSource;
 
-import com.techatpark.sql.model.Exam;
+import com.techatpark.gurukulam.sql.model.Exam;
 
 import org.flywaydb.core.Flyway;
 

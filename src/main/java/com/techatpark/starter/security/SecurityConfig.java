@@ -1,6 +1,6 @@
 package com.techatpark.starter.security;
 
-import com.techatpark.jwt.JwtAuthenticationFilter;
+import com.techatpark.starter.security.jwt.JwtAuthenticationFilter;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;

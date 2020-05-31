@@ -1,4 +1,4 @@
-package com.techatpark.sql.service.exceptions;
+package com.techatpark.gurukulam.sql.service.exceptions;
 
 public class NotValidAnswerException extends RuntimeException {
 

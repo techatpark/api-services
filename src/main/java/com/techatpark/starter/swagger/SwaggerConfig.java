@@ -1,4 +1,4 @@
-package com.techatpark;
+package com.techatpark.starter.swagger;
 
 import java.util.Collections;
 

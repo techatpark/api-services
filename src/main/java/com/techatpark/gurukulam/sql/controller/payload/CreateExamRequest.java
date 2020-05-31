@@ -1,6 +1,6 @@
-package com.techatpark.sql.controller.payload;
+package com.techatpark.gurukulam.sql.controller.payload;
 
-import com.techatpark.sql.model.Exam;
+import com.techatpark.gurukulam.sql.model.Exam;
 
 import org.springframework.web.multipart.MultipartFile;
 

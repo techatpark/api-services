@@ -1,4 +1,4 @@
-package com.techatpark.sql.service;
+package com.techatpark.gurukulam.sql.service;
 
 import java.util.HashMap;
 import java.util.List;
@@ -7,7 +7,7 @@ import java.util.Optional;
 
 import javax.sql.DataSource;
 
-import com.techatpark.sql.model.Question;
+import com.techatpark.gurukulam.sql.model.Question;
 
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;

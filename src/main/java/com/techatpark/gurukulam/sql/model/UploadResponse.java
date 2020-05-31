@@ -1,4 +1,4 @@
-package com.techatpark.sql.model;
+package com.techatpark.gurukulam.sql.model;
 
 import java.sql.Blob;
 

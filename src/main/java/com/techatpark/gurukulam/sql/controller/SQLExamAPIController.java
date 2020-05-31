@@ -11,7 +11,7 @@ import com.techatpark.gurukulam.sql.controller.payload.CreateExamRequest;
 import com.techatpark.gurukulam.sql.model.Exam;
 import com.techatpark.gurukulam.sql.model.Question;
 import com.techatpark.gurukulam.sql.service.AnswerService;
-import com.techatpark.gurukulam.sql.service.ExamService;
+import com.techatpark.gurukulam.sql.service.SQLExamService;
 import com.techatpark.gurukulam.sql.service.QuestionService;
 
 import org.springframework.http.HttpStatus;
@@ -35,14 +35,14 @@ import io.swagger.annotations.ApiResponses;
 @Api(value = "SQL Exams", description = "Resource for SQL Exams", tags = { "SQL Exams" })
 @RestController
 @RequestMapping("/api/exams/sql")
-class ExamAPIController {
+class SQLExamAPIController {
 
-        private final ExamService examService;
+        private final SQLExamService SQLExamService;
         private final QuestionService questionService;
         private final AnswerService answerService;
 
-        ExamAPIController(final ExamService examService, final QuestionService questionService,final AnswerService answerService) {
-                this.examService = examService;
+        SQLExamAPIController(final SQLExamService SQLExamService, final QuestionService questionService, final AnswerService answerService) {
+                this.SQLExamService = SQLExamService;
                 this.questionService = questionService;
                 this.answerService = answerService;
         }
@@ -95,7 +95,7 @@ class ExamAPIController {
                         @ApiResponse(code = 404, message = "exam not found") })
         @GetMapping("/{id}")
         public ResponseEntity<Exam> findById(@PathVariable Integer id) {
-                return ResponseEntity.of(examService.read(id));
+                return ResponseEntity.of(SQLExamService.read(id));
         }
 
         @ApiOperation(value = "Updates the exam by given id", notes = "Can be called only by users with 'auth management' rights.")
@@ -104,7 +104,7 @@ class ExamAPIController {
                         @ApiResponse(code = 404, message = "exam not found") })
         @PutMapping("/{id}")
         public ResponseEntity<Optional<Exam>> update(@PathVariable Integer id, @Valid @RequestBody Exam exam) {
-                Optional<Exam> updatedexam = examService.update(id, exam);
+                Optional<Exam> updatedexam = SQLExamService.update(id, exam);
                 return updatedexam == null ? new ResponseEntity<Optional<Exam>>(HttpStatus.NOT_FOUND)
                                 : ResponseEntity.ok(updatedexam);
         }
@@ -114,7 +114,7 @@ class ExamAPIController {
                         @ApiResponse(code = 404, message = "exam not found") })
         @DeleteMapping("/{id}")
         public ResponseEntity<Void> delete(@PathVariable Integer id) {
-                return examService.delete(id) ? ResponseEntity.ok().build()
+                return SQLExamService.delete(id) ? ResponseEntity.ok().build()
                                 : new ResponseEntity<Void>(HttpStatus.NOT_FOUND);
         }
 
@@ -123,7 +123,7 @@ class ExamAPIController {
                         @ApiResponse(code = 204, message = "exam are not available") })
         @GetMapping
         public ResponseEntity<List<Exam>> findAll() {
-                List<Exam> exams = examService.list(1, 1);
+                List<Exam> exams = SQLExamService.list(1, 1);
                 return exams.isEmpty() ? new ResponseEntity<List<Exam>>(HttpStatus.NO_CONTENT)
                                 : ResponseEntity.ok(exams);
         }
