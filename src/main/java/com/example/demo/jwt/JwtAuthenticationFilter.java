@@ -98,7 +98,6 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
                     return null;
                 }
 
-                // TODO roles here!
                 SimpleGrantedAuthority authority = new SimpleGrantedAuthority("ROLE_USER");
                 List<GrantedAuthority> authorities = new ArrayList<>();
                 authorities.add(authority);
