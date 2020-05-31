@@ -141,26 +141,6 @@
 					</execution>
 				</executions>
 			</plugin>
-            <plugin>
-                <groupId>org.sandbox</groupId>
-                <artifactId>githook-maven-plugin</artifactId>
-                <version>1.0.0</version>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>install</goal>
-                        </goals>
-                        <configuration>
-                            <hooks>
-                                <pre-commit>
-                                    echo running validation build
-                                    exec mvn clean install
-                                </pre-commit>
-                            </hooks>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>			
 		</plugins>
 	</build>
 
