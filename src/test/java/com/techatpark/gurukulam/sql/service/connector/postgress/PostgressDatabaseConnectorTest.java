@@ -1,5 +1,6 @@
 package com.techatpark.gurukulam.sql.service.connector.postgress;
 
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.File;
@@ -73,6 +74,17 @@ public class PostgressDatabaseConnectorTest {
 
     /**
      * 
+     */
+    @Test
+    public void testVerifywrongAnswer() {
+        Exam exam = createAndGetExam();
+        Question question = createAndGQuestion(exam);
+        boolean result = postgressDatabaseConnector.verify(exam, question, "select * from abc");
+        assertFalse(result);
+    }
+
+    /**
+     * 
      * @return exam
      */
     Exam getExam() {
@@ -110,14 +122,10 @@ public class PostgressDatabaseConnectorTest {
         Exam exam = null;
         try {
             exam = sqlExamService.create(examToBeCrated, getScriptFiles(examToBeCrated)).get();
-            exam.setName("Updated Name");
-            exam.setDatabase(Database.POSTGRES);
-
         } catch (IOException e) {
             e.printStackTrace();
         }
-        Integer newExamId = exam.getId();
-        exam = sqlExamService.update(newExamId, exam).get();
+
         return exam;
     }
 
