@@ -1,7 +1,6 @@
 package com.techatpark.gurukulam.sql.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import java.io.File;
 import java.io.IOException;
@@ -45,12 +44,12 @@ class SQLExamServiceTest {
 
     @Test
     void testCreateQuesion() throws IOException {
-        
+
     }
 
     @Test
     void testAnswer() throws IOException {
-        
+
     }
 
     @Test
@@ -110,12 +109,14 @@ class SQLExamServiceTest {
 
     /**
      * Create Temporary SQL Files in temp folder. Return Files as array.
+     * 
      * @param exam
      * @return array of sript file
      */
     Path[] getScriptFiles(final Exam exam) {
         Path[] scripts = new Path[2];
         File file = new File("src/test/resources/" + exam.getDatabase().getValue() + "/scripts");
-        return Arrays.asList(file.listFiles()).stream().map(script -> script.toPath()).collect(Collectors.toList()).toArray(scripts);
+        return Arrays.asList(file.listFiles()).stream().map(script -> script.toPath()).collect(Collectors.toList())
+                .toArray(scripts);
     }
 }
