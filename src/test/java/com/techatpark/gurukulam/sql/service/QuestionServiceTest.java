@@ -6,9 +6,9 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import java.io.IOException;
 import java.util.NoSuchElementException;
 
+import com.techatpark.gurukulam.sql.model.Database;
 import com.techatpark.gurukulam.sql.model.Exam;
 import com.techatpark.gurukulam.sql.model.Question;
-import com.techatpark.gurukulam.sql.model.Database;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
@@ -44,20 +44,20 @@ class QuestionServiceTest {
      * Connection created with Question Service.
      */
     @Autowired
-    private SQLExamService SQLExamService;
+    private SQLExamService sqlExamService;
 
     @BeforeEach
     void before() throws IOException {
 
         questionService.delete();
-        SQLExamService.delete();
-        exam = SQLExamService.create(getExam(), null).get();
+        sqlExamService.delete();
+        exam = sqlExamService.create(getExam(), null).get();
     }
 
     @AfterEach
     void after() {
         questionService.delete();
-        SQLExamService.delete();
+        sqlExamService.delete();
     }
 
     @Test

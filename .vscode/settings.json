@@ -17,6 +17,15 @@
       "previewLimit": 50,
       "server": "localhost",
       "username": "user"
+    },
+    {
+      "database": "practice_db",
+      "dialect": "PostgreSQL",
+      "name": "Local",
+      "password": "password",
+      "port": 5432,
+      "server": "localhost",
+      "username": "user"
     }
   ]
 }

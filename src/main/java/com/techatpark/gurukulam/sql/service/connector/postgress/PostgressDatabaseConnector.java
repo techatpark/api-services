@@ -12,7 +12,9 @@ import com.techatpark.gurukulam.sql.service.util.FlywayUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.stereotype.Component;
 
+@Component
 public class PostgressDatabaseConnector extends DatabaseConnector {
 
     /**
@@ -37,6 +39,7 @@ public class PostgressDatabaseConnector extends DatabaseConnector {
      */
     @Override
     public final Boolean verify(final Exam exam, final Question question, final String sqlAnswer) {
+
         Boolean isRigntAnswer = false;
         String verificationSQL = "SELECT COUNT(*) FROM ( " + question.getAnswer() + " except " + sqlAnswer
                 + " ) AS TOTAL_ROWS";
