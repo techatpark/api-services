@@ -39,12 +39,16 @@ public class PostgressDatabaseConnector extends DatabaseConnector {
      */
     @Override
     public final Boolean verify(final Exam exam, final Question question, final String sqlAnswer) {
-
         Boolean isRigntAnswer = false;
-        String verificationSQL = "SELECT COUNT(*) FROM ( " + question.getAnswer() + " except " + sqlAnswer
-                + " ) AS TOTAL_ROWS";
-        Integer count = this.getJdbcTemplate().queryForObject(verificationSQL, Integer.class);
-        isRigntAnswer = (count == 0);
+        try {
+            String verificationSQL = "SELECT COUNT(*) FROM ( " + question.getAnswer() + " except " + sqlAnswer
+                    + " ) AS TOTAL_ROWS";
+            Integer count = this.getJdbcTemplate().queryForObject(verificationSQL, Integer.class);
+            isRigntAnswer = (count == 0);
+
+        } catch (Exception ex) {
+            logger.error("Error setting verify method ", ex);
+        }
         return isRigntAnswer;
     }
 
