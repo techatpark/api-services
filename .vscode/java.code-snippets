@@ -2,9 +2,11 @@
   "spring": {
     "prefix": "j-service",
     "body": [
-      "package com.techatpark.gurukulam.eppo.model;",
+      "package com.techatpark.gurukulam.eppo.service;",
       "import javax.sql.DataSource;",
+      "import com.techatpark.gurukulam.eppo.model.${1};",
       "import org.springframework.jdbc.core.JdbcTemplate;",
+      "import org.springframework.jdbc.core.simple.SimpleJdbcInsert;",
       "import org.springframework.stereotype.Service;",
       "@Service",
       "public class ${1}Service {",
@@ -25,7 +27,6 @@
       "this.dataSource = dataSource;",
       "this.jdbcTemplate = jdbcTemplate;",
       "}",
-
       "/**",
       "* inserting into ${1} table.",
       "* ",
@@ -33,10 +34,12 @@
       "* @return reads the input data",
       "*/",
       "public ${1} create(final ${1} new${1}) {",
+      "final SimpleJdbcInsert insert = new SimpleJdbcInsert(dataSource).withTableName(\"${2}\")",
+      ".usingGeneratedKeyColumns(\"id\").usingColumns(${3});",
       "return read(id.intValue()).get();",
       "}",
       "}",
-      "  "
+      " "
     ],
     "description": "Create a Service Class"
   }
