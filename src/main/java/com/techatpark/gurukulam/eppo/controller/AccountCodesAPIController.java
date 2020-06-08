@@ -7,8 +7,6 @@ import com.techatpark.gurukulam.eppo.service.AccountCodesService;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -39,15 +37,5 @@ public class AccountCodesAPIController {
     public ResponseEntity<AccountCodes> create(@Valid @RequestBody AccountCodes accountCodes) {
         return ResponseEntity.status(HttpStatus.CREATED).body(accountCodesService.create(accountCodes));
     }
-
-    @ApiOperation(value = "Deletes accountcodes by given id")
-    @ApiResponses(value = { @ApiResponse(code = 200, message = "accountcodes deleted successfully"),
-                    @ApiResponse(code = 404, message = "accountcodes not found") })
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteExamById(@PathVariable Integer id) {
-            return AccountCodesService.delete(id) ? ResponseEntity.ok().build()
-                            : new ResponseEntity<Void>(HttpStatus.NOT_FOUND);
-    }
-
 
 }
