@@ -1,0 +1,8 @@
+jdbcSettings:
+  url: jdbc:postgresql://localhost:5432/practice_db
+  username: user
+  password: password
+  driverClassName: org.postgresql.Driver
+
+outputDirectory: target/generated/src/main/java
+packageName: com.techatpark.epo.model
