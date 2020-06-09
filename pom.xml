@@ -9,8 +9,8 @@
 		<relativePath />
 		<!-- lookup parent from repository -->
 	</parent>
-	<groupId>com.example</groupId>
-	<artifactId>demo</artifactId>
+	<groupId>com.techatpark</groupId>
+	<artifactId>gurukulam</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>demo</name>
 	<description>Demo project for Spring Boot</description>
@@ -140,6 +140,18 @@
 						</goals>
 					</execution>
 				</executions>
+			</plugin>
+			<plugin>
+				<groupId>com.smartnews</groupId>
+				<artifactId>maven-jpa-entity-generator-plugin</artifactId>
+				<version>0.99.8</version>
+				<dependencies>
+					<dependency>
+						<groupId>org.postgresql</groupId>
+						<artifactId>postgresql</artifactId>
+						<version>42.2.13</version>
+					</dependency>
+				</dependencies>
 			</plugin>
 		</plugins>
 	</build>
