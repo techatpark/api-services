@@ -10,7 +10,6 @@ import io.swagger.annotations.Api;
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
 import springfox.documentation.service.ApiInfo;
-import springfox.documentation.service.Contact;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
@@ -26,8 +25,8 @@ public class SwaggerConfig {
     }
 
     private ApiInfo apiInfo() {
-        return new ApiInfo("SQL Practice", "This is the ststem that tracks the vehicles andanalyze the operations",
-                "API ßTOS", "Terms of service", new Contact("Sathish Kumar", "www.zols.org", "abc@xyz.com"),
+        return new ApiInfo("Sample API", "This is the sample api operations",
+                "API ßTOS", "Terms of service", null,
                 "License of API", "API license URL", Collections.emptyList());
     }
 }
