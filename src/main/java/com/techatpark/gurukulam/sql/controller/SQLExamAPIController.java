@@ -11,8 +11,8 @@ import com.techatpark.gurukulam.sql.controller.payload.CreateExamRequest;
 import com.techatpark.gurukulam.sql.model.Exam;
 import com.techatpark.gurukulam.sql.model.Question;
 import com.techatpark.gurukulam.sql.service.AnswerService;
-import com.techatpark.gurukulam.sql.service.SQLExamService;
 import com.techatpark.gurukulam.sql.service.QuestionService;
+import com.techatpark.gurukulam.sql.service.SQLExamService;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,12 +27,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 
-@Api(value = "SQL Exams", description = "Resource for SQL Exams", tags = { "SQL Exams" })
+//@Api(value = "SQL Exams", description = "Resource for SQL Exams", tags = { "SQL Exams" })
 @RestController
 @RequestMapping("/api/exams/sql")
 class SQLExamAPIController {
@@ -41,7 +40,8 @@ class SQLExamAPIController {
         private final QuestionService questionService;
         private final AnswerService answerService;
 
-        SQLExamAPIController(final SQLExamService SQLExamService, final QuestionService questionService, final AnswerService answerService) {
+        SQLExamAPIController(final SQLExamService SQLExamService, final QuestionService questionService,
+                        final AnswerService answerService) {
                 this.SQLExamService = SQLExamService;
                 this.questionService = questionService;
                 this.answerService = answerService;
@@ -52,14 +52,13 @@ class SQLExamAPIController {
                         @ApiResponse(code = 400, message = "exam is invalid") })
         @ResponseStatus(HttpStatus.CREATED)
         @PostMapping
-        public ResponseEntity<Optional<Exam>> create(HttpServletRequest request,@ModelAttribute CreateExamRequest createExamRequest)
-                        throws IOException {
+        public ResponseEntity<Optional<Exam>> create(HttpServletRequest request,
+                        @ModelAttribute CreateExamRequest createExamRequest) throws IOException {
                 // return
                 // ResponseEntity.status(HttpStatus.CREATED).body(examService.create(createExamRequest.getExam(),
                 // null));
                 return null;
         }
-
 
         @ApiOperation(value = "Get exam with given id")
         @ApiResponses(value = { @ApiResponse(code = 200, message = "exam"),
@@ -68,7 +67,6 @@ class SQLExamAPIController {
         public ResponseEntity<Exam> findById(@PathVariable Integer id) {
                 return ResponseEntity.of(SQLExamService.read(id));
         }
-
 
         @ApiOperation(value = "lists all the exam", notes = "Can be Invoked by auth users only")
         @ApiResponses(value = { @ApiResponse(code = 200, message = "Listing all the exam"),
@@ -79,8 +77,7 @@ class SQLExamAPIController {
                 return exams.isEmpty() ? new ResponseEntity<List<Exam>>(HttpStatus.NO_CONTENT)
                                 : ResponseEntity.ok(exams);
         }
-        
-                
+
         @ApiOperation(value = "Updates the exam by given id", notes = "Can be called only by users with 'auth management' rights.")
         @ApiResponses(value = { @ApiResponse(code = 200, message = "exam updated successfully"),
                         @ApiResponse(code = 400, message = "exam is invalid"),
@@ -92,7 +89,6 @@ class SQLExamAPIController {
                                 : ResponseEntity.ok(updatedexam);
         }
 
-
         @ApiOperation(value = "Deletes the exam by given id")
         @ApiResponses(value = { @ApiResponse(code = 200, message = "exam deleted successfully"),
                         @ApiResponse(code = 404, message = "exam not found") })
@@ -101,7 +97,6 @@ class SQLExamAPIController {
                 return SQLExamService.delete(id) ? ResponseEntity.ok().build()
                                 : new ResponseEntity<Void>(HttpStatus.NOT_FOUND);
         }
-
 
         @ApiOperation(value = "Creates a new question", notes = "Can be called only by users with 'auth management' rights.")
         @ApiResponses(value = { @ApiResponse(code = 201, message = "question created successfully"),
@@ -113,7 +108,6 @@ class SQLExamAPIController {
                 return ResponseEntity.status(HttpStatus.CREATED).body(questionService.create(examId, question));
         }
 
-
         @ApiOperation(value = "Get question with given id")
         @ApiResponses(value = { @ApiResponse(code = 200, message = "question"),
                         @ApiResponse(code = 404, message = "question not found") })
@@ -121,7 +115,6 @@ class SQLExamAPIController {
         public ResponseEntity<Question> findQuestionById(@PathVariable Integer id) {
                 return ResponseEntity.of(questionService.read(id));
         }
-
 
         @ApiOperation(value = "lists all the questions", notes = " Can be invoked by auth users only")
         @ApiResponses(value = { @ApiResponse(code = 200, message = "Listing all the questions"),
@@ -132,7 +125,6 @@ class SQLExamAPIController {
                 return questions.isEmpty() ? new ResponseEntity<List<Question>>(HttpStatus.NO_CONTENT)
                                 : ResponseEntity.ok(questions);
         }
-
 
         @ApiOperation(value = "Updates the question by given id", notes = "Can be called only by users with 'auth management' rights.")
         @ApiResponses(value = { @ApiResponse(code = 200, message = "question updated successfully"),
@@ -146,7 +138,6 @@ class SQLExamAPIController {
                                 : ResponseEntity.ok(updatedQuestion);
         }
 
-
         @ApiOperation(value = "Deletes the question by given id")
         @ApiResponses(value = { @ApiResponse(code = 200, message = "question deleted successfully"),
                         @ApiResponse(code = 404, message = "question not found") })
@@ -156,19 +147,14 @@ class SQLExamAPIController {
                                 : new ResponseEntity<Void>(HttpStatus.NOT_FOUND);
         }
 
-        
         @ApiOperation(value = "Answer a question", notes = "Can be called only by users with 'auth management' rights.")
         @ApiResponses(value = { @ApiResponse(code = 200, message = "Answered a question successfully"),
-                @ApiResponse(code = 406, message = "Answer is invalid") })
+                        @ApiResponse(code = 406, message = "Answer is invalid") })
         @ResponseStatus(HttpStatus.ACCEPTED)
         @PostMapping("/{examId}/questions/{questionId}/answer")
         public ResponseEntity<Void> answer(@PathVariable Integer questionId, @RequestBody String answer) {
-            return answerService.answer(questionId, answer) ? ResponseEntity.status(HttpStatus.ACCEPTED).build()
-                    : ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).build();
+                return answerService.answer(questionId, answer) ? ResponseEntity.status(HttpStatus.ACCEPTED).build()
+                                : ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).build();
         }
-
-      
-
-       
 
 }
