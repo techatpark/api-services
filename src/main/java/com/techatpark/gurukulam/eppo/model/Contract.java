@@ -259,7 +259,7 @@ public class Contract {
      * 
      * @return boolean
      */
-    public boolean isMonthOnMonth() {
+    public boolean getMonthOnMonth() {
         return monthOnMonth;
     }
 
