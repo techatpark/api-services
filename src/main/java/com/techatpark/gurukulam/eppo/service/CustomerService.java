@@ -48,8 +48,7 @@ public class CustomerService {
         final SimpleJdbcInsert insert = new SimpleJdbcInsert(dataSource).withTableName("customers")
                 .usingGeneratedKeyColumns("id").usingColumns("first_name", "middle_name", "last_name", "salutation",
                         "email_id", "primary_phone_number", "secondary_phone_number", "dob", "email_notif_preference",
-                        "text_notif_preference", "created_by", "updated_by", "is_deleted", "status", "address_id",
-                        "created_at", "updated_at");
+                        "text_notif_preference", "created_by", "updated_by", "is_deleted", "status", "address_id");
         final Map<String, Object> valuesMap = new HashMap<>();
         valuesMap.put("first_name", newCustomer.getFirstName());
         valuesMap.put("middle_name", newCustomer.getMiddleName());
