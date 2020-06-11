@@ -129,10 +129,10 @@ public class StateService {
     private State mapRow(final ResultSet rs, final int rowNum) throws SQLException {
         final State state = new State();
         state.setId(rs.getInt("id"));
-        state.setId(rs.getInt("state_name"));
-        state.setId(rs.getInt("state_code"));
-        state.setId(rs.getInt("status"));
-        state.setId(rs.getInt("country_id"));
+        state.setStateName(rs.getString("state_name"));
+        state.setStateCode(rs.getString("state_code"));
+        state.setStatus(rs.getInt("status"));
+        state.setCountryId(rs.getInt("country_id"));
         state.setCreatedAt(rs.getDate("created_at"));
         state.setUpdatedAt(rs.getDate("updated_at"));
         return state;
