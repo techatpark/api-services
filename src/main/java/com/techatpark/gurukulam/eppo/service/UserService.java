@@ -46,7 +46,7 @@ public class UserService {
      */
     public User create(final User newUser) {
         final SimpleJdbcInsert insert = new SimpleJdbcInsert(dataSource).withTableName("")
-                .usingGeneratedKeyColumns("id").usingColumns();
+                .usingGeneratedKeyColumns("id").usingColumns("az_ad_id", "role_id", "user_ref_id", "is_deleted");
         final Map<String, Object> valuesMap = new HashMap<>();
 
         valuesMap.put("az_ad_id", newUser.getAzAdId());
@@ -83,7 +83,7 @@ public class UserService {
      * @return User
      */
     public User update(final Integer id, final User newUser) {
-        final String query = "UPDATE users  SET az_ad_id=?, role_id=?, user_ref_id=?, is_deleted = ?, created_at = CURRENT_TIMESTAMP, updated_at = CURRENT_TIMESTAMP WHERE id = ?";
+        final String query = "UPDATE users  SET az_ad_id = ?, role_id = ?, user_ref_id = ?, is_deleted = ?, created_at = CURRENT_TIMESTAMP, updated_at = CURRENT_TIMESTAMP WHERE id = ?";
         jdbcTemplate.update(query, newUser.getAzAdId(), newUser.getRoleId(), newUser.getUserRefId(),
                 newUser.getIsDeleted(), newUser.getCreatedAt(), newUser.getUpdatedAt(), id);
         return read(id).get();
