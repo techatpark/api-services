@@ -10,13 +10,13 @@
     typeLanguage="http://www.w3.org/2001/XMLSchema"
     expressionLanguage="http://www.w3.org/1999/XPath"
     targetNamespace="http://www.flowable.org/processdef">
-    <process id="RentalFlow"
+    <process id="rentalFlow"
       name="A simple process for Rental Location" isExecutable="true">
         <startEvent id="start" />
         <sequenceFlow sourceRef="start" targetRef="checkLocation" />
         <userTask id="checkLocation" name="Review the location"
           flowable:candidateGroups="owners" />
-        <sequenceFlow sourceRef="reviewRentalLocation" targetRef="decision" />
+        <sequenceFlow sourceRef="checkLocation" targetRef="decision" />
         <exclusiveGateway id="decision" />
         <sequenceFlow sourceRef="decision" targetRef="locationAllowed">
             <conditionExpression xsi:type="tFormalExpression">

@@ -39,7 +39,7 @@ public class RentalWorkflowService {
         Map<String, Object> variables = new HashMap<>();
         variables.put("id", rentalLocation.getId());
         variables.put("locationName", rentalLocation.getRentalLocationName());
-        runtimeService.startProcessInstanceByKey("RentalFlow", variables);
+        runtimeService.startProcessInstanceByKey("rentalFlow", variables);
     }
 
     /**
