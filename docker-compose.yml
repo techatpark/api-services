@@ -5,9 +5,15 @@ services:
     image: "postgres:11"
     container_name: "my_postgres"
     environment:
-      POSTGRES_DB: practice_db
       POSTGRES_USER: user
       POSTGRES_PASSWORD: password
+      POSTGRES_MULTIPLE_DATABASES: flowable,practice_db
     ports:
       - "5432:5432"
-  
+    volumes:
+      - ./initdb:/docker-entrypoint-initdb.d
+  flowable:
+    image: "flowable/all-in-one:6.5.0"
+    container_name: "my_flowable"
+    ports:
+      - "8080:8080"
