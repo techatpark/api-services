@@ -5,9 +5,23 @@ services:
     image: "postgres:11"
     container_name: "my_postgres"
     environment:
-      POSTGRES_DB: practice_db
       POSTGRES_USER: user
       POSTGRES_PASSWORD: password
+      POSTGRES_MULTIPLE_DATABASES: flowable,practice_db
     ports:
       - "5432:5432"
-  
+    volumes:
+      - ./initdb:/docker-entrypoint-initdb.d
+  flowable:
+    image: "flowable/all-in-one:6.5.0"
+    container_name: "my_flowable"
+    depends_on:
+      - postgres
+    environment:
+      - SERVER_PORT=5432
+      - SPRING_DATASOURCE_DRIVER-CLASS-NAME=org.postgresql.Driver
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/flowable
+      - SPRING_DATASOURCE_USERNAME=user
+      - SPRING_DATASOURCE_PASSWORD=password
+    ports:
+      - "8080:8080"

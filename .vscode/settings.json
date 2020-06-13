@@ -19,11 +19,13 @@
       "username": "user"
     },
     {
-      "database": "practice_db",
-      "dialect": "PostgreSQL",
-      "name": "Local",
+      "askForPassword": false,
+      "database": "flowable",
+      "driver": "PostgreSQL",
+      "name": "LOCAL_FLOWABLE",
       "password": "password",
       "port": 5432,
+      "previewLimit": 50,
       "server": "localhost",
       "username": "user"
     }
