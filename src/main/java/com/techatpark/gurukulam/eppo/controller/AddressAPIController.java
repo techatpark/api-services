@@ -23,11 +23,11 @@ import io.swagger.annotations.ApiResponses;
 @Api(value = "Address", description = "Resource for Address", tags = { "Address" })
 @RestController
 @RequestMapping("/api/address")
-public class AddressController {
+public class AddressAPIController {
 
     private final AddressService addressService;
 
-    AddressController(final AddressService addressService) {
+    AddressAPIController(final AddressService addressService) {
         this.addressService = addressService;
     }
 

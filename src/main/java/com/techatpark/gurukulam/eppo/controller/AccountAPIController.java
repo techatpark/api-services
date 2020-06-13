@@ -60,7 +60,7 @@ public class AccountAPIController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity delete(@PathVariable Integer id) {
+    public ResponseEntity<Account> delete(@PathVariable Integer id) {
         accountService.delete(id);
         return ResponseEntity.ok().build();
     }

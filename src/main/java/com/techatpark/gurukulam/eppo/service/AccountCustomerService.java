@@ -8,9 +8,9 @@ import java.util.Map;
 import java.util.Optional;
 
 import javax.sql.DataSource;
+import javax.validation.Valid;
 
 import com.techatpark.gurukulam.eppo.model.AccountCustomer;
-import com.techatpark.gurukulam.eppo.model.Customer;
 
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -42,29 +42,27 @@ public class AccountCustomerService {
     /**
      * inserting into Customer table.
      * 
-     * @param newAccountCustomer
+     * @param accountCustomer
      * @return reads the input data
      */
-    public AccountCustomer create(final Customer newAccountCustomer) {
+    public AccountCustomer create(final @Valid AccountCustomer accountCustomer) {
         final SimpleJdbcInsert insert = new SimpleJdbcInsert(dataSource).withTableName("account_customers")
                 .usingGeneratedKeyColumns("id").usingColumns("first_name", "middle_name", "last_name", "email_id",
-                        "primary_phone_number", "secondary_phone_number", "dob", "created_by", "updated_by",
-                        "is_deleted", "status", "address_id", "created_at", "updated_at");
+                        "primary_phone_number", "secondary_phone_number", "dob", "account_id", "created_by",
+                        "updated_by", "is_deleted", "status", "created_at", "updated_at");
         final Map<String, Object> valuesMap = new HashMap<>();
-        valuesMap.put("first_name", newAccountCustomer.getFirstName());
-        valuesMap.put("middle_name", newAccountCustomer.getMiddleName());
-        valuesMap.put("last_name", newAccountCustomer.getLastName());
-
-        valuesMap.put("email_id", newAccountCustomer.getEmailId());
-        valuesMap.put("primary_phone_number", newAccountCustomer.getPrimaryPhoneNumber());
-        valuesMap.put("secondary_phone_number", newAccountCustomer.getSecondaryPhoneNumber());
-        valuesMap.put("dob", newAccountCustomer.getDob());
-
-        valuesMap.put("created_by", newAccountCustomer.getCreatedBy());
-        valuesMap.put("updated_by", newAccountCustomer.getUpdatedBy());
-        valuesMap.put("is_deleted", newAccountCustomer.getIsDeleted());
-        valuesMap.put("status", newAccountCustomer.getStatus());
-        valuesMap.put("address_id", newAccountCustomer.getAddressId());
+        valuesMap.put("first_name", accountCustomer.getFirstName());
+        valuesMap.put("middle_name", accountCustomer.getMiddleName());
+        valuesMap.put("last_name", accountCustomer.getLastName());
+        valuesMap.put("email_id", accountCustomer.getEmailId());
+        valuesMap.put("primary_phone_number", accountCustomer.getPrimaryPhoneNumber());
+        valuesMap.put("secondary_phone_number", accountCustomer.getSecondaryPhoneNumber());
+        valuesMap.put("dob", accountCustomer.getDob());
+        valuesMap.put("account_id", accountCustomer.getAccountId());
+        valuesMap.put("created_by", accountCustomer.getCreatedBy());
+        valuesMap.put("updated_by", accountCustomer.getUpdatedBy());
+        valuesMap.put("is_deleted", accountCustomer.getIsDeleted());
+        valuesMap.put("status", accountCustomer.getStatus());
 
         // Actual Query Execution happens
         final Number id = insert.executeAndReturnKey(valuesMap);
@@ -90,19 +88,16 @@ public class AccountCustomerService {
      * update table Customer.
      *
      * @param id
-     * @param customerToBeUpdated
+     * @param accountCustomer
      * @return Customer
      */
-    public AccountCustomer update(final Integer id, final Customer customerToBeUpdated) {
-        final String query = "UPDATE account_customers SET first_name = ?, middle_name = ?, last_name = ?, email_id = ?, primary_phone_number = ?, secondary_phone_number = ?, dob = ?, created_by = ?, updated_by = ?, is_deleted = ?, status = ?, address_id = ?, created_at = CURRENT_TIMESTAMP, updated_at = CURRENT_TIMESTAMP WHERE id = ?";
-        jdbcTemplate.update(query, customerToBeUpdated.getFirstName(), customerToBeUpdated.getMiddleName(),
-                customerToBeUpdated.getLastName(), customerToBeUpdated.getSalutation(),
-                customerToBeUpdated.getEmailId(), customerToBeUpdated.getPrimaryPhoneNumber(),
-                customerToBeUpdated.getSecondaryPhoneNumber(), customerToBeUpdated.getDob(),
-                customerToBeUpdated.getEmailNotifPreference(), customerToBeUpdated.getTextNotifPreference(),
-                customerToBeUpdated.getCreatedBy(), customerToBeUpdated.getUpdatedBy(),
-                customerToBeUpdated.getIsDeleted(), customerToBeUpdated.getStatus(), customerToBeUpdated.getAddressId(),
-                id);
+    public AccountCustomer update(final Integer id, final @Valid AccountCustomer accountCustomer) {
+        final String query = "UPDATE account_customers SET first_name = ?, middle_name = ?, last_name = ?, primary_phone_number = ?, secondary_phone_number = ?, email_id = ?, dob = ?,account_id = ?, created_by = ?, updated_by = ?, is_deleted = ?, status = ?, created_at = CURRENT_TIMESTAMP, updated_at = CURRENT_TIMESTAMP WHERE id = ?";
+        jdbcTemplate.update(query, accountCustomer.getFirstName(), accountCustomer.getMiddleName(),
+                accountCustomer.getLastName(), accountCustomer.getPrimaryPhoneNumber(),
+                accountCustomer.getSecondaryPhoneNumber(), accountCustomer.getEmailId(), accountCustomer.getDob(),
+                accountCustomer.getAccountId(), accountCustomer.getCreatedBy(), accountCustomer.getUpdatedBy(),
+                accountCustomer.getIsDeleted(), accountCustomer.getStatus(), id);
         return read(id).get();
     }
 
@@ -151,17 +146,15 @@ public class AccountCustomerService {
         accountCustomer.setFirstName(rs.getString("first_name"));
         accountCustomer.setMiddleName(rs.getString("middle_name"));
         accountCustomer.setLastName(rs.getString("last_name"));
-
         accountCustomer.setEmailId(rs.getString("email_id"));
         accountCustomer.setPrimaryPhoneNumber(rs.getString("primary_phone_number"));
         accountCustomer.setSecondaryPhoneNumber(rs.getString("secondary_phone_number"));
         accountCustomer.setDob(rs.getDate("dob"));
-
+        accountCustomer.setAccountId(rs.getInt("account_id"));
         accountCustomer.setCreatedBy(rs.getInt("created_by"));
         accountCustomer.setUpdatedBy(rs.getInt("updated_by"));
         accountCustomer.setIsDeleted(rs.getInt("is_deleted"));
         accountCustomer.setStatus(rs.getInt("status"));
-        accountCustomer.setAddressId(rs.getInt("address_id"));
         accountCustomer.setCreatedAt(rs.getDate("created_at"));
         accountCustomer.setUpdatedAt(rs.getDate("updated_at"));
         return accountCustomer;

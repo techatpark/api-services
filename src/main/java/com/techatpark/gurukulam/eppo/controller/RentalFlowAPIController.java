@@ -20,7 +20,7 @@ import io.swagger.annotations.Api;
 @RestController
 @RequestMapping("/api/flows")
 
-public class RentalFlowController {
+public class RentalFlowAPIController {
 
     @Autowired
     private RentalWorkflowService rentalWorkflowService;

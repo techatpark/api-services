@@ -54,9 +54,9 @@ public class AccountCustomer {
      */
     private Integer status;
     /**
-     * tells the address id.
+     * tells the account id.
      */
-    private Integer addressId;
+    private Integer accountId;
     /**
      * tells when the account created.
      */
@@ -283,12 +283,12 @@ public class AccountCustomer {
     }
 
     /**
-     * get addressid.
+     * get accountId.
      * 
-     * @return addressId
+     * @return accountId
      */
-    public Integer getAddressId() {
-        return addressId;
+    public Integer getAccountId() {
+        return accountId;
     }
 
     /**
@@ -296,8 +296,8 @@ public class AccountCustomer {
      * 
      * @param addressId
      */
-    public void setAddressId(final Integer addressId) {
-        this.addressId = addressId;
+    public void setAccountId(final Integer accountId) {
+        this.accountId = accountId;
     }
 
     /**

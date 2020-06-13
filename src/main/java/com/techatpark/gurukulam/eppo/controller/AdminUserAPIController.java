@@ -22,17 +22,17 @@ import io.swagger.annotations.ApiResponses;
 
 @Api(value = "AdminUsers", description = "Resource for AdminUsers", tags = { "AdminUsers" })
 @RestController
-@RequestMapping("/api/adminUsers")
-public class AdminUserController {
+@RequestMapping("/api/admin_users")
+public class AdminUserAPIController {
 
-    public AdminUserController(AdminUserService adminUserService) {
+    public AdminUserAPIController(AdminUserService adminUserService) {
         this.adminUserService = adminUserService;
     }
 
     private final AdminUserService adminUserService;
 
-    @ApiOperation(value = "Creates a new Admin_user", notes = "Can be called only by users with 'auth management' rights.")
-    @ApiResponses(value = { @ApiResponse(code = 201, message = "Admin_user created successfully"),
+    @ApiOperation(value = "Creates a new AdminUser", notes = "Can be called only by users with 'auth management' rights.")
+    @ApiResponses(value = { @ApiResponse(code = 201, message = "AdminUser created successfully"),
             @ApiResponse(code = 400, message = "Role name already in use") })
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
