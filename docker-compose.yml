@@ -10,3 +10,8 @@ services:
       POSTGRES_PASSWORD: password
     ports:
       - "5432:5432"
+  flowable:
+    image: "flowable/all-in-one"
+    container_name: "my_flowable"
+    ports:
+      - "8080:8080"
