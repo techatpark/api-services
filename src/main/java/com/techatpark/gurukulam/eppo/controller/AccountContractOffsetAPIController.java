@@ -37,14 +37,18 @@ public class AccountContractOffsetAPIController {
         this.accountContractOffsetService = accountContractOffsetService;
     }
 
+    @ApiOperation(value = "List all AccountContractOffsets", notes = "Can be called only by users with 'auth management' rights.")
+    @ApiResponses(value = { @ApiResponse(code = 201, message = "AccountContractOffsets Listed successfully"),
+            @ApiResponse(code = 400, message = "AccountContractOffsets Not Available") })
+    @ResponseStatus(HttpStatus.OK)
     @GetMapping
     public ResponseEntity<List<AccountContractOffset>> findAll() {
         return ResponseEntity.ok(accountContractOffsetService.list());
     }
 
-    @ApiOperation(value = "Creates a new account_contract_offset", notes = "Can be called only by users with 'auth management' rights.")
-    @ApiResponses(value = { @ApiResponse(code = 201, message = "account_contract_offset created successfully"),
-            @ApiResponse(code = 400, message = "account_contract_offset already in use") })
+    @ApiOperation(value = "Creates a new AccountContractOffsets", notes = "Can be called only by users with 'auth management' rights.")
+    @ApiResponses(value = { @ApiResponse(code = 201, message = "AccountContractOffsets created successfully"),
+            @ApiResponse(code = 400, message = "AccountContractOffsets already in use") })
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
     public ResponseEntity<AccountContractOffset> create(
@@ -53,17 +57,30 @@ public class AccountContractOffsetAPIController {
                 .body(accountContractOffsetService.create(accountContractOffset));
     }
 
+    @ApiOperation(value = "Finds a AccountContractOffsets with a given ID", notes = "Can be called only by users with 'auth management' rights.")
+    @ApiResponses(value = {
+            @ApiResponse(code = 201, message = "AccountContractOffsets with a given ID found successfully"),
+            @ApiResponse(code = 400, message = "AccountContractOffsets Not Available") })
+    @ResponseStatus(HttpStatus.FOUND)
     @GetMapping("/{id}")
     public ResponseEntity<AccountContractOffset> findById(@PathVariable Integer id) {
         return ResponseEntity.of(accountContractOffsetService.read(id));
     }
 
+    @ApiOperation(value = "Updates a AccountContractOffsets", notes = "Can be called only by users with 'auth management' rights.")
+    @ApiResponses(value = { @ApiResponse(code = 201, message = "AccountContractOffsets updated successfully"),
+            @ApiResponse(code = 400, message = "AccountContractOffsets Not Available") })
+    @ResponseStatus(HttpStatus.CREATED)
     @PutMapping("/{id}")
     public ResponseEntity<AccountContractOffset> update(@PathVariable Integer id,
             @Valid @RequestBody AccountContractOffset accountContractOffset) {
         return ResponseEntity.ok(accountContractOffsetService.update(id, accountContractOffset));
     }
 
+    @ApiOperation(value = "Deletes a AccountContractOffsets with a given ID", notes = "Can be called only by users with 'auth management' rights.")
+    @ApiResponses(value = { @ApiResponse(code = 201, message = "AccountContractOffsets deleted successfully"),
+            @ApiResponse(code = 400, message = "AccountContractOffsets Not Available") })
+    @ResponseStatus(HttpStatus.OK)
     @DeleteMapping("/{id}")
     public ResponseEntity<AccountContractOffset> delete(@PathVariable Integer id) {
         accountContractOffsetService.delete(id);

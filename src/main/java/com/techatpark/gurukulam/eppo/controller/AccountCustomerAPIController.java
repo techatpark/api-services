@@ -36,6 +36,10 @@ public class AccountCustomerAPIController {
         this.accountCustomerService = accountCustomerService;
     }
 
+    @ApiOperation(value = "List all AccountCustomers", notes = "Can be called only by users with 'auth management' rights.")
+    @ApiResponses(value = { @ApiResponse(code = 201, message = "AccountCustomers Listed successfully"),
+            @ApiResponse(code = 400, message = "AccountCustomers Not Available") })
+    @ResponseStatus(HttpStatus.OK)
     @GetMapping
     public ResponseEntity<List<AccountCustomer>> findAll() {
         return ResponseEntity.ok(accountCustomerService.list());
@@ -50,17 +54,29 @@ public class AccountCustomerAPIController {
         return ResponseEntity.status(HttpStatus.CREATED).body(accountCustomerService.create(accountCustomer));
     }
 
+    @ApiOperation(value = "Finds a AccountCustomer with a given ID", notes = "Can be called only by users with 'auth management' rights.")
+    @ApiResponses(value = { @ApiResponse(code = 201, message = "AccountCustomer with a given ID found successfully"),
+            @ApiResponse(code = 400, message = "AccountCustomer Not Available") })
+    @ResponseStatus(HttpStatus.FOUND)
     @GetMapping("/{id}")
     public ResponseEntity<AccountCustomer> findById(@PathVariable Integer id) {
         return ResponseEntity.of(accountCustomerService.read(id));
     }
 
+    @ApiOperation(value = "Updates a AccountCustomer", notes = "Can be called only by users with 'auth management' rights.")
+    @ApiResponses(value = { @ApiResponse(code = 201, message = "AccountCustomer updated successfully"),
+            @ApiResponse(code = 400, message = "AccountCustomer Not Available") })
+    @ResponseStatus(HttpStatus.CREATED)
     @PutMapping("/{id}")
     public ResponseEntity<AccountCustomer> update(@PathVariable Integer id,
             @Valid @RequestBody AccountCustomer accountCustomer) {
         return ResponseEntity.ok(accountCustomerService.update(id, accountCustomer));
     }
 
+    @ApiOperation(value = "Deletes a AccountCustomer with a given ID", notes = "Can be called only by users with 'auth management' rights.")
+    @ApiResponses(value = { @ApiResponse(code = 201, message = "AccountCustomer deleted successfully"),
+            @ApiResponse(code = 400, message = "AccountCustomer Not Available") })
+    @ResponseStatus(HttpStatus.OK)
     @DeleteMapping("/{id}")
     public ResponseEntity<AccountCustomer> delete(@PathVariable Integer id) {
         accountCustomerService.delete(id);

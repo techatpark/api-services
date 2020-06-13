@@ -35,6 +35,10 @@ public class AccountCodeAPIController {
         this.accountCodeService = accountCodeService;
     }
 
+    @ApiOperation(value = "List all AccountCodes", notes = "Can be called only by users with 'auth management' rights.")
+    @ApiResponses(value = { @ApiResponse(code = 201, message = "AccountCodes Listed successfully"),
+            @ApiResponse(code = 400, message = "AccountCodes Not Available") })
+    @ResponseStatus(HttpStatus.OK)
     @GetMapping
     public ResponseEntity<List<AccountCode>> findAll() {
         return ResponseEntity.ok(accountCodeService.list());
@@ -49,16 +53,28 @@ public class AccountCodeAPIController {
         return ResponseEntity.status(HttpStatus.CREATED).body(accountCodeService.create(accountCode));
     }
 
+    @ApiOperation(value = "Finds a AccountCode with a given ID", notes = "Can be called only by users with 'auth management' rights.")
+    @ApiResponses(value = { @ApiResponse(code = 201, message = "AccountCode with a given ID found successfully"),
+            @ApiResponse(code = 400, message = "AccountCode Not Available") })
+    @ResponseStatus(HttpStatus.FOUND)
     @GetMapping("/{id}")
     public ResponseEntity<AccountCode> findById(@PathVariable Integer id) {
         return ResponseEntity.of(accountCodeService.read(id));
     }
 
+    @ApiOperation(value = "Updates a AccountCode", notes = "Can be called only by users with 'auth management' rights.")
+    @ApiResponses(value = { @ApiResponse(code = 201, message = "AccountCode updated successfully"),
+            @ApiResponse(code = 400, message = "AccountCode Not Available") })
+    @ResponseStatus(HttpStatus.CREATED)
     @PutMapping("/{id}")
     public ResponseEntity<AccountCode> update(@PathVariable Integer id, @Valid @RequestBody AccountCode accountCode) {
         return ResponseEntity.ok(accountCodeService.update(id, accountCode));
     }
 
+    @ApiOperation(value = "Deletes a AccountCode with a given ID", notes = "Can be called only by users with 'auth management' rights.")
+    @ApiResponses(value = { @ApiResponse(code = 201, message = "AccountCode deleted successfully"),
+            @ApiResponse(code = 400, message = "AccountCode Not Available") })
+    @ResponseStatus(HttpStatus.OK)
     @DeleteMapping("/{id}")
     public ResponseEntity<AccountCode> delete(@PathVariable Integer id) {
         accountCodeService.delete(id);

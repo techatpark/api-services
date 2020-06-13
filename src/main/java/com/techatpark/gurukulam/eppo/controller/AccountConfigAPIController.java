@@ -35,31 +35,47 @@ public class AccountConfigAPIController {
         this.accountConfigService = accountConfigService;
     }
 
+    @ApiOperation(value = "List all AccountConfigs", notes = "Can be called only by users with 'auth management' rights.")
+    @ApiResponses(value = { @ApiResponse(code = 201, message = "AccountConfigs Listed successfully"),
+            @ApiResponse(code = 400, message = "AccountConfigs Not Available") })
+    @ResponseStatus(HttpStatus.OK)
     @GetMapping
     public ResponseEntity<List<AccountConfig>> findAll() {
         return ResponseEntity.ok(accountConfigService.list());
     }
 
-    @ApiOperation(value = "Creates a new accountconfig", notes = "Can be called only by users with 'auth management' rights.")
-    @ApiResponses(value = { @ApiResponse(code = 201, message = "accountconfig created successfully"),
-            @ApiResponse(code = 400, message = "Accountconfig already in use") })
+    @ApiOperation(value = "Creates a new AccountConfigs", notes = "Can be called only by users with 'auth management' rights.")
+    @ApiResponses(value = { @ApiResponse(code = 201, message = "AccountConfigs created successfully"),
+            @ApiResponse(code = 400, message = "AccountConfigs already in use") })
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
     public ResponseEntity<AccountConfig> create(@Valid @RequestBody AccountConfig accountConfig) {
         return ResponseEntity.status(HttpStatus.CREATED).body(accountConfigService.create(accountConfig));
     }
 
+    @ApiOperation(value = "Finds a AccountConfig with a given ID", notes = "Can be called only by users with 'auth management' rights.")
+    @ApiResponses(value = { @ApiResponse(code = 201, message = "AccountConfig with a given ID found successfully"),
+            @ApiResponse(code = 400, message = "AccountConfig Not Available") })
+    @ResponseStatus(HttpStatus.FOUND)
     @GetMapping("/{id}")
     public ResponseEntity<AccountConfig> findById(@PathVariable Integer id) {
         return ResponseEntity.of(accountConfigService.read(id));
     }
 
+    @ApiOperation(value = "Updates a AccountConfig", notes = "Can be called only by users with 'auth management' rights.")
+    @ApiResponses(value = { @ApiResponse(code = 201, message = "AccountConfig updated successfully"),
+            @ApiResponse(code = 400, message = "AccountConfig Not Available") })
+    @ResponseStatus(HttpStatus.CREATED)
     @PutMapping("/{id}")
     public ResponseEntity<AccountConfig> update(@PathVariable Integer id,
             @Valid @RequestBody AccountConfig accountConfig) {
         return ResponseEntity.ok(accountConfigService.update(id, accountConfig));
     }
 
+    @ApiOperation(value = "Deletes a AccountConfig with a given ID", notes = "Can be called only by users with 'auth management' rights.")
+    @ApiResponses(value = { @ApiResponse(code = 201, message = "AccountConfig deleted successfully"),
+            @ApiResponse(code = 400, message = "AccountConfig Not Available") })
+    @ResponseStatus(HttpStatus.OK)
     @DeleteMapping("/{id}")
     public ResponseEntity<AccountConfig> delete(@PathVariable Integer id) {
         accountConfigService.delete(id);

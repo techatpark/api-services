@@ -1,0 +1,83 @@
+package com.techatpark.gurukulam.eppo.controller;
+
+import java.util.List;
+
+import javax.validation.Valid;
+
+import com.techatpark.gurukulam.eppo.model.State;
+import com.techatpark.gurukulam.eppo.service.StateService;
+
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestController;
+
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
+
+@Api(value = "States", description = "Resource for States", tags = { "States" })
+@RestController
+@RequestMapping("/api/bank_accounts")
+public class StateAPIController {
+
+    private final StateService stateService;
+
+    StateAPIController(final StateService stateService) {
+        this.stateService = stateService;
+    }
+
+    @ApiOperation(value = "List all States", notes = "Can be called only by users with 'auth management' rights.")
+    @ApiResponses(value = { @ApiResponse(code = 201, message = "States Listed successfully"),
+            @ApiResponse(code = 400, message = "States Not Available") })
+    @ResponseStatus(HttpStatus.OK)
+    @GetMapping
+    public ResponseEntity<List<State>> findAll() {
+        return ResponseEntity.ok(stateService.list());
+    }
+
+    @ApiOperation(value = "Creates a new State", notes = "Can be called only by users with 'auth management' rights.")
+    @ApiResponses(value = { @ApiResponse(code = 201, message = "State created successfully"),
+            @ApiResponse(code = 400, message = "State already in use") })
+    @ResponseStatus(HttpStatus.CREATED)
+    @PostMapping
+    public ResponseEntity<State> create(@Valid @RequestBody State state) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(stateService.create(state));
+    }
+
+    @ApiOperation(value = "Finds a State with a given ID", notes = "Can be called only by users with 'auth management' rights.")
+    @ApiResponses(value = { @ApiResponse(code = 201, message = "State with a given ID found successfully"),
+            @ApiResponse(code = 400, message = "State Not Available") })
+    @ResponseStatus(HttpStatus.FOUND)
+    @GetMapping("/{id}")
+    public ResponseEntity<State> findById(@PathVariable Integer id) {
+        return ResponseEntity.of(stateService.read(id));
+    }
+
+    @ApiOperation(value = "Updates a State", notes = "Can be called only by users with 'auth management' rights.")
+    @ApiResponses(value = { @ApiResponse(code = 201, message = "State updated successfully"),
+            @ApiResponse(code = 400, message = "State Not Available") })
+    @ResponseStatus(HttpStatus.CREATED)
+    @PutMapping("/{id}")
+    public ResponseEntity<State> update(@PathVariable Integer id, @Valid @RequestBody State state) {
+        return ResponseEntity.ok(stateService.update(id, state));
+    }
+
+    @ApiOperation(value = "Deletes a State with a given ID", notes = "Can be called only by users with 'auth management' rights.")
+    @ApiResponses(value = { @ApiResponse(code = 201, message = "State deleted successfully"),
+            @ApiResponse(code = 400, message = "State Not Available") })
+    @ResponseStatus(HttpStatus.OK)
+    @DeleteMapping("/{id}")
+    public ResponseEntity<State> delete(@PathVariable Integer id) {
+        stateService.delete(id);
+        return ResponseEntity.ok().build();
+    }
+}

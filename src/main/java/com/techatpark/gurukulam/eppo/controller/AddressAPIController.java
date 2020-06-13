@@ -1,16 +1,20 @@
 package com.techatpark.gurukulam.eppo.controller;
 
 import java.util.List;
-import java.util.Optional;
+
+import javax.validation.Valid;
 
 import com.techatpark.gurukulam.eppo.model.Address;
 import com.techatpark.gurukulam.eppo.service.AddressService;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
@@ -31,38 +35,54 @@ public class AddressAPIController {
         this.addressService = addressService;
     }
 
+    @ApiOperation(value = "List all Addresses", notes = "Can be called only by users with 'auth management' rights.")
+    @ApiResponses(value = { @ApiResponse(code = 201, message = "Addresses Listed successfully"),
+            @ApiResponse(code = 400, message = "Addresses Not Available") })
+    @ResponseStatus(HttpStatus.OK)
+    @GetMapping
+    public ResponseEntity<List<Address>> findAll() {
+        return ResponseEntity.ok(addressService.list());
+    }
+
     @ApiOperation(value = "Creates a new Address", notes = "Can be called only by users with 'auth management' rights.")
     @ApiResponses(value = { @ApiResponse(code = 201, message = "Address created successfully"),
-            @ApiResponse(code = 400, message = "Role name already in use") })
+            @ApiResponse(code = 400, message = "Address already in use") })
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
-    public Address create(Address newAddress) {
-        return addressService.create(newAddress);
+    public ResponseEntity<Address> create(@Valid @RequestBody Address address) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(addressService.create(address));
     }
 
+    @ApiOperation(value = "Finds a Address with a given ID", notes = "Can be called only by users with 'auth management' rights.")
+    @ApiResponses(value = { @ApiResponse(code = 201, message = "Address with a given ID found successfully"),
+            @ApiResponse(code = 400, message = "Address Not Available") })
+    @ResponseStatus(HttpStatus.FOUND)
     @GetMapping("/{id}")
-    public Optional<Address> read(Integer id) {
-        return addressService.read(id);
+    public ResponseEntity<Address> findById(@PathVariable Integer id) {
+        return ResponseEntity.of(addressService.read(id));
     }
 
+    @ApiOperation(value = "Updates a Address", notes = "Can be called only by users with 'auth management' rights.")
+    @ApiResponses(value = { @ApiResponse(code = 201, message = "Address updated successfully"),
+            @ApiResponse(code = 400, message = "Address Not Available") })
+    @ResponseStatus(HttpStatus.CREATED)
     @PutMapping("/{id}")
-    public Address update(Integer id, Address newAddress) {
-        return addressService.update(id, newAddress);
+    public ResponseEntity<Address> update(@PathVariable Integer id, @Valid @RequestBody Address address) {
+        return ResponseEntity.ok(addressService.update(id, address));
     }
 
+    @ApiOperation(value = "Deletes a Address with a given ID", notes = "Can be called only by users with 'auth management' rights.")
+    @ApiResponses(value = { @ApiResponse(code = 201, message = "Address deleted successfully"),
+            @ApiResponse(code = 400, message = "Address Not Available") })
+    @ResponseStatus(HttpStatus.OK)
     @DeleteMapping("/{id}")
-    public Integer delete(Integer id) {
-        return addressService.delete(id);
+    public ResponseEntity<Address> delete(@PathVariable Integer id) {
+        addressService.delete(id);
+        return ResponseEntity.ok().build();
     }
 
     @DeleteMapping
     public Integer delete() {
         return addressService.delete();
     }
-
-    @GetMapping
-    public List<Address> list() {
-        return addressService.list();
-    }
-
 }

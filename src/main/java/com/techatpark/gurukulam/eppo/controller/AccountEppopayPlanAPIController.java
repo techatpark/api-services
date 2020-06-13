@@ -36,6 +36,10 @@ public class AccountEppopayPlanAPIController {
         this.accountEppopayPlanService = accountEppopayPlanService;
     }
 
+    @ApiOperation(value = "List all AccountEppopayPlans", notes = "Can be called only by users with 'auth management' rights.")
+    @ApiResponses(value = { @ApiResponse(code = 201, message = "AccountEppopayPlans Listed successfully"),
+            @ApiResponse(code = 400, message = "AccountEppopayPlans Not Available") })
+    @ResponseStatus(HttpStatus.OK)
     @GetMapping
     public ResponseEntity<List<AccountEppopayPlan>> findAll() {
         return ResponseEntity.ok(accountEppopayPlanService.list());
@@ -50,17 +54,29 @@ public class AccountEppopayPlanAPIController {
         return ResponseEntity.status(HttpStatus.CREATED).body(accountEppopayPlanService.create(accountEppopayPlan));
     }
 
+    @ApiOperation(value = "Finds a AccountEppopayPlan with a given ID", notes = "Can be called only by users with 'auth management' rights.")
+    @ApiResponses(value = { @ApiResponse(code = 201, message = "AccountEppopayPlan with a given ID found successfully"),
+            @ApiResponse(code = 400, message = "AccountEppopayPlan Not Available") })
+    @ResponseStatus(HttpStatus.FOUND)
     @GetMapping("/{id}")
     public ResponseEntity<AccountEppopayPlan> findById(@PathVariable Integer id) {
         return ResponseEntity.of(accountEppopayPlanService.read(id));
     }
 
+    @ApiOperation(value = "Updates a AccountEppopayPlan", notes = "Can be called only by users with 'auth management' rights.")
+    @ApiResponses(value = { @ApiResponse(code = 201, message = "AccountEppopayPlan updated successfully"),
+            @ApiResponse(code = 400, message = "AccountEppopayPlan Not Available") })
+    @ResponseStatus(HttpStatus.CREATED)
     @PutMapping("/{id}")
     public ResponseEntity<AccountEppopayPlan> update(@PathVariable Integer id,
             @Valid @RequestBody AccountEppopayPlan accountEppopayPlan) {
         return ResponseEntity.ok(accountEppopayPlanService.update(id, accountEppopayPlan));
     }
 
+    @ApiOperation(value = "Deletes a AccountEppopayPlan with a given ID", notes = "Can be called only by users with 'auth management' rights.")
+    @ApiResponses(value = { @ApiResponse(code = 201, message = "AccountEppopayPlan deleted successfully"),
+            @ApiResponse(code = 400, message = "AccountEppopayPlan Not Available") })
+    @ResponseStatus(HttpStatus.OK)
     @DeleteMapping("/{id}")
     public ResponseEntity<AccountEppopayPlan> delete(@PathVariable Integer id) {
         accountEppopayPlanService.delete(id);
