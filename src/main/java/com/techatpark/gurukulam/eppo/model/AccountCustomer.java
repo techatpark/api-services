@@ -294,7 +294,7 @@ public class AccountCustomer {
     /**
      * sets addressId.
      * 
-     * @param addressId
+     * @param accountId
      */
     public void setAccountId(final Integer accountId) {
         this.accountId = accountId;

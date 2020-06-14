@@ -26,7 +26,7 @@ import io.swagger.annotations.ApiResponses;
 
 @Api(value = "RentalLocations", description = "Resource for RentalLocations", tags = { "RentalLocations" })
 @RestController
-@RequestMapping("/api/bank_accounts")
+@RequestMapping("/api/rental_location")
 public class RentalLocationAPIController {
 
     private final RentalLocationService rentalLocationService;

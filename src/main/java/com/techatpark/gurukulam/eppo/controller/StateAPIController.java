@@ -26,7 +26,7 @@ import io.swagger.annotations.ApiResponses;
 
 @Api(value = "States", description = "Resource for States", tags = { "States" })
 @RestController
-@RequestMapping("/api/bank_accounts")
+@RequestMapping("/api/states")
 public class StateAPIController {
 
     private final StateService stateService;
