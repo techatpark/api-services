@@ -9,6 +9,13 @@
             "name": "CodeLens (Launch) - Application",
             "request": "launch",
             "mainClass": "com.techatpark.Application",
+            "projectName": "gurukulam"
+        },
+        {
+            "type": "java",
+            "name": "CodeLens (Launch) - Application",
+            "request": "launch",
+            "mainClass": "com.techatpark.Application",
             "projectName": "demo"
         },
         {

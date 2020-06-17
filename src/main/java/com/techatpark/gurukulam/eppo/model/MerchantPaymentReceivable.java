@@ -10,7 +10,7 @@ public class MerchantPaymentReceivable {
     /**
      * tells the day of month.
      */
-    private String dayOfMonth;
+    private Date dayOfMonth;
     /**
      * tells the percentage receivable.
      */
@@ -65,19 +65,19 @@ public class MerchantPaymentReceivable {
     /**
      * gets the day of month.
      * 
-     * @return String
+     * @return dayOfMonth
      */
-    public String getDayOfMonth() {
+    public Date getDayOfMonth() {
         return dayOfMonth;
     }
 
     /**
      * sets the day of month.
      * 
-     * @param dayOfMonth
+     * @param date
      */
-    public void setDayOfMonth(final String dayOfMonth) {
-        this.dayOfMonth = dayOfMonth;
+    public void setDayOfMonth(final Date date) {
+        this.dayOfMonth = date;
     }
 
     /**

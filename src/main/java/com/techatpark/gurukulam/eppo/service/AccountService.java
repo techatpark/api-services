@@ -38,31 +38,32 @@ public class AccountService {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-/**
-* inserting into Account table.
-* 
-* @param newAccount
-* @return reads the input data
-*/
-public Account create(final Account newAccount) {
-final SimpleJdbcInsert insert = new SimpleJdbcInsert(dataSource).withTableName("accounts")
-.usingGeneratedKeyColumns("id").usingColumns("account_code", "account_name", "phone_no", "email_id", "company_name", "tax_id", "created_by", "updated_by", "is_deleted", "status");
-final Map<String, Object> valuesMap = new HashMap<>();
-valuesMap.put("account_code", newAccount.getAccountCode());
-valuesMap.put("account_name", newAccount.getAccountName());
-valuesMap.put("phone_no", newAccount.getPhoneNo());
-valuesMap.put("email_id", newAccount.getEmailId());
-valuesMap.put("company_name", newAccount.getCompanyName());
-valuesMap.put("tax_id", newAccount.getTaxId());
-valuesMap.put("created_by", newAccount.getCreatedBy());
-valuesMap.put("updated_by", newAccount.getUpdatedBy());
-valuesMap.put("is_deleted", newAccount.getIsDeleted());
-valuesMap.put("status", newAccount.getStatus());
+    /**
+     * inserting into Account table.
+     * 
+     * @param newAccount
+     * @return reads the input data
+     */
+    public Account create(final Account newAccount) {
+        final SimpleJdbcInsert insert = new SimpleJdbcInsert(dataSource).withTableName("accounts")
+                .usingGeneratedKeyColumns("id").usingColumns("account_code", "account_name", "phone_no", "email_id",
+                        "company_name", "tax_id", "created_by", "updated_by", "is_deleted", "status");
+        final Map<String, Object> valuesMap = new HashMap<>();
+        valuesMap.put("account_code", newAccount.getAccountCode());
+        valuesMap.put("account_name", newAccount.getAccountName());
+        valuesMap.put("phone_no", newAccount.getPhoneNo());
+        valuesMap.put("email_id", newAccount.getEmailId());
+        valuesMap.put("company_name", newAccount.getCompanyName());
+        valuesMap.put("tax_id", newAccount.getTaxId());
+        valuesMap.put("created_by", newAccount.getCreatedBy());
+        valuesMap.put("updated_by", newAccount.getUpdatedBy());
+        valuesMap.put("is_deleted", newAccount.getIsDeleted());
+        valuesMap.put("status", newAccount.getStatus());
 
-// Actual Query Execution happens
-final Number id = insert.executeAndReturnKey(valuesMap);
-return read(id.intValue()).get();
-}
+        // Actual Query Execution happens
+        final Number id = insert.executeAndReturnKey(valuesMap);
+        return read(id.intValue()).get();
+    }
 
     /**
      * reads from table Account.
@@ -88,7 +89,9 @@ return read(id.intValue()).get();
      */
     public Account update(final Integer id, final Account newAccount) {
         final String query = "UPDATE accounts SET account_code = ?, account_name = ?, phone_no = ?, email_id = ?, company_name = ?, tax_id = ?, created_by = ?, updated_by = ?, is_deleted = ?, status = ?, created_at = CURRENT_TIMESTAMP, updated_at = CURRENT_TIMESTAMP WHERE id = ?";
-        jdbcTemplate.update(query, newAccount.getAccountCode(), newAccount.getAccountName(), newAccount.getPhoneNo(), newAccount.getEmailId(), newAccount.getCompanyName(), newAccount.getTaxId(), newAccount. getCreatedAt(), newAccount.getUpdatedBy(), newAccount.getIsDeleted(), newAccount.getStatus(), id);
+        jdbcTemplate.update(query, newAccount.getAccountCode(), newAccount.getAccountName(), newAccount.getPhoneNo(),
+                newAccount.getEmailId(), newAccount.getCompanyName(), newAccount.getTaxId(), newAccount.getCreatedAt(),
+                newAccount.getUpdatedBy(), newAccount.getIsDeleted(), newAccount.getStatus(), id);
         return read(id).get();
     }
 

@@ -69,7 +69,7 @@ public class AddressService {
      * @return Address
      */
     public Optional<Address> read(final Integer id) {
-        final String query = "SELECT id, address_1, address_2, city, zip_code, state_id, country_id, latitude, longitude, created_at, updated_at FROM addresses WHERE id = ?";
+        final String query = "SELECT address_1, address_2, city, zip_code, state_id, country_id, latitude, longitude, created_at, updated_at FROM addresses WHERE id = ?";
         try {
             return Optional.of(jdbcTemplate.queryForObject(query, new Object[] { id }, this::mapRow));
         } catch (EmptyResultDataAccessException e) {

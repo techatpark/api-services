@@ -73,7 +73,7 @@ public class AccountConfigService {
      * @return AccountConfig
      */
     public Optional<AccountConfig> read(final Integer id) {
-        final String query = "SELECT id, configurability_name, configurability_double_value, configurability_int_value, configurability_string_value_1, configurability_char_value_1, created_by, updated_by, is_deleted, status, account_id, created_at, updated_at FROM account_configs WHERE id = ?";
+        final String query = "SELECT configurability_name, configurability_double_value, configurability_int_value, configurability_string_value_1, configurability_char_value_1, created_by, updated_by, is_deleted, status, account_id, created_at, updated_at FROM account_configs WHERE id = ?";
         try {
             return Optional.of(jdbcTemplate.queryForObject(query, new Object[] { id }, this::mapRow));
         } catch (EmptyResultDataAccessException e) {

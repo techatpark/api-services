@@ -28,7 +28,7 @@ public class BankAccountVerificationService {
     private final DataSource dataSource;
 
     /**
-     * Creates a service for BankAccountVerification related operations.
+     * Creates a service for AccountEppopayPlanVerification related operations.
      * 
      * @param jdbcTemplate
      * @param dataSource
@@ -128,7 +128,7 @@ public class BankAccountVerificationService {
      *
      * @param rs
      * @param rowNum
-     * @return BankAccountVerification
+     * @return AccountEppopayPlanVerification
      * @throws SQLException
      */
     private BankAccountVerification mapRow(final ResultSet rs, final int rowNum) throws SQLException {

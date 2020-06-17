@@ -43,6 +43,24 @@ public class RentalLocation {
     private Date updatedAt;
 
     /**
+     * default constructor.
+     */
+    public RentalLocation() {
+        super();
+    }
+
+    /**
+     * constructor.
+     * 
+     * @param id
+     * @param locationName
+     */
+    public RentalLocation(final Integer id, final String locationName) {
+        this.id = id;
+        this.rentalLocationName = locationName;
+    }
+
+    /**
      * gets the id.
      * 
      * @return Integer
