@@ -9,9 +9,9 @@
   "sqltools.connections": [
     {
       "askForPassword": false,
-      "database": "practice_db",
+      "database": "flowable",
       "driver": "PostgreSQL",
-      "name": "LOCAL_PRACTICE",
+      "name": "LOCAL_FLOWABLE",
       "password": "password",
       "port": 5432,
       "previewLimit": 50,
@@ -20,11 +20,11 @@
     },
     {
       "askForPassword": false,
-      "database": "flowable",
+      "database": "practice_db",
       "driver": "PostgreSQL",
-      "name": "LOCAL_FLOWABLE",
+      "name": "LOCAL_PRACTICE",
       "password": "password",
-      "port": 5432,
+      "port": 54320,
       "previewLimit": 50,
       "server": "localhost",
       "username": "user"
