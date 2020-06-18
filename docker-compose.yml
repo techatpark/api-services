@@ -5,9 +5,9 @@ services:
     image: "postgres:11"
     container_name: "my_postgres"
     environment:
+      POSTGRES_DB: practice_db
       POSTGRES_USER: user
       POSTGRES_PASSWORD: password
-      POSTGRES_MULTIPLE_DATABASES: flowable,practice_db
     ports:
       - "5432:5432"
     volumes:
