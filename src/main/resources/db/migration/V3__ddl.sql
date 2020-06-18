@@ -157,6 +157,23 @@ CREATE TABLE "states" (
     CONSTRAINT "states_pkey" PRIMARY KEY ("id"),
     CONSTRAINT "states_country_id_foreign" FOREIGN KEY (country_id) REFERENCES countries(id) ON DELETE CASCADE NOT DEFERRABLE
 ) WITH (oids = false);
+CREATE SEQUENCE addresses_id_seq INCREMENT 1 MINVALUE 1 MAXVALUE 9223372036854775807 START 1 CACHE 1;
+CREATE TABLE "addresses" (
+    "id" bigint DEFAULT nextval('addresses_id_seq') NOT NULL,
+    "address_1" character varying(100) NOT NULL,
+    "address_2" character varying(100) NOT NULL,
+    "city" character varying(50) NOT NULL,
+    "zip_code" character varying(15) NOT NULL,
+    "state_id" integer NOT NULL,
+    "country_id" integer NOT NULL,
+    "latitude" numeric(9, 6),
+    "longitude" numeric(9, 6),
+    "created_at" timestamp(0),
+    "updated_at" timestamp(0),
+    CONSTRAINT "addresses_pkey" PRIMARY KEY ("id"),
+    CONSTRAINT "addresses_country_id_foreign" FOREIGN KEY (country_id) REFERENCES countries(id) ON DELETE CASCADE NOT DEFERRABLE,
+    CONSTRAINT "addresses_state_id_foreign" FOREIGN KEY (state_id) REFERENCES states(id) ON DELETE CASCADE NOT DEFERRABLE
+) WITH (oids = false);
 CREATE SEQUENCE roles_id_seq INCREMENT 1 MINVALUE 1 MAXVALUE 9223372036854775807 START 1 CACHE 1;
 CREATE TABLE "roles" (
     "id" bigint DEFAULT nextval('roles_id_seq') NOT NULL,
@@ -197,7 +214,8 @@ CREATE TABLE "bank_accounts" (
     "updated_at" timestamp(0),
     CONSTRAINT "bank_accounts_pkey" PRIMARY KEY ("id"),
     CONSTRAINT "bank_accounts_address_id_foreign" FOREIGN KEY (address_id) REFERENCES addresses(id) ON DELETE CASCADE NOT DEFERRABLE
-) WITH (oids = false) CREATE SEQUENCE account_codes_id_seq INCREMENT 1 MINVALUE 1 MAXVALUE 9223372036854775807 START 1 CACHE 1;
+) WITH (oids = false);
+CREATE SEQUENCE account_codes_id_seq INCREMENT 1 MINVALUE 1 MAXVALUE 9223372036854775807 START 1 CACHE 1;
 CREATE TABLE "account_codes" (
     "id" bigint DEFAULT nextval('account_codes_id_seq') NOT NULL,
     "account_code" character varying(3) NOT NULL,
@@ -278,23 +296,6 @@ CREATE TABLE "account_fees" (
     CONSTRAINT "account_fees_pkey" PRIMARY KEY ("id"),
     CONSTRAINT "account_fees_account_id_foreign" FOREIGN KEY (account_id) REFERENCES accounts(id) ON DELETE CASCADE NOT DEFERRABLE
 ) WITH (oids = false);
-CREATE SEQUENCE addresses_id_seq INCREMENT 1 MINVALUE 1 MAXVALUE 9223372036854775807 START 1 CACHE 1;
-CREATE TABLE "addresses" (
-    "id" bigint DEFAULT nextval('addresses_id_seq') NOT NULL,
-    "address_1" character varying(100) NOT NULL,
-    "address_2" character varying(100) NOT NULL,
-    "city" character varying(50) NOT NULL,
-    "zip_code" character varying(15) NOT NULL,
-    "state_id" integer NOT NULL,
-    "country_id" integer NOT NULL,
-    "latitude" numeric(9, 6),
-    "longitude" numeric(9, 6),
-    "created_at" timestamp(0),
-    "updated_at" timestamp(0),
-    CONSTRAINT "addresses_pkey" PRIMARY KEY ("id"),
-    CONSTRAINT "addresses_country_id_foreign" FOREIGN KEY (country_id) REFERENCES countries(id) ON DELETE CASCADE NOT DEFERRABLE,
-    CONSTRAINT "addresses_state_id_foreign" FOREIGN KEY (state_id) REFERENCES states(id) ON DELETE CASCADE NOT DEFERRABLE
-) WITH (oids = false);
 CREATE SEQUENCE admin_users_id_seq INCREMENT 1 MINVALUE 1 MAXVALUE 9223372036854775807 START 1 CACHE 1;
 CREATE TABLE "admin_users" (
     "id" bigint DEFAULT nextval('admin_users_id_seq') NOT NULL,
@@ -325,7 +326,37 @@ CREATE TABLE "bank_account_verifications" (
     CONSTRAINT "bank_account_verifications_pkey" PRIMARY KEY ("id"),
     CONSTRAINT "bank_account_verifications_bank_account_id_foreign" FOREIGN KEY (bank_account_id) REFERENCES bank_accounts(id) ON DELETE CASCADE NOT DEFERRABLE
 ) WITH (oids = false);
-;
+CREATE SEQUENCE contracts_id_seq INCREMENT 1 MINVALUE 1 MAXVALUE 9223372036854775807 START 1 CACHE 1;
+CREATE TABLE "contracts" (
+    "id" bigint DEFAULT nextval('contracts_id_seq') NOT NULL,
+    "rent_amount" numeric(10, 4) NOT NULL,
+    "unique_account_number" character varying(7) NOT NULL,
+    "verification_pin" character varying(6) NOT NULL,
+    "start_date" date,
+    "end_date" date,
+    "month_on_month" boolean NOT NULL,
+    "customer_preferred_payment_plan_dates_json" json NOT NULL,
+    "pause_customer_date" date,
+    "created_by" integer NOT NULL,
+    "updated_by" integer,
+    "is_deleted" smallint DEFAULT '0' NOT NULL,
+    "status" smallint NOT NULL,
+    "account_id" integer NOT NULL,
+    "customer_id" integer NOT NULL,
+    "unit_id" integer NOT NULL,
+    "customer_preferred_payment_plan_id" integer NOT NULL,
+    "customer_preferred_bank_account_id" integer,
+    "customer_preferred_global_payment_id" integer,
+    "created_at" timestamp(0),
+    "updated_at" timestamp(0),
+    CONSTRAINT "contracts_pkey" PRIMARY KEY ("id"),
+    CONSTRAINT "contracts_account_id_foreign" FOREIGN KEY (account_id) REFERENCES accounts(id) ON DELETE CASCADE NOT DEFERRABLE,
+    CONSTRAINT "contracts_customer_id_foreign" FOREIGN KEY (customer_id) REFERENCES customers(id) ON DELETE CASCADE NOT DEFERRABLE,
+    CONSTRAINT "contracts_customer_preferred_bank_account_id_foreign" FOREIGN KEY (customer_preferred_bank_account_id) REFERENCES bank_accounts(id) ON DELETE CASCADE NOT DEFERRABLE,
+    CONSTRAINT "contracts_customer_preferred_global_payment_id_foreign" FOREIGN KEY (customer_preferred_global_payment_id) REFERENCES global_payments(id) ON DELETE CASCADE NOT DEFERRABLE,
+    CONSTRAINT "contracts_customer_preferred_payment_plan_id_foreign" FOREIGN KEY (customer_preferred_payment_plan_id) REFERENCES eppopay_plans(id) ON DELETE CASCADE NOT DEFERRABLE,
+    CONSTRAINT "contracts_unit_id_foreign" FOREIGN KEY (unit_id) REFERENCES units(id) ON DELETE CASCADE NOT DEFERRABLE
+) WITH (oids = false);
 CREATE SEQUENCE contract_account_customers_id_seq INCREMENT 1 MINVALUE 1 MAXVALUE 9223372036854775807 START 1 CACHE 1;
 CREATE TABLE "contract_account_customers" (
     "id" bigint DEFAULT nextval('contract_account_customers_id_seq') NOT NULL,
@@ -369,37 +400,6 @@ CREATE TABLE "contract_payments" (
     CONSTRAINT "contract_payments_pkey" PRIMARY KEY ("id"),
     CONSTRAINT "contract_payments_contract_id_foreign" FOREIGN KEY (contract_id) REFERENCES contracts(id) ON DELETE CASCADE NOT DEFERRABLE,
     CONSTRAINT "contract_payments_eppopay_plan_id_foreign" FOREIGN KEY (eppopay_plan_id) REFERENCES eppopay_plans(id) ON DELETE CASCADE NOT DEFERRABLE
-) WITH (oids = false);
-CREATE SEQUENCE contracts_id_seq INCREMENT 1 MINVALUE 1 MAXVALUE 9223372036854775807 START 1 CACHE 1;
-CREATE TABLE "contracts" (
-    "id" bigint DEFAULT nextval('contracts_id_seq') NOT NULL,
-    "rent_amount" numeric(10, 4) NOT NULL,
-    "unique_account_number" character varying(7) NOT NULL,
-    "verification_pin" character varying(6) NOT NULL,
-    "start_date" date,
-    "end_date" date,
-    "month_on_month" boolean NOT NULL,
-    "customer_preferred_payment_plan_dates_json" json NOT NULL,
-    "pause_customer_date" date,
-    "created_by" integer NOT NULL,
-    "updated_by" integer,
-    "is_deleted" smallint DEFAULT '0' NOT NULL,
-    "status" smallint NOT NULL,
-    "account_id" integer NOT NULL,
-    "customer_id" integer NOT NULL,
-    "unit_id" integer NOT NULL,
-    "customer_preferred_payment_plan_id" integer NOT NULL,
-    "customer_preferred_bank_account_id" integer,
-    "customer_preferred_global_payment_id" integer,
-    "created_at" timestamp(0),
-    "updated_at" timestamp(0),
-    CONSTRAINT "contracts_pkey" PRIMARY KEY ("id"),
-    CONSTRAINT "contracts_account_id_foreign" FOREIGN KEY (account_id) REFERENCES accounts(id) ON DELETE CASCADE NOT DEFERRABLE,
-    CONSTRAINT "contracts_customer_id_foreign" FOREIGN KEY (customer_id) REFERENCES customers(id) ON DELETE CASCADE NOT DEFERRABLE,
-    CONSTRAINT "contracts_customer_preferred_bank_account_id_foreign" FOREIGN KEY (customer_preferred_bank_account_id) REFERENCES bank_accounts(id) ON DELETE CASCADE NOT DEFERRABLE,
-    CONSTRAINT "contracts_customer_preferred_global_payment_id_foreign" FOREIGN KEY (customer_preferred_global_payment_id) REFERENCES global_payments(id) ON DELETE CASCADE NOT DEFERRABLE,
-    CONSTRAINT "contracts_customer_preferred_payment_plan_id_foreign" FOREIGN KEY (customer_preferred_payment_plan_id) REFERENCES eppopay_plans(id) ON DELETE CASCADE NOT DEFERRABLE,
-    CONSTRAINT "contracts_unit_id_foreign" FOREIGN KEY (unit_id) REFERENCES units(id) ON DELETE CASCADE NOT DEFERRABLE
 ) WITH (oids = false);
 CREATE SEQUENCE customer_payments_id_seq INCREMENT 1 MINVALUE 1 MAXVALUE 9223372036854775807 START 1 CACHE 1;
 CREATE TABLE "customer_payments" (
