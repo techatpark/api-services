@@ -1,4 +1,55 @@
 -- Adminer 4.7.6 PostgreSQL dump
+DROP TABLE IF EXISTS "accounts";
+DROP SEQUENCE IF EXISTS accounts_id_seq;
+CREATE SEQUENCE accounts_id_seq INCREMENT 1 MINVALUE 1 MAXVALUE 9223372036854775807 START 1 CACHE 1;
+CREATE TABLE "accounts" (
+    "id" bigint DEFAULT nextval('accounts_id_seq') NOT NULL,
+    "account_code" character varying(3) DEFAULT '0' NOT NULL,
+    "account_name" character varying(200) NOT NULL,
+    "phone_no" character varying(20) NOT NULL,
+    "email_id" character varying(150) NOT NULL,
+    "company_name" character varying(50),
+    "tax_id" character varying(50),
+    "created_by" integer NOT NULL,
+    "updated_by" integer,
+    "is_deleted" smallint DEFAULT '0' NOT NULL,
+    "status" smallint NOT NULL,
+    "created_at" timestamp(0),
+    "updated_at" timestamp(0),
+    CONSTRAINT "accounts_pkey" PRIMARY KEY ("id")
+) WITH (oids = false);
+DROP TABLE IF EXISTS "eppopay_plan_types";
+DROP SEQUENCE IF EXISTS eppopay_plan_types_id_seq;
+CREATE SEQUENCE eppopay_plan_types_id_seq INCREMENT 1 MINVALUE 1 MAXVALUE 9223372036854775807 START 1 CACHE 1;
+CREATE TABLE "eppopay_plan_types" (
+    "id" bigint DEFAULT nextval('eppopay_plan_types_id_seq') NOT NULL,
+    "plan_type_name" character varying(50) NOT NULL,
+    "plan_type_description" text NOT NULL,
+    "created_at" timestamp(0),
+    "updated_at" timestamp(0),
+    CONSTRAINT "eppopay_plan_types_pkey" PRIMARY KEY ("id")
+) WITH (oids = false);
+DROP TABLE IF EXISTS "eppopay_plans";
+DROP SEQUENCE IF EXISTS eppopay_plans_id_seq;
+CREATE SEQUENCE eppopay_plans_id_seq INCREMENT 1 MINVALUE 1 MAXVALUE 9223372036854775807 START 1 CACHE 1;
+CREATE TABLE "eppopay_plans" (
+    "id" bigint DEFAULT nextval('eppopay_plans_id_seq') NOT NULL,
+    "plan_name" character varying(150) NOT NULL,
+    "frequency" character varying(50) NOT NULL,
+    "rule_json" json NOT NULL,
+    "fees_json" json NOT NULL,
+    "plan_type" character varying(100) NOT NULL,
+    "eppopay_fee_json" json NOT NULL,
+    "approval_required" smallint NOT NULL,
+    "created_by" integer NOT NULL,
+    "updated_by" integer,
+    "is_deleted" smallint DEFAULT '0' NOT NULL,
+    "eppopay_plan_type_id" integer NOT NULL,
+    "created_at" timestamp(0),
+    "updated_at" timestamp(0),
+    CONSTRAINT "eppopay_plans_pkey" PRIMARY KEY ("id"),
+    CONSTRAINT "eppopay_plans_eppopay_plan_type_id_foreign" FOREIGN KEY (eppopay_plan_type_id) REFERENCES eppopay_plan_types(id) ON DELETE CASCADE NOT DEFERRABLE
+) WITH (oids = false);
 DROP TABLE IF EXISTS "account_codes";
 DROP SEQUENCE IF EXISTS account_codes_id_seq;
 CREATE SEQUENCE account_codes_id_seq INCREMENT 1 MINVALUE 1 MAXVALUE 9223372036854775807 START 1 CACHE 1;
@@ -91,25 +142,6 @@ CREATE TABLE "account_fees" (
     "updated_at" timestamp(0),
     CONSTRAINT "account_fees_pkey" PRIMARY KEY ("id"),
     CONSTRAINT "account_fees_account_id_foreign" FOREIGN KEY (account_id) REFERENCES accounts(id) ON DELETE CASCADE NOT DEFERRABLE
-) WITH (oids = false);
-DROP TABLE IF EXISTS "accounts";
-DROP SEQUENCE IF EXISTS accounts_id_seq;
-CREATE SEQUENCE accounts_id_seq INCREMENT 1 MINVALUE 1 MAXVALUE 9223372036854775807 START 1 CACHE 1;
-CREATE TABLE "accounts" (
-    "id" bigint DEFAULT nextval('accounts_id_seq') NOT NULL,
-    "account_code" character varying(3) DEFAULT '0' NOT NULL,
-    "account_name" character varying(200) NOT NULL,
-    "phone_no" character varying(20) NOT NULL,
-    "email_id" character varying(150) NOT NULL,
-    "company_name" character varying(50),
-    "tax_id" character varying(50),
-    "created_by" integer NOT NULL,
-    "updated_by" integer,
-    "is_deleted" smallint DEFAULT '0' NOT NULL,
-    "status" smallint NOT NULL,
-    "created_at" timestamp(0),
-    "updated_at" timestamp(0),
-    CONSTRAINT "accounts_pkey" PRIMARY KEY ("id")
 ) WITH (oids = false);
 DROP TABLE IF EXISTS "addresses";
 DROP SEQUENCE IF EXISTS addresses_id_seq;
@@ -338,38 +370,6 @@ CREATE TABLE "customers" (
     "updated_at" timestamp(0),
     CONSTRAINT "customers_pkey" PRIMARY KEY ("id"),
     CONSTRAINT "customers_address_id_foreign" FOREIGN KEY (address_id) REFERENCES addresses(id) ON DELETE CASCADE NOT DEFERRABLE
-) WITH (oids = false);
-DROP TABLE IF EXISTS "eppopay_plan_types";
-DROP SEQUENCE IF EXISTS eppopay_plan_types_id_seq;
-CREATE SEQUENCE eppopay_plan_types_id_seq INCREMENT 1 MINVALUE 1 MAXVALUE 9223372036854775807 START 1 CACHE 1;
-CREATE TABLE "eppopay_plan_types" (
-    "id" bigint DEFAULT nextval('eppopay_plan_types_id_seq') NOT NULL,
-    "plan_type_name" character varying(50) NOT NULL,
-    "plan_type_description" text NOT NULL,
-    "created_at" timestamp(0),
-    "updated_at" timestamp(0),
-    CONSTRAINT "eppopay_plan_types_pkey" PRIMARY KEY ("id")
-) WITH (oids = false);
-DROP TABLE IF EXISTS "eppopay_plans";
-DROP SEQUENCE IF EXISTS eppopay_plans_id_seq;
-CREATE SEQUENCE eppopay_plans_id_seq INCREMENT 1 MINVALUE 1 MAXVALUE 9223372036854775807 START 1 CACHE 1;
-CREATE TABLE "eppopay_plans" (
-    "id" bigint DEFAULT nextval('eppopay_plans_id_seq') NOT NULL,
-    "plan_name" character varying(150) NOT NULL,
-    "frequency" character varying(50) NOT NULL,
-    "rule_json" json NOT NULL,
-    "fees_json" json NOT NULL,
-    "plan_type" character varying(100) NOT NULL,
-    "eppopay_fee_json" json NOT NULL,
-    "approval_required" smallint NOT NULL,
-    "created_by" integer NOT NULL,
-    "updated_by" integer,
-    "is_deleted" smallint DEFAULT '0' NOT NULL,
-    "eppopay_plan_type_id" integer NOT NULL,
-    "created_at" timestamp(0),
-    "updated_at" timestamp(0),
-    CONSTRAINT "eppopay_plans_pkey" PRIMARY KEY ("id"),
-    CONSTRAINT "eppopay_plans_eppopay_plan_type_id_foreign" FOREIGN KEY (eppopay_plan_type_id) REFERENCES eppopay_plan_types(id) ON DELETE CASCADE NOT DEFERRABLE
 ) WITH (oids = false);
 DROP TABLE IF EXISTS "global_payments";
 DROP SEQUENCE IF EXISTS global_payments_id_seq;
