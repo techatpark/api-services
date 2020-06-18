@@ -2,42 +2,41 @@ package com.techatpark.gurukulam.eppo.model;
 
 import java.util.Date;
 
-public class RentalLocationSiteManager {
-
+public class SubEntityUnit {
     /**
-     * tells the id .
+     * tells the id.
      */
     private Integer id;
     /**
-     * tells the rental location id.
-     */
-    private Integer rentalLocationId;
-    /**
-     * tells the merchant site manager id.
-     */
-    private Integer merchantSiteManagerId;
-    /**
-     * tells about the account created by who.
+     * tells the createdby.
      */
     private Integer createdBy;
     /**
-     * tells about the account updated by who.
+     * tells the updated by.
      */
     private Integer updatedBy;
     /**
-     * tells whether is deleted.
+     * tells the is deleted.
      */
-    private Integer isDeleted;
+    private Short isDeleted;
     /**
-     * tells the status .
+     * tells the status.
      */
-    private Integer status;
+    private Short status;
     /**
-     * tells when the account created.
+     * tells the sub entity id.
+     */
+    private Integer subEntityId;
+    /**
+     * tells the unit id.
+     */
+    private Integer unitId;
+    /**
+     * tells the created at value.
      */
     private Date createdAt;
     /**
-     * tells when the account updated.
+     * tells the updated by value.
      */
     private Date updatedAt;
 
@@ -57,42 +56,6 @@ public class RentalLocationSiteManager {
      */
     public void setId(final Integer id) {
         this.id = id;
-    }
-
-    /**
-     * gets the rental location id.
-     * 
-     * @return Integer
-     */
-    public Integer getRentalLocationId() {
-        return rentalLocationId;
-    }
-
-    /**
-     * sets the rental location id.
-     * 
-     * @param rentalLocationId
-     */
-    public void setRentalLocationId(final Integer rentalLocationId) {
-        this.rentalLocationId = rentalLocationId;
-    }
-
-    /**
-     * gets the merchant site manager id.
-     * 
-     * @return Integer
-     */
-    public Integer getMerchantSiteManagerId() {
-        return merchantSiteManagerId;
-    }
-
-    /**
-     * sets the merchant site manager id.
-     * 
-     * @param merchantSiteManagerId
-     */
-    public void setMerchantSiteManagerId(final Integer merchantSiteManagerId) {
-        this.merchantSiteManagerId = merchantSiteManagerId;
     }
 
     /**
@@ -134,9 +97,9 @@ public class RentalLocationSiteManager {
     /**
      * gets is deleted value.
      * 
-     * @return Integer
+     * @return Short
      */
-    public Integer getIsDeleted() {
+    public Short getIsDeleted() {
         return isDeleted;
     }
 
@@ -145,26 +108,62 @@ public class RentalLocationSiteManager {
      * 
      * @param isDeleted
      */
-    public void setIsDeleted(final Integer isDeleted) {
+    public void setIsDeleted(final Short isDeleted) {
         this.isDeleted = isDeleted;
     }
 
     /**
-     * gets status.
+     * gets the status.
      * 
-     * @return Integer
+     * @return Short
      */
-    public Integer getStatus() {
+    public Short getStatus() {
         return status;
     }
 
     /**
-     * sets status.
+     * sets the status.
      * 
      * @param status
      */
-    public void setStatus(final Integer status) {
+    public void setStatus(final Short status) {
         this.status = status;
+    }
+
+    /**
+     * gets the subentity id.
+     * 
+     * @return Integer
+     */
+    public Integer getSubEntityId() {
+        return subEntityId;
+    }
+
+    /**
+     * sets subentity id.
+     * 
+     * @param subEntityId
+     */
+    public void setSubEntityId(final Integer subEntityId) {
+        this.subEntityId = subEntityId;
+    }
+
+    /**
+     * gets unit id.
+     * 
+     * @return Integer
+     */
+    public Integer getUnitId() {
+        return unitId;
+    }
+
+    /**
+     * sets unit id.
+     * 
+     * @param unitId
+     */
+    public void setUnitId(final Integer unitId) {
+        this.unitId = unitId;
     }
 
     /**
@@ -195,12 +194,11 @@ public class RentalLocationSiteManager {
     }
 
     /**
-     * sets updated at value.
+     * sets the updated at.
      * 
      * @param updatedAt
      */
     public void setUpdatedAt(final Date updatedAt) {
         this.updatedAt = updatedAt;
     }
-
 }
