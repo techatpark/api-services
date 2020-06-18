@@ -11,9 +11,9 @@ import java.util.Optional;
 
 import javax.sql.DataSource;
 
-import com.techatpark.gurukulam.sql.service.connector.DatabaseConnector;
 import com.techatpark.gurukulam.sql.model.Database;
 import com.techatpark.gurukulam.sql.model.Exam;
+import com.techatpark.gurukulam.sql.service.connector.DatabaseConnector;
 
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -167,6 +167,8 @@ public class SQLExamService {
         if (exam.isPresent()) {
             String query = "DELETE FROM exam_scripts WHERE exam_id=?";
             Integer updatedRows = jdbcTemplate.update(query, new Object[] { id });
+            query = "DELETE FROM questions WHERE exam_id=?";
+            updatedRows = jdbcTemplate.update(query, new Object[] { id });
             query = "DELETE FROM EXAMS WHERE ID=?";
             updatedRows = jdbcTemplate.update(query, new Object[] { id });
             success = !(updatedRows == 0);
@@ -184,6 +186,8 @@ public class SQLExamService {
      */
     public Integer delete() {
         String query = "DELETE FROM exam_scripts";
+        jdbcTemplate.update(query);
+        query = "DELETE FROM questions";
         jdbcTemplate.update(query);
         query = "DELETE FROM exams";
         return jdbcTemplate.update(query);
