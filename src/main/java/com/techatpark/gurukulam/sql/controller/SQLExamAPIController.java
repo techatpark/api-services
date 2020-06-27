@@ -14,6 +14,7 @@ import com.techatpark.gurukulam.sql.service.AnswerService;
 import com.techatpark.gurukulam.sql.service.QuestionService;
 import com.techatpark.gurukulam.sql.service.SQLExamService;
 
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -72,9 +73,9 @@ class SQLExamAPIController {
         @ApiResponses(value = { @ApiResponse(code = 200, message = "Listing all the exam"),
                         @ApiResponse(code = 204, message = "exam are not available") })
         @GetMapping
-        public ResponseEntity<List<Exam>> findAll() {
-                List<Exam> exams = SQLExamService.list(1, 1);
-                return exams.isEmpty() ? new ResponseEntity<List<Exam>>(HttpStatus.NO_CONTENT)
+        public ResponseEntity<Page<Exam>> findAll() {
+                Page<Exam> exams = SQLExamService.list(1, 1);
+                return exams.isEmpty() ? new ResponseEntity<Page<Exam>>(HttpStatus.NO_CONTENT)
                                 : ResponseEntity.ok(exams);
         }
 

@@ -5,7 +5,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.sql.Types;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -16,6 +15,8 @@ import com.techatpark.gurukulam.sql.model.Exam;
 import com.techatpark.gurukulam.sql.service.connector.DatabaseConnector;
 
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
@@ -200,10 +201,12 @@ public class SQLExamService {
      * @param pageSize
      * @return list
      */
-    public List<Exam> list(final Integer pageNumber, final Integer pageSize) {
+    public Page<Exam> list(final Integer pageNumber, final Integer pageSize) {
+
+        
         String query = "SELECT id,name,database_type FROM exams";
         query = query + " LIMIT " + pageSize + " OFFSET " + (pageNumber - 1);
-        return jdbcTemplate.query(query, rowMapper);
+        return new PageImpl<>(jdbcTemplate.query(query, rowMapper));
     }
 
 }
