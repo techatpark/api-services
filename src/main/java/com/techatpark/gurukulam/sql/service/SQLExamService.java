@@ -17,6 +17,7 @@ import com.techatpark.gurukulam.sql.service.connector.DatabaseConnector;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
@@ -72,10 +73,10 @@ public class SQLExamService {
         valueMap.put("database_type", exam.getDatabase().getValue());
         final Number id = insert.executeAndReturnKey(valueMap);
         final Integer examId = id.intValue();
-        Optional<Exam> createdExam = read(examId);
+        final Optional<Exam> createdExam = read(examId);
         // create scripts for exams.
         if (scriptFiles != null) {
-            for (Path scriptFile : scriptFiles) {
+            for (final Path scriptFile : scriptFiles) {
                 creatScript(examId, scriptFile);
             }
             if (createdExam.isPresent()) {
@@ -112,7 +113,8 @@ public class SQLExamService {
      * @param scriptFiles
      */
     private void loadScripts(final Exam exam, final Path[] scriptFiles) {
-        DatabaseConnector databaseConnector = DatabaseConnector.getDatabaseConnector(exam.getDatabase(), jdbcTemplate);
+        final DatabaseConnector databaseConnector = DatabaseConnector.getDatabaseConnector(exam.getDatabase(),
+                jdbcTemplate);
         databaseConnector.loadScript(exam, scriptFiles);
     }
 
@@ -123,7 +125,8 @@ public class SQLExamService {
      * 
      */
     private void unloadScripts(final Exam exam) {
-        DatabaseConnector databaseConnector = DatabaseConnector.getDatabaseConnector(exam.getDatabase(), jdbcTemplate);
+        final DatabaseConnector databaseConnector = DatabaseConnector.getDatabaseConnector(exam.getDatabase(),
+                jdbcTemplate);
         databaseConnector.unloadScript(exam.getId());
     }
 
@@ -203,10 +206,26 @@ public class SQLExamService {
      */
     public Page<Exam> list(final Integer pageNumber, final Integer pageSize) {
 
-        
-        String query = "SELECT id,name,database_type FROM exams";
-        query = query + " LIMIT " + pageSize + " OFFSET " + (pageNumber - 1);
-        return new PageImpl<>(jdbcTemplate.query(query, rowMapper));
+        String columnNames = "id,name,database_type";
+ 
+        String recordsQuery = "SELECT " 
+        + columnNames 
+        + " FROM exams"
+        + " LIMIT " 
+        + pageSize 
+        + " OFFSET " 
+        + (pageNumber - 1);
+
+        String countsQuery = "SELECT " 
+        + "COUNT(id)" 
+        + " FROM exams"
+        + " LIMIT " 
+        + pageSize 
+        + " OFFSET " 
+        + (pageNumber - 1);
+
+        return new PageImpl<Exam>(jdbcTemplate.query(recordsQuery, rowMapper), PageRequest.of(pageNumber - 1, pageSize), jdbcTemplate.queryForObject(
+            countsQuery,  Long.class));
     }
 
 }
