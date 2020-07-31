@@ -1,7 +1,15 @@
 package com.techatpark.gurukulam.sql.service.connector.postgress;
 
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import com.techatpark.gurukulam.sql.model.Database;
+import com.techatpark.gurukulam.sql.model.Exam;
+import com.techatpark.gurukulam.sql.model.Question;
+import com.techatpark.gurukulam.sql.service.QuestionService;
+import com.techatpark.gurukulam.sql.service.SQLExamService;
+import com.techatpark.gurukulam.sql.service.connector.DatabaseConnector;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 
 import java.io.File;
 import java.io.IOException;
@@ -9,17 +17,8 @@ import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.stream.Collectors;
 
-import com.techatpark.gurukulam.sql.model.Database;
-import com.techatpark.gurukulam.sql.model.Exam;
-import com.techatpark.gurukulam.sql.model.Question;
-import com.techatpark.gurukulam.sql.service.QuestionService;
-import com.techatpark.gurukulam.sql.service.SQLExamService;
-import com.techatpark.gurukulam.sql.service.connector.DatabaseConnector;
-
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @SpringBootTest
 public class PostgressDatabaseConnectorTest {

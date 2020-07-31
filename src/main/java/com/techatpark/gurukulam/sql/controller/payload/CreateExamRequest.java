@@ -1,7 +1,6 @@
 package com.techatpark.gurukulam.sql.controller.payload;
 
 import com.techatpark.gurukulam.sql.model.Exam;
-
 import org.springframework.web.multipart.MultipartFile;
 
 public class CreateExamRequest {

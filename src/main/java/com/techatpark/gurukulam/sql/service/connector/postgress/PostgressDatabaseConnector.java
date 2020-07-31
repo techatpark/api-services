@@ -1,18 +1,17 @@
 package com.techatpark.gurukulam.sql.service.connector.postgress;
 
-import java.nio.file.Path;
-import java.sql.Connection;
-import java.sql.SQLException;
-
 import com.techatpark.gurukulam.sql.model.Exam;
 import com.techatpark.gurukulam.sql.model.Question;
 import com.techatpark.gurukulam.sql.service.connector.DatabaseConnector;
 import com.techatpark.gurukulam.sql.service.util.FlywayUtil;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
+
+import java.nio.file.Path;
+import java.sql.Connection;
+import java.sql.SQLException;
 
 @Component
 public class PostgressDatabaseConnector extends DatabaseConnector {
