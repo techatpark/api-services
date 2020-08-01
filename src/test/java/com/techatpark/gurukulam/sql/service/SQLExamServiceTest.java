@@ -1,6 +1,12 @@
 package com.techatpark.gurukulam.sql.service;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import com.techatpark.gurukulam.sql.model.Database;
+import com.techatpark.gurukulam.sql.model.Exam;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 
 import java.io.File;
 import java.io.IOException;
@@ -9,14 +15,7 @@ import java.util.Arrays;
 import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 
-import com.techatpark.gurukulam.sql.model.Database;
-import com.techatpark.gurukulam.sql.model.Exam;
-
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest
 class SQLExamServiceTest {
@@ -89,8 +88,8 @@ class SQLExamServiceTest {
         sqlExamService.create(examToBeCrated, getScriptFiles(examToBeCrated)).get();
         Exam examToBeCrated2 = getExam();
         sqlExamService.create(examToBeCrated2, getScriptFiles(examToBeCrated2));
-        assertEquals(2, sqlExamService.list(1, 2).size(), "Test Listing");
-        assertEquals(1, sqlExamService.list(1, 1).size(), "Test Listing with restricted page");
+        assertEquals(2, sqlExamService.list(1, 2).getContent().size(), "Test Listing");
+        assertEquals(1, sqlExamService.list(1, 1).getContent().size(), "Test Listing with restricted page");
     }
 
     Exam getExam() {

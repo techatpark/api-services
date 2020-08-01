@@ -1,5 +1,9 @@
 package com.techatpark.gurukulam.sql.service.util;
 
+import com.techatpark.gurukulam.sql.model.Exam;
+import org.flywaydb.core.Flyway;
+
+import javax.sql.DataSource;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -8,12 +12,6 @@ import java.nio.file.StandardCopyOption;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-
-import javax.sql.DataSource;
-
-import com.techatpark.gurukulam.sql.model.Exam;
-
-import org.flywaydb.core.Flyway;
 
 public final class FlywayUtil {
 

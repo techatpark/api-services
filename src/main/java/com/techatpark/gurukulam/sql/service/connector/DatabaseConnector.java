@@ -1,16 +1,15 @@
 package com.techatpark.gurukulam.sql.service.connector;
 
+import com.techatpark.gurukulam.sql.model.Database;
+import com.techatpark.gurukulam.sql.model.Exam;
+import com.techatpark.gurukulam.sql.model.Question;
+import org.springframework.jdbc.core.JdbcTemplate;
+
 import java.lang.reflect.InvocationTargetException;
 import java.nio.file.Path;
 import java.sql.Connection;
 import java.util.HashMap;
 import java.util.Map;
-
-import com.techatpark.gurukulam.sql.model.Database;
-import com.techatpark.gurukulam.sql.model.Exam;
-import com.techatpark.gurukulam.sql.model.Question;
-
-import org.springframework.jdbc.core.JdbcTemplate;
 
 public abstract class DatabaseConnector {
 

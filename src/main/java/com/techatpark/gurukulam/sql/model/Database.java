@@ -1,9 +1,9 @@
 package com.techatpark.gurukulam.sql.model;
 
-import com.techatpark.gurukulam.sql.service.connector.DatabaseConnector;
-import com.techatpark.gurukulam.sql.service.connector.postgress.PostgressDatabaseConnector;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
+import com.techatpark.gurukulam.sql.service.connector.DatabaseConnector;
+import com.techatpark.gurukulam.sql.service.connector.postgress.PostgressDatabaseConnector;
 
 /**
  * defines database type.

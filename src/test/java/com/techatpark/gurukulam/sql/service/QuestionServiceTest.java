@@ -1,21 +1,20 @@
 package com.techatpark.gurukulam.sql.service;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-
-import java.io.IOException;
-import java.util.NoSuchElementException;
-
 import com.techatpark.gurukulam.sql.model.Database;
 import com.techatpark.gurukulam.sql.model.Exam;
 import com.techatpark.gurukulam.sql.model.Question;
-
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+
+import java.io.IOException;
+import java.util.NoSuchElementException;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @SpringBootTest
 class QuestionServiceTest {
