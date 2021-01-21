@@ -5,7 +5,7 @@ name: Release API
 
 on:
   push:
-    branches: [master]
+    branches: [main]
 
 jobs:
   build:
@@ -22,18 +22,19 @@ jobs:
       - name: Copy Artifacts
         uses: appleboy/scp-action@master
         env:
-          HOST: ${{ secrets.HOST }}
-          USERNAME: ${{ secrets.USERNAME }}
-          KEY: ${{ secrets.KEY }}
+          HOST: ${{ secrets.AWS_HOST_IP }}
+          USERNAME: ${{ secrets.AWS_USERNAME }}
+          KEY: ${{ secrets.AWS_EC2_PRIVATE_KEY }}
         with:
           source: "target/*.jar"
           target: ${{ secrets.TARGET_DIR }}
+          passphrase: ${{ secrets.AWS_KEY_PASSWORD }}
           strip_components: 1
-      - name: Deploy
-        uses: appleboy/ssh-action@master
-        env:
-          HOST: ${{ secrets.HOST }}
-          USERNAME: ${{ secrets.USERNAME }}
-          KEY: ${{ secrets.KEY }}
-        with:
-          script: bash deploy.sh 8000 2
+      # - name: Deploy
+      #   uses: appleboy/ssh-action@master
+      #   env:
+      #     HOST: ${{ secrets.HOST }}
+      #     USERNAME: ${{ secrets.USERNAME }}
+      #     KEY: ${{ secrets.KEY }}
+      #   with:
+      #     script: bash deploy.sh 8000 2
