@@ -5,6 +5,7 @@ import com.techatpark.gurukulam.sql.model.Exam;
 import com.techatpark.gurukulam.sql.model.Question;
 import org.springframework.jdbc.core.JdbcTemplate;
 
+import java.io.InputStream;
 import java.lang.reflect.InvocationTargetException;
 import java.nio.file.Path;
 import java.sql.Connection;
@@ -71,7 +72,7 @@ public abstract class DatabaseConnector {
      * @param scriptFiles
      * @return successflag
      */
-    public abstract Boolean loadScript(Exam exam, Path[] scriptFiles);
+    public abstract Boolean loadScript(Exam exam, InputStream[] scriptFiles);
 
     /**
      * Unload the script for the specific exam.

@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 
 import javax.sql.DataSource;
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.sql.Types;
@@ -63,7 +64,7 @@ public class SQLExamService {
      * @return exam
      * @throws IOException
      */
-    public Optional<Exam> create(final Exam exam, final Path[] scriptFiles) throws IOException {
+    public Optional<Exam> create(final Exam exam, final InputStream[] scriptFiles) throws IOException {
         final SimpleJdbcInsert insert = new SimpleJdbcInsert(dataSource).withTableName("exams")
                 .usingGeneratedKeyColumns("id").usingColumns("name", "database_type");
         final Map<String, Object> valueMap = new HashMap<>();
@@ -74,7 +75,7 @@ public class SQLExamService {
         final Optional<Exam> createdExam = read(examId);
         // create scripts for exams.
         if (scriptFiles != null) {
-            for (final Path scriptFile : scriptFiles) {
+            for (final InputStream scriptFile : scriptFiles) {
                 creatScript(examId, scriptFile);
             }
             if (createdExam.isPresent()) {
@@ -93,13 +94,13 @@ public class SQLExamService {
      * @return successflag
      * @throws IOException
      */
-    private Integer creatScript(final Integer examId, final Path scriptFile) throws IOException {
+    private Integer creatScript(final Integer examId, final InputStream scriptFile) throws IOException {
 
         final SimpleJdbcInsert insert = new SimpleJdbcInsert(dataSource).withTableName("exam_scripts")
                 .usingGeneratedKeyColumns("id").usingColumns("exam_id", "script");
         final MapSqlParameterSource in = new MapSqlParameterSource();
         in.addValue("exam_id", examId);
-        in.addValue("script", new SqlLobValue(Files.newInputStream(scriptFile).readAllBytes()), Types.BLOB);
+        in.addValue("script", new SqlLobValue(scriptFile.readAllBytes()), Types.BLOB);
         final Number id = insert.executeAndReturnKey(in);
         return id.intValue();
     }
@@ -110,7 +111,7 @@ public class SQLExamService {
      * @param exam
      * @param scriptFiles
      */
-    private void loadScripts(final Exam exam, final Path[] scriptFiles) {
+    private void loadScripts(final Exam exam, final InputStream[] scriptFiles) {
         final DatabaseConnector databaseConnector = DatabaseConnector.getDatabaseConnector(exam.getDatabase(),
                 jdbcTemplate);
         databaseConnector.loadScript(exam, scriptFiles);

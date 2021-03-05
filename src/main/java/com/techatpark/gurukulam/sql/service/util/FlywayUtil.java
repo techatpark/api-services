@@ -5,6 +5,7 @@ import org.flywaydb.core.Flyway;
 
 import javax.sql.DataSource;
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -28,7 +29,7 @@ public final class FlywayUtil {
      * @param dataSource
      * @return successFlag
      */
-    public static Boolean loadScripts(final Exam exam, final Path[] scriptFiles, final DataSource dataSource) {
+    public static Boolean loadScripts(final Exam exam, final InputStream[] scriptFiles, final DataSource dataSource) {
         if (scriptFiles != null) {
             // Load Script files in temp folder
             try {

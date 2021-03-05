@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 
+import java.io.InputStream;
 import java.nio.file.Path;
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -57,7 +58,7 @@ public class PostgressDatabaseConnector extends DatabaseConnector {
      * @return Boolean
      */
     @Override
-    public final Boolean loadScript(final Exam exam, final Path[] scriptFiles) {
+    public final Boolean loadScript(final Exam exam, final InputStream[] scriptFiles) {
         final Integer id = exam.getId();
         final String query = "CREATE DATABASE EXAM_" + id;
         getJdbcTemplate().update(query);
