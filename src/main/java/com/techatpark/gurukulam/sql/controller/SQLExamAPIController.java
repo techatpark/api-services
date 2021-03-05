@@ -1,6 +1,6 @@
 package com.techatpark.gurukulam.sql.controller;
 
-import com.techatpark.gurukulam.sql.controller.payload.CreateExamRequest;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.techatpark.gurukulam.sql.model.Exam;
 import com.techatpark.gurukulam.sql.model.Question;
 import com.techatpark.gurukulam.sql.service.AnswerService;
@@ -11,13 +11,18 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
 import java.util.Optional;
 
@@ -26,28 +31,33 @@ import java.util.Optional;
 @RequestMapping("/api/exams/sql")
 class SQLExamAPIController {
 
-        private final SQLExamService SQLExamService;
+        private final SQLExamService sqlExamService;
         private final QuestionService questionService;
         private final AnswerService answerService;
+        private final ObjectMapper objectMapper;
 
-        SQLExamAPIController(final SQLExamService SQLExamService, final QuestionService questionService,
-                        final AnswerService answerService) {
-                this.SQLExamService = SQLExamService;
+        SQLExamAPIController(final SQLExamService sqlExamService, final QuestionService questionService,
+                        final AnswerService answerService,final ObjectMapper objectMapper) {
+                this.sqlExamService = sqlExamService;
                 this.questionService = questionService;
                 this.answerService = answerService;
+                this.objectMapper = objectMapper;
         }
 
         @Operation(summary = "Creates a new exam", description = "Can be called only by users with 'auth management' rights.")
         @ApiResponses(value = { @ApiResponse(responseCode = "201", description = "exam created successfully"),
                         @ApiResponse(responseCode = "400", description = "exam is invalid") })
-        @ResponseStatus(HttpStatus.CREATED)
-        @PostMapping
-        public ResponseEntity<Optional<Exam>> create(HttpServletRequest request,
-                        @ModelAttribute CreateExamRequest createExamRequest) throws IOException {
-                // return
-                // ResponseEntity.status(HttpStatus.CREATED).body(examService.create(createExamRequest.getExam(),
-                // null));
-                return null;
+        @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+        public ResponseEntity<Optional<Exam>> create(@RequestPart("exam") String examAsJson,
+                                                     @RequestPart("scripts") @Valid @NotNull @NotBlank MultipartFile[] scripts) throws IOException {
+
+                Exam exam = objectMapper.readValue(examAsJson,Exam.class);
+                InputStream[] sciptStreams = new InputStream[scripts.length];
+                for (int i = 0; i < scripts.length; i++) {
+                        sciptStreams[i] = scripts[i].getInputStream();
+                }
+                return ResponseEntity.status(HttpStatus.CREATED).body(sqlExamService.create(exam,
+                         sciptStreams));
         }
 
         @Operation(summary = "Get exam with given id")
@@ -55,15 +65,15 @@ class SQLExamAPIController {
                         @ApiResponse(responseCode = "404", description = "exam not found") })
         @GetMapping("/{id}")
         public ResponseEntity<Exam> findById(@PathVariable Integer id) {
-                return ResponseEntity.of(SQLExamService.read(id));
+                return ResponseEntity.of(sqlExamService.read(id));
         }
 
         @Operation(summary = "lists all the exam", description = "Can be Invoked by auth users only")
         @ApiResponses(value = { @ApiResponse(responseCode = "200", description = "Listing all the exam"),
                         @ApiResponse(responseCode = "204", description = "exam are not available") })
         @GetMapping
-        public ResponseEntity<Page<Exam>> findAll() {
-                Page<Exam> exams = SQLExamService.list(1, 1);
+        public ResponseEntity<Page<Exam>> findAll(@NotNull final Pageable pageable) {
+                Page<Exam> exams = sqlExamService.list(pageable);
                 return exams.isEmpty() ? new ResponseEntity<Page<Exam>>(HttpStatus.NO_CONTENT)
                                 : ResponseEntity.ok(exams);
         }
@@ -74,7 +84,7 @@ class SQLExamAPIController {
                         @ApiResponse(responseCode = "404", description = "exam not found") })
         @PutMapping("/{id}")
         public ResponseEntity<Optional<Exam>> update(@PathVariable Integer id, @Valid @RequestBody Exam exam) {
-                Optional<Exam> updatedexam = SQLExamService.update(id, exam);
+                Optional<Exam> updatedexam = sqlExamService.update(id, exam);
                 return updatedexam == null ? new ResponseEntity<Optional<Exam>>(HttpStatus.NOT_FOUND)
                                 : ResponseEntity.ok(updatedexam);
         }
@@ -84,7 +94,7 @@ class SQLExamAPIController {
                         @ApiResponse(responseCode = "404", description = "exam not found") })
         @DeleteMapping("/{id}")
         public ResponseEntity<Void> deleteExamById(@PathVariable Integer id) {
-                return SQLExamService.delete(id) ? ResponseEntity.ok().build()
+                return sqlExamService.delete(id) ? ResponseEntity.ok().build()
                                 : new ResponseEntity<Void>(HttpStatus.NOT_FOUND);
         }
 

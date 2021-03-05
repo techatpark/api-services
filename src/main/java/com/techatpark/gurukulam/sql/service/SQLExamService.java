@@ -7,6 +7,7 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
@@ -17,8 +18,6 @@ import org.springframework.stereotype.Service;
 import javax.sql.DataSource;
 import java.io.IOException;
 import java.io.InputStream;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.sql.Types;
 import java.util.HashMap;
 import java.util.Map;
@@ -198,12 +197,11 @@ public class SQLExamService {
 
     /**
      * lists all from table.
-     * 
-     * @param pageNumber
-     * @param pageSize
+     *
+     * @param pageable
      * @return list
      */
-    public Page<Exam> list(final Integer pageNumber, final Integer pageSize) {
+    public Page<Exam> list(final Pageable pageable) {
 
         String columnNames = "id,name,database_type";
  
@@ -211,19 +209,19 @@ public class SQLExamService {
         + columnNames 
         + " FROM exams"
         + " LIMIT " 
-        + pageSize 
+        + pageable.getPageSize()
         + " OFFSET " 
-        + (pageNumber - 1);
+        + pageable.getPageNumber();
 
         String countsQuery = "SELECT " 
         + "COUNT(id)" 
         + " FROM exams"
-        + " LIMIT " 
-        + pageSize 
-        + " OFFSET " 
-        + (pageNumber - 1);
+        + " LIMIT "
+                + pageable.getPageSize()
+        + " OFFSET "
+                + pageable.getPageNumber();
 
-        return new PageImpl<Exam>(jdbcTemplate.query(recordsQuery, rowMapper), PageRequest.of(pageNumber - 1, pageSize), jdbcTemplate.queryForObject(
+        return new PageImpl<Exam>(jdbcTemplate.query(recordsQuery, rowMapper), pageable, jdbcTemplate.queryForObject(
             countsQuery,  Long.class));
     }
 

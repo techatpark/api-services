@@ -7,6 +7,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.PageRequest;
 
 import java.io.*;
 import java.nio.file.Path;
@@ -87,8 +88,8 @@ class SQLExamServiceTest {
         sqlExamService.create(examToBeCrated, TestUtil.getScriptFiles(examToBeCrated)).get();
         Exam examToBeCrated2 = getExam();
         sqlExamService.create(examToBeCrated2, TestUtil.getScriptFiles(examToBeCrated2));
-        assertEquals(2, sqlExamService.list(1, 2).getContent().size(), "Test Listing");
-        assertEquals(1, sqlExamService.list(1, 1).getContent().size(), "Test Listing with restricted page");
+        assertEquals(2, sqlExamService.list(PageRequest.of(1, 2)).getContent().size(), "Test Listing");
+        assertEquals(1, sqlExamService.list(PageRequest.of(1, 1)).getContent().size(), "Test Listing with restricted page");
     }
 
     Exam getExam() {
