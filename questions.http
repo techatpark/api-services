@@ -7,7 +7,7 @@ Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0g
 ------WebKitFormBoundary7MA4YWxkTrZu0gW
 Content-Disposition: form-data; name="exam"
 
-{"name":"Sathish","database":"postgres"}
+{"name":"Bank DB","database":"postgres"}
 ------WebKitFormBoundary7MA4YWxkTrZu0gW
 Content-Disposition: form-data; name="scripts"; filename="1.sql"
 Content-Type: application/text
