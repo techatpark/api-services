@@ -1,8 +1,8 @@
-@base = http://localhost:8090
+@base = http://localhost:8080
 
 #### Create Exam
 POST {{base}}/api/exams/sql
-Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Type: multipart/form-data; 
 
 ------WebKitFormBoundary7MA4YWxkTrZu0gW
 Content-Disposition: form-data; name="exam"
@@ -11,7 +11,6 @@ Content-Disposition: form-data; name="exam"
 ------WebKitFormBoundary7MA4YWxkTrZu0gW
 Content-Disposition: form-data; name="scripts"; filename="1.sql"
 Content-Type: application/text
-
 < ./src/test/resources/postgres/scripts/1.sql
 < ./src/test/resources/postgres/scripts/2.sql
 ------WebKitFormBoundary7MA4YWxkTrZu0gW--
