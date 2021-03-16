@@ -4,14 +4,6 @@ spring:
     url: jdbc:postgresql://localhost:5432/practice_db
     username: user
     password: password
-  ## Security
-  security:
-    oauth2:
-      client:
-        registration:
-          google:
-            client-id: 771206987700-bv4l9b5q174v8c8j8q3jsntir77a8dij.apps.googleusercontent.com
-            client-secret: rmoTtzX187thLhNOxqkArtUr
 
 ## Open API
 springdoc:
