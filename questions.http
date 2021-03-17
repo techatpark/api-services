@@ -2,15 +2,17 @@
 
 #### Create Exam
 POST {{base}}/exams/sql
-Content-Type: multipart/form-data; 
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
 
 ------WebKitFormBoundary7MA4YWxkTrZu0gW
 Content-Disposition: form-data; name="exam"
 
 {"name":"HR DB","database":"postgres"}
+
 ------WebKitFormBoundary7MA4YWxkTrZu0gW
 Content-Disposition: form-data; name="scripts"; filename="1.sql"
 Content-Type: application/text
+
 < ./src/test/resources/postgres/scripts/1.sql
 < ./src/test/resources/postgres/scripts/2.sql
 ------WebKitFormBoundary7MA4YWxkTrZu0gW--
