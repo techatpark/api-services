@@ -17,3 +17,4 @@ Content-Type: application/text
 
 #### List Exams
 GET {{base}}/exams/sql
+Authorization: Basic user password
