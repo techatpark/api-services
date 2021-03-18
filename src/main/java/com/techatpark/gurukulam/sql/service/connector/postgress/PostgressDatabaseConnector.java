@@ -10,7 +10,6 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 
 import java.io.InputStream;
-import java.nio.file.Path;
 import java.sql.Connection;
 import java.sql.SQLException;
 
