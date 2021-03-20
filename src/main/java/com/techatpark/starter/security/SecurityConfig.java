@@ -1,7 +1,9 @@
 package com.techatpark.starter.security;
 
+import com.techatpark.starter.security.filter.TokenFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -11,26 +13,40 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
+    /**
+     * @param httpSecurity
+     * @throws Exception
+     */
     @Override
-    protected void configure(HttpSecurity httpSecurity) throws Exception {
+    protected void configure(final HttpSecurity httpSecurity) throws Exception {
         //@formatter:off
         httpSecurity
-                .httpBasic()
-                .and()
+                .httpBasic().disable()
+                .csrf().disable()
+                .logout().disable()
+                .formLogin().disable()
                 .sessionManagement()
                     .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeRequests()
+                    .antMatchers("/api/auth/login")
+                        .permitAll()
                     .anyRequest()
                         .authenticated();
         //@formatter:on
+
+        httpSecurity.addFilterBefore(new TokenFilter(), UsernamePasswordAuthenticationFilter.class);
     }
 
+    /**
+     * @return
+     */
     @Bean
     @Override
     protected UserDetailsService userDetailsService() {
@@ -42,10 +58,17 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         );
     }
 
+    /**
+     * @return BCryptPasswordEncoder
+     */
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
-
+    @Override
+    @Bean
+    public AuthenticationManager authenticationManagerBean() throws Exception {
+        return super.authenticationManagerBean();
+    }
 }
