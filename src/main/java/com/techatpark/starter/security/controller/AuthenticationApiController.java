@@ -7,39 +7,52 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.security.Principal;
 import java.util.Base64;
 
 @RestController
 @RequestMapping("/api/auth")
-public class LoginApiController {
+public class AuthenticationApiController {
 
     private final AuthenticationManager authenticationManager;
+    private final UserDetailsService userDetailsService;
 
-    public LoginApiController(AuthenticationManager authenticationManager) {
+    public AuthenticationApiController(AuthenticationManager authenticationManager,
+                                       UserDetailsService userDetailsService) {
         this.authenticationManager = authenticationManager;
+        this.userDetailsService = userDetailsService;
     }
 
     @PostMapping("/login")
     public ResponseEntity<AuthenticationResponse> login(@RequestBody @Valid AuthenticationRequest authenticationRequest) {
 
         Authentication authResult = this.authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(authenticationRequest.getUserName(), authenticationRequest.getPassword()));
-        if( authResult == null) {
+        if (authResult == null) {
             throw new BadCredentialsException("Invalid Login Credentials");
         }
         String token = Base64.getEncoder()
                 .encodeToString(
-                        (authenticationRequest.getUserName() +":"+ authenticationRequest.getPassword()).getBytes()
+                        (authenticationRequest.getUserName() + ":" + authenticationRequest.getPassword()).getBytes()
                 );
 
         AuthenticationResponse authenticationResponse = new AuthenticationResponse(token);
 
         return ResponseEntity.ok().body(authenticationResponse);
+    }
+
+    @PostMapping("/logout")
+    public ResponseEntity<Void> logout() {
+        return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/me")
+    public ResponseEntity<UserDetails> me(Principal principal) {
+        return ResponseEntity.ok(userDetailsService.loadUserByUsername(principal.getName()));
     }
 
 }
