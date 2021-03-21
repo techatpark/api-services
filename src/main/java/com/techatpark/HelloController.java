@@ -11,8 +11,9 @@ import java.security.Principal;
 class HelloController {
 
     @RequestMapping("/")
-    public ResponseEntity<String> index(Principal principal) {
-        return new ResponseEntity<String>( "Hello " +principal.getName(), HttpStatus.OK);
+    public ResponseEntity<String> index() {
+        return new ResponseEntity<String>( "Welcome to Spring Boot 2.x",
+                HttpStatus.OK);
     }
 
 }
