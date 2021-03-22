@@ -1,6 +1,7 @@
 @base = http://localhost:8080/api
 
 #### Login
+# @name login 
 POST {{base}}/auth/login
 Content-Type: application/json
 
@@ -9,12 +10,13 @@ Content-Type: application/json
     "password":"password"
 }
 
-#### Login
+
+#### Profile
 GET {{base}}/auth/me
-Authorization: Bearer dXNlcjpwYXNzd29yZA==
+Authorization: Bearer {{login.response.body.authToken}}
 Content-Type: application/json
 
-#### Login
+#### Logout
 POST {{base}}/auth/logout
-Authorization: Bearer dXNlcjpwYXNzd29yZA==
+Authorization: Bearer {{login.response.body.authToken}}
 Content-Type: application/json
