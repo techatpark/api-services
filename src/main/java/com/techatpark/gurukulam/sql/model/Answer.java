@@ -21,7 +21,7 @@ public class Answer {
 
     /**
      * gets student answer id.
-     * 
+     *
      * @return id
      */
     public Integer getId() {
@@ -30,7 +30,7 @@ public class Answer {
 
     /**
      * sets student answer id.
-     * 
+     *
      * @param id
      */
     public void setId(final Integer id) {
@@ -39,7 +39,7 @@ public class Answer {
 
     /**
      * tells exam id.
-     * 
+     *
      * @return exam id
      */
     public Integer getExamId() {
@@ -48,7 +48,7 @@ public class Answer {
 
     /**
      * sets exam id.
-     * 
+     *
      * @param examId
      */
     public void setExamId(final Integer examId) {
@@ -57,7 +57,7 @@ public class Answer {
 
     /**
      * gets question id.
-     * 
+     *
      * @return question id
      */
     public Integer getQuestionId() {
@@ -66,7 +66,7 @@ public class Answer {
 
     /**
      * sets question id.
-     * 
+     *
      * @param questionId
      */
     public void setQuestionId(final Integer questionId) {
@@ -75,7 +75,7 @@ public class Answer {
 
     /**
      * gets student answer.
-     * 
+     *
      * @return studentAnswer
      */
     public String getStudentAnswer() {
@@ -84,7 +84,7 @@ public class Answer {
 
     /**
      * sets student answer.
-     * 
+     *
      * @param studentAnswer
      */
     public void setStudentAnswer(final String studentAnswer) {

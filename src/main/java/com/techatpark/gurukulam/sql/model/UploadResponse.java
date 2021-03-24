@@ -14,7 +14,7 @@ public class UploadResponse {
 
     /**
      * gets the id.
-     * 
+     *
      * @return id
      */
     public Integer getId() {
@@ -23,7 +23,7 @@ public class UploadResponse {
 
     /**
      * sets the id.
-     * 
+     *
      * @param id
      */
     public void setId(final Integer id) {
@@ -32,7 +32,7 @@ public class UploadResponse {
 
     /**
      * gets content.
-     * 
+     *
      * @return content
      */
     public Blob getContent() {
@@ -41,7 +41,7 @@ public class UploadResponse {
 
     /**
      * set content.
-     * 
+     *
      * @param content
      */
     public void setContent(final Blob content) {

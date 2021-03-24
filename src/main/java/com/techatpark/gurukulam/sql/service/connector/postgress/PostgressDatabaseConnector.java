@@ -23,7 +23,7 @@ public class PostgressDatabaseConnector extends DatabaseConnector {
 
     /**
      * Creates Postgress Connector.
-     * 
+     *
      * @param jdbcTemplate
      */
     public PostgressDatabaseConnector(final JdbcTemplate jdbcTemplate) {
@@ -53,15 +53,14 @@ public class PostgressDatabaseConnector extends DatabaseConnector {
 
     /**
      * @param exam
-     * @param scriptFiles
      * @return Boolean
      */
     @Override
-    public final Boolean loadScript(final Exam exam, final InputStream[] scriptFiles) {
+    public final Boolean loadScript(final Exam exam) {
         final Integer id = exam.getId();
         final String query = "CREATE DATABASE EXAM_" + id;
         getJdbcTemplate().update(query);
-        FlywayUtil.loadScripts(exam, scriptFiles, getJdbcTemplate().getDataSource());
+        FlywayUtil.loadScripts(exam, getJdbcTemplate().getDataSource());
         return null;
     }
 
@@ -78,7 +77,7 @@ public class PostgressDatabaseConnector extends DatabaseConnector {
 
     /**
      * Get psotgress connection for the given exam schema.
-     * 
+     *
      * @param exam
      * @return Connection
      */

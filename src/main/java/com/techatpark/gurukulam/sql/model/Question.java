@@ -26,7 +26,7 @@ public class Question {
 
     /**
      * gets the id of question.
-     * 
+     *
      * @return id
      */
     public Integer getId() {
@@ -35,7 +35,7 @@ public class Question {
 
     /**
      * sets the id of question.
-     * 
+     *
      * @param id
      */
     public void setId(final Integer id) {
@@ -44,7 +44,7 @@ public class Question {
 
     /**
      * gets the exam id.
-     * 
+     *
      * @return exam_id
      */
     public Integer getExamId() {
@@ -53,7 +53,7 @@ public class Question {
 
     /**
      * sets the examid of question.
-     * 
+     *
      * @param examId
      */
     public void setExamId(final Integer examId) {
@@ -62,7 +62,7 @@ public class Question {
 
     /**
      * gets the question.
-     * 
+     *
      * @return question
      */
     public String getQuestion() {
@@ -71,7 +71,7 @@ public class Question {
 
     /**
      * sets the question.
-     * 
+     *
      * @param question
      */
     public void setQuestion(final String question) {
@@ -80,7 +80,7 @@ public class Question {
 
     /**
      * gets the answer.
-     * 
+     *
      * @return answer
      */
     public String getAnswer() {
@@ -89,7 +89,7 @@ public class Question {
 
     /**
      * sets the answer.
-     * 
+     *
      * @param answer
      */
     public void setAnswer(final String answer) {

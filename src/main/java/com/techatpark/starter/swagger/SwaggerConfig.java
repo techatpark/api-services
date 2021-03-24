@@ -18,31 +18,31 @@ import java.util.Iterator;
 @Configuration
 @OpenAPIDefinition(info = @Info(title = "Hello World", version = "0.0", description = "My API", license = @License(name = "Apache 2.0", url = "https://foo.bar"), contact = @Contact(url = "https://gigantic-server.com", name = "Fred", email = "Fred@gigagantic-server.com")))
 public class SwaggerConfig implements ModelConverter {
-        @Override
-        public Schema resolve(AnnotatedType type, final ModelConverterContext context,
-                        final Iterator<ModelConverter> chain) {
-                final JavaType javaType = Json.mapper().constructType(type.getType());
-                if (javaType != null) {
-                        final Class<?> cls = javaType.getRawClass();
-                        if (Page.class.isAssignableFrom(cls)) {
-                                final JavaType innerType = javaType.getBindings().getBoundType(0);
-                                if (innerType.getBindings() != null) {
-                                        type = new AnnotatedType(innerType)
-                                                        .jsonViewAnnotation(type.getJsonViewAnnotation())
-                                                        .resolveAsRef(true);
-                                        return this.resolve(type, context, chain);
-                                } else {
-                                        type = new AnnotatedType(innerType)
-                                                        .jsonViewAnnotation(type.getJsonViewAnnotation())
-                                                        .resolveAsRef(true);
-                                }
-                        }
-                }
-                if (chain.hasNext()) {
-                        return chain.next().resolve(type, context, chain);
+    @Override
+    public Schema resolve(AnnotatedType type, final ModelConverterContext context,
+                          final Iterator<ModelConverter> chain) {
+        final JavaType javaType = Json.mapper().constructType(type.getType());
+        if (javaType != null) {
+            final Class<?> cls = javaType.getRawClass();
+            if (Page.class.isAssignableFrom(cls)) {
+                final JavaType innerType = javaType.getBindings().getBoundType(0);
+                if (innerType.getBindings() != null) {
+                    type = new AnnotatedType(innerType)
+                            .jsonViewAnnotation(type.getJsonViewAnnotation())
+                            .resolveAsRef(true);
+                    return this.resolve(type, context, chain);
                 } else {
-                        return null;
+                    type = new AnnotatedType(innerType)
+                            .jsonViewAnnotation(type.getJsonViewAnnotation())
+                            .resolveAsRef(true);
                 }
+            }
         }
+        if (chain.hasNext()) {
+            return chain.next().resolve(type, context, chain);
+        } else {
+            return null;
+        }
+    }
 
 }

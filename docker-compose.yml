@@ -1,8 +1,8 @@
-version: "3.3"
+version: "3.9"
 
 services:
   gurukulam-postgres:
-    image: postgres:11
+    image: postgres:13.2-alpine
     container_name: gurukulam_postgres
     environment:
       POSTGRES_DB: practice_db

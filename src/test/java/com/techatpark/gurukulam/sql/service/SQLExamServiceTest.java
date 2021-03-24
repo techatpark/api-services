@@ -10,7 +10,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.PageRequest;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.NoSuchElementException;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -35,24 +34,15 @@ class SQLExamServiceTest {
     @Test
     void testCreate() throws IOException {
         Exam examToBeCrated = getExam();
-        Exam createdExam = sqlExamService.create(examToBeCrated, TestUtil.getScriptFiles(examToBeCrated)).get();
+        Exam createdExam = sqlExamService.create(examToBeCrated).get();
         assertEquals(EXAM1, createdExam.getName());
     }
 
-    @Test
-    void testCreateQuesion() throws IOException {
-
-    }
-
-    @Test
-    void testAnswer() throws IOException {
-
-    }
 
     @Test
     void testUpdate() throws IOException {
         Exam examToBeCrated = getExam();
-        Exam exam = sqlExamService.create(examToBeCrated, TestUtil.getScriptFiles(examToBeCrated)).get();
+        Exam exam = sqlExamService.create(examToBeCrated).get();
         exam.setName("Updated Name");
         exam.setDatabase(Database.POSTGRES);
         Integer newExamId = exam.getId();
@@ -64,7 +54,7 @@ class SQLExamServiceTest {
     @Test
     void testRead() throws IOException {
         Exam examToBeCrated = getExam();
-        Exam exam = sqlExamService.create(examToBeCrated, TestUtil.getScriptFiles(examToBeCrated)).get();
+        Exam exam = sqlExamService.create(examToBeCrated).get();
         Integer newExamId = exam.getId();
         Assertions.assertNotNull(sqlExamService.read(newExamId).get(), "Exam Created");
     }
@@ -73,7 +63,7 @@ class SQLExamServiceTest {
     void testDelete() {
         Assertions.assertThrows(NoSuchElementException.class, () -> {
             Exam examToBeCrated = getExam();
-            Exam exam = sqlExamService.create(examToBeCrated, TestUtil.getScriptFiles(examToBeCrated)).get();
+            Exam exam = sqlExamService.create(examToBeCrated).get();
             Integer newExamId = exam.getId();
             sqlExamService.delete(newExamId);
             sqlExamService.read(newExamId).get();
@@ -83,10 +73,12 @@ class SQLExamServiceTest {
     @Test
     void testList() throws IOException {
         Exam examToBeCrated = getExam();
-        sqlExamService.create(examToBeCrated, TestUtil.getScriptFiles(examToBeCrated)).get();
+        sqlExamService.create(examToBeCrated).get();
         Exam examToBeCrated2 = getExam();
-        sqlExamService.create(examToBeCrated2, TestUtil.getScriptFiles(examToBeCrated2));
-        assertEquals(2, sqlExamService.list(PageRequest.of(1, 2)).getContent().size(), "Test Listing");
+        sqlExamService.create(examToBeCrated2);
+        assertEquals(2,
+                sqlExamService.list(PageRequest.of(1, 2)).getContent().size()
+                , "Test Listing");
         assertEquals(1, sqlExamService.list(PageRequest.of(1, 1)).getContent().size(), "Test Listing with restricted page");
     }
 
@@ -94,14 +86,8 @@ class SQLExamServiceTest {
         Exam exam = new Exam();
         exam.setName(EXAM1);
         exam.setDatabase(Database.POSTGRES);
+        exam.setScript(TestUtil.getScript(exam));
         return exam;
-    }
-
-    @Test
-    void testLoadScripts() {
-        Exam examToBeCrated = getExam();
-        InputStream[] scripts = TestUtil.getScriptFiles(examToBeCrated);
-        assertEquals(2, scripts.length, "All (2) script files loaded");
     }
 
 

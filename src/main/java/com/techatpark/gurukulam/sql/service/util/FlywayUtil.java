@@ -22,23 +22,21 @@ public final class FlywayUtil {
 
     /**
      * Load scripts to db.
-     * 
-     * 
+     *
      * @param exam
-     * @param scriptFiles
      * @param dataSource
      * @return successFlag
      */
-    public static Boolean loadScripts(final Exam exam, final InputStream[] scriptFiles, final DataSource dataSource) {
-        if (scriptFiles != null) {
+    public static Boolean loadScripts(final Exam exam,  final DataSource dataSource) {
+        if (exam.getScript() != null) {
             // Load Script files in temp folder
             try {
                 Path createdTempFolder = Files.createTempDirectory(Paths.get(System.getProperty("java.io.tmpdir")),
                         new Date().getTime() + "Exams");
-                for (int i = 0; i < scriptFiles.length; i++) {
-                    Files.copy(scriptFiles[i], createdTempFolder.resolve(Paths.get("V" + (i + 1) + "__script.sql")),
-                            StandardCopyOption.REPLACE_EXISTING);
-                }
+
+                Files.writeString(
+                        createdTempFolder.resolve(Paths.get("V1__script.sql"))
+                        ,exam.getScript());
 
                 Map<String, String> flywayConfig = new HashMap<>(1);
                 flywayConfig.put("flyway.locations", createdTempFolder.toFile().getAbsolutePath());
@@ -46,7 +44,7 @@ public final class FlywayUtil {
                         .configuration(flywayConfig).load();
                 flyway.migrate();
             } catch (IOException e) {
-                
+                e.printStackTrace();
             }
 
         }

@@ -24,18 +24,6 @@ public class QuestionService {
      * this creates connection functionalities.
      */
     private final DataSource dataSource;
-
-    /**
-     * initializes.
-     * 
-     * @param jdbcTemplate
-     * @param dataSource
-     */
-    public QuestionService(final JdbcTemplate jdbcTemplate, final DataSource dataSource) {
-        this.jdbcTemplate = jdbcTemplate;
-        this.dataSource = dataSource;
-    }
-
     /**
      * Maps the data from and to the database. return question.
      */
@@ -49,8 +37,19 @@ public class QuestionService {
     };
 
     /**
+     * initializes.
+     *
+     * @param jdbcTemplate
+     * @param dataSource
+     */
+    public QuestionService(final JdbcTemplate jdbcTemplate, final DataSource dataSource) {
+        this.jdbcTemplate = jdbcTemplate;
+        this.dataSource = dataSource;
+    }
+
+    /**
      * inserts data.
-     * 
+     *
      * @param question
      * @param examId
      * @return question
@@ -69,14 +68,14 @@ public class QuestionService {
 
     /**
      * reads from question with given id.
-     * 
+     *
      * @param id
      * @return question
      */
     public Optional<Question> read(final Integer id) {
         final String query = "SELECT id,exam_id,question,answer FROM questions WHERE id = ?";
         try {
-            return Optional.of(jdbcTemplate.queryForObject(query, new Object[] { id }, rowMapper));
+            return Optional.of(jdbcTemplate.queryForObject(query, new Object[]{id}, rowMapper));
         } catch (EmptyResultDataAccessException e) {
             return Optional.empty();
         }
@@ -84,7 +83,7 @@ public class QuestionService {
 
     /**
      * updates question with id.
-     * 
+     *
      * @param id
      * @param question
      * @return question
@@ -98,19 +97,19 @@ public class QuestionService {
 
     /**
      * deletes from database.
-     * 
+     *
      * @param id
      * @return successflag
      */
     public Boolean delete(final Integer id) {
         String query = "DELETE FROM questions WHERE ID=?";
-        Integer updatedRows = jdbcTemplate.update(query, new Object[] { id });
+        Integer updatedRows = jdbcTemplate.update(query, new Object[]{id});
         return !(updatedRows == 0);
     }
 
     /**
      * Cleaning up all exams.
-     * 
+     *
      * @return no.of exams deleted
      */
     public Integer delete() {
@@ -120,18 +119,18 @@ public class QuestionService {
 
     /**
      * List questions of exam.
-     * 
+     *
      * @param examId
      * @return quetions in given exam
      */
     public List<Question> list(final Integer examId) {
         String query = "SELECT id,exam_id,question,answer FROM questions WHERE exam_id = ?";
-        return List.of(jdbcTemplate.queryForObject(query, new Object[] { examId }, rowMapper));
+        return List.of(jdbcTemplate.queryForObject(query, new Object[]{examId}, rowMapper));
     }
 
     /**
      * list of question.
-     * 
+     *
      * @param pageNumber
      * @param pageSize
      * @return question

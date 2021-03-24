@@ -50,7 +50,7 @@ class QuestionServiceTest {
 
         questionService.delete();
         sqlExamService.delete();
-        exam = sqlExamService.create(getExam(), null).get();
+        exam = sqlExamService.create(getExam()).get();
     }
 
     @AfterEach
@@ -119,6 +119,7 @@ class QuestionServiceTest {
         final Exam exam = new Exam();
         exam.setName("Test Exam 1");
         exam.setDatabase(Database.POSTGRES);
+        exam.setScript(TestUtil.getScript(exam));
         return exam;
     }
 }

@@ -27,7 +27,7 @@ public enum Database {
 
     /**
      * constructor to create type of database.
-     * 
+     *
      * @param value
      * @param clazz
      */
@@ -37,18 +37,8 @@ public enum Database {
     }
 
     /**
-     * get the value of database.
-     * 
-     * @return value.
-     */
-    @JsonValue
-    public String getValue() {
-        return value;
-    }
-
-    /**
      * this method is used to set status from a json.
-     * 
+     *
      * @param value
      * @return database
      */
@@ -58,8 +48,18 @@ public enum Database {
     }
 
     /**
+     * get the value of database.
+     *
+     * @return value.
+     */
+    @JsonValue
+    public String getValue() {
+        return value;
+    }
+
+    /**
      * get Class thatimplements given Database Connector.
-     * 
+     *
      * @return clazz
      */
     public Class<? extends DatabaseConnector> getConnectorClass() {

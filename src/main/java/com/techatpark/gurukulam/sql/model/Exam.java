@@ -16,8 +16,13 @@ public class Exam {
     private Database database;
 
     /**
+     * tells the script of exam.
+     */
+    private String script;
+
+    /**
      * gets the id of exam.
-     * 
+     *
      * @return id
      */
     public Integer getId() {
@@ -26,7 +31,7 @@ public class Exam {
 
     /**
      * sets the id of exam.
-     * 
+     *
      * @param id
      */
     public void setId(final Integer id) {
@@ -35,7 +40,7 @@ public class Exam {
 
     /**
      * gets the name of exam.
-     * 
+     *
      * @return name
      */
     public String getName() {
@@ -44,7 +49,7 @@ public class Exam {
 
     /**
      * sets the exam name.
-     * 
+     *
      * @param name
      */
     public void setName(final String name) {
@@ -53,7 +58,7 @@ public class Exam {
 
     /**
      * gets databse.
-     * 
+     *
      * @return database
      */
     public Database getDatabase() {
@@ -62,11 +67,28 @@ public class Exam {
 
     /**
      * sets database.
-     * 
+     *
      * @param database
      */
     public void setDatabase(final Database database) {
         this.database = database;
     }
 
+    /**
+     * gets script.
+     *
+     * @return script
+     */
+    public String getScript() {
+        return script;
+    }
+
+    /**
+     * sets script.
+     *
+     * @param script
+     */
+    public void setScript(String script) {
+        this.script = script;
+    }
 }

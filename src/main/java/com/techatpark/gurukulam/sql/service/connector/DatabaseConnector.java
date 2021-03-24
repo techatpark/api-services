@@ -17,10 +17,23 @@ public abstract class DatabaseConnector {
      * Contains Connector Implementation Mappings.
      */
     private static Map<String, DatabaseConnector> mapping = new HashMap<>();
+    /**
+     * Actual Database Store.
+     */
+    private final JdbcTemplate jdbcTemplate;
+
+    /**
+     * Creates a Database Connector.
+     *
+     * @param jdbcTemplate
+     */
+    public DatabaseConnector(final JdbcTemplate jdbcTemplate) {
+        this.jdbcTemplate = jdbcTemplate;
+    }
 
     /**
      * Gets instance of Database Connector.
-     * 
+     *
      * @param database
      * @param jdbcTemplate
      * @return dbconnector
@@ -41,22 +54,8 @@ public abstract class DatabaseConnector {
     }
 
     /**
-     * Actual Database Store.
-     */
-    private final JdbcTemplate jdbcTemplate;
-
-    /**
-     * Creates a Database Connector.
-     * 
-     * @param jdbcTemplate
-     */
-    public DatabaseConnector(final JdbcTemplate jdbcTemplate) {
-        this.jdbcTemplate = jdbcTemplate;
-    }
-
-    /**
      * verify the given question with the answer.
-     * 
+     *
      * @param exam
      * @param question
      * @param sqlAnswer
@@ -66,16 +65,15 @@ public abstract class DatabaseConnector {
 
     /**
      * Load the script for the specific exam.
-     * 
+     *
      * @param exam
-     * @param scriptFiles
      * @return successflag
      */
-    public abstract Boolean loadScript(Exam exam, InputStream[] scriptFiles);
+    public abstract Boolean loadScript(Exam exam);
 
     /**
      * Unload the script for the specific exam.
-     * 
+     *
      * @param id
      * @return successflag
      */
@@ -83,7 +81,7 @@ public abstract class DatabaseConnector {
 
     /**
      * Get connection for specific exam.
-     * 
+     *
      * @param exam
      * @return connetion
      */
@@ -91,7 +89,7 @@ public abstract class DatabaseConnector {
 
     /**
      * Gets Actual Datastore.
-     * 
+     *
      * @return jdbcTemplate
      */
     public JdbcTemplate getJdbcTemplate() {

@@ -11,7 +11,6 @@ public class AnswerService {
 
     /**
      * * this is used to execute a connection with a database.
-     * 
      */
     private final JdbcTemplate jdbcTemplate;
 
@@ -22,7 +21,7 @@ public class AnswerService {
 
     /**
      * Constructs Answer Service.
-     * 
+     *
      * @param jdbcTemplate
      * @param questionService
      */
@@ -33,7 +32,7 @@ public class AnswerService {
 
     /**
      * checks whether the given answer is correct.returns true if correct.
-     * 
+     *
      * @param questionId
      * @param answer
      * @return true

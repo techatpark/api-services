@@ -48,7 +48,6 @@ public class PostgressDatabaseConnectorTest {
     private QuestionService questionService;
 
     /**
-     * 
      * @throws IOException
      */
     @BeforeEach
@@ -58,7 +57,7 @@ public class PostgressDatabaseConnectorTest {
     }
 
     /**
-     * 
+     *
      */
     @Test
     public void testVerify() {
@@ -69,7 +68,7 @@ public class PostgressDatabaseConnectorTest {
     }
 
     /**
-     * 
+     *
      */
     //@Test
     public void testVerifywrongAnswer() {
@@ -80,18 +79,17 @@ public class PostgressDatabaseConnectorTest {
     }
 
     /**
-     * 
      * @return exam
      */
     Exam getExam() {
         Exam exam = new Exam();
         exam.setName("Exam_1");
         exam.setDatabase(Database.POSTGRES);
+        exam.setScript(TestUtil.getScript(exam));
         return exam;
     }
 
     /**
-     * 
      * @return qustion
      */
     Question getQuestion() {
@@ -102,7 +100,6 @@ public class PostgressDatabaseConnectorTest {
     }
 
     /**
-     * 
      * @return answer String
      */
     String getAnswer() {
@@ -110,23 +107,14 @@ public class PostgressDatabaseConnectorTest {
     }
 
     /**
-     * 
      * @return Exam
      */
     Exam createAndGetExam() {
-        Exam examToBeCrated = getExam();
-        Exam exam = null;
-        try {
-            exam = sqlExamService.create(examToBeCrated, TestUtil.getScriptFiles(examToBeCrated)).get();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
+        Exam exam = sqlExamService.create(getExam()).get();
         return exam;
     }
 
     /**
-     * 
      * @param exam
      * @return question
      */
