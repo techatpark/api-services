@@ -77,9 +77,9 @@ class SQLExamServiceTest {
         Exam examToBeCrated2 = getExam();
         sqlExamService.create(examToBeCrated2);
         assertEquals(2,
-                sqlExamService.list(PageRequest.of(1, 2)).getContent().size()
+                sqlExamService.page(PageRequest.of(0, 2)).getContent().size()
                 , "Test Listing");
-        assertEquals(1, sqlExamService.list(PageRequest.of(1, 1)).getContent().size(), "Test Listing with restricted page");
+        assertEquals(1, sqlExamService.page(PageRequest.of(0, 1)).getContent().size(), "Test Listing with restricted page");
     }
 
     Exam getExam() {

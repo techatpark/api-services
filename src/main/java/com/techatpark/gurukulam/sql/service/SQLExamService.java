@@ -118,7 +118,10 @@ public class SQLExamService {
      */
     public Optional<Exam> update(final Integer id, final Exam exam) {
         final String query = "UPDATE exams SET name = ?, database_type = ?, script = ? WHERE id = ?";
-        final Integer updatedRows = jdbcTemplate.update(query, exam.getName(), exam.getDatabase().getValue(),exam.getScript(), id);
+        final Integer updatedRows = jdbcTemplate.update(query,
+                exam.getName(),
+                exam.getDatabase().getValue(),
+                exam.getScript(), id);
         return updatedRows == 0 ? null : read(id);
     }
 
@@ -160,21 +163,14 @@ public class SQLExamService {
      * @param pageable
      * @return list
      */
-    public Page<Exam> list(final Pageable pageable) {
+    public Page<Exam> page(final Pageable pageable) {
 
-        String columnNames = "id,name,script,database_type";
-
-        String recordsQuery = "SELECT "
-                + columnNames
-                + " FROM exams"
-                + " LIMIT "
+        String recordsQuery = "SELECT id,name,script,database_type FROM exams LIMIT "
                 + pageable.getPageSize()
                 + " OFFSET "
-                + (pageable.getPageNumber()-1);
+                + ((pageable.getPageNumber() * pageable.getPageSize()) );
 
-        String countsQuery = "SELECT "
-                + "COUNT(id)"
-                + " FROM exams";
+        String countsQuery = "SELECT COUNT(id) FROM exams";
 
         return new PageImpl<Exam>(jdbcTemplate.query(recordsQuery, rowMapper), pageable,
                 jdbcTemplate.queryForObject(countsQuery, Long.class));

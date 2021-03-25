@@ -1,21 +1,31 @@
 @base = http://localhost:8080/api
+#### Login
+# @name login 
+POST {{base}}/auth/login
+Content-Type: application/json
+
+{
+    "userName":"user",
+    "password":"password"
+}
 
 #### Create Exam
 POST {{base}}/exams/sql
-Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
+Authorization: Bearer {{login.response.body.authToken}}
+Content-Type: application/json
 
-------WebKitFormBoundary7MA4YWxkTrZu0gW
-Content-Disposition: form-data; name="exam"
-
-{"name":"HR DB","database":"postgres"}
-
-------WebKitFormBoundary7MA4YWxkTrZu0gW
-Content-Disposition: form-data; name="scripts"; filename="1.sql"
-Content-Type: application/text
-
-< ./src/test/resources/postgres/scripts/1.sql
-< ./src/test/resources/postgres/scripts/2.sql
-------WebKitFormBoundary7MA4YWxkTrZu0gW--
+{
+    "name": "HR DB",
+    "database": "postgres",
+    "script": "SSSS"
+}
 
 #### List Exams
 GET {{base}}/exams/sql
+Authorization: Bearer {{login.response.body.authToken}}
+Content-Type: application/json
+
+#### Logout
+POST {{base}}/auth/logout
+Authorization: Bearer {{login.response.body.authToken}}
+Content-Type: application/json

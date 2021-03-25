@@ -44,6 +44,7 @@ class SQLExamAPIController {
     @Operation(summary = "Creates a new exam", description = "Can be called only by users with 'auth management' rights.")
     @ApiResponses(value = {@ApiResponse(responseCode = "201", description = "exam created successfully"),
             @ApiResponse(responseCode = "400", description = "exam is invalid")})
+    @PostMapping
     public ResponseEntity<Optional<Exam>> create(@RequestBody @Valid @NotNull @NotBlank Exam exam) throws IOException {
 
         return ResponseEntity.status(HttpStatus.CREATED).body(sqlExamService.create(exam));
@@ -62,7 +63,7 @@ class SQLExamAPIController {
             @ApiResponse(responseCode = "204", description = "exam are not available")})
     @GetMapping
     public ResponseEntity<Page<Exam>> findAll(@NotNull final Pageable pageable) {
-        Page<Exam> exams = sqlExamService.list(pageable);
+        Page<Exam> exams = sqlExamService.page(pageable);
         return exams.isEmpty() ? new ResponseEntity<Page<Exam>>(HttpStatus.NO_CONTENT)
                 : ResponseEntity.ok(exams);
     }

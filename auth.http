@@ -1,5 +1,4 @@
 @base = http://localhost:8080/api
-
 #### Login
 # @name login 
 POST {{base}}/auth/login
