@@ -4,12 +4,15 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
 import java.time.Duration;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 @Component
@@ -27,7 +30,13 @@ public class TokenUtil {
                 .signWith(SignatureAlgorithm.HS512, secret).compact();
     }
 
-    public Claims parseToken(String token) {
+    public Authentication getAuthentication(String token) {
+        Claims claims = parseToken(token);
+        return new UsernamePasswordAuthenticationToken(
+                claims.getSubject(), null, List.of());
+    }
+
+    private Claims parseToken(String token) {
         try {
             Claims body = Jwts.parser()
                     .setSigningKey(secret)

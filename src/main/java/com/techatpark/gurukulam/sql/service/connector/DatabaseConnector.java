@@ -5,7 +5,6 @@ import com.techatpark.gurukulam.sql.model.Exam;
 import com.techatpark.gurukulam.sql.model.Question;
 import org.springframework.jdbc.core.JdbcTemplate;
 
-import java.io.InputStream;
 import java.lang.reflect.InvocationTargetException;
 import java.sql.Connection;
 import java.util.HashMap;
