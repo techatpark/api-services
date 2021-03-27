@@ -1,7 +1,7 @@
 package com.techatpark.starter.security.filter;
 //This filter is used to create toke with given username and password.
 
-import com.techatpark.starter.security.utils.JwtTokenUtil;
+import com.techatpark.starter.security.utils.TokenUtil;
 import io.jsonwebtoken.Claims;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,13 +20,13 @@ import java.util.List;
 @Component
 public class TokenFilter extends OncePerRequestFilter {
 
-    private final JwtTokenUtil jwtTokenUtil;
+    private final TokenUtil tokenUtil;
 
 
     Logger logger = LoggerFactory.getLogger(TokenFilter.class);
 
-    public TokenFilter(JwtTokenUtil jwtTokenUtil) {
-        this.jwtTokenUtil = jwtTokenUtil;
+    public TokenFilter(TokenUtil tokenUtil) {
+        this.tokenUtil = tokenUtil;
     }
 
     @Override
@@ -35,7 +35,7 @@ public class TokenFilter extends OncePerRequestFilter {
 
         if (authorizationHeader != null) {
             String token = authorizationHeader.split(" ")[1];
-            Claims claims = jwtTokenUtil.parseToken(token);
+            Claims claims = tokenUtil.parseToken(token);
             logger.info("Token Obtained for : {} is {}", httpServletRequest.getRequestURI(), token);
             SecurityContextHolder.getContext().setAuthentication(new UsernamePasswordAuthenticationToken(
                     claims.getSubject(), null, List.of()));

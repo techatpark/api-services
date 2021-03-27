@@ -2,7 +2,7 @@ package com.techatpark.starter.security.controller;
 
 import com.techatpark.starter.security.model.AuthenticationRequest;
 import com.techatpark.starter.security.model.AuthenticationResponse;
-import com.techatpark.starter.security.utils.JwtTokenUtil;
+import com.techatpark.starter.security.utils.TokenUtil;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -21,13 +21,13 @@ public class AuthenticationApiController {
 
     private final AuthenticationManager authenticationManager;
     private final UserDetailsService userDetailsService;
-    private final JwtTokenUtil jwtTokenUtil;
+    private final TokenUtil tokenUtil;
 
     public AuthenticationApiController(AuthenticationManager authenticationManager,
-                                       UserDetailsService userDetailsService, JwtTokenUtil jwtTokenUtil) {
+                                       UserDetailsService userDetailsService, TokenUtil tokenUtil) {
         this.authenticationManager = authenticationManager;
         this.userDetailsService = userDetailsService;
-        this.jwtTokenUtil = jwtTokenUtil;
+        this.tokenUtil = tokenUtil;
     }
 
     @PostMapping("/login")
@@ -40,11 +40,8 @@ public class AuthenticationApiController {
 
         final UserDetails userDetails = userDetailsService
                 .loadUserByUsername(authenticationRequest.getUserName());
-
-        final String token = jwtTokenUtil.generateToken(userDetails);
-
+        final String token = tokenUtil.generateToken(userDetails);
         AuthenticationResponse authenticationResponse = new AuthenticationResponse(token);
-
         return ResponseEntity.ok().body(authenticationResponse);
     }
 

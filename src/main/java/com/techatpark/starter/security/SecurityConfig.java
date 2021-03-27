@@ -1,7 +1,7 @@
 package com.techatpark.starter.security;
 
 import com.techatpark.starter.security.filter.TokenFilter;
-import com.techatpark.starter.security.utils.JwtTokenUtil;
+import com.techatpark.starter.security.utils.TokenUtil;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -20,10 +20,10 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-    private final JwtTokenUtil jwtTokenUtil;
+    private final TokenUtil tokenUtil;
 
-    public SecurityConfig(JwtTokenUtil jwtTokenUtil) {
-        this.jwtTokenUtil = jwtTokenUtil;
+    public SecurityConfig(TokenUtil tokenUtil) {
+        this.tokenUtil = tokenUtil;
     }
 
     /**
@@ -48,7 +48,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         .authenticated();
         //@formatter:on
 
-        httpSecurity.addFilterBefore(new TokenFilter(jwtTokenUtil), UsernamePasswordAuthenticationFilter.class);
+        httpSecurity.addFilterBefore(new TokenFilter(tokenUtil), UsernamePasswordAuthenticationFilter.class);
     }
 
     /**

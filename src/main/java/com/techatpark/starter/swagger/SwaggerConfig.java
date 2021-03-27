@@ -16,7 +16,15 @@ import org.springframework.data.domain.Page;
 import java.util.Iterator;
 
 @Configuration
-@OpenAPIDefinition(info = @Info(title = "Hello World", version = "0.0", description = "My API", license = @License(name = "Apache 2.0", url = "https://foo.bar"), contact = @Contact(url = "https://gigantic-server.com", name = "Fred", email = "Fred@gigagantic-server.com")))
+@OpenAPIDefinition(info = @Info(title = "My API",
+        version = "0.0",
+        description = "My API description",
+        license = @License(name = "Apache 2.0",
+                            url = "https://foo.bar"),
+        contact = @Contact(url = "https://www.gurukulam.techatpark.com",
+                name = "Fred",
+                email = "Fred@gigagantic-server.com")
+        ))
 public class SwaggerConfig implements ModelConverter {
     @Override
     public Schema resolve(AnnotatedType type, final ModelConverterContext context,
