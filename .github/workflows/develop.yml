@@ -24,7 +24,7 @@ jobs:
       - name: Build the docker-compose stack
         run: docker-compose up -d
       - name: Test with Maven
-        run: mvn -B test --file pom.xml
+        run: mvn -B package --file pom.xml
       - name: Copy Artifacts
         uses: appleboy/scp-action@master
         with:
@@ -34,6 +34,7 @@ jobs:
           key: ${{ secrets.KEY }}
           source: "target/*.jar"
           target: ${{ secrets.TARGET_DIR }}
+          strip_components: 1
       # - name: Deploy
       #   uses: appleboy/ssh-action@master
       #   with:
