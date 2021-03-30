@@ -25,7 +25,7 @@ public final class FlywayUtil {
      * @param dataSource
      * @return successFlag
      */
-    public static Boolean loadScripts(final Exam exam,  final DataSource dataSource) {
+    public static Boolean loadScripts(final Exam exam, final DataSource dataSource) {
         if (exam.getScript() != null) {
             // Load Script files in temp folder
             try {
@@ -34,7 +34,7 @@ public final class FlywayUtil {
 
                 Files.writeString(
                         createdTempFolder.resolve(Paths.get("V1__script.sql"))
-                        ,exam.getScript());
+                        , exam.getScript());
 
                 Map<String, String> flywayConfig = new HashMap<>(1);
                 flywayConfig.put("flyway.locations", createdTempFolder.toFile().getAbsolutePath());

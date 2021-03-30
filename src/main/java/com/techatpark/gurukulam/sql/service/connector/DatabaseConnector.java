@@ -15,7 +15,7 @@ public abstract class DatabaseConnector {
     /**
      * Contains Connector Implementation Mappings.
      */
-    private static Map<String, DatabaseConnector> mapping = new HashMap<>();
+    private static final Map<String, DatabaseConnector> mapping = new HashMap<>();
     /**
      * Actual Database Store.
      */

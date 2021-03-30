@@ -27,7 +27,7 @@ public class QuestionService {
     /**
      * Maps the data from and to the database. return question.
      */
-    private RowMapper<Question> rowMapper = (rs, rowNum) -> {
+    private final RowMapper<Question> rowMapper = (rs, rowNum) -> {
         final Question question = new Question();
         question.setId(rs.getInt("id"));
         question.setExamId(rs.getInt("exam_id"));
@@ -103,7 +103,7 @@ public class QuestionService {
      */
     public Boolean delete(final Integer id) {
         String query = "DELETE FROM questions WHERE ID=?";
-        Integer updatedRows = jdbcTemplate.update(query, new Object[]{id});
+        Integer updatedRows = jdbcTemplate.update(query, id);
         return !(updatedRows == 0);
     }
 

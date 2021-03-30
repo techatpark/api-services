@@ -18,7 +18,7 @@ import java.util.concurrent.TimeUnit;
 @Component
 public class TokenUtil {
 
-    private String secret = "javatoday";
+    private final String secret = "javatoday";
 
     public String generateToken(UserDetails userDetails) {
         return Jwts.builder()

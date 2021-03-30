@@ -84,7 +84,6 @@ public class SQLExamService {
      * Unload Scripts into Database.
      *
      * @param exam
-     *
      */
     private void unloadScripts(final Exam exam) {
         final DatabaseConnector databaseConnector = DatabaseConnector.getDatabaseConnector(exam.getDatabase(),
@@ -137,9 +136,9 @@ public class SQLExamService {
         if (exam.isPresent()) {
             unloadScripts(exam.get());
             String query = "DELETE FROM questions WHERE exam_id=?";
-            Integer updatedRows = jdbcTemplate.update(query, new Object[]{id});
+            Integer updatedRows = jdbcTemplate.update(query, id);
             query = "DELETE FROM EXAMS WHERE ID=?";
-            updatedRows = jdbcTemplate.update(query, new Object[]{id});
+            updatedRows = jdbcTemplate.update(query, id);
             success = !(updatedRows == 0);
         }
         return success;
@@ -168,7 +167,7 @@ public class SQLExamService {
         String recordsQuery = "SELECT id,name,script,database_type FROM exams LIMIT "
                 + pageable.getPageSize()
                 + " OFFSET "
-                + ((pageable.getPageNumber() * pageable.getPageSize()) );
+                + ((pageable.getPageNumber() * pageable.getPageSize()));
 
         String countsQuery = "SELECT COUNT(id) FROM exams";
 

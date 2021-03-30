@@ -20,11 +20,11 @@ import java.util.Iterator;
         version = "0.0",
         description = "My API description",
         license = @License(name = "Apache 2.0",
-                            url = "https://foo.bar"),
+                url = "https://foo.bar"),
         contact = @Contact(url = "https://www.gurukulam.techatpark.com",
                 name = "Fred",
                 email = "Fred@gigagantic-server.com")
-        ))
+))
 public class SwaggerConfig implements ModelConverter {
     @Override
     public Schema resolve(AnnotatedType type, final ModelConverterContext context,

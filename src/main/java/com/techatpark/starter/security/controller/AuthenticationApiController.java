@@ -41,7 +41,7 @@ public class AuthenticationApiController {
         final UserDetails userDetails = userDetailsService
                 .loadUserByUsername(authenticationRequest.getUserName());
         final String token = tokenUtil.generateToken(userDetails);
-        AuthenticationResponse authenticationResponse = new AuthenticationResponse(token,"Refresh");
+        AuthenticationResponse authenticationResponse = new AuthenticationResponse(token, "Refresh");
         return ResponseEntity.ok().body(authenticationResponse);
     }
 
