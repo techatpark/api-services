@@ -1,8 +1,8 @@
 spring:
   ## Database
   datasource:
-    url: jdbc:postgresql://localhost:5432/practice_db
-    username: user
+    jdbcUrl: jdbc:h2:mem:practice_db
+    username: sa
     password: password
     postgresql:
       jdbcUrl: jdbc:postgresql://localhost:5432/practice_db

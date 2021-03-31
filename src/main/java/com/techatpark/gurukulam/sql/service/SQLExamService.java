@@ -14,6 +14,7 @@ import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Service;
 
 import javax.sql.DataSource;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -161,14 +162,25 @@ public class SQLExamService {
      * @return no.of exams deleted
      */
     public Integer delete() {
-        String query = "DELETE FROM questions";
-        jdbcTemplate.update(query);
-        query = "DELETE FROM exams";
-        return jdbcTemplate.update(query);
+        int count = 0 ;
+        List<Exam> exams = list();
+        exams.parallelStream().forEach(exam -> delete(exam.getId()));
+        return count;
     }
 
     /**
-     * lists all from table.
+     * lists all from table .
+     * @return list
+     */
+    public List<Exam> list() {
+
+        String recordsQuery = "SELECT id,name,script,database_type FROM exams";
+
+        return jdbcTemplate.query(recordsQuery, rowMapper);
+    }
+
+    /**
+     * lists all from table as page.
      *
      * @param pageable
      * @return list

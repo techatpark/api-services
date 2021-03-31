@@ -2,6 +2,7 @@ package com.techatpark.gurukulam.sql.service;
 
 import com.techatpark.gurukulam.sql.model.Database;
 import com.techatpark.gurukulam.sql.model.Exam;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -27,9 +28,19 @@ class SQLExamServiceTest {
     private SQLExamService sqlExamService;
 
     @BeforeEach
-    void before() {
+    void beforeEach() {
+        cleanUp();
+    }
+
+    @AfterEach
+    void afterEach() {
+        cleanUp();
+    }
+
+    void cleanUp() {
         sqlExamService.delete();
     }
+
 
     @Test
     void testCreate() throws IOException {

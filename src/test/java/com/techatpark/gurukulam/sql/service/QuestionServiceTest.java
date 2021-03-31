@@ -47,16 +47,18 @@ class QuestionServiceTest {
 
     @BeforeEach
     void before() throws IOException {
+        cleanUp();
+        exam = sqlExamService.create(getExam()).get();
+    }
 
+    private void cleanUp() {
         questionService.delete();
         sqlExamService.delete();
-        exam = sqlExamService.create(getExam()).get();
     }
 
     @AfterEach
     void after() {
-        questionService.delete();
-        sqlExamService.delete();
+        cleanUp();
     }
 
     @Test
