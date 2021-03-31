@@ -57,9 +57,8 @@ public class PostgressDatabaseConnector extends DatabaseConnector {
     @Override
     public final Boolean loadScript(final Exam exam) {
         final Integer id = exam.getId();
-        String query = "DROP DATABASE IF EXISTS EXAM_" + id;
-        getJdbcTemplate().update(query);
-        query = "CREATE DATABASE EXAM_" + id;
+        unloadScript(id);
+        String query = "CREATE DATABASE EXAM_" + id;
         getJdbcTemplate().update(query);
         FlywayUtil.loadScripts(exam, getJdbcTemplate().getDataSource());
         return null;

@@ -57,9 +57,8 @@ public class H2DatabaseConnector extends DatabaseConnector {
     @Override
     public final Boolean loadScript(final Exam exam) {
         final Integer id = exam.getId();
-        String query = "DROP DATABASE IF EXISTS EXAM_" + id;
-        getJdbcTemplate().update(query);
-        query = "CREATE DATABASE EXAM_" + id;
+        unloadScript(id);
+        String query = "CREATE SCHEMA EXAM_" + id;
         getJdbcTemplate().update(query);
         FlywayUtil.loadScripts(exam, getJdbcTemplate().getDataSource());
         return null;
@@ -71,7 +70,7 @@ public class H2DatabaseConnector extends DatabaseConnector {
      */
     @Override
     public Boolean unloadScript(final Integer id) {
-        final String query = "DROP DATABASE IF EXISTS EXAM_" + id;
+        final String query = "DROP SCHEMA IF EXISTS EXAM_" + id;
         getJdbcTemplate().update(query);
         return null;
     }

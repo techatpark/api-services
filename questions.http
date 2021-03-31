@@ -16,7 +16,7 @@ Content-Type: application/json
 
 {
     "name": "HR DB",
-    "database": "postgres",
+    "database": "h2",
     "script": "SSSS"
 }
 

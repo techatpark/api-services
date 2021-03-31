@@ -31,14 +31,12 @@ class SQLExamAPIController {
     private final SQLExamService sqlExamService;
     private final QuestionService questionService;
     private final AnswerService answerService;
-    private final ObjectMapper objectMapper;
 
     SQLExamAPIController(final SQLExamService sqlExamService, final QuestionService questionService,
-                         final AnswerService answerService, final ObjectMapper objectMapper) {
+                         final AnswerService answerService) {
         this.sqlExamService = sqlExamService;
         this.questionService = questionService;
         this.answerService = answerService;
-        this.objectMapper = objectMapper;
     }
 
     @Operation(summary = "Creates a new exam", description = "Can be called only by users with 'auth management' rights.")

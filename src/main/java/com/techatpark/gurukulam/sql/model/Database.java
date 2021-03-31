@@ -46,7 +46,14 @@ public enum Database {
      */
     @JsonCreator
     public static Database of(final String value) {
-        return value.equals(POSTGRES.value) ? POSTGRES : null;
+        for (Database database :
+                values()) {
+            if (value.equals(database.value)) {
+                return database;
+            }
+        }
+
+        return null;
     }
 
     /**
