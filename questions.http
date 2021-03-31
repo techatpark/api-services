@@ -17,7 +17,7 @@ Content-Type: application/json
 {
     "name": "HR DB",
     "database": "h2",
-    "script": "SSSS"
+    "script": "SELECT 1s"
 }
 
 #### List Exams

@@ -37,7 +37,7 @@ public final class FlywayUtil {
                         , exam.getScript());
 
                 Map<String, String> flywayConfig = new HashMap<>(1);
-                flywayConfig.put("flyway.locations", createdTempFolder.toFile().getAbsolutePath());
+                flywayConfig.put("flyway.locations", "filesystem:" + createdTempFolder.toFile().getAbsolutePath());
                 final Flyway flyway = Flyway.configure().schemas("EXAM_" + exam.getId()).dataSource(dataSource)
                         .configuration(flywayConfig).load();
                 flyway.migrate();
