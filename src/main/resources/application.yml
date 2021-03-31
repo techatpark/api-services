@@ -4,8 +4,11 @@ spring:
     url: jdbc:postgresql://localhost:5432/practice_db
     username: user
     password: password
+    postgresql:
+      jdbcUrl: jdbc:postgresql://localhost:5432/practice_db
+      username: user
+      password: password
 
 ## Open API
 springdoc:
   packagesToScan: com.techatpark.gurukulam
-

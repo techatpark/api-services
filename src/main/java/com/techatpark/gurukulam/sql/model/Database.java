@@ -13,7 +13,7 @@ public enum Database {
     /**
      * available database.
      */
-    POSTGRES("postgres", PostgressDatabaseConnector.class);
+    POSTGRES("postgresql", PostgressDatabaseConnector.class);
 
     /**
      * value will be either mysql or postgres.

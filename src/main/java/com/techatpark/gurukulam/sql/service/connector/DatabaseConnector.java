@@ -3,6 +3,7 @@ package com.techatpark.gurukulam.sql.service.connector;
 import com.techatpark.gurukulam.sql.model.Database;
 import com.techatpark.gurukulam.sql.model.Exam;
 import com.techatpark.gurukulam.sql.model.Question;
+import org.springframework.context.ApplicationContext;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 import java.lang.reflect.InvocationTargetException;
@@ -34,13 +35,15 @@ public abstract class DatabaseConnector {
      * Gets instance of Database Connector.
      *
      * @param database
-     * @param jdbcTemplate
+     * @param applicationContext
      * @return dbconnector
      */
-    public static DatabaseConnector getDatabaseConnector(final Database database, final JdbcTemplate jdbcTemplate) {
+    public static DatabaseConnector getDatabaseConnector(final Database database,
+                                                         final ApplicationContext applicationContext) {
         DatabaseConnector databaseConnector = mapping.get(database.getValue());
         if (databaseConnector == null) {
             try {
+                JdbcTemplate jdbcTemplate = applicationContext.getBean(database.getValue() + "JdbcTemplate",JdbcTemplate.class);
                 databaseConnector = database.getConnectorClass().getDeclaredConstructor(JdbcTemplate.class)
                         .newInstance(jdbcTemplate);
             } catch (InstantiationException | IllegalAccessException | IllegalArgumentException

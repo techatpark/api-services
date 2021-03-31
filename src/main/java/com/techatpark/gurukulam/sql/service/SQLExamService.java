@@ -3,6 +3,7 @@ package com.techatpark.gurukulam.sql.service;
 import com.techatpark.gurukulam.sql.model.Database;
 import com.techatpark.gurukulam.sql.model.Exam;
 import com.techatpark.gurukulam.sql.service.connector.DatabaseConnector;
+import org.springframework.context.ApplicationContext;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -18,14 +19,22 @@ import java.util.Optional;
 
 @Service
 public class SQLExamService {
+
     /**
      * this helps to execute sql queries.
      */
     private final JdbcTemplate jdbcTemplate;
+
     /**
      * this is the connection for the database.
      */
     private final DataSource dataSource;
+
+    /**
+     * this is ApplicationContext of Spring.
+     */
+    private final ApplicationContext applicationContext;
+
     /**
      * Maps the data from and to the database. return exam
      */
@@ -41,10 +50,12 @@ public class SQLExamService {
     /**
      * @param jdbcTemplate
      * @param dataSource
+     * @param applicationContext
      */
-    public SQLExamService(final JdbcTemplate jdbcTemplate, final DataSource dataSource) {
+    public SQLExamService(final JdbcTemplate jdbcTemplate, final DataSource dataSource, ApplicationContext applicationContext) {
         this.jdbcTemplate = jdbcTemplate;
         this.dataSource = dataSource;
+        this.applicationContext = applicationContext;
     }
 
     /**
@@ -76,7 +87,7 @@ public class SQLExamService {
      */
     private void loadScripts(final Exam exam) {
         final DatabaseConnector databaseConnector = DatabaseConnector.getDatabaseConnector(exam.getDatabase(),
-                jdbcTemplate);
+                applicationContext);
         databaseConnector.loadScript(exam);
     }
 
@@ -87,7 +98,7 @@ public class SQLExamService {
      */
     private void unloadScripts(final Exam exam) {
         final DatabaseConnector databaseConnector = DatabaseConnector.getDatabaseConnector(exam.getDatabase(),
-                jdbcTemplate);
+                applicationContext);
         databaseConnector.unloadScript(exam.getId());
     }
 
