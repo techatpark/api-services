@@ -16,9 +16,9 @@ import org.springframework.data.domain.Page;
 import java.util.Iterator;
 
 @Configuration
-@OpenAPIDefinition(info = @Info(title = "My API",
+@OpenAPIDefinition(info = @Info(title = "Gurukulam API",
         version = "0.0",
-        description = "My API description",
+        description = "Gurukulam API Documentation",
         license = @License(name = "Apache 2.0",
                 url = "https://foo.bar"),
         contact = @Contact(url = "https://www.gurukulam.techatpark.com",
