@@ -1,7 +1,7 @@
 package com.techatpark.gurukulam.sql.service;
 
 import com.techatpark.gurukulam.sql.model.Database;
-import com.techatpark.gurukulam.sql.model.Exam;
+import com.techatpark.gurukulam.sql.model.Practice;
 import com.techatpark.gurukulam.sql.model.Question;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
@@ -31,7 +31,7 @@ class QuestionServiceTest {
     /**
      * Instance of Exam is used for testing Question.
      */
-    private Exam exam;
+    private Practice exam;
 
     /**
      * Connection created with Question Service.
@@ -43,7 +43,7 @@ class QuestionServiceTest {
      * Connection created with Question Service.
      */
     @Autowired
-    private SQLExamService sqlExamService;
+    private SQLPracticeService sqlExamService;
 
     @BeforeEach
     void before() throws IOException {
@@ -117,8 +117,8 @@ class QuestionServiceTest {
         return question;
     }
 
-    Exam getExam() {
-        final Exam exam = new Exam();
+    Practice getExam() {
+        final Practice exam = new Practice();
         exam.setName("Test Exam 1");
         exam.setDatabase(Database.POSTGRES);
         exam.setScript(TestUtil.getScript(exam));

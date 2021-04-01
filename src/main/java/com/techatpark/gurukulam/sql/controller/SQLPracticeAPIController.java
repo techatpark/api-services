@@ -1,11 +1,10 @@
 package com.techatpark.gurukulam.sql.controller;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.techatpark.gurukulam.sql.model.Exam;
+import com.techatpark.gurukulam.sql.model.Practice;
 import com.techatpark.gurukulam.sql.model.Question;
 import com.techatpark.gurukulam.sql.service.AnswerService;
 import com.techatpark.gurukulam.sql.service.QuestionService;
-import com.techatpark.gurukulam.sql.service.SQLExamService;
+import com.techatpark.gurukulam.sql.service.SQLPracticeService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -23,17 +22,17 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
-@Tag(name = "exams", description = "Resource to manage exams")
 @RestController
 @RequestMapping("/api/exams/sql")
-class SQLExamAPIController {
+@Tag(name = "Exams", description = "Resource to manage exams")
+class SQLPracticeAPIController {
 
-    private final SQLExamService sqlExamService;
+    private final SQLPracticeService sqlExamService;
     private final QuestionService questionService;
     private final AnswerService answerService;
 
-    SQLExamAPIController(final SQLExamService sqlExamService, final QuestionService questionService,
-                         final AnswerService answerService) {
+    SQLPracticeAPIController(final SQLPracticeService sqlExamService, final QuestionService questionService,
+                             final AnswerService answerService) {
         this.sqlExamService = sqlExamService;
         this.questionService = questionService;
         this.answerService = answerService;
@@ -43,7 +42,7 @@ class SQLExamAPIController {
     @ApiResponses(value = {@ApiResponse(responseCode = "201", description = "exam created successfully"),
             @ApiResponse(responseCode = "400", description = "exam is invalid")})
     @PostMapping
-    public ResponseEntity<Optional<Exam>> create(@RequestBody @Valid @NotNull @NotBlank Exam exam) throws IOException {
+    public ResponseEntity<Optional<Practice>> create(@RequestBody @Valid @NotNull @NotBlank Practice exam) throws IOException {
 
         return ResponseEntity.status(HttpStatus.CREATED).body(sqlExamService.create(exam));
     }
@@ -52,7 +51,7 @@ class SQLExamAPIController {
     @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "exam"),
             @ApiResponse(responseCode = "404", description = "exam not found")})
     @GetMapping("/{id}")
-    public ResponseEntity<Exam> findById(@PathVariable Integer id) {
+    public ResponseEntity<Practice> findById(@PathVariable Integer id) {
         return ResponseEntity.of(sqlExamService.read(id));
     }
 
@@ -60,9 +59,9 @@ class SQLExamAPIController {
     @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Listing all the exam"),
             @ApiResponse(responseCode = "204", description = "exam are not available")})
     @GetMapping
-    public ResponseEntity<Page<Exam>> findAll(@NotNull final Pageable pageable) {
-        Page<Exam> exams = sqlExamService.page(pageable);
-        return exams.isEmpty() ? new ResponseEntity<Page<Exam>>(HttpStatus.NO_CONTENT)
+    public ResponseEntity<Page<Practice>> findAll(@NotNull final Pageable pageable) {
+        Page<Practice> exams = sqlExamService.page(pageable);
+        return exams.isEmpty() ? new ResponseEntity<Page<Practice>>(HttpStatus.NO_CONTENT)
                 : ResponseEntity.ok(exams);
     }
 
@@ -71,9 +70,9 @@ class SQLExamAPIController {
             @ApiResponse(responseCode = "400", description = "exam is invalid"),
             @ApiResponse(responseCode = "404", description = "exam not found")})
     @PutMapping("/{id}")
-    public ResponseEntity<Optional<Exam>> update(@PathVariable Integer id, @Valid @RequestBody Exam exam) {
-        Optional<Exam> updatedexam = sqlExamService.update(id, exam);
-        return updatedexam == null ? new ResponseEntity<Optional<Exam>>(HttpStatus.NOT_FOUND)
+    public ResponseEntity<Optional<Practice>> update(@PathVariable Integer id, @Valid @RequestBody Practice exam) {
+        Optional<Practice> updatedexam = sqlExamService.update(id, exam);
+        return updatedexam == null ? new ResponseEntity<Optional<Practice>>(HttpStatus.NOT_FOUND)
                 : ResponseEntity.ok(updatedexam);
     }
 

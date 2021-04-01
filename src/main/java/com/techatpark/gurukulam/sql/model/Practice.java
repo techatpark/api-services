@@ -1,6 +1,6 @@
 package com.techatpark.gurukulam.sql.model;
 
-public class Exam {
+public class Practice {
     /**
      * tells the id of the exam.
      */

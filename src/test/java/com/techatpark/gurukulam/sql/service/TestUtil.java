@@ -1,6 +1,6 @@
 package com.techatpark.gurukulam.sql.service;
 
-import com.techatpark.gurukulam.sql.model.Exam;
+import com.techatpark.gurukulam.sql.model.Practice;
 
 import java.io.File;
 import java.io.IOException;
@@ -13,7 +13,7 @@ public final class TestUtil {
      * @param exam
      * @return array of sript file
      */
-    public static String getScript(final Exam exam) {
+    public static String getScript(final Practice exam) {
 
         File file = new File("src/test/resources/scripts/"+ exam.getDatabase().getValue() +"/1.sql");
         try {

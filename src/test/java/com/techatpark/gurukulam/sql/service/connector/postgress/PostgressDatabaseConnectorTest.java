@@ -1,10 +1,10 @@
 package com.techatpark.gurukulam.sql.service.connector.postgress;
 
 import com.techatpark.gurukulam.sql.model.Database;
-import com.techatpark.gurukulam.sql.model.Exam;
+import com.techatpark.gurukulam.sql.model.Practice;
 import com.techatpark.gurukulam.sql.model.Question;
 import com.techatpark.gurukulam.sql.service.QuestionService;
-import com.techatpark.gurukulam.sql.service.SQLExamService;
+import com.techatpark.gurukulam.sql.service.SQLPracticeService;
 import com.techatpark.gurukulam.sql.service.TestUtil;
 import com.techatpark.gurukulam.sql.service.connector.DatabaseConnector;
 import org.junit.jupiter.api.BeforeEach;
@@ -39,7 +39,7 @@ public class PostgressDatabaseConnectorTest {
      * Service instance to be tested.
      */
     @Autowired
-    private SQLExamService sqlExamService;
+    private SQLPracticeService sqlExamService;
 
     /**
      * Service instance to be tested.
@@ -61,7 +61,7 @@ public class PostgressDatabaseConnectorTest {
      */
     @Test
     public void testVerify() {
-        Exam exam = createAndGetExam();
+        Practice exam = createAndGetExam();
         Question question = createAndGQuestion(exam);
         boolean result = postgressDatabaseConnector.verify(exam, question, getAnswer());
         assertTrue(result);
@@ -72,7 +72,7 @@ public class PostgressDatabaseConnectorTest {
      */
     //@Test
     public void testVerifywrongAnswer() {
-        Exam exam = createAndGetExam();
+        Practice exam = createAndGetExam();
         Question question = createAndGQuestion(exam);
         boolean result = postgressDatabaseConnector.verify(exam, question, "select * from abc");
         assertFalse(result);
@@ -81,8 +81,8 @@ public class PostgressDatabaseConnectorTest {
     /**
      * @return exam
      */
-    Exam getExam() {
-        Exam exam = new Exam();
+    Practice getExam() {
+        Practice exam = new Practice();
         exam.setName("Exam_1");
         exam.setDatabase(Database.POSTGRES);
         exam.setScript(TestUtil.getScript(exam));
@@ -109,8 +109,8 @@ public class PostgressDatabaseConnectorTest {
     /**
      * @return Exam
      */
-    Exam createAndGetExam() {
-        Exam exam = sqlExamService.create(getExam()).get();
+    Practice createAndGetExam() {
+        Practice exam = sqlExamService.create(getExam()).get();
         return exam;
     }
 
@@ -118,7 +118,7 @@ public class PostgressDatabaseConnectorTest {
      * @param exam
      * @return question
      */
-    Question createAndGQuestion(final Exam exam) {
+    Question createAndGQuestion(final Practice exam) {
         final Question question = questionService.create(exam.getId(), getQuestion()).get();
         return question;
     }

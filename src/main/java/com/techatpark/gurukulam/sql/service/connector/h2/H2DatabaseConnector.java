@@ -1,6 +1,6 @@
 package com.techatpark.gurukulam.sql.service.connector.h2;
 
-import com.techatpark.gurukulam.sql.model.Exam;
+import com.techatpark.gurukulam.sql.model.Practice;
 import com.techatpark.gurukulam.sql.model.Question;
 import com.techatpark.gurukulam.sql.service.connector.DatabaseConnector;
 import com.techatpark.gurukulam.sql.service.util.FlywayUtil;
@@ -36,7 +36,7 @@ public class H2DatabaseConnector extends DatabaseConnector {
      * @return Boolean
      */
     @Override
-    public final Boolean verify(final Exam exam, final Question question, final String sqlAnswer) {
+    public final Boolean verify(final Practice exam, final Question question, final String sqlAnswer) {
         Boolean isRigntAnswer = false;
         try {
             String verificationSQL = "SELECT COUNT(*) FROM ( " + question.getAnswer() + " except " + sqlAnswer
@@ -55,7 +55,7 @@ public class H2DatabaseConnector extends DatabaseConnector {
      * @return Boolean
      */
     @Override
-    public final Boolean loadScript(final Exam exam) {
+    public final Boolean loadScript(final Practice exam) {
         final Integer id = exam.getId();
         unloadScript(id);
         String query = "CREATE SCHEMA EXAM_" + id;
@@ -82,7 +82,7 @@ public class H2DatabaseConnector extends DatabaseConnector {
      * @return Connection
      */
     @Override
-    public Connection getConnection(final Exam exam) {
+    public Connection getConnection(final Practice exam) {
         Connection connection = null;
         try {
             connection = getJdbcTemplate().getDataSource().getConnection();

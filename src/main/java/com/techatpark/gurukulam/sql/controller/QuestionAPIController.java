@@ -2,6 +2,7 @@ package com.techatpark.gurukulam.sql.controller;
 
 import com.techatpark.gurukulam.sql.model.Question;
 import com.techatpark.gurukulam.sql.service.QuestionService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -11,6 +12,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/questions")
+@Tag(name = "Questions", description = "Resource to manage Questions")
 class QuestionAPIController {
     private final QuestionService questionService;
 

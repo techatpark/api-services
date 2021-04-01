@@ -1,7 +1,7 @@
 package com.techatpark.gurukulam.sql.service;
 
 import com.techatpark.gurukulam.sql.model.Database;
-import com.techatpark.gurukulam.sql.model.Exam;
+import com.techatpark.gurukulam.sql.model.Practice;
 import com.techatpark.gurukulam.sql.service.connector.DatabaseConnector;
 import org.springframework.context.ApplicationContext;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -19,7 +19,7 @@ import java.util.Map;
 import java.util.Optional;
 
 @Service
-public class SQLExamService {
+public class SQLPracticeService {
 
     /**
      * this helps to execute sql queries.
@@ -39,8 +39,8 @@ public class SQLExamService {
     /**
      * Maps the data from and to the database. return exam
      */
-    private final RowMapper<Exam> rowMapper = (rs, rowNum) -> {
-        final Exam exam = new Exam();
+    private final RowMapper<Practice> rowMapper = (rs, rowNum) -> {
+        final Practice exam = new Practice();
         exam.setId(rs.getInt("id"));
         exam.setName(rs.getString("name"));
         exam.setDatabase(Database.of(rs.getString("database_type")));
@@ -53,7 +53,7 @@ public class SQLExamService {
      * @param dataSource
      * @param applicationContext
      */
-    public SQLExamService(final JdbcTemplate jdbcTemplate, final DataSource dataSource, ApplicationContext applicationContext) {
+    public SQLPracticeService(final JdbcTemplate jdbcTemplate, final DataSource dataSource, ApplicationContext applicationContext) {
         this.jdbcTemplate = jdbcTemplate;
         this.dataSource = dataSource;
         this.applicationContext = applicationContext;
@@ -65,7 +65,7 @@ public class SQLExamService {
      * @param exam
      * @return exam
      */
-    public Optional<Exam> create(final Exam exam) {
+    public Optional<Practice> create(final Practice exam) {
         final SimpleJdbcInsert insert = new SimpleJdbcInsert(dataSource)
                 .withTableName("exams")
                 .usingGeneratedKeyColumns("id")
@@ -74,7 +74,7 @@ public class SQLExamService {
                 "database_type", exam.getDatabase().getValue(),
                 "script", exam.getScript());
         final Number examId = insert.executeAndReturnKey(valueMap);
-        Optional<Exam> createdExam = read(examId.intValue());
+        Optional<Practice> createdExam = read(examId.intValue());
         createdExam.ifPresent(exam1 -> {
             loadScripts(exam1);
         });
@@ -86,7 +86,7 @@ public class SQLExamService {
      *
      * @param exam
      */
-    private void loadScripts(final Exam exam) {
+    private void loadScripts(final Practice exam) {
         final DatabaseConnector databaseConnector = DatabaseConnector.getDatabaseConnector(exam.getDatabase(),
                 applicationContext);
         databaseConnector.loadScript(exam);
@@ -97,7 +97,7 @@ public class SQLExamService {
      *
      * @param exam
      */
-    private void unloadScripts(final Exam exam) {
+    private void unloadScripts(final Practice exam) {
         final DatabaseConnector databaseConnector = DatabaseConnector.getDatabaseConnector(exam.getDatabase(),
                 applicationContext);
         databaseConnector.unloadScript(exam.getId());
@@ -110,7 +110,7 @@ public class SQLExamService {
      * @param newExamId
      * @return exam
      */
-    public Optional<Exam> read(final Integer newExamId) {
+    public Optional<Practice> read(final Integer newExamId) {
         final String query = "SELECT id,name,script,database_type FROM exams WHERE id = ?";
         try {
             return Optional.of(jdbcTemplate.queryForObject(query, new Object[]{newExamId}, rowMapper));
@@ -127,7 +127,7 @@ public class SQLExamService {
      * @return exam
      * @TODO Soft Delete
      */
-    public Optional<Exam> update(final Integer id, final Exam exam) {
+    public Optional<Practice> update(final Integer id, final Practice exam) {
         final String query = "UPDATE exams SET name = ?, database_type = ?, script = ? WHERE id = ?";
         final Integer updatedRows = jdbcTemplate.update(query,
                 exam.getName(),
@@ -143,7 +143,7 @@ public class SQLExamService {
      * @return successflag
      */
     public Boolean delete(final Integer id) {
-        final Optional<Exam> exam = read(id);
+        final Optional<Practice> exam = read(id);
         Boolean success = false;
         if (exam.isPresent()) {
             unloadScripts(exam.get());
@@ -163,7 +163,7 @@ public class SQLExamService {
      */
     public Integer delete() {
         int count = 0 ;
-        List<Exam> exams = list();
+        List<Practice> exams = list();
         exams.parallelStream().forEach(exam -> delete(exam.getId()));
         return count;
     }
@@ -172,7 +172,7 @@ public class SQLExamService {
      * lists all from table .
      * @return list
      */
-    public List<Exam> list() {
+    public List<Practice> list() {
 
         String recordsQuery = "SELECT id,name,script,database_type FROM exams";
 
@@ -185,7 +185,7 @@ public class SQLExamService {
      * @param pageable
      * @return list
      */
-    public Page<Exam> page(final Pageable pageable) {
+    public Page<Practice> page(final Pageable pageable) {
 
         String recordsQuery = "SELECT id,name,script,database_type FROM exams LIMIT "
                 + pageable.getPageSize()
@@ -194,7 +194,7 @@ public class SQLExamService {
 
         String countsQuery = "SELECT COUNT(id) FROM exams";
 
-        return new PageImpl<Exam>(jdbcTemplate.query(recordsQuery, rowMapper), pageable,
+        return new PageImpl<Practice>(jdbcTemplate.query(recordsQuery, rowMapper), pageable,
                 jdbcTemplate.queryForObject(countsQuery, Long.class));
     }
 
