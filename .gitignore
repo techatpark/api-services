@@ -32,5 +32,4 @@ build/
 ### MAC ###
 .DS_Store
 
-src/main/resources/static/*
 src/test/java/com/techatpark/hackerrank/*
