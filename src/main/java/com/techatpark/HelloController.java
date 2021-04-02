@@ -14,7 +14,9 @@ class HelloController {
     @RequestMapping("/")
     public ResponseEntity<Map<String,Object>> index() {
         Runtime.Version version = java.lang.Runtime.version();
-        Map<String,Object> map = Map.of("Java Version",version.toString(),
+        Map<String,Object> map = Map.of(
+                    "Application Name","Hey Dude",
+                "Java Version",version.toString(),
                 "Java Version Build",version.build().get(),
                 "Java Version Pre-Release Info",version.pre().orElse("NA"));
         return new ResponseEntity<>(map,

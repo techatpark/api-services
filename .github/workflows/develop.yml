@@ -35,12 +35,12 @@ jobs:
           source: "target/*.jar"
           target: ${{ secrets.TARGET_DIR }}
           strip_components: 1
-      # - name: Deploy
-      #   uses: appleboy/ssh-action@master
-      #   with:
-      #     host: ${{ secrets.IP_ADDRESS }}
-      #     username: ${{ secrets.USER_NAME }}
-      #     port: ${{ secrets.PORT }}
-      #     key: ${{ secrets.P_KEY }}
-      #     passphrase: ${{ secrets.PASSPHRASE }}
-      #     script: bash deploy.sh
+      - name: Deploy
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          key: ${{ secrets.KEY }}
+          target: ${{ secrets.TARGET_DIR }}
+          script:
+            cd /home/ubuntu/Deploments/ && kill $(ps -ef | grep java | grep -v grep | awk '{print $2}') || true && nohup java -jar gurukulam-web-*.jar &
