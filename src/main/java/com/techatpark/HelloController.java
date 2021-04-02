@@ -12,7 +12,7 @@ import java.util.Map;
 @RestController
 class HelloController {
 
-    @Value("spring.application.name")
+    @Value("${spring.application.name}")
     private String name;
 
     @RequestMapping("/")
