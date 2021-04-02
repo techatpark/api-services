@@ -43,4 +43,4 @@ jobs:
           key: ${{ secrets.KEY }}
           target: ${{ secrets.TARGET_DIR }}
           script:
-            echo "cd /home/ubuntu/Deploments/ && kill $(ps -ef | grep java | grep -v grep | awk '{print $2}') || true && nohup java -jar gurukulam-web-*.jar >/dev/null 2>&1 &" > deploy.sh && sh deploy.sh
+            echo "cd /home/ubuntu/Deploments/ && kill $(ps -ef | grep java | grep -v grep | awk '{print $2}') || true && nohup java -jar gurukulam-web-*.jar >/dev/null 2>&1 &" > deploy.sh && sh deploy.sh &
