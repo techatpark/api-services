@@ -1,4 +1,6 @@
 spring:
+  application:
+    name: Gurukulam
   ## Database
   datasource:
     jdbcUrl: jdbc:h2:mem:practice_db
