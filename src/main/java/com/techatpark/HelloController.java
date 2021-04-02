@@ -5,12 +5,19 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Collections;
+import java.util.Map;
+
 @RestController
 class HelloController {
 
     @RequestMapping("/")
-    public ResponseEntity<String> index() {
-        return new ResponseEntity<String>("Welcome to Spring Boot 2.x",
+    public ResponseEntity<Map<String,Object>> index() {
+        Runtime.Version version = java.lang.Runtime.version();
+        Map<String,Object> map = Map.of("Java Version",version.toString(),
+                "Java Version Build",version.build().get(),
+                "Java Version Pre-Release Info",version.pre().orElse("NA"));
+        return new ResponseEntity<>(map,
                 HttpStatus.OK);
     }
 
