@@ -26,7 +26,7 @@ public class TokenUtil {
                 .setSubject(userDetails.getUsername())
                 .setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis()
-                        + TimeUnit.MILLISECONDS.convert(Duration.ofMinutes(1))))
+                        + TimeUnit.MILLISECONDS.convert(Duration.ofMinutes(120))))
                 .signWith(SignatureAlgorithm.HS512, secret).compact();
     }
 
