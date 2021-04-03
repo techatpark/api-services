@@ -10,7 +10,10 @@ spring:
       jdbcUrl: jdbc:postgresql://localhost:5432/practice_db
       username: user
       password: password
-
+security:
+  require-ssl: true
+http:
+  port: 8080
 server:
   port: 8443
   http2:

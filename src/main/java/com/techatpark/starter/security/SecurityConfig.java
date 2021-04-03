@@ -42,6 +42,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(final HttpSecurity httpSecurity) throws Exception {
         //@formatter:off
         httpSecurity
+                .requiresChannel()
+                    .anyRequest()
+                    .requiresSecure()
+                .and()
                 .httpBasic().disable()
                 .csrf().disable()
                 .logout().disable()
