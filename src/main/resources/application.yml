@@ -11,6 +11,15 @@ spring:
       username: user
       password: password
 
+server:
+  port: 8443
+  http2:
+    enabled: true
+  ssl:
+    key-store-type: PKCS12
+    key-store: "classpath:localhost.p12"
+    key-store-password: javatoday
+    key-alias: localhost
 ## Open API
 springdoc:
   packagesToScan: com.techatpark.gurukulam
