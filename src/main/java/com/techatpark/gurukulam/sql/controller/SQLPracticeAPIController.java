@@ -39,7 +39,8 @@ class SQLPracticeAPIController {
         this.answerService = answerService;
     }
 
-    @Operation(summary = "Creates a new exam", description = "Can be called only by users with 'auth management' rights.")
+    @Operation(summary = "Creates a new exam", description = "Can be called only by users with 'auth management' rights.",
+            security = @SecurityRequirement(name = "bearerAuth"))
     @ApiResponses(value = {@ApiResponse(responseCode = "201", description = "exam created successfully"),
             @ApiResponse(responseCode = "400", description = "exam is invalid")})
     @PostMapping
@@ -48,7 +49,8 @@ class SQLPracticeAPIController {
         return ResponseEntity.status(HttpStatus.CREATED).body(sqlExamService.create(exam));
     }
 
-    @Operation(summary = "Get exam with given id")
+    @Operation(summary = "Get exam with given id",
+            security = @SecurityRequirement(name = "bearerAuth"))
     @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "exam"),
             @ApiResponse(responseCode = "404", description = "exam not found")})
     @GetMapping("/{id}")
@@ -68,7 +70,8 @@ class SQLPracticeAPIController {
                 : ResponseEntity.ok(exams);
     }
 
-    @Operation(summary = "Updates the exam by given id", description = "Can be called only by users with 'auth management' rights.")
+    @Operation(summary = "Updates the exam by given id", description = "Can be called only by users with 'auth management' rights.",
+    security = @SecurityRequirement(name = "bearerAuth"))
     @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "exam updated successfully"),
             @ApiResponse(responseCode = "400", description = "exam is invalid"),
             @ApiResponse(responseCode = "404", description = "exam not found")})
@@ -79,7 +82,8 @@ class SQLPracticeAPIController {
                 : ResponseEntity.ok(updatedexam);
     }
 
-    @Operation(summary = "Deletes the exam by given id")
+    @Operation(summary = "Deletes the exam by given id",
+    security = @SecurityRequirement(name = "bearerAuth"))
     @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "exam deleted successfully"),
             @ApiResponse(responseCode = "404", description = "exam not found")})
     @DeleteMapping("/{id}")
@@ -88,8 +92,9 @@ class SQLPracticeAPIController {
                 : new ResponseEntity<Void>(HttpStatus.NOT_FOUND);
     }
 
-    @Operation(summary = "Creates a new question", description = "Can be called only by users with 'auth management' rights.")
-    @ApiResponses(value = {@ApiResponse(responseCode = "201", description = "question created successfully"),
+    @Operation(summary = "Creates a new question", description = "Can be called only by users with 'auth management' rights.",
+            security = @SecurityRequirement(name = "bearerAuth"))
+            @ApiResponses(value = {@ApiResponse(responseCode = "201", description = "question created successfully"),
             @ApiResponse(responseCode = "400", description = "question is invalid")})
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/{examId}/questions")
@@ -98,7 +103,8 @@ class SQLPracticeAPIController {
         return ResponseEntity.status(HttpStatus.CREATED).body(questionService.create(examId, question));
     }
 
-    @Operation(summary = "Get question with given id")
+    @Operation(summary = "Get question with given id",
+            security = @SecurityRequirement(name = "bearerAuth"))
     @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "question"),
             @ApiResponse(responseCode = "404", description = "question not found")})
     @GetMapping("/{examId}/questions/{id}")
@@ -106,7 +112,8 @@ class SQLPracticeAPIController {
         return ResponseEntity.of(questionService.read(id));
     }
 
-    @Operation(summary = "lists all the questions", description = " Can be invoked by auth users only")
+    @Operation(summary = "lists all the questions", description = " Can be invoked by auth users only",
+            security = @SecurityRequirement(name = "bearerAuth"))
     @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Listing all the questions"),
             @ApiResponse(responseCode = "204", description = "questions are not available")})
     @GetMapping("/{examId}/questions")
@@ -116,7 +123,8 @@ class SQLPracticeAPIController {
                 : ResponseEntity.ok(questions);
     }
 
-    @Operation(summary = "Updates the question by given id", description = "Can be called only by users with 'auth management' rights.")
+    @Operation(summary = "Updates the question by given id", description = "Can be called only by users with 'auth management' rights.",
+            security = @SecurityRequirement(name = "bearerAuth"))
     @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "question updated successfully"),
             @ApiResponse(responseCode = "400", description = "question is invalid"),
             @ApiResponse(responseCode = "404", description = "question not found")})
@@ -128,7 +136,8 @@ class SQLPracticeAPIController {
                 : ResponseEntity.ok(updatedQuestion);
     }
 
-    @Operation(summary = "Deletes the question by given id")
+    @Operation(summary = "Deletes the question by given id",
+            security = @SecurityRequirement(name = "bearerAuth"))
     @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "question deleted successfully"),
             @ApiResponse(responseCode = "404", description = "question not found")})
     @DeleteMapping("/{examId}/questions/{id}")
@@ -137,7 +146,8 @@ class SQLPracticeAPIController {
                 : new ResponseEntity<Void>(HttpStatus.NOT_FOUND);
     }
 
-    @Operation(summary = "Answer a question", description = "Can be called only by users with 'auth management' rights.")
+    @Operation(summary = "Answer a question", description = "Can be called only by users with 'auth management' rights.",
+            security = @SecurityRequirement(name = "bearerAuth"))
     @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Answered a question successfully"),
             @ApiResponse(responseCode = "406", description = "Answer is invalid")})
     @ResponseStatus(HttpStatus.ACCEPTED)

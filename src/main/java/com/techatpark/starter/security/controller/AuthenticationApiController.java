@@ -3,6 +3,8 @@ package com.techatpark.starter.security.controller;
 import com.techatpark.starter.security.model.AuthenticationRequest;
 import com.techatpark.starter.security.model.AuthenticationResponse;
 import com.techatpark.starter.security.utils.TokenUtil;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -32,6 +34,7 @@ public class AuthenticationApiController {
         this.tokenUtil = tokenUtil;
     }
 
+    @Operation(summary = "Login with credentials")
     @PostMapping("/login")
     public ResponseEntity<AuthenticationResponse> login(@RequestBody @Valid AuthenticationRequest authenticationRequest) {
 
@@ -46,12 +49,15 @@ public class AuthenticationApiController {
         AuthenticationResponse authenticationResponse = new AuthenticationResponse(token, "Refresh");
         return ResponseEntity.ok().body(authenticationResponse);
     }
-
+    @Operation(summary = "logout current user",
+            security = @SecurityRequirement(name = "bearerAuth"))
     @PostMapping("/logout")
     public ResponseEntity<Void> logout() {
         return ResponseEntity.noContent().build();
     }
 
+    @Operation(summary = "Get logged in user profile",
+            security = @SecurityRequirement(name = "bearerAuth"))
     @GetMapping("/me")
     public ResponseEntity<UserDetails> me(Principal principal) {
         return ResponseEntity.ok(userDetailsService.loadUserByUsername(principal.getName()));
