@@ -25,4 +25,4 @@ server:
     key-alias: localhost
 ## Open API
 springdoc:
-  packagesToScan: com.techatpark.gurukulam
+  packagesToScan: com.techatpark.gurukulam,com.techatpark.starter.security.controller

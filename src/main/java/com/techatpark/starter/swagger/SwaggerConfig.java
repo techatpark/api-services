@@ -6,9 +6,11 @@ import io.swagger.v3.core.converter.ModelConverter;
 import io.swagger.v3.core.converter.ModelConverterContext;
 import io.swagger.v3.core.util.Json;
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
+import io.swagger.v3.oas.annotations.enums.SecuritySchemeType;
 import io.swagger.v3.oas.annotations.info.Contact;
 import io.swagger.v3.oas.annotations.info.Info;
 import io.swagger.v3.oas.annotations.info.License;
+import io.swagger.v3.oas.annotations.security.SecurityScheme;
 import io.swagger.v3.oas.models.media.Schema;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.domain.Page;
@@ -25,6 +27,12 @@ import java.util.Iterator;
                 name = "Fred",
                 email = "Fred@gigagantic-server.com")
 ))
+@SecurityScheme(
+        name = "bearerAuth",
+        type = SecuritySchemeType.HTTP,
+        bearerFormat = "JWT",
+        scheme = "bearer"
+)
 public class SwaggerConfig implements ModelConverter {
     @Override
     public Schema resolve(AnnotatedType type, final ModelConverterContext context,

@@ -3,6 +3,7 @@ package com.techatpark.starter.security.controller;
 import com.techatpark.starter.security.model.AuthenticationRequest;
 import com.techatpark.starter.security.model.AuthenticationResponse;
 import com.techatpark.starter.security.utils.TokenUtil;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -17,6 +18,7 @@ import java.security.Principal;
 
 @RestController
 @RequestMapping("/api/auth")
+@Tag(name = "Authentication", description = "Resource to manage authentication")
 public class AuthenticationApiController {
 
     private final AuthenticationManager authenticationManager;

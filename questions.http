@@ -1,4 +1,4 @@
-@base = http://localhost:8080/api
+@base = https://localhost:8443/api
 #### Login
 # @name login 
 POST {{base}}/auth/login
@@ -20,6 +20,18 @@ Content-Type: application/json
     "script": "SELECT 1s"
 }
 
+#### Create Exam
+PUT {{base}}/exams/sql/1
+Authorization: Bearer {{login.response.body.authToken}}
+Content-Type: application/json
+
+{
+    "id": 1,
+    "name": "HR DB 2",
+    "database": "h2",
+    "script": "SELECT 4"
+}
+
 #### List Exams
 GET {{base}}/exams/sql
 Authorization: Bearer {{login.response.body.authToken}}
@@ -29,3 +41,6 @@ Content-Type: application/json
 POST {{base}}/auth/logout
 Authorization: Bearer {{login.response.body.authToken}}
 Content-Type: application/json
+
+#### Info
+GET {{base}}/info

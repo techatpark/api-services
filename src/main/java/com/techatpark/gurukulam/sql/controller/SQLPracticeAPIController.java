@@ -8,6 +8,7 @@ import com.techatpark.gurukulam.sql.service.SQLPracticeService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -55,7 +56,9 @@ class SQLPracticeAPIController {
         return ResponseEntity.of(sqlExamService.read(id));
     }
 
-    @Operation(summary = "lists all the exam", description = "Can be Invoked by auth users only")
+    @Operation(summary = "lists all the exam",
+            description = "Can be Invoked by auth users only",
+            security = @SecurityRequirement(name = "bearerAuth"))
     @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Listing all the exam"),
             @ApiResponse(responseCode = "204", description = "exam are not available")})
     @GetMapping
