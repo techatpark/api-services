@@ -49,6 +49,7 @@ public class AuthenticationApiController {
         AuthenticationResponse authenticationResponse = new AuthenticationResponse(token, "Refresh");
         return ResponseEntity.ok().body(authenticationResponse);
     }
+
     @Operation(summary = "logout current user",
             security = @SecurityRequirement(name = "bearerAuth"))
     @PostMapping("/logout")

@@ -6,11 +6,9 @@ import com.techatpark.gurukulam.sql.service.connector.DatabaseConnector;
 import com.techatpark.gurukulam.sql.service.util.FlywayUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 
-import java.sql.Connection;
-import java.sql.SQLException;
+import javax.sql.DataSource;
 
 @Component
 public class H2DatabaseConnector extends DatabaseConnector {
@@ -23,10 +21,10 @@ public class H2DatabaseConnector extends DatabaseConnector {
     /**
      * Creates h2 Connector.
      *
-     * @param jdbcTemplate
+     * @param dataSource
      */
-    public H2DatabaseConnector(final JdbcTemplate jdbcTemplate) {
-        super(jdbcTemplate);
+    public H2DatabaseConnector(final DataSource dataSource) {
+        super(dataSource);
     }
 
     /**
@@ -41,7 +39,7 @@ public class H2DatabaseConnector extends DatabaseConnector {
         try {
             String verificationSQL = "SELECT COUNT(*) FROM ( " + question.getAnswer() + " except " + sqlAnswer
                     + " ) AS TOTAL_ROWS";
-            Integer count = this.getJdbcTemplate().queryForObject(verificationSQL, Integer.class);
+            Integer count = this.getCount(verificationSQL, exam);
             isRigntAnswer = (count == 0);
 
         } catch (Exception ex) {
@@ -57,40 +55,24 @@ public class H2DatabaseConnector extends DatabaseConnector {
     @Override
     public final Boolean loadScript(final Practice exam) {
         final Integer id = exam.getId();
-        unloadScript(id);
+        unloadScript(exam);
         String query = "CREATE SCHEMA EXAM_" + id;
-        getJdbcTemplate().update(query);
-        FlywayUtil.loadScripts(exam, getJdbcTemplate().getDataSource());
+        update(query, exam);
+        FlywayUtil.loadScripts(exam, getDataSource());
         return null;
     }
 
     /**
-     * @param id
+     * @param exam
      * @return Boolean
      */
     @Override
-    public Boolean unloadScript(final Integer id) {
+    public Boolean unloadScript(final Practice exam) {
+        final Integer id = exam.getId();
         final String query = "DROP SCHEMA IF EXISTS EXAM_" + id;
-        getJdbcTemplate().update(query);
+        update(query, exam);
         return null;
     }
 
-    /**
-     * Get psotgress connection for the given exam schema.
-     *
-     * @param exam
-     * @return Connection
-     */
-    @Override
-    public Connection getConnection(final Practice exam) {
-        Connection connection = null;
-        try {
-            connection = getJdbcTemplate().getDataSource().getConnection();
-            connection.setSchema("EXAM_" + exam.getId());
-        } catch (final SQLException sqlException) {
-            logger.error("Error setting schema into the connection ", sqlException);
-        }
-        return connection;
-    }
 
 }

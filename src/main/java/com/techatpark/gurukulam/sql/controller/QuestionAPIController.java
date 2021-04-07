@@ -21,6 +21,7 @@ class QuestionAPIController {
     QuestionAPIController(final QuestionService questionService) {
         this.questionService = questionService;
     }
+
     @Operation(summary = "Answer the questions",
             security = @SecurityRequirement(name = "bearerAuth"))
     @GetMapping("/{id}")
@@ -37,6 +38,7 @@ class QuestionAPIController {
         return updatedQuestion == null ? new ResponseEntity<Optional<Question>>(HttpStatus.NOT_FOUND)
                 : ResponseEntity.ok(updatedQuestion);
     }
+
     @Operation(summary = "Delete the questions",
             security = @SecurityRequirement(name = "bearerAuth"))
     @DeleteMapping("/{id}")

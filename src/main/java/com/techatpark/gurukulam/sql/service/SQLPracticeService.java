@@ -100,7 +100,7 @@ public class SQLPracticeService {
     private void unloadScripts(final Practice exam) {
         final DatabaseConnector databaseConnector = DatabaseConnector.getDatabaseConnector(exam.getDatabase(),
                 applicationContext);
-        databaseConnector.unloadScript(exam.getId());
+        databaseConnector.unloadScript(exam);
     }
 
 
@@ -162,7 +162,7 @@ public class SQLPracticeService {
      * @return no.of exams deleted
      */
     public Integer delete() {
-        int count = 0 ;
+        int count = 0;
         List<Practice> exams = list();
         exams.parallelStream().forEach(exam -> delete(exam.getId()));
         return count;
@@ -170,6 +170,7 @@ public class SQLPracticeService {
 
     /**
      * lists all from table .
+     *
      * @return list
      */
     public List<Practice> list() {

@@ -16,31 +16,31 @@ public class DataSourceConfiguration {
 
     @Bean(name = "h2DataSource")
     @Qualifier("h2DataSource")
-    @ConfigurationProperties(prefix="spring.datasource")
+    @ConfigurationProperties(prefix = "spring.datasource")
     @Primary
-    public DataSource h2DataSource(){
+    public DataSource h2DataSource() {
         return DataSourceBuilder.create().build();
     }
 
     @Bean(name = "h2JdbcTemplate")
     @Primary
     public JdbcTemplate h2JdbcTemplate(
-            @Qualifier("h2DataSource") DataSource dataSource){
+            @Qualifier("h2DataSource") DataSource dataSource) {
         return new JdbcTemplate(dataSource);
     }
 
     @Bean(name = "postgresqlDataSource")
     @Qualifier("postgresqlDataSource")
-    @ConfigurationProperties(prefix="spring.datasource.postgresql")
+    @ConfigurationProperties(prefix = "spring.datasource.postgresql")
     @Lazy(true)
-    public DataSource postgresqlDataSource(){
+    public DataSource postgresqlDataSource() {
         return DataSourceBuilder.create().build();
     }
 
     @Bean(name = "postgresqlJdbcTemplate")
     @Lazy(true)
     public JdbcTemplate postgresqlJdbcTemplate(
-            @Qualifier("postgresqlDataSource") DataSource dataSource){
+            @Qualifier("postgresqlDataSource") DataSource dataSource) {
         return new JdbcTemplate(dataSource);
     }
 }

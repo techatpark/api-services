@@ -71,7 +71,7 @@ class SQLPracticeAPIController {
     }
 
     @Operation(summary = "Updates the exam by given id", description = "Can be called only by users with 'auth management' rights.",
-    security = @SecurityRequirement(name = "bearerAuth"))
+            security = @SecurityRequirement(name = "bearerAuth"))
     @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "exam updated successfully"),
             @ApiResponse(responseCode = "400", description = "exam is invalid"),
             @ApiResponse(responseCode = "404", description = "exam not found")})
@@ -83,7 +83,7 @@ class SQLPracticeAPIController {
     }
 
     @Operation(summary = "Deletes the exam by given id",
-    security = @SecurityRequirement(name = "bearerAuth"))
+            security = @SecurityRequirement(name = "bearerAuth"))
     @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "exam deleted successfully"),
             @ApiResponse(responseCode = "404", description = "exam not found")})
     @DeleteMapping("/{id}")
@@ -94,7 +94,7 @@ class SQLPracticeAPIController {
 
     @Operation(summary = "Creates a new question", description = "Can be called only by users with 'auth management' rights.",
             security = @SecurityRequirement(name = "bearerAuth"))
-            @ApiResponses(value = {@ApiResponse(responseCode = "201", description = "question created successfully"),
+    @ApiResponses(value = {@ApiResponse(responseCode = "201", description = "question created successfully"),
             @ApiResponse(responseCode = "400", description = "question is invalid")})
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/{examId}/questions")

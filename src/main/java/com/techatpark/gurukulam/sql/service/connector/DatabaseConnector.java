@@ -4,10 +4,13 @@ import com.techatpark.gurukulam.sql.model.Database;
 import com.techatpark.gurukulam.sql.model.Practice;
 import com.techatpark.gurukulam.sql.model.Question;
 import org.springframework.context.ApplicationContext;
-import org.springframework.jdbc.core.JdbcTemplate;
 
+import javax.sql.DataSource;
 import java.lang.reflect.InvocationTargetException;
 import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -20,15 +23,15 @@ public abstract class DatabaseConnector {
     /**
      * Actual Database Store.
      */
-    private final JdbcTemplate jdbcTemplate;
+    private final DataSource dataSource;
 
     /**
      * Creates a Database Connector.
      *
-     * @param jdbcTemplate
+     * @param dataSource
      */
-    public DatabaseConnector(final JdbcTemplate jdbcTemplate) {
-        this.jdbcTemplate = jdbcTemplate;
+    public DatabaseConnector(final DataSource dataSource) {
+        this.dataSource = dataSource;
     }
 
     /**
@@ -43,9 +46,9 @@ public abstract class DatabaseConnector {
         DatabaseConnector databaseConnector = mapping.get(database.getValue());
         if (databaseConnector == null) {
             try {
-                JdbcTemplate jdbcTemplate = applicationContext.getBean(database.getValue() + "JdbcTemplate",JdbcTemplate.class);
-                databaseConnector = database.getConnectorClass().getDeclaredConstructor(JdbcTemplate.class)
-                        .newInstance(jdbcTemplate);
+                DataSource dataSource = applicationContext.getBean(database.getValue() + "DataSource", DataSource.class);
+                databaseConnector = database.getConnectorClass().getDeclaredConstructor(DataSource.class)
+                        .newInstance(dataSource);
             } catch (InstantiationException | IllegalAccessException | IllegalArgumentException
                     | InvocationTargetException | NoSuchMethodException | SecurityException e) {
                 // Unreachable Block. Ignore Catching
@@ -76,10 +79,10 @@ public abstract class DatabaseConnector {
     /**
      * Unload the script for the specific exam.
      *
-     * @param id
+     * @param exam
      * @return successflag
      */
-    public abstract Boolean unloadScript(Integer id);
+    public abstract Boolean unloadScript(Practice exam);
 
     /**
      * Get connection for specific exam.
@@ -87,14 +90,51 @@ public abstract class DatabaseConnector {
      * @param exam
      * @return connetion
      */
-    public abstract Connection getConnection(Practice exam);
+    protected Connection getConnection(final Practice exam) {
+        Connection connection = null;
+        try {
+            connection = getDataSource().getConnection();
+            connection.setSchema("EXAM_" + exam.getId());
+        } catch (final SQLException sqlException) {
+            sqlException.printStackTrace();
+        }
+        return connection;
+    }
+
+    protected Integer getCount(final String countQuery, final Practice practice) {
+        Integer count = -1;
+        try (Connection connection = getConnection(practice);
+             Statement statement = connection.createStatement();
+             ResultSet r = statement.executeQuery(countQuery)) {
+            r.next();
+            count = r.getInt(1);
+
+        } catch (final SQLException sqlException) {
+            sqlException.printStackTrace();
+        }
+        return count;
+    }
+
+    protected Integer update(final String updateQuery, final Practice practice) {
+        Integer count = -1;
+        try (Connection connection = getConnection(practice);
+             Statement statement = connection.createStatement();) {
+            count = statement.executeUpdate(updateQuery);
+        } catch (final SQLException sqlException) {
+            sqlException.printStackTrace();
+        }
+        return count;
+    }
+
 
     /**
      * Gets Actual Datastore.
      *
-     * @return jdbcTemplate
+     * @return dataSource
      */
-    public JdbcTemplate getJdbcTemplate() {
-        return jdbcTemplate;
+    public DataSource getDataSource() {
+        return dataSource;
     }
+
+
 }
