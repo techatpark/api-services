@@ -4,9 +4,10 @@ import com.techatpark.gurukulam.sql.model.Practice;
 import com.techatpark.gurukulam.sql.model.Question;
 import com.techatpark.gurukulam.sql.service.connector.DatabaseConnector;
 import com.techatpark.gurukulam.sql.service.util.FlywayUtil;
+import com.zaxxer.hikari.HikariConfig;
+import com.zaxxer.hikari.HikariDataSource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.stereotype.Component;
 
 import javax.sql.DataSource;
@@ -57,9 +58,17 @@ public class H2DatabaseConnector extends DatabaseConnector {
     public final Boolean loadScript(final Practice exam) {
         final Integer id = exam.getId();
         unloadScript(exam);
-        String query = "CREATE SCHEMA EXAM_" + id;
-        update(query, exam);
-        FlywayUtil.loadScripts(exam, getDataSource());
+        String schemaName = "EXAM_" + id;
+//        String query = "CREATE SCHEMA EXAM_" + id;
+//        update(query, exam);
+        HikariConfig config = new HikariConfig();
+        config.setJdbcUrl("jdbc:h2:mem:"+schemaName+";INIT=create schema if not exists "+schemaName+"\\;");
+        config.setUsername("sa");
+        config.setPassword("password");
+        config.addDataSourceProperty("cachePrepStmts", "true");
+        config.addDataSourceProperty("prepStmtCacheSize", "250");
+        config.addDataSourceProperty("prepStmtCacheSqlLimit", "2048");
+        FlywayUtil.loadScripts(exam, new HikariDataSource(config));
         return null;
     }
 
