@@ -37,10 +37,5 @@ public class DataSourceConfiguration {
         return DataSourceBuilder.create().build();
     }
 
-    @Bean(name = "postgresqlJdbcTemplate")
-    @Lazy(true)
-    public JdbcTemplate postgresqlJdbcTemplate(
-            @Qualifier("postgresqlDataSource") DataSource dataSource) {
-        return new JdbcTemplate(dataSource);
-    }
+
 }

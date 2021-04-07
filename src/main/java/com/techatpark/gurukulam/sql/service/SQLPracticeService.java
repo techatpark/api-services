@@ -146,11 +146,12 @@ public class SQLPracticeService {
         final Optional<Practice> exam = read(id);
         Boolean success = false;
         if (exam.isPresent()) {
-            unloadScripts(exam.get());
+
             String query = "DELETE FROM questions WHERE exam_id=?";
             Integer updatedRows = jdbcTemplate.update(query, id);
             query = "DELETE FROM EXAMS WHERE ID=?";
             updatedRows = jdbcTemplate.update(query, id);
+            unloadScripts(exam.get());
             success = !(updatedRows == 0);
         }
         return success;
