@@ -3,7 +3,7 @@ spring:
     name: Gurukulam API
   ## Database
   datasource:
-    jdbcUrl: jdbc:h2:mem:test;INIT=create schema if not exists test\;
+    jdbcUrl: jdbc:h2:mem:practice_db;INIT=create schema if not exists practice_db\;
     username: sa
     password: password
     postgresql:

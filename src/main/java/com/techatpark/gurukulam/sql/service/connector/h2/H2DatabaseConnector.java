@@ -8,12 +8,22 @@ import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import javax.sql.DataSource;
 
 @Component
 public class H2DatabaseConnector extends DatabaseConnector {
+
+    @Value("${spring.datasource.jdbcUrl}")
+    private String jdbcUrl;
+
+    @Value("${spring.datasource.username}")
+    private String username;
+
+    @Value("${spring.datasource.password}")
+    private String password;
 
     /**
      * logger for thiss class.
@@ -59,12 +69,10 @@ public class H2DatabaseConnector extends DatabaseConnector {
         final Integer id = exam.getId();
         unloadScript(exam);
         String schemaName = "EXAM_" + id;
-//        String query = "CREATE SCHEMA EXAM_" + id;
-//        update(query, exam);
         HikariConfig config = new HikariConfig();
-        config.setJdbcUrl("jdbc:h2:mem:"+schemaName+";INIT=create schema if not exists "+schemaName+"\\;");
-        config.setUsername("sa");
-        config.setPassword("password");
+        config.setJdbcUrl(jdbcUrl.replaceAll("practice_db",schemaName));
+        config.setUsername(username);
+        config.setPassword(password);
         config.addDataSourceProperty("cachePrepStmts", "true");
         config.addDataSourceProperty("prepStmtCacheSize", "250");
         config.addDataSourceProperty("prepStmtCacheSqlLimit", "2048");

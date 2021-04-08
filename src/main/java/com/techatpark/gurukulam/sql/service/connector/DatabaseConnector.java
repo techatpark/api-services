@@ -45,14 +45,7 @@ public abstract class DatabaseConnector {
                                                          final ApplicationContext applicationContext) {
         DatabaseConnector databaseConnector = mapping.get(database.getValue());
         if (databaseConnector == null) {
-            try {
-                DataSource dataSource = applicationContext.getBean(database.getValue() + "DataSource", DataSource.class);
-                databaseConnector = database.getConnectorClass().getDeclaredConstructor(DataSource.class)
-                        .newInstance(dataSource);
-            } catch (InstantiationException | IllegalAccessException | IllegalArgumentException
-                    | InvocationTargetException | NoSuchMethodException | SecurityException e) {
-                // Unreachable Block. Ignore Catching
-            }
+            databaseConnector = applicationContext.getBean(database.getConnectorClass());
             mapping.put(database.getValue(), databaseConnector);
         }
         return databaseConnector;
