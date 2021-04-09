@@ -31,7 +31,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     public void configure(WebSecurity web) throws Exception {
         web
                 .ignoring()
-                .antMatchers("/resources/**", "/static/**", "/css/**", "/js/**", "/courses/**", "/practices/**", "/images/**");
+                .antMatchers("/swagger-ui.html","/swagger-ui/**","/v3/api-docs/**",
+                            "/resources/**", "/static/**", "/css/**", "/js/**",
+                            "/courses/**", "/practices/**", "/images/**");
     }
 
     /**
@@ -55,8 +57,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .authorizeRequests()
                     .antMatchers("/","/api/info",
-                            "/api/auth/login",
-                            "/swagger-ui.html","/swagger-ui/**","/v3/api-docs/**")
+                            "/api/auth/login")
                         .permitAll()
                     .anyRequest()
                         .authenticated();
@@ -72,7 +73,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected UserDetailsService userDetailsService() {
         return new InMemoryUserDetailsManager(
-                User.withUsername("user")
+                User.withUsername("tom")
+                        .password(passwordEncoder().encode("password"))
+                        .roles("USER")
+                        .build(),
+                User.withUsername("jerry")
                         .password(passwordEncoder().encode("password"))
                         .roles("USER")
                         .build()
