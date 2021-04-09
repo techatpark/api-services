@@ -33,7 +33,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .ignoring()
                 .antMatchers("/swagger-ui.html","/swagger-ui/**","/v3/api-docs/**",
                             "/resources/**", "/static/**", "/css/**", "/js/**",
-                            "/courses/**", "/practices/**", "/images/**");
+                            "/courses/**","/courses/**/**", "/practices/**", "/images/**");
     }
 
     /**
