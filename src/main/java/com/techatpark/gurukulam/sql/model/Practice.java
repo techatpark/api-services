@@ -21,6 +21,11 @@ public class Practice {
     private String script;
 
     /**
+     * tells the description of exam.
+     */
+    private String description;
+
+    /**
      * gets the id of exam.
      *
      * @return id
@@ -90,5 +95,23 @@ public class Practice {
      */
     public void setScript(String script) {
         this.script = script;
+    }
+
+    /**
+     * gets description.
+     *
+     * @return description
+     */
+    public String getDescription() {
+        return description;
+    }
+
+    /**
+     * sets description.
+     *
+     * @param description
+     */
+    public void setDescription(String description) {
+        this.description = description;
     }
 }

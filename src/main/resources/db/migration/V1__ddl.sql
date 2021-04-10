@@ -6,7 +6,8 @@ CREATE TABLE exams (
   id INT auto_increment PRIMARY KEY,
   name VARCHAR(55) NOT NULL,
   database_type VARCHAR(15) NOT NULL,
-  script TEXT NOT NULL
+  script TEXT NOT NULL,
+  description TEXT NOT NULL
 );
 
 CREATE TABLE questions (

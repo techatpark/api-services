@@ -45,6 +45,7 @@ public class SQLPracticeService {
         exam.setName(rs.getString("name"));
         exam.setDatabase(Database.of(rs.getString("database_type")));
         exam.setScript(rs.getString("script"));
+        exam.setDescription(rs.getString("description"));
         return exam;
     };
 
@@ -69,10 +70,11 @@ public class SQLPracticeService {
         final SimpleJdbcInsert insert = new SimpleJdbcInsert(dataSource)
                 .withTableName("exams")
                 .usingGeneratedKeyColumns("id")
-                .usingColumns("name", "database_type", "script");
+                .usingColumns("name", "database_type", "script","description");
         final Map<String, Object> valueMap = Map.of("name", exam.getName(),
                 "database_type", exam.getDatabase().getValue(),
-                "script", exam.getScript());
+                "script", exam.getScript(),
+                "description",exam.getDescription());
         final Number examId = insert.executeAndReturnKey(valueMap);
         Optional<Practice> createdExam = read(examId.intValue());
         createdExam.ifPresent(exam1 -> {
@@ -111,7 +113,7 @@ public class SQLPracticeService {
      * @return exam
      */
     public Optional<Practice> read(final Integer newExamId) {
-        final String query = "SELECT id,name,script,database_type FROM exams WHERE id = ?";
+        final String query = "SELECT id,name,script,description,database_type FROM exams WHERE id = ?";
         try {
             return Optional.of(jdbcTemplate.queryForObject(query, new Object[]{newExamId}, rowMapper));
         } catch (final EmptyResultDataAccessException e) {
@@ -128,11 +130,11 @@ public class SQLPracticeService {
      * @TODO Soft Delete
      */
     public Optional<Practice> update(final Integer id, final Practice exam) {
-        final String query = "UPDATE exams SET name = ?, database_type = ?, script = ? WHERE id = ?";
+        final String query = "UPDATE exams SET name = ?, database_type = ?, script = ? ,description = ? WHERE id = ?";
         final Integer updatedRows = jdbcTemplate.update(query,
                 exam.getName(),
                 exam.getDatabase().getValue(),
-                exam.getScript(), id);
+                exam.getScript(),exam.getDescription(), id);
         return updatedRows == 0 ? null : read(id);
     }
 
@@ -176,7 +178,7 @@ public class SQLPracticeService {
      */
     public List<Practice> list() {
 
-        String recordsQuery = "SELECT id,name,script,database_type FROM exams";
+        String recordsQuery = "SELECT id,name,script,description,database_type FROM exams";
 
         return jdbcTemplate.query(recordsQuery, rowMapper);
     }
@@ -189,7 +191,7 @@ public class SQLPracticeService {
      */
     public Page<Practice> page(final Pageable pageable) {
 
-        String recordsQuery = "SELECT id,name,script,database_type FROM exams LIMIT "
+        String recordsQuery = "SELECT id,name,script,description,database_type FROM exams LIMIT "
                 + pageable.getPageSize()
                 + " OFFSET "
                 + ((pageable.getPageNumber() * pageable.getPageSize()));
