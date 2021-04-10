@@ -98,6 +98,7 @@ class SQLExamServiceTest {
         exam.setName(EXAM1);
         exam.setDatabase(Database.POSTGRES);
         exam.setScript(TestUtil.getScript(exam));
+        exam.setDescription("description");
         return exam;
     }
 

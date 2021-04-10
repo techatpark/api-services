@@ -70,11 +70,11 @@ public class SQLPracticeService {
         final SimpleJdbcInsert insert = new SimpleJdbcInsert(dataSource)
                 .withTableName("exams")
                 .usingGeneratedKeyColumns("id")
-                .usingColumns("name", "database_type", "script","description");
+                .usingColumns("name", "database_type", "script", "description");
         final Map<String, Object> valueMap = Map.of("name", exam.getName(),
                 "database_type", exam.getDatabase().getValue(),
                 "script", exam.getScript(),
-                "description",exam.getDescription());
+                "description", exam.getDescription());
         final Number examId = insert.executeAndReturnKey(valueMap);
         Optional<Practice> createdExam = read(examId.intValue());
         createdExam.ifPresent(exam1 -> {
@@ -134,7 +134,7 @@ public class SQLPracticeService {
         final Integer updatedRows = jdbcTemplate.update(query,
                 exam.getName(),
                 exam.getDatabase().getValue(),
-                exam.getScript(),exam.getDescription(), id);
+                exam.getScript(), exam.getDescription(), id);
         return updatedRows == 0 ? null : read(id);
     }
 

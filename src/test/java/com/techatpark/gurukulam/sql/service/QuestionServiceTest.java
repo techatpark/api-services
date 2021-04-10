@@ -122,6 +122,7 @@ class QuestionServiceTest {
         exam.setName("Test Exam 1");
         exam.setDatabase(Database.POSTGRES);
         exam.setScript(TestUtil.getScript(exam));
+        exam.setDescription("description");
         return exam;
     }
 }

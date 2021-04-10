@@ -8,9 +8,7 @@ import com.techatpark.gurukulam.sql.service.SQLPracticeService;
 import com.techatpark.gurukulam.sql.service.TestUtil;
 import com.techatpark.gurukulam.sql.service.connector.DatabaseConnector;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
 
 import java.io.IOException;
 
@@ -86,6 +84,7 @@ public class PostgressDatabaseConnectorTest {
         exam.setName("Exam_1");
         exam.setDatabase(Database.POSTGRES);
         exam.setScript(TestUtil.getScript(exam));
+        exam.setDescription("description");
         return exam;
     }
 

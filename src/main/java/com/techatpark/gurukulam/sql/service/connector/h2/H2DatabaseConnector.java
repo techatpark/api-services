@@ -16,19 +16,16 @@ import javax.sql.DataSource;
 @Component
 public class H2DatabaseConnector extends DatabaseConnector {
 
-    @Value("${spring.datasource.jdbcUrl}")
-    private String jdbcUrl;
-
-    @Value("${spring.datasource.username}")
-    private String username;
-
-    @Value("${spring.datasource.password}")
-    private String password;
-
     /**
      * logger for thiss class.
      */
     private final Logger logger = LoggerFactory.getLogger(H2DatabaseConnector.class);
+    @Value("${spring.datasource.jdbcUrl}")
+    private String jdbcUrl;
+    @Value("${spring.datasource.username}")
+    private String username;
+    @Value("${spring.datasource.password}")
+    private String password;
 
     /**
      * Creates h2 Connector.
@@ -70,7 +67,7 @@ public class H2DatabaseConnector extends DatabaseConnector {
         unloadScript(exam);
         String schemaName = "EXAM_" + id;
         HikariConfig config = new HikariConfig();
-        config.setJdbcUrl(jdbcUrl.replaceAll("practice_db",schemaName));
+        config.setJdbcUrl(jdbcUrl.replaceAll("practice_db", schemaName));
         config.setUsername(username);
         config.setPassword(password);
         config.addDataSourceProperty("cachePrepStmts", "true");

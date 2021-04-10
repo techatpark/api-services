@@ -6,7 +6,6 @@ import com.techatpark.gurukulam.sql.model.Question;
 import org.springframework.context.ApplicationContext;
 
 import javax.sql.DataSource;
-import java.lang.reflect.InvocationTargetException;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
