@@ -124,8 +124,8 @@ public class QuestionService {
      * @return quetions in given exam
      */
     public List<Question> list(final Integer examId) {
-        String query = "SELECT id,exam_id,question,answer FROM questions WHERE exam_id = ?";
-        return List.of(jdbcTemplate.queryForObject(query, new Object[]{examId}, rowMapper));
+        String query = "SELECT id,exam_id,question,answer FROM questions";
+        return jdbcTemplate.query(query, rowMapper);
     }
 
     /**
