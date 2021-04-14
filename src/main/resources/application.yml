@@ -26,3 +26,6 @@ server:
 ## Open API
 springdoc:
   packagesToScan: com.techatpark.gurukulam,com.techatpark.starter.security.controller
+  swagger-ui:
+    operationsSorter: method
+
