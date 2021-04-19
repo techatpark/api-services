@@ -24,17 +24,17 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/api/exams/sql")
-@Tag(name = "Exams", description = "Resource to manage exams")
+@RequestMapping("/api/practices/sql")
+@Tag(name = "Practices", description = "Resource to manage practices")
 class SQLPracticeAPIController {
 
-    private final SQLPracticeService sqlExamService;
+    private final SQLPracticeService sqlPracticeService;
     private final QuestionService questionService;
     private final AnswerService answerService;
 
-    SQLPracticeAPIController(final SQLPracticeService sqlExamService, final QuestionService questionService,
+    SQLPracticeAPIController(final SQLPracticeService sqlPracticeService, final QuestionService questionService,
                              final AnswerService answerService) {
-        this.sqlExamService = sqlExamService;
+        this.sqlPracticeService = sqlPracticeService;
         this.questionService = questionService;
         this.answerService = answerService;
     }
@@ -46,7 +46,7 @@ class SQLPracticeAPIController {
     @PostMapping
     public ResponseEntity<Optional<Practice>> create(@RequestBody @Valid @NotNull @NotBlank Practice exam) throws IOException {
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(sqlExamService.create(exam));
+        return ResponseEntity.status(HttpStatus.CREATED).body(sqlPracticeService.create(exam));
     }
 
     @Operation(summary = "Get exam with given id",
@@ -55,7 +55,7 @@ class SQLPracticeAPIController {
             @ApiResponse(responseCode = "404", description = "exam not found")})
     @GetMapping("/{id}")
     public ResponseEntity<Practice> findById(@PathVariable Integer id) {
-        return ResponseEntity.of(sqlExamService.read(id));
+        return ResponseEntity.of(sqlPracticeService.read(id));
     }
 
     @Operation(summary = "lists all the exam",
@@ -65,9 +65,9 @@ class SQLPracticeAPIController {
             @ApiResponse(responseCode = "204", description = "exam are not available")})
     @GetMapping
     public ResponseEntity<Page<Practice>> findAll(@NotNull final Pageable pageable) {
-        Page<Practice> exams = sqlExamService.page(pageable);
-        return exams.isEmpty() ? new ResponseEntity<Page<Practice>>(HttpStatus.NO_CONTENT)
-                : ResponseEntity.ok(exams);
+        Page<Practice> practices = sqlPracticeService.page(pageable);
+        return practices.isEmpty() ? new ResponseEntity<Page<Practice>>(HttpStatus.NO_CONTENT)
+                : ResponseEntity.ok(practices);
     }
 
     @Operation(summary = "Updates the exam by given id", description = "Can be called only by users with 'auth management' rights.",
@@ -77,7 +77,7 @@ class SQLPracticeAPIController {
             @ApiResponse(responseCode = "404", description = "exam not found")})
     @PutMapping("/{id}")
     public ResponseEntity<Optional<Practice>> update(@PathVariable Integer id, @Valid @RequestBody Practice exam) {
-        Optional<Practice> updatedexam = sqlExamService.update(id, exam);
+        Optional<Practice> updatedexam = sqlPracticeService.update(id, exam);
         return updatedexam == null ? new ResponseEntity<Optional<Practice>>(HttpStatus.NOT_FOUND)
                 : ResponseEntity.ok(updatedexam);
     }
@@ -88,7 +88,7 @@ class SQLPracticeAPIController {
             @ApiResponse(responseCode = "404", description = "exam not found")})
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteExamById(@PathVariable Integer id) {
-        return sqlExamService.delete(id) ? ResponseEntity.ok().build()
+        return sqlPracticeService.delete(id) ? ResponseEntity.ok().build()
                 : new ResponseEntity<Void>(HttpStatus.NOT_FOUND);
     }
 

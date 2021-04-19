@@ -1,8 +1,8 @@
 DROP TABLE IF EXISTS answers;
 DROP TABLE IF EXISTS questions;
-DROP TABLE IF EXISTS exams;
+DROP TABLE IF EXISTS practices;
 
-CREATE TABLE exams (
+CREATE TABLE practices (
   id INT auto_increment PRIMARY KEY,
   name VARCHAR(55) NOT NULL,
   database_type VARCHAR(15) NOT NULL,
@@ -16,7 +16,7 @@ CREATE TABLE questions (
   question VARCHAR(500) NOT NULL,
   answer VARCHAR(500) NOT NULL,
   PRIMARY KEY (id, exam_id),
-  FOREIGN KEY (exam_id) REFERENCES exams (id)
+  FOREIGN KEY (exam_id) REFERENCES practices (id)
 );
 CREATE TABLE answers (
   id INT auto_increment PRIMARY KEY,

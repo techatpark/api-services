@@ -14,8 +14,8 @@ public enum Database {
     /**
      * available database.
      */
-    POSTGRES("postgresql", PostgressDatabaseConnector.class),
-    H2("h2", H2DatabaseConnector.class);
+    H2("h2", H2DatabaseConnector.class),
+    POSTGRES("postgresql", PostgressDatabaseConnector.class);
 
     /**
      * value will be either mysql or postgres.

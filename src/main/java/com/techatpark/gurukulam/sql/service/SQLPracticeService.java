@@ -40,13 +40,13 @@ public class SQLPracticeService {
      * Maps the data from and to the database. return exam
      */
     private final RowMapper<Practice> rowMapper = (rs, rowNum) -> {
-        final Practice exam = new Practice();
-        exam.setId(rs.getInt("id"));
-        exam.setName(rs.getString("name"));
-        exam.setDatabase(Database.of(rs.getString("database_type")));
-        exam.setScript(rs.getString("script"));
-        exam.setDescription(rs.getString("description"));
-        return exam;
+        final Practice practice = new Practice();
+        practice.setId(rs.getInt("id"));
+        practice.setName(rs.getString("name"));
+        practice.setDatabase(Database.of(rs.getString("database_type")));
+        practice.setScript(rs.getString("script"));
+        practice.setDescription(rs.getString("description"));
+        return practice;
     };
 
     /**
@@ -63,18 +63,18 @@ public class SQLPracticeService {
     /**
      * inserts data to database.
      *
-     * @param exam
-     * @return exam
+     * @param practice
+     * @return practice
      */
-    public Optional<Practice> create(final Practice exam) {
+    public Optional<Practice> create(final Practice practice) {
         final SimpleJdbcInsert insert = new SimpleJdbcInsert(dataSource)
-                .withTableName("exams")
+                .withTableName("practices")
                 .usingGeneratedKeyColumns("id")
                 .usingColumns("name", "database_type", "script", "description");
-        final Map<String, Object> valueMap = Map.of("name", exam.getName(),
-                "database_type", exam.getDatabase().getValue(),
-                "script", exam.getScript(),
-                "description", exam.getDescription());
+        final Map<String, Object> valueMap = Map.of("name", practice.getName(),
+                "database_type", practice.getDatabase().getValue(),
+                "script", practice.getScript(),
+                "description", practice.getDescription());
         final Number examId = insert.executeAndReturnKey(valueMap);
         Optional<Practice> createdExam = read(examId.intValue());
         createdExam.ifPresent(exam1 -> {
@@ -86,36 +86,36 @@ public class SQLPracticeService {
     /**
      * Load Scripts into Database.
      *
-     * @param exam
+     * @param practice
      */
-    private void loadScripts(final Practice exam) {
-        final DatabaseConnector databaseConnector = DatabaseConnector.getDatabaseConnector(exam.getDatabase(),
+    private void loadScripts(final Practice practice) {
+        final DatabaseConnector databaseConnector = DatabaseConnector.getDatabaseConnector(practice.getDatabase(),
                 applicationContext);
-        databaseConnector.loadScript(exam);
+        databaseConnector.loadScript(practice);
     }
 
     /**
      * Unload Scripts into Database.
      *
-     * @param exam
+     * @param practice
      */
-    private void unloadScripts(final Practice exam) {
-        final DatabaseConnector databaseConnector = DatabaseConnector.getDatabaseConnector(exam.getDatabase(),
+    private void unloadScripts(final Practice practice) {
+        final DatabaseConnector databaseConnector = DatabaseConnector.getDatabaseConnector(practice.getDatabase(),
                 applicationContext);
-        databaseConnector.unloadScript(exam);
+        databaseConnector.unloadScript(practice);
     }
 
 
     /**
-     * read an exam.
+     * read an practice.
      *
-     * @param newExamId
-     * @return exam
+     * @param newPracticeId
+     * @return practice
      */
-    public Optional<Practice> read(final Integer newExamId) {
-        final String query = "SELECT id,name,script,description,database_type FROM exams WHERE id = ?";
+    public Optional<Practice> read(final Integer newPracticeId) {
+        final String query = "SELECT id,name,script,description,database_type FROM practices WHERE id = ?";
         try {
-            return Optional.of(jdbcTemplate.queryForObject(query, new Object[]{newExamId}, rowMapper));
+            return Optional.of(jdbcTemplate.queryForObject(query, new Object[]{newPracticeId}, rowMapper));
         } catch (final EmptyResultDataAccessException e) {
             return Optional.empty();
         }
@@ -124,17 +124,17 @@ public class SQLPracticeService {
     /**
      * update database.
      *
-     * @param exam
+     * @param practice
      * @param id
-     * @return exam
+     * @return practice
      * @TODO Soft Delete
      */
-    public Optional<Practice> update(final Integer id, final Practice exam) {
-        final String query = "UPDATE exams SET name = ?, database_type = ?, script = ? ,description = ? WHERE id = ?";
+    public Optional<Practice> update(final Integer id, final Practice practice) {
+        final String query = "UPDATE practices SET name = ?, database_type = ?, script = ? ,description = ? WHERE id = ?";
         final Integer updatedRows = jdbcTemplate.update(query,
-                exam.getName(),
-                exam.getDatabase().getValue(),
-                exam.getScript(), exam.getDescription(), id);
+                practice.getName(),
+                practice.getDatabase().getValue(),
+                practice.getScript(), practice.getDescription(), id);
         return updatedRows == 0 ? null : read(id);
     }
 
@@ -145,29 +145,29 @@ public class SQLPracticeService {
      * @return successflag
      */
     public Boolean delete(final Integer id) {
-        final Optional<Practice> exam = read(id);
+        final Optional<Practice> practice = read(id);
         Boolean success = false;
-        if (exam.isPresent()) {
+        if (practice.isPresent()) {
 
             String query = "DELETE FROM questions WHERE exam_id=?";
             Integer updatedRows = jdbcTemplate.update(query, id);
-            query = "DELETE FROM EXAMS WHERE ID=?";
+            query = "DELETE FROM PRACTICES WHERE ID=?";
             updatedRows = jdbcTemplate.update(query, id);
-            unloadScripts(exam.get());
+            unloadScripts(practice.get());
             success = !(updatedRows == 0);
         }
         return success;
     }
 
     /**
-     * Cleaning up all exams.
+     * Cleaning up all practices.
      *
-     * @return no.of exams deleted
+     * @return no.of practices deleted
      */
     public Integer delete() {
         int count = 0;
-        List<Practice> exams = list();
-        exams.parallelStream().forEach(exam -> delete(exam.getId()));
+        List<Practice> practices = list();
+        practices.parallelStream().forEach(exam -> delete(exam.getId()));
         return count;
     }
 
@@ -178,7 +178,7 @@ public class SQLPracticeService {
      */
     public List<Practice> list() {
 
-        String recordsQuery = "SELECT id,name,script,description,database_type FROM exams";
+        String recordsQuery = "SELECT id,name,script,description,database_type FROM practices";
 
         return jdbcTemplate.query(recordsQuery, rowMapper);
     }
@@ -191,12 +191,12 @@ public class SQLPracticeService {
      */
     public Page<Practice> page(final Pageable pageable) {
 
-        String recordsQuery = "SELECT id,name,script,description,database_type FROM exams LIMIT "
+        String recordsQuery = "SELECT id,name,script,description,database_type FROM practices LIMIT "
                 + pageable.getPageSize()
                 + " OFFSET "
                 + ((pageable.getPageNumber() * pageable.getPageSize()));
 
-        String countsQuery = "SELECT COUNT(id) FROM exams";
+        String countsQuery = "SELECT COUNT(id) FROM practices";
 
         return new PageImpl<Practice>(jdbcTemplate.query(recordsQuery, rowMapper), pageable,
                 jdbcTemplate.queryForObject(countsQuery, Long.class));
