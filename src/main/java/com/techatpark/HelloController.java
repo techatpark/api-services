@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.net.URISyntaxException;
 import java.util.Map;
 
 @RestController
@@ -16,14 +17,14 @@ class HelloController {
     @Value("${spring.application.name}")
     private String name;
 
+    @Value("${spring.application.version}")
+    private String version;
+
     @GetMapping
-    public ResponseEntity<Map<String, Object>> index() {
-        Runtime.Version version = java.lang.Runtime.version();
+    public ResponseEntity<Map<String, Object>> index() throws URISyntaxException {
         Map<String, Object> map = Map.of(
-                "Application Name", name,
-                "Java Version", version.toString(),
-                "Java Version Build", version.build().get(),
-                "Java Version Pre-Release Info", version.pre().orElse("NA"));
+                "javaVersion", java.lang.Runtime.version().toString(),
+                "appVersion",version);
         return new ResponseEntity<>(map,
                 HttpStatus.OK);
     }
