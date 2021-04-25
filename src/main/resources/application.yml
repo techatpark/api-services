@@ -1,6 +1,7 @@
 spring:
   application:
     name: Gurukulam API
+    version: 2.0
   ## Database
   datasource:
     jdbcUrl: jdbc:h2:mem:practice_db;INIT=create schema if not exists practice_db\;
