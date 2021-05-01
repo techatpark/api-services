@@ -20,7 +20,7 @@ import java.util.Iterator;
 
 @Configuration
 @OpenAPIDefinition(info = @Info(title = "Gurukulam API",
-        version = "0.0",
+        version = "2.0",
         description = "Gurukulam API Documentation",
         license = @License(name = "Apache 2.0",
                 url = "https://foo.bar"),
