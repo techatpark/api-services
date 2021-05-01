@@ -1,16 +1,20 @@
 package com.techatpark.gurukulam.sql.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.validation.constraints.NotBlank;
 
 public class Question {
     /**
      * tells the id of question.
      */
+    @JsonIgnore
     private Integer id;
 
     /**
      * tells the exam_id of the question.
      */
+    @JsonIgnore
     private Integer examId;
 
     /**
