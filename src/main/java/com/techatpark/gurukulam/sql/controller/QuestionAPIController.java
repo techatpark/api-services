@@ -27,7 +27,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 class QuestionAPIController {
 
         /**
-         * Question service
+         * Question service.
          */
         private final QuestionService questionService;
 
