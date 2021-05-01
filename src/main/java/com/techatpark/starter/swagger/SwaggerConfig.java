@@ -11,6 +11,7 @@ import io.swagger.v3.oas.annotations.info.Contact;
 import io.swagger.v3.oas.annotations.info.Info;
 import io.swagger.v3.oas.annotations.info.License;
 import io.swagger.v3.oas.annotations.security.SecurityScheme;
+import io.swagger.v3.oas.annotations.servers.Server;
 import io.swagger.v3.oas.models.media.Schema;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.domain.Page;
@@ -23,12 +24,12 @@ import java.util.Iterator;
         description = "Gurukulam API Documentation",
         license = @License(name = "Apache 2.0",
                 url = "https://foo.bar"),
-        contact = @Contact(url = "https://www.gurukulam.techatpark.com",
-                name = "Fred",
-                email = "Fred@gigagantic-server.com")
-))
+        contact = @Contact(url = "https://www.techatpark.com",
+                name = "TECHATPARK")
+),servers = @Server(url = "/",description = "Local"))
 @SecurityScheme(
         name = "bearerAuth",
+        description = "Token",
         type = SecuritySchemeType.HTTP,
         bearerFormat = "JWT",
         scheme = "bearer"

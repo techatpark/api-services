@@ -1,5 +1,7 @@
 package com.techatpark.gurukulam.sql.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 public class Practice {
     /**
      * tells the id of the exam.

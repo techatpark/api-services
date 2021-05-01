@@ -1,5 +1,7 @@
 package com.techatpark.gurukulam.sql.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.validation.constraints.NotBlank;
 
 public class Question {

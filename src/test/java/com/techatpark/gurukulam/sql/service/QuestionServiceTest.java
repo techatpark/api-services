@@ -72,7 +72,7 @@ class QuestionServiceTest {
         Question question = questionService.create(exam.getId(), getQuestion()).get();
         question.setQuestion("Updated Query");
         final Integer newQuestionId = question.getId();
-        question = questionService.update(newQuestionId, question).get();
+        question = questionService.update(exam.getId(), newQuestionId, question).get();
         assertEquals("Updated Query", question.getQuestion(), "Updated");
     }
 
