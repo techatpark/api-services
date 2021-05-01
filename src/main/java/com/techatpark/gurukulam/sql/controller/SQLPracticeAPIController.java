@@ -129,9 +129,10 @@ class SQLPracticeAPIController {
             @ApiResponse(responseCode = "400", description = "question is invalid"),
             @ApiResponse(responseCode = "404", description = "question not found")})
     @PutMapping("/{examId}/questions/{id}")
-    public ResponseEntity<Optional<Question>> update(@PathVariable Integer id,
+    public ResponseEntity<Optional<Question>> update(@PathVariable Integer examId,
+                                                     @PathVariable Integer id,
                                                      @Valid @RequestBody Question question) {
-        Optional<Question> updatedQuestion = questionService.update(id, question);
+        Optional<Question> updatedQuestion = questionService.update(examId, id, question);
         return updatedQuestion == null ? new ResponseEntity<Optional<Question>>(HttpStatus.NOT_FOUND)
                 : ResponseEntity.ok(updatedQuestion);
     }

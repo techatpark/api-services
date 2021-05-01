@@ -88,9 +88,9 @@ public class QuestionService {
      * @param question
      * @return question
      */
-    public Optional<Question> update(final Integer id, final Question question) {
+    public Optional<Question> update(final Integer examId, final Integer id, final Question question) {
         final String query = "UPDATE questions SET exam_id = ?, question = ?, answer = ? WHERE id = ?";
-        Integer updatedRows = jdbcTemplate.update(query, question.getExamId(), question.getQuestion(),
+        Integer updatedRows = jdbcTemplate.update(query, examId, question.getQuestion(),
                 question.getAnswer(), id);
         return updatedRows == 0 ? null : read(id);
     }
