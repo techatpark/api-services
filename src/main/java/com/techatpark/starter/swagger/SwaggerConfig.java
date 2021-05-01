@@ -28,7 +28,8 @@ import java.util.Iterator;
                 name = "TECHATPARK")
 ),servers = @Server(url = "/",description = "Local"))
 @SecurityScheme(
-        name = "Token",
+        name = "bearerAuth",
+        description = "Token",
         type = SecuritySchemeType.HTTP,
         bearerFormat = "JWT",
         scheme = "bearer"
