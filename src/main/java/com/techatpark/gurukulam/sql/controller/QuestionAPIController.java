@@ -25,35 +25,47 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 @RequestMapping("/api/questions")
 @Tag(name = "Questions", description = "Resource to manage Questions")
 class QuestionAPIController {
-    private final QuestionService questionService;
 
-    QuestionAPIController(final QuestionService questionService) {
-        this.questionService = questionService;
-    }
+        /**
+         * Question service
+         */
+        private final QuestionService questionService;
 
-    @Operation(summary = "Answer the questions",
-            security = @SecurityRequirement(name = "bearerAuth"))
-    @GetMapping("/{id}")
-    public ResponseEntity<Question> findById(@PathVariable Integer id) {
-        return ResponseEntity.of(questionService.read(id));
-    }
+        QuestionAPIController(final QuestionService questionService) {
+                this.questionService = questionService;
+        }
 
-    @Operation(summary = "Updating the questions",
-            security = @SecurityRequirement(name = "bearerAuth"))
-    @PutMapping("/{id}")
-    public ResponseEntity<Optional<Question>> update(@PathVariable Integer id,
-                                                     @Valid @RequestBody Question question) {
-        Optional<Question> updatedQuestion = questionService.update(id, question);
-        return updatedQuestion == null ? new ResponseEntity<Optional<Question>>(HttpStatus.NOT_FOUND)
-                : ResponseEntity.ok(updatedQuestion);
-    }
+        /**
+         * 
+         * @param id question id to be found
+         * @return Question
+         */
+        @Operation(summary = "Answer the questions", security = @SecurityRequirement(name = "bearerAuth"))
+        @GetMapping("/{id}")
+        public ResponseEntity<Question> findById(@PathVariable Integer id) {
+                return ResponseEntity.of(questionService.read(id));
+        }
 
-    @Operation(summary = "Delete the questions",
-            security = @SecurityRequirement(name = "bearerAuth"))
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable Integer id) {
-        return questionService.delete(id) ? ResponseEntity.ok().build()
-                : new ResponseEntity<Void>(HttpStatus.NOT_FOUND);
-    }
+        /**
+         * 
+         * @param id       Question id to be updated
+         * @param question new question object
+         * @return updated question object
+         */
+        @Operation(summary = "Updating the questions", security = @SecurityRequirement(name = "bearerAuth"))
+        @PutMapping("/{id}")
+        public ResponseEntity<Optional<Question>> update(@PathVariable Integer id,
+                        @Valid @RequestBody Question question) {
+                Optional<Question> updatedQuestion = questionService.update(id, question);
+                return updatedQuestion == null ? new ResponseEntity<Optional<Question>>(HttpStatus.NOT_FOUND)
+                                : ResponseEntity.ok(updatedQuestion);
+        }
+
+        @Operation(summary = "Delete the questions", security = @SecurityRequirement(name = "bearerAuth"))
+        @DeleteMapping("/{id}")
+        public ResponseEntity<Void> delete(@PathVariable Integer id) {
+                return questionService.delete(id) ? ResponseEntity.ok().build()
+                                : new ResponseEntity<Void>(HttpStatus.NOT_FOUND);
+        }
 
 }
