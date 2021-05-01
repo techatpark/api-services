@@ -24,12 +24,11 @@ import java.util.Iterator;
         description = "Gurukulam API Documentation",
         license = @License(name = "Apache 2.0",
                 url = "https://foo.bar"),
-        contact = @Contact(url = "https://www.gurukulam.techatpark.com",
-                name = "Fred",
-                email = "Fred@gigagantic-server.com")
+        contact = @Contact(url = "https://www.techatpark.com",
+                name = "TECHATPARK")
 ),servers = @Server(url = "/",description = "Local"))
 @SecurityScheme(
-        name = "bearerAuth",
+        name = "Token",
         type = SecuritySchemeType.HTTP,
         bearerFormat = "JWT",
         scheme = "bearer"
