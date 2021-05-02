@@ -2,6 +2,7 @@ package com.techatpark.starter.security;
 
 import com.techatpark.starter.security.filter.TokenFilter;
 import com.techatpark.starter.security.utils.TokenUtil;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -29,11 +30,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     public void configure(WebSecurity web) throws Exception {
-        web
-                .ignoring()
-                .antMatchers("/swagger-ui.html", "/swagger-ui/**", "/v3/api-docs/**",
-                        "/resources/**", "/static/**", "/css/**", "/js/**",
-                        "/courses/**", "/courses/**/**", "/practices/**", "/images/**");
+        web.ignoring().antMatchers("/swagger-ui.html", "/swagger-ui/**", "/v3/api-docs/**", "/resources/**",
+                "/static/**", "/css/**", "/js/**", "/courses/**", "/courses/**/**", "/courses/**/**/**/",
+                "/practices/**", "/images/**");
     }
 
     /**
@@ -73,15 +72,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected UserDetailsService userDetailsService() {
         return new InMemoryUserDetailsManager(
-                User.withUsername("tom")
-                        .password(passwordEncoder().encode("password"))
-                        .roles("USER")
-                        .build(),
-                User.withUsername("jerry")
-                        .password(passwordEncoder().encode("password"))
-                        .roles("USER")
-                        .build()
-        );
+                User.withUsername("tom").password(passwordEncoder().encode("password")).roles("USER").build(),
+                User.withUsername("jerry").password(passwordEncoder().encode("password")).roles("USER").build());
     }
 
     /**
