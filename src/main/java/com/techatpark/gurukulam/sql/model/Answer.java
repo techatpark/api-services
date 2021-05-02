@@ -31,10 +31,10 @@ public class Answer {
     /**
      * sets student answer id.
      *
-     * @param id
+     * @param anId
      */
-    public void setId(final Integer id) {
-        this.id = id;
+    public void setId(final Integer anId) {
+        this.id = anId;
     }
 
     /**
@@ -49,10 +49,10 @@ public class Answer {
     /**
      * sets exam id.
      *
-     * @param examId
+     * @param anExamId
      */
-    public void setExamId(final Integer examId) {
-        this.examId = examId;
+    public void setExamId(final Integer anExamId) {
+        this.examId = anExamId;
     }
 
     /**
@@ -67,10 +67,10 @@ public class Answer {
     /**
      * sets question id.
      *
-     * @param questionId
+     * @param anQuestionId
      */
-    public void setQuestionId(final Integer questionId) {
-        this.questionId = questionId;
+    public void setQuestionId(final Integer anQuestionId) {
+        this.questionId = anQuestionId;
     }
 
     /**
@@ -85,10 +85,10 @@ public class Answer {
     /**
      * sets student answer.
      *
-     * @param studentAnswer
+     * @param aStudentAnswer
      */
-    public void setStudentAnswer(final String studentAnswer) {
-        this.studentAnswer = studentAnswer;
+    public void setStudentAnswer(final String aStudentAnswer) {
+        this.studentAnswer = aStudentAnswer;
     }
 
 }

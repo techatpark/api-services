@@ -1,7 +1,5 @@
 package com.techatpark.gurukulam.sql.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import javax.validation.constraints.NotBlank;
 
 public class Question {
@@ -38,10 +36,10 @@ public class Question {
     /**
      * sets the id of question.
      *
-     * @param id
+     * @param anId
      */
-    public void setId(final Integer id) {
-        this.id = id;
+    public void setId(final Integer anId) {
+        this.id = anId;
     }
 
     /**
@@ -56,10 +54,10 @@ public class Question {
     /**
      * sets the examid of question.
      *
-     * @param examId
+     * @param anExamId
      */
-    public void setExamId(final Integer examId) {
-        this.examId = examId;
+    public void setExamId(final Integer anExamId) {
+        this.examId = anExamId;
     }
 
     /**
@@ -74,10 +72,10 @@ public class Question {
     /**
      * sets the question.
      *
-     * @param question
+     * @param anQuestion
      */
-    public void setQuestion(final String question) {
-        this.question = question;
+    public void setQuestion(final String anQuestion) {
+        this.question = anQuestion;
     }
 
     /**
@@ -92,10 +90,10 @@ public class Question {
     /**
      * sets the answer.
      *
-     * @param answer
+     * @param anAnswer
      */
-    public void setAnswer(final String answer) {
-        this.answer = answer;
+    public void setAnswer(final String anAnswer) {
+        this.answer = anAnswer;
     }
 
 }

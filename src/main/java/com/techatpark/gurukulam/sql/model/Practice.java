@@ -1,7 +1,5 @@
 package com.techatpark.gurukulam.sql.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 public class Practice {
     /**
      * tells the id of the exam.
@@ -39,10 +37,10 @@ public class Practice {
     /**
      * sets the id of exam.
      *
-     * @param id
+     * @param anId
      */
-    public void setId(final Integer id) {
-        this.id = id;
+    public void setId(final Integer anId) {
+        this.id = anId;
     }
 
     /**
@@ -57,10 +55,10 @@ public class Practice {
     /**
      * sets the exam name.
      *
-     * @param name
+     * @param aName
      */
-    public void setName(final String name) {
-        this.name = name;
+    public void setName(final String aName) {
+        this.name = aName;
     }
 
     /**
@@ -75,10 +73,10 @@ public class Practice {
     /**
      * sets database.
      *
-     * @param database
+     * @param aDatabase
      */
-    public void setDatabase(final Database database) {
-        this.database = database;
+    public void setDatabase(final Database aDatabase) {
+        this.database = aDatabase;
     }
 
     /**
@@ -93,10 +91,10 @@ public class Practice {
     /**
      * sets script.
      *
-     * @param script
+     * @param aScript
      */
-    public void setScript(String script) {
-        this.script = script;
+    public void setScript(final String aScript) {
+        this.script = aScript;
     }
 
     /**
@@ -111,9 +109,9 @@ public class Practice {
     /**
      * sets description.
      *
-     * @param description
+     * @param aDescription
      */
-    public void setDescription(String description) {
-        this.description = description;
+    public void setDescription(final String aDescription) {
+        this.description = aDescription;
     }
 }

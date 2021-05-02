@@ -50,14 +50,16 @@ public class SQLPracticeService {
     };
 
     /**
-     * @param jdbcTemplate
-     * @param dataSource
-     * @param applicationContext
+     * @param aJdbcTemplate
+     * @param aDatasource
+     * @param anApplicationContext
      */
-    public SQLPracticeService(final JdbcTemplate jdbcTemplate, final DataSource dataSource, ApplicationContext applicationContext) {
-        this.jdbcTemplate = jdbcTemplate;
-        this.dataSource = dataSource;
-        this.applicationContext = applicationContext;
+    public SQLPracticeService(final JdbcTemplate aJdbcTemplate,
+                              final DataSource aDatasource,
+                              final ApplicationContext anApplicationContext) {
+        this.jdbcTemplate = aJdbcTemplate;
+        this.dataSource = aDatasource;
+        this.applicationContext = anApplicationContext;
     }
 
     /**
@@ -70,7 +72,8 @@ public class SQLPracticeService {
         final SimpleJdbcInsert insert = new SimpleJdbcInsert(dataSource)
                 .withTableName("practices")
                 .usingGeneratedKeyColumns("id")
-                .usingColumns("name", "database_type", "script", "description");
+                .usingColumns("name", "database_type", "script",
+                        "description");
         final Map<String, Object> valueMap = Map.of("name", practice.getName(),
                 "database_type", practice.getDatabase().getValue(),
                 "script", practice.getScript(),
@@ -89,8 +92,9 @@ public class SQLPracticeService {
      * @param practice
      */
     private void loadScripts(final Practice practice) {
-        final DatabaseConnector databaseConnector = DatabaseConnector.getDatabaseConnector(practice.getDatabase(),
-                applicationContext);
+        final DatabaseConnector databaseConnector =
+                DatabaseConnector.getDatabaseConnector(practice.getDatabase(),
+                        applicationContext);
         databaseConnector.loadScript(practice);
     }
 
@@ -100,8 +104,9 @@ public class SQLPracticeService {
      * @param practice
      */
     private void unloadScripts(final Practice practice) {
-        final DatabaseConnector databaseConnector = DatabaseConnector.getDatabaseConnector(practice.getDatabase(),
-                applicationContext);
+        final DatabaseConnector databaseConnector =
+                DatabaseConnector.getDatabaseConnector(practice.getDatabase(),
+                        applicationContext);
         databaseConnector.unloadScript(practice);
     }
 
@@ -113,9 +118,13 @@ public class SQLPracticeService {
      * @return practice
      */
     public Optional<Practice> read(final Integer newPracticeId) {
-        final String query = "SELECT id,name,script,description,database_type FROM practices WHERE id = ?";
+        final String query =
+                "SELECT id,name,script,description,database_type "
+                        + "FROM practices WHERE id = ?";
         try {
-            return Optional.of(jdbcTemplate.queryForObject(query, new Object[]{newPracticeId}, rowMapper));
+            return Optional.of(jdbcTemplate
+                    .queryForObject(query, new Object[]{newPracticeId},
+                            rowMapper));
         } catch (final EmptyResultDataAccessException e) {
             return Optional.empty();
         }
@@ -129,8 +138,11 @@ public class SQLPracticeService {
      * @return practice
      * @TODO Soft Delete
      */
-    public Optional<Practice> update(final Integer id, final Practice practice) {
-        final String query = "UPDATE practices SET name = ?, database_type = ?, script = ? ,description = ? WHERE id = ?";
+    public Optional<Practice> update(final Integer id,
+                                     final Practice practice) {
+        final String query =
+                "UPDATE practices SET name = ?, database_type = ?, script = ? ,"
+                        + "description = ? WHERE id = ?";
         final Integer updatedRows = jdbcTemplate.update(query,
                 practice.getName(),
                 practice.getDatabase().getValue(),
@@ -178,7 +190,9 @@ public class SQLPracticeService {
      */
     public List<Practice> list() {
 
-        String recordsQuery = "SELECT id,name,script,description,database_type FROM practices";
+        String recordsQuery =
+                "SELECT id,name,script,description,database_type"
+                        + " FROM practices";
 
         return jdbcTemplate.query(recordsQuery, rowMapper);
     }
@@ -191,14 +205,18 @@ public class SQLPracticeService {
      */
     public Page<Practice> page(final Pageable pageable) {
 
-        String recordsQuery = "SELECT id,name,script,description,database_type FROM practices LIMIT "
-                + pageable.getPageSize()
-                + " OFFSET "
-                + ((pageable.getPageNumber() * pageable.getPageSize()));
+        String recordsQuery =
+                "SELECT id,name,script,description,database_type"
+                        + " FROM practices LIMIT "
+                        + pageable.getPageSize()
+                        + " OFFSET "
+                        +
+                        ((pageable.getPageNumber() * pageable.getPageSize()));
 
         String countsQuery = "SELECT COUNT(id) FROM practices";
 
-        return new PageImpl<Practice>(jdbcTemplate.query(recordsQuery, rowMapper), pageable,
+        return new PageImpl<Practice>(
+                jdbcTemplate.query(recordsQuery, rowMapper), pageable,
                 jdbcTemplate.queryForObject(countsQuery, Long.class));
     }
 

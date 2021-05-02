@@ -22,12 +22,13 @@ public class AnswerService {
     /**
      * Constructs Answer Service.
      *
-     * @param jdbcTemplate
-     * @param questionService
+     * @param aJdbcTemplate
+     * @param anQuestionService
      */
-    AnswerService(final JdbcTemplate jdbcTemplate, final QuestionService questionService) {
-        this.jdbcTemplate = jdbcTemplate;
-        this.questionService = questionService;
+    AnswerService(final JdbcTemplate aJdbcTemplate,
+                  final QuestionService anQuestionService) {
+        this.jdbcTemplate = aJdbcTemplate;
+        this.questionService = anQuestionService;
     }
 
     /**
@@ -37,13 +38,17 @@ public class AnswerService {
      * @param answer
      * @return true
      */
-    public final Boolean answer(final Integer questionId, final String answer) {
+    public final Boolean answer(final Integer questionId,
+                                final String answer) {
         Boolean isRigntAnswer = false;
         Optional<Question> question = questionService.read(questionId);
         if (question.isPresent()) {
-            String verificationSQL = "SELECT COUNT(*) FROM ( " + question.get().getAnswer() + " except " + answer
-                    + " ) AS TOTAL_ROWS";
-            Integer count = jdbcTemplate.queryForObject(verificationSQL, Integer.class);
+            String verificationSQL =
+                    "SELECT COUNT(*) FROM ( " + question.get().getAnswer()
+                            + " except " + answer
+                            + " ) AS TOTAL_ROWS";
+            Integer count = jdbcTemplate
+                    .queryForObject(verificationSQL, Integer.class);
             isRigntAnswer = (count == 0);
         }
         return isRigntAnswer;

@@ -17,14 +17,16 @@ public class PostgressDatabaseConnector extends DatabaseConnector {
     /**
      * logger for thiss class.
      */
-    private final Logger logger = LoggerFactory.getLogger(PostgressDatabaseConnector.class);
+    private final Logger logger = LoggerFactory.getLogger(
+            PostgressDatabaseConnector.class);
 
     /**
      * Creates Postgress Connector.
      *
      * @param dataSource
      */
-    public PostgressDatabaseConnector(@Qualifier("postgresqlDataSource") final DataSource dataSource) {
+    public PostgressDatabaseConnector(
+            @Qualifier("postgresqlDataSource") final DataSource dataSource) {
         super(dataSource);
     }
 
@@ -35,11 +37,14 @@ public class PostgressDatabaseConnector extends DatabaseConnector {
      * @return Boolean
      */
     @Override
-    public final Boolean verify(final Practice exam, final Question question, final String sqlAnswer) {
+    public final Boolean verify(final Practice exam, final Question question,
+                                final String sqlAnswer) {
         Boolean isRigntAnswer = false;
         try {
-            String verificationSQL = "SELECT COUNT(*) FROM ( " + question.getAnswer() + " except " + sqlAnswer
-                    + " ) AS TOTAL_ROWS";
+            String verificationSQL =
+                    "SELECT COUNT(*) FROM ( " + question.getAnswer()
+                            + " except " + sqlAnswer
+                            + " ) AS TOTAL_ROWS";
             Integer count = this.getCount(verificationSQL, exam);
             isRigntAnswer = (count == 0);
 

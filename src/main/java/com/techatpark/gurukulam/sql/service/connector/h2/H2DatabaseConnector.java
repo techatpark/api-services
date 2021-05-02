@@ -19,11 +19,21 @@ public class H2DatabaseConnector extends DatabaseConnector {
     /**
      * logger for thiss class.
      */
-    private final Logger logger = LoggerFactory.getLogger(H2DatabaseConnector.class);
+    private final Logger logger = LoggerFactory.getLogger(
+            H2DatabaseConnector.class);
+    /**
+     * declare a string jdbcUrl.
+     */
     @Value("${spring.datasource.jdbcUrl}")
     private String jdbcUrl;
+    /**
+     * declare a string userName.
+     */
     @Value("${spring.datasource.username}")
     private String username;
+    /**
+     * declare a string password.
+     */
     @Value("${spring.datasource.password}")
     private String password;
 
@@ -43,10 +53,14 @@ public class H2DatabaseConnector extends DatabaseConnector {
      * @return Boolean
      */
     @Override
-    public final Boolean verify(final Practice exam, final Question question, final String sqlAnswer) {
+    public final Boolean verify(final Practice exam,
+                                final Question question,
+                                final String sqlAnswer) {
         Boolean isRigntAnswer = false;
         try {
-            String verificationSQL = "SELECT COUNT(*) FROM ( " + question.getAnswer() + " except " + sqlAnswer
+            String verificationSQL = "SELECT COUNT(*) FROM ( "
+                    + question.getAnswer()
+                    + " except " + sqlAnswer
                     + " ) AS TOTAL_ROWS";
             Integer count = this.getCount(verificationSQL, exam);
             isRigntAnswer = (count == 0);

@@ -10,9 +10,10 @@ public final class AuthenticationResponse {
     private final String profilePicture;
 
     @JsonCreator
-    public AuthenticationResponse(@JsonProperty("authToken") final String authToken,
-                                  @JsonProperty("refresh_token") final String refreshToken,
-                                  @JsonProperty("profile_pic") String profilePicture) {
+    public AuthenticationResponse(
+            @JsonProperty("authToken") final String authToken,
+            @JsonProperty("refresh_token") final String refreshToken,
+            @JsonProperty("profile_pic") String profilePicture) {
         this.authToken = authToken;
         this.refreshToken = refreshToken;
         this.profilePicture = profilePicture;

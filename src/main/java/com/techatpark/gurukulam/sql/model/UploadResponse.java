@@ -24,10 +24,10 @@ public class UploadResponse {
     /**
      * sets the id.
      *
-     * @param id
+     * @param anId
      */
-    public void setId(final Integer id) {
-        this.id = id;
+    public void setId(final Integer anId) {
+        this.id = anId;
     }
 
     /**
@@ -42,10 +42,10 @@ public class UploadResponse {
     /**
      * set content.
      *
-     * @param content
+     * @param aContent
      */
-    public void setContent(final Blob content) {
-        this.content = content;
+    public void setContent(final Blob aContent) {
+        this.content = aContent;
     }
 
 }

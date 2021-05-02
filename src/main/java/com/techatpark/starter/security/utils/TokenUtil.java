@@ -18,25 +18,44 @@ import java.util.concurrent.TimeUnit;
 @Component
 public class TokenUtil {
 
+    /**
+     * declare variable secret.
+     */
     private final String secret = "javatoday";
+    /**
+     * declare variable duration.
+     */
+    private final Integer duration = 120;
 
-    public String generateToken(UserDetails userDetails) {
+    /**
+     * generate token after login.
+     *
+     * @param userDetails
+     * @return token
+     */
+    public String generateToken(final UserDetails userDetails) {
         return Jwts.builder()
                 .setClaims(new HashMap<>())
                 .setSubject(userDetails.getUsername())
                 .setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis()
-                        + TimeUnit.MILLISECONDS.convert(Duration.ofMinutes(120))))
+                        + TimeUnit.MILLISECONDS
+                        .convert(Duration.ofMinutes(duration))))
                 .signWith(SignatureAlgorithm.HS512, secret).compact();
     }
 
-    public Authentication getAuthentication(String token) {
+    /**
+     * get the subject details.
+     * @param token
+     * @return authentication object
+     */
+    public Authentication getAuthentication(final String token) {
         Claims claims = parseToken(token);
         return new UsernamePasswordAuthenticationToken(
                 claims.getSubject(), null, List.of());
     }
 
-    private Claims parseToken(String token) {
+    private Claims parseToken(final String token) {
         try {
             Claims body = Jwts.parser()
                     .setSigningKey(secret)

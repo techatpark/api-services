@@ -11,7 +11,8 @@ public class NotValidAnswerException extends RuntimeException {
      * @param throwable
      * @param message
      */
-    public NotValidAnswerException(final String message, final Throwable throwable) {
+    public NotValidAnswerException(final String message,
+                                   final Throwable throwable) {
         super(message, throwable);
     }
 }

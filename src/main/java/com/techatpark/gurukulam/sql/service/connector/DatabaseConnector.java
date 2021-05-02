@@ -18,7 +18,8 @@ public abstract class DatabaseConnector {
     /**
      * Contains Connector Implementation Mappings.
      */
-    private static final Map<String, DatabaseConnector> mapping = new HashMap<>();
+    private static final Map<String, DatabaseConnector> MAPPING =
+            new HashMap<>();
     /**
      * Actual Database Store.
      */
@@ -27,10 +28,10 @@ public abstract class DatabaseConnector {
     /**
      * Creates a Database Connector.
      *
-     * @param dataSource
+     * @param aDataSource
      */
-    public DatabaseConnector(final DataSource dataSource) {
-        this.dataSource = dataSource;
+    public DatabaseConnector(final DataSource aDataSource) {
+        this.dataSource = aDataSource;
     }
 
     /**
@@ -40,12 +41,14 @@ public abstract class DatabaseConnector {
      * @param applicationContext
      * @return dbconnector
      */
-    public static DatabaseConnector getDatabaseConnector(final Database database,
-                                                         final ApplicationContext applicationContext) {
-        DatabaseConnector databaseConnector = mapping.get(database.getValue());
+    public static DatabaseConnector getDatabaseConnector(
+            final Database database,
+            final ApplicationContext applicationContext) {
+        DatabaseConnector databaseConnector = MAPPING.get(database.getValue());
         if (databaseConnector == null) {
-            databaseConnector = applicationContext.getBean(database.getConnectorClass());
-            mapping.put(database.getValue(), databaseConnector);
+            databaseConnector =
+                    applicationContext.getBean(database.getConnectorClass());
+            MAPPING.put(database.getValue(), databaseConnector);
         }
         return databaseConnector;
     }
@@ -58,7 +61,8 @@ public abstract class DatabaseConnector {
      * @param sqlAnswer
      * @return successflag
      */
-    public abstract Boolean verify(Practice exam, Question question, String sqlAnswer);
+    public abstract Boolean verify(Practice exam, Question question,
+                                   String sqlAnswer);
 
     /**
      * Load the script for the specific exam.
@@ -93,7 +97,15 @@ public abstract class DatabaseConnector {
         return connection;
     }
 
-    protected Integer getCount(final String countQuery, final Practice practice) {
+    /**
+     * Get the count from a specific query.
+     *
+     * @param countQuery
+     * @param practice
+     * @return count
+     */
+    protected Integer getCount(final String countQuery,
+                               final Practice practice) {
         Integer count = -1;
         try (Connection connection = getConnection(practice);
              Statement statement = connection.createStatement();
@@ -107,10 +119,18 @@ public abstract class DatabaseConnector {
         return count;
     }
 
-    protected Integer update(final String updateQuery, final Practice practice) {
+    /**
+     * Update a database using a query.
+     *
+     * @param updateQuery
+     * @param practice
+     * @return numberOfUpdatedRows
+     */
+    protected Integer update(final String updateQuery,
+                             final Practice practice) {
         Integer count = -1;
         try (Connection connection = getConnection(practice);
-             Statement statement = connection.createStatement();) {
+             Statement statement = connection.createStatement()) {
             count = statement.executeUpdate(updateQuery);
         } catch (final SQLException sqlException) {
             sqlException.printStackTrace();

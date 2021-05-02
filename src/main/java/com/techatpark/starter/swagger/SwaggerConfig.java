@@ -26,7 +26,7 @@ import java.util.Iterator;
                 url = "https://foo.bar"),
         contact = @Contact(url = "https://www.techatpark.com",
                 name = "TECHATPARK")
-),servers = @Server(url = "/",description = "Local"))
+), servers = @Server(url = "/", description = "Local"))
 @SecurityScheme(
         name = "bearerAuth",
         description = "Token",
@@ -35,14 +35,23 @@ import java.util.Iterator;
         scheme = "bearer"
 )
 public class SwaggerConfig implements ModelConverter {
+    /**
+     *
+     * @param type
+     * @param context
+     * @param chain
+     * @return schema
+     */
     @Override
-    public Schema resolve(AnnotatedType type, final ModelConverterContext context,
+    public Schema resolve(AnnotatedType type,
+                          final ModelConverterContext context,
                           final Iterator<ModelConverter> chain) {
         final JavaType javaType = Json.mapper().constructType(type.getType());
         if (javaType != null) {
             final Class<?> cls = javaType.getRawClass();
             if (Page.class.isAssignableFrom(cls)) {
-                final JavaType innerType = javaType.getBindings().getBoundType(0);
+                final JavaType innerType = javaType.getBindings()
+                        .getBoundType(0);
                 if (innerType.getBindings() != null) {
                     type = new AnnotatedType(innerType)
                             .jsonViewAnnotation(type.getJsonViewAnnotation())

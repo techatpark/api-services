@@ -2,7 +2,6 @@ package com.techatpark.starter.security;
 
 import com.techatpark.starter.security.filter.TokenFilter;
 import com.techatpark.starter.security.utils.TokenUtil;
-
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -22,16 +21,30 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
+    /**
+     * declare tokenUtil.
+     */
     private final TokenUtil tokenUtil;
 
-    public SecurityConfig(TokenUtil tokenUtil) {
-        this.tokenUtil = tokenUtil;
+    /**
+     * constructor.
+     *
+     * @param aTokenUtil
+     */
+    public SecurityConfig(final TokenUtil aTokenUtil) {
+        this.tokenUtil = aTokenUtil;
     }
 
+    /**
+     * @param web
+     * @throws Exception
+     */
     @Override
-    public void configure(WebSecurity web) throws Exception {
-        web.ignoring().antMatchers("/swagger-ui.html", "/swagger-ui/**", "/v3/api-docs/**", "/resources/**",
-                "/static/**", "/css/**", "/js/**", "/courses/**", "/courses/**/**", "/courses/**/**/**/",
+    public void configure(final WebSecurity web) throws Exception {
+        web.ignoring().antMatchers("/swagger-ui.html", "/swagger-ui/**",
+                "/v3/api-docs/**", "/resources/**",
+                "/static/**", "/css/**", "/js/**", "/courses/**",
+                "/courses/**/**", "/courses/**/**/**/",
                 "/practices/**", "/images/**");
     }
 
@@ -40,7 +53,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
      * @throws Exception
      */
     @Override
-    protected void configure(final HttpSecurity httpSecurity) throws Exception {
+    protected void configure(final HttpSecurity httpSecurity)
+            throws Exception {
         //@formatter:off
         httpSecurity
                 .requiresChannel()
@@ -55,14 +69,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                     .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeRequests()
-                    .antMatchers("/","/api/info",
+                    .antMatchers("/", "/api/info",
                             "/api/auth/login")
                         .permitAll()
                     .anyRequest()
                         .authenticated();
         //@formatter:on
 
-        httpSecurity.addFilterBefore(new TokenFilter(tokenUtil), UsernamePasswordAuthenticationFilter.class);
+        httpSecurity.addFilterBefore(new TokenFilter(tokenUtil),
+                UsernamePasswordAuthenticationFilter.class);
     }
 
     /**
@@ -72,8 +87,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected UserDetailsService userDetailsService() {
         return new InMemoryUserDetailsManager(
-                User.withUsername("tom").password(passwordEncoder().encode("password")).roles("USER").build(),
-                User.withUsername("jerry").password(passwordEncoder().encode("password")).roles("USER").build());
+                User.withUsername("tom")
+                        .password(passwordEncoder().encode("password"))
+                        .roles("USER").build(),
+                User.withUsername("jerry")
+                        .password(passwordEncoder().encode("password"))
+                        .roles("USER").build());
     }
 
     /**
@@ -84,6 +103,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         return new BCryptPasswordEncoder();
     }
 
+    /**
+     * @return
+     * @throws Exception
+     */
     @Override
     @Bean
     public AuthenticationManager authenticationManagerBean() throws Exception {

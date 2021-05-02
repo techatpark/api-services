@@ -12,9 +12,12 @@ import com.techatpark.gurukulam.sql.service.connector.postgress.PostgressDatabas
 public enum Database {
 
     /**
-     * available database.
+     * h2 database.
      */
     H2("h2", H2DatabaseConnector.class),
+    /**
+     * postgresql database.
+     */
     POSTGRES("postgresql", PostgressDatabaseConnector.class);
 
     /**
@@ -30,12 +33,13 @@ public enum Database {
     /**
      * constructor to create type of database.
      *
-     * @param value
-     * @param clazz
+     * @param aValue
+     * @param aClazz
      */
-    Database(final String value, final Class<? extends DatabaseConnector> clazz) {
-        this.value = value;
-        this.clazz = clazz;
+    Database(final String aValue, final Class<? extends DatabaseConnector>
+            aClazz) {
+        this.value = aValue;
+        this.clazz = aClazz;
     }
 
     /**
@@ -46,8 +50,8 @@ public enum Database {
      */
     @JsonCreator
     public static Database of(final String value) {
-        for (Database database :
-                values()) {
+        for (Database database
+                : values()) {
             if (value.equals(database.value)) {
                 return database;
             }

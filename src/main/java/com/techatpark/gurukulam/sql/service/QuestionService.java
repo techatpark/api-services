@@ -39,12 +39,13 @@ public class QuestionService {
     /**
      * initializes.
      *
-     * @param jdbcTemplate
-     * @param dataSource
+     * @param aJdbcTemplate
+     * @param aDataSource
      */
-    public QuestionService(final JdbcTemplate jdbcTemplate, final DataSource dataSource) {
-        this.jdbcTemplate = jdbcTemplate;
-        this.dataSource = dataSource;
+    public QuestionService(final JdbcTemplate aJdbcTemplate,
+                           final DataSource aDataSource) {
+        this.jdbcTemplate = aJdbcTemplate;
+        this.dataSource = aDataSource;
     }
 
     /**
@@ -54,9 +55,12 @@ public class QuestionService {
      * @param examId
      * @return question
      */
-    public Optional<Question> create(final Integer examId, final Question question) {
-        final SimpleJdbcInsert insert = new SimpleJdbcInsert(dataSource).withTableName("questions")
-                .usingGeneratedKeyColumns("id").usingColumns("exam_id", "question", "answer");
+    public Optional<Question> create(final Integer examId,
+                                     final Question question) {
+        final SimpleJdbcInsert insert =
+                new SimpleJdbcInsert(dataSource).withTableName("questions")
+                        .usingGeneratedKeyColumns("id")
+                        .usingColumns("exam_id", "question", "answer");
 
         final Map<String, Object> valueMap = new HashMap<>();
         valueMap.put("exam_id", examId);
@@ -73,9 +77,11 @@ public class QuestionService {
      * @return question
      */
     public Optional<Question> read(final Integer id) {
-        final String query = "SELECT id,exam_id,question,answer FROM questions WHERE id = ?";
+        final String query =
+                "SELECT id,exam_id,question,answer FROM questions WHERE id = ?";
         try {
-            return Optional.of(jdbcTemplate.queryForObject(query, new Object[]{id}, rowMapper));
+            return Optional.of(jdbcTemplate
+                    .queryForObject(query, new Object[]{id}, rowMapper));
         } catch (EmptyResultDataAccessException e) {
             return Optional.empty();
         }
@@ -86,12 +92,17 @@ public class QuestionService {
      *
      * @param id
      * @param question
+     * @param examId
      * @return question
      */
-    public Optional<Question> update(final Integer examId, final Integer id, final Question question) {
-        final String query = "UPDATE questions SET exam_id = ?, question = ?, answer = ? WHERE id = ?";
-        Integer updatedRows = jdbcTemplate.update(query, examId, question.getQuestion(),
-                question.getAnswer(), id);
+    public Optional<Question> update(final Integer examId, final Integer id,
+                                     final Question question) {
+        final String query =
+                "UPDATE questions SET exam_id = ?,"
+                        + " question = ?, answer = ? WHERE id = ?";
+        Integer updatedRows =
+                jdbcTemplate.update(query, examId, question.getQuestion(),
+                        question.getAnswer(), id);
         return updatedRows == 0 ? null : read(id);
     }
 
@@ -135,7 +146,8 @@ public class QuestionService {
      * @param pageSize
      * @return question
      */
-    public List<Question> list(final Integer pageNumber, final Integer pageSize) {
+    public List<Question> list(final Integer pageNumber,
+                               final Integer pageSize) {
         String query = "SELECT id,exam_id,question,answer FROM questions";
         query = query + " LIMIT " + pageSize + " OFFSET " + (pageNumber - 1);
         return jdbcTemplate.query(query, rowMapper);
