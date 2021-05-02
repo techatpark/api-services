@@ -10,20 +10,34 @@ import org.springframework.boot.web.servlet.server.ServletWebServerFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+/**
+ * Service configurations.
+ */
 @Configuration
 public class ServerConfig {
 
+    /**
+     * server port.
+     */
     @Value("${http.port}")
     private Integer httpPort;
 
+    /**
+     * server's https port.
+     */
     @Value("${server.port}")
     private Integer httpsPort;
 
+    /**
+     * method to get servlet containers.
+     * 
+     * @return ServletWebServerFactory
+     */
     @Bean
     public ServletWebServerFactory servletContainer() {
         TomcatServletWebServerFactory tomcat = new TomcatServletWebServerFactory() {
             @Override
-            protected void postProcessContext(Context context) {
+            protected void postProcessContext(final Context context) {
                 SecurityConstraint securityConstraint = new SecurityConstraint();
                 securityConstraint.setUserConstraint("CONFIDENTIAL");
                 SecurityCollection collection = new SecurityCollection();
