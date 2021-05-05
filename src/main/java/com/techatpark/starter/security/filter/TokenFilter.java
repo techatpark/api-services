@@ -12,21 +12,38 @@ import java.io.IOException;
 
 public class TokenFilter extends OncePerRequestFilter {
 
+    /**
+     * declare a TokenUtil.
+     */
     private final TokenUtil tokenUtil;
 
-    public TokenFilter(final TokenUtil tokenUtil) {
-        this.tokenUtil = tokenUtil;
+    /**
+     * @param aTokenUtil
+     */
+    public TokenFilter(final TokenUtil aTokenUtil) {
+        this.tokenUtil = aTokenUtil;
     }
 
+    /**
+     * @param httpServletRequest
+     * @param httpServletResponse
+     * @param filterChain
+     * @throws ServletException
+     * @throws IOException
+     */
     @Override
-    protected void doFilterInternal(HttpServletRequest httpServletRequest,
-                                    HttpServletResponse httpServletResponse,
-                                    FilterChain filterChain) throws ServletException, IOException {
-        String authorizationHeader = httpServletRequest.getHeader("Authorization");
+    protected void doFilterInternal(
+            final HttpServletRequest httpServletRequest,
+            final HttpServletResponse httpServletResponse,
+            final FilterChain filterChain) throws ServletException,
+            IOException {
+        String authorizationHeader =
+                httpServletRequest.getHeader("Authorization");
 
         if (authorizationHeader != null) {
             String token = authorizationHeader.split(" ")[1];
-            SecurityContextHolder.getContext().setAuthentication(tokenUtil.getAuthentication(token));
+            SecurityContextHolder.getContext()
+                    .setAuthentication(tokenUtil.getAuthentication(token));
         }
 
         filterChain.doFilter(httpServletRequest, httpServletResponse);

@@ -30,15 +30,17 @@ public class ServerConfig {
 
     /**
      * method to get servlet containers.
-     * 
+     *
      * @return ServletWebServerFactory
      */
     @Bean
     public ServletWebServerFactory servletContainer() {
-        TomcatServletWebServerFactory tomcat = new TomcatServletWebServerFactory() {
+        TomcatServletWebServerFactory tomcat = new
+                TomcatServletWebServerFactory() {
             @Override
             protected void postProcessContext(final Context context) {
-                SecurityConstraint securityConstraint = new SecurityConstraint();
+                SecurityConstraint securityConstraint = new
+                        SecurityConstraint();
                 securityConstraint.setUserConstraint("CONFIDENTIAL");
                 SecurityCollection collection = new SecurityCollection();
                 collection.addPattern("/*");
@@ -51,7 +53,8 @@ public class ServerConfig {
     }
 
     private Connector getHttpConnector() {
-        Connector connector = new Connector(TomcatServletWebServerFactory.DEFAULT_PROTOCOL);
+        Connector connector = new Connector(TomcatServletWebServerFactory
+                .DEFAULT_PROTOCOL);
         connector.setScheme("http");
         connector.setPort(httpPort);
         connector.setSecure(false);
