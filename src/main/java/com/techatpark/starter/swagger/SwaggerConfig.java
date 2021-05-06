@@ -43,29 +43,29 @@ public class SwaggerConfig implements ModelConverter {
      * @return schema
      */
     @Override
-    public Schema resolve(AnnotatedType type,
+    public Schema resolve(final AnnotatedType type,
                           final ModelConverterContext context,
                           final Iterator<ModelConverter> chain) {
         final JavaType javaType = Json.mapper().constructType(type.getType());
+        AnnotatedType typeToChain = type;
         if (javaType != null) {
             final Class<?> cls = javaType.getRawClass();
             if (Page.class.isAssignableFrom(cls)) {
                 final JavaType innerType = javaType.getBindings()
                         .getBoundType(0);
                 if (innerType.getBindings() != null) {
-                    type = new AnnotatedType(innerType)
+                    return this.resolve(new AnnotatedType(innerType)
                             .jsonViewAnnotation(type.getJsonViewAnnotation())
-                            .resolveAsRef(true);
-                    return this.resolve(type, context, chain);
+                            .resolveAsRef(true), context, chain);
                 } else {
-                    type = new AnnotatedType(innerType)
+                    typeToChain = new AnnotatedType(innerType)
                             .jsonViewAnnotation(type.getJsonViewAnnotation())
                             .resolveAsRef(true);
                 }
             }
         }
         if (chain.hasNext()) {
-            return chain.next().resolve(type, context, chain);
+            return chain.next().resolve(typeToChain, context, chain);
         } else {
             return null;
         }
