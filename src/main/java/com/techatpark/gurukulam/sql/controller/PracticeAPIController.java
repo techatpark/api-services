@@ -4,7 +4,7 @@ import com.techatpark.gurukulam.sql.model.Practice;
 import com.techatpark.gurukulam.sql.model.Question;
 import com.techatpark.gurukulam.sql.service.AnswerService;
 import com.techatpark.gurukulam.sql.service.QuestionService;
-import com.techatpark.gurukulam.sql.service.SQLPracticeService;
+import com.techatpark.gurukulam.sql.service.PracticeService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -34,11 +34,11 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/api/practices/sql")
 @Tag(name = "Practices", description = "Resource to manage practices")
-class SQLPracticeAPIController {
+class PracticeAPIController {
     /**
      * sqlPracticeService.
      */
-    private final SQLPracticeService sqlPracticeService;
+    private final PracticeService practiceService;
     /**
      * questionService.
      */
@@ -48,10 +48,10 @@ class SQLPracticeAPIController {
      */
     private final AnswerService answerService;
 
-    SQLPracticeAPIController(final SQLPracticeService newSqlPracticeService,
-                             final QuestionService newQuestionService,
-                             final AnswerService newAnswerService) {
-        this.sqlPracticeService = newSqlPracticeService;
+    PracticeAPIController(final PracticeService newPracticeService,
+                          final QuestionService newQuestionService,
+                          final AnswerService newAnswerService) {
+        this.practiceService = newPracticeService;
         this.questionService = newQuestionService;
         this.answerService = newAnswerService;
     }
@@ -72,7 +72,7 @@ class SQLPracticeAPIController {
             throws IOException {
 
         return ResponseEntity.status(HttpStatus.CREATED)
-                .body(sqlPracticeService.create(exam));
+                .body(practiceService.create(exam));
     }
 
     @Operation(summary = "Get exam with given id",
@@ -83,7 +83,7 @@ class SQLPracticeAPIController {
                     description = "exam not found")})
     @GetMapping("/{id}")
     public ResponseEntity<Practice> findById(final @PathVariable Integer id) {
-        return ResponseEntity.of(sqlPracticeService.read(id));
+        return ResponseEntity.of(practiceService.read(id));
     }
 
     @Operation(summary = "lists all the exam",
@@ -96,7 +96,7 @@ class SQLPracticeAPIController {
     @GetMapping
     public ResponseEntity<Page<Practice>> findAll(@NotNull
                                                       final Pageable pageable) {
-        Page<Practice> practices = sqlPracticeService.page(pageable);
+        Page<Practice> practices = practiceService.page(pageable);
         return practices.isEmpty() ? new ResponseEntity<Page<Practice>>(
                 HttpStatus.NO_CONTENT)
                 : ResponseEntity.ok(practices);
@@ -115,7 +115,7 @@ class SQLPracticeAPIController {
                                                              Integer id,
                                                      final @Valid @RequestBody
                                                              Practice exam) {
-        Optional<Practice> updatedexam = sqlPracticeService.update(id, exam);
+        Optional<Practice> updatedexam = practiceService.update(id, exam);
         return updatedexam == null ? new ResponseEntity<Optional<Practice>>(
                 HttpStatus.NOT_FOUND)
                 : ResponseEntity.ok(updatedexam);
@@ -128,7 +128,7 @@ class SQLPracticeAPIController {
             @ApiResponse(responseCode = "404", description = "exam not found")})
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteExamById(final @PathVariable Integer id) {
-        return sqlPracticeService.delete(id) ? ResponseEntity.ok().build()
+        return practiceService.delete(id) ? ResponseEntity.ok().build()
                 : new ResponseEntity<Void>(HttpStatus.NOT_FOUND);
     }
 

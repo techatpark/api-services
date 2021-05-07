@@ -43,7 +43,7 @@ class QuestionServiceTest {
      * Connection created with Question Service.
      */
     @Autowired
-    private SQLPracticeService sqlExamService;
+    private PracticeService sqlExamService;
 
     @BeforeEach
     void before() throws IOException {

@@ -4,7 +4,7 @@ import com.techatpark.gurukulam.sql.model.Database;
 import com.techatpark.gurukulam.sql.model.Practice;
 import com.techatpark.gurukulam.sql.model.Question;
 import com.techatpark.gurukulam.sql.service.QuestionService;
-import com.techatpark.gurukulam.sql.service.SQLPracticeService;
+import com.techatpark.gurukulam.sql.service.PracticeService;
 import com.techatpark.gurukulam.sql.service.TestUtil;
 import com.techatpark.gurukulam.sql.service.connector.DatabaseConnector;
 import org.junit.jupiter.api.BeforeEach;
@@ -37,7 +37,7 @@ public class PostgressDatabaseConnectorTest {
      * Service instance to be tested.
      */
     @Autowired
-    private SQLPracticeService sqlExamService;
+    private PracticeService sqlExamService;
 
     /**
      * Service instance to be tested.

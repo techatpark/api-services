@@ -19,7 +19,7 @@ import java.util.Map;
 import java.util.Optional;
 
 @Service
-public class SQLPracticeService {
+public class PracticeService {
 
     /**
      * this helps to execute sql queries.
@@ -54,9 +54,9 @@ public class SQLPracticeService {
      * @param aDatasource
      * @param anApplicationContext
      */
-    public SQLPracticeService(final JdbcTemplate aJdbcTemplate,
-                              final DataSource aDatasource,
-                              final ApplicationContext anApplicationContext) {
+    public PracticeService(final JdbcTemplate aJdbcTemplate,
+                           final DataSource aDatasource,
+                           final ApplicationContext anApplicationContext) {
         this.jdbcTemplate = aJdbcTemplate;
         this.dataSource = aDatasource;
         this.applicationContext = anApplicationContext;

@@ -25,7 +25,7 @@ class SQLExamServiceTest {
      * Service instance to be tested.
      */
     @Autowired
-    private SQLPracticeService sqlExamService;
+    private PracticeService sqlExamService;
 
     @BeforeEach
     void beforeEach() {
