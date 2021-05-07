@@ -1,7 +1,7 @@
 package com.techatpark.gurukulam.sql.service.connector.h2;
 
-import com.techatpark.gurukulam.sql.model.Practice;
 import com.techatpark.gurukulam.sql.model.Question;
+import com.techatpark.gurukulam.sql.model.sql.SqlPractice;
 import com.techatpark.gurukulam.sql.service.connector.DatabaseConnector;
 import com.techatpark.gurukulam.sql.service.util.FlywayUtil;
 import com.zaxxer.hikari.HikariConfig;
@@ -53,7 +53,7 @@ public class H2DatabaseConnector extends DatabaseConnector {
      * @return Boolean
      */
     @Override
-    public final Boolean verify(final Practice exam,
+    public final Boolean verify(final SqlPractice exam,
                                 final Question question,
                                 final String sqlAnswer) {
         Boolean isRigntAnswer = false;
@@ -76,7 +76,7 @@ public class H2DatabaseConnector extends DatabaseConnector {
      * @return Boolean
      */
     @Override
-    public final Boolean loadScript(final Practice exam) {
+    public final Boolean loadScript(final SqlPractice exam) {
         final Integer id = exam.getId();
         unloadScript(exam);
         String schemaName = "EXAM_" + id;
@@ -96,7 +96,7 @@ public class H2DatabaseConnector extends DatabaseConnector {
      * @return Boolean
      */
     @Override
-    public Boolean unloadScript(final Practice exam) {
+    public Boolean unloadScript(final SqlPractice exam) {
         final Integer id = exam.getId();
         final String query = "DROP SCHEMA IF EXISTS EXAM_" + id;
         update(query, exam);

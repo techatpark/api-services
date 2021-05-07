@@ -3,6 +3,7 @@ package com.techatpark.gurukulam.sql.service.connector.postgress;
 import com.techatpark.gurukulam.sql.model.Database;
 import com.techatpark.gurukulam.sql.model.Practice;
 import com.techatpark.gurukulam.sql.model.Question;
+import com.techatpark.gurukulam.sql.model.sql.SqlPractice;
 import com.techatpark.gurukulam.sql.service.QuestionService;
 import com.techatpark.gurukulam.sql.service.PracticeService;
 import com.techatpark.gurukulam.sql.service.TestUtil;
@@ -59,7 +60,7 @@ public class PostgressDatabaseConnectorTest {
      */
     //@Test
     public void testVerify() {
-        Practice exam = createAndGetExam();
+        SqlPractice exam = createAndGetExam();
         Question question = createAndGQuestion(exam);
         boolean result = postgressDatabaseConnector.verify(exam, question, getAnswer());
         assertTrue(result);
@@ -70,7 +71,7 @@ public class PostgressDatabaseConnectorTest {
      */
     //@Test
     public void testVerifywrongAnswer() {
-        Practice exam = createAndGetExam();
+        SqlPractice exam = createAndGetExam();
         Question question = createAndGQuestion(exam);
         boolean result = postgressDatabaseConnector.verify(exam, question, "select * from abc");
         assertFalse(result);
@@ -79,8 +80,8 @@ public class PostgressDatabaseConnectorTest {
     /**
      * @return exam
      */
-    Practice getExam() {
-        Practice exam = new Practice();
+    SqlPractice getExam() {
+        SqlPractice exam = new SqlPractice();
         exam.setName("Exam_1");
         exam.setDatabase(Database.POSTGRES);
         exam.setScript(TestUtil.getScript(exam));
@@ -108,8 +109,8 @@ public class PostgressDatabaseConnectorTest {
     /**
      * @return Exam
      */
-    Practice createAndGetExam() {
-        Practice exam = sqlExamService.create(getExam()).get();
+    SqlPractice createAndGetExam() {
+        SqlPractice exam = sqlExamService.create(getExam()).get();
         return exam;
     }
 

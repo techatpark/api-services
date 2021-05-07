@@ -1,7 +1,7 @@
 package com.techatpark.gurukulam.sql.service;
 
 import com.techatpark.gurukulam.sql.model.Database;
-import com.techatpark.gurukulam.sql.model.Practice;
+import com.techatpark.gurukulam.sql.model.sql.SqlPractice;
 import com.techatpark.gurukulam.sql.service.connector.DatabaseConnector;
 import org.springframework.context.ApplicationContext;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -39,8 +39,8 @@ public class PracticeService {
     /**
      * Maps the data from and to the database. return exam
      */
-    private final RowMapper<Practice> rowMapper = (rs, rowNum) -> {
-        final Practice practice = new Practice();
+    private final RowMapper<SqlPractice> rowMapper = (rs, rowNum) -> {
+        final SqlPractice practice = new SqlPractice();
         practice.setId(rs.getInt("id"));
         practice.setName(rs.getString("name"));
         practice.setDatabase(Database.of(rs.getString("database_type")));
@@ -68,7 +68,7 @@ public class PracticeService {
      * @param practice
      * @return practice
      */
-    public Optional<Practice> create(final Practice practice) {
+    public Optional<SqlPractice> create(final SqlPractice practice) {
         final SimpleJdbcInsert insert = new SimpleJdbcInsert(dataSource)
                 .withTableName("practices")
                 .usingGeneratedKeyColumns("id")
@@ -79,7 +79,7 @@ public class PracticeService {
                 "script", practice.getScript(),
                 "description", practice.getDescription());
         final Number examId = insert.executeAndReturnKey(valueMap);
-        Optional<Practice> createdExam = read(examId.intValue());
+        Optional<SqlPractice> createdExam = read(examId.intValue());
         createdExam.ifPresent(exam1 -> {
             loadScripts(exam1);
         });
@@ -91,7 +91,7 @@ public class PracticeService {
      *
      * @param practice
      */
-    private void loadScripts(final Practice practice) {
+    private void loadScripts(final SqlPractice practice) {
         final DatabaseConnector databaseConnector =
                 DatabaseConnector.getDatabaseConnector(practice.getDatabase(),
                         applicationContext);
@@ -103,7 +103,7 @@ public class PracticeService {
      *
      * @param practice
      */
-    private void unloadScripts(final Practice practice) {
+    private void unloadScripts(final SqlPractice practice) {
         final DatabaseConnector databaseConnector =
                 DatabaseConnector.getDatabaseConnector(practice.getDatabase(),
                         applicationContext);
@@ -117,7 +117,7 @@ public class PracticeService {
      * @param newPracticeId
      * @return practice
      */
-    public Optional<Practice> read(final Integer newPracticeId) {
+    public Optional<SqlPractice> read(final Integer newPracticeId) {
         final String query =
                 "SELECT id,name,script,description,database_type "
                         + "FROM practices WHERE id = ?";
@@ -138,8 +138,8 @@ public class PracticeService {
      * @return practice
      * @TODO Soft Delete
      */
-    public Optional<Practice> update(final Integer id,
-                                     final Practice practice) {
+    public Optional<SqlPractice> update(final Integer id,
+                                     final SqlPractice practice) {
         final String query =
                 "UPDATE practices SET name = ?, database_type = ?, script = ? ,"
                         + "description = ? WHERE id = ?";
@@ -157,7 +157,7 @@ public class PracticeService {
      * @return successflag
      */
     public Boolean delete(final Integer id) {
-        final Optional<Practice> practice = read(id);
+        final Optional<SqlPractice> practice = read(id);
         Boolean success = false;
         if (practice.isPresent()) {
 
@@ -178,7 +178,7 @@ public class PracticeService {
      */
     public Integer delete() {
         int count = 0;
-        List<Practice> practices = list();
+        List<SqlPractice> practices = list();
         practices.parallelStream().forEach(exam -> delete(exam.getId()));
         return count;
     }
@@ -188,7 +188,7 @@ public class PracticeService {
      *
      * @return list
      */
-    public List<Practice> list() {
+    public List<SqlPractice> list() {
 
         String recordsQuery =
                 "SELECT id,name,script,description,database_type"
@@ -203,7 +203,7 @@ public class PracticeService {
      * @param pageable
      * @return list
      */
-    public Page<Practice> page(final Pageable pageable) {
+    public Page<SqlPractice> page(final Pageable pageable) {
 
         String recordsQuery =
                 "SELECT id,name,script,description,database_type"
@@ -215,7 +215,7 @@ public class PracticeService {
 
         String countsQuery = "SELECT COUNT(id) FROM practices";
 
-        return new PageImpl<Practice>(
+        return new PageImpl<SqlPractice>(
                 jdbcTemplate.query(recordsQuery, rowMapper), pageable,
                 jdbcTemplate.queryForObject(countsQuery, Long.class));
     }

@@ -1,6 +1,6 @@
 package com.techatpark.gurukulam.sql.service.util;
 
-import com.techatpark.gurukulam.sql.model.Practice;
+import com.techatpark.gurukulam.sql.model.sql.SqlPractice;
 import org.flywaydb.core.Flyway;
 
 import javax.sql.DataSource;
@@ -25,7 +25,7 @@ public final class FlywayUtil {
      * @param dataSource
      * @return successFlag
      */
-    public static Boolean loadScripts(final Practice exam,
+    public static Boolean loadScripts(final SqlPractice exam,
                                       final DataSource dataSource) {
         if (exam.getScript() != null) {
             // Load Script files in temp folder

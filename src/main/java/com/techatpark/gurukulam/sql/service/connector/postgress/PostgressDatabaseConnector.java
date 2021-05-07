@@ -1,7 +1,6 @@
 package com.techatpark.gurukulam.sql.service.connector.postgress;
-
-import com.techatpark.gurukulam.sql.model.Practice;
 import com.techatpark.gurukulam.sql.model.Question;
+import com.techatpark.gurukulam.sql.model.sql.SqlPractice;
 import com.techatpark.gurukulam.sql.service.connector.DatabaseConnector;
 import com.techatpark.gurukulam.sql.service.util.FlywayUtil;
 import org.slf4j.Logger;
@@ -37,7 +36,7 @@ public class PostgressDatabaseConnector extends DatabaseConnector {
      * @return Boolean
      */
     @Override
-    public final Boolean verify(final Practice exam, final Question question,
+    public final Boolean verify(final SqlPractice exam, final Question question,
                                 final String sqlAnswer) {
         Boolean isRigntAnswer = false;
         try {
@@ -59,7 +58,7 @@ public class PostgressDatabaseConnector extends DatabaseConnector {
      * @return Boolean
      */
     @Override
-    public final Boolean loadScript(final Practice exam) {
+    public final Boolean loadScript(final SqlPractice exam) {
         final Integer id = exam.getId();
         unloadScript(exam);
         String query = "CREATE DATABASE EXAM_" + id;
@@ -73,7 +72,7 @@ public class PostgressDatabaseConnector extends DatabaseConnector {
      * @return Boolean
      */
     @Override
-    public Boolean unloadScript(final Practice exam) {
+    public Boolean unloadScript(final SqlPractice exam) {
         final Integer id = exam.getId();
         final String query = "DROP DATABASE IF EXISTS EXAM_" + id;
         update(query, exam);

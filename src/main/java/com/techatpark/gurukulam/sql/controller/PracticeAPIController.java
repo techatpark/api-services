@@ -1,10 +1,10 @@
 package com.techatpark.gurukulam.sql.controller;
 
-import com.techatpark.gurukulam.sql.model.Practice;
 import com.techatpark.gurukulam.sql.model.Question;
+import com.techatpark.gurukulam.sql.model.sql.SqlPractice;
 import com.techatpark.gurukulam.sql.service.AnswerService;
-import com.techatpark.gurukulam.sql.service.QuestionService;
 import com.techatpark.gurukulam.sql.service.PracticeService;
+import com.techatpark.gurukulam.sql.service.QuestionService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -64,11 +64,12 @@ class PracticeAPIController {
             @ApiResponse(responseCode = "400", description =
                     "exam is invalid")})
     @PostMapping
-    public ResponseEntity<Optional<Practice>> create(final
-                                                     @RequestBody
-                                                     @Valid
-                                                     @NotNull
-                                                     @NotBlank Practice exam)
+    public ResponseEntity<Optional<SqlPractice>> create(final
+                                                        @RequestBody
+                                                        @Valid
+                                                        @NotNull
+                                                        @NotBlank SqlPractice
+                                                                    exam)
             throws IOException {
 
         return ResponseEntity.status(HttpStatus.CREATED)
@@ -82,7 +83,8 @@ class PracticeAPIController {
             @ApiResponse(responseCode = "404",
                     description = "exam not found")})
     @GetMapping("/{id}")
-    public ResponseEntity<Practice> findById(final @PathVariable Integer id) {
+    public ResponseEntity<SqlPractice> findById(
+            final @PathVariable Integer id) {
         return ResponseEntity.of(practiceService.read(id));
     }
 
@@ -94,10 +96,10 @@ class PracticeAPIController {
             @ApiResponse(responseCode = "204",
                     description = "exam are not available")})
     @GetMapping
-    public ResponseEntity<Page<Practice>> findAll(@NotNull
-                                                      final Pageable pageable) {
-        Page<Practice> practices = practiceService.page(pageable);
-        return practices.isEmpty() ? new ResponseEntity<Page<Practice>>(
+    public ResponseEntity<Page<SqlPractice>> findAll(
+            @NotNull final Pageable pageable) {
+        Page<SqlPractice> practices = practiceService.page(pageable);
+        return practices.isEmpty() ? new ResponseEntity<Page<SqlPractice>>(
                 HttpStatus.NO_CONTENT)
                 : ResponseEntity.ok(practices);
     }
@@ -108,15 +110,19 @@ class PracticeAPIController {
             security = @SecurityRequirement(name = "bearerAuth"))
     @ApiResponses(value = {@ApiResponse(responseCode = "200",
             description = "exam updated successfully"),
-            @ApiResponse(responseCode = "400", description = "exam is invalid"),
-            @ApiResponse(responseCode = "404", description = "exam not found")})
+            @ApiResponse(responseCode = "400",
+                    description = "exam is invalid"),
+            @ApiResponse(responseCode = "404",
+                    description = "exam not found")})
     @PutMapping("/{id}")
-    public ResponseEntity<Optional<Practice>> update(final @PathVariable
-                                                             Integer id,
-                                                     final @Valid @RequestBody
-                                                             Practice exam) {
-        Optional<Practice> updatedexam = practiceService.update(id, exam);
-        return updatedexam == null ? new ResponseEntity<Optional<Practice>>(
+    public ResponseEntity<Optional<SqlPractice>> update(final @PathVariable
+                                                                Integer id,
+                                                        final @Valid
+                                                        @RequestBody
+                                                                SqlPractice
+                                                                exam) {
+        Optional<SqlPractice> updatedexam = practiceService.update(id, exam);
+        return updatedexam == null ? new ResponseEntity<Optional<SqlPractice>>(
                 HttpStatus.NOT_FOUND)
                 : ResponseEntity.ok(updatedexam);
     }
@@ -125,9 +131,11 @@ class PracticeAPIController {
             security = @SecurityRequirement(name = "bearerAuth"))
     @ApiResponses(value = {@ApiResponse(responseCode = "200",
             description = "exam deleted successfully"),
-            @ApiResponse(responseCode = "404", description = "exam not found")})
+            @ApiResponse(responseCode = "404",
+                    description = "exam not found")})
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteExamById(final @PathVariable Integer id) {
+    public ResponseEntity<Void> deleteExamById(
+            final @PathVariable Integer id) {
         return practiceService.delete(id) ? ResponseEntity.ok().build()
                 : new ResponseEntity<Void>(HttpStatus.NOT_FOUND);
     }
@@ -160,7 +168,7 @@ class PracticeAPIController {
                     description = "question not found")})
     @GetMapping("/{examId}/questions/{id}")
     public ResponseEntity<Question> findQuestionById(final @PathVariable
-                                                                 Integer id) {
+                                                             Integer id) {
         return ResponseEntity.of(questionService.read(id));
     }
 
@@ -173,9 +181,9 @@ class PracticeAPIController {
                     description = "questions are not available")})
     @GetMapping("/{examId}/questions")
     public ResponseEntity<List<Question>> findAllQuestions(final
-                                                               @PathVariable
-                                                                       Integer
-                                                                       examId) {
+                                                           @PathVariable
+                                                                   Integer
+                                                                   examId) {
         List<Question> questions = questionService.list(examId);
         return questions.isEmpty() ? new ResponseEntity<List<Question>>(
                 HttpStatus.NO_CONTENT)
@@ -194,17 +202,18 @@ class PracticeAPIController {
                     description = "question not found")})
     @PutMapping("/{examId}/questions/{id}")
     public ResponseEntity<Optional<Question>> update(final @PathVariable
-                                                                 Integer examId,
+                                                             Integer examId,
                                                      final @PathVariable
                                                              Integer id,
                                                      final @Valid
-                                                         @RequestBody
-                                                                 Question
-                                                                 question) {
+                                                     @RequestBody
+                                                             Question
+                                                             question) {
         Optional<Question> updatedQuestion = questionService.update(
                 examId, id, question);
-        return updatedQuestion == null ? new ResponseEntity<Optional<Question>>(
-                HttpStatus.NOT_FOUND)
+        return updatedQuestion == null
+                ? new ResponseEntity<Optional<Question>>(
+                        HttpStatus.NOT_FOUND)
                 : ResponseEntity.ok(updatedQuestion);
     }
 
@@ -231,11 +240,12 @@ class PracticeAPIController {
     @ResponseStatus(HttpStatus.ACCEPTED)
     @PostMapping("/{examId}/questions/{questionId}/answer")
     public ResponseEntity<Void> answer(final @PathVariable
-                                                   Integer questionId,
+                                               Integer questionId,
                                        final @RequestBody
                                                String answer) {
-        return answerService.answer(questionId, answer) ? ResponseEntity.status(
-                HttpStatus.ACCEPTED).build()
+        return answerService.answer(questionId, answer)
+                ? ResponseEntity.status(
+                        HttpStatus.ACCEPTED).build()
                 : ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).build();
     }
 

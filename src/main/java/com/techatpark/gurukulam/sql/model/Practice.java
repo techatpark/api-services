@@ -11,16 +11,6 @@ public class Practice {
     private String name;
 
     /**
-     * Database of the exam.
-     */
-    private Database database;
-
-    /**
-     * tells the script of exam.
-     */
-    private String script;
-
-    /**
      * tells the description of exam.
      */
     private String description;
@@ -59,42 +49,6 @@ public class Practice {
      */
     public void setName(final String aName) {
         this.name = aName;
-    }
-
-    /**
-     * gets databse.
-     *
-     * @return database
-     */
-    public Database getDatabase() {
-        return database;
-    }
-
-    /**
-     * sets database.
-     *
-     * @param aDatabase
-     */
-    public void setDatabase(final Database aDatabase) {
-        this.database = aDatabase;
-    }
-
-    /**
-     * gets script.
-     *
-     * @return script
-     */
-    public String getScript() {
-        return script;
-    }
-
-    /**
-     * sets script.
-     *
-     * @param aScript
-     */
-    public void setScript(final String aScript) {
-        this.script = aScript;
     }
 
     /**

@@ -3,6 +3,7 @@ package com.techatpark.gurukulam.sql.service;
 import com.techatpark.gurukulam.sql.model.Database;
 import com.techatpark.gurukulam.sql.model.Practice;
 import com.techatpark.gurukulam.sql.model.Question;
+import com.techatpark.gurukulam.sql.model.sql.SqlPractice;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -117,8 +118,8 @@ class QuestionServiceTest {
         return question;
     }
 
-    Practice getExam() {
-        final Practice exam = new Practice();
+    SqlPractice getExam() {
+        final SqlPractice exam = new SqlPractice();
         exam.setName("Test Exam 1");
         exam.setDatabase(Database.POSTGRES);
         exam.setScript(TestUtil.getScript(exam));

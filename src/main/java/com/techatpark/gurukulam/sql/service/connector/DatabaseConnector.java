@@ -3,6 +3,7 @@ package com.techatpark.gurukulam.sql.service.connector;
 import com.techatpark.gurukulam.sql.model.Database;
 import com.techatpark.gurukulam.sql.model.Practice;
 import com.techatpark.gurukulam.sql.model.Question;
+import com.techatpark.gurukulam.sql.model.sql.SqlPractice;
 import org.springframework.context.ApplicationContext;
 
 import javax.sql.DataSource;
@@ -61,7 +62,7 @@ public abstract class DatabaseConnector {
      * @param sqlAnswer
      * @return successflag
      */
-    public abstract Boolean verify(Practice exam, Question question,
+    public abstract Boolean verify(SqlPractice exam, Question question,
                                    String sqlAnswer);
 
     /**
@@ -70,7 +71,7 @@ public abstract class DatabaseConnector {
      * @param exam
      * @return successflag
      */
-    public abstract Boolean loadScript(Practice exam);
+    public abstract Boolean loadScript(SqlPractice exam);
 
     /**
      * Unload the script for the specific exam.
@@ -78,7 +79,7 @@ public abstract class DatabaseConnector {
      * @param exam
      * @return successflag
      */
-    public abstract Boolean unloadScript(Practice exam);
+    public abstract Boolean unloadScript(SqlPractice exam);
 
     /**
      * Get connection for specific exam.
