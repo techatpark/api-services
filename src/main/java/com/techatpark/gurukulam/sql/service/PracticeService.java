@@ -1,6 +1,9 @@
 package com.techatpark.gurukulam.sql.service;
 
-import com.techatpark.gurukulam.sql.model.Database;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.techatpark.gurukulam.sql.model.Practice;
 import com.techatpark.gurukulam.sql.model.sql.SqlPractice;
 import com.techatpark.gurukulam.sql.service.connector.DatabaseConnector;
 import org.springframework.context.ApplicationContext;
@@ -37,14 +40,25 @@ public class PracticeService {
     private final ApplicationContext applicationContext;
 
     /**
+     * this is ObjectMapper of Spring.
+     */
+    private final ObjectMapper objectMapper;
+
+
+    /**
      * Maps the data from and to the database. return exam
      */
     private final RowMapper<SqlPractice> rowMapper = (rs, rowNum) -> {
-        final SqlPractice practice = new SqlPractice();
+        String metaData = rs.getString("meta_data");
+        SqlPractice practice;
+        try {
+            practice = metaData == null ? new SqlPractice()
+                    : new ObjectMapper().readValue(metaData, SqlPractice.class);
+        } catch (JsonProcessingException e) {
+            practice = new SqlPractice();
+        }
         practice.setId(rs.getInt("id"));
         practice.setName(rs.getString("name"));
-        practice.setDatabase(Database.of(rs.getString("database_type")));
-        practice.setScript(rs.getString("script"));
         practice.setDescription(rs.getString("description"));
         return practice;
     };
@@ -53,13 +67,25 @@ public class PracticeService {
      * @param aJdbcTemplate
      * @param aDatasource
      * @param anApplicationContext
+     * @param aObjectMapper
      */
     public PracticeService(final JdbcTemplate aJdbcTemplate,
                            final DataSource aDatasource,
-                           final ApplicationContext anApplicationContext) {
+                           final ApplicationContext anApplicationContext,
+                           final ObjectMapper aObjectMapper) {
         this.jdbcTemplate = aJdbcTemplate;
         this.dataSource = aDatasource;
         this.applicationContext = anApplicationContext;
+        this.objectMapper = aObjectMapper;
+    }
+
+    private String getMetadata(final Practice practice)
+            throws JsonProcessingException {
+        ObjectNode oNode = objectMapper.valueToTree(practice);
+        oNode.remove("id");
+        oNode.remove("name");
+        oNode.remove("description");
+        return objectMapper.writeValueAsString(oNode);
     }
 
     /**
@@ -68,16 +94,17 @@ public class PracticeService {
      * @param practice
      * @return practice
      */
-    public Optional<SqlPractice> create(final SqlPractice practice) {
+    public Optional<SqlPractice> create(final SqlPractice practice)
+            throws JsonProcessingException {
         final SimpleJdbcInsert insert = new SimpleJdbcInsert(dataSource)
                 .withTableName("practices")
                 .usingGeneratedKeyColumns("id")
-                .usingColumns("name", "database_type", "script",
-                        "description");
+                .usingColumns("name",
+                        "description", "meta_data");
+
         final Map<String, Object> valueMap = Map.of("name", practice.getName(),
-                "database_type", practice.getDatabase().getValue(),
-                "script", practice.getScript(),
-                "description", practice.getDescription());
+                "description", practice.getDescription(),
+                "meta_data", getMetadata(practice));
         final Number examId = insert.executeAndReturnKey(valueMap);
         Optional<SqlPractice> createdExam = read(examId.intValue());
         createdExam.ifPresent(exam1 -> {
@@ -119,7 +146,7 @@ public class PracticeService {
      */
     public Optional<SqlPractice> read(final Integer newPracticeId) {
         final String query =
-                "SELECT id,name,script,description,database_type "
+                "SELECT id,name,meta_data,description "
                         + "FROM practices WHERE id = ?";
         try {
             return Optional.of(jdbcTemplate
@@ -139,14 +166,15 @@ public class PracticeService {
      * @TODO Soft Delete
      */
     public Optional<SqlPractice> update(final Integer id,
-                                        final SqlPractice practice) {
+                                        final SqlPractice practice)
+            throws JsonProcessingException {
         final String query =
-                "UPDATE practices SET name = ?, database_type = ?, script = ? ,"
+                "UPDATE practices SET name = ?, meta_data = ? ,"
                         + "description = ? WHERE id = ?";
         final Integer updatedRows = jdbcTemplate.update(query,
                 practice.getName(),
-                practice.getDatabase().getValue(),
-                practice.getScript(), practice.getDescription(), id);
+                getMetadata(practice),
+                practice.getDescription(), id);
         return updatedRows == 0 ? null : read(id);
     }
 
@@ -191,7 +219,7 @@ public class PracticeService {
     public List<SqlPractice> list() {
 
         String recordsQuery =
-                "SELECT id,name,script,description,database_type"
+                "SELECT id,name,meta_data,description"
                         + " FROM practices";
 
         return jdbcTemplate.query(recordsQuery, rowMapper);
@@ -206,7 +234,7 @@ public class PracticeService {
     public Page<SqlPractice> page(final Pageable pageable) {
 
         String recordsQuery =
-                "SELECT id,name,script,description,database_type"
+                "SELECT id,name,meta_data,description"
                         + " FROM practices LIMIT "
                         + pageable.getPageSize()
                         + " OFFSET "

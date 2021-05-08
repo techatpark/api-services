@@ -16,6 +16,7 @@ public final class AuthenticationRequest {
 
     /**
      * initializing the userName,password.
+     *
      * @param anUserName
      * @param aPassword
      */
@@ -29,6 +30,7 @@ public final class AuthenticationRequest {
 
     /**
      * gets the value for userName.
+     *
      * @return username
      */
     public String getUserName() {
@@ -37,6 +39,7 @@ public final class AuthenticationRequest {
 
     /**
      * gets the value for password.
+     *
      * @return password
      */
     public String getPassword() {

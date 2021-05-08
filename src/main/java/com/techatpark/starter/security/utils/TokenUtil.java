@@ -46,6 +46,7 @@ public class TokenUtil {
 
     /**
      * get the subject details.
+     *
      * @param token
      * @return authentication object
      */

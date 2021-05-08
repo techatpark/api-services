@@ -19,6 +19,7 @@ public final class AuthenticationResponse {
 
     /**
      * initializes the value for authToken,refresh_token,profile_pic.
+     *
      * @param anAuthToken
      * @param aRefreshToken
      * @param aProfilePicture
@@ -35,20 +36,25 @@ public final class AuthenticationResponse {
 
     /**
      * gets the value for auth token.
+     *
      * @return auth token
      */
     public String getAuthToken() {
         return authToken;
     }
+
     /**
      * gets the value for refresh token.
+     *
      * @return refresh token
      */
     public String getRefreshToken() {
         return refreshToken;
     }
+
     /**
      * gets the value for profile picture.
+     *
      * @return profile picture
      */
     public String getProfilePicture() {

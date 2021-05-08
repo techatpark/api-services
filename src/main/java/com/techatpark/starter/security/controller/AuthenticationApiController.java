@@ -92,6 +92,7 @@ public class AuthenticationApiController {
 
     /**
      * logout an user.
+     *
      * @return void
      */
     @Operation(summary = "logout current user",
@@ -103,6 +104,7 @@ public class AuthenticationApiController {
 
     /**
      * get the user details from the principal.
+     *
      * @param principal
      * @return userdetails
      */

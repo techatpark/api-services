@@ -1,4 +1,5 @@
 package com.techatpark.gurukulam.sql.service.connector.postgress;
+
 import com.techatpark.gurukulam.sql.model.Question;
 import com.techatpark.gurukulam.sql.model.sql.SqlPractice;
 import com.techatpark.gurukulam.sql.service.connector.DatabaseConnector;

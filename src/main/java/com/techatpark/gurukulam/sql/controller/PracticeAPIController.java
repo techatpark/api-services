@@ -1,5 +1,6 @@
 package com.techatpark.gurukulam.sql.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.techatpark.gurukulam.sql.model.Question;
 import com.techatpark.gurukulam.sql.model.sql.SqlPractice;
 import com.techatpark.gurukulam.sql.service.AnswerService;
@@ -69,7 +70,7 @@ class PracticeAPIController {
                                                         @Valid
                                                         @NotNull
                                                         @NotBlank SqlPractice
-                                                                    exam)
+                                                                exam)
             throws IOException {
 
         return ResponseEntity.status(HttpStatus.CREATED)
@@ -120,7 +121,8 @@ class PracticeAPIController {
                                                         final @Valid
                                                         @RequestBody
                                                                 SqlPractice
-                                                                exam) {
+                                                                exam)
+            throws JsonProcessingException {
         Optional<SqlPractice> updatedexam = practiceService.update(id, exam);
         return updatedexam == null ? new ResponseEntity<Optional<SqlPractice>>(
                 HttpStatus.NOT_FOUND)
@@ -213,7 +215,7 @@ class PracticeAPIController {
                 examId, id, question);
         return updatedQuestion == null
                 ? new ResponseEntity<Optional<Question>>(
-                        HttpStatus.NOT_FOUND)
+                HttpStatus.NOT_FOUND)
                 : ResponseEntity.ok(updatedQuestion);
     }
 
@@ -245,7 +247,7 @@ class PracticeAPIController {
                                                String answer) {
         return answerService.answer(questionId, answer)
                 ? ResponseEntity.status(
-                        HttpStatus.ACCEPTED).build()
+                HttpStatus.ACCEPTED).build()
                 : ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).build();
     }
 

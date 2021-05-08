@@ -5,9 +5,8 @@ DROP TABLE IF EXISTS practices;
 CREATE TABLE practices (
   id INT auto_increment PRIMARY KEY,
   name VARCHAR(55) NOT NULL,
-  database_type VARCHAR(15) NOT NULL,
-  script TEXT NOT NULL,
-  description TEXT NOT NULL
+  description TEXT NOT NULL,
+  meta_data TEXT
 );
 
 CREATE TABLE questions (

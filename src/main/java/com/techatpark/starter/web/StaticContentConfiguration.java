@@ -10,7 +10,6 @@ import java.util.List;
 public class StaticContentConfiguration implements WebMvcConfigurer {
 
     /**
-     *
      * @param registry
      */
     @Override

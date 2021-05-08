@@ -1,11 +1,12 @@
 package com.techatpark.gurukulam.sql.service.connector.postgress;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.techatpark.gurukulam.sql.model.Database;
 import com.techatpark.gurukulam.sql.model.Practice;
 import com.techatpark.gurukulam.sql.model.Question;
 import com.techatpark.gurukulam.sql.model.sql.SqlPractice;
-import com.techatpark.gurukulam.sql.service.QuestionService;
 import com.techatpark.gurukulam.sql.service.PracticeService;
+import com.techatpark.gurukulam.sql.service.QuestionService;
 import com.techatpark.gurukulam.sql.service.TestUtil;
 import com.techatpark.gurukulam.sql.service.connector.DatabaseConnector;
 import org.junit.jupiter.api.BeforeEach;
@@ -59,7 +60,7 @@ public class PostgressDatabaseConnectorTest {
      *
      */
     //@Test
-    public void testVerify() {
+    public void testVerify() throws JsonProcessingException {
         SqlPractice exam = createAndGetExam();
         Question question = createAndGQuestion(exam);
         boolean result = postgressDatabaseConnector.verify(exam, question, getAnswer());
@@ -70,7 +71,7 @@ public class PostgressDatabaseConnectorTest {
      *
      */
     //@Test
-    public void testVerifywrongAnswer() {
+    public void testVerifywrongAnswer() throws JsonProcessingException {
         SqlPractice exam = createAndGetExam();
         Question question = createAndGQuestion(exam);
         boolean result = postgressDatabaseConnector.verify(exam, question, "select * from abc");
@@ -109,7 +110,7 @@ public class PostgressDatabaseConnectorTest {
     /**
      * @return Exam
      */
-    SqlPractice createAndGetExam() {
+    SqlPractice createAndGetExam() throws JsonProcessingException {
         SqlPractice exam = sqlExamService.create(getExam()).get();
         return exam;
     }

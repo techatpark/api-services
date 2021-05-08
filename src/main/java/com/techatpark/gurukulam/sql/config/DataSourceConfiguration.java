@@ -15,6 +15,7 @@ import javax.sql.DataSource;
 public class DataSourceConfiguration {
     /**
      * build a datasource for h2 database.
+     *
      * @return DataSource
      */
     @Bean(name = "h2DataSource")
@@ -26,19 +27,19 @@ public class DataSourceConfiguration {
     }
 
     /**
-     *
      * @param dataSource
      * @return JdbcTemplate
      */
     @Bean(name = "h2JdbcTemplate")
     @Primary
-    public JdbcTemplate h2JdbcTemplate(final
-            @Qualifier("h2DataSource") DataSource dataSource) {
+    public JdbcTemplate h2JdbcTemplate(
+            final @Qualifier("h2DataSource") DataSource dataSource) {
         return new JdbcTemplate(dataSource);
     }
 
     /**
      * build a datasource for postgres database.
+     *
      * @return DataSource
      */
     @Bean(name = "postgresqlDataSource")

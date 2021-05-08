@@ -36,7 +36,6 @@ import java.util.Iterator;
 )
 public class SwaggerConfig implements ModelConverter {
     /**
-     *
      * @param type
      * @param context
      * @param chain

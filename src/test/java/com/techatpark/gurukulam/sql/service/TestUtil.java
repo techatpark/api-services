@@ -1,6 +1,5 @@
 package com.techatpark.gurukulam.sql.service;
 
-import com.techatpark.gurukulam.sql.model.Practice;
 import com.techatpark.gurukulam.sql.model.sql.SqlPractice;
 
 import java.io.File;
