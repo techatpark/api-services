@@ -4,11 +4,30 @@ import com.techatpark.gurukulam.sql.model.Database;
 import com.techatpark.gurukulam.sql.model.Practice;
 
 public class SqlPractice extends Practice {
-
+    /**
+     * exam_id - fk.
+     */
+    private Integer examId;
     /**
      * Database of the exam.
      */
     private Database database;
+
+    /**
+     * get examId.
+     * @return examid
+     */
+    public Integer getExamId() {
+        return examId;
+    }
+
+    /**
+     * sets exam Id.
+     * @param examId
+     */
+    public void setExamId(Integer examId) {
+        this.examId = examId;
+    }
 
     /**
      * tells the script of exam.

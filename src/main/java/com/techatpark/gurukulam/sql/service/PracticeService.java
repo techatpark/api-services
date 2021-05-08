@@ -12,6 +12,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.sql.DataSource;
 import java.util.List;
@@ -43,11 +44,19 @@ public class PracticeService {
         final SqlPractice practice = new SqlPractice();
         practice.setId(rs.getInt("id"));
         practice.setName(rs.getString("name"));
-        practice.setDatabase(Database.of(rs.getString("database_type")));
-        practice.setScript(rs.getString("script"));
         practice.setDescription(rs.getString("description"));
         return practice;
     };
+
+    private final RowMapper<SqlPractice> rowMapperPracticeSql =
+            (rs, rowNum) -> {
+        final SqlPractice practice = new SqlPractice();
+        practice.setExamId(rs.getInt("exam_id"));
+        practice.setScript(rs.getString("script"));
+        practice.setDatabase(Database.valueOf(rs.getString("database_type")));
+        return practice;
+    };
+
 
     /**
      * @param aJdbcTemplate
@@ -68,22 +77,59 @@ public class PracticeService {
      * @param practice
      * @return practice
      */
+    @Transactional
     public Optional<SqlPractice> create(final SqlPractice practice) {
+    //insert into practices.
         final SimpleJdbcInsert insert = new SimpleJdbcInsert(dataSource)
                 .withTableName("practices")
                 .usingGeneratedKeyColumns("id")
-                .usingColumns("name", "database_type", "script",
-                        "description");
+                .usingColumns("name", "description");
         final Map<String, Object> valueMap = Map.of("name", practice.getName(),
-                "database_type", practice.getDatabase().getValue(),
-                "script", practice.getScript(),
                 "description", practice.getDescription());
         final Number examId = insert.executeAndReturnKey(valueMap);
-        Optional<SqlPractice> createdExam = read(examId.intValue());
+        if(examId.intValue() == 0) {
+            throw new RuntimeException("throwing exception to test " +
+                    "transaction rollback");
+        }
+
+        final SimpleJdbcInsert insertToPracticesSql =
+                new SimpleJdbcInsert(dataSource)
+                .withTableName("practices_sql")
+                .usingColumns("exam_id", "database_type", "script");
+        final Map<String, Object> valueMapPracticeSql = Map.of("exam_id",
+                examId,
+                "database_type", practice.getDatabase(),
+                "script", practice.getScript());
+        int inserted = insertToPracticesSql.execute(valueMapPracticeSql);
+        if(inserted != 1) {
+            throw new RuntimeException("throwing exception to test " +
+                    "transaction rollback");
+        }
+
+        Optional<SqlPractice> createdExam = readPracticeSql(examId.intValue());
         createdExam.ifPresent(exam1 -> {
             loadScripts(exam1);
         });
         return createdExam;
+    }
+
+    /**
+     * read an practice.
+     *
+     * @param anExamId
+     * @return sqlpractice
+     */
+    public Optional<SqlPractice> readPracticeSql(final Integer anExamId) {
+        final String query =
+                "SELECT exam_id,database_type,script "
+                        + "FROM practices_sql WHERE exam_id = ?";
+        try {
+            return Optional.of(jdbcTemplate
+                    .queryForObject(query, new Object[]{anExamId},
+                            rowMapperPracticeSql));
+        } catch (final EmptyResultDataAccessException e) {
+            return Optional.empty();
+        }
     }
 
     /**
@@ -119,7 +165,7 @@ public class PracticeService {
      */
     public Optional<SqlPractice> read(final Integer newPracticeId) {
         final String query =
-                "SELECT id,name,script,description,database_type "
+                "SELECT id,name,description "
                         + "FROM practices WHERE id = ?";
         try {
             return Optional.of(jdbcTemplate
@@ -161,7 +207,7 @@ public class PracticeService {
         Boolean success = false;
         if (practice.isPresent()) {
 
-            String query = "DELETE FROM questions WHERE exam_id=?";
+            String query = "DELETE FROM practices_sql WHERE exam_id=?";
             Integer updatedRows = jdbcTemplate.update(query, id);
             query = "DELETE FROM PRACTICES WHERE ID=?";
             updatedRows = jdbcTemplate.update(query, id);
@@ -191,7 +237,7 @@ public class PracticeService {
     public List<SqlPractice> list() {
 
         String recordsQuery =
-                "SELECT id,name,script,description,database_type"
+                "SELECT id,name,description"
                         + " FROM practices";
 
         return jdbcTemplate.query(recordsQuery, rowMapper);

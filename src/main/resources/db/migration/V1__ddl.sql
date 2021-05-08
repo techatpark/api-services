@@ -5,9 +5,14 @@ DROP TABLE IF EXISTS practices;
 CREATE TABLE practices (
   id INT auto_increment PRIMARY KEY,
   name VARCHAR(55) NOT NULL,
-  database_type VARCHAR(15) NOT NULL,
-  script TEXT NOT NULL,
   description TEXT NOT NULL
+);
+
+CREATE TABLE practices_sql (
+    exam_id INT PRIMARY KEY,
+    database_type VARCHAR(15) NOT NULL,
+    script TEXT NOT NULL,
+    FOREIGN KEY (exam_id) REFERENCES practices (id)
 );
 
 CREATE TABLE questions (
