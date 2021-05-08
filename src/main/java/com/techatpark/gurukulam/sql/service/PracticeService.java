@@ -48,6 +48,9 @@ public class PracticeService {
         return practice;
     };
 
+    /**
+     * Maps the data from and to the database.
+     */
     private final RowMapper<SqlPractice> rowMapperPracticeSql =
             (rs, rowNum) -> {
         final SqlPractice practice = new SqlPractice();
@@ -87,9 +90,9 @@ public class PracticeService {
         final Map<String, Object> valueMap = Map.of("name", practice.getName(),
                 "description", practice.getDescription());
         final Number examId = insert.executeAndReturnKey(valueMap);
-        if(examId.intValue() == 0) {
-            throw new RuntimeException("throwing exception to test " +
-                    "transaction rollback");
+        if (examId.intValue() == 0) {
+            throw new RuntimeException("throwing exception to test "
+                    + "transaction rollback");
         }
 
         final SimpleJdbcInsert insertToPracticesSql =
@@ -101,9 +104,9 @@ public class PracticeService {
                 "database_type", practice.getDatabase(),
                 "script", practice.getScript());
         int inserted = insertToPracticesSql.execute(valueMapPracticeSql);
-        if(inserted != 1) {
-            throw new RuntimeException("throwing exception to test " +
-                    "transaction rollback");
+        if (inserted != 1) {
+            throw new RuntimeException("throwing exception to test "
+                    + "transaction rollback");
         }
 
         Optional<SqlPractice> createdExam = readPracticeSql(examId.intValue());

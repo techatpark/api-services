@@ -23,10 +23,10 @@ public class SqlPractice extends Practice {
 
     /**
      * sets exam Id.
-     * @param examId
+     * @param anExamId
      */
-    public void setExamId(Integer examId) {
-        this.examId = examId;
+    public void setExamId(final Integer anExamId) {
+        this.examId = anExamId;
     }
 
     /**
