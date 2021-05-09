@@ -17,6 +17,8 @@ import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Service;
 
 import javax.sql.DataSource;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -48,7 +50,8 @@ public class PracticeService {
     /**
      * Maps the data from and to the database. return exam
      */
-    private final RowMapper<SqlPractice> rowMapper = (rs, rowNum) -> {
+
+    private <T extends Practice> T rowMapper(ResultSet rs, Integer rowNum) throws SQLException {
         String metaData = rs.getString("meta_data");
         SqlPractice practice;
         try {
@@ -60,7 +63,7 @@ public class PracticeService {
         practice.setId(rs.getInt("id"));
         practice.setName(rs.getString("name"));
         practice.setDescription(rs.getString("description"));
-        return practice;
+        return (T) practice;
     };
 
     /**
@@ -94,7 +97,7 @@ public class PracticeService {
      * @param practice
      * @return practice
      */
-    public Optional<SqlPractice> create(final SqlPractice practice)
+    public <T extends Practice> Optional<T> create(final T practice)
             throws JsonProcessingException {
         final SimpleJdbcInsert insert = new SimpleJdbcInsert(dataSource)
                 .withTableName("practices")
@@ -106,9 +109,12 @@ public class PracticeService {
                 "description", practice.getDescription(),
                 "meta_data", getMetadata(practice));
         final Number examId = insert.executeAndReturnKey(valueMap);
-        Optional<SqlPractice> createdExam = read(examId.intValue());
+        Optional<T> createdExam = read(examId.intValue());
         createdExam.ifPresent(exam1 -> {
-            loadScripts(exam1);
+            if(exam1 instanceof SqlPractice) {
+                loadScripts((SqlPractice) exam1);
+            }
+
         });
         return createdExam;
     }
@@ -144,14 +150,18 @@ public class PracticeService {
      * @param newPracticeId
      * @return practice
      */
-    public Optional<SqlPractice> read(final Integer newPracticeId) {
+    public <T extends Practice> Optional<T> read(final Integer newPracticeId) {
         final String query =
                 "SELECT id,name,meta_data,description "
                         + "FROM practices WHERE id = ?";
+
+
+
         try {
-            return Optional.of(jdbcTemplate
+            T p = (T) jdbcTemplate
                     .queryForObject(query, new Object[]{newPracticeId},
-                            rowMapper));
+                            this::rowMapper);
+            return Optional.of(p);
         } catch (final EmptyResultDataAccessException e) {
             return Optional.empty();
         }
@@ -165,8 +175,8 @@ public class PracticeService {
      * @return practice
      * @TODO Soft Delete
      */
-    public Optional<SqlPractice> update(final Integer id,
-                                        final SqlPractice practice)
+    public <T extends Practice> Optional<T> update(final Integer id,
+                                        final T practice)
             throws JsonProcessingException {
         final String query =
                 "UPDATE practices SET name = ?, meta_data = ? ,"
@@ -216,13 +226,13 @@ public class PracticeService {
      *
      * @return list
      */
-    public List<SqlPractice> list() {
+    public <T extends Practice> List<T> list() {
 
         String recordsQuery =
                 "SELECT id,name,meta_data,description"
                         + " FROM practices";
-
-        return jdbcTemplate.query(recordsQuery, rowMapper);
+        List<T> tList = jdbcTemplate.query(recordsQuery, this::rowMapper);
+        return tList;
     }
 
     /**
@@ -231,7 +241,7 @@ public class PracticeService {
      * @param pageable
      * @return list
      */
-    public Page<SqlPractice> page(final Pageable pageable) {
+    public <T extends Practice> Page<T> page(final Pageable pageable) {
 
         String recordsQuery =
                 "SELECT id,name,meta_data,description"
@@ -243,8 +253,8 @@ public class PracticeService {
 
         String countsQuery = "SELECT COUNT(id) FROM practices";
 
-        return new PageImpl<SqlPractice>(
-                jdbcTemplate.query(recordsQuery, rowMapper), pageable,
+        return new PageImpl<T>(
+                jdbcTemplate.query(recordsQuery, this::rowMapper), pageable,
                 jdbcTemplate.queryForObject(countsQuery, Long.class));
     }
 

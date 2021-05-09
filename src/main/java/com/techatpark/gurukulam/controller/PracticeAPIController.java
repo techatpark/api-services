@@ -1,8 +1,8 @@
 package com.techatpark.gurukulam.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.techatpark.gurukulam.model.Practice;
 import com.techatpark.gurukulam.model.Question;
-import com.techatpark.gurukulam.model.sql.SqlPractice;
 import com.techatpark.gurukulam.service.AnswerService;
 import com.techatpark.gurukulam.service.PracticeService;
 import com.techatpark.gurukulam.service.QuestionService;
@@ -21,9 +21,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
@@ -32,10 +30,8 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
-@RestController
-@RequestMapping("/api/practices/sql")
-@Tag(name = "Practices", description = "Resource to manage practices")
-class PracticeAPIController {
+
+class PracticeAPIController<T extends Practice> {
     /**
      * sqlPracticeService.
      */
@@ -65,11 +61,11 @@ class PracticeAPIController {
             @ApiResponse(responseCode = "400", description =
                     "exam is invalid")})
     @PostMapping
-    public ResponseEntity<Optional<SqlPractice>> create(final
+    public ResponseEntity<Optional<T>> create(final
                                                         @RequestBody
                                                         @Valid
                                                         @NotNull
-                                                        @NotBlank SqlPractice
+                                                        @NotBlank T
                                                                 exam)
             throws IOException {
 
@@ -84,7 +80,7 @@ class PracticeAPIController {
             @ApiResponse(responseCode = "404",
                     description = "exam not found")})
     @GetMapping("/{id}")
-    public ResponseEntity<SqlPractice> findById(
+    public ResponseEntity<T> findById(
             final @PathVariable Integer id) {
         return ResponseEntity.of(practiceService.read(id));
     }
@@ -97,10 +93,10 @@ class PracticeAPIController {
             @ApiResponse(responseCode = "204",
                     description = "exam are not available")})
     @GetMapping
-    public ResponseEntity<Page<SqlPractice>> findAll(
+    public ResponseEntity<Page<T>> findAll(
             @NotNull final Pageable pageable) {
-        Page<SqlPractice> practices = practiceService.page(pageable);
-        return practices.isEmpty() ? new ResponseEntity<Page<SqlPractice>>(
+        Page<T> practices = practiceService.page(pageable);
+        return practices.isEmpty() ? new ResponseEntity<Page<T>>(
                 HttpStatus.NO_CONTENT)
                 : ResponseEntity.ok(practices);
     }
@@ -116,15 +112,15 @@ class PracticeAPIController {
             @ApiResponse(responseCode = "404",
                     description = "exam not found")})
     @PutMapping("/{id}")
-    public ResponseEntity<Optional<SqlPractice>> update(final @PathVariable
+    public ResponseEntity<Optional<T>> update(final @PathVariable
                                                                 Integer id,
                                                         final @Valid
                                                         @RequestBody
-                                                                SqlPractice
+                                                                Practice
                                                                 exam)
             throws JsonProcessingException {
-        Optional<SqlPractice> updatedexam = practiceService.update(id, exam);
-        return updatedexam == null ? new ResponseEntity<Optional<SqlPractice>>(
+        Optional<T> updatedexam = (Optional<T>) practiceService.update(id, exam);
+        return updatedexam == null ? new ResponseEntity<Optional<T>>(
                 HttpStatus.NOT_FOUND)
                 : ResponseEntity.ok(updatedexam);
     }
