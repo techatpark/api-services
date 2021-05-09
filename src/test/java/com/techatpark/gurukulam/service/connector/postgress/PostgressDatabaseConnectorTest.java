@@ -1,14 +1,14 @@
 package com.techatpark.gurukulam.service.connector.postgress;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.techatpark.gurukulam.service.PracticeService;
-import com.techatpark.gurukulam.service.QuestionService;
-import com.techatpark.gurukulam.service.connector.DatabaseConnector;
 import com.techatpark.gurukulam.model.Database;
 import com.techatpark.gurukulam.model.Practice;
 import com.techatpark.gurukulam.model.Question;
 import com.techatpark.gurukulam.model.sql.SqlPractice;
+import com.techatpark.gurukulam.service.PracticeService;
+import com.techatpark.gurukulam.service.QuestionService;
 import com.techatpark.gurukulam.service.TestUtil;
+import com.techatpark.gurukulam.service.connector.DatabaseConnector;
 import org.junit.jupiter.api.BeforeEach;
 import org.springframework.beans.factory.annotation.Autowired;
 

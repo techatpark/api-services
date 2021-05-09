@@ -10,7 +10,6 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
-import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -62,11 +61,11 @@ class PracticeAPIController<T extends Practice> {
                     "exam is invalid")})
     @PostMapping
     public ResponseEntity<Optional<T>> create(final
-                                                        @RequestBody
-                                                        @Valid
-                                                        @NotNull
-                                                        @NotBlank T
-                                                                exam)
+                                              @RequestBody
+                                              @Valid
+                                              @NotNull
+                                              @NotBlank T
+                                                      exam)
             throws IOException {
 
         return ResponseEntity.status(HttpStatus.CREATED)
@@ -113,13 +112,14 @@ class PracticeAPIController<T extends Practice> {
                     description = "exam not found")})
     @PutMapping("/{id}")
     public ResponseEntity<Optional<T>> update(final @PathVariable
-                                                                Integer id,
-                                                        final @Valid
-                                                        @RequestBody
-                                                                Practice
-                                                                exam)
+                                                      Integer id,
+                                              final @Valid
+                                              @RequestBody
+                                                      Practice
+                                                      exam)
             throws JsonProcessingException {
-        Optional<T> updatedexam = (Optional<T>) practiceService.update(id, exam);
+        Optional<T> updatedexam = (Optional<T>)
+                practiceService.update(id, exam);
         return updatedexam == null ? new ResponseEntity<Optional<T>>(
                 HttpStatus.NOT_FOUND)
                 : ResponseEntity.ok(updatedexam);

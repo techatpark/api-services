@@ -1,9 +1,9 @@
 package com.techatpark.gurukulam.service.connector.h2;
 
-import com.techatpark.gurukulam.service.connector.DatabaseConnector;
-import com.techatpark.gurukulam.service.util.FlywayUtil;
 import com.techatpark.gurukulam.model.Question;
 import com.techatpark.gurukulam.model.sql.SqlPractice;
+import com.techatpark.gurukulam.service.connector.DatabaseConnector;
+import com.techatpark.gurukulam.service.util.FlywayUtil;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 import org.slf4j.Logger;

@@ -12,7 +12,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Service;
 
@@ -48,25 +47,6 @@ public class PracticeService {
 
 
     /**
-     * Maps the data from and to the database. return exam
-     */
-
-    private <T extends Practice> T rowMapper(ResultSet rs, Integer rowNum) throws SQLException {
-        String metaData = rs.getString("meta_data");
-        SqlPractice practice;
-        try {
-            practice = metaData == null ? new SqlPractice()
-                    : new ObjectMapper().readValue(metaData, SqlPractice.class);
-        } catch (JsonProcessingException e) {
-            practice = new SqlPractice();
-        }
-        practice.setId(rs.getInt("id"));
-        practice.setName(rs.getString("name"));
-        practice.setDescription(rs.getString("description"));
-        return (T) practice;
-    };
-
-    /**
      * @param aJdbcTemplate
      * @param aDatasource
      * @param anApplicationContext
@@ -82,6 +62,31 @@ public class PracticeService {
         this.objectMapper = aObjectMapper;
     }
 
+    /**
+     * Maps the data from and to the database.
+     * @param rs
+     * @param rowNum
+     * @param <T>
+     * @return p
+     * @throws SQLException
+     */
+    private <T extends Practice> T rowMapper(final ResultSet rs,
+                                             final Integer rowNum)
+            throws SQLException {
+        String metaData = rs.getString("meta_data");
+        SqlPractice practice;
+        try {
+            practice = metaData == null ? new SqlPractice()
+                    : new ObjectMapper().readValue(metaData, SqlPractice.class);
+        } catch (JsonProcessingException e) {
+            practice = new SqlPractice();
+        }
+        practice.setId(rs.getInt("id"));
+        practice.setName(rs.getString("name"));
+        practice.setDescription(rs.getString("description"));
+        return (T) practice;
+    }
+
     private String getMetadata(final Practice practice)
             throws JsonProcessingException {
         ObjectNode oNode = objectMapper.valueToTree(practice);
@@ -93,9 +98,10 @@ public class PracticeService {
 
     /**
      * inserts data to database.
-     *
      * @param practice
-     * @return practice
+     * @param <T>
+     * @return p.
+     * @throws JsonProcessingException
      */
     public <T extends Practice> Optional<T> create(final T practice)
             throws JsonProcessingException {
@@ -111,7 +117,7 @@ public class PracticeService {
         final Number examId = insert.executeAndReturnKey(valueMap);
         Optional<T> createdExam = read(examId.intValue());
         createdExam.ifPresent(exam1 -> {
-            if(exam1 instanceof SqlPractice) {
+            if (exam1 instanceof SqlPractice) {
                 loadScripts((SqlPractice) exam1);
             }
 
@@ -146,15 +152,14 @@ public class PracticeService {
 
     /**
      * read an practice.
-     *
      * @param newPracticeId
-     * @return practice
+     * @param <T>
+     * @return p.
      */
     public <T extends Practice> Optional<T> read(final Integer newPracticeId) {
         final String query =
                 "SELECT id,name,meta_data,description "
                         + "FROM practices WHERE id = ?";
-
 
 
         try {
@@ -169,14 +174,14 @@ public class PracticeService {
 
     /**
      * update database.
-     *
-     * @param practice
      * @param id
-     * @return practice
-     * @TODO Soft Delete
+     * @param practice
+     * @param <T>
+     * @return p.
+     * @throws JsonProcessingException
      */
     public <T extends Practice> Optional<T> update(final Integer id,
-                                        final T practice)
+                                                   final T practice)
             throws JsonProcessingException {
         final String query =
                 "UPDATE practices SET name = ?, meta_data = ? ,"
@@ -195,15 +200,18 @@ public class PracticeService {
      * @return successflag
      */
     public Boolean delete(final Integer id) {
-        final Optional<SqlPractice> practice = read(id);
+        final Optional<Practice> oPractice = read(id);
         Boolean success = false;
-        if (practice.isPresent()) {
+        if (oPractice.isPresent()) {
 
             String query = "DELETE FROM questions WHERE exam_id=?";
             Integer updatedRows = jdbcTemplate.update(query, id);
             query = "DELETE FROM PRACTICES WHERE ID=?";
             updatedRows = jdbcTemplate.update(query, id);
-            unloadScripts(practice.get());
+            Practice practice = oPractice.get();
+            if (practice instanceof SqlPractice) {
+                unloadScripts((SqlPractice) practice);
+            }
             success = !(updatedRows == 0);
         }
         return success;
@@ -222,9 +230,9 @@ public class PracticeService {
     }
 
     /**
-     * lists all from table .
-     *
-     * @return list
+     * lists all from table.
+     * @param <T>
+     * @return lp
      */
     public <T extends Practice> List<T> list() {
 
@@ -237,9 +245,9 @@ public class PracticeService {
 
     /**
      * lists all from table as page.
-     *
      * @param pageable
-     * @return list
+     * @param <T>
+     * @return lp
      */
     public <T extends Practice> Page<T> page(final Pageable pageable) {
 

@@ -12,9 +12,9 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/practices/sql")
 @Tag(name = "Practices", description = "Resource to manage sql practices")
 class SqlPracticeController extends PracticeAPIController<SqlPractice> {
-    SqlPracticeController(PracticeService newPracticeService,
-                          QuestionService newQuestionService,
-                          AnswerService newAnswerService) {
+    SqlPracticeController(final PracticeService newPracticeService,
+                          final QuestionService newQuestionService,
+                          final AnswerService newAnswerService) {
         super(newPracticeService, newQuestionService, newAnswerService);
     }
 }
