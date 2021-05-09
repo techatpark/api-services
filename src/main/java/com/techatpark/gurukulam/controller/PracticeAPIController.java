@@ -30,7 +30,7 @@ import java.util.List;
 import java.util.Optional;
 
 
-class PracticeAPIController<T extends Practice> {
+abstract class PracticeAPIController<T extends Practice> {
     /**
      * sqlPracticeService.
      */
@@ -69,7 +69,7 @@ class PracticeAPIController<T extends Practice> {
             throws IOException {
 
         return ResponseEntity.status(HttpStatus.CREATED)
-                .body(practiceService.create(exam));
+                .body(practiceService.create(getType(), exam));
     }
 
     @Operation(summary = "Get exam with given id",
@@ -94,7 +94,7 @@ class PracticeAPIController<T extends Practice> {
     @GetMapping
     public ResponseEntity<Page<T>> findAll(
             @NotNull final Pageable pageable) {
-        Page<T> practices = practiceService.page(pageable);
+        Page<T> practices = practiceService.page(getType(), pageable);
         return practices.isEmpty() ? new ResponseEntity<Page<T>>(
                 HttpStatus.NO_CONTENT)
                 : ResponseEntity.ok(practices);
@@ -246,5 +246,7 @@ class PracticeAPIController<T extends Practice> {
                 HttpStatus.ACCEPTED).build()
                 : ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).build();
     }
+
+    protected abstract String getType();
 
 }

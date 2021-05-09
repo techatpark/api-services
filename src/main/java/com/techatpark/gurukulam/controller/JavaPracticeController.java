@@ -9,17 +9,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api/practices/sql")
-@Tag(name = "SQL Practices", description = "Resource to manage sql practices")
-class SqlPracticeController extends PracticeAPIController<SqlPractice> {
-    SqlPracticeController(final PracticeService newPracticeService,
-                          final QuestionService newQuestionService,
-                          final AnswerService newAnswerService) {
+@RequestMapping("/api/practices/java")
+@Tag(name = "Java Practices", description = "Resource to manage java practices")
+class JavaPracticeController extends PracticeAPIController<SqlPractice> {
+    JavaPracticeController(final PracticeService newPracticeService,
+                           final QuestionService newQuestionService,
+                           final AnswerService newAnswerService) {
         super(newPracticeService, newQuestionService, newAnswerService);
     }
 
     @Override
     protected String getType() {
-        return "sql";
+        return "java";
     }
 }

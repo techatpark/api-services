@@ -53,7 +53,7 @@ public class PostgressDatabaseConnectorTest {
     @BeforeEach
     void before() throws IOException {
         questionService.delete();
-        sqlExamService.delete();
+        sqlExamService.delete("sql");
     }
 
     /**
@@ -111,7 +111,7 @@ public class PostgressDatabaseConnectorTest {
      * @return Exam
      */
     SqlPractice createAndGetExam() throws JsonProcessingException {
-        SqlPractice exam = sqlExamService.create(getExam()).get();
+        SqlPractice exam = sqlExamService.create("sql" ,getExam()).get();
         return exam;
     }
 

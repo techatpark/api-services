@@ -49,12 +49,12 @@ class QuestionServiceTest {
     @BeforeEach
     void before() throws IOException {
         cleanUp();
-        exam = sqlExamService.create(getExam()).get();
+        exam = sqlExamService.create("sql",getExam()).get();
     }
 
     private void cleanUp() {
         questionService.delete();
-        sqlExamService.delete();
+        sqlExamService.delete("sql");
     }
 
     @AfterEach

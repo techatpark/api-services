@@ -98,20 +98,25 @@ public class PracticeService {
 
     /**
      * inserts data to database.
+     * @param type
      * @param practice
      * @param <T>
      * @return p.
      * @throws JsonProcessingException
      */
-    public <T extends Practice> Optional<T> create(final T practice)
+    public <T extends Practice> Optional<T> create(final String type,
+                                                   final T practice)
             throws JsonProcessingException {
         final SimpleJdbcInsert insert = new SimpleJdbcInsert(dataSource)
                 .withTableName("practices")
                 .usingGeneratedKeyColumns("id")
                 .usingColumns("name",
-                        "description", "meta_data");
+                        "type",
+                        "description",
+                        "meta_data");
 
         final Map<String, Object> valueMap = Map.of("name", practice.getName(),
+                "type", type,
                 "description", practice.getDescription(),
                 "meta_data", getMetadata(practice));
         final Number examId = insert.executeAndReturnKey(valueMap);
@@ -219,51 +224,55 @@ public class PracticeService {
 
     /**
      * Cleaning up all practices.
-     *
+     * @param type
      * @return no.of practices deleted
      */
-    public Integer delete() {
+    public Integer delete(final String type) {
         int count = 0;
-        List<SqlPractice> practices = list();
+        List<SqlPractice> practices = list(type);
         practices.parallelStream().forEach(exam -> delete(exam.getId()));
         return count;
     }
 
     /**
      * lists all from table.
+     * @param type
      * @param <T>
      * @return lp
      */
-    public <T extends Practice> List<T> list() {
+    public <T extends Practice> List<T> list(final String type) {
 
         String recordsQuery =
                 "SELECT id,name,meta_data,description"
-                        + " FROM practices";
-        List<T> tList = jdbcTemplate.query(recordsQuery, this::rowMapper);
+                        + " FROM practices where type = ?";
+        List<T> tList = jdbcTemplate.query(recordsQuery, this::rowMapper, type);
         return tList;
     }
 
     /**
      * lists all from table as page.
+     * @param type
      * @param pageable
      * @param <T>
      * @return lp
      */
-    public <T extends Practice> Page<T> page(final Pageable pageable) {
+    public <T extends Practice> Page<T> page(final String type,
+                                             final Pageable pageable) {
 
         String recordsQuery =
                 "SELECT id,name,meta_data,description"
-                        + " FROM practices LIMIT "
+                        + " FROM practices where type = ? LIMIT "
                         + pageable.getPageSize()
                         + " OFFSET "
                         +
                         ((pageable.getPageNumber() * pageable.getPageSize()));
 
-        String countsQuery = "SELECT COUNT(id) FROM practices";
+        String countsQuery = "SELECT COUNT(id) FROM practices where type = ?";
 
         return new PageImpl<T>(
-                jdbcTemplate.query(recordsQuery, this::rowMapper), pageable,
-                jdbcTemplate.queryForObject(countsQuery, Long.class));
+                jdbcTemplate.query(recordsQuery, this::rowMapper, type),
+                pageable,
+                jdbcTemplate.queryForObject(countsQuery, Long.class, type));
     }
 
 }
