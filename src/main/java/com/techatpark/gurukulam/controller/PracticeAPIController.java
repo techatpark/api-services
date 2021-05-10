@@ -52,45 +52,45 @@ abstract class PracticeAPIController<T extends Practice> {
         this.answerService = newAnswerService;
     }
 
-    @Operation(summary = "Creates a new exam", description =
+    @Operation(summary = "Creates a new practice", description =
             "Can be called only by users with 'auth management' rights.",
             security = @SecurityRequirement(name = "bearerAuth"))
     @ApiResponses(value = {@ApiResponse(responseCode = "201", description =
-            "exam created successfully"),
+            "practice created successfully"),
             @ApiResponse(responseCode = "400", description =
-                    "exam is invalid")})
+                    "practice is invalid")})
     @PostMapping
     public ResponseEntity<Optional<T>> create(final
                                               @RequestBody
                                               @Valid
                                               @NotNull
                                               @NotBlank T
-                                                      exam)
+                                                      practice)
             throws IOException {
 
         return ResponseEntity.status(HttpStatus.CREATED)
-                .body(practiceService.create(getType(), exam));
+                .body(practiceService.create(getType(), practice));
     }
 
-    @Operation(summary = "Get exam with given id",
+    @Operation(summary = "Get practice with given id",
             security = @SecurityRequirement(name = "bearerAuth"))
     @ApiResponses(value = {@ApiResponse(responseCode = "200",
-            description = "exam"),
+            description = "practice"),
             @ApiResponse(responseCode = "404",
-                    description = "exam not found")})
+                    description = "practice not found")})
     @GetMapping("/{id}")
     public ResponseEntity<T> findById(
             final @PathVariable Integer id) {
         return ResponseEntity.of(practiceService.read(id));
     }
 
-    @Operation(summary = "lists all the exam",
+    @Operation(summary = "lists all the practice",
             description = "Can be Invoked by auth users only",
             security = @SecurityRequirement(name = "bearerAuth"))
     @ApiResponses(value = {@ApiResponse(responseCode = "200",
-            description = "Listing all the exam"),
+            description = "Listing all the practice"),
             @ApiResponse(responseCode = "204",
-                    description = "exam are not available")})
+                    description = "practice are not available")})
     @GetMapping
     public ResponseEntity<Page<T>> findAll(
             @NotNull final Pageable pageable) {
@@ -100,37 +100,37 @@ abstract class PracticeAPIController<T extends Practice> {
                 : ResponseEntity.ok(practices);
     }
 
-    @Operation(summary = "Updates the exam by given id",
+    @Operation(summary = "Updates the practice by given id",
             description = "Can be called only by users with "
                     + "'auth management' rights.",
             security = @SecurityRequirement(name = "bearerAuth"))
     @ApiResponses(value = {@ApiResponse(responseCode = "200",
-            description = "exam updated successfully"),
+            description = "practice updated successfully"),
             @ApiResponse(responseCode = "400",
-                    description = "exam is invalid"),
+                    description = "practice is invalid"),
             @ApiResponse(responseCode = "404",
-                    description = "exam not found")})
+                    description = "practice not found")})
     @PutMapping("/{id}")
     public ResponseEntity<Optional<T>> update(final @PathVariable
                                                       Integer id,
                                               final @Valid
                                               @RequestBody
                                                       Practice
-                                                      exam)
+                                                      practice)
             throws JsonProcessingException {
-        Optional<T> updatedexam = (Optional<T>)
-                practiceService.update(id, exam);
-        return updatedexam == null ? new ResponseEntity<Optional<T>>(
+        Optional<T> updatedpractice = (Optional<T>)
+                practiceService.update(id, practice);
+        return updatedpractice == null ? new ResponseEntity<Optional<T>>(
                 HttpStatus.NOT_FOUND)
-                : ResponseEntity.ok(updatedexam);
+                : ResponseEntity.ok(updatedpractice);
     }
 
-    @Operation(summary = "Deletes the exam by given id",
+    @Operation(summary = "Deletes the practice by given id",
             security = @SecurityRequirement(name = "bearerAuth"))
     @ApiResponses(value = {@ApiResponse(responseCode = "200",
-            description = "exam deleted successfully"),
+            description = "practice deleted successfully"),
             @ApiResponse(responseCode = "404",
-                    description = "exam not found")})
+                    description = "practice not found")})
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteExamById(
             final @PathVariable Integer id) {
@@ -147,15 +147,18 @@ abstract class PracticeAPIController<T extends Practice> {
             @ApiResponse(responseCode = "400",
                     description = "question is invalid")})
     @ResponseStatus(HttpStatus.CREATED)
-    @PostMapping("/{examId}/questions")
+    @PostMapping("/{practiceId}/questions/{questionType}")
     public ResponseEntity<Optional<Question>> create(final @PathVariable
-                                                             Integer examId,
+                                                             Integer practiceId,
+                                                     final @PathVariable
+                                                             String
+                                                             questionType,
                                                      final @Valid
                                                      @RequestBody
                                                              Question
                                                              question) {
         return ResponseEntity.status(HttpStatus.CREATED).body(
-                questionService.create(examId, question));
+                questionService.create(practiceId, questionType, question));
     }
 
     @Operation(summary = "Get question with given id",
@@ -164,7 +167,7 @@ abstract class PracticeAPIController<T extends Practice> {
             description = "question"),
             @ApiResponse(responseCode = "404",
                     description = "question not found")})
-    @GetMapping("/{examId}/questions/{id}")
+    @GetMapping("/{practiceId}/questions/{id}")
     public ResponseEntity<Question> findQuestionById(final @PathVariable
                                                              Integer id) {
         return ResponseEntity.of(questionService.read(id));
@@ -177,12 +180,12 @@ abstract class PracticeAPIController<T extends Practice> {
             description = "Listing all the questions"),
             @ApiResponse(responseCode = "204",
                     description = "questions are not available")})
-    @GetMapping("/{examId}/questions")
+    @GetMapping("/{practiceId}/questions")
     public ResponseEntity<List<Question>> findAllQuestions(final
                                                            @PathVariable
                                                                    Integer
-                                                                   examId) {
-        List<Question> questions = questionService.list(examId);
+                                                                   practiceId) {
+        List<Question> questions = questionService.list(practiceId);
         return questions.isEmpty() ? new ResponseEntity<List<Question>>(
                 HttpStatus.NO_CONTENT)
                 : ResponseEntity.ok(questions);
@@ -198,9 +201,9 @@ abstract class PracticeAPIController<T extends Practice> {
                     description = "question is invalid"),
             @ApiResponse(responseCode = "404",
                     description = "question not found")})
-    @PutMapping("/{examId}/questions/{id}")
+    @PutMapping("/{practiceId}/questions/{id}")
     public ResponseEntity<Optional<Question>> update(final @PathVariable
-                                                             Integer examId,
+                                                             Integer practiceId,
                                                      final @PathVariable
                                                              Integer id,
                                                      final @Valid
@@ -208,7 +211,7 @@ abstract class PracticeAPIController<T extends Practice> {
                                                              Question
                                                              question) {
         Optional<Question> updatedQuestion = questionService.update(
-                examId, id, question);
+                practiceId, id, question);
         return updatedQuestion == null
                 ? new ResponseEntity<Optional<Question>>(
                 HttpStatus.NOT_FOUND)
@@ -221,7 +224,7 @@ abstract class PracticeAPIController<T extends Practice> {
             description = "question deleted successfully"),
             @ApiResponse(responseCode = "404",
                     description = "question not found")})
-    @DeleteMapping("/{examId}/questions/{id}")
+    @DeleteMapping("/{practiceId}/questions/{id}")
     public ResponseEntity<Void> delete(final @PathVariable Integer id) {
         return questionService.delete(id) ? ResponseEntity.ok().build()
                 : new ResponseEntity<Void>(HttpStatus.NOT_FOUND);
@@ -236,7 +239,7 @@ abstract class PracticeAPIController<T extends Practice> {
             @ApiResponse(responseCode = "406",
                     description = "Answer is invalid")})
     @ResponseStatus(HttpStatus.ACCEPTED)
-    @PostMapping("/{examId}/questions/{questionId}/answer")
+    @PostMapping("/{practiceId}/questions/{questionId}/answer")
     public ResponseEntity<Void> answer(final @PathVariable
                                                Integer questionId,
                                        final @RequestBody

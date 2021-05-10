@@ -30,6 +30,11 @@ public class PostgressDatabaseConnectorTest {
     private static final String ANSWER1 = "SELECT * FROM exams";
 
     /**
+     * variable to be used for testing.
+     */
+    private static final String TYPE = "Multiline";
+
+    /**
      * Service instance to be tested.
      */
     @Autowired
@@ -120,7 +125,8 @@ public class PostgressDatabaseConnectorTest {
      * @return question
      */
     Question createAndGQuestion(final Practice exam) {
-        final Question question = questionService.create(exam.getId(), getQuestion()).get();
+        final Question question = questionService.create(exam.getId(),
+                TYPE, getQuestion()).get();
         return question;
     }
 

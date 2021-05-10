@@ -30,9 +30,14 @@ class QuestionServiceTest {
     private static final String ANSWER1 = "SELECT * FROM exams;";
 
     /**
+     * variable to be used for testing.
+     */
+    private static final String TYPE = "Multiline";
+
+    /**
      * Instance of Exam is used for testing Question.
      */
-    private Practice exam;
+    private Practice practice;
 
     /**
      * Connection created with Question Service.
@@ -44,17 +49,17 @@ class QuestionServiceTest {
      * Connection created with Question Service.
      */
     @Autowired
-    private PracticeService sqlExamService;
+    private PracticeService sqlPracticeService;
 
     @BeforeEach
     void before() throws IOException {
         cleanUp();
-        exam = sqlExamService.create("sql",getExam()).get();
+        practice = sqlPracticeService.create("sql", getPractice()).get();
     }
 
     private void cleanUp() {
         questionService.delete();
-        sqlExamService.delete("sql");
+        sqlPracticeService.delete("sql");
     }
 
     @AfterEach
@@ -64,22 +69,25 @@ class QuestionServiceTest {
 
     @Test
     void testCreate() {
-        final Question question = questionService.create(exam.getId(), getQuestion()).get();
+        final Question question = questionService.create(practice.getId(),
+                TYPE, getQuestion()).get();
         assertEquals(QUERY1, question.getQuestion(), "Created Successfully");
     }
 
     @Test
     void testUpdate() {
-        Question question = questionService.create(exam.getId(), getQuestion()).get();
+        Question question = questionService.create(practice.getId(), TYPE,
+                getQuestion()).get();
         question.setQuestion("Updated Query");
         final Integer newQuestionId = question.getId();
-        question = questionService.update(exam.getId(), newQuestionId, question).get();
+        question = questionService.update(practice.getId(), newQuestionId, question).get();
         assertEquals("Updated Query", question.getQuestion(), "Updated");
     }
 
     @Test
     void testRead() {
-        final Question question = questionService.create(exam.getId(), getQuestion()).get();
+        final Question question = questionService.create(practice.getId(),
+                TYPE, getQuestion()).get();
         final Integer newQuestionId = question.getId();
         Assertions.assertNotNull(questionService.read(newQuestionId).get(), "Assert Created");
     }
@@ -88,7 +96,9 @@ class QuestionServiceTest {
     void testDelete() {
 
         Assertions.assertThrows(NoSuchElementException.class, () -> {
-            final Question question = questionService.create(exam.getId(), getQuestion()).get();
+            final Question question =
+                    questionService.create(practice.getId(), TYPE,
+                            getQuestion()).get();
             final Integer newQuestionId = question.getId();
             questionService.delete(newQuestionId);
             questionService.read(newQuestionId).get();
@@ -97,16 +107,17 @@ class QuestionServiceTest {
 
     @Test
     void testList() {
-        questionService.create(exam.getId(), getQuestion()).get();
+        questionService.create(practice.getId(), TYPE, getQuestion()).get();
         final Question question2 = getQuestion();
-        questionService.create(exam.getId(), question2);
+        questionService.create(practice.getId(), TYPE, question2);
         assertEquals(2, questionService.list(1, 2).size(), "Test Listing");
         assertEquals(1, questionService.list(1, 1).size(), "Test Listing with restricted page");
     }
 
     @Test
     void testListWithExamId() {
-        final Question question = questionService.create(exam.getId(), getQuestion()).get();
+        final Question question = questionService.create(practice.getId(),
+                TYPE, getQuestion()).get();
         final Integer newExamId = question.getExamId();
         assertNotNull(questionService.list(newExamId), "Assert Created");
     }
@@ -119,7 +130,7 @@ class QuestionServiceTest {
         return question;
     }
 
-    SqlPractice getExam() {
+    SqlPractice getPractice() {
         final SqlPractice exam = new SqlPractice();
         exam.setName("Test Exam 1");
         exam.setDatabase(Database.POSTGRES);
