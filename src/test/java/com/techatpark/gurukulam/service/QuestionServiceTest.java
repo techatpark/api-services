@@ -115,6 +115,7 @@ class QuestionServiceTest {
         final Question question = new Question();
         question.setQuestion(QUERY1);
         question.setAnswer(ANSWER1);
+        question.setType("Multiline");
         return question;
     }
 

@@ -32,6 +32,7 @@ public class QuestionService {
         question.setId(rs.getInt("id"));
         question.setExamId(rs.getInt("exam_id"));
         question.setQuestion(rs.getString("question"));
+        question.setType(rs.getString("type"));
         question.setAnswer(rs.getString("answer"));
         return question;
     };
@@ -60,11 +61,12 @@ public class QuestionService {
         final SimpleJdbcInsert insert =
                 new SimpleJdbcInsert(dataSource).withTableName("questions")
                         .usingGeneratedKeyColumns("id")
-                        .usingColumns("exam_id", "question", "answer");
+                        .usingColumns("exam_id", "question", "type", "answer");
 
         final Map<String, Object> valueMap = new HashMap<>();
         valueMap.put("exam_id", examId);
         valueMap.put("question", question.getQuestion());
+        valueMap.put("type", question.getType());
         valueMap.put("answer", question.getAnswer());
         final Number id = insert.executeAndReturnKey(valueMap);
         return read(id.intValue());
@@ -78,7 +80,8 @@ public class QuestionService {
      */
     public Optional<Question> read(final Integer id) {
         final String query =
-                "SELECT id,exam_id,question,answer FROM questions WHERE id = ?";
+                "SELECT id,exam_id,question,type,answer FROM questions WHERE"
+                        + " id = ?";
         try {
             return Optional.of(jdbcTemplate
                     .queryForObject(query, new Object[]{id}, rowMapper));
@@ -135,7 +138,7 @@ public class QuestionService {
      * @return quetions in given exam
      */
     public List<Question> list(final Integer examId) {
-        String query = "SELECT id,exam_id,question,answer FROM questions";
+        String query = "SELECT id,exam_id,question,type,answer FROM questions";
         return jdbcTemplate.query(query, rowMapper);
     }
 
@@ -148,7 +151,7 @@ public class QuestionService {
      */
     public List<Question> list(final Integer pageNumber,
                                final Integer pageSize) {
-        String query = "SELECT id,exam_id,question,answer FROM questions";
+        String query = "SELECT id,exam_id,question,type,answer FROM questions";
         query = query + " LIMIT " + pageSize + " OFFSET " + (pageNumber - 1);
         return jdbcTemplate.query(query, rowMapper);
     }

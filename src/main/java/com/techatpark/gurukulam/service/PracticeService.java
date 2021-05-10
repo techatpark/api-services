@@ -23,7 +23,7 @@ import java.util.Map;
 import java.util.Optional;
 
 @Service
-public class PracticeService {
+public class  PracticeService {
 
     /**
      * this helps to execute sql queries.
