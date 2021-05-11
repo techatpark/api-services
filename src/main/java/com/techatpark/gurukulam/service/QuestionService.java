@@ -136,12 +136,13 @@ public class QuestionService {
     /**
      * List questions of exam.
      *
-     * @param examId
+     * @param practiceId
      * @return quetions in given exam
      */
-    public List<Question> list(final Integer examId) {
-        String query = "SELECT id,exam_id,question,type,answer FROM questions";
-        return jdbcTemplate.query(query, rowMapper);
+    public List<Question> list(final Integer practiceId) {
+        String query = "SELECT id,exam_id,question,type,answer FROM " +
+                "questions where exam_id = ? order by id";
+        return jdbcTemplate.query(query, rowMapper, practiceId);
     }
 
     /**
