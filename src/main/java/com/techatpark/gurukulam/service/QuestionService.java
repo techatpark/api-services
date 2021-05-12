@@ -140,8 +140,8 @@ public class QuestionService {
      * @return quetions in given exam
      */
     public List<Question> list(final Integer practiceId) {
-        String query = "SELECT id,exam_id,question,type,answer FROM " +
-                "questions where exam_id = ? order by id";
+        String query = "SELECT id,exam_id,question,type,answer FROM "
+                + "questions where exam_id = ? order by id";
         return jdbcTemplate.query(query, rowMapper, practiceId);
     }
 
