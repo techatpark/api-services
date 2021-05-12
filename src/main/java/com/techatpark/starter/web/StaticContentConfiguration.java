@@ -32,7 +32,7 @@ public class StaticContentConfiguration implements WebMvcConfigurer {
                 "/courses/c-programming/structures",
                 "/courses/c-programming/consoleio",
                 "/courses/c-programming/fileio",
-                "/practices/sql").stream().forEach(path -> {
+                "/practices/java").stream().forEach(path -> {
             registry.addViewController(path).setViewName("forward:"
                     + path + "/index.html");
         });
