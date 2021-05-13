@@ -74,12 +74,16 @@ public class  PracticeService {
                                              final Integer rowNum)
             throws SQLException {
         String metaData = rs.getString("meta_data");
-        SqlPractice practice;
-        try {
-            practice = metaData == null ? new SqlPractice()
-                    : new ObjectMapper().readValue(metaData, SqlPractice.class);
-        } catch (JsonProcessingException e) {
-            practice = new SqlPractice();
+        Practice practice;
+        if (metaData == null) {
+            practice = new Practice();
+        } else {
+            try {
+                practice =  new ObjectMapper().readValue(metaData,
+                        getPracticeClass(rs.getString("type")));
+            } catch (JsonProcessingException e) {
+                practice = new Practice();
+            }
         }
         practice.setId(rs.getInt("id"));
         practice.setName(rs.getString("name"));
@@ -87,13 +91,30 @@ public class  PracticeService {
         return (T) practice;
     }
 
+    /**
+     * Gets Class for Practice Type.
+     * @param type
+     * @return clz.
+     */
+    private Class<? extends Practice> getPracticeClass(final String type) {
+        switch (type) {
+            case "sql":
+                return SqlPractice.class;
+            default:
+                return Practice.class;
+        }
+    }
+
     private String getMetadata(final Practice practice)
             throws JsonProcessingException {
-        ObjectNode oNode = objectMapper.valueToTree(practice);
-        oNode.remove("id");
-        oNode.remove("name");
-        oNode.remove("description");
-        return objectMapper.writeValueAsString(oNode);
+        if (!practice.getClass().equals(Practice.class)) {
+            ObjectNode oNode = objectMapper.valueToTree(practice);
+            oNode.remove("id");
+            oNode.remove("name");
+            oNode.remove("description");
+            return objectMapper.writeValueAsString(oNode);
+        }
+        return null;
     }
 
     /**
@@ -163,7 +184,7 @@ public class  PracticeService {
      */
     public <T extends Practice> Optional<T> read(final Integer newPracticeId) {
         final String query =
-                "SELECT id,name,meta_data,description "
+                "SELECT id,name,type,meta_data,description "
                         + "FROM practices WHERE id = ?";
 
 
@@ -243,7 +264,7 @@ public class  PracticeService {
     public <T extends Practice> List<T> list(final String type) {
 
         String recordsQuery =
-                "SELECT id,name,meta_data,description"
+                "SELECT id,name,type,meta_data,description"
                         + " FROM practices where type = ?";
         List<T> tList = jdbcTemplate.query(recordsQuery, this::rowMapper, type);
         return tList;
@@ -260,7 +281,7 @@ public class  PracticeService {
                                              final Pageable pageable) {
 
         String recordsQuery =
-                "SELECT id,name,meta_data,description"
+                "SELECT id,name,type,meta_data,description"
                         + " FROM practices where type = ? LIMIT "
                         + pageable.getPageSize()
                         + " OFFSET "
