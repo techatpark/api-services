@@ -43,10 +43,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     public void configure(final WebSecurity web) throws Exception {
         web.ignoring().antMatchers("/swagger-ui.html", "/swagger-ui/**",
                 "/v3/api-docs/**", "/resources/**",
-                "/static/**", "/css/**", "/js/**",
-                "/practices/**", "/practices/**/**", "/practices/**/**/**/",
+                "/static/**", "/css/**", "/js/**","/images/**",
+                "/practices/**",
                 "/courses/**", "/courses/**/**", "/courses/**/**/**/",
-                "/images/**");
+                "/subjects/**");
     }
 
     /**
