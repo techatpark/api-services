@@ -14,11 +14,11 @@ public class StaticContentConfiguration implements WebMvcConfigurer {
      */
     @Override
     public void addViewControllers(final ViewControllerRegistry registry) {
-        List.of("/courses/**",
-                "/courses/**/**",
-                "/books/**",
-                "/books/**/**",
-                "/practices/**").stream().forEach(path -> {
+        List.of("/courses/*",
+                "/courses/*/*",
+                "/books/*",
+                "/books/*/*",
+                "/practices/*").stream().forEach(path -> {
             registry.addViewController(path).setViewName("forward:"
                     + path + "/index.html");
         });
