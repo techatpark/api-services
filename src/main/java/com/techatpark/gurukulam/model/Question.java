@@ -18,9 +18,20 @@ public class Question {
      */
     @NotBlank(message = "question is mandatory")
     private String question;
+    /**
+     * tells the answer.
+     */
+    @NotBlank(message = "answer is mandatory")
+    private String answer;
+    /**
+     * tells the type of question being created.
+     */
+    @NotBlank(message = "type of question is mandatory")
+    private String type;
 
     /**
      * gets the type of question.
+     *
      * @return type
      */
     public String getType() {
@@ -34,18 +45,6 @@ public class Question {
     public void setType(final String aType) {
         this.type = aType;
     }
-
-    /**
-     * tells the answer.
-     */
-    @NotBlank(message = "answer is mandatory")
-    private String answer;
-
-    /**
-     * tells the type of question being created.
-     */
-    @NotBlank(message = "type of question is mandatory")
-    private String type;
 
     /**
      * gets the id of question.

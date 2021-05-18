@@ -68,7 +68,8 @@ public class PostgressDatabaseConnectorTest {
     public void testVerify() throws JsonProcessingException {
         SqlPractice exam = createAndGetExam();
         Question question = createAndGQuestion(exam);
-        boolean result = postgressDatabaseConnector.verify(exam, question, getAnswer());
+        boolean result =
+                postgressDatabaseConnector.verify(exam, question, getAnswer());
         assertTrue(result);
     }
 
@@ -79,7 +80,8 @@ public class PostgressDatabaseConnectorTest {
     public void testVerifywrongAnswer() throws JsonProcessingException {
         SqlPractice exam = createAndGetExam();
         Question question = createAndGQuestion(exam);
-        boolean result = postgressDatabaseConnector.verify(exam, question, "select * from abc");
+        boolean result = postgressDatabaseConnector
+                .verify(exam, question, "select * from abc");
         assertFalse(result);
     }
 
@@ -116,7 +118,7 @@ public class PostgressDatabaseConnectorTest {
      * @return Exam
      */
     SqlPractice createAndGetExam() throws JsonProcessingException {
-        SqlPractice exam = sqlExamService.create("sql" ,getExam()).get();
+        SqlPractice exam = sqlExamService.create("sql", getExam()).get();
         return exam;
     }
 

@@ -1,5 +1,7 @@
 package com.techatpark.gurukulam.model;
 
+import javax.validation.constraints.NotBlank;
+
 public class Practice {
     /**
      * tells the id of the exam.
@@ -8,11 +10,13 @@ public class Practice {
     /**
      * tells the name of exam.
      */
+    @NotBlank(message = "name is mandatory")
     private String name;
 
     /**
      * tells the description of exam.
      */
+    @NotBlank(message = "description is mandatory")
     private String description;
 
     /**

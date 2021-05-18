@@ -23,7 +23,7 @@ import java.util.Map;
 import java.util.Optional;
 
 @Service
-public class  PracticeService {
+public class PracticeService {
 
     /**
      * this helps to execute sql queries.
@@ -64,6 +64,7 @@ public class  PracticeService {
 
     /**
      * Maps the data from and to the database.
+     *
      * @param rs
      * @param rowNum
      * @param <T>
@@ -79,7 +80,7 @@ public class  PracticeService {
             practice = new Practice();
         } else {
             try {
-                practice =  new ObjectMapper().readValue(metaData,
+                practice = new ObjectMapper().readValue(metaData,
                         getPracticeClass(rs.getString("type")));
             } catch (JsonProcessingException e) {
                 practice = new Practice();
@@ -93,6 +94,7 @@ public class  PracticeService {
 
     /**
      * Gets Class for Practice Type.
+     *
      * @param type
      * @return clz.
      */
@@ -119,6 +121,7 @@ public class  PracticeService {
 
     /**
      * inserts data to database.
+     *
      * @param type
      * @param practice
      * @param <T>
@@ -178,6 +181,7 @@ public class  PracticeService {
 
     /**
      * read an practice.
+     *
      * @param newPracticeId
      * @param <T>
      * @return p.
@@ -200,6 +204,7 @@ public class  PracticeService {
 
     /**
      * update database.
+     *
      * @param id
      * @param practice
      * @param <T>
@@ -245,6 +250,7 @@ public class  PracticeService {
 
     /**
      * Cleaning up all practices.
+     *
      * @param type
      * @return no.of practices deleted
      */
@@ -257,6 +263,7 @@ public class  PracticeService {
 
     /**
      * lists all from table.
+     *
      * @param type
      * @param <T>
      * @return lp
@@ -266,12 +273,14 @@ public class  PracticeService {
         String recordsQuery =
                 "SELECT id,name,type,meta_data,description"
                         + " FROM practices where type = ?";
-        List<T> tList = jdbcTemplate.query(recordsQuery, this::rowMapper, type);
+        List<T> tList =
+                jdbcTemplate.query(recordsQuery, this::rowMapper, type);
         return tList;
     }
 
     /**
      * lists all from table as page.
+     *
      * @param type
      * @param pageable
      * @param <T>

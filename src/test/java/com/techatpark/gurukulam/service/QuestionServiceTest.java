@@ -80,7 +80,8 @@ class QuestionServiceTest {
                 getQuestion()).get();
         question.setQuestion("Updated Query");
         final Integer newQuestionId = question.getId();
-        question = questionService.update(practice.getId(), newQuestionId, question).get();
+        question = questionService
+                .update(practice.getId(), newQuestionId, question).get();
         assertEquals("Updated Query", question.getQuestion(), "Updated");
     }
 
@@ -89,7 +90,8 @@ class QuestionServiceTest {
         final Question question = questionService.create(practice.getId(),
                 TYPE, getQuestion()).get();
         final Integer newQuestionId = question.getId();
-        Assertions.assertNotNull(questionService.read(newQuestionId).get(), "Assert Created");
+        Assertions.assertNotNull(questionService.read(newQuestionId).get(),
+                "Assert Created");
     }
 
     @Test
@@ -111,7 +113,8 @@ class QuestionServiceTest {
         final Question question2 = getQuestion();
         questionService.create(practice.getId(), TYPE, question2);
         assertEquals(2, questionService.list(1, 2).size(), "Test Listing");
-        assertEquals(1, questionService.list(1, 1).size(), "Test Listing with restricted page");
+        assertEquals(1, questionService.list(1, 1).size(),
+                "Test Listing with restricted page");
     }
 
     @Test
