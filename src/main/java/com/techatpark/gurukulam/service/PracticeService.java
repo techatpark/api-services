@@ -142,8 +142,8 @@ public class PracticeService {
         final Map<String, Object> valueMap = Map.of("name", practice.getName(),
                 "type", type,
                 "description", practice.getDescription());
-        if(metaData != null) {
-            valueMap.put("meta_data",metaData);
+        if (metaData != null) {
+            valueMap.put("meta_data", metaData);
         }
         final Number examId = insert.executeAndReturnKey(valueMap);
         Optional<T> createdExam = read(examId.intValue());
