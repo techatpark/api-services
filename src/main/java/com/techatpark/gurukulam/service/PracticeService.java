@@ -88,6 +88,7 @@ public class PracticeService {
         }
         practice.setId(rs.getInt("id"));
         practice.setName(rs.getString("name"));
+        practice.setOwner(rs.getString("owner"));
         practice.setDescription(rs.getString("description"));
         return (T) practice;
     }
@@ -123,12 +124,14 @@ public class PracticeService {
      * inserts data to database.
      *
      * @param type
+     * @param owner
      * @param practice
      * @param <T>
      * @return p.
      * @throws JsonProcessingException
      */
     public <T extends Practice> Optional<T> create(final String type,
+                                                   final String owner,
                                                    final T practice)
             throws JsonProcessingException {
         final SimpleJdbcInsert insert = new SimpleJdbcInsert(dataSource)
@@ -136,6 +139,7 @@ public class PracticeService {
                 .usingGeneratedKeyColumns("id")
                 .usingColumns("name",
                         "type",
+                        "owner",
                         "description",
                         "meta_data");
         final String metaData = getMetadata(practice);
@@ -143,12 +147,14 @@ public class PracticeService {
                 ? Map.of("name",
                 practice.getName(),
                 "type", type,
+                "owner", owner,
                 "description", practice.getDescription())
                 : Map.of("name",
-                        practice.getName(),
-                        "type", type,
-                        "description", practice.getDescription(),
-                        "meta_data", metaData);
+                practice.getName(),
+                "type", type,
+                "owner", owner,
+                "description", practice.getDescription(),
+                "meta_data", metaData);
         final Number examId = insert.executeAndReturnKey(valueMap);
         Optional<T> createdExam = read(examId.intValue());
         createdExam.ifPresent(exam1 -> {
@@ -194,7 +200,7 @@ public class PracticeService {
      */
     public <T extends Practice> Optional<T> read(final Integer newPracticeId) {
         final String query =
-                "SELECT id,name,type,meta_data,description "
+                "SELECT id,name,owner,type,meta_data,description "
                         + "FROM practices WHERE id = ?";
 
 
@@ -277,7 +283,7 @@ public class PracticeService {
     public <T extends Practice> List<T> list(final String type) {
 
         String recordsQuery =
-                "SELECT id,name,type,meta_data,description"
+                "SELECT id,name,owner,type,meta_data,description"
                         + " FROM practices where type = ?";
         List<T> tList =
                 jdbcTemplate.query(recordsQuery, this::rowMapper, type);
@@ -296,7 +302,7 @@ public class PracticeService {
                                              final Pageable pageable) {
 
         String recordsQuery =
-                "SELECT id,name,type,meta_data,description"
+                "SELECT id,name,owner,type,meta_data,description"
                         + " FROM practices where type = ? LIMIT "
                         + pageable.getPageSize()
                         + " OFFSET "

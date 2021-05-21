@@ -20,6 +20,11 @@ public class Practice {
     private String description;
 
     /**
+     * owner of exam.
+     */
+    private String owner;
+
+    /**
      * gets the id of exam.
      *
      * @return id
@@ -71,5 +76,23 @@ public class Practice {
      */
     public void setDescription(final String aDescription) {
         this.description = aDescription;
+    }
+
+    /**
+     * owner of the exam.
+     *
+     * @return owner
+     */
+    public String getOwner() {
+        return owner;
+    }
+
+    /**
+     * Sets owner of the exam.
+     *
+     * @param theOwner
+     */
+    public void setOwner(final String theOwner) {
+        this.owner = theOwner;
     }
 }

@@ -7,6 +7,7 @@ CREATE TABLE practices (
   name VARCHAR(55) NOT NULL,
   description TEXT NOT NULL,
   type VARCHAR(55) NOT NULL,
+  owner VARCHAR(55) NOT NULL,
   meta_data TEXT
 );
 

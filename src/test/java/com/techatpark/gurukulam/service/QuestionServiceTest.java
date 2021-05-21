@@ -54,7 +54,7 @@ class QuestionServiceTest {
     @BeforeEach
     void before() throws IOException {
         cleanUp();
-        practice = sqlPracticeService.create("sql", getPractice()).get();
+        practice = sqlPracticeService.create("sql", "user", getPractice()).get();
     }
 
     private void cleanUp() {

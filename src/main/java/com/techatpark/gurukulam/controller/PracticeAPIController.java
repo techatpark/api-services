@@ -26,6 +26,7 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.io.IOException;
+import java.security.Principal;
 import java.util.List;
 import java.util.Optional;
 
@@ -60,7 +61,8 @@ abstract class PracticeAPIController<T extends Practice> {
             @ApiResponse(responseCode = "400", description =
                     "practice is invalid")})
     @PostMapping
-    public ResponseEntity<Optional<T>> create(final
+    public ResponseEntity<Optional<T>> create(final Principal principal,
+                                              final
                                               @RequestBody
                                               @Valid
                                               @NotNull
@@ -69,7 +71,8 @@ abstract class PracticeAPIController<T extends Practice> {
             throws IOException {
 
         return ResponseEntity.status(HttpStatus.CREATED)
-                .body(practiceService.create(getType(), practice));
+                .body(practiceService.create(getType(),
+                        principal.getName(), practice));
     }
 
     @Operation(summary = "Get practice with given id",

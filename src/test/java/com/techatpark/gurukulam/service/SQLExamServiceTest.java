@@ -46,7 +46,7 @@ class SQLExamServiceTest {
     void testCreate() throws IOException {
         SqlPractice examToBeCrated = getExam();
         SqlPractice createdExam =
-                sqlExamService.create("sql", examToBeCrated).get();
+                sqlExamService.create("sql", "user", examToBeCrated).get();
         assertEquals(EXAM1, createdExam.getName());
     }
 
@@ -54,7 +54,7 @@ class SQLExamServiceTest {
     @Test
     void testUpdate() throws IOException {
         SqlPractice examToBeCrated = getExam();
-        SqlPractice exam = sqlExamService.create("sql", examToBeCrated).get();
+        SqlPractice exam = sqlExamService.create("sql", "user", examToBeCrated).get();
         exam.setName("Updated Name");
         exam.setDatabase(Database.POSTGRES);
         Integer newExamId = exam.getId();
@@ -66,7 +66,7 @@ class SQLExamServiceTest {
     @Test
     void testRead() throws IOException {
         SqlPractice examToBeCrated = getExam();
-        SqlPractice exam = sqlExamService.create("sql", examToBeCrated).get();
+        SqlPractice exam = sqlExamService.create("sql", "user", examToBeCrated).get();
         Integer newExamId = exam.getId();
         Assertions.assertNotNull(sqlExamService.read(newExamId).get(),
                 "Exam Created");
@@ -77,7 +77,7 @@ class SQLExamServiceTest {
         Assertions.assertThrows(NoSuchElementException.class, () -> {
             SqlPractice examToBeCrated = getExam();
             SqlPractice exam =
-                    sqlExamService.create("sql", examToBeCrated).get();
+                    sqlExamService.create("sql", "user", examToBeCrated).get();
             Integer newExamId = exam.getId();
             sqlExamService.delete(newExamId);
             sqlExamService.read(newExamId).get();
@@ -87,9 +87,9 @@ class SQLExamServiceTest {
     @Test
     void testList() throws IOException {
         SqlPractice examToBeCrated = getExam();
-        sqlExamService.create("sql", examToBeCrated).get();
+        sqlExamService.create("sql", "user", examToBeCrated).get();
         SqlPractice examToBeCrated2 = getExam();
-        sqlExamService.create("sql", examToBeCrated2);
+        sqlExamService.create("sql", "user", examToBeCrated2);
         assertEquals(2,
                 sqlExamService.page("sql", PageRequest.of(0, 2)).getContent()
                         .size()
