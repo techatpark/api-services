@@ -41,15 +41,26 @@ public class AnswerService {
     public final Boolean answer(final Integer questionId,
                                 final String answer) {
         Boolean isRigntAnswer = false;
-        Optional<Question> question = questionService.read(questionId);
-        if (question.isPresent()) {
-            String verificationSQL =
-                    "SELECT COUNT(*) FROM ( " + question.get().getAnswer()
-                            + " except " + answer
-                            + " ) AS TOTAL_ROWS";
-            Integer count = jdbcTemplate
-                    .queryForObject(verificationSQL, Integer.class);
-            isRigntAnswer = (count == 0);
+        Optional<Question> oQuestion = questionService.read(questionId);
+        if (oQuestion.isPresent()) {
+            Question question = oQuestion.get();
+            switch (question.getType()) {
+                case "sql":
+                    String verificationSQL =
+                            "SELECT COUNT(*) FROM ( " + question.getAnswer()
+                                    + " except " + answer
+                                    + " ) AS TOTAL_ROWS";
+                    Integer count = jdbcTemplate
+                            .queryForObject(verificationSQL, Integer.class);
+                    isRigntAnswer = (count == 0);
+                    break;
+                default:
+                    isRigntAnswer = answer.toLowerCase().equals(
+                            question.getAnswer().toLowerCase()
+                    );
+                    break;
+            }
+
         }
         return isRigntAnswer;
     }

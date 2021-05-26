@@ -240,7 +240,7 @@ abstract class PracticeAPIController<T extends Practice> {
             description = "Can be called only by"
                     + " users with 'auth management' rights.",
             security = @SecurityRequirement(name = "bearerAuth"))
-    @ApiResponses(value = {@ApiResponse(responseCode = "200",
+    @ApiResponses(value = {@ApiResponse(responseCode = "202",
             description = "Answered a question successfully"),
             @ApiResponse(responseCode = "406",
                     description = "Answer is invalid")})

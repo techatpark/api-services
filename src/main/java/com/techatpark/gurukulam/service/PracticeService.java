@@ -248,9 +248,9 @@ public class PracticeService {
         if (oPractice.isPresent()) {
 
             String query = "DELETE FROM questions WHERE exam_id=?";
-            Integer updatedRows = jdbcTemplate.update(query, id);
+            jdbcTemplate.update(query, id);
             query = "DELETE FROM PRACTICES WHERE ID=?";
-            updatedRows = jdbcTemplate.update(query, id);
+            Integer updatedRows = jdbcTemplate.update(query, id);
             Practice practice = oPractice.get();
             if (practice instanceof SqlPractice) {
                 unloadScripts((SqlPractice) practice);
