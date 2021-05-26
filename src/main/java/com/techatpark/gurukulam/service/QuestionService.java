@@ -136,13 +136,17 @@ public class QuestionService {
     /**
      * List questions of exam.
      *
+     * @param userName
      * @param practiceId
      * @return quetions in given exam
      */
-    public List<Question> list(final Integer practiceId) {
-        String query = "SELECT id,exam_id,question,type,answer FROM "
-                + "questions where exam_id = ? order by id";
-        return jdbcTemplate.query(query, rowMapper, practiceId);
+    public List<Question> list(final String userName,
+                               final Integer practiceId) {
+        String query = "SELECT q.id,q.exam_id,q.question,q.type,"
+                + "CASE p.owner WHEN ? THEN q.answer ELSE NULL END AS answer "
+                + "FROM questions as q JOIN practices AS p "
+                + "ON q.exam_id = p.id where q.exam_id = ? order by q.id";
+        return jdbcTemplate.query(query, rowMapper, userName, practiceId);
     }
 
     /**

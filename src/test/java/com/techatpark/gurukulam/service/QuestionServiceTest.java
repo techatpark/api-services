@@ -122,7 +122,8 @@ class QuestionServiceTest {
         final Question question = questionService.create(practice.getId(),
                 TYPE, getQuestion()).get();
         final Integer newExamId = question.getExamId();
-        assertNotNull(questionService.list(newExamId), "Assert Created");
+        assertNotNull(questionService.list("user", newExamId),
+                "Assert Created");
     }
 
     Question getQuestion() {

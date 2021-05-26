@@ -184,11 +184,14 @@ abstract class PracticeAPIController<T extends Practice> {
             @ApiResponse(responseCode = "204",
                     description = "questions are not available")})
     @GetMapping("/{practiceId}/questions")
-    public ResponseEntity<List<Question>> findAllQuestions(final
+    public ResponseEntity<List<Question>> findAllQuestions(final Principal
+                                                           principal,
+                                                           final
                                                            @PathVariable
                                                                    Integer
                                                                    practiceId) {
-        List<Question> questions = questionService.list(practiceId);
+        List<Question> questions = questionService.list(principal.getName(),
+                practiceId);
         return questions.isEmpty() ? new ResponseEntity<List<Question>>(
                 HttpStatus.NO_CONTENT)
                 : ResponseEntity.ok(questions);
