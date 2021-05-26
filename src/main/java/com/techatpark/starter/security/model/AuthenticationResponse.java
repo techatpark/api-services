@@ -5,6 +5,10 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public final class AuthenticationResponse {
     /**
+     * declares variable userName.
+     */
+    private final String userName;
+    /**
      * declares variable authToken.
      */
     private final String authToken;
@@ -20,15 +24,18 @@ public final class AuthenticationResponse {
     /**
      * initializes the value for authToken,refresh_token,profile_pic.
      *
+     * @param anUserName
      * @param anAuthToken
      * @param aRefreshToken
      * @param aProfilePicture
      */
     @JsonCreator
     public AuthenticationResponse(
+            @JsonProperty("userName") final String anUserName,
             @JsonProperty("authToken") final String anAuthToken,
             @JsonProperty("refresh_token") final String aRefreshToken,
             @JsonProperty("profile_pic") final String aProfilePicture) {
+        this.userName = anUserName;
         this.authToken = anAuthToken;
         this.refreshToken = aRefreshToken;
         this.profilePicture = aProfilePicture;
@@ -59,5 +66,13 @@ public final class AuthenticationResponse {
      */
     public String getProfilePicture() {
         return profilePicture;
+    }
+
+    /**
+     * gets the value for userName.
+     * @return userName
+     */
+    public String getUserName() {
+        return userName;
     }
 }

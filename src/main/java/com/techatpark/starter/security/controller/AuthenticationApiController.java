@@ -86,7 +86,10 @@ public class AuthenticationApiController {
                 ? "/images/tom.png"
                 : "/images/jerry.png";
         AuthenticationResponse authenticationResponse =
-                new AuthenticationResponse(token, "Refresh", profilePicture);
+                new AuthenticationResponse(authenticationRequest.getUserName(),
+                        token,
+                        "Refresh",
+                        profilePicture);
         return ResponseEntity.ok().body(authenticationResponse);
     }
 
