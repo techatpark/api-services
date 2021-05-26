@@ -70,6 +70,7 @@ public final class AuthenticationResponse {
 
     /**
      * gets the value for userName.
+     *
      * @return userName
      */
     public String getUserName() {

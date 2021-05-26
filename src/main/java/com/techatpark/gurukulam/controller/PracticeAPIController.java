@@ -185,7 +185,7 @@ abstract class PracticeAPIController<T extends Practice> {
                     description = "questions are not available")})
     @GetMapping("/{practiceId}/questions")
     public ResponseEntity<List<Question>> findAllQuestions(final Principal
-                                                           principal,
+                                                                   principal,
                                                            final
                                                            @PathVariable
                                                                    Integer
