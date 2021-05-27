@@ -37,6 +37,7 @@ public class StaticContentConfiguration implements WebMvcConfigurer {
                         .map(path1 ->
                                 path1.toString()
                                         .replaceFirst(pathPrefix, "")
+                                .toLowerCase()
                         )
                         .filter(p -> !p.equals("/index.html")
                                 && p.endsWith("index.html"))
