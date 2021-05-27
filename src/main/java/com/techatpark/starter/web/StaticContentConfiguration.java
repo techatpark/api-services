@@ -16,7 +16,7 @@ public class StaticContentConfiguration implements WebMvcConfigurer {
     /**
      * Location of static folder.
      */
-    @Value("${spring.web.resources.static-locations}")
+    @Value("${spring.web.resources.static-locations:#{null}}")
     private String staticFileLocation;
 
     /**
