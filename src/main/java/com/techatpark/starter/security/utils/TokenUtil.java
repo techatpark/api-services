@@ -21,7 +21,10 @@ public class TokenUtil {
     /**
      * declare variable secret.
      */
-    private final String secret = "javatoday";
+    private final String secret = "javatodayjavatodayjavatodayjavatoday"
+            + "javatodayjavatodayjavatodayjavatoday"
+            + "javatodayjavatodayjavatodayjavatoday"
+            + "javatodayjavatodayjavatodayjavatoday";
     /**
      * declare variable duration.
      */
