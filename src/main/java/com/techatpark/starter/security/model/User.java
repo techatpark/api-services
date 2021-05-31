@@ -1,64 +1,109 @@
 package com.techatpark.starter.security.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import javax.validation.constraints.NotNull;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 public class User {
-
+    /**
+     * name.
+     */
     private String name;
-
+    /**
+     * imageUrl.
+     */
     private String imageUrl;
-
+    /**
+     * password.
+     */
     @JsonIgnore
     private String password;
-
+    /**
+     * authProvider.
+     */
     @NotNull
     private AuthProvider provider;
-
+    /**
+     * providerId.
+     */
     private String providerId;
 
-
+    /**
+     * getName.
+     * @return name.
+     */
     public String getName() {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    /**
+     * setName.
+     * @param namu
+     */
+    public final void setName(final String namu) {
+        this.name = namu;
     }
 
-
-    public String getImageUrl() {
+    /**
+     * @return imageUrl.
+     */
+    public final String getImageUrl() {
         return imageUrl;
     }
 
-    public void setImageUrl(String imageUrl) {
-        this.imageUrl = imageUrl;
+    /**
+     * so sad.
+     * @param url
+     */
+    public final void setImageUrl(final String url) {
+        this.imageUrl = url;
     }
 
-
-    public String getPassword() {
+    /**
+     * thalai eluthu.
+     * @return password.
+     */
+    public final String getPassword() {
         return password;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    /**
+     * pwd. abc.
+     * @param pwd
+     */
+    public final void setPassword(final String pwd) {
+        this.password = pwd;
     }
 
-    public AuthProvider getProvider() {
+    /**
+     * ss.
+     * @return provider.
+     */
+    public final AuthProvider getProvider() {
         return provider;
     }
 
-    public void setProvider(AuthProvider provider) {
-        this.provider = provider;
+    /**
+     * summa.
+     * @param provider1
+     */
+    public final void setProvider(final AuthProvider provider1) {
+        this.provider = provider1;
     }
 
-    public String getProviderId() {
+    /**
+     * su.
+     * @return providerId.
+     */
+    public final String getProviderId() {
         return providerId;
     }
 
-    public void setProviderId(String providerId) {
-        this.providerId = providerId;
+    /**
+     * oa.
+     * @param providerI
+     */
+    public final void setProviderId(final String providerI) {
+        this.providerId = providerI;
     }
 }

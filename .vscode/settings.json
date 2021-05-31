@@ -1,5 +1,5 @@
 {
-  "java.checkstyle.configuration": "${workspaceFolder}/checkstyle.xml",
+  "java.checkstyle.configuration": "${workspaceFolder}/target/checkstyle-checker.xml",
   "editor.formatOnSave": true,
   "editor.codeActionsOnSave": {
     "source.organizeImports": true
