@@ -1,47 +1,74 @@
 package com.techatpark.starter.security.util;
 
-
 import java.net.NetworkInterface;
 import java.security.SecureRandom;
 import java.time.Instant;
 import java.util.Enumeration;
 
-/**
- * Distributed Sequence Generator.
- * Inspired by Twitter snowflake: https://github.com/twitter/snowflake/tree/snowflake-2010
- * <p>
- * This class should be used as a Singleton.
- * Make sure that you create and reuse a Single instance of SequenceGenerator per machine in your distributed system cluster.
- */
 public class SequenceGenerator {
+    /**
+     * s.
+     */
     private static final int TOTAL_BITS = 64;
+    /**
+     * b.
+     */
     private static final int EPOCH_BITS = 42;
+    /**
+     * cxx.
+     */
     private static final int MACHINE_ID_BITS = 10;
+    /**
+     * f.
+     */
     private static final int SEQUENCE_BITS = 12;
-
-    private static final int maxMachineId =
+    /**
+     * max.
+     */
+    private static final int MAXMACHINE_ID =
             (int) (Math.pow(2, MACHINE_ID_BITS) - 1);
-    private static final int maxSequence =
+    /**
+     * maaa.
+     */
+    private static final int MAX_SEQUENCE =
             (int) (Math.pow(2, SEQUENCE_BITS) - 1);
 
     // Custom Epoch (January 1, 2015 Midnight UTC = 2015-01-01T00:00:00Z)
+    /**
+     * oosos.
+     */
     private static final long CUSTOM_EPOCH = 1420070400000L;
-
+    /**
+     * skskks.
+     */
     private final int machineId;
-
+    /**
+     * nnn.
+     */
     private long lastTimestamp = -1L;
+    /**
+     * jj.
+     */
     private long sequence = 0L;
 
+    /**
+     * ss.
+     * @param machineIdq
+     */
     // Create Snowflake with a machineId
-    public SequenceGenerator(int machineId) {
-        if (machineId < 0 || machineId > maxMachineId) {
-            throw new IllegalArgumentException(
-                    String.format("MachineId must be between %d and %d", 0,
-                            maxMachineId));
+    public SequenceGenerator(final int machineIdq) {
+        if (machineIdq < 0 || machineIdq > MAXMACHINE_ID) {
+            throw new IllegalArgumentException(String
+                    .format(
+                            "MachineId must be between %d and %d",
+                            0, MAXMACHINE_ID));
         }
-        this.machineId = machineId;
+        this.machineId = machineIdq;
     }
 
+    /**
+     * ddd.
+     */
     // Let Snowflake generate a machineId
     public SequenceGenerator() {
         this.machineId = createMachineId();
@@ -52,6 +79,10 @@ public class SequenceGenerator {
         return Instant.now().toEpochMilli() - CUSTOM_EPOCH;
     }
 
+    /**
+     * d.
+     * @return d.
+     */
     public long nextId() {
         long currentTimestamp = timestamp();
 
@@ -61,7 +92,7 @@ public class SequenceGenerator {
             }
 
             if (currentTimestamp == lastTimestamp) {
-                sequence = (sequence + 1) & maxSequence;
+                sequence = (sequence + 1) & MAX_SEQUENCE;
                 if (sequence == 0) {
                     // Sequence Exhausted, wait till next millisecond.
                     currentTimestamp = waitNextMillis(currentTimestamp);
@@ -81,15 +112,16 @@ public class SequenceGenerator {
     }
 
     // Block and wait till next millisecond
-    private long waitNextMillis(long currentTimestamp) {
-        while (currentTimestamp == lastTimestamp) {
-            currentTimestamp = timestamp();
+    private long waitNextMillis(final long currentTimestamp) {
+        long t = currentTimestamp;
+        while (t == lastTimestamp) {
+            t = timestamp();
         }
-        return currentTimestamp;
+        return t;
     }
 
     private int createMachineId() {
-        int machineId;
+        int machineIdq;
         try {
             StringBuilder sb = new StringBuilder();
             Enumeration<NetworkInterface> networkInterfaces =
@@ -104,11 +136,11 @@ public class SequenceGenerator {
                     }
                 }
             }
-            machineId = sb.toString().hashCode();
+            machineIdq = sb.toString().hashCode();
         } catch (Exception ex) {
-            machineId = (new SecureRandom().nextInt());
+            machineIdq = (new SecureRandom().nextInt());
         }
-        machineId = machineId & maxMachineId;
-        return machineId;
+        machineIdq = machineIdq & MAXMACHINE_ID;
+        return machineIdq;
     }
 }
