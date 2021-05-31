@@ -54,7 +54,8 @@ class SQLExamServiceTest {
     @Test
     void testUpdate() throws IOException {
         SqlPractice examToBeCrated = getExam();
-        SqlPractice exam = sqlExamService.create("sql", "user", examToBeCrated).get();
+        SqlPractice exam =
+                sqlExamService.create("sql", "user", examToBeCrated).get();
         exam.setName("Updated Name");
         exam.setDatabase(Database.POSTGRES);
         Integer newExamId = exam.getId();
@@ -66,7 +67,8 @@ class SQLExamServiceTest {
     @Test
     void testRead() throws IOException {
         SqlPractice examToBeCrated = getExam();
-        SqlPractice exam = sqlExamService.create("sql", "user", examToBeCrated).get();
+        SqlPractice exam =
+                sqlExamService.create("sql", "user", examToBeCrated).get();
         Integer newExamId = exam.getId();
         Assertions.assertNotNull(sqlExamService.read(newExamId).get(),
                 "Exam Created");

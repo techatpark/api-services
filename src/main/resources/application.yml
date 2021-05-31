@@ -11,8 +11,18 @@ spring:
       jdbcUrl: jdbc:postgresql://localhost:5432/practice_db
       username: user
       password: password
-security:
-  require-ssl: true
+  security:
+    require-ssl: true
+    oauth2:
+      client:
+        registration:
+          google:
+            clientId: <<CLIENT_ID>>
+            clientSecret: <<CLIENT_SECRET>>
+            redirectUri: "{baseUrl}/oauth2/callback/{registrationId}"
+            scope:
+              - email
+              - profile
 http:
   port: 8080
 server:
@@ -29,4 +39,18 @@ springdoc:
   packagesToScan: com.techatpark.gurukulam,com.techatpark.starter.security.controller
   swagger-ui:
     operationsSorter: method
+
+app:
+  auth:
+    tokenSecret: 926D96C90030DD58429D2751926D96C90030DD58429D2751AC1BDBBC926D96C90030DD58429D2751AC1BDBBC926D96C90030DD58429D2751AC1BDBBC926D96C90030DD58429D2751AC1BDBBC926D96C90030DD58429D2751AC1BDBBC926D96C90030DD58429D2751AC1BDBBC926D96C90030DD58429D2751AC1BDBBCAC1BDBBC
+    tokenExpirationMsec: 864000000
+  oauth2:
+    # After successfully authenticating with the OAuth2 Provider,
+    # we'll be generating an auth token for the user and sending the token to the
+    # redirectUri mentioned by the client in the /oauth2/authorize request.
+    # We're not using cookies because they won't work well in mobile clients.
+    authorizedRedirectUris:
+      - http://localhost:3000/oauth2/redirect
+      - myandroidapp://oauth2/redirect
+      - myiosapp://oauth2/redirect
 

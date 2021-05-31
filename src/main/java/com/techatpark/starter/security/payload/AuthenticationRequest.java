@@ -1,4 +1,4 @@
-package com.techatpark.starter.security.model;
+package com.techatpark.starter.security.payload;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;

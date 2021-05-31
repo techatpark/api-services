@@ -118,7 +118,8 @@ public class PostgressDatabaseConnectorTest {
      * @return Exam
      */
     SqlPractice createAndGetExam() throws JsonProcessingException {
-        SqlPractice exam = sqlExamService.create("sql", "user", getExam()).get();
+        SqlPractice exam =
+                sqlExamService.create("sql", "user", getExam()).get();
         return exam;
     }
 

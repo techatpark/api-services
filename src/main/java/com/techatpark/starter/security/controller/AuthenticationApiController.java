@@ -1,8 +1,8 @@
 package com.techatpark.starter.security.controller;
 
-import com.techatpark.starter.security.model.AuthenticationRequest;
-import com.techatpark.starter.security.model.AuthenticationResponse;
-import com.techatpark.starter.security.utils.TokenUtil;
+import com.techatpark.starter.security.payload.AuthenticationRequest;
+import com.techatpark.starter.security.payload.AuthenticationResponse;
+import com.techatpark.starter.security.security.TokenProvider;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -39,7 +39,7 @@ public class AuthenticationApiController {
     /**
      * instance of tokenUtil.
      */
-    private final TokenUtil tokenUtil;
+    private final TokenProvider tokenUtil;
 
     /**
      * constructs authenticationManager,userDetailsService,tokenUtil.
@@ -52,7 +52,7 @@ public class AuthenticationApiController {
                                                anAuthenticationManager,
                                        final UserDetailsService
                                                anUserDetailsService,
-                                       final TokenUtil aTokenUtil) {
+                                       final TokenProvider aTokenUtil) {
         this.authenticationManager = anAuthenticationManager;
         this.userDetailsService = anUserDetailsService;
         this.tokenUtil = aTokenUtil;
@@ -79,17 +79,14 @@ public class AuthenticationApiController {
             throw new BadCredentialsException("Invalid Login Credentials");
         }
 
-        final UserDetails userDetails = userDetailsService
-                .loadUserByUsername(authenticationRequest.getUserName());
-        final String token = tokenUtil.generateToken(userDetails);
-        final String profilePicture = userDetails.getUsername().equals("tom")
-                ? "/images/tom.png"
-                : "/images/jerry.png";
+
+        final String token = tokenUtil.generateToken(authResult);
+
         AuthenticationResponse authenticationResponse =
                 new AuthenticationResponse(authenticationRequest.getUserName(),
                         token,
                         "Refresh",
-                        profilePicture);
+                        "/images/"+authenticationRequest.getUserName()+".png");
         return ResponseEntity.ok().body(authenticationResponse);
     }
 
