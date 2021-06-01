@@ -58,9 +58,8 @@ public class StaticContentConfiguration implements WebMvcConfigurer {
                             String urlPath = indexHtmlPath
                                     .replaceAll("/index.html",
                                             "");
-                            LOGGER.info("Loafing Index for {} from {}"
-                                    , urlPath
-                            , indexHtmlPath);
+                            LOGGER.info("Loafing Index for {} from {}",
+                                    urlPath, indexHtmlPath);
                             registry
                                     .addViewController(
                                             urlPath)
