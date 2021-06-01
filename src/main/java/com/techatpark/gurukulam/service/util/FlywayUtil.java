@@ -12,6 +12,9 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * The type Flyway util.
+ */
 public final class FlywayUtil {
 
     private FlywayUtil() {
@@ -21,9 +24,9 @@ public final class FlywayUtil {
     /**
      * Load scripts to db.
      *
-     * @param exam
-     * @param dataSource
-     * @return successFlag
+     * @param exam       the exam
+     * @param dataSource the data source
+     * @return successFlag boolean
      */
     public static Boolean loadScripts(final SqlPractice exam,
                                       final DataSource dataSource) {

@@ -22,6 +22,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+/**
+ * The type Practice service.
+ */
 @Service
 public class PracticeService {
 
@@ -47,10 +50,12 @@ public class PracticeService {
 
 
     /**
-     * @param aJdbcTemplate
-     * @param aDatasource
-     * @param anApplicationContext
-     * @param aObjectMapper
+     * Instantiates a new Practice service.
+     *
+     * @param aJdbcTemplate        the a jdbc template
+     * @param aDatasource          the a datasource
+     * @param anApplicationContext the an application context
+     * @param aObjectMapper        the a object mapper
      */
     public PracticeService(final JdbcTemplate aJdbcTemplate,
                            final DataSource aDatasource,
@@ -123,12 +128,12 @@ public class PracticeService {
     /**
      * inserts data to database.
      *
-     * @param type
-     * @param owner
-     * @param practice
-     * @param <T>
-     * @return p.
-     * @throws JsonProcessingException
+     * @param <T>      the type parameter
+     * @param type     the type
+     * @param owner    the owner
+     * @param practice the practice
+     * @return p. optional
+     * @throws JsonProcessingException the json processing exception
      */
     public <T extends Practice> Optional<T> create(final String type,
                                                    final String owner,
@@ -194,9 +199,9 @@ public class PracticeService {
     /**
      * read an practice.
      *
-     * @param newPracticeId
-     * @param <T>
-     * @return p.
+     * @param <T>           the type parameter
+     * @param newPracticeId the new practice id
+     * @return p. optional
      */
     public <T extends Practice> Optional<T> read(final Integer newPracticeId) {
         final String query =
@@ -217,11 +222,11 @@ public class PracticeService {
     /**
      * update database.
      *
-     * @param id
-     * @param practice
-     * @param <T>
-     * @return p.
-     * @throws JsonProcessingException
+     * @param <T>      the type parameter
+     * @param id       the id
+     * @param practice the practice
+     * @return p. optional
+     * @throws JsonProcessingException the json processing exception
      */
     public <T extends Practice> Optional<T> update(final Integer id,
                                                    final T practice)
@@ -239,8 +244,8 @@ public class PracticeService {
     /**
      * deletes from database.
      *
-     * @param id
-     * @return successflag
+     * @param id the id
+     * @return successflag boolean
      */
     public Boolean delete(final Integer id) {
         final Optional<Practice> oPractice = read(id);
@@ -263,7 +268,7 @@ public class PracticeService {
     /**
      * Cleaning up all practices.
      *
-     * @param type
+     * @param type the type
      * @return no.of practices deleted
      */
     public Integer delete(final String type) {
@@ -276,9 +281,9 @@ public class PracticeService {
     /**
      * lists all from table.
      *
-     * @param type
-     * @param <T>
-     * @return lp
+     * @param <T>  the type parameter
+     * @param type the type
+     * @return lp list
      */
     public <T extends Practice> List<T> list(final String type) {
 
@@ -293,10 +298,10 @@ public class PracticeService {
     /**
      * lists all from table as page.
      *
-     * @param type
-     * @param pageable
-     * @param <T>
-     * @return lp
+     * @param <T>      the type parameter
+     * @param type     the type
+     * @param pageable the pageable
+     * @return lp page
      */
     public <T extends Practice> Page<T> page(final String type,
                                              final Pageable pageable) {

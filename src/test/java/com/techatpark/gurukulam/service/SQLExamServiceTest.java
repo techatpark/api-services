@@ -15,6 +15,9 @@ import java.util.NoSuchElementException;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+/**
+ * The type Sql exam service test.
+ */
 @SpringBootTest
 class SQLExamServiceTest {
     /**
@@ -27,21 +30,35 @@ class SQLExamServiceTest {
     @Autowired
     private PracticeService sqlExamService;
 
+    /**
+     * Before each.
+     */
     @BeforeEach
     void beforeEach() {
         cleanUp();
     }
 
+    /**
+     * After each.
+     */
     @AfterEach
     void afterEach() {
         cleanUp();
     }
 
+    /**
+     * Clean up.
+     */
     void cleanUp() {
         sqlExamService.delete("sql");
     }
 
 
+    /**
+     * Test create.
+     *
+     * @throws IOException the io exception
+     */
     @Test
     void testCreate() throws IOException {
         final SqlPractice examToBeCrated = getExam();
@@ -51,6 +68,11 @@ class SQLExamServiceTest {
     }
 
 
+    /**
+     * Test update.
+     *
+     * @throws IOException the io exception
+     */
     @Test
     void testUpdate() throws IOException {
         final SqlPractice examToBeCrated = getExam();
@@ -64,6 +86,11 @@ class SQLExamServiceTest {
         assertEquals(Database.POSTGRES, exam.getDatabase(), "Updated");
     }
 
+    /**
+     * Test read.
+     *
+     * @throws IOException the io exception
+     */
     @Test
     void testRead() throws IOException {
         final SqlPractice examToBeCrated = getExam();
@@ -74,6 +101,9 @@ class SQLExamServiceTest {
                 "Exam Created");
     }
 
+    /**
+     * Test delete.
+     */
     @Test
     void testDelete() {
         Assertions.assertThrows(NoSuchElementException.class, () -> {
@@ -86,6 +116,11 @@ class SQLExamServiceTest {
         });
     }
 
+    /**
+     * Test list.
+     *
+     * @throws IOException the io exception
+     */
     @Test
     void testList() throws IOException {
         final SqlPractice examToBeCrated = getExam();
@@ -101,6 +136,11 @@ class SQLExamServiceTest {
                         .size(), "Test Listing with restricted page");
     }
 
+    /**
+     * Gets exam.
+     *
+     * @return the exam
+     */
     SqlPractice getExam() {
         final SqlPractice exam = new SqlPractice();
         exam.setName(EXAM1);

@@ -3,6 +3,9 @@ package com.techatpark.starter.security.payload;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+/**
+ * The type Authentication request.
+ */
 public final class AuthenticationRequest {
 
     /**
@@ -17,8 +20,8 @@ public final class AuthenticationRequest {
     /**
      * initializing the userName,password.
      *
-     * @param anUserName
-     * @param aPassword
+     * @param anUserName the an user name
+     * @param aPassword  the a password
      */
     @JsonCreator
     public AuthenticationRequest(
@@ -31,7 +34,7 @@ public final class AuthenticationRequest {
     /**
      * gets the value for userName.
      *
-     * @return username
+     * @return username user name
      */
     public String getUserName() {
         return userName;
@@ -40,7 +43,7 @@ public final class AuthenticationRequest {
     /**
      * gets the value for password.
      *
-     * @return password
+     * @return password password
      */
     public String getPassword() {
         return password;

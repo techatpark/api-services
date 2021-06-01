@@ -18,6 +18,9 @@ import org.springframework.data.domain.Page;
 
 import java.util.Iterator;
 
+/**
+ * The type Swagger config.
+ */
 @Configuration
 @OpenAPIDefinition(info = @Info(title = "Gurukulam API",
         version = "2.0",

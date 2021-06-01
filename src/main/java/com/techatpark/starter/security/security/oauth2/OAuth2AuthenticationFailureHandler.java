@@ -15,10 +15,16 @@ import java.io.IOException;
 
 import static com.techatpark.starter.security.security.oauth2.HttpCookieOAuth2AuthorizationRequestRepository.REDIRECT_URI_PARAM_COOKIE_NAME;
 
+/**
+ * The type O auth 2 authentication failure handler.
+ */
 @Component
 public class OAuth2AuthenticationFailureHandler
         extends SimpleUrlAuthenticationFailureHandler {
 
+    /**
+     * The Http cookie o auth 2 authorization request repository.
+     */
     @Autowired
     HttpCookieOAuth2AuthorizationRequestRepository
             httpCookieOAuth2AuthorizationRequestRepository;

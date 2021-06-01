@@ -5,6 +5,9 @@ import java.security.SecureRandom;
 import java.time.Instant;
 import java.util.Enumeration;
 
+/**
+ * The type Sequence generator.
+ */
 public class SequenceGenerator {
     /**
      * s.
@@ -54,9 +57,9 @@ public class SequenceGenerator {
     /**
      * ss.
      *
-     * @param machineIdq
+     * @param machineIdq the machine idq
      */
-    // Create Snowflake with a machineId
+// Create Snowflake with a machineId
     public SequenceGenerator(final int machineIdq) {
         if (machineIdq < 0 || machineIdq > MAXMACHINE_ID) {
             throw new IllegalArgumentException(String
@@ -70,7 +73,7 @@ public class SequenceGenerator {
     /**
      * ddd.
      */
-    // Let Snowflake generate a machineId
+// Let Snowflake generate a machineId
     public SequenceGenerator() {
         this.machineId = createMachineId();
     }
@@ -83,7 +86,7 @@ public class SequenceGenerator {
     /**
      * d.
      *
-     * @return d.
+     * @return d. long
      */
     public long nextId() {
         long currentTimestamp = timestamp();

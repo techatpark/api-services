@@ -10,6 +10,9 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
+/**
+ * The type Static content configuration.
+ */
 @Configuration
 public class StaticContentConfiguration implements WebMvcConfigurer {
 

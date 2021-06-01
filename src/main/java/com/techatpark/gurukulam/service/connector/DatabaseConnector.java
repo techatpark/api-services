@@ -14,6 +14,9 @@ import java.sql.Statement;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * The type Database connector.
+ */
 public abstract class DatabaseConnector {
 
     /**
@@ -29,7 +32,7 @@ public abstract class DatabaseConnector {
     /**
      * Creates a Database Connector.
      *
-     * @param aDataSource
+     * @param aDataSource the a data source
      */
     public DatabaseConnector(final DataSource aDataSource) {
         this.dataSource = aDataSource;
@@ -38,9 +41,9 @@ public abstract class DatabaseConnector {
     /**
      * Gets instance of Database Connector.
      *
-     * @param database
-     * @param applicationContext
-     * @return dbconnector
+     * @param database           the database
+     * @param applicationContext the application context
+     * @return dbconnector database connector
      */
     public static DatabaseConnector getDatabaseConnector(
             final Database database,
@@ -57,10 +60,10 @@ public abstract class DatabaseConnector {
     /**
      * verify the given question with the answer.
      *
-     * @param exam
-     * @param question
-     * @param sqlAnswer
-     * @return successflag
+     * @param exam      the exam
+     * @param question  the question
+     * @param sqlAnswer the sql answer
+     * @return successflag boolean
      */
     public abstract Boolean verify(SqlPractice exam, Question question,
                                    String sqlAnswer);
@@ -68,24 +71,24 @@ public abstract class DatabaseConnector {
     /**
      * Load the script for the specific exam.
      *
-     * @param exam
-     * @return successflag
+     * @param exam the exam
+     * @return successflag boolean
      */
     public abstract Boolean loadScript(SqlPractice exam);
 
     /**
      * Unload the script for the specific exam.
      *
-     * @param exam
-     * @return successflag
+     * @param exam the exam
+     * @return successflag boolean
      */
     public abstract Boolean unloadScript(SqlPractice exam);
 
     /**
      * Get connection for specific exam.
      *
-     * @param exam
-     * @return connetion
+     * @param exam the exam
+     * @return connetion connection
      */
     protected Connection getConnection(final Practice exam) {
         Connection connection = null;
@@ -101,9 +104,9 @@ public abstract class DatabaseConnector {
     /**
      * Get the count from a specific query.
      *
-     * @param countQuery
-     * @param practice
-     * @return count
+     * @param countQuery the count query
+     * @param practice   the practice
+     * @return count count
      */
     protected Integer getCount(final String countQuery,
                                final Practice practice) {
@@ -123,9 +126,9 @@ public abstract class DatabaseConnector {
     /**
      * Update a database using a query.
      *
-     * @param updateQuery
-     * @param practice
-     * @return numberOfUpdatedRows
+     * @param updateQuery the update query
+     * @param practice    the practice
+     * @return numberOfUpdatedRows integer
      */
     protected Integer update(final String updateQuery,
                              final Practice practice) {
@@ -143,7 +146,7 @@ public abstract class DatabaseConnector {
     /**
      * Gets Actual Datastore.
      *
-     * @return dataSource
+     * @return dataSource data source
      */
     public DataSource getDataSource() {
         return dataSource;

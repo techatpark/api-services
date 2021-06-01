@@ -33,7 +33,7 @@ class HelloController {
      * index method to show he details.
      *
      * @return list of details
-     * @throws URISyntaxException
+     * @throws URISyntaxException the uri syntax exception
      */
     @GetMapping
     public ResponseEntity<Map<String, Object>> index()

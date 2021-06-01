@@ -9,6 +9,9 @@ import org.springframework.web.bind.annotation.RestController;
 import static com.tngtech.archunit.lang.syntax.ArchRuleDefinition.classes;
 import static com.tngtech.archunit.lang.syntax.ArchRuleDefinition.methods;
 
+/**
+ * The type Api controller test.
+ */
 @AnalyzeClasses(packages = "com.example.demo")
 public class APIControllerTest {
     @ArchTest

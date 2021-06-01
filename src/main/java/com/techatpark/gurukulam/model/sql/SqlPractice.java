@@ -3,6 +3,9 @@ package com.techatpark.gurukulam.model.sql;
 import com.techatpark.gurukulam.model.Database;
 import com.techatpark.gurukulam.model.Practice;
 
+/**
+ * The type Sql practice.
+ */
 public class SqlPractice extends Practice {
 
     /**
@@ -19,7 +22,7 @@ public class SqlPractice extends Practice {
     /**
      * gets databse.
      *
-     * @return database
+     * @return database database
      */
     public Database getDatabase() {
         return database;
@@ -28,7 +31,7 @@ public class SqlPractice extends Practice {
     /**
      * sets database.
      *
-     * @param aDatabase
+     * @param aDatabase the a database
      */
     public void setDatabase(final Database aDatabase) {
         this.database = aDatabase;
@@ -37,7 +40,7 @@ public class SqlPractice extends Practice {
     /**
      * gets script.
      *
-     * @return script
+     * @return script script
      */
     public String getScript() {
         return script;
@@ -46,7 +49,7 @@ public class SqlPractice extends Practice {
     /**
      * sets script.
      *
-     * @param aScript
+     * @param aScript the a script
      */
     public void setScript(final String aScript) {
         this.script = aScript;

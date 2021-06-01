@@ -7,6 +7,9 @@ import com.tngtech.archunit.lang.ArchRule;
 
 import static com.tngtech.archunit.library.GeneralCodingRules.NO_CLASSES_SHOULD_USE_JODATIME;
 
+/**
+ * The type Basic architecture test.
+ */
 @ArchTag("basic")
 @AnalyzeClasses(packages = "com.example.demo")
 public class BasicArchitectureTest {

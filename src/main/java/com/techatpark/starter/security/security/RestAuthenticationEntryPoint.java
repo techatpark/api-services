@@ -9,6 +9,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+/**
+ * The type Rest authentication entry point.
+ */
 public class RestAuthenticationEntryPoint implements AuthenticationEntryPoint {
 
     private static final Logger LOGGER =

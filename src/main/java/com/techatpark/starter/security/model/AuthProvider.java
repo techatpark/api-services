@@ -1,5 +1,8 @@
 package com.techatpark.starter.security.model;
 
+/**
+ * The enum Auth provider.
+ */
 public enum AuthProvider {
     /**
      * summa.

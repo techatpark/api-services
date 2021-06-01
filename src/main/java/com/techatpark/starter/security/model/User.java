@@ -4,6 +4,9 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.validation.constraints.NotNull;
 
+/**
+ * The type User.
+ */
 public class User {
     /**
      * name.
@@ -31,7 +34,7 @@ public class User {
     /**
      * getName.
      *
-     * @return name.
+     * @return name. name
      */
     public String getName() {
         return name;
@@ -40,14 +43,16 @@ public class User {
     /**
      * setName.
      *
-     * @param namu
+     * @param namu the namu
      */
     public final void setName(final String namu) {
         this.name = namu;
     }
 
     /**
-     * @return imageUrl.
+     * Gets image url.
+     *
+     * @return imageUrl. image url
      */
     public final String getImageUrl() {
         return imageUrl;
@@ -56,7 +61,7 @@ public class User {
     /**
      * so sad.
      *
-     * @param url
+     * @param url the url
      */
     public final void setImageUrl(final String url) {
         this.imageUrl = url;
@@ -65,7 +70,7 @@ public class User {
     /**
      * thalai eluthu.
      *
-     * @return password.
+     * @return password. password
      */
     public final String getPassword() {
         return password;
@@ -74,7 +79,7 @@ public class User {
     /**
      * pwd. abc.
      *
-     * @param pwd
+     * @param pwd the pwd
      */
     public final void setPassword(final String pwd) {
         this.password = pwd;
@@ -83,7 +88,7 @@ public class User {
     /**
      * ss.
      *
-     * @return provider.
+     * @return provider. provider
      */
     public final AuthProvider getProvider() {
         return provider;
@@ -92,7 +97,7 @@ public class User {
     /**
      * summa.
      *
-     * @param provider1
+     * @param provider1 the provider 1
      */
     public final void setProvider(final AuthProvider provider1) {
         this.provider = provider1;
@@ -101,7 +106,7 @@ public class User {
     /**
      * su.
      *
-     * @return providerId.
+     * @return providerId. provider id
      */
     public final String getProviderId() {
         return providerId;
@@ -110,7 +115,7 @@ public class User {
     /**
      * oa.
      *
-     * @param providerI
+     * @param providerI the provider i
      */
     public final void setProviderId(final String providerI) {
         this.providerId = providerI;

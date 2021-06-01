@@ -6,11 +6,14 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 
+/**
+ * The type Test util.
+ */
 public final class TestUtil {
     /**
      * Create Temporary SQL Files in temp folder. Return Files as array.
      *
-     * @param exam
+     * @param exam the exam
      * @return array of sript file
      */
     public static String getScript(final SqlPractice exam) {

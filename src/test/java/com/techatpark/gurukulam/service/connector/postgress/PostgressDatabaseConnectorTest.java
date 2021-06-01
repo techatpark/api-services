@@ -17,6 +17,9 @@ import java.io.IOException;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+/**
+ * The type Postgress database connector test.
+ */
 //@SpringBootTest
 public class PostgressDatabaseConnectorTest {
     /**
@@ -53,7 +56,9 @@ public class PostgressDatabaseConnectorTest {
     private QuestionService questionService;
 
     /**
-     * @throws IOException
+     * Before.
+     *
+     * @throws IOException the io exception
      */
     @BeforeEach
     void before() throws IOException {
@@ -62,9 +67,11 @@ public class PostgressDatabaseConnectorTest {
     }
 
     /**
+     * Test verify.
      *
+     * @throws JsonProcessingException the json processing exception
      */
-    //@Test
+//@Test
     public void testVerify() throws JsonProcessingException {
         final SqlPractice exam = createAndGetExam();
         final Question question = createAndGQuestion(exam);
@@ -74,9 +81,11 @@ public class PostgressDatabaseConnectorTest {
     }
 
     /**
+     * Test verifywrong answer.
      *
+     * @throws JsonProcessingException the json processing exception
      */
-    //@Test
+//@Test
     public void testVerifywrongAnswer() throws JsonProcessingException {
         final SqlPractice exam = createAndGetExam();
         final Question question = createAndGQuestion(exam);
@@ -86,7 +95,9 @@ public class PostgressDatabaseConnectorTest {
     }
 
     /**
-     * @return exam
+     * Gets exam.
+     *
+     * @return exam exam
      */
     SqlPractice getExam() {
         final SqlPractice exam = new SqlPractice();
@@ -98,7 +109,9 @@ public class PostgressDatabaseConnectorTest {
     }
 
     /**
-     * @return qustion
+     * Gets question.
+     *
+     * @return qustion question
      */
     Question getQuestion() {
         final Question question = new Question();
@@ -108,6 +121,8 @@ public class PostgressDatabaseConnectorTest {
     }
 
     /**
+     * Gets answer.
+     *
      * @return answer String
      */
     String getAnswer() {
@@ -115,7 +130,10 @@ public class PostgressDatabaseConnectorTest {
     }
 
     /**
-     * @return Exam
+     * Create and get exam sql practice.
+     *
+     * @return Exam sql practice
+     * @throws JsonProcessingException the json processing exception
      */
     SqlPractice createAndGetExam() throws JsonProcessingException {
         final SqlPractice exam =
@@ -124,8 +142,10 @@ public class PostgressDatabaseConnectorTest {
     }
 
     /**
-     * @param exam
-     * @return question
+     * Create and g question question.
+     *
+     * @param exam the exam
+     * @return question question
      */
     Question createAndGQuestion(final Practice exam) {
         final Question question = questionService.create(exam.getId(),

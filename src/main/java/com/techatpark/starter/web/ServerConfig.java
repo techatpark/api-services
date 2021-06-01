@@ -30,7 +30,7 @@ public class ServerConfig {
     /**
      * method to get servlet containers.
      *
-     * @return ServletWebServerFactory
+     * @return ServletWebServerFactory servlet web server factory
      */
     @Bean
     public ServletWebServerFactory servletContainer() {

@@ -1,5 +1,8 @@
 package com.techatpark.gurukulam.model;
 
+/**
+ * The type Answer.
+ */
 public class Answer {
 
     /**
@@ -22,7 +25,7 @@ public class Answer {
     /**
      * gets student answer id.
      *
-     * @return id
+     * @return id id
      */
     public Integer getId() {
         return id;
@@ -31,7 +34,7 @@ public class Answer {
     /**
      * sets student answer id.
      *
-     * @param anId
+     * @param anId the an id
      */
     public void setId(final Integer anId) {
         this.id = anId;
@@ -49,7 +52,7 @@ public class Answer {
     /**
      * sets exam id.
      *
-     * @param anExamId
+     * @param anExamId the an exam id
      */
     public void setExamId(final Integer anExamId) {
         this.examId = anExamId;
@@ -67,7 +70,7 @@ public class Answer {
     /**
      * sets question id.
      *
-     * @param anQuestionId
+     * @param anQuestionId the an question id
      */
     public void setQuestionId(final Integer anQuestionId) {
         this.questionId = anQuestionId;
@@ -76,7 +79,7 @@ public class Answer {
     /**
      * gets student answer.
      *
-     * @return studentAnswer
+     * @return studentAnswer student answer
      */
     public String getStudentAnswer() {
         return studentAnswer;
@@ -85,7 +88,7 @@ public class Answer {
     /**
      * sets student answer.
      *
-     * @param aStudentAnswer
+     * @param aStudentAnswer the a student answer
      */
     public void setStudentAnswer(final String aStudentAnswer) {
         this.studentAnswer = aStudentAnswer;

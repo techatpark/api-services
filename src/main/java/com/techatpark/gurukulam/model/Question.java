@@ -2,6 +2,9 @@ package com.techatpark.gurukulam.model;
 
 import javax.validation.constraints.NotBlank;
 
+/**
+ * The type Question.
+ */
 public class Question {
     /**
      * tells the id of question.
@@ -32,7 +35,7 @@ public class Question {
     /**
      * gets the type of question.
      *
-     * @return type
+     * @return type type
      */
     public String getType() {
         return type;
@@ -40,7 +43,7 @@ public class Question {
 
     /***
      * sets the type of question.
-     * @param aType
+     * @param aType the a type
      */
     public void setType(final String aType) {
         this.type = aType;
@@ -49,7 +52,7 @@ public class Question {
     /**
      * gets the id of question.
      *
-     * @return id
+     * @return id id
      */
     public Integer getId() {
         return id;
@@ -58,7 +61,7 @@ public class Question {
     /**
      * sets the id of question.
      *
-     * @param anId
+     * @param anId the an id
      */
     public void setId(final Integer anId) {
         this.id = anId;
@@ -67,7 +70,7 @@ public class Question {
     /**
      * gets the exam id.
      *
-     * @return exam_id
+     * @return exam_id exam id
      */
     public Integer getExamId() {
         return examId;
@@ -76,7 +79,7 @@ public class Question {
     /**
      * sets the examid of question.
      *
-     * @param anExamId
+     * @param anExamId the an exam id
      */
     public void setExamId(final Integer anExamId) {
         this.examId = anExamId;
@@ -85,7 +88,7 @@ public class Question {
     /**
      * gets the question.
      *
-     * @return question
+     * @return question question
      */
     public String getQuestion() {
         return question;
@@ -94,7 +97,7 @@ public class Question {
     /**
      * sets the question.
      *
-     * @param anQuestion
+     * @param anQuestion the an question
      */
     public void setQuestion(final String anQuestion) {
         this.question = anQuestion;
@@ -103,7 +106,7 @@ public class Question {
     /**
      * gets the answer.
      *
-     * @return answer
+     * @return answer answer
      */
     public String getAnswer() {
         return answer;
@@ -112,7 +115,7 @@ public class Question {
     /**
      * sets the answer.
      *
-     * @param anAnswer
+     * @param anAnswer the an answer
      */
     public void setAnswer(final String anAnswer) {
         this.answer = anAnswer;

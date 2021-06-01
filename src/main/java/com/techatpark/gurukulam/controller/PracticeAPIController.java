@@ -31,6 +31,11 @@ import java.util.List;
 import java.util.Optional;
 
 
+/**
+ * The type Practice api controller.
+ *
+ * @param <T> the type parameter
+ */
 abstract class PracticeAPIController<T extends Practice> {
     /**
      * sqlPracticeService.
@@ -45,6 +50,13 @@ abstract class PracticeAPIController<T extends Practice> {
      */
     private final AnswerService answerService;
 
+    /**
+     * Instantiates a new Practice api controller.
+     *
+     * @param newPracticeService the new practice service
+     * @param newQuestionService the new question service
+     * @param newAnswerService   the new answer service
+     */
     PracticeAPIController(final PracticeService newPracticeService,
                           final QuestionService newQuestionService,
                           final AnswerService newAnswerService) {
@@ -53,6 +65,14 @@ abstract class PracticeAPIController<T extends Practice> {
         this.answerService = newAnswerService;
     }
 
+    /**
+     * Create response entity.
+     *
+     * @param principal the principal
+     * @param practice  the practice
+     * @return the response entity
+     * @throws IOException the io exception
+     */
     @Operation(summary = "Creates a new practice", description =
             "Can be called only by users with 'auth management' rights.",
             security = @SecurityRequirement(name = "bearerAuth"))
@@ -75,6 +95,12 @@ abstract class PracticeAPIController<T extends Practice> {
                         principal.getName(), practice));
     }
 
+    /**
+     * Find by id response entity.
+     *
+     * @param id the id
+     * @return the response entity
+     */
     @Operation(summary = "Get practice with given id",
             security = @SecurityRequirement(name = "bearerAuth"))
     @ApiResponses(value = {@ApiResponse(responseCode = "200",
@@ -87,6 +113,12 @@ abstract class PracticeAPIController<T extends Practice> {
         return ResponseEntity.of(practiceService.read(id));
     }
 
+    /**
+     * Find all response entity.
+     *
+     * @param pageable the pageable
+     * @return the response entity
+     */
     @Operation(summary = "lists all the practice",
             description = "Can be Invoked by auth users only",
             security = @SecurityRequirement(name = "bearerAuth"))
@@ -103,6 +135,14 @@ abstract class PracticeAPIController<T extends Practice> {
                 : ResponseEntity.ok(practices);
     }
 
+    /**
+     * Update response entity.
+     *
+     * @param id       the id
+     * @param practice the practice
+     * @return the response entity
+     * @throws JsonProcessingException the json processing exception
+     */
     @Operation(summary = "Updates the practice by given id",
             description = "Can be called only by users with "
                     + "'auth management' rights.",
@@ -128,6 +168,12 @@ abstract class PracticeAPIController<T extends Practice> {
                 : ResponseEntity.ok(updatedpractice);
     }
 
+    /**
+     * Delete exam by id response entity.
+     *
+     * @param id the id
+     * @return the response entity
+     */
     @Operation(summary = "Deletes the practice by given id",
             security = @SecurityRequirement(name = "bearerAuth"))
     @ApiResponses(value = {@ApiResponse(responseCode = "200",
@@ -141,6 +187,14 @@ abstract class PracticeAPIController<T extends Practice> {
                 : new ResponseEntity<Void>(HttpStatus.NOT_FOUND);
     }
 
+    /**
+     * Create response entity.
+     *
+     * @param practiceId   the practice id
+     * @param questionType the question type
+     * @param question     the question
+     * @return the response entity
+     */
     @Operation(summary = "Creates a new question",
             description = "Can be called only by users with"
                     + " 'auth management' rights.",
@@ -164,6 +218,12 @@ abstract class PracticeAPIController<T extends Practice> {
                 questionService.create(practiceId, questionType, question));
     }
 
+    /**
+     * Find question by id response entity.
+     *
+     * @param id the id
+     * @return the response entity
+     */
     @Operation(summary = "Get question with given id",
             security = @SecurityRequirement(name = "bearerAuth"))
     @ApiResponses(value = {@ApiResponse(responseCode = "200",
@@ -176,6 +236,13 @@ abstract class PracticeAPIController<T extends Practice> {
         return ResponseEntity.of(questionService.read(id));
     }
 
+    /**
+     * Find all questions response entity.
+     *
+     * @param principal  the principal
+     * @param practiceId the practice id
+     * @return the response entity
+     */
     @Operation(summary = "lists all the questions",
             description = " Can be invoked by auth users only",
             security = @SecurityRequirement(name = "bearerAuth"))
@@ -197,6 +264,14 @@ abstract class PracticeAPIController<T extends Practice> {
                 : ResponseEntity.ok(questions);
     }
 
+    /**
+     * Update response entity.
+     *
+     * @param practiceId the practice id
+     * @param id         the id
+     * @param question   the question
+     * @return the response entity
+     */
     @Operation(summary = "Updates the question by given id",
             description = "Can be called only by users "
                     + "with 'auth management' rights.",
@@ -224,6 +299,12 @@ abstract class PracticeAPIController<T extends Practice> {
                 : ResponseEntity.ok(updatedQuestion);
     }
 
+    /**
+     * Delete response entity.
+     *
+     * @param id the id
+     * @return the response entity
+     */
     @Operation(summary = "Deletes the question by given id",
             security = @SecurityRequirement(name = "bearerAuth"))
     @ApiResponses(value = {@ApiResponse(responseCode = "200",
@@ -236,6 +317,13 @@ abstract class PracticeAPIController<T extends Practice> {
                 : new ResponseEntity<Void>(HttpStatus.NOT_FOUND);
     }
 
+    /**
+     * Answer response entity.
+     *
+     * @param questionId the question id
+     * @param answer     the answer
+     * @return the response entity
+     */
     @Operation(summary = "Answer a question",
             description = "Can be called only by"
                     + " users with 'auth management' rights.",
@@ -256,6 +344,11 @@ abstract class PracticeAPIController<T extends Practice> {
                 : ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).build();
     }
 
+    /**
+     * Gets type.
+     *
+     * @return the type
+     */
     protected abstract String getType();
 
 }

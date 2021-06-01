@@ -13,6 +13,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+/**
+ * The type Question service.
+ */
 @Service
 public class QuestionService {
     /**
@@ -40,8 +43,8 @@ public class QuestionService {
     /**
      * initializes.
      *
-     * @param aJdbcTemplate
-     * @param aDataSource
+     * @param aJdbcTemplate the a jdbc template
+     * @param aDataSource   the a data source
      */
     public QuestionService(final JdbcTemplate aJdbcTemplate,
                            final DataSource aDataSource) {
@@ -52,10 +55,10 @@ public class QuestionService {
     /**
      * inserts data.
      *
-     * @param question
-     * @param practiceId
-     * @param type
-     * @return question
+     * @param practiceId the practice id
+     * @param type       the type
+     * @param question   the question
+     * @return question optional
      */
     public Optional<Question> create(final Integer practiceId,
                                      final String type,
@@ -77,8 +80,8 @@ public class QuestionService {
     /**
      * reads from question with given id.
      *
-     * @param id
-     * @return question
+     * @param id the id
+     * @return question optional
      */
     public Optional<Question> read(final Integer id) {
         final String query =
@@ -95,10 +98,10 @@ public class QuestionService {
     /**
      * updates question with id.
      *
-     * @param id
-     * @param question
-     * @param examId
-     * @return question
+     * @param examId   the exam id
+     * @param id       the id
+     * @param question the question
+     * @return question optional
      */
     public Optional<Question> update(final Integer examId, final Integer id,
                                      final Question question) {
@@ -114,8 +117,8 @@ public class QuestionService {
     /**
      * deletes from database.
      *
-     * @param id
-     * @return successflag
+     * @param id the id
+     * @return successflag boolean
      */
     public Boolean delete(final Integer id) {
         final String query = "DELETE FROM questions WHERE ID=?";
@@ -136,8 +139,8 @@ public class QuestionService {
     /**
      * List questions of exam.
      *
-     * @param userName
-     * @param practiceId
+     * @param userName   the user name
+     * @param practiceId the practice id
      * @return quetions in given exam
      */
     public List<Question> list(final String userName,
@@ -152,9 +155,9 @@ public class QuestionService {
     /**
      * list of question.
      *
-     * @param pageNumber
-     * @param pageSize
-     * @return question
+     * @param pageNumber the page number
+     * @param pageSize   the page size
+     * @return question list
      */
     public List<Question> list(final Integer pageNumber,
                                final Integer pageSize) {

@@ -45,8 +45,8 @@ public enum Database {
     /**
      * this method is used to set status from a json.
      *
-     * @param value
-     * @return database
+     * @param value the value
+     * @return database database
      */
     @JsonCreator
     public static Database of(final String value) {
@@ -63,7 +63,7 @@ public enum Database {
     /**
      * get the value of database.
      *
-     * @return value.
+     * @return value. value
      */
     @JsonValue
     public String getValue() {
@@ -73,7 +73,7 @@ public enum Database {
     /**
      * get Class thatimplements given Database Connector.
      *
-     * @return clazz
+     * @return clazz connector class
      */
     public Class<? extends DatabaseConnector> getConnectorClass() {
         return clazz;

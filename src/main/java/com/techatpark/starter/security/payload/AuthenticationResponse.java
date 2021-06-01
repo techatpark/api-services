@@ -3,6 +3,9 @@ package com.techatpark.starter.security.payload;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+/**
+ * The type Authentication response.
+ */
 public final class AuthenticationResponse {
     /**
      * declares variable userName.
@@ -24,10 +27,10 @@ public final class AuthenticationResponse {
     /**
      * initializes the value for authToken,refresh_token,profile_pic.
      *
-     * @param anUserName
-     * @param anAuthToken
-     * @param aRefreshToken
-     * @param aProfilePicture
+     * @param anUserName      the an user name
+     * @param anAuthToken     the an auth token
+     * @param aRefreshToken   the a refresh token
+     * @param aProfilePicture the a profile picture
      */
     @JsonCreator
     public AuthenticationResponse(
@@ -71,7 +74,7 @@ public final class AuthenticationResponse {
     /**
      * gets the value for userName.
      *
-     * @return userName
+     * @return userName user name
      */
     public String getUserName() {
         return userName;

@@ -21,6 +21,9 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.validation.Valid;
 import java.security.Principal;
 
+/**
+ * The type Authentication api controller.
+ */
 @RestController
 @RequestMapping("/api/auth")
 @Tag(name = "Authentication",
@@ -43,9 +46,9 @@ public class AuthenticationApiController {
     /**
      * constructs authenticationManager,userDetailsService,tokenUtil.
      *
-     * @param anAuthenticationManager
-     * @param anUserDetailsService
-     * @param aTokenUtil
+     * @param anAuthenticationManager the an authentication manager
+     * @param anUserDetailsService    the an user details service
+     * @param aTokenUtil              the a token util
      */
     public AuthenticationApiController(final AuthenticationManager
                                                anAuthenticationManager,
@@ -60,7 +63,7 @@ public class AuthenticationApiController {
     /**
      * performs the login function.
      *
-     * @param authenticationRequest
+     * @param authenticationRequest the authentication request
      * @return authentication response
      */
     @Operation(summary = "Login with credentials")
@@ -95,7 +98,7 @@ public class AuthenticationApiController {
     /**
      * logout an user.
      *
-     * @return void
+     * @return void response entity
      */
     @Operation(summary = "logout current user",
             security = @SecurityRequirement(name = "bearerAuth"))
@@ -107,8 +110,8 @@ public class AuthenticationApiController {
     /**
      * get the user details from the principal.
      *
-     * @param principal
-     * @return AuthenticationResponse
+     * @param principal the principal
+     * @return AuthenticationResponse response entity
      */
     @Operation(summary = "Get logged in user profile",
             security = @SecurityRequirement(name = "bearerAuth"))

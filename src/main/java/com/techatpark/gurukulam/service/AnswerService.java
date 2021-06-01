@@ -6,6 +6,9 @@ import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
+/**
+ * The type Answer service.
+ */
 @Service
 public class AnswerService {
 
@@ -22,8 +25,8 @@ public class AnswerService {
     /**
      * Constructs Answer Service.
      *
-     * @param aJdbcTemplate
-     * @param anQuestionService
+     * @param aJdbcTemplate     the a jdbc template
+     * @param anQuestionService the an question service
      */
     AnswerService(final JdbcTemplate aJdbcTemplate,
                   final QuestionService anQuestionService) {
@@ -34,9 +37,9 @@ public class AnswerService {
     /**
      * checks whether the given answer is correct.returns true if correct.
      *
-     * @param questionId
-     * @param answer
-     * @return true
+     * @param questionId the question id
+     * @param answer     the answer
+     * @return true boolean
      */
     public final Boolean answer(final Integer questionId,
                                 final String answer) {

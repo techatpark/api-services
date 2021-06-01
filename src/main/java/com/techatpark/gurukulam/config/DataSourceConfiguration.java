@@ -11,12 +11,15 @@ import org.springframework.jdbc.core.JdbcTemplate;
 
 import javax.sql.DataSource;
 
+/**
+ * The type Data source configuration.
+ */
 @Configuration
 public class DataSourceConfiguration {
     /**
      * build a datasource for h2 database.
      *
-     * @return DataSource
+     * @return DataSource data source
      */
     @Bean(name = "h2DataSource")
     @Qualifier("h2DataSource")
@@ -27,8 +30,10 @@ public class DataSourceConfiguration {
     }
 
     /**
-     * @param dataSource
-     * @return JdbcTemplate
+     * H 2 jdbc template jdbc template.
+     *
+     * @param dataSource the data source
+     * @return JdbcTemplate jdbc template
      */
     @Bean(name = "h2JdbcTemplate")
     @Primary
@@ -40,7 +45,7 @@ public class DataSourceConfiguration {
     /**
      * build a datasource for postgres database.
      *
-     * @return DataSource
+     * @return DataSource data source
      */
     @Bean(name = "postgresqlDataSource")
     @Qualifier("postgresqlDataSource")

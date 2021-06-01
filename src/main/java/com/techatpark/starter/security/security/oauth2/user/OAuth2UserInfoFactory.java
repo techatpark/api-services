@@ -5,6 +5,9 @@ import com.techatpark.starter.security.model.AuthProvider;
 
 import java.util.Map;
 
+/**
+ * The type O auth 2 user info factory.
+ */
 public class OAuth2UserInfoFactory {
 
     /**

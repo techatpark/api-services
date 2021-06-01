@@ -11,6 +11,9 @@ import org.springframework.stereotype.Component;
 
 import javax.sql.DataSource;
 
+/**
+ * The type Postgress database connector.
+ */
 @Component
 public class PostgressDatabaseConnector extends DatabaseConnector {
 
@@ -23,7 +26,7 @@ public class PostgressDatabaseConnector extends DatabaseConnector {
     /**
      * Creates Postgress Connector.
      *
-     * @param dataSource
+     * @param dataSource the data source
      */
     public PostgressDatabaseConnector(
             @Qualifier("postgresqlDataSource") final DataSource dataSource) {

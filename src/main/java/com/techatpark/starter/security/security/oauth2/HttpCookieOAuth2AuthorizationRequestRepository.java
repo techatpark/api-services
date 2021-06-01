@@ -9,11 +9,20 @@ import org.springframework.stereotype.Component;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+/**
+ * The type Http cookie o auth 2 authorization request repository.
+ */
 @Component
 public class HttpCookieOAuth2AuthorizationRequestRepository
         implements AuthorizationRequestRepository<OAuth2AuthorizationRequest> {
+    /**
+     * The constant OAUTH2_AUTHORIZATION_REQUEST_COOKIE_NAME.
+     */
     public static final String OAUTH2_AUTHORIZATION_REQUEST_COOKIE_NAME =
             "oauth2_auth_request";
+    /**
+     * The constant REDIRECT_URI_PARAM_COOKIE_NAME.
+     */
     public static final String REDIRECT_URI_PARAM_COOKIE_NAME = "redirect_uri";
     private static final int cookieExpireSeconds = 180;
 
@@ -57,6 +66,12 @@ public class HttpCookieOAuth2AuthorizationRequestRepository
         return this.loadAuthorizationRequest(request);
     }
 
+    /**
+     * Remove authorization request cookies.
+     *
+     * @param request  the request
+     * @param response the response
+     */
     public void removeAuthorizationRequestCookies(final HttpServletRequest request,
                                                   final HttpServletResponse response) {
         CookieUtils.deleteCookie(request, response,

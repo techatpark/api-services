@@ -19,6 +19,9 @@ import org.springframework.util.StringUtils;
 
 import java.util.Optional;
 
+/**
+ * The type Custom o auth 2 user service.
+ */
 @Service
 public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 

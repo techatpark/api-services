@@ -16,6 +16,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+/**
+ * The type Token authentication filter.
+ */
 public class TokenAuthenticationFilter extends OncePerRequestFilter {
     /**
      * N.

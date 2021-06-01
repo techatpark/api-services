@@ -2,6 +2,9 @@ package com.techatpark.gurukulam.model;
 
 import java.sql.Blob;
 
+/**
+ * The type Upload response.
+ */
 public class UploadResponse {
     /**
      * id of file.
@@ -15,7 +18,7 @@ public class UploadResponse {
     /**
      * gets the id.
      *
-     * @return id
+     * @return id id
      */
     public Integer getId() {
         return id;
@@ -24,7 +27,7 @@ public class UploadResponse {
     /**
      * sets the id.
      *
-     * @param anId
+     * @param anId the an id
      */
     public void setId(final Integer anId) {
         this.id = anId;
@@ -33,7 +36,7 @@ public class UploadResponse {
     /**
      * gets content.
      *
-     * @return content
+     * @return content content
      */
     public Blob getContent() {
         return content;
@@ -42,7 +45,7 @@ public class UploadResponse {
     /**
      * set content.
      *
-     * @param aContent
+     * @param aContent the a content
      */
     public void setContent(final Blob aContent) {
         this.content = aContent;

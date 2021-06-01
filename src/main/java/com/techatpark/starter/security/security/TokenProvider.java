@@ -16,6 +16,9 @@ import org.springframework.stereotype.Service;
 import java.util.Date;
 import java.util.HashMap;
 
+/**
+ * The type Token provider.
+ */
 @Service
 public class TokenProvider {
     /**
@@ -31,7 +34,7 @@ public class TokenProvider {
     /**
      * gg.
      *
-     * @param appPropertie
+     * @param appPropertie the app propertie
      */
     public TokenProvider(final AppProperties appPropertie) {
         this.appProperties = appPropertie;
@@ -40,8 +43,8 @@ public class TokenProvider {
     /**
      * generate token after login.
      *
-     * @param authentication
-     * @return token
+     * @param authentication the authentication
+     * @return token string
      */
     public String generateToken(final Authentication authentication) {
 
@@ -61,8 +64,8 @@ public class TokenProvider {
     /**
      * gg.
      *
-     * @param token
-     * @return token.
+     * @param token the token
+     * @return token. user name from token
      */
     public String getUserNameFromToken(final String token) {
         final Claims claims = Jwts.parser()
@@ -76,8 +79,8 @@ public class TokenProvider {
     /**
      * ddd.
      *
-     * @param authToken
-     * @return dd.
+     * @param authToken the auth token
+     * @return dd. boolean
      */
     public boolean validateToken(final String authToken) {
         try {

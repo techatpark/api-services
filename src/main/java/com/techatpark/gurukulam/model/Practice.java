@@ -2,6 +2,9 @@ package com.techatpark.gurukulam.model;
 
 import javax.validation.constraints.NotBlank;
 
+/**
+ * The type Practice.
+ */
 public class Practice {
     /**
      * tells the id of the exam.
@@ -27,7 +30,7 @@ public class Practice {
     /**
      * gets the id of exam.
      *
-     * @return id
+     * @return id id
      */
     public Integer getId() {
         return id;
@@ -36,7 +39,7 @@ public class Practice {
     /**
      * sets the id of exam.
      *
-     * @param anId
+     * @param anId the an id
      */
     public void setId(final Integer anId) {
         this.id = anId;
@@ -45,7 +48,7 @@ public class Practice {
     /**
      * gets the name of exam.
      *
-     * @return name
+     * @return name name
      */
     public String getName() {
         return name;
@@ -54,7 +57,7 @@ public class Practice {
     /**
      * sets the exam name.
      *
-     * @param aName
+     * @param aName the a name
      */
     public void setName(final String aName) {
         this.name = aName;
@@ -63,7 +66,7 @@ public class Practice {
     /**
      * gets description.
      *
-     * @return description
+     * @return description description
      */
     public String getDescription() {
         return description;
@@ -72,7 +75,7 @@ public class Practice {
     /**
      * sets description.
      *
-     * @param aDescription
+     * @param aDescription the a description
      */
     public void setDescription(final String aDescription) {
         this.description = aDescription;
@@ -81,7 +84,7 @@ public class Practice {
     /**
      * owner of the exam.
      *
-     * @return owner
+     * @return owner owner
      */
     public String getOwner() {
         return owner;
@@ -90,7 +93,7 @@ public class Practice {
     /**
      * Sets owner of the exam.
      *
-     * @param theOwner
+     * @param theOwner the the owner
      */
     public void setOwner(final String theOwner) {
         this.owner = theOwner;

@@ -9,7 +9,7 @@ public class FacebookOAuth2UserInfo extends OAuth2UserInfo {
     /**
      * creating a constructor.
      *
-     * @param attributes
+     * @param attributes the attributes
      */
     public FacebookOAuth2UserInfo(final Map<String, Object> attributes) {
         super(attributes);

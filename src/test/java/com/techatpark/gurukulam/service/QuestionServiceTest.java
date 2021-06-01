@@ -17,6 +17,9 @@ import java.util.NoSuchElementException;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
+/**
+ * The type Question service test.
+ */
 @SpringBootTest
 class QuestionServiceTest {
     /**
@@ -51,6 +54,11 @@ class QuestionServiceTest {
     @Autowired
     private PracticeService sqlPracticeService;
 
+    /**
+     * Before.
+     *
+     * @throws IOException the io exception
+     */
     @BeforeEach
     void before() throws IOException {
         cleanUp();
@@ -63,11 +71,17 @@ class QuestionServiceTest {
         sqlPracticeService.delete("sql");
     }
 
+    /**
+     * After.
+     */
     @AfterEach
     void after() {
         cleanUp();
     }
 
+    /**
+     * Test create.
+     */
     @Test
     void testCreate() {
         final Question question = questionService.create(practice.getId(),
@@ -75,6 +89,9 @@ class QuestionServiceTest {
         assertEquals(QUERY1, question.getQuestion(), "Created Successfully");
     }
 
+    /**
+     * Test update.
+     */
     @Test
     void testUpdate() {
         Question question = questionService.create(practice.getId(), TYPE,
@@ -86,6 +103,9 @@ class QuestionServiceTest {
         assertEquals("Updated Query", question.getQuestion(), "Updated");
     }
 
+    /**
+     * Test read.
+     */
     @Test
     void testRead() {
         final Question question = questionService.create(practice.getId(),
@@ -95,6 +115,9 @@ class QuestionServiceTest {
                 "Assert Created");
     }
 
+    /**
+     * Test delete.
+     */
     @Test
     void testDelete() {
 
@@ -108,6 +131,9 @@ class QuestionServiceTest {
         });
     }
 
+    /**
+     * Test list.
+     */
     @Test
     void testList() {
         questionService.create(practice.getId(), TYPE, getQuestion()).get();
@@ -118,6 +144,9 @@ class QuestionServiceTest {
                 "Test Listing with restricted page");
     }
 
+    /**
+     * Test list with exam id.
+     */
     @Test
     void testListWithExamId() {
         final Question question = questionService.create(practice.getId(),
@@ -127,6 +156,11 @@ class QuestionServiceTest {
                 "Assert Created");
     }
 
+    /**
+     * Gets question.
+     *
+     * @return the question
+     */
     Question getQuestion() {
         final Question question = new Question();
         question.setQuestion(QUERY1);
@@ -135,6 +169,11 @@ class QuestionServiceTest {
         return question;
     }
 
+    /**
+     * Gets practice.
+     *
+     * @return the practice
+     */
     SqlPractice getPractice() {
         final SqlPractice exam = new SqlPractice();
         exam.setName("Test Exam 1");

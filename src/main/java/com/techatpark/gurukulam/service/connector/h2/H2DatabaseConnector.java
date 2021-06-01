@@ -13,6 +13,9 @@ import org.springframework.stereotype.Component;
 
 import javax.sql.DataSource;
 
+/**
+ * The type H 2 database connector.
+ */
 @Component
 public class H2DatabaseConnector extends DatabaseConnector {
 
@@ -40,7 +43,7 @@ public class H2DatabaseConnector extends DatabaseConnector {
     /**
      * Creates h2 Connector.
      *
-     * @param dataSource
+     * @param dataSource the data source
      */
     public H2DatabaseConnector(final DataSource dataSource) {
         super(dataSource);
