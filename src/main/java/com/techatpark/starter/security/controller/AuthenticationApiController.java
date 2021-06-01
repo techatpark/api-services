@@ -70,7 +70,8 @@ public class AuthenticationApiController {
                     AuthenticationRequest
                     authenticationRequest) {
 
-        Authentication authResult = this.authenticationManager.authenticate(
+        final Authentication authResult = this.authenticationManager
+                .authenticate(
                 new UsernamePasswordAuthenticationToken(
                         authenticationRequest.getUserName(),
                         authenticationRequest.getPassword()));
@@ -81,7 +82,7 @@ public class AuthenticationApiController {
 
         final String token = tokenUtil.generateToken(authResult);
 
-        AuthenticationResponse authenticationResponse =
+        final AuthenticationResponse authenticationResponse =
                 new AuthenticationResponse(authenticationRequest.getUserName(),
                         token,
                         "Refresh",
@@ -107,13 +108,14 @@ public class AuthenticationApiController {
      * get the user details from the principal.
      *
      * @param principal
+     * @return AuthenticationResponse
      */
     @Operation(summary = "Get logged in user profile",
             security = @SecurityRequirement(name = "bearerAuth"))
     @GetMapping("/me")
     public ResponseEntity<AuthenticationResponse> me(
             final Principal principal) {
-        AuthenticationResponse authenticationResponse =
+        final AuthenticationResponse authenticationResponse =
                 new AuthenticationResponse(principal.getName(),
                         "",
                         "Refresh",

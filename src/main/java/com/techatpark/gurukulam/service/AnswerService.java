@@ -41,16 +41,16 @@ public class AnswerService {
     public final Boolean answer(final Integer questionId,
                                 final String answer) {
         Boolean isRigntAnswer = false;
-        Optional<Question> oQuestion = questionService.read(questionId);
+        final Optional<Question> oQuestion = questionService.read(questionId);
         if (oQuestion.isPresent()) {
-            Question question = oQuestion.get();
+            final Question question = oQuestion.get();
             switch (question.getType()) {
                 case "sql":
-                    String verificationSQL =
+                    final String verificationSQL =
                             "SELECT COUNT(*) FROM ( " + question.getAnswer()
                                     + " except " + answer
                                     + " ) AS TOTAL_ROWS";
-                    Integer count = jdbcTemplate
+                    final Integer count = jdbcTemplate
                             .queryForObject(verificationSQL, Integer.class);
                     isRigntAnswer = (count == 0);
                     break;

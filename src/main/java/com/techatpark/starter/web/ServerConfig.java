@@ -34,14 +34,14 @@ public class ServerConfig {
      */
     @Bean
     public ServletWebServerFactory servletContainer() {
-        TomcatServletWebServerFactory tomcat = new
+        final TomcatServletWebServerFactory tomcat = new
                 TomcatServletWebServerFactory() {
                     @Override
                     protected void postProcessContext(final Context context) {
-                        SecurityConstraint securityConstraint = new
+                        final SecurityConstraint securityConstraint = new
                                 SecurityConstraint();
                         securityConstraint.setUserConstraint("CONFIDENTIAL");
-                        SecurityCollection collection
+                        final SecurityCollection collection
                                 = new SecurityCollection();
                         collection.addPattern("/*");
                         securityConstraint.addCollection(collection);
@@ -53,7 +53,7 @@ public class ServerConfig {
     }
 
     private Connector getHttpConnector() {
-        Connector connector = new Connector(TomcatServletWebServerFactory
+        final Connector connector = new Connector(TomcatServletWebServerFactory
                 .DEFAULT_PROTOCOL);
         connector.setScheme("http");
         connector.setPort(httpPort);

@@ -8,26 +8,32 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.Base64;
 import java.util.Optional;
 
+/**
+ * The type Cookie utils.
+ */
 public final class CookieUtils {
 
-    CookieUtils() {
+    /**
+     * Instantiates a new Cookie utils.
+     */
+    private CookieUtils() {
 
     }
 
     /**
      * dash.
      *
-     * @param request
-     * @param name
-     * @return a.
+     * @param request the request
+     * @param name    the name
+     * @return a. cookie
      */
     public static Optional<Cookie> getCookie(
             final HttpServletRequest request,
             final String name) {
-        Cookie[] cookies = request.getCookies();
+        final Cookie[] cookies = request.getCookies();
 
         if (cookies != null && cookies.length > 0) {
-            for (Cookie cookie : cookies) {
+            for (final Cookie cookie : cookies) {
                 if (cookie.getName().equals(name)) {
                     return Optional.of(cookie);
                 }
@@ -40,17 +46,17 @@ public final class CookieUtils {
     /**
      * ssdsd.
      *
-     * @param response
-     * @param name
-     * @param value
-     * @param maxAge
+     * @param response the response
+     * @param name     the name
+     * @param value    the value
+     * @param maxAge   the max age
      */
     public static void addCookie(
             final HttpServletResponse response,
             final String name,
             final String value,
             final int maxAge) {
-        Cookie cookie = new Cookie(name, value);
+        final Cookie cookie = new Cookie(name, value);
         cookie.setPath("/");
         cookie.setHttpOnly(true);
         cookie.setMaxAge(maxAge);
@@ -60,16 +66,16 @@ public final class CookieUtils {
     /**
      * dd.
      *
-     * @param request
-     * @param response
-     * @param name
+     * @param request  the request
+     * @param response the response
+     * @param name     the name
      */
     public static void deleteCookie(final HttpServletRequest request,
                                     final HttpServletResponse response,
                                     final String name) {
-        Cookie[] cookies = request.getCookies();
+        final Cookie[] cookies = request.getCookies();
         if (cookies != null && cookies.length > 0) {
-            for (Cookie cookie : cookies) {
+            for (final Cookie cookie : cookies) {
                 if (cookie.getName().equals(name)) {
                     cookie.setValue("");
                     cookie.setPath("/");
@@ -83,8 +89,8 @@ public final class CookieUtils {
     /**
      * aa.
      *
-     * @param object
-     * @return nn.
+     * @param object the object
+     * @return nn. string
      */
     public static String serialize(final Object object) {
         return Base64.getUrlEncoder()
@@ -94,10 +100,10 @@ public final class CookieUtils {
     /**
      * aaa.
      *
-     * @param <T>
-     * @param cookie
-     * @param cls
-     * @return mm.
+     * @param <T>    the type parameter
+     * @param cookie the cookie
+     * @param cls    the cls
+     * @return mm. t
      */
     public static <T> T deserialize(final Cookie cookie, final Class<T> cls) {
         return cls.cast(SerializationUtils.deserialize(

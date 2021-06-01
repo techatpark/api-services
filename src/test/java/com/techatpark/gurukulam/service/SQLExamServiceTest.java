@@ -44,8 +44,8 @@ class SQLExamServiceTest {
 
     @Test
     void testCreate() throws IOException {
-        SqlPractice examToBeCrated = getExam();
-        SqlPractice createdExam =
+        final SqlPractice examToBeCrated = getExam();
+        final SqlPractice createdExam =
                 sqlExamService.create("sql", "user", examToBeCrated).get();
         assertEquals(EXAM1, createdExam.getName());
     }
@@ -53,12 +53,12 @@ class SQLExamServiceTest {
 
     @Test
     void testUpdate() throws IOException {
-        SqlPractice examToBeCrated = getExam();
+        final SqlPractice examToBeCrated = getExam();
         SqlPractice exam =
                 sqlExamService.create("sql", "user", examToBeCrated).get();
         exam.setName("Updated Name");
         exam.setDatabase(Database.POSTGRES);
-        Integer newExamId = exam.getId();
+        final Integer newExamId = exam.getId();
         exam = sqlExamService.update(newExamId, exam).get();
         assertEquals("Updated Name", exam.getName(), "Updated");
         assertEquals(Database.POSTGRES, exam.getDatabase(), "Updated");
@@ -66,10 +66,10 @@ class SQLExamServiceTest {
 
     @Test
     void testRead() throws IOException {
-        SqlPractice examToBeCrated = getExam();
-        SqlPractice exam =
+        final SqlPractice examToBeCrated = getExam();
+        final SqlPractice exam =
                 sqlExamService.create("sql", "user", examToBeCrated).get();
-        Integer newExamId = exam.getId();
+        final Integer newExamId = exam.getId();
         Assertions.assertNotNull(sqlExamService.read(newExamId).get(),
                 "Exam Created");
     }
@@ -77,10 +77,10 @@ class SQLExamServiceTest {
     @Test
     void testDelete() {
         Assertions.assertThrows(NoSuchElementException.class, () -> {
-            SqlPractice examToBeCrated = getExam();
-            SqlPractice exam =
+            final SqlPractice examToBeCrated = getExam();
+            final SqlPractice exam =
                     sqlExamService.create("sql", "user", examToBeCrated).get();
-            Integer newExamId = exam.getId();
+            final Integer newExamId = exam.getId();
             sqlExamService.delete(newExamId);
             sqlExamService.read(newExamId).get();
         });
@@ -88,9 +88,9 @@ class SQLExamServiceTest {
 
     @Test
     void testList() throws IOException {
-        SqlPractice examToBeCrated = getExam();
+        final SqlPractice examToBeCrated = getExam();
         sqlExamService.create("sql", "user", examToBeCrated).get();
-        SqlPractice examToBeCrated2 = getExam();
+        final SqlPractice examToBeCrated2 = getExam();
         sqlExamService.create("sql", "user", examToBeCrated2);
         assertEquals(2,
                 sqlExamService.page("sql", PageRequest.of(0, 2)).getContent()
@@ -102,7 +102,7 @@ class SQLExamServiceTest {
     }
 
     SqlPractice getExam() {
-        SqlPractice exam = new SqlPractice();
+        final SqlPractice exam = new SqlPractice();
         exam.setName(EXAM1);
         exam.setDatabase(Database.POSTGRES);
         exam.setScript(TestUtil.getScript(exam));

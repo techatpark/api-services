@@ -30,7 +30,7 @@ public final class FlywayUtil {
         if (exam.getScript() != null) {
             // Load Script files in temp folder
             try {
-                Path createdTempFolder = Files.createTempDirectory(
+                final Path createdTempFolder = Files.createTempDirectory(
                         Paths.get(System.getProperty("java.io.tmpdir")),
                         new Date().getTime() + "Exams");
 
@@ -38,7 +38,7 @@ public final class FlywayUtil {
                         createdTempFolder.resolve(Paths.get("V1__script.sql")),
                         exam.getScript());
 
-                Map<String, String> flywayConfig = new HashMap<>(1);
+                final Map<String, String> flywayConfig = new HashMap<>(1);
                 flywayConfig.put("flyway.locations", "filesystem:"
                         + createdTempFolder.toFile().getAbsolutePath());
 
@@ -50,7 +50,7 @@ public final class FlywayUtil {
                         .dataSource(dataSource)
                         .configuration(flywayConfig).load();
                 flyway.migrate();
-            } catch (IOException e) {
+            } catch (final IOException e) {
                 e.printStackTrace();
             }
 

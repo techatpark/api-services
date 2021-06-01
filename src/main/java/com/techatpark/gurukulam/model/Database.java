@@ -50,7 +50,7 @@ public enum Database {
      */
     @JsonCreator
     public static Database of(final String value) {
-        for (Database database
+        for (final Database database
                 : values()) {
             if (value.equals(database.value)) {
                 return database;

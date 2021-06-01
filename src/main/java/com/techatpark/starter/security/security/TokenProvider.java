@@ -45,8 +45,8 @@ public class TokenProvider {
      */
     public String generateToken(final Authentication authentication) {
 
-        Date now = new Date();
-        Date expiryDate = new Date(now.getTime()
+        final Date now = new Date();
+        final Date expiryDate = new Date(now.getTime()
                 + appProperties.getAuth().getTokenExpirationMsec());
         return Jwts.builder()
                 .setClaims(new HashMap<>())
@@ -65,7 +65,7 @@ public class TokenProvider {
      * @return token.
      */
     public String getUserNameFromToken(final String token) {
-        Claims claims = Jwts.parser()
+        final Claims claims = Jwts.parser()
                 .setSigningKey(appProperties.getAuth().getTokenSecret())
                 .parseClaimsJws(token)
                 .getBody();
@@ -84,15 +84,15 @@ public class TokenProvider {
             Jwts.parser().setSigningKey(appProperties.getAuth()
                     .getTokenSecret()).parseClaimsJws(authToken);
             return true;
-        } catch (SignatureException ex) {
+        } catch (final SignatureException ex) {
             LOG.error("Invalid JWT signature");
-        } catch (MalformedJwtException ex) {
+        } catch (final MalformedJwtException ex) {
             LOG.error("Invalid JWT token");
-        } catch (ExpiredJwtException ex) {
+        } catch (final ExpiredJwtException ex) {
             LOG.error("Expired JWT token");
-        } catch (UnsupportedJwtException ex) {
+        } catch (final UnsupportedJwtException ex) {
             LOG.error("Unsupported JWT token");
-        } catch (IllegalArgumentException ex) {
+        } catch (final IllegalArgumentException ex) {
             LOG.error("JWT claims string is empty.");
         }
         return false;

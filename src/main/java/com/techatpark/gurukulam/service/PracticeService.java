@@ -74,7 +74,7 @@ public class PracticeService {
     private <T extends Practice> T rowMapper(final ResultSet rs,
                                              final Integer rowNum)
             throws SQLException {
-        String metaData = rs.getString("meta_data");
+        final String metaData = rs.getString("meta_data");
         Practice practice;
         if (metaData == null) {
             practice = new Practice();
@@ -82,7 +82,7 @@ public class PracticeService {
             try {
                 practice = new ObjectMapper().readValue(metaData,
                         getPracticeClass(rs.getString("type")));
-            } catch (JsonProcessingException e) {
+            } catch (final JsonProcessingException e) {
                 practice = new Practice();
             }
         }
@@ -111,7 +111,7 @@ public class PracticeService {
     private String getMetadata(final Practice practice)
             throws JsonProcessingException {
         if (!practice.getClass().equals(Practice.class)) {
-            ObjectNode oNode = objectMapper.valueToTree(practice);
+            final ObjectNode oNode = objectMapper.valueToTree(practice);
             oNode.remove("id");
             oNode.remove("name");
             oNode.remove("description");
@@ -156,7 +156,7 @@ public class PracticeService {
                 "description", practice.getDescription(),
                 "meta_data", metaData);
         final Number examId = insert.executeAndReturnKey(valueMap);
-        Optional<T> createdExam = read(examId.intValue());
+        final Optional<T> createdExam = read(examId.intValue());
         createdExam.ifPresent(exam1 -> {
             if (exam1 instanceof SqlPractice) {
                 loadScripts((SqlPractice) exam1);
@@ -205,7 +205,7 @@ public class PracticeService {
 
 
         try {
-            T p = (T) jdbcTemplate
+            final T p = (T) jdbcTemplate
                     .queryForObject(query, new Object[]{newPracticeId},
                             this::rowMapper);
             return Optional.of(p);
@@ -250,8 +250,8 @@ public class PracticeService {
             String query = "DELETE FROM questions WHERE exam_id=?";
             jdbcTemplate.update(query, id);
             query = "DELETE FROM PRACTICES WHERE ID=?";
-            Integer updatedRows = jdbcTemplate.update(query, id);
-            Practice practice = oPractice.get();
+            final Integer updatedRows = jdbcTemplate.update(query, id);
+            final Practice practice = oPractice.get();
             if (practice instanceof SqlPractice) {
                 unloadScripts((SqlPractice) practice);
             }
@@ -267,8 +267,8 @@ public class PracticeService {
      * @return no.of practices deleted
      */
     public Integer delete(final String type) {
-        int count = 0;
-        List<SqlPractice> practices = list(type);
+        final int count = 0;
+        final List<SqlPractice> practices = list(type);
         practices.parallelStream().forEach(exam -> delete(exam.getId()));
         return count;
     }
@@ -282,10 +282,10 @@ public class PracticeService {
      */
     public <T extends Practice> List<T> list(final String type) {
 
-        String recordsQuery =
+        final String recordsQuery =
                 "SELECT id,name,owner,type,meta_data,description"
                         + " FROM practices where type = ?";
-        List<T> tList =
+        final List<T> tList =
                 jdbcTemplate.query(recordsQuery, this::rowMapper, type);
         return tList;
     }
@@ -301,7 +301,7 @@ public class PracticeService {
     public <T extends Practice> Page<T> page(final String type,
                                              final Pageable pageable) {
 
-        String recordsQuery =
+        final String recordsQuery =
                 "SELECT id,name,owner,type,meta_data,description"
                         + " FROM practices where type = ? LIMIT "
                         + pageable.getPageSize()
@@ -309,7 +309,7 @@ public class PracticeService {
                         +
                         ((pageable.getPageNumber() * pageable.getPageSize()));
 
-        String countsQuery = "SELECT COUNT(id) FROM practices where type = ?";
+        final String countsQuery = "SELECT COUNT(id) FROM practices where type = ?";
 
         return new PageImpl<T>(
                 jdbcTemplate.query(recordsQuery, this::rowMapper, type),

@@ -58,14 +58,14 @@ public class H2DatabaseConnector extends DatabaseConnector {
                                 final String sqlAnswer) {
         Boolean isRigntAnswer = false;
         try {
-            String verificationSQL = "SELECT COUNT(*) FROM ( "
+            final String verificationSQL = "SELECT COUNT(*) FROM ( "
                     + question.getAnswer()
                     + " except " + sqlAnswer
                     + " ) AS TOTAL_ROWS";
-            Integer count = this.getCount(verificationSQL, exam);
+            final Integer count = this.getCount(verificationSQL, exam);
             isRigntAnswer = (count == 0);
 
-        } catch (Exception ex) {
+        } catch (final Exception ex) {
             logger.error("Error setting verify method ", ex);
         }
         return isRigntAnswer;
@@ -79,8 +79,8 @@ public class H2DatabaseConnector extends DatabaseConnector {
     public final Boolean loadScript(final SqlPractice exam) {
         final Integer id = exam.getId();
         unloadScript(exam);
-        String schemaName = "EXAM_" + id;
-        HikariConfig config = new HikariConfig();
+        final String schemaName = "EXAM_" + id;
+        final HikariConfig config = new HikariConfig();
         config.setJdbcUrl(jdbcUrl.replaceAll("practice_db", schemaName));
         config.setUsername(username);
         config.setPassword(password);

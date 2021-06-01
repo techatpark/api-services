@@ -66,9 +66,9 @@ public class PostgressDatabaseConnectorTest {
      */
     //@Test
     public void testVerify() throws JsonProcessingException {
-        SqlPractice exam = createAndGetExam();
-        Question question = createAndGQuestion(exam);
-        boolean result =
+        final SqlPractice exam = createAndGetExam();
+        final Question question = createAndGQuestion(exam);
+        final boolean result =
                 postgressDatabaseConnector.verify(exam, question, getAnswer());
         assertTrue(result);
     }
@@ -78,9 +78,9 @@ public class PostgressDatabaseConnectorTest {
      */
     //@Test
     public void testVerifywrongAnswer() throws JsonProcessingException {
-        SqlPractice exam = createAndGetExam();
-        Question question = createAndGQuestion(exam);
-        boolean result = postgressDatabaseConnector
+        final SqlPractice exam = createAndGetExam();
+        final Question question = createAndGQuestion(exam);
+        final boolean result = postgressDatabaseConnector
                 .verify(exam, question, "select * from abc");
         assertFalse(result);
     }
@@ -89,7 +89,7 @@ public class PostgressDatabaseConnectorTest {
      * @return exam
      */
     SqlPractice getExam() {
-        SqlPractice exam = new SqlPractice();
+        final SqlPractice exam = new SqlPractice();
         exam.setName("Exam_1");
         exam.setDatabase(Database.POSTGRES);
         exam.setScript(TestUtil.getScript(exam));
@@ -118,7 +118,7 @@ public class PostgressDatabaseConnectorTest {
      * @return Exam
      */
     SqlPractice createAndGetExam() throws JsonProcessingException {
-        SqlPractice exam =
+        final SqlPractice exam =
                 sqlExamService.create("sql", "user", getExam()).get();
         return exam;
     }

@@ -97,7 +97,7 @@ abstract class PracticeAPIController<T extends Practice> {
     @GetMapping
     public ResponseEntity<Page<T>> findAll(
             @NotNull final Pageable pageable) {
-        Page<T> practices = practiceService.page(getType(), pageable);
+        final Page<T> practices = practiceService.page(getType(), pageable);
         return practices.isEmpty() ? new ResponseEntity<Page<T>>(
                 HttpStatus.NO_CONTENT)
                 : ResponseEntity.ok(practices);
@@ -121,7 +121,7 @@ abstract class PracticeAPIController<T extends Practice> {
                                                       Practice
                                                       practice)
             throws JsonProcessingException {
-        Optional<T> updatedpractice = (Optional<T>)
+        final Optional<T> updatedpractice = (Optional<T>)
                 practiceService.update(id, practice);
         return updatedpractice == null ? new ResponseEntity<Optional<T>>(
                 HttpStatus.NOT_FOUND)
@@ -190,7 +190,7 @@ abstract class PracticeAPIController<T extends Practice> {
                                                            @PathVariable
                                                                    Integer
                                                                    practiceId) {
-        List<Question> questions = questionService.list(principal.getName(),
+        final List<Question> questions = questionService.list(principal.getName(),
                 practiceId);
         return questions.isEmpty() ? new ResponseEntity<List<Question>>(
                 HttpStatus.NO_CONTENT)
@@ -216,7 +216,7 @@ abstract class PracticeAPIController<T extends Practice> {
                                                      @RequestBody
                                                              Question
                                                              question) {
-        Optional<Question> updatedQuestion = questionService.update(
+        final Optional<Question> updatedQuestion = questionService.update(
                 practiceId, id, question);
         return updatedQuestion == null
                 ? new ResponseEntity<Optional<Question>>(

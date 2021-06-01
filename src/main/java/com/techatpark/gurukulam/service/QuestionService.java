@@ -87,7 +87,7 @@ public class QuestionService {
         try {
             return Optional.of(jdbcTemplate
                     .queryForObject(query, new Object[]{id}, rowMapper));
-        } catch (EmptyResultDataAccessException e) {
+        } catch (final EmptyResultDataAccessException e) {
             return Optional.empty();
         }
     }
@@ -105,7 +105,7 @@ public class QuestionService {
         final String query =
                 "UPDATE questions SET exam_id = ?,"
                         + " question = ?, answer = ? WHERE id = ?";
-        Integer updatedRows =
+        final Integer updatedRows =
                 jdbcTemplate.update(query, examId, question.getQuestion(),
                         question.getAnswer(), id);
         return updatedRows == 0 ? null : read(id);
@@ -118,8 +118,8 @@ public class QuestionService {
      * @return successflag
      */
     public Boolean delete(final Integer id) {
-        String query = "DELETE FROM questions WHERE ID=?";
-        Integer updatedRows = jdbcTemplate.update(query, id);
+        final String query = "DELETE FROM questions WHERE ID=?";
+        final Integer updatedRows = jdbcTemplate.update(query, id);
         return !(updatedRows == 0);
     }
 
@@ -142,7 +142,7 @@ public class QuestionService {
      */
     public List<Question> list(final String userName,
                                final Integer practiceId) {
-        String query = "SELECT q.id,q.exam_id,q.question,q.type,"
+        final String query = "SELECT q.id,q.exam_id,q.question,q.type,"
                 + "CASE p.owner WHEN ? THEN q.answer ELSE NULL END AS answer "
                 + "FROM questions as q JOIN practices AS p "
                 + "ON q.exam_id = p.id where q.exam_id = ? order by q.id";

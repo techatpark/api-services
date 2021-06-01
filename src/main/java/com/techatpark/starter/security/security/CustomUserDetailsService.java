@@ -12,11 +12,22 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * The type Custom user details service.
+ */
 @Service
 public class CustomUserDetailsService implements UserDetailsService {
 
+    /**
+     * Holds all the application users.
+     */
     private final List<User> users;
 
+    /**
+     * Builds the Object.
+     *
+     * @param passwordEncoder the password encoder
+     */
     public CustomUserDetailsService(final PasswordEncoder passwordEncoder) {
         this.users = new ArrayList<>();
 
@@ -35,26 +46,50 @@ public class CustomUserDetailsService implements UserDetailsService {
 
     }
 
-    public Optional<User> findByName(String name) {
+    /**
+     * Find by name optional.
+     *
+     * @param name the name
+     * @return the optional
+     */
+    public Optional<User> findByName(final String name) {
         return this.users.stream()
                 .filter(user -> user.getName().equals(name))
                 .findFirst();
     }
 
-    public Boolean existsByName(String name) {
+    /**
+     * Exists by name boolean.
+     *
+     * @param name the name
+     * @return the boolean
+     */
+    public Boolean existsByName(final String name) {
         return this.users.stream()
                 .anyMatch(user -> user.getName().equals(name));
     }
 
-    public User save(User user) {
+    /**
+     * Save user.
+     *
+     * @param user the user
+     * @return the user
+     */
+    public User save(final User user) {
         users.add(user);
         return user;
     }
 
+    /**
+     * load userdetails with username.
+     * @param email
+     * @return
+     * @throws UsernameNotFoundException
+     */
     @Override
-    public UserDetails loadUserByUsername(String email)
+    public UserDetails loadUserByUsername(final String email)
             throws UsernameNotFoundException {
-        User user = findByName(email)
+        final User user = findByName(email)
                 .orElseThrow(() ->
                         new UsernameNotFoundException(
                                 "User not found with email : " + email)

@@ -27,9 +27,9 @@ public class StaticContentConfiguration implements WebMvcConfigurer {
 
         if (this.staticFileLocation != null
                 && staticFileLocation.startsWith("file:")) {
-            String pathPrefix = staticFileLocation.replaceFirst("file:",
+            final String pathPrefix = staticFileLocation.replaceFirst("file:",
                     "");
-            Path path = new File(pathPrefix).toPath();
+            final Path path = new File(pathPrefix).toPath();
             try {
                 Files.find(path,
                         Integer.MAX_VALUE,
@@ -50,7 +50,7 @@ public class StaticContentConfiguration implements WebMvcConfigurer {
                                     .setViewName("forward:"
                                             + indexHtmlPath);
                         });
-            } catch (IOException e) {
+            } catch (final IOException e) {
                 e.printStackTrace();
             }
 

@@ -22,28 +22,39 @@ import java.util.Optional;
 @Service
 public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 
+    /**
+     * User Details Service.
+     */
     @Autowired
     private CustomUserDetailsService userRepository;
 
+    /**
+     * Loads the user.
+     * @param oAuth2UserRequest
+     * @return OAuth2User
+     * @throws OAuth2AuthenticationException
+     */
     @Override
-    public OAuth2User loadUser(OAuth2UserRequest oAuth2UserRequest)
+    public OAuth2User loadUser(final OAuth2UserRequest oAuth2UserRequest)
             throws OAuth2AuthenticationException {
-        OAuth2User oAuth2User = super.loadUser(oAuth2UserRequest);
+        final OAuth2User oAuth2User = super.loadUser(oAuth2UserRequest);
 
         try {
             return processOAuth2User(oAuth2UserRequest, oAuth2User);
-        } catch (AuthenticationException ex) {
+        } catch (final AuthenticationException ex) {
             throw ex;
-        } catch (Exception ex) {
-            // Throwing an instance of AuthenticationException will trigger the OAuth2AuthenticationFailureHandler
+        } catch (final Exception ex) {
+            // Throwing an instance of AuthenticationException will
+            // trigger the OAuth2AuthenticationFailureHandler
             throw new InternalAuthenticationServiceException(ex.getMessage(),
                     ex.getCause());
         }
     }
 
-    private OAuth2User processOAuth2User(OAuth2UserRequest oAuth2UserRequest,
-                                         OAuth2User oAuth2User) {
-        OAuth2UserInfo oAuth2UserInfo = OAuth2UserInfoFactory
+    private OAuth2User processOAuth2User(final
+                                         OAuth2UserRequest oAuth2UserRequest,
+                                         final OAuth2User oAuth2User) {
+        final OAuth2UserInfo oAuth2UserInfo = OAuth2UserInfoFactory
                 .getOAuth2UserInfo(oAuth2UserRequest.getClientRegistration()
                         .getRegistrationId(), oAuth2User.getAttributes());
         if (StringUtils.isEmpty(oAuth2UserInfo.getEmail())) {
@@ -51,7 +62,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
                     "Email not found from OAuth2 provider");
         }
 
-        Optional<User> userOptional =
+        final Optional<User> userOptional =
                 userRepository.findByName(oAuth2UserInfo.getEmail());
         User user;
         if (userOptional.isPresent()) {
@@ -60,11 +71,11 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
                     oAuth2UserRequest.getClientRegistration()
                             .getRegistrationId()))) {
                 throw new OAuth2AuthenticationProcessingException(
-                        "Looks like you're signed up with " +
-                                user.getProvider() +
-                                " account. Please use your " +
-                                user.getProvider() +
-                                " account to login.");
+                        "Looks like you're signed up with "
+                                + user.getProvider()
+                                + " account. Please use your "
+                                + user.getProvider()
+                                + " account to login.");
             }
             user = updateExistingUser(user, oAuth2UserInfo);
         } else {
@@ -74,9 +85,9 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         return UserPrincipal.create(user, oAuth2User.getAttributes());
     }
 
-    private User registerNewUser(OAuth2UserRequest oAuth2UserRequest,
-                                 OAuth2UserInfo oAuth2UserInfo) {
-        User user = new User();
+    private User registerNewUser(final OAuth2UserRequest oAuth2UserRequest,
+                                 final OAuth2UserInfo oAuth2UserInfo) {
+        final User user = new User();
 
         user.setProvider(AuthProvider.valueOf(
                 oAuth2UserRequest.getClientRegistration()
@@ -88,8 +99,8 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         return userRepository.save(user);
     }
 
-    private User updateExistingUser(User existingUser,
-                                    OAuth2UserInfo oAuth2UserInfo) {
+    private User updateExistingUser(final User existingUser,
+                                    final OAuth2UserInfo oAuth2UserInfo) {
         existingUser.setName(oAuth2UserInfo.getEmail());
         existingUser.setImageUrl(oAuth2UserInfo.getImageUrl());
         return userRepository.save(existingUser);

@@ -28,6 +28,9 @@ import org.springframework.web.filter.CorsFilter;
 
 import java.util.List;
 
+/**
+ * The type Security config.
+ */
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(
@@ -38,62 +41,117 @@ import java.util.List;
 @EnableConfigurationProperties(AppProperties.class)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
+    /**
+     * inject the customUserDetailsService object dependency.
+     */
     @Autowired
     private CustomUserDetailsService customUserDetailsService;
 
+    /**
+     * inject the customOAuth2UserService object dependency.
+     */
     @Autowired
     private CustomOAuth2UserService customOAuth2UserService;
 
+    /**
+     * inject the oAuth2AuthenticationSuccessHandler object dependency.
+     */
     @Autowired
     private OAuth2AuthenticationSuccessHandler
             oAuth2AuthenticationSuccessHandler;
 
+    /**
+     * inject the oAuth2AuthenticationFailureHandler object dependency.
+     */
     @Autowired
     private OAuth2AuthenticationFailureHandler
             oAuth2AuthenticationFailureHandler;
 
+    /**
+     * inject the httpCookieOAuth2AuthorizationRequestRepository
+     * object dependency.
+     */
     @Autowired
     private HttpCookieOAuth2AuthorizationRequestRepository
             httpCookieOAuth2AuthorizationRequestRepository;
 
+    /**
+     * Token authentication filter token authentication filter.
+     *
+     * @return the token authentication filter
+     */
     @Bean
     public TokenAuthenticationFilter tokenAuthenticationFilter() {
         return new TokenAuthenticationFilter();
     }
 
     /*
-      By default, Spring OAuth2 uses HttpSessionOAuth2AuthorizationRequestRepository to save
-      the authorization request. But, since our service is stateless, we can't save it in
+      By default, Spring OAuth2 uses
+      HttpSessionOAuth2AuthorizationRequestRepository to save
+      the authorization request. But, since our service is stateless,
+      we can't save it in
       the session. We'll save the request in a Base64 encoded cookie instead.
     */
+
+    /**
+     * Cookie authorization request repository http cookie o auth 2
+     * authorization request repository.
+     *
+     * @return the http cookie o auth 2 authorization request repository
+     */
     @Bean
-    public HttpCookieOAuth2AuthorizationRequestRepository cookieAuthorizationRequestRepository() {
+    public HttpCookieOAuth2AuthorizationRequestRepository
+    cookieAuthorizationRequestRepository() {
         return new HttpCookieOAuth2AuthorizationRequestRepository();
     }
 
+    /**
+     * method configure is overrided here.
+     *
+     * @param authenticationManagerBuilder
+     * @throws Exception
+     */
     @Override
-    public void configure(
-            AuthenticationManagerBuilder authenticationManagerBuilder)
+    public void configure(final
+                          AuthenticationManagerBuilder
+                                      authenticationManagerBuilder)
             throws Exception {
         authenticationManagerBuilder
                 .userDetailsService(customUserDetailsService)
                 .passwordEncoder(passwordEncoder());
     }
 
+    /**
+     * Password encoder password encoder.
+     *
+     * @return the password encoder
+     */
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
 
+    /**
+     * method authenticationManagerBean is overrided.
+     *
+     * @return
+     * @throws Exception
+     */
     @Bean(BeanIds.AUTHENTICATION_MANAGER)
     @Override
     public AuthenticationManager authenticationManagerBean() throws Exception {
         return super.authenticationManagerBean();
     }
 
+    /**
+     * method configure is overrided here.
+     *
+     * @param http
+     * @throws Exception
+     */
     @Override
-    protected void configure(HttpSecurity http) throws Exception {
+    protected void configure(final HttpSecurity http) throws Exception {
         http
                 .cors()
                 .and()
@@ -121,9 +179,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         "/**/*.css",
                         "/**/*.js")
                 .permitAll()
-                .antMatchers("/api/auth/login"
-                        , "/api/auth/signup"
-                        , "/oauth2/**")
+                .antMatchers("/api/auth/login",
+                        "/api/auth/signup",
+                        "/oauth2/**")
                 .permitAll()
                 .anyRequest()
                 .authenticated()
@@ -149,19 +207,19 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     /**
-     * In Production we can controld the filters from application.yml
+     * In Production we can controld the filters from application.yml.
      *
-     * @return corsFilter
+     * @return corsFilter cors filter
      */
     @Bean
     public CorsFilter corsFilter() {
-        CorsConfiguration config = new CorsConfiguration();
+        final CorsConfiguration config = new CorsConfiguration();
         config.addAllowedOriginPattern("*");
         config.addAllowedHeader("*");
         config.setAllowedMethods(
                 List.of("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
 
-        UrlBasedCorsConfigurationSource source =
+        final UrlBasedCorsConfigurationSource source =
                 new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", config);
 

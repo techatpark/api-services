@@ -38,7 +38,7 @@ class HelloController {
     @GetMapping
     public ResponseEntity<Map<String, Object>> index()
             throws URISyntaxException {
-        Map<String, Object> map =
+        final Map<String, Object> map =
                 Map.of("javaVersion", java.lang.Runtime.version().toString(),
                         "appVersion", version);
         return new ResponseEntity<>(map, HttpStatus.OK);

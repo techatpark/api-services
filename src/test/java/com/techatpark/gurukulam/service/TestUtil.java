@@ -15,12 +15,12 @@ public final class TestUtil {
      */
     public static String getScript(final SqlPractice exam) {
 
-        File file = new File(
+        final File file = new File(
                 "src/test/resources/scripts/" + exam.getDatabase().getValue() +
                         "/1.sql");
         try {
             return Files.readString(file.toPath());
-        } catch (IOException e) {
+        } catch (final IOException e) {
             e.printStackTrace();
         }
         return null;

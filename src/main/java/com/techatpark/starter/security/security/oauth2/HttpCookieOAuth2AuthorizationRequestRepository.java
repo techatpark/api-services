@@ -19,7 +19,7 @@ public class HttpCookieOAuth2AuthorizationRequestRepository
 
     @Override
     public OAuth2AuthorizationRequest loadAuthorizationRequest(
-            HttpServletRequest request) {
+            final HttpServletRequest request) {
         return CookieUtils
                 .getCookie(request, OAUTH2_AUTHORIZATION_REQUEST_COOKIE_NAME)
                 .map(cookie -> CookieUtils
@@ -29,8 +29,8 @@ public class HttpCookieOAuth2AuthorizationRequestRepository
 
     @Override
     public void saveAuthorizationRequest(
-            OAuth2AuthorizationRequest authorizationRequest,
-            HttpServletRequest request, HttpServletResponse response) {
+            final OAuth2AuthorizationRequest authorizationRequest,
+            final HttpServletRequest request, final HttpServletResponse response) {
         if (authorizationRequest == null) {
             CookieUtils.deleteCookie(request, response,
                     OAUTH2_AUTHORIZATION_REQUEST_COOKIE_NAME);
@@ -43,7 +43,7 @@ public class HttpCookieOAuth2AuthorizationRequestRepository
                 .addCookie(response, OAUTH2_AUTHORIZATION_REQUEST_COOKIE_NAME,
                         CookieUtils.serialize(authorizationRequest),
                         cookieExpireSeconds);
-        String redirectUriAfterLogin =
+        final String redirectUriAfterLogin =
                 request.getParameter(REDIRECT_URI_PARAM_COOKIE_NAME);
         if (StringUtils.isNotBlank(redirectUriAfterLogin)) {
             CookieUtils.addCookie(response, REDIRECT_URI_PARAM_COOKIE_NAME,
@@ -53,12 +53,12 @@ public class HttpCookieOAuth2AuthorizationRequestRepository
 
     @Override
     public OAuth2AuthorizationRequest removeAuthorizationRequest(
-            HttpServletRequest request) {
+            final HttpServletRequest request) {
         return this.loadAuthorizationRequest(request);
     }
 
-    public void removeAuthorizationRequestCookies(HttpServletRequest request,
-                                                  HttpServletResponse response) {
+    public void removeAuthorizationRequestCookies(final HttpServletRequest request,
+                                                  final HttpServletResponse response) {
         CookieUtils.deleteCookie(request, response,
                 OAUTH2_AUTHORIZATION_REQUEST_COOKIE_NAME);
         CookieUtils.deleteCookie(request, response,

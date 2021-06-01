@@ -125,21 +125,21 @@ public class SequenceGenerator {
     private int createMachineId() {
         int machineIdq;
         try {
-            StringBuilder sb = new StringBuilder();
-            Enumeration<NetworkInterface> networkInterfaces =
+            final StringBuilder sb = new StringBuilder();
+            final Enumeration<NetworkInterface> networkInterfaces =
                     NetworkInterface.getNetworkInterfaces();
             while (networkInterfaces.hasMoreElements()) {
-                NetworkInterface networkInterface =
+                final NetworkInterface networkInterface =
                         networkInterfaces.nextElement();
-                byte[] mac = networkInterface.getHardwareAddress();
+                final byte[] mac = networkInterface.getHardwareAddress();
                 if (mac != null) {
-                    for (byte b : mac) {
+                    for (final byte b : mac) {
                         sb.append(String.format("%02X", b));
                     }
                 }
             }
             machineIdq = sb.toString().hashCode();
-        } catch (Exception ex) {
+        } catch (final Exception ex) {
             machineIdq = (new SecureRandom().nextInt());
         }
         machineIdq = machineIdq & MAXMACHINE_ID;
