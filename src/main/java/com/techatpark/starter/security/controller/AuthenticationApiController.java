@@ -2,6 +2,7 @@ package com.techatpark.starter.security.controller;
 
 import com.techatpark.starter.security.payload.AuthenticationRequest;
 import com.techatpark.starter.security.payload.AuthenticationResponse;
+import com.techatpark.starter.security.security.CustomUserDetailsService;
 import com.techatpark.starter.security.security.TokenProvider;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
@@ -11,8 +12,6 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -35,7 +34,7 @@ public class AuthenticationApiController {
     /**
      * instance of userDetailsService.
      */
-    private final UserDetailsService userDetailsService;
+    private final CustomUserDetailsService userDetailsService;
     /**
      * instance of tokenUtil.
      */
@@ -50,7 +49,7 @@ public class AuthenticationApiController {
      */
     public AuthenticationApiController(final AuthenticationManager
                                                anAuthenticationManager,
-                                       final UserDetailsService
+                                       final CustomUserDetailsService
                                                anUserDetailsService,
                                        final TokenProvider aTokenUtil) {
         this.authenticationManager = anAuthenticationManager;
@@ -86,7 +85,9 @@ public class AuthenticationApiController {
                 new AuthenticationResponse(authenticationRequest.getUserName(),
                         token,
                         "Refresh",
-                        "/images/"+authenticationRequest.getUserName()+".png");
+                        userDetailsService.findByName(authenticationRequest
+                                .getUserName())
+                                .get().getImageUrl());
         return ResponseEntity.ok().body(authenticationResponse);
     }
 
@@ -106,13 +107,19 @@ public class AuthenticationApiController {
      * get the user details from the principal.
      *
      * @param principal
-     * @return userdetails
      */
     @Operation(summary = "Get logged in user profile",
             security = @SecurityRequirement(name = "bearerAuth"))
     @GetMapping("/me")
-    public ResponseEntity<UserDetails> me(final Principal principal) {
-        return ResponseEntity.ok(userDetailsService
-                .loadUserByUsername(principal.getName()));
+    public ResponseEntity<AuthenticationResponse> me(
+            final Principal principal) {
+        AuthenticationResponse authenticationResponse =
+                new AuthenticationResponse(principal.getName(),
+                        "",
+                        "Refresh",
+                        userDetailsService.findByName(principal
+                                .getName())
+                                .get().getImageUrl());
+        return ResponseEntity.ok().body(authenticationResponse);
     }
 }

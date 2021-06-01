@@ -1,15 +1,6 @@
 package com.techatpark.starter.security.security;
 
-import java.util.Date;
-import java.util.HashMap;
-
 import com.techatpark.starter.security.config.AppProperties;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.security.core.Authentication;
-import org.springframework.stereotype.Service;
-
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
@@ -17,6 +8,13 @@ import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.SignatureException;
 import io.jsonwebtoken.UnsupportedJwtException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.security.core.Authentication;
+import org.springframework.stereotype.Service;
+
+import java.util.Date;
+import java.util.HashMap;
 
 @Service
 public class TokenProvider {
@@ -32,6 +30,7 @@ public class TokenProvider {
 
     /**
      * gg.
+     *
      * @param appPropertie
      */
     public TokenProvider(final AppProperties appPropertie) {
@@ -40,6 +39,7 @@ public class TokenProvider {
 
     /**
      * generate token after login.
+     *
      * @param authentication
      * @return token
      */
@@ -60,6 +60,7 @@ public class TokenProvider {
 
     /**
      * gg.
+     *
      * @param token
      * @return token.
      */
@@ -74,6 +75,7 @@ public class TokenProvider {
 
     /**
      * ddd.
+     *
      * @param authToken
      * @return dd.
      */

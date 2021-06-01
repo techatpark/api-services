@@ -53,6 +53,7 @@ public class SequenceGenerator {
 
     /**
      * ss.
+     *
      * @param machineIdq
      */
     // Create Snowflake with a machineId
@@ -81,6 +82,7 @@ public class SequenceGenerator {
 
     /**
      * d.
+     *
      * @return d.
      */
     public long nextId() {

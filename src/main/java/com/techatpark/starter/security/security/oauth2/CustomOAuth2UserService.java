@@ -3,7 +3,7 @@ package com.techatpark.starter.security.security.oauth2;
 import com.techatpark.starter.security.exception.OAuth2AuthenticationProcessingException;
 import com.techatpark.starter.security.model.AuthProvider;
 import com.techatpark.starter.security.model.User;
-import com.techatpark.starter.security.repository.UserRepository;
+import com.techatpark.starter.security.security.CustomUserDetailsService;
 import com.techatpark.starter.security.security.UserPrincipal;
 import com.techatpark.starter.security.security.oauth2.user.OAuth2UserInfo;
 import com.techatpark.starter.security.security.oauth2.user.OAuth2UserInfoFactory;
@@ -23,7 +23,7 @@ import java.util.Optional;
 public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 
     @Autowired
-    private UserRepository userRepository;
+    private CustomUserDetailsService userRepository;
 
     @Override
     public OAuth2User loadUser(OAuth2UserRequest oAuth2UserRequest)

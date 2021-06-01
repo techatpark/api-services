@@ -1,8 +1,8 @@
 package com.techatpark.starter.security.model;
 
-import javax.validation.constraints.NotNull;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import javax.validation.constraints.NotNull;
 
 public class User {
     /**
@@ -30,6 +30,7 @@ public class User {
 
     /**
      * getName.
+     *
      * @return name.
      */
     public String getName() {
@@ -38,6 +39,7 @@ public class User {
 
     /**
      * setName.
+     *
      * @param namu
      */
     public final void setName(final String namu) {
@@ -53,6 +55,7 @@ public class User {
 
     /**
      * so sad.
+     *
      * @param url
      */
     public final void setImageUrl(final String url) {
@@ -61,6 +64,7 @@ public class User {
 
     /**
      * thalai eluthu.
+     *
      * @return password.
      */
     public final String getPassword() {
@@ -69,6 +73,7 @@ public class User {
 
     /**
      * pwd. abc.
+     *
      * @param pwd
      */
     public final void setPassword(final String pwd) {
@@ -77,6 +82,7 @@ public class User {
 
     /**
      * ss.
+     *
      * @return provider.
      */
     public final AuthProvider getProvider() {
@@ -85,6 +91,7 @@ public class User {
 
     /**
      * summa.
+     *
      * @param provider1
      */
     public final void setProvider(final AuthProvider provider1) {
@@ -93,6 +100,7 @@ public class User {
 
     /**
      * su.
+     *
      * @return providerId.
      */
     public final String getProviderId() {
@@ -101,6 +109,7 @@ public class User {
 
     /**
      * oa.
+     *
      * @param providerI
      */
     public final void setProviderId(final String providerI) {
