@@ -314,7 +314,8 @@ public class PracticeService {
                         +
                         ((pageable.getPageNumber() * pageable.getPageSize()));
 
-        final String countsQuery = "SELECT COUNT(id) FROM practices where type = ?";
+        final String countsQuery = "SELECT COUNT(id) FROM practices"
+                + " where type = ?";
 
         return new PageImpl<T>(
                 jdbcTemplate.query(recordsQuery, this::rowMapper, type),

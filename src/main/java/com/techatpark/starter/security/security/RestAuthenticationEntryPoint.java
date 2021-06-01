@@ -14,6 +14,9 @@ import java.io.IOException;
  */
 public class RestAuthenticationEntryPoint implements AuthenticationEntryPoint {
 
+    /**
+     * declares the logger.
+     */
     private static final Logger LOGGER =
             LoggerFactory.getLogger(RestAuthenticationEntryPoint.class);
 

@@ -26,9 +26,17 @@ public class OAuth2AuthenticationFailureHandler
      * The Http cookie o auth 2 authorization request repository.
      */
     @Autowired
-    HttpCookieOAuth2AuthorizationRequestRepository
+    private HttpCookieOAuth2AuthorizationRequestRepository
             httpCookieOAuth2AuthorizationRequestRepository;
 
+    /**
+     * method defines the process on authentication failure.
+     * @param request
+     * @param response
+     * @param exception
+     * @throws IOException
+     * @throws ServletException
+     */
     @Override
     public void onAuthenticationFailure(final HttpServletRequest request,
                                         final HttpServletResponse response,

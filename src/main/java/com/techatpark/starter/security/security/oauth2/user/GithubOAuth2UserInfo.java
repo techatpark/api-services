@@ -23,7 +23,7 @@ public class GithubOAuth2UserInfo extends OAuth2UserInfo {
      */
     @Override
     public String getId() {
-        return ((Integer) attributes.get("id")).toString();
+        return ((Integer) getAttributes().get("id")).toString();
     }
 
     /**
@@ -33,7 +33,7 @@ public class GithubOAuth2UserInfo extends OAuth2UserInfo {
      */
     @Override
     public String getName() {
-        return (String) attributes.get("name");
+        return (String) getAttributes().get("name");
     }
 
     /**
@@ -43,7 +43,7 @@ public class GithubOAuth2UserInfo extends OAuth2UserInfo {
      */
     @Override
     public String getEmail() {
-        return (String) attributes.get("email");
+        return (String) getAttributes().get("email");
     }
 
     /**
@@ -53,6 +53,6 @@ public class GithubOAuth2UserInfo extends OAuth2UserInfo {
      */
     @Override
     public String getImageUrl() {
-        return (String) attributes.get("avatar_url");
+        return (String) getAttributes().get("avatar_url");
     }
 }

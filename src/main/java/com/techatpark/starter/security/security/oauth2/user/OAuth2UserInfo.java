@@ -9,19 +9,21 @@ public abstract class OAuth2UserInfo {
     /**
      * The Attributes.
      */
-    protected Map<String, Object> attributes;
+    private Map<String, Object> attributes;
+
+
 
     /**
      * Instantiates a new O auth 2 user info.
      *
-     * @param attributes the attributes
+     * @param theattributes the attributes
      */
-    public OAuth2UserInfo(final Map<String, Object> attributes) {
-        this.attributes = attributes;
+    public OAuth2UserInfo(final Map<String, Object> theattributes) {
+        this.attributes = theattributes;
     }
 
     /**
-     * Gets attributes.
+     * Gets getAttributes().
      *
      * @return the attributes
      */

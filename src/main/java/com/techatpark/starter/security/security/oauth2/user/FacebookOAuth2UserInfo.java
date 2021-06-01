@@ -22,7 +22,7 @@ public class FacebookOAuth2UserInfo extends OAuth2UserInfo {
      */
     @Override
     public String getId() {
-        return (String) attributes.get("id");
+        return (String) getAttributes().get("id");
     }
 
     /**
@@ -32,7 +32,7 @@ public class FacebookOAuth2UserInfo extends OAuth2UserInfo {
      */
     @Override
     public String getName() {
-        return (String) attributes.get("name");
+        return (String) getAttributes().get("name");
     }
 
     /**
@@ -42,7 +42,7 @@ public class FacebookOAuth2UserInfo extends OAuth2UserInfo {
      */
     @Override
     public String getEmail() {
-        return (String) attributes.get("email");
+        return (String) getAttributes().get("email");
     }
 
     /**
@@ -52,9 +52,9 @@ public class FacebookOAuth2UserInfo extends OAuth2UserInfo {
      */
     @Override
     public String getImageUrl() {
-        if (attributes.containsKey("picture")) {
+        if (getAttributes().containsKey("picture")) {
             final Map<String, Object> pictureObj =
-                    (Map<String, Object>) attributes.get("picture");
+                    (Map<String, Object>) getAttributes().get("picture");
             if (pictureObj.containsKey("data")) {
                 final Map<String, Object> dataObj =
                         (Map<String, Object>) pictureObj.get("data");

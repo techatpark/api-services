@@ -47,9 +47,10 @@ public class OAuth2AuthenticationSuccessHandler
     /**
      * Instantiates a new O auth 2 authentication success handler.
      *
-     * @param atokenProvider                                  the token provider
-     * @param theappProperties                                the app properties
-     * @param ahttpCookieOAuth2AuthorizationRequestRepository the http                                                        cookie o auth 2                                                        authorization                                                        request                                                        repository
+     * @param atokenProvider           the token provider
+     * @param theappProperties         the app properties
+     * @param ahttpCookieOAuth2AuthorizationRequestRepository
+     * the http  cookie o auth 2 authorization request repository
      */
     @Autowired
     OAuth2AuthenticationSuccessHandler(final TokenProvider atokenProvider,
@@ -124,7 +125,7 @@ public class OAuth2AuthenticationSuccessHandler
     }
 
     /**
-     * Clear authentication attributes.
+     * Clear authentication getAttributes().
      *
      * @param arequest  the request
      * @param aresponse the response

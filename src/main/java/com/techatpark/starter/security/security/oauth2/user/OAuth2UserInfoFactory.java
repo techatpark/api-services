@@ -8,7 +8,12 @@ import java.util.Map;
 /**
  * The type O auth 2 user info factory.
  */
-public class OAuth2UserInfoFactory {
+public final class OAuth2UserInfoFactory {
+    /**
+     * hides the constructor.
+     */
+    private OAuth2UserInfoFactory() {
+    }
 
     /**
      * Gets o auth 2 user info.

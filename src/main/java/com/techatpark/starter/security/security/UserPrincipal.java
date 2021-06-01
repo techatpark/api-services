@@ -16,24 +16,37 @@ import java.util.Map;
  */
 public class UserPrincipal implements OAuth2User, UserDetails {
 
+    /**
+     * declares variable name.
+     */
     private String name;
+    /**
+     * declares variable password.
+     */
     private String password;
+    /**
+     * declares collection of authority.
+     */
     private Collection<? extends GrantedAuthority> authorities;
+    /**
+     * declares map of getAttributes().
+     */
     private Map<String, Object> attributes;
 
     /**
      * Instantiates a new User principal.
      *
-     * @param name        the name
-     * @param password    the password
-     * @param authorities the authorities
+     * @param theName        the name
+     * @param thePassword    the password
+     * @param theAuthorities the authorities
      */
-    public UserPrincipal(final String name, final String password,
-                         final Collection<? extends GrantedAuthority> authorities) {
+    public UserPrincipal(final String theName, final String thePassword,
+                         final Collection<? extends GrantedAuthority>
+                                 theAuthorities) {
 
-        this.name = name;
-        this.password = password;
-        this.authorities = authorities;
+        this.name = theName;
+        this.password = thePassword;
+        this.authorities = theAuthorities;
     }
 
     /**
@@ -69,55 +82,91 @@ public class UserPrincipal implements OAuth2User, UserDetails {
     }
 
 
+    /**
+     * gets the password.
+     * @return password
+     */
     @Override
     public String getPassword() {
         return password;
     }
 
+    /**
+     * gets the username.
+     * @return username
+     */
     @Override
     public String getUsername() {
         return name;
     }
 
+    /**
+     * gets the value of accountnotexpired.
+     * @return true
+     */
     @Override
     public boolean isAccountNonExpired() {
         return true;
     }
 
+    /**
+     * returns value of isaccountnotlocked.
+     * @return true
+     */
     @Override
     public boolean isAccountNonLocked() {
         return true;
     }
 
+    /**
+     * returns value ofiscredentialsnonexpired.
+     * @return true
+     */
     @Override
     public boolean isCredentialsNonExpired() {
         return true;
     }
 
+    /**
+     * returns value of isEnabled.
+     * @return true
+     */
     @Override
     public boolean isEnabled() {
         return true;
     }
 
+    /**
+     * gets the values of authorities.
+     * @return authorities
+     */
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return authorities;
     }
 
+    /**
+     * gets the getAttributes().
+     * @return map of attributes
+     */
     @Override
     public Map<String, Object> getAttributes() {
         return attributes;
     }
 
     /**
-     * Sets attributes.
+     * Sets getAttributes().
      *
-     * @param attributes the attributes
+     * @param theAttributes the attributes
      */
-    public void setAttributes(final Map<String, Object> attributes) {
-        this.attributes = attributes;
+    public void setAttributes(final Map<String, Object> theAttributes) {
+        this.attributes = theAttributes;
     }
 
+    /**
+     * gets the name.
+     * @return name
+     */
     @Override
     public String getName() {
         return name;

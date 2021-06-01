@@ -257,7 +257,8 @@ abstract class PracticeAPIController<T extends Practice> {
                                                            @PathVariable
                                                                    Integer
                                                                    practiceId) {
-        final List<Question> questions = questionService.list(principal.getName(),
+        final List<Question> questions = questionService.list(
+                principal.getName(),
                 practiceId);
         return questions.isEmpty() ? new ResponseEntity<List<Question>>(
                 HttpStatus.NO_CONTENT)
