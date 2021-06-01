@@ -11,14 +11,15 @@ spring:
       jdbcUrl: jdbc:postgresql://localhost:5432/practice_db
       username: user
       password: password
+  ## Security
   security:
     require-ssl: true
     oauth2:
       client:
         registration:
           google:
-            clientId: <<ClientID>>
-            clientSecret: <<ClientSecret>>
+            clientId: ${GOOGLE_CLIENT_ID}
+            clientSecret: ${GOOGLE_SECRET}
             redirectUri: "{baseUrl}/oauth2/callback/{registrationId}"
             scope:
               - email
