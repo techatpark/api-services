@@ -67,13 +67,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private OAuth2AuthenticationFailureHandler
             oAuth2AuthenticationFailureHandler;
 
-    /**
-     * inject the httpCookieOAuth2AuthorizationRequestRepository
-     * object dependency.
-     */
-    @Autowired
-    private HttpCookieOAuth2AuthorizationRequestRepository
-            httpCookieOAuth2AuthorizationRequestRepository;
+
 
     /**
      * Token authentication filter token authentication filter.

@@ -4,15 +4,11 @@ import com.nimbusds.oauth2.sdk.util.StringUtils;
 import com.techatpark.starter.security.util.CookieUtils;
 import org.springframework.security.oauth2.client.web.AuthorizationRequestRepository;
 import org.springframework.security.oauth2.core.endpoint.OAuth2AuthorizationRequest;
-import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-/**
- * The type Http cookie o auth 2 authorization request repository.
- */
-@Component
+
 public class HttpCookieOAuth2AuthorizationRequestRepository
         implements AuthorizationRequestRepository<OAuth2AuthorizationRequest> {
     /**
