@@ -137,8 +137,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 "/v3/api-docs/**", "/resources/**",
                 "/static/**", "/css/**", "/js/**", "/images/**",
                 "/practices/**",
-                "/courses/**", "/courses/**/**", "/courses/**/**/**/",
-                "/subjects/**", "/books/**");
+                "/courses/**", "/courses/**/**", "/courses/**/**/**",
+                "/subjects/**",
+                "/books/**", "/books/**/**", "/books/**/**/**");
     }
 
     /**
