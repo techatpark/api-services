@@ -1,5 +1,8 @@
 package com.techatpark.starter.web;
 
+import com.techatpark.starter.security.security.RestAuthenticationEntryPoint;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
@@ -15,6 +18,12 @@ import java.nio.file.Path;
  */
 @Configuration
 public class StaticContentConfiguration implements WebMvcConfigurer {
+
+    /**
+     * declares the logger.
+     */
+    private static final Logger LOGGER =
+            LoggerFactory.getLogger(RestAuthenticationEntryPoint.class);
 
     /**
      * Location of static folder.
@@ -45,16 +54,21 @@ public class StaticContentConfiguration implements WebMvcConfigurer {
                         .filter(p -> !p.equals("/index.html")
                                 && p.endsWith("index.html"))
                         .forEach(indexHtmlPath -> {
+
+                            String urlPath = indexHtmlPath
+                                    .replaceAll("/index.html",
+                                            "");
+                            LOGGER.info("Loafing Index for {} from {}"
+                                    , urlPath
+                            , indexHtmlPath);
                             registry
                                     .addViewController(
-                                            indexHtmlPath
-                                                    .replaceAll("/index.html",
-                                                            ""))
+                                            urlPath)
                                     .setViewName("forward:"
                                             + indexHtmlPath);
                         });
             } catch (final IOException e) {
-                e.printStackTrace();
+                LOGGER.error("Unable to load Static Folders", e);
             }
 
             registry

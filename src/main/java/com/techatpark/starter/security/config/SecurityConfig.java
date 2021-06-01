@@ -16,6 +16,7 @@ import org.springframework.security.config.BeanIds;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -125,6 +126,20 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         return new BCryptPasswordEncoder();
     }
 
+    /**
+     * Hi.
+     * @param web
+     * @throws Exception
+     */
+    @Override
+    public void configure(final WebSecurity web) throws Exception {
+        web.ignoring().antMatchers("/swagger-ui.html", "/swagger-ui/**",
+                "/v3/api-docs/**", "/resources/**",
+                "/static/**", "/css/**", "/js/**", "/images/**",
+                "/practices/**",
+                "/courses/**", "/courses/**/**", "/courses/**/**/**/",
+                "/subjects/**", "/books/**");
+    }
 
     /**
      * method authenticationManagerBean is overrided.
