@@ -53,6 +53,11 @@ public class StaticContentConfiguration implements WebMvcConfigurer {
             } catch (IOException e) {
                 e.printStackTrace();
             }
+
+            registry
+                    .addViewController(
+                            "/oauth2/redirect")
+                    .setViewName("forward:/oauth2/redirect/index.html");
         }
 
     }

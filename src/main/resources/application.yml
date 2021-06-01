@@ -17,8 +17,8 @@ spring:
       client:
         registration:
           google:
-            clientId: <<CLIENT_ID>>
-            clientSecret: <<CLIENT_SECRET>>
+            clientId: <<ClientID>>
+            clientSecret: <<ClientSecret>>
             redirectUri: "{baseUrl}/oauth2/callback/{registrationId}"
             scope:
               - email
