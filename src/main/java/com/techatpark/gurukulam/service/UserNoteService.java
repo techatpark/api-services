@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import javax.sql.DataSource;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -81,6 +82,22 @@ public class UserNoteService {
         } catch (final EmptyResultDataAccessException e) {
             return Optional.empty();
         }
+    }
+
+    /**
+     * List list.
+     *
+     * @param onInstance the on instance
+     * @param onSection  the on section
+     * @return the list
+     */
+    public List<UserNote> searchNotes(final String onInstance,
+                                      final String onSection) {
+        final String query = "SELECT id,on_type,on_instance,on_section,"
+                + "prev_word,text,note FROM "
+                + "user_notes WHERE"
+                + " on_instance = ? and on_section = ?";
+        return jdbcTemplate.query(query, rowMapper, onInstance, onSection);
     }
 
     /**

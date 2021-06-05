@@ -9,7 +9,6 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -95,22 +94,5 @@ public class BookAPIController {
                 bookService.searchNotes(bookName, chapterName));
     }
 
-    /**
-     * Find by id response entity.
-     *
-     * @param id the id
-     * @return the response entity
-     */
-    @Operation(summary = "Get note with given id",
-            security = @SecurityRequirement(name = "bearerAuth"))
-    @ApiResponses(value = {@ApiResponse(responseCode = "200",
-            description = "note"),
-            @ApiResponse(responseCode = "404",
-                    description = "practice not found")})
-    @GetMapping("/{bookName}/note/{id}")
-    public ResponseEntity<Optional<UserNote>> findById(
-            final @PathVariable Integer id) {
-        return ResponseEntity.of(Optional.ofNullable(bookService.readNote(id)));
-    }
 
 }

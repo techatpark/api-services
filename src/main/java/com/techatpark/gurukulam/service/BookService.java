@@ -52,7 +52,7 @@ public class BookService {
     public List<UserNote> searchNotes(final String bookName,
                                      final String chapterName) {
 
-        return null;
+        return userNotesService.searchNotes(bookName, chapterName);
     }
 
     /**
