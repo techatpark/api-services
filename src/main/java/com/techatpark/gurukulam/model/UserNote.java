@@ -146,10 +146,10 @@ public class UserNote {
     /**
      * Sets note.
      *
-     * @param TheNote the note
+     * @param theNote the note
      */
-    public void setNote(final String TheNote) {
-        this.note = TheNote;
+    public void setNote(final String theNote) {
+        this.note = theNote;
     }
 
     /**
