@@ -3,6 +3,7 @@ package com.techatpark.gurukulam.service;
 import com.techatpark.gurukulam.model.UserNote;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -39,6 +40,19 @@ public class BookService {
         userNotes.setOnType("books");
         userNotes.setOnInstance(bookName);
         return  userNotesService.create(userNotes);
+    }
+
+    /**
+     * Search note optional.
+     *
+     * @param bookName  the book name
+     * @param chapterName the chapterName
+     * @return the list
+     */
+    public List<UserNote> searchNotes(final String bookName,
+                                     final String chapterName) {
+
+        return null;
     }
 
     /**

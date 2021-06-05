@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -58,13 +59,40 @@ public class BookAPIController {
             @ApiResponse(responseCode = "400", description =
                     "user note is invalid")})
     @PostMapping("/{bookName}/note")
-    public ResponseEntity<Optional<UserNote>> create(final @PathVariable String
+    public ResponseEntity<Optional<UserNote>> createNote(final
+                                                             @PathVariable
+                                                                     String
                                                                  bookName,
-                                                     final @Valid @RequestBody
+                                                         final @Valid
+                                                         @RequestBody
                                                              UserNote
                                                              userNotes) {
         return ResponseEntity.status(HttpStatus.CREATED).body(
                 bookService.createNote(bookName, userNotes));
+    }
+
+    /**
+     * Create response entity.
+     *
+     * @param chapterName the user note
+     * @param bookName  the book name
+     * @return the response entity
+     */
+    @Operation(summary = "Creates a new user note", description =
+            "Can be called only by users with 'auth management' rights.",
+            security = @SecurityRequirement(name = "bearerAuth"))
+    @ApiResponses(value = {@ApiResponse(responseCode = "200", description =
+            "user note found successfully"),
+            @ApiResponse(responseCode = "404", description =
+                    "user note not found")})
+    @PostMapping("/{bookName}/note/_search")
+    public ResponseEntity<List<UserNote>> searchNotes(final @PathVariable String
+                                                                 bookName,
+                                                     final @Valid @RequestBody
+                                                                 String
+                                                                 chapterName) {
+        return ResponseEntity.status(HttpStatus.OK).body(
+                bookService.searchNotes(bookName, chapterName));
     }
 
     /**
