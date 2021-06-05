@@ -12,14 +12,14 @@ import java.util.Optional;
 public class BookService {
 
     /**
-     * The User notes service.
+     * The User note service.
      */
     private final UserNoteService userNotesService;
 
     /**
      * Instantiates a new Book service.
      *
-     * @param theUserNotesService the user notes service
+     * @param theUserNotesService the user note service
      */
     public BookService(
             final UserNoteService theUserNotesService) {
@@ -31,7 +31,7 @@ public class BookService {
      * Create note optional.
      *
      * @param bookName  the book name
-     * @param userNotes the user notes
+     * @param userNotes the user note
      * @return the optional
      */
     public Optional<UserNote> createNote(final String bookName,

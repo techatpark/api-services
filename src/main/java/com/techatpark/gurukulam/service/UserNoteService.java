@@ -50,14 +50,15 @@ public class UserNoteService {
                 new SimpleJdbcInsert(dataSource).withTableName("user_notes")
                         .usingGeneratedKeyColumns("id")
                         .usingColumns("on_type", "on_instance", "on_section",
-                                "text", "notes");
+                                "prev_word", "text", "note");
 
         final Map<String, Object> valueMap = new HashMap<>();
         valueMap.put("on_type", userNote.getOnType());
         valueMap.put("on_instance", userNote.getOnInstance());
         valueMap.put("on_section", userNote.getOnSection());
+        valueMap.put("prev_word", userNote.getPrevWord());
         valueMap.put("text", userNote.getText());
-        valueMap.put("notes", userNote.getNotes());
+        valueMap.put("note", userNote.getNote());
         final Number id = insert.executeAndReturnKey(valueMap);
         return read(id.intValue());
     }
@@ -70,7 +71,8 @@ public class UserNoteService {
      */
     public Optional<UserNote> read(final Integer id) {
         final String query =
-                "SELECT id,on_type,on_instance,on_section,text,notes FROM "
+                "SELECT id,on_type,on_instance,on_section,prev_word,text,"
+                        + "note FROM "
                         + "user_notes WHERE"
                         + " id = ?";
         try {
@@ -90,8 +92,9 @@ public class UserNoteService {
         userNote.setOnType(rs.getString("on_type"));
         userNote.setOnInstance(rs.getString("on_instance"));
         userNote.setOnSection(rs.getString("on_section"));
+        userNote.setPrevWord(rs.getString("prev_word"));
         userNote.setText(rs.getString("text"));
-        userNote.setNotes(rs.getString("notes"));
+        userNote.setNote(rs.getString("note"));
 
         return userNote;
     };

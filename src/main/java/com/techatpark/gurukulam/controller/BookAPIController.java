@@ -47,7 +47,7 @@ public class BookAPIController {
      * Create response entity.
      *
      * @param bookName  the book name
-     * @param userNotes the user notes
+     * @param userNotes the user note
      * @return the response entity
      */
     @Operation(summary = "Creates a new user note", description =
@@ -56,7 +56,7 @@ public class BookAPIController {
     @ApiResponses(value = {@ApiResponse(responseCode = "201", description =
             "user note created successfully"),
             @ApiResponse(responseCode = "400", description =
-                    "user notes is invalid")})
+                    "user note is invalid")})
     @PostMapping("/{bookName}/note")
     public ResponseEntity<Optional<UserNote>> create(final @PathVariable String
                                                                  bookName,
@@ -73,10 +73,10 @@ public class BookAPIController {
      * @param id the id
      * @return the response entity
      */
-    @Operation(summary = "Get notes with given id",
+    @Operation(summary = "Get note with given id",
             security = @SecurityRequirement(name = "bearerAuth"))
     @ApiResponses(value = {@ApiResponse(responseCode = "200",
-            description = "notes"),
+            description = "note"),
             @ApiResponse(responseCode = "404",
                     description = "practice not found")})
     @GetMapping("/{bookName}/note/{id}")

@@ -33,6 +33,7 @@ CREATE TABLE user_notes (
    on_type VARCHAR NOT NULL,
    on_instance VARCHAR NOT NULL,
    on_section VARCHAR NOT NULL,
+   prev_word VARCHAR(500) NOT NULL,
    text VARCHAR(500) NOT NULL,
-   notes VARCHAR(500) NOT NULL
+   note VARCHAR(500)
 );

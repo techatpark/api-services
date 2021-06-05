@@ -2,7 +2,7 @@ package com.techatpark.gurukulam.model;
 
 
 /**
- * The type User notes.
+ * The type User note.
  */
 public class UserNote {
     /**
@@ -17,18 +17,41 @@ public class UserNote {
      * declare onInstance.
      */
     private String onInstance;
+
+    /**
+     * Gets prev word.
+     *
+     * @return the prev word
+     */
+    public String getPrevWord() {
+        return prevWord;
+    }
+
+    /**
+     * Sets prev word.
+     *
+     * @param thePrevWord the prev word
+     */
+    public void setPrevWord(final String thePrevWord) {
+        this.prevWord = thePrevWord;
+    }
+
     /**
      * declare onSection.
      */
     private String onSection;
     /**
+     * declares variable previous word.
+     */
+    private String prevWord;
+    /**
      * declare text.
      */
     private String text;
     /**
-     * declare notes.
+     * declare note.
      */
-    private String notes;
+    private String note;
 
     /**
      * Gets id.
@@ -112,6 +135,24 @@ public class UserNote {
     }
 
     /**
+     * Gets note.
+     *
+     * @return the note
+     */
+    public String getNote() {
+        return note;
+    }
+
+    /**
+     * Sets note.
+     *
+     * @param TheNote the note
+     */
+    public void setNote(final String TheNote) {
+        this.note = TheNote;
+    }
+
+    /**
      * Sets text.
      *
      * @param theText the text
@@ -120,22 +161,6 @@ public class UserNote {
         this.text = theText;
     }
 
-    /**
-     * Gets notes.
-     *
-     * @return the notes
-     */
-    public String getNotes() {
-        return notes;
-    }
 
-    /**
-     * Sets notes.
-     *
-     * @param theNotes the notes
-     */
-    public void setNotes(final String theNotes) {
-        this.notes = theNotes;
-    }
 
 }
