@@ -6,6 +6,7 @@ import com.techatpark.gurukulam.model.Question;
 import com.techatpark.gurukulam.service.AnswerService;
 import com.techatpark.gurukulam.service.PracticeService;
 import com.techatpark.gurukulam.service.QuestionService;
+import com.techatpark.gurukulam.service.UserNoteService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -50,16 +51,18 @@ abstract class PracticeAPIController<T extends Practice> {
      */
     private final AnswerService answerService;
 
+
     /**
      * Instantiates a new Practice api controller.
-     *
-     * @param newPracticeService the new practice service
+     *  @param newPracticeService the new practice service
      * @param newQuestionService the new question service
      * @param newAnswerService   the new answer service
+     * @param userNotesService
      */
     PracticeAPIController(final PracticeService newPracticeService,
                           final QuestionService newQuestionService,
-                          final AnswerService newAnswerService) {
+                          final AnswerService newAnswerService,
+                          final UserNoteService userNotesService) {
         this.practiceService = newPracticeService;
         this.questionService = newQuestionService;
         this.answerService = newAnswerService;
@@ -217,6 +220,7 @@ abstract class PracticeAPIController<T extends Practice> {
         return ResponseEntity.status(HttpStatus.CREATED).body(
                 questionService.create(practiceId, questionType, question));
     }
+
 
     /**
      * Find question by id response entity.

@@ -27,3 +27,12 @@ CREATE TABLE answers (
   student_answer VARCHAR(500) NOT NULL,
   FOREIGN KEY (exam_id, question_id) REFERENCES questions (exam_id, id)
 );
+
+CREATE TABLE user_notes (
+   id INT auto_increment PRIMARY KEY,
+   on_type VARCHAR NOT NULL,
+   on_instance VARCHAR NOT NULL,
+   on_section VARCHAR NOT NULL,
+   text VARCHAR(500) NOT NULL,
+   notes VARCHAR(500) NOT NULL
+);
