@@ -1,6 +1,5 @@
 package com.techatpark.gurukulam.service;
 
-import com.techatpark.gurukulam.model.Question;
 import com.techatpark.gurukulam.model.UserNote;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;

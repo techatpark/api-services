@@ -1,7 +1,5 @@
 package com.techatpark.gurukulam.controller;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.techatpark.gurukulam.model.Practice;
 import com.techatpark.gurukulam.model.UserNote;
 import com.techatpark.gurukulam.service.BookService;
 import io.swagger.v3.oas.annotations.Operation;
