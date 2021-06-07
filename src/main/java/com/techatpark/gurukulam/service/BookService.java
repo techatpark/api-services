@@ -45,7 +45,7 @@ public class BookService {
     /**
      * Search note optional.
      *
-     * @param bookName  the book name
+     * @param bookName    the book name
      * @param chapterName the chapterName
      * @return the list
      */
@@ -64,5 +64,27 @@ public class BookService {
     public Optional<UserNote> readNote(final Integer id) {
         return  userNotesService.read(id);
 
+    }
+
+    /**
+     * Update note optional.
+     *
+     * @param id       the id
+     * @param userNote the user note
+     * @return the optional
+     */
+    public Optional<UserNote> updateNote(final Integer id,
+                                         final UserNote userNote) {
+        return  userNotesService.updateNote(id, userNote);
+    }
+
+    /**
+     * Delete boolean.
+     *
+     * @param id the id
+     * @return the boolean
+     */
+    public boolean delete(final Integer id) {
+         return userNotesService.delete(id);
     }
 }

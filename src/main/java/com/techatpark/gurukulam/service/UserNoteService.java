@@ -1,5 +1,6 @@
 package com.techatpark.gurukulam.service;
 
+import com.techatpark.gurukulam.model.Question;
 import com.techatpark.gurukulam.model.UserNote;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -98,6 +99,39 @@ public class UserNoteService {
                 + "user_notes WHERE"
                 + " on_instance = ? and on_section = ?";
         return jdbcTemplate.query(query, rowMapper, onInstance, onSection);
+    }
+
+    /**
+     * Update note optional.
+     *
+     * @param id       the id
+     * @param userNote the user note
+     * @return the optional
+     */
+    public Optional<UserNote> updateNote(final Integer id,
+                                         final UserNote userNote) {
+        final String query =
+                "UPDATE user_notes SET on_type = ?,"
+                        + " on_instance = ?, on_section = ?, prev_word = ?,"
+                        + "text = ?, note = ? WHERE id = ?";
+        final Integer updatedRows =
+                jdbcTemplate.update(query, userNote.getOnType(),
+                        userNote.getOnInstance(),
+                        userNote.getOnSection(), userNote.getPrevWord(),
+                        userNote.getText(), userNote.getNote(), id);
+        return updatedRows == 0 ? null : read(id);
+    }
+
+    /**
+     * Delete boolean.
+     *
+     * @param id the id
+     * @return the boolean
+     */
+    public Boolean delete(final Integer id) {
+        final String query = "DELETE FROM user_notes WHERE ID=?";
+        final Integer updatedRows = jdbcTemplate.update(query, id);
+        return !(updatedRows == 0);
     }
 
     /**

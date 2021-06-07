@@ -1,5 +1,7 @@
 package com.techatpark.gurukulam.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.techatpark.gurukulam.model.Practice;
 import com.techatpark.gurukulam.model.UserNote;
 import com.techatpark.gurukulam.service.BookService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -9,8 +11,10 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -73,8 +77,8 @@ public class BookAPIController {
     /**
      * Create response entity.
      *
+     * @param bookName    the book name
      * @param chapterName the user note
-     * @param bookName  the book name
      * @return the response entity
      */
     @Operation(summary = "Creates a new user note", description =
@@ -92,6 +96,54 @@ public class BookAPIController {
                                                                  chapterName) {
         return ResponseEntity.status(HttpStatus.OK).body(
                 bookService.searchNotes(bookName, chapterName));
+    }
+
+    /**
+     * Update response entity.
+     *
+     * @param id       the id
+     * @param userNote the user note
+     * @return the response entity
+     */
+    @Operation(summary = "Updates the note by given id",
+            description = "Can be called only by users with "
+                    + "'auth management' rights.",
+            security = @SecurityRequirement(name = "bearerAuth"))
+    @ApiResponses(value = {@ApiResponse(responseCode = "200",
+            description = "note updated successfully"),
+            @ApiResponse(responseCode = "400",
+                    description = "note is invalid"),
+            @ApiResponse(responseCode = "404",
+                    description = "note not found")})
+    @PutMapping("/{id}")
+    public ResponseEntity<Optional<UserNote>> update(final @PathVariable
+                                                                 Integer id,
+                                                     final @Valid @RequestBody
+                                                     UserNote userNote) {
+        final Optional<UserNote> updatednote =
+                bookService.updateNote(id, userNote);
+        return updatednote == null ? new ResponseEntity<>(
+                HttpStatus.NOT_FOUND)
+                : ResponseEntity.ok(updatednote);
+    }
+
+    /**
+     * Delete note by id response entity.
+     *
+     * @param id the id
+     * @return the response entity
+     */
+    @Operation(summary = "Deletes the note by given id",
+            security = @SecurityRequirement(name = "bearerAuth"))
+    @ApiResponses(value = {@ApiResponse(responseCode = "200",
+            description = "note deleted successfully"),
+            @ApiResponse(responseCode = "404",
+                    description = "note not found")})
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteNoteById(
+            final @PathVariable Integer id) {
+        return bookService.delete(id) ? ResponseEntity.ok().build()
+                : new ResponseEntity<Void>(HttpStatus.NOT_FOUND);
     }
 
 
