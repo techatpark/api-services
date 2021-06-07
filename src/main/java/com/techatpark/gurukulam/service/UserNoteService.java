@@ -27,6 +27,21 @@ public class UserNoteService {
      * this creates connection functionalities.
      */
     private final DataSource dataSource;
+    /**
+     * Maps the data from and to the database. return question.
+     */
+    private final RowMapper<UserNote> rowMapper = (rs, rowNum) -> {
+        final UserNote userNote = new UserNote();
+        userNote.setId(rs.getInt("id"));
+        userNote.setOnType(rs.getString("on_type"));
+        userNote.setOnInstance(rs.getString("on_instance"));
+        userNote.setOnSection(rs.getString("on_section"));
+        userNote.setPrevWord(rs.getString("prev_word"));
+        userNote.setText(rs.getString("text"));
+        userNote.setNote(rs.getString("note"));
+
+        return userNote;
+    };
 
     /**
      * initializes.
@@ -132,20 +147,4 @@ public class UserNoteService {
         final Integer updatedRows = jdbcTemplate.update(query, id);
         return !(updatedRows == 0);
     }
-
-    /**
-     * Maps the data from and to the database. return question.
-     */
-    private final RowMapper<UserNote> rowMapper = (rs, rowNum) -> {
-        final UserNote userNote = new UserNote();
-        userNote.setId(rs.getInt("id"));
-        userNote.setOnType(rs.getString("on_type"));
-        userNote.setOnInstance(rs.getString("on_instance"));
-        userNote.setOnSection(rs.getString("on_section"));
-        userNote.setPrevWord(rs.getString("prev_word"));
-        userNote.setText(rs.getString("text"));
-        userNote.setNote(rs.getString("note"));
-
-        return userNote;
-    };
 }

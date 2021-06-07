@@ -75,9 +75,9 @@ public class AuthenticationApiController {
 
         final Authentication authResult = this.authenticationManager
                 .authenticate(
-                new UsernamePasswordAuthenticationToken(
-                        authenticationRequest.getUserName(),
-                        authenticationRequest.getPassword()));
+                        new UsernamePasswordAuthenticationToken(
+                                authenticationRequest.getUserName(),
+                                authenticationRequest.getPassword()));
         if (authResult == null) {
             throw new BadCredentialsException("Invalid Login Credentials");
         }

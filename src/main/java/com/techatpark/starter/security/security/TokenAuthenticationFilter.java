@@ -56,7 +56,8 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
             final String jwt = getJwtFromRequest(request);
 
             if (StringUtils.hasText(jwt) && tokenProvider.validateToken(jwt)) {
-                final String userName = tokenProvider.getUserNameFromToken(jwt);
+                final String userName =
+                        tokenProvider.getUserNameFromToken(jwt);
 
                 final UserDetails userDetails =
                         customUserDetailsService.loadUserByUsername(userName);

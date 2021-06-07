@@ -112,8 +112,8 @@ public abstract class DatabaseConnector {
                                final Practice practice) {
         Integer count = -1;
         try (Connection connection = getConnection(practice);
-              Statement statement = connection.createStatement();
-              ResultSet r = statement.executeQuery(countQuery)) {
+             Statement statement = connection.createStatement();
+             ResultSet r = statement.executeQuery(countQuery)) {
             r.next();
             count = r.getInt(1);
 
@@ -134,7 +134,7 @@ public abstract class DatabaseConnector {
                              final Practice practice) {
         Integer count = -1;
         try (Connection connection = getConnection(practice);
-              Statement statement = connection.createStatement()) {
+             Statement statement = connection.createStatement()) {
             count = statement.executeUpdate(updateQuery);
         } catch (final SQLException sqlException) {
             sqlException.printStackTrace();

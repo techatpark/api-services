@@ -33,6 +33,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 
     /**
      * Loads the user.
+     *
      * @param oAuth2UserRequest
      * @return OAuth2User
      * @throws OAuth2AuthenticationException

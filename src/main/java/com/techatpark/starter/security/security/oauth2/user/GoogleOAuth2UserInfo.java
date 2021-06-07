@@ -18,6 +18,7 @@ public class GoogleOAuth2UserInfo extends OAuth2UserInfo {
 
     /**
      * gets the id.
+     *
      * @return id
      */
     @Override
@@ -27,6 +28,7 @@ public class GoogleOAuth2UserInfo extends OAuth2UserInfo {
 
     /**
      * gets the name.
+     *
      * @return name
      */
     @Override
@@ -36,6 +38,7 @@ public class GoogleOAuth2UserInfo extends OAuth2UserInfo {
 
     /**
      * gets the emailid.
+     *
      * @return email
      */
     @Override
@@ -45,6 +48,7 @@ public class GoogleOAuth2UserInfo extends OAuth2UserInfo {
 
     /**
      * gets the imageurl.
+     *
      * @return imageurl
      */
     @Override

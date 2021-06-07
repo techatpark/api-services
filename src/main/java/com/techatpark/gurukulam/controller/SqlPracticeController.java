@@ -22,7 +22,7 @@ class SqlPracticeController extends PracticeAPIController<SqlPractice> {
      * @param newPracticeService the new practice service
      * @param newQuestionService the new question service
      * @param newAnswerService   the new answer service
-     * @param userNotesService the new user note service
+     * @param userNotesService   the new user note service
      */
     SqlPracticeController(final PracticeService newPracticeService,
                           final QuestionService newQuestionService,

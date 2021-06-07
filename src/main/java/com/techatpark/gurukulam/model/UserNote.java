@@ -17,6 +17,22 @@ public class UserNote {
      * declare onInstance.
      */
     private String onInstance;
+    /**
+     * declare onSection.
+     */
+    private String onSection;
+    /**
+     * declares variable previous word.
+     */
+    private String prevWord;
+    /**
+     * declare text.
+     */
+    private String text;
+    /**
+     * declare note.
+     */
+    private String note;
 
     /**
      * Gets prev word.
@@ -35,23 +51,6 @@ public class UserNote {
     public void setPrevWord(final String thePrevWord) {
         this.prevWord = thePrevWord;
     }
-
-    /**
-     * declare onSection.
-     */
-    private String onSection;
-    /**
-     * declares variable previous word.
-     */
-    private String prevWord;
-    /**
-     * declare text.
-     */
-    private String text;
-    /**
-     * declare note.
-     */
-    private String note;
 
     /**
      * Gets id.
@@ -135,6 +134,15 @@ public class UserNote {
     }
 
     /**
+     * Sets text.
+     *
+     * @param theText the text
+     */
+    public void setText(final String theText) {
+        this.text = theText;
+    }
+
+    /**
      * Gets note.
      *
      * @return the note
@@ -151,16 +159,6 @@ public class UserNote {
     public void setNote(final String theNote) {
         this.note = theNote;
     }
-
-    /**
-     * Sets text.
-     *
-     * @param theText the text
-     */
-    public void setText(final String theText) {
-        this.text = theText;
-    }
-
 
 
 }

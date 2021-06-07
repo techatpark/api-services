@@ -36,10 +36,10 @@ public class BookService {
      * @return the optional
      */
     public Optional<UserNote> createNote(final String bookName,
-                                     final UserNote userNotes) {
+                                         final UserNote userNotes) {
         userNotes.setOnType("books");
         userNotes.setOnInstance(bookName);
-        return  userNotesService.create(userNotes);
+        return userNotesService.create(userNotes);
     }
 
     /**
@@ -50,7 +50,7 @@ public class BookService {
      * @return the list
      */
     public List<UserNote> searchNotes(final String bookName,
-                                     final String chapterName) {
+                                      final String chapterName) {
 
         return userNotesService.searchNotes(bookName, chapterName);
     }
@@ -62,7 +62,7 @@ public class BookService {
      * @return the optional
      */
     public Optional<UserNote> readNote(final Integer id) {
-        return  userNotesService.read(id);
+        return userNotesService.read(id);
 
     }
 
@@ -75,7 +75,7 @@ public class BookService {
      */
     public Optional<UserNote> updateNote(final Integer id,
                                          final UserNote userNote) {
-        return  userNotesService.updateNote(id, userNote);
+        return userNotesService.updateNote(id, userNote);
     }
 
     /**
@@ -85,6 +85,6 @@ public class BookService {
      * @return the boolean
      */
     public boolean delete(final Integer id) {
-         return userNotesService.delete(id);
+        return userNotesService.delete(id);
     }
 }

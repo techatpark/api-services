@@ -61,13 +61,13 @@ public class BookAPIController {
                     "user note is invalid")})
     @PostMapping("/{bookName}/note")
     public ResponseEntity<Optional<UserNote>> createNote(final
-                                                             @PathVariable
-                                                                     String
+                                                         @PathVariable
+                                                                 String
                                                                  bookName,
                                                          final @Valid
                                                          @RequestBody
-                                                             UserNote
-                                                             userNotes) {
+                                                                 UserNote
+                                                                 userNotes) {
         return ResponseEntity.status(HttpStatus.CREATED).body(
                 bookService.createNote(bookName, userNotes));
     }
@@ -87,11 +87,12 @@ public class BookAPIController {
             @ApiResponse(responseCode = "404", description =
                     "user note not found")})
     @PostMapping("/{bookName}/note/_search")
-    public ResponseEntity<List<UserNote>> searchNotes(final @PathVariable String
-                                                                 bookName,
-                                                     final @Valid @RequestBody
-                                                                 String
-                                                                 chapterName) {
+    public ResponseEntity<List<UserNote>> searchNotes(
+            final @PathVariable String
+                    bookName,
+            final @Valid @RequestBody
+                    String
+                    chapterName) {
         return ResponseEntity.status(HttpStatus.OK).body(
                 bookService.searchNotes(bookName, chapterName));
     }
@@ -114,10 +115,10 @@ public class BookAPIController {
             @ApiResponse(responseCode = "404",
                     description = "note not found")})
     @PutMapping("/{id}")
-    public ResponseEntity<Optional<UserNote>> update(final @PathVariable
-                                                                 Integer id,
-                                                     final @Valid @RequestBody
-                                                     UserNote userNote) {
+    public ResponseEntity<Optional<UserNote>> update(
+                                    final @PathVariable Integer id,
+                                    final @Valid @RequestBody
+                                            UserNote userNote) {
         final Optional<UserNote> updatednote =
                 bookService.updateNote(id, userNote);
         return updatednote == null ? new ResponseEntity<>(

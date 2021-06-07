@@ -31,6 +31,7 @@ public class OAuth2AuthenticationFailureHandler
 
     /**
      * method defines the process on authentication failure.
+     *
      * @param request
      * @param response
      * @param exception

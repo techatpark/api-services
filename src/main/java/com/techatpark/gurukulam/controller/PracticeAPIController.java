@@ -54,7 +54,8 @@ abstract class PracticeAPIController<T extends Practice> {
 
     /**
      * Instantiates a new Practice api controller.
-     *  @param newPracticeService the new practice service
+     *
+     * @param newPracticeService the new practice service
      * @param newQuestionService the new question service
      * @param newAnswerService   the new answer service
      * @param userNotesService

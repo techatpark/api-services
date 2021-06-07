@@ -82,6 +82,7 @@ public class CustomUserDetailsService implements UserDetailsService {
 
     /**
      * load userdetails with username.
+     *
      * @param email
      * @return
      * @throws UsernameNotFoundException

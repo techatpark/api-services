@@ -69,7 +69,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             oAuth2AuthenticationFailureHandler;
 
 
-
     /**
      * Token authentication filter token authentication filter.
      *
@@ -109,7 +108,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     public void configure(final
                           AuthenticationManagerBuilder
-                                      authenticationManagerBuilder)
+                                  authenticationManagerBuilder)
             throws Exception {
         authenticationManagerBuilder
                 .userDetailsService(customUserDetailsService)
@@ -128,6 +127,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     /**
      * Hi.
+     *
      * @param web
      * @throws Exception
      */
@@ -139,7 +139,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 "/practices/**",
                 "/courses/**", "/courses/**/**", "/courses/**/**/**",
                 "/subjects/**",
-                "/books/**", "/books/**/**", "/books/**/**/**");
+                "/books/**", "/books/**/**", "/books/**/**/**",
+                "/ws", "/ws/**", "/ws/**/**", "/ws/**/**/**");
     }
 
     /**

@@ -27,6 +27,7 @@ public class HttpCookieOAuth2AuthorizationRequestRepository
 
     /**
      * loads the authorisation request.
+     *
      * @param request
      * @return OAuth2AuthorizationRequest
      */
@@ -42,6 +43,7 @@ public class HttpCookieOAuth2AuthorizationRequestRepository
 
     /**
      * saves the authorizationRequest.
+     *
      * @param authorizationRequest
      * @param request
      * @param response
@@ -73,6 +75,7 @@ public class HttpCookieOAuth2AuthorizationRequestRepository
 
     /**
      * removes the authorisation request.
+     *
      * @param request
      * @return OAuth2AuthorizationRequest
      */

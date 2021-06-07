@@ -84,6 +84,7 @@ public class UserPrincipal implements OAuth2User, UserDetails {
 
     /**
      * gets the password.
+     *
      * @return password
      */
     @Override
@@ -93,6 +94,7 @@ public class UserPrincipal implements OAuth2User, UserDetails {
 
     /**
      * gets the username.
+     *
      * @return username
      */
     @Override
@@ -102,6 +104,7 @@ public class UserPrincipal implements OAuth2User, UserDetails {
 
     /**
      * gets the value of accountnotexpired.
+     *
      * @return true
      */
     @Override
@@ -111,6 +114,7 @@ public class UserPrincipal implements OAuth2User, UserDetails {
 
     /**
      * returns value of isaccountnotlocked.
+     *
      * @return true
      */
     @Override
@@ -120,6 +124,7 @@ public class UserPrincipal implements OAuth2User, UserDetails {
 
     /**
      * returns value ofiscredentialsnonexpired.
+     *
      * @return true
      */
     @Override
@@ -129,6 +134,7 @@ public class UserPrincipal implements OAuth2User, UserDetails {
 
     /**
      * returns value of isEnabled.
+     *
      * @return true
      */
     @Override
@@ -138,6 +144,7 @@ public class UserPrincipal implements OAuth2User, UserDetails {
 
     /**
      * gets the values of authorities.
+     *
      * @return authorities
      */
     @Override
@@ -147,6 +154,7 @@ public class UserPrincipal implements OAuth2User, UserDetails {
 
     /**
      * gets the getAttributes().
+     *
      * @return map of attributes
      */
     @Override
@@ -165,6 +173,7 @@ public class UserPrincipal implements OAuth2User, UserDetails {
 
     /**
      * gets the name.
+     *
      * @return name
      */
     @Override

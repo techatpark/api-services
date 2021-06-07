@@ -12,7 +12,6 @@ public abstract class OAuth2UserInfo {
     private Map<String, Object> attributes;
 
 
-
     /**
      * Instantiates a new O auth 2 user info.
      *

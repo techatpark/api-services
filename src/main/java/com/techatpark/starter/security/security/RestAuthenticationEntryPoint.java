@@ -22,6 +22,7 @@ public class RestAuthenticationEntryPoint implements AuthenticationEntryPoint {
 
     /**
      * commence request.
+     *
      * @param httpServletRequest
      * @param httpServletResponse
      * @param e
