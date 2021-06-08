@@ -140,7 +140,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 "/courses/**", "/courses/**/**", "/courses/**/**/**",
                 "/subjects/**",
                 "/books/**", "/books/**/**", "/books/**/**/**",
-                "/ws", "/ws/**", "/ws/**/**", "/ws/**/**/**");
+                "/chat", "/chat/**", "/chat/**/**", "/chat/**/**/**");
     }
 
     /**
