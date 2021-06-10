@@ -1,6 +1,7 @@
 package com.techatpark.gurukulam.model;
 
 import javax.validation.constraints.NotBlank;
+import java.util.List;
 
 /**
  * The type Question.
@@ -26,11 +27,17 @@ public class Question {
      */
     @NotBlank(message = "answer is mandatory")
     private String answer;
+
     /**
      * tells the type of question being created.
      */
     @NotBlank(message = "type of question is mandatory")
     private String type;
+
+    /**
+     * tells the question choices available.
+     */
+    private List<QuestionChoice> questionChoice;
 
     /**
      * gets the type of question.
@@ -120,5 +127,26 @@ public class Question {
     public void setAnswer(final String anAnswer) {
         this.answer = anAnswer;
     }
+
+
+    /**
+     * Gets question choice.
+     *
+     * @return the question choice
+     */
+    public List<QuestionChoice> getQuestionChoice() {
+        return questionChoice;
+    }
+
+    /**
+     * Sets question choice.
+     *
+     * @param theQuestionChoice the question choice
+     */
+    public void setQuestionChoice(
+            final List<QuestionChoice> theQuestionChoice) {
+        this.questionChoice = theQuestionChoice;
+    }
+
 
 }

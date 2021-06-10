@@ -1,6 +1,7 @@
 package com.techatpark.gurukulam.service;
 
 import com.techatpark.gurukulam.model.Question;
+import com.techatpark.gurukulam.model.QuestionChoice;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -39,6 +40,17 @@ public class QuestionService {
         question.setAnswer(rs.getString("answer"));
         return question;
     };
+    /**
+     * Maps the data from and to the database. return question.
+     */
+    private final RowMapper<QuestionChoice> rowMapperQuestionChoice = (
+            rs, rowNum) -> {
+        final QuestionChoice questionChoice = new QuestionChoice();
+        questionChoice.setId(rs.getInt("id"));
+        questionChoice.setQuestionId(rs.getInt("question_id"));
+        questionChoice.setValue(rs.getString("value"));
+        return questionChoice;
+    };
 
     /**
      * initializes.
@@ -73,8 +85,44 @@ public class QuestionService {
         valueMap.put("question", question.getQuestion());
         valueMap.put("type", type);
         valueMap.put("answer", question.getAnswer());
+
         final Number id = insert.executeAndReturnKey(valueMap);
+
+        if (question.getType().equals("CHOOSETHEBEST")
+                && question.getQuestionChoice() != null) {
+            final SimpleJdbcInsert insertQuestionChoice =
+                    new SimpleJdbcInsert(dataSource)
+                            .withTableName("question_choices")
+                            .usingGeneratedKeyColumns("id")
+                            .usingColumns("question_id", "value");
+
+            question.getQuestionChoice().forEach(questionChoice -> {
+                Map<String, Object> valueMapQuestionChoice = new HashMap<>();
+                valueMapQuestionChoice.put("question_id", id);
+                valueMapQuestionChoice.put("value", questionChoice.getValue());
+
+                insertQuestionChoice
+                        .executeAndReturnKey(valueMapQuestionChoice);
+            });
+
+        }
+
         return read(id.intValue());
+    }
+
+    /**
+     * List question choice list.
+     *
+     * @param questionChoiceId the question choice id
+     * @return the list
+     */
+    public List<QuestionChoice> listQuestionChoice(
+            final Integer questionChoiceId) {
+        final String query =
+                "SELECT id,question_id,value FROM question_choices WHERE"
+                        + " question_id = ?";
+        return jdbcTemplate.query(query, rowMapperQuestionChoice,
+                questionChoiceId);
     }
 
     /**
@@ -88,12 +136,19 @@ public class QuestionService {
                 "SELECT id,exam_id,question,type,answer FROM questions WHERE"
                         + " id = ?";
         try {
-            return Optional.of(jdbcTemplate
-                    .queryForObject(query, new Object[]{id}, rowMapper));
+
+            Question question = jdbcTemplate
+                    .queryForObject(query, new Object[]{id}, rowMapper);
+            if (question.getType().equals("CHOOSETHEBEST")) {
+                question.setQuestionChoice(
+                        listQuestionChoice(question.getId()));
+            }
+            return Optional.of(question);
         } catch (final EmptyResultDataAccessException e) {
             return Optional.empty();
         }
     }
+
 
     /**
      * updates question with id.

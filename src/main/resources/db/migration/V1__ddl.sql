@@ -20,6 +20,7 @@ CREATE TABLE questions (
   PRIMARY KEY (id, exam_id),
   FOREIGN KEY (exam_id) REFERENCES practices (id)
 );
+
 CREATE TABLE answers (
   id INT auto_increment PRIMARY KEY,
   exam_id int NOT NULL,
@@ -36,4 +37,24 @@ CREATE TABLE user_notes (
    prev_word VARCHAR(500) NOT NULL,
    text VARCHAR(500) NOT NULL,
    note VARCHAR(500)
+);
+
+
+CREATE TABLE question_ (
+    id INT auto_increment PRIMARY KEY,
+    exam_id int NOT NULL,
+    question_id int NOT NULL,
+    choice_one VARCHAR(500) NOT NULL,
+    choice_two VARCHAR(500) NOT NULL,
+    choice_three VARCHAR(500) NOT NULL,
+    choice_four VARCHAR(500) NOT NULL,
+    FOREIGN KEY (exam_id, question_id) REFERENCES questions (exam_id, id)
+);
+
+
+CREATE TABLE question_choices (
+    id INT auto_increment PRIMARY KEY,
+    question_id int NOT NULL,
+    value VARCHAR(500) NOT NULL,
+    FOREIGN KEY (question_id) REFERENCES questions (id)
 );
