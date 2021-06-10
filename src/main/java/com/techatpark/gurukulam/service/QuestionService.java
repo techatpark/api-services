@@ -182,31 +182,33 @@ public class QuestionService {
             List<Integer> availableIds = new ArrayList<>();
 
             question.getQuestionChoice().forEach(questionChoice -> {
-                if(questionChoice.getId() == null) {
-                    Map<String, Object> valueMapQuestionChoice = new HashMap<>();
+                if (questionChoice.getId() == null) {
+                    Map<String, Object> valueMapQuestionChoice =
+                            new HashMap<>();
                     valueMapQuestionChoice.put("question_id", id);
-                    valueMapQuestionChoice.put("value", questionChoice.getValue());
+                    valueMapQuestionChoice
+                            .put("value", questionChoice.getValue());
 
                     insertQuestionChoice
                             .executeAndReturnKey(valueMapQuestionChoice);
                 } else {
                     availableIds.add(questionChoice.getId());
                     final String updatequestionChoice =
-                            "UPDATE question_choices SET value = ? " +
-                                    "WHERE id = ?";
-                            jdbcTemplate.update(updatequestionChoice,
-                                    questionChoice.getValue(),
-                                    questionChoice.getId());
+                            "UPDATE question_choices SET value = ? "
+                                    + "WHERE id = ?";
+                    jdbcTemplate.update(updatequestionChoice,
+                            questionChoice.getValue(),
+                            questionChoice.getId());
                 }
 
-                if(!availableIds.isEmpty()) {
+                if (!availableIds.isEmpty()) {
                     final String deletequestionChoice =
-                            "DELETE question_choices " +
-                                    "WHERE id NOT IN ( "+
-                                    availableIds.stream()
+                            "DELETE question_choices "
+                                    + "WHERE id NOT IN ( "
+                                    + availableIds.stream()
                                             .map(aId -> "?")
                                             .collect(Collectors.joining(","))
-                                    +" ) ";
+                                    + " ) ";
                     jdbcTemplate.update(deletequestionChoice,
                             availableIds.toArray());
                 }
@@ -232,13 +234,15 @@ public class QuestionService {
 
     /**
      * delete all records from questionchoice with the given question id.
+     *
      * @param questionId
      * @return successflag boolean
      */
     public Boolean deleteQuestionChoice(final Integer questionId) {
-    final String query = "DELETE FROM question_choices WHERE question_id = ?";
-    final Integer updatedRows = jdbcTemplate.update(query, questionId);
-        return!(updatedRows ==0);
+        final String query =
+                "DELETE FROM question_choices WHERE question_id = ?";
+        final Integer updatedRows = jdbcTemplate.update(query, questionId);
+        return !(updatedRows == 0);
     }
 
     /**
