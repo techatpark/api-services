@@ -1,7 +1,7 @@
 package com.techatpark.gurukulam.service;
 
 import com.techatpark.gurukulam.model.Question;
-import com.techatpark.gurukulam.model.QuestionChoice;
+import com.techatpark.gurukulam.model.Choice;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -45,13 +45,13 @@ public class QuestionService {
     /**
      * Maps the data from and to the database. return question.
      */
-    private final RowMapper<QuestionChoice> rowMapperQuestionChoice = (
+    private final RowMapper<Choice> rowMapperQuestionChoice = (
             rs, rowNum) -> {
-        final QuestionChoice questionChoice = new QuestionChoice();
-        questionChoice.setId(rs.getInt("id"));
-        questionChoice.setQuestionId(rs.getInt("question_id"));
-        questionChoice.setValue(rs.getString("value"));
-        return questionChoice;
+        final Choice choice = new Choice();
+        choice.setId(rs.getInt("id"));
+        choice.setQuestionId(rs.getInt("question_id"));
+        choice.setValue(rs.getString("value"));
+        return choice;
     };
 
     /**
@@ -90,18 +90,18 @@ public class QuestionService {
 
         final Number id = insert.executeAndReturnKey(valueMap);
 
-        if (question.getType().equals("CHOOSETHEBEST")
-                && question.getQuestionChoice() != null) {
+        if (question.getType().equals("choose-the-best")
+                && question.getChoices() != null) {
             final SimpleJdbcInsert insertQuestionChoice =
                     new SimpleJdbcInsert(dataSource)
                             .withTableName("question_choices")
                             .usingGeneratedKeyColumns("id")
                             .usingColumns("question_id", "value");
 
-            question.getQuestionChoice().forEach(questionChoice -> {
+            question.getChoices().forEach(choice -> {
                 Map<String, Object> valueMapQuestionChoice = new HashMap<>();
                 valueMapQuestionChoice.put("question_id", id);
-                valueMapQuestionChoice.put("value", questionChoice.getValue());
+                valueMapQuestionChoice.put("value", choice.getValue());
 
                 insertQuestionChoice
                         .executeAndReturnKey(valueMapQuestionChoice);
@@ -118,7 +118,7 @@ public class QuestionService {
      * @param questionChoiceId the question choice id
      * @return the list
      */
-    public List<QuestionChoice> listQuestionChoice(
+    public List<Choice> listQuestionChoice(
             final Integer questionChoiceId) {
         final String query =
                 "SELECT id,question_id,value FROM question_choices WHERE"
@@ -141,8 +141,8 @@ public class QuestionService {
 
             Question question = jdbcTemplate
                     .queryForObject(query, new Object[]{id}, rowMapper);
-            if (question.getType().equals("CHOOSETHEBEST")) {
-                question.setQuestionChoice(
+            if (question.getType().equals("choose-the-best")) {
+                question.setChoices(
                         listQuestionChoice(question.getId()));
             }
             return Optional.of(question);
@@ -169,8 +169,8 @@ public class QuestionService {
                 jdbcTemplate.update(query, examId, question.getQuestion(),
                         question.getAnswer(), id);
 
-        if (question.getType().equals("CHOOSETHEBEST")
-                && question.getQuestionChoice() != null) {
+        if (question.getType().equals("choose-the-best")
+                && question.getChoices() != null) {
 
 
             final SimpleJdbcInsert insertQuestionChoice =
@@ -181,34 +181,37 @@ public class QuestionService {
 
             List<Integer> availableIds = new ArrayList<>();
 
-            question.getQuestionChoice().forEach(questionChoice -> {
-                if (questionChoice.getId() == null) {
+            question.getChoices().forEach(choice -> {
+                if (choice.getId() == null) {
                     Map<String, Object> valueMapQuestionChoice =
                             new HashMap<>();
                     valueMapQuestionChoice.put("question_id", id);
                     valueMapQuestionChoice
-                            .put("value", questionChoice.getValue());
+                            .put("value", choice.getValue());
 
-                    insertQuestionChoice
+                    final Number insertedId = insertQuestionChoice
                             .executeAndReturnKey(valueMapQuestionChoice);
+                    availableIds.add(insertedId.intValue());
+
                 } else {
-                    availableIds.add(questionChoice.getId());
+                    availableIds.add(choice.getId());
                     final String updatequestionChoice =
                             "UPDATE question_choices SET value = ? "
                                     + "WHERE id = ?";
+
                     jdbcTemplate.update(updatequestionChoice,
-                            questionChoice.getValue(),
-                            questionChoice.getId());
+                            choice.getValue(),
+                            choice.getId());
                 }
 
                 if (!availableIds.isEmpty()) {
                     final String deletequestionChoice =
                             "DELETE question_choices "
-                                    + "WHERE id NOT IN ( "
+                                    + "WHERE id NOT IN ("
                                     + availableIds.stream()
                                             .map(aId -> "?")
                                             .collect(Collectors.joining(","))
-                                    + " ) ";
+                                    + ")";
                     jdbcTemplate.update(deletequestionChoice,
                             availableIds.toArray());
                 }
@@ -264,11 +267,21 @@ public class QuestionService {
      */
     public List<Question> list(final String userName,
                                final Integer practiceId) {
+
         final String query = "SELECT q.id,q.exam_id,q.question,q.type,"
                 + "CASE p.owner WHEN ? THEN q.answer ELSE NULL END AS answer "
                 + "FROM questions as q JOIN practices AS p "
                 + "ON q.exam_id = p.id where q.exam_id = ? order by q.id";
-        return jdbcTemplate.query(query, rowMapper, userName, practiceId);
+        List<Question> questions = jdbcTemplate.query(query, rowMapper,
+                userName, practiceId);
+        if( !questions.isEmpty()) {
+            questions.forEach(question -> {
+                if(question.getType().equals("choose-the-best")) {
+                    question.setChoices(this.listQuestionChoice(question.getId()));
+                }
+            });
+        }
+        return questions;
     }
 
     /**

@@ -25,7 +25,6 @@ public class Question {
     /**
      * tells the answer.
      */
-    @NotBlank(message = "answer is mandatory")
     private String answer;
 
     /**
@@ -37,7 +36,7 @@ public class Question {
     /**
      * tells the question choices available.
      */
-    private List<QuestionChoice> questionChoice;
+    private List<Choice> choices;
 
     /**
      * gets the type of question.
@@ -134,18 +133,18 @@ public class Question {
      *
      * @return the question choice
      */
-    public List<QuestionChoice> getQuestionChoice() {
-        return questionChoice;
+    public List<Choice> getChoices() {
+        return choices;
     }
 
     /**
      * Sets question choice.
      *
-     * @param theQuestionChoice the question choice
+     * @param theChoice the question choice
      */
-    public void setQuestionChoice(
-            final List<QuestionChoice> theQuestionChoice) {
-        this.questionChoice = theQuestionChoice;
+    public void setChoices(
+            final List<Choice> theChoice) {
+        this.choices = theChoice;
     }
 
 

@@ -3,7 +3,7 @@ package com.techatpark.gurukulam.model;
 /**
  * The type Answer choice.
  */
-public class QuestionChoice {
+public class Choice {
 
     /**
      * tells the id.
