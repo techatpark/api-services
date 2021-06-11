@@ -9,7 +9,6 @@ import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Service;
 
 import javax.sql.DataSource;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -182,7 +181,23 @@ public class QuestionService {
                             .usingGeneratedKeyColumns("id")
                             .usingColumns("question_id", "value", "is_answer");
 
-            List<Integer> availableIds = new ArrayList<>();
+            List<Integer> availableIds = question.getChoices()
+                    .stream()
+                    .filter(choice -> choice.getId() != null)
+                    .map(Choice::getId)
+                    .collect(Collectors.toList());
+
+            if (!availableIds.isEmpty()) {
+                final String deletequestionChoice =
+                        "DELETE question_choices "
+                                + "WHERE id NOT IN ("
+                                + availableIds.stream()
+                                .map(aId -> "?")
+                                .collect(Collectors.joining(","))
+                                + ")";
+                jdbcTemplate.update(deletequestionChoice,
+                        availableIds.toArray());
+            }
 
             question.getChoices().forEach(choice -> {
                 if (choice.getId() == null) {
@@ -196,10 +211,10 @@ public class QuestionService {
 
                     final Number insertedId = insertQuestionChoice
                             .executeAndReturnKey(valueMapQuestionChoice);
-                    availableIds.add(insertedId.intValue());
+
 
                 } else {
-                    availableIds.add(choice.getId());
+
                     final String updatequestionChoice =
                             "UPDATE question_choices SET value = ?, "
                                 + "is_answer = ? "
@@ -211,17 +226,7 @@ public class QuestionService {
                             choice.getId());
                 }
 
-                if (!availableIds.isEmpty()) {
-                    final String deletequestionChoice =
-                            "DELETE question_choices "
-                                    + "WHERE id NOT IN ("
-                                    + availableIds.stream()
-                                            .map(aId -> "?")
-                                            .collect(Collectors.joining(","))
-                                    + ")";
-                    jdbcTemplate.update(deletequestionChoice,
-                            availableIds.toArray());
-                }
+
 
             });
 
