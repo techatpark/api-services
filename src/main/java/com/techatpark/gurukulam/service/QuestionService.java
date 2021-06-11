@@ -51,7 +51,7 @@ public class QuestionService {
         choice.setId(rs.getInt("id"));
         choice.setQuestionId(rs.getInt("question_id"));
         choice.setValue(rs.getString("value"));
-        choice.setIsAnswer(rs.getBoolean("is_answer"));
+        choice.setAnswer(rs.getBoolean("is_answer"));
         return choice;
     };
 
@@ -180,7 +180,7 @@ public class QuestionService {
                     new SimpleJdbcInsert(dataSource)
                             .withTableName("question_choices")
                             .usingGeneratedKeyColumns("id")
-                            .usingColumns("question_id", "value");
+                            .usingColumns("question_id", "value", "is_answer");
 
             List<Integer> availableIds = new ArrayList<>();
 
@@ -191,6 +191,8 @@ public class QuestionService {
                     valueMapQuestionChoice.put("question_id", id);
                     valueMapQuestionChoice
                             .put("value", choice.getValue());
+                    valueMapQuestionChoice
+                            .put("is_answer", choice.isAnswer());
 
                     final Number insertedId = insertQuestionChoice
                             .executeAndReturnKey(valueMapQuestionChoice);

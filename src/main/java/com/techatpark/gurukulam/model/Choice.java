@@ -21,8 +21,7 @@ public class Choice {
     /**
      * tells whether this is the answer.
      */
-  private boolean isAnswer;
-
+  private boolean answer;
 
 
     /**
@@ -31,7 +30,7 @@ public class Choice {
      * @return the isAnswer
      */
     public boolean isAnswer() {
-        return isAnswer;
+        return answer;
     }
 
     /**
@@ -39,8 +38,8 @@ public class Choice {
      *
      * @param isAnAnswer the isAnswer
      */
-    public void setIsAnswer(final boolean isAnAnswer) {
-        this.isAnswer = isAnAnswer;
+    public void setAnswer(final boolean isAnAnswer) {
+        this.answer = isAnAnswer;
     }
 
 
