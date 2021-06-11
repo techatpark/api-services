@@ -40,21 +40,10 @@ CREATE TABLE user_notes (
 );
 
 
-CREATE TABLE question_ (
-    id INT auto_increment PRIMARY KEY,
-    exam_id int NOT NULL,
-    question_id int NOT NULL,
-    choice_one VARCHAR(500) NOT NULL,
-    choice_two VARCHAR(500) NOT NULL,
-    choice_three VARCHAR(500) NOT NULL,
-    choice_four VARCHAR(500) NOT NULL,
-    FOREIGN KEY (exam_id, question_id) REFERENCES questions (exam_id, id)
-);
-
-
 CREATE TABLE question_choices (
     id INT auto_increment PRIMARY KEY,
     question_id int NOT NULL,
     value VARCHAR(500) NOT NULL,
+    is_answer BOOLEAN NOT NULL DEFAULT FALSE,
     FOREIGN KEY (question_id) REFERENCES questions (id)
 );

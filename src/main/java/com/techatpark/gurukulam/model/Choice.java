@@ -19,6 +19,32 @@ public class Choice {
   private String value;
 
     /**
+     * tells whether this is the answer.
+     */
+  private boolean isAnswer;
+
+
+
+    /**
+     * Gets isAnswer.
+     *
+     * @return the isAnswer
+     */
+    public boolean isAnswer() {
+        return isAnswer;
+    }
+
+    /**
+     * Sets isAnswer.
+     *
+     * @param isAnAnswer the isAnswer
+     */
+    public void setIsAnswer(final boolean isAnAnswer) {
+        this.isAnswer = isAnAnswer;
+    }
+
+
+    /**
      * Gets id.
      *
      * @return the id

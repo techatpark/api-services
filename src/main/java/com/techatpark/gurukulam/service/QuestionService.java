@@ -51,6 +51,7 @@ public class QuestionService {
         choice.setId(rs.getInt("id"));
         choice.setQuestionId(rs.getInt("question_id"));
         choice.setValue(rs.getString("value"));
+        choice.setIsAnswer(rs.getBoolean("is_answer"));
         return choice;
     };
 
@@ -96,12 +97,13 @@ public class QuestionService {
                     new SimpleJdbcInsert(dataSource)
                             .withTableName("question_choices")
                             .usingGeneratedKeyColumns("id")
-                            .usingColumns("question_id", "value");
+                            .usingColumns("question_id", "value", "is_answer");
 
             question.getChoices().forEach(choice -> {
                 Map<String, Object> valueMapQuestionChoice = new HashMap<>();
                 valueMapQuestionChoice.put("question_id", id);
                 valueMapQuestionChoice.put("value", choice.getValue());
+                valueMapQuestionChoice.put("is_answer", choice.isAnswer());
 
                 insertQuestionChoice
                         .executeAndReturnKey(valueMapQuestionChoice);
@@ -121,8 +123,9 @@ public class QuestionService {
     public List<Choice> listQuestionChoice(
             final Integer questionChoiceId) {
         final String query =
-                "SELECT id,question_id,value FROM question_choices WHERE"
-                        + " question_id = ?";
+                "SELECT id,question_id,value,is_answer "
+                        + "FROM question_choices WHERE "
+                        + "question_id = ?";
         return jdbcTemplate.query(query, rowMapperQuestionChoice,
                 questionChoiceId);
     }
@@ -196,11 +199,13 @@ public class QuestionService {
                 } else {
                     availableIds.add(choice.getId());
                     final String updatequestionChoice =
-                            "UPDATE question_choices SET value = ? "
-                                    + "WHERE id = ?";
+                            "UPDATE question_choices SET value = ?, "
+                                + "is_answer = ? "
+                                + "WHERE id = ?";
 
                     jdbcTemplate.update(updatequestionChoice,
                             choice.getValue(),
+                            choice.isAnswer(),
                             choice.getId());
                 }
 
@@ -274,10 +279,11 @@ public class QuestionService {
                 + "ON q.exam_id = p.id where q.exam_id = ? order by q.id";
         List<Question> questions = jdbcTemplate.query(query, rowMapper,
                 userName, practiceId);
-        if( !questions.isEmpty()) {
+        if (!questions.isEmpty()) {
             questions.forEach(question -> {
-                if(question.getType().equals("choose-the-best")) {
-                    question.setChoices(this.listQuestionChoice(question.getId()));
+                if (question.getType().equals("choose-the-best")) {
+                    question.setChoices(this
+                        .listQuestionChoice(question.getId()));
                 }
             });
         }
