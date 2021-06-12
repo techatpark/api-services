@@ -56,10 +56,10 @@ public class OAuth2AuthenticationSuccessHandler
      */
     @Autowired
     OAuth2AuthenticationSuccessHandler(
-                            final TokenProvider atokenProvider,
-                     final AppProperties theappProperties,
-                     final HttpCookieOAuth2AuthorizationRequestRepository
-                             ahttpCookieOAuth2AuthorizationRequestRepository) {
+            final TokenProvider atokenProvider,
+            final AppProperties theappProperties,
+            final HttpCookieOAuth2AuthorizationRequestRepository
+                    ahttpCookieOAuth2AuthorizationRequestRepository) {
         this.tokenProvider = atokenProvider;
         this.appProperties = theappProperties;
         this.httpCookieOAuth2AuthorizationRequestRepository =

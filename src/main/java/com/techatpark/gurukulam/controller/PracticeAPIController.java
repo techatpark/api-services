@@ -3,6 +3,7 @@ package com.techatpark.gurukulam.controller;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.techatpark.gurukulam.model.Practice;
 import com.techatpark.gurukulam.model.Question;
+import com.techatpark.gurukulam.model.QuestionType;
 import com.techatpark.gurukulam.service.AnswerService;
 import com.techatpark.gurukulam.service.PracticeService;
 import com.techatpark.gurukulam.service.QuestionService;
@@ -212,7 +213,7 @@ abstract class PracticeAPIController<T extends Practice> {
     public ResponseEntity<Optional<Question>> create(final @PathVariable
                                                              Integer practiceId,
                                                      final @PathVariable
-                                                             String
+                                                             QuestionType
                                                              questionType,
                                                      final @Valid
                                                      @RequestBody

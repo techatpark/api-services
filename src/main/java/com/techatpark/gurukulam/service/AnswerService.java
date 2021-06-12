@@ -51,7 +51,7 @@ public class AnswerService {
         if (oQuestion.isPresent()) {
             final Question question = oQuestion.get();
             switch (question.getType()) {
-                case "sql":
+                case CODE_SQL:
                     final String verificationSQL =
                             "SELECT COUNT(*) FROM ( " + question.getAnswer()
                                     + " except " + answer
@@ -60,7 +60,7 @@ public class AnswerService {
                             .queryForObject(verificationSQL, Integer.class);
                     isRigntAnswer = (count == 0);
                     break;
-                case "choose-the-best":
+                case CHOOSE_THE_BEST:
                     Optional<Choice> rightChoice = question.getChoices()
                             .stream()
                             .filter(Choice::isAnswer)
@@ -72,7 +72,7 @@ public class AnswerService {
                                 .equals(answer);
                     }
                     break;
-                case "multichoice":
+                case MULTI_CHOICE:
                     List<String> rightChoiceIds = question.getChoices()
                             .stream()
                             .filter(Choice::isAnswer)

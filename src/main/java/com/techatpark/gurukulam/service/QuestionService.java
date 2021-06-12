@@ -3,6 +3,7 @@ package com.techatpark.gurukulam.service;
 import com.techatpark.gurukulam.model.Choice;
 import com.techatpark.gurukulam.model.Practice;
 import com.techatpark.gurukulam.model.Question;
+import com.techatpark.gurukulam.model.QuestionType;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -43,7 +44,7 @@ public class QuestionService {
         question.setId(rs.getInt("id"));
         question.setExamId(rs.getInt("exam_id"));
         question.setQuestion(rs.getString("question"));
-        question.setType(rs.getString("type"));
+        question.setType(QuestionType.valueOf(rs.getString("type")));
         question.setAnswer(rs.getString("answer"));
         return question;
     };
@@ -89,7 +90,7 @@ public class QuestionService {
      * @return question optional
      */
     public Optional<Question> create(final Integer practiceId,
-                                     final String type,
+                                     final QuestionType type,
                                      final Question question) {
         final SimpleJdbcInsert insert =
                 new SimpleJdbcInsert(dataSource).withTableName("questions")
@@ -104,8 +105,8 @@ public class QuestionService {
 
         final Number id = insert.executeAndReturnKey(valueMap);
 
-        if ((question.getType().equals("choose-the-best")
-                || question.getType().equals("multichoice"))
+        if ((question.getType().equals(QuestionType.CHOOSE_THE_BEST)
+                || question.getType().equals(QuestionType.MULTI_CHOICE))
                 && question.getChoices() != null) {
             final SimpleJdbcInsert insertQuestionChoice =
                     new SimpleJdbcInsert(dataSource)
@@ -163,8 +164,8 @@ public class QuestionService {
             Question question = jdbcTemplate
                     .queryForObject(query, new Object[]{id}, rowMapper);
 
-            if ((question.getType().equals("choose-the-best")
-                    || question.getType().equals("multichoice"))) {
+            if ((question.getType().equals(QuestionType.CHOOSE_THE_BEST)
+                    || question.getType().equals(QuestionType.MULTI_CHOICE))) {
                 question.setChoices(
                         listQuestionChoice(true, question.getId()));
             }
@@ -192,8 +193,8 @@ public class QuestionService {
                 jdbcTemplate.update(query, examId, question.getQuestion(),
                         question.getAnswer(), id);
 
-        if ((question.getType().equals("choose-the-best")
-                || question.getType().equals("multichoice"))
+        if ((question.getType().equals(QuestionType.CHOOSE_THE_BEST)
+                || question.getType().equals(QuestionType.MULTI_CHOICE))
                 && question.getChoices() != null) {
 
 
@@ -318,8 +319,9 @@ public class QuestionService {
                 practiceId);
         if (!questions.isEmpty()) {
             questions.forEach(question -> {
-                if ((question.getType().equals("choose-the-best")
-                        || question.getType().equals("multichoice"))) {
+                if ((question.getType().equals(QuestionType.CHOOSE_THE_BEST)
+                        || question.getType()
+                        .equals(QuestionType.MULTI_CHOICE))) {
                     question.setChoices(this
                             .listQuestionChoice(isOwner, question.getId()));
                 }

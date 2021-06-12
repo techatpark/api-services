@@ -3,6 +3,7 @@ package com.techatpark.gurukulam.service;
 import com.techatpark.gurukulam.model.Database;
 import com.techatpark.gurukulam.model.Practice;
 import com.techatpark.gurukulam.model.Question;
+import com.techatpark.gurukulam.model.QuestionType;
 import com.techatpark.gurukulam.model.sql.SqlPractice;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
@@ -32,10 +33,6 @@ class QuestionServiceTest {
      */
     private static final String ANSWER1 = "SELECT * FROM exams;";
 
-    /**
-     * variable to be used for testing.
-     */
-    private static final String TYPE = "Multiline";
 
     /**
      * Instance of Exam is used for testing Question.
@@ -85,7 +82,7 @@ class QuestionServiceTest {
     @Test
     void testCreate() {
         final Question question = questionService.create(practice.getId(),
-                TYPE, getQuestion()).get();
+                QuestionType.MULTI_LINE, getQuestion()).get();
         assertEquals(QUERY1, question.getQuestion(), "Created Successfully");
     }
 
@@ -94,8 +91,9 @@ class QuestionServiceTest {
      */
     @Test
     void testUpdate() {
-        Question question = questionService.create(practice.getId(), TYPE,
-                getQuestion()).get();
+        Question question = questionService
+                .create(practice.getId(), QuestionType.MULTI_LINE,
+                        getQuestion()).get();
         question.setQuestion("Updated Query");
         final Integer newQuestionId = question.getId();
         question = questionService
@@ -109,7 +107,7 @@ class QuestionServiceTest {
     @Test
     void testRead() {
         final Question question = questionService.create(practice.getId(),
-                TYPE, getQuestion()).get();
+                QuestionType.MULTI_LINE, getQuestion()).get();
         final Integer newQuestionId = question.getId();
         Assertions.assertNotNull(questionService.read(newQuestionId).get(),
                 "Assert Created");
@@ -123,8 +121,9 @@ class QuestionServiceTest {
 
         Assertions.assertThrows(NoSuchElementException.class, () -> {
             final Question question =
-                    questionService.create(practice.getId(), TYPE,
-                            getQuestion()).get();
+                    questionService
+                            .create(practice.getId(), QuestionType.MULTI_LINE,
+                                    getQuestion()).get();
             final Integer newQuestionId = question.getId();
             questionService.delete(newQuestionId);
             questionService.read(newQuestionId).get();
@@ -136,9 +135,11 @@ class QuestionServiceTest {
      */
     @Test
     void testList() {
-        questionService.create(practice.getId(), TYPE, getQuestion()).get();
+        questionService.create(practice.getId(), QuestionType.MULTI_LINE,
+                getQuestion()).get();
         final Question question2 = getQuestion();
-        questionService.create(practice.getId(), TYPE, question2);
+        questionService
+                .create(practice.getId(), QuestionType.MULTI_LINE, question2);
         assertEquals(2, questionService.list(1, 2).size(), "Test Listing");
         assertEquals(1, questionService.list(1, 1).size(),
                 "Test Listing with restricted page");
@@ -150,7 +151,7 @@ class QuestionServiceTest {
     @Test
     void testListWithExamId() {
         final Question question = questionService.create(practice.getId(),
-                TYPE, getQuestion()).get();
+                QuestionType.MULTI_LINE, getQuestion()).get();
         final Integer newExamId = question.getExamId();
         assertNotNull(questionService.list("user", newExamId),
                 "Assert Created");
@@ -165,7 +166,7 @@ class QuestionServiceTest {
         final Question question = new Question();
         question.setQuestion(QUERY1);
         question.setAnswer(ANSWER1);
-        question.setType("Multiline");
+        question.setType(QuestionType.MULTI_LINE);
         return question;
     }
 

@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.techatpark.gurukulam.model.Database;
 import com.techatpark.gurukulam.model.Practice;
 import com.techatpark.gurukulam.model.Question;
+import com.techatpark.gurukulam.model.QuestionType;
 import com.techatpark.gurukulam.model.sql.SqlPractice;
 import com.techatpark.gurukulam.service.PracticeService;
 import com.techatpark.gurukulam.service.QuestionService;
@@ -149,7 +150,7 @@ public class PostgressDatabaseConnectorTest {
      */
     Question createAndGQuestion(final Practice exam) {
         final Question question = questionService.create(exam.getId(),
-                TYPE, getQuestion()).get();
+                QuestionType.MULTI_LINE, getQuestion()).get();
         return question;
     }
 

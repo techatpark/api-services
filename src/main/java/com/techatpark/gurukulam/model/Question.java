@@ -30,8 +30,7 @@ public class Question {
     /**
      * tells the type of question being created.
      */
-    @NotBlank(message = "type of question is mandatory")
-    private String type;
+    private QuestionType type;
 
     /**
      * tells the question choices available.
@@ -43,7 +42,7 @@ public class Question {
      *
      * @return type type
      */
-    public String getType() {
+    public QuestionType getType() {
         return type;
     }
 
@@ -51,7 +50,7 @@ public class Question {
      * sets the type of question.
      * @param aType the a type
      */
-    public void setType(final String aType) {
+    public void setType(final QuestionType aType) {
         this.type = aType;
     }
 
