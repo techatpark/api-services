@@ -9,10 +9,7 @@ public class Choice {
      * tells the id.
      */
     private Integer id;
-    /**
-     * tells the questionId.
-     */
-    private Integer questionId;
+
     /**
      * tells the value.
      */
@@ -61,23 +58,7 @@ public class Choice {
         this.id = anId;
     }
 
-    /**
-     * Gets question id.
-     *
-     * @return the question id
-     */
-    public Integer getQuestionId() {
-        return questionId;
-    }
 
-    /**
-     * Sets question id.
-     *
-     * @param theQuestionId the question id
-     */
-    public void setQuestionId(final Integer theQuestionId) {
-        this.questionId = theQuestionId;
-    }
 
     /**
      * Gets value.

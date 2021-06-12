@@ -55,7 +55,6 @@ public class QuestionService {
             rs, rowNum) -> {
         final Choice choice = new Choice();
         choice.setId(rs.getInt("id"));
-        choice.setQuestionId(rs.getInt("question_id"));
         choice.setValue(rs.getString("value"));
         choice.setAnswer(rs.getBoolean("is_answer"));
         // https://docs.oracle.com/javase/7/docs/api/java/sql
