@@ -5,7 +5,9 @@ import com.techatpark.gurukulam.model.Question;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 /**
  * The type Answer service.
@@ -68,6 +70,18 @@ public class AnswerService {
                                 .getId()
                                 .toString()
                                 .equals(answer);
+                    }
+                    break;
+                case "multichoice":
+                    List<String> rightChoiceIds = question.getChoices()
+                            .stream()
+                            .filter(Choice::isAnswer)
+                            .map(choice -> choice.getId().toString())
+                            .collect(Collectors.toList());
+                    if (!rightChoiceIds.isEmpty()) {
+                        List<String> answerIds = List
+                                .of(answer.split(","));
+                        isRigntAnswer = answerIds.containsAll(rightChoiceIds);
                     }
                     break;
                 default:

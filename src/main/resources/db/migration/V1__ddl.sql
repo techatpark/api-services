@@ -16,7 +16,7 @@ CREATE TABLE questions (
   exam_id int NOT NULL,
   question VARCHAR(500) NOT NULL,
   type VARCHAR(55) NOT NULL,
-  answer VARCHAR(500) NOT NULL,
+  answer VARCHAR(500),
   PRIMARY KEY (id, exam_id),
   FOREIGN KEY (exam_id) REFERENCES practices (id)
 );
