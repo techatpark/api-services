@@ -1,7 +1,8 @@
 package com.techatpark.gurukulam.service;
 
-import com.techatpark.gurukulam.model.Question;
 import com.techatpark.gurukulam.model.Choice;
+import com.techatpark.gurukulam.model.Practice;
+import com.techatpark.gurukulam.model.Question;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -24,6 +25,11 @@ public class QuestionService {
      * this helps to execute sql queries.
      */
     private final JdbcTemplate jdbcTemplate;
+
+    /**
+     * this helps to practiceService.
+     */
+    private final PracticeService practiceService;
 
     /**
      * this creates connection functionalities.
@@ -51,18 +57,26 @@ public class QuestionService {
         choice.setQuestionId(rs.getInt("question_id"));
         choice.setValue(rs.getString("value"));
         choice.setAnswer(rs.getBoolean("is_answer"));
+        // https://docs.oracle.com/javase/7/docs/api/java/sql
+        // /ResultSet.html#wasNull%28%29
+        if (rs.wasNull()) {
+            choice.setAnswer(null);
+        }
         return choice;
     };
 
     /**
      * initializes.
      *
-     * @param aJdbcTemplate the a jdbc template
-     * @param aDataSource   the a data source
+     * @param aJdbcTemplate    the a jdbc template
+     * @param aPracticeService
+     * @param aDataSource      the a data source
      */
     public QuestionService(final JdbcTemplate aJdbcTemplate,
+                           final PracticeService aPracticeService,
                            final DataSource aDataSource) {
         this.jdbcTemplate = aJdbcTemplate;
+        this.practiceService = aPracticeService;
         this.dataSource = aDataSource;
     }
 
@@ -116,15 +130,18 @@ public class QuestionService {
     /**
      * List question choice list.
      *
+     * @param isOwner          isOwner calling
      * @param questionChoiceId the question choice id
      * @return the list
      */
-    public List<Choice> listQuestionChoice(
-            final Integer questionChoiceId) {
+    private List<Choice> listQuestionChoice(final boolean isOwner,
+                                            final Integer questionChoiceId) {
         final String query =
-                "SELECT id,question_id,value,is_answer "
-                        + "FROM question_choices WHERE "
-                        + "question_id = ?";
+                "SELECT id,question_id,value,"
+                        + (isOwner ? "is_answer" : "NULL")
+                        + " AS is_answer"
+                        + " FROM question_choices WHERE"
+                        + " question_id = ?";
         return jdbcTemplate.query(query, rowMapperQuestionChoice,
                 questionChoiceId);
     }
@@ -143,9 +160,10 @@ public class QuestionService {
 
             Question question = jdbcTemplate
                     .queryForObject(query, new Object[]{id}, rowMapper);
+
             if (question.getType().equals("choose-the-best")) {
                 question.setChoices(
-                        listQuestionChoice(question.getId()));
+                        listQuestionChoice(true, question.getId()));
             }
             return Optional.of(question);
         } catch (final EmptyResultDataAccessException e) {
@@ -217,15 +235,14 @@ public class QuestionService {
 
                     final String updatequestionChoice =
                             "UPDATE question_choices SET value = ?, "
-                                + "is_answer = ? "
-                                + "WHERE id = ?";
+                                    + "is_answer = ? "
+                                    + "WHERE id = ?";
 
                     jdbcTemplate.update(updatequestionChoice,
                             choice.getValue(),
                             choice.isAnswer(),
                             choice.getId());
                 }
-
 
 
             });
@@ -280,17 +297,24 @@ public class QuestionService {
     public List<Question> list(final String userName,
                                final Integer practiceId) {
 
-        final String query = "SELECT q.id,q.exam_id,q.question,q.type,"
-                + "CASE p.owner WHEN ? THEN q.answer ELSE NULL END AS answer "
-                + "FROM questions as q JOIN practices AS p "
-                + "ON q.exam_id = p.id where q.exam_id = ? order by q.id";
+        Practice practice = this.practiceService
+                .read(practiceId)
+                .orElseThrow(IllegalArgumentException::new);
+
+        boolean isOwner = practice.getOwner().equals(userName);
+
+        final String query = "SELECT id,exam_id,question,type,"
+                + (isOwner ? "answer" : "NULL")
+                + " AS answer"
+                + " FROM questions"
+                + " where exam_id = ? order by id";
         List<Question> questions = jdbcTemplate.query(query, rowMapper,
-                userName, practiceId);
+                practiceId);
         if (!questions.isEmpty()) {
             questions.forEach(question -> {
                 if (question.getType().equals("choose-the-best")) {
                     question.setChoices(this
-                        .listQuestionChoice(question.getId()));
+                            .listQuestionChoice(isOwner, question.getId()));
                 }
             });
         }

@@ -24,6 +24,8 @@ spring:
             scope:
               - email
               - profile
+  jackson:
+    default-property-inclusion: non_null
 http:
   port: 8080
 server:
