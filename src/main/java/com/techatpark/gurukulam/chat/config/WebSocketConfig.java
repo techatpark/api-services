@@ -15,6 +15,7 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
 
     /**
      * registering end points.
+     *
      * @param registry
      */
     @Override
@@ -26,6 +27,7 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
 
     /**
      * configure message broker.
+     *
      * @param registry
      */
     @Override

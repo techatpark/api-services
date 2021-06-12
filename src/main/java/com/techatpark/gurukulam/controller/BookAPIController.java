@@ -116,9 +116,9 @@ public class BookAPIController {
                     description = "note not found")})
     @PutMapping("/{id}")
     public ResponseEntity<Optional<UserNote>> update(
-                                    final @PathVariable Integer id,
-                                    final @Valid @RequestBody
-                                            UserNote userNote) {
+            final @PathVariable Integer id,
+            final @Valid @RequestBody
+                    UserNote userNote) {
         final Optional<UserNote> updatednote =
                 bookService.updateNote(id, userNote);
         return updatednote == null ? new ResponseEntity<>(

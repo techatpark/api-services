@@ -36,7 +36,7 @@ public class WebSocketEventListener {
      */
     @EventListener
     public void handleWebSocketConnectListener(final SessionConnectedEvent
-                                                           event) {
+                                                       event) {
         LOGGER.info("Received a new web socket connection");
     }
 
@@ -47,7 +47,7 @@ public class WebSocketEventListener {
      */
     @EventListener
     public void handleWebSocketDisconnectListener(final SessionDisconnectEvent
-                                                              event) {
+                                                          event) {
         StompHeaderAccessor headerAccessor = StompHeaderAccessor
                 .wrap(event.getMessage());
 

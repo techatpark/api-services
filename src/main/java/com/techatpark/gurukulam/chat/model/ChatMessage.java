@@ -18,24 +18,6 @@ public class ChatMessage {
     private String sender;
 
     /**
-     * The enum Message type.
-     */
-    public enum MessageType {
-        /**
-         * Chat message type.
-         */
-        CHAT,
-        /**
-         * Join message type.
-         */
-        JOIN,
-        /**
-         * Leave message type.
-         */
-        LEAVE
-    }
-
-    /**
      * Gets type.
      *
      * @return the type
@@ -87,5 +69,23 @@ public class ChatMessage {
      */
     public void setSender(final String theSender) {
         this.sender = theSender;
+    }
+
+    /**
+     * The enum Message type.
+     */
+    public enum MessageType {
+        /**
+         * Chat message type.
+         */
+        CHAT,
+        /**
+         * Join message type.
+         */
+        JOIN,
+        /**
+         * Leave message type.
+         */
+        LEAVE
     }
 }

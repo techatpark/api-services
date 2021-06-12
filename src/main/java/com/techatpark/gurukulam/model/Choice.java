@@ -8,7 +8,7 @@ public class Choice {
     /**
      * tells the id.
      */
-  private Integer id;
+    private Integer id;
     /**
      * tells the questionId.
      */
@@ -16,12 +16,12 @@ public class Choice {
     /**
      * tells the value.
      */
-  private String value;
+    private String value;
 
     /**
      * tells whether this is the answer.
      */
-  private Boolean answer;
+    private Boolean answer;
 
 
     /**

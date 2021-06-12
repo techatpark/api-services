@@ -1,5 +1,6 @@
 package com.techatpark.gurukulam.service;
 
+import com.techatpark.gurukulam.model.Choice;
 import com.techatpark.gurukulam.model.Question;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
@@ -56,6 +57,18 @@ public class AnswerService {
                     final Integer count = jdbcTemplate
                             .queryForObject(verificationSQL, Integer.class);
                     isRigntAnswer = (count == 0);
+                    break;
+                case "choose-the-best":
+                    Optional<Choice> rightChoice = question.getChoices()
+                            .stream()
+                            .filter(Choice::isAnswer)
+                            .findFirst();
+                    if (rightChoice.isPresent()) {
+                        isRigntAnswer = rightChoice.get()
+                                .getId()
+                                .toString()
+                                .equals(answer);
+                    }
                     break;
                 default:
                     isRigntAnswer = answer.toLowerCase().equals(
