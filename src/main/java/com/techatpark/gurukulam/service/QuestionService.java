@@ -104,7 +104,8 @@ public class QuestionService {
 
         final Number id = insert.executeAndReturnKey(valueMap);
 
-        if (question.getType().equals("choose-the-best")
+        if ((question.getType().equals("choose-the-best")
+                || question.getType().equals("multichoice"))
                 && question.getChoices() != null) {
             final SimpleJdbcInsert insertQuestionChoice =
                     new SimpleJdbcInsert(dataSource)
@@ -116,7 +117,8 @@ public class QuestionService {
                 Map<String, Object> valueMapQuestionChoice = new HashMap<>();
                 valueMapQuestionChoice.put("question_id", id);
                 valueMapQuestionChoice.put("value", choice.getValue());
-                valueMapQuestionChoice.put("is_answer", choice.isAnswer());
+                valueMapQuestionChoice.put("is_answer",
+                        choice.isAnswer() != null && choice.isAnswer());
 
                 insertQuestionChoice
                         .executeAndReturnKey(valueMapQuestionChoice);
@@ -161,7 +163,8 @@ public class QuestionService {
             Question question = jdbcTemplate
                     .queryForObject(query, new Object[]{id}, rowMapper);
 
-            if (question.getType().equals("choose-the-best")) {
+            if ((question.getType().equals("choose-the-best")
+                    || question.getType().equals("multichoice"))) {
                 question.setChoices(
                         listQuestionChoice(true, question.getId()));
             }
@@ -189,7 +192,8 @@ public class QuestionService {
                 jdbcTemplate.update(query, examId, question.getQuestion(),
                         question.getAnswer(), id);
 
-        if (question.getType().equals("choose-the-best")
+        if ((question.getType().equals("choose-the-best")
+                || question.getType().equals("multichoice"))
                 && question.getChoices() != null) {
 
 
@@ -225,7 +229,9 @@ public class QuestionService {
                     valueMapQuestionChoice
                             .put("value", choice.getValue());
                     valueMapQuestionChoice
-                            .put("is_answer", choice.isAnswer());
+                            .put("is_answer",
+                                    choice.isAnswer() != null
+                                            && choice.isAnswer());
 
                     final Number insertedId = insertQuestionChoice
                             .executeAndReturnKey(valueMapQuestionChoice);
@@ -240,7 +246,7 @@ public class QuestionService {
 
                     jdbcTemplate.update(updatequestionChoice,
                             choice.getValue(),
-                            choice.isAnswer(),
+                            choice.isAnswer() != null && choice.isAnswer(),
                             choice.getId());
                 }
 
@@ -312,7 +318,8 @@ public class QuestionService {
                 practiceId);
         if (!questions.isEmpty()) {
             questions.forEach(question -> {
-                if (question.getType().equals("choose-the-best")) {
+                if ((question.getType().equals("choose-the-best")
+                        || question.getType().equals("multichoice"))) {
                     question.setChoices(this
                             .listQuestionChoice(isOwner, question.getId()));
                 }
