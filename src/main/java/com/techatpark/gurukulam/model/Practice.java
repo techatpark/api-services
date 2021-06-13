@@ -1,5 +1,7 @@
 package com.techatpark.gurukulam.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import javax.validation.constraints.NotBlank;
 
 /**
@@ -9,6 +11,7 @@ public class Practice {
     /**
      * tells the id of the exam.
      */
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private Integer id;
     /**
      * tells the name of exam.
@@ -25,6 +28,7 @@ public class Practice {
     /**
      * owner of exam.
      */
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private String owner;
 
     /**
