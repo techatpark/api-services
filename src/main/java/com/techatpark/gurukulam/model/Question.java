@@ -1,10 +1,9 @@
 package com.techatpark.gurukulam.model;
 
-import java.util.List;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import javax.validation.constraints.NotBlank;
-
-import com.fasterxml.jackson.annotation.JsonProperty;
+import java.util.List;
 
 /**
  * The type Question.
