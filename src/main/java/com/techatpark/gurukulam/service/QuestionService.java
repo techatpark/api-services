@@ -91,6 +91,7 @@ public class QuestionService {
     public Optional<Question> create(final Integer practiceId,
                                      final QuestionType type,
                                      final Question question) {
+        question.setType(type);
         final SimpleJdbcInsert insert =
                 new SimpleJdbcInsert(dataSource).withTableName("questions")
                         .usingGeneratedKeyColumns("id")
@@ -178,22 +179,26 @@ public class QuestionService {
     /**
      * updates question with id.
      *
-     * @param examId   the exam id
-     * @param id       the id
-     * @param question the question
+     * @param practiceId the exam id
+     * @param id         the id
+     * @param type       the type
+     * @param question   the question
      * @return question optional
      */
-    public Optional<Question> update(final Integer examId, final Integer id,
+    public Optional<Question> update(final Integer practiceId,
+                                     final QuestionType type,
+                                     final Integer id,
                                      final Question question) {
         final String query =
                 "UPDATE questions SET exam_id = ?,"
-                        + " question = ?, answer = ? WHERE id = ?";
+                        + "question = ?, answer = ?"
+                        + " WHERE id = ? AND type = ? AND exam_id = ?";
         final Integer updatedRows =
-                jdbcTemplate.update(query, examId, question.getQuestion(),
-                        question.getAnswer(), id);
+                jdbcTemplate.update(query, practiceId, question.getQuestion(),
+                        question.getAnswer(), id, type.toString(), practiceId);
 
-        if ((question.getType().equals(QuestionType.CHOOSE_THE_BEST)
-                || question.getType().equals(QuestionType.MULTI_CHOICE))
+        if ((type.equals(QuestionType.CHOOSE_THE_BEST)
+                || type.equals(QuestionType.MULTI_CHOICE))
                 && question.getChoices() != null) {
 
 

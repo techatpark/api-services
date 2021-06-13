@@ -274,9 +274,10 @@ abstract class PracticeAPIController<T extends Practice> {
     /**
      * Update response entity.
      *
-     * @param practiceId the practice id
-     * @param id         the id
-     * @param question   the question
+     * @param practiceId   the practice id
+     * @param questionType the question type
+     * @param id           the id
+     * @param question     the question
      * @return the response entity
      */
     @Operation(summary = "Updates the question by given id",
@@ -289,17 +290,20 @@ abstract class PracticeAPIController<T extends Practice> {
                     description = "question is invalid"),
             @ApiResponse(responseCode = "404",
                     description = "question not found")})
-    @PutMapping("/{practiceId}/questions/{id}")
+    @PutMapping("/{practiceId}/questions/{questionType}/{id}")
     public ResponseEntity<Optional<Question>> update(final @PathVariable
                                                              Integer practiceId,
                                                      final @PathVariable
                                                              Integer id,
+                                                     final @PathVariable
+                                                             QuestionType
+                                                             questionType,
                                                      final @Valid
                                                      @RequestBody
                                                              Question
                                                              question) {
         final Optional<Question> updatedQuestion = questionService.update(
-                practiceId, id, question);
+                practiceId, questionType, id, question);
         return updatedQuestion == null
                 ? new ResponseEntity<Optional<Question>>(
                 HttpStatus.NOT_FOUND)
