@@ -1,12 +1,13 @@
 package com.techatpark.gurukulam.controller;
 
+import java.util.List;
+import java.util.Optional;
+
+import javax.validation.Valid;
+
 import com.techatpark.gurukulam.model.UserNote;
 import com.techatpark.gurukulam.service.BookService;
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import io.swagger.v3.oas.annotations.responses.ApiResponses;
-import io.swagger.v3.oas.annotations.security.SecurityRequirement;
-import io.swagger.v3.oas.annotations.tags.Tag;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -17,9 +18,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.validation.Valid;
-import java.util.List;
-import java.util.Optional;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
 
 /**
  * The type Book api controller.
@@ -114,8 +117,11 @@ public class BookAPIController {
                     description = "note is invalid"),
             @ApiResponse(responseCode = "404",
                     description = "note not found")})
-    @PutMapping("/{id}")
-    public ResponseEntity<Optional<UserNote>> update(
+    @PutMapping("/{bookName}/note/{id}")
+    public ResponseEntity<Optional<UserNote>> update(final
+                        @PathVariable
+                                String
+                                bookName,
             final @PathVariable Integer id,
             final @Valid @RequestBody
                     UserNote userNote) {
@@ -138,8 +144,11 @@ public class BookAPIController {
             description = "note deleted successfully"),
             @ApiResponse(responseCode = "404",
                     description = "note not found")})
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteNoteById(
+    @DeleteMapping("/{bookName}/note/{id}")
+    public ResponseEntity<Void> deleteNoteById(final
+    @PathVariable
+            String
+            bookName,
             final @PathVariable Integer id) {
         return bookService.delete(id) ? ResponseEntity.ok().build()
                 : new ResponseEntity<Void>(HttpStatus.NOT_FOUND);

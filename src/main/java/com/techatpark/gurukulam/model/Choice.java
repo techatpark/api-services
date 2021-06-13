@@ -1,5 +1,7 @@
 package com.techatpark.gurukulam.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 /**
  * The type Answer choice.
  */
@@ -8,6 +10,7 @@ public class Choice {
     /**
      * tells the id.
      */
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private Integer id;
 
     /**
@@ -19,7 +22,6 @@ public class Choice {
      * tells whether this is the answer.
      */
     private Boolean answer;
-
 
     /**
      * Gets isAnswer.
@@ -39,7 +41,6 @@ public class Choice {
         this.answer = isAnAnswer;
     }
 
-
     /**
      * Gets id.
      *
@@ -57,8 +58,6 @@ public class Choice {
     public void setId(final Integer anId) {
         this.id = anId;
     }
-
-
 
     /**
      * Gets value.

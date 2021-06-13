@@ -1,5 +1,6 @@
 package com.techatpark.gurukulam.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * The type User note.
@@ -8,14 +9,17 @@ public class UserNote {
     /**
      * declare id.
      */
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private Integer id;
     /**
      * declare onType.
      */
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private String onType;
     /**
      * declare onInstance.
      */
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private String onInstance;
     /**
      * declare onSection.
@@ -159,6 +163,5 @@ public class UserNote {
     public void setNote(final String theNote) {
         this.note = theNote;
     }
-
 
 }

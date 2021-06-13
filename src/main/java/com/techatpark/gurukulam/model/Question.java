@@ -1,7 +1,10 @@
 package com.techatpark.gurukulam.model;
 
-import javax.validation.constraints.NotBlank;
 import java.util.List;
+
+import javax.validation.constraints.NotBlank;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * The type Question.
@@ -10,11 +13,13 @@ public class Question {
     /**
      * tells the id of question.
      */
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private Integer id;
 
     /**
      * tells the exam_id of the question.
      */
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private Integer examId;
 
     /**
@@ -30,6 +35,7 @@ public class Question {
     /**
      * tells the type of question being created.
      */
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private QuestionType type;
 
     /**
@@ -48,6 +54,7 @@ public class Question {
 
     /***
      * sets the type of question.
+     * 
      * @param aType the a type
      */
     public void setType(final QuestionType aType) {
@@ -126,7 +133,6 @@ public class Question {
         this.answer = anAnswer;
     }
 
-
     /**
      * Gets question choice.
      *
@@ -141,10 +147,8 @@ public class Question {
      *
      * @param theChoice the question choice
      */
-    public void setChoices(
-            final List<Choice> theChoice) {
+    public void setChoices(final List<Choice> theChoice) {
         this.choices = theChoice;
     }
-
 
 }
