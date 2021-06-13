@@ -54,7 +54,7 @@ public class Question {
 
     /***
      * sets the type of question.
-     * 
+     *
      * @param aType the a type
      */
     public void setType(final QuestionType aType) {
