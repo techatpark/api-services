@@ -1,12 +1,14 @@
 package com.techatpark.starter.security.controller;
 
+import java.security.Principal;
+
+import javax.validation.Valid;
+
 import com.techatpark.starter.security.payload.AuthenticationRequest;
 import com.techatpark.starter.security.payload.AuthenticationResponse;
 import com.techatpark.starter.security.security.CustomUserDetailsService;
 import com.techatpark.starter.security.security.TokenProvider;
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.security.SecurityRequirement;
-import io.swagger.v3.oas.annotations.tags.Tag;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -18,8 +20,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.validation.Valid;
-import java.security.Principal;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
 
 /**
  * The type Authentication api controller.
@@ -115,6 +120,12 @@ public class AuthenticationApiController {
      */
     @Operation(summary = "Get logged in user profile",
             security = @SecurityRequirement(name = "bearerAuth"))
+        @ApiResponses(value = {@ApiResponse(responseCode = "200",
+        description = "practice"),
+        @ApiResponse(responseCode = "401",
+        description = "invalid credentials"),
+        @ApiResponse(responseCode = "404",
+                description = "practice not found")})
     @GetMapping("/me")
     public ResponseEntity<AuthenticationResponse> me(
             final Principal principal) {
