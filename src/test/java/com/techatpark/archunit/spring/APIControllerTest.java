@@ -35,13 +35,27 @@ public class APIControllerTest {
                 .should()
                 .bePackagePrivate()
                 .andShould().haveOnlyFinalFields()
-//                .andShould().onlyDependOnClassesThat()
-//                .resideInAnyPackage("..service.."
-//                        , "java.lang"
-//                , "org.springframework.http.."
-//                , "io.swagger.v3.oas.annotations.."
-//                        , "org.springframework.web.bind.annotation"
-//                , "java.security")
+                .andShould().onlyDependOnClassesThat()
+                .resideInAnyPackage(
+                        "com.techatpark.gurukulam.controller"
+                        , "java.net"
+                        , "com.techatpark.starter.security.security"
+                        , "org.springframework.security.authentication"
+                        , "org.springframework.beans.factory.annotation"
+                        , "java.util"
+                        , "..service.."
+                        ,"..model.."
+                        , "..payload.."
+                        , "java.lang"
+                , "org.springframework.http"
+                        , "org.springframework.web.bind.annotation"
+                , "io.swagger.v3.oas.annotations"
+                        , "io.swagger.v3.oas.annotations.tags"
+                        , "io.swagger.v3.oas.annotations.parameters"
+                        , "org.springframework.web.bind"
+                        , "io.swagger.v3.oas.annotations.responses"
+                        , "io.swagger.v3.oas.annotations.security"
+                , "java.security")
                 .because("Controllers should be only delegates");
 
         rule.check(importedClasses);
