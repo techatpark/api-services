@@ -1,9 +1,13 @@
 package com.techatpark.archunit.spring;
 
-import com.tngtech.archunit.junit.AnalyzeClasses;
-import com.tngtech.archunit.junit.ArchTest;
+import com.tngtech.archunit.core.domain.JavaClasses;
+import com.tngtech.archunit.core.importer.ClassFileImporter;
 import com.tngtech.archunit.lang.ArchRule;
+import com.tngtech.archunit.lang.syntax.elements.GivenClassesConjunction;
+import com.tngtech.archunit.lang.syntax.elements.GivenMethodsConjunction;
+import org.junit.jupiter.api.Test;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RestController;
 
 import static com.tngtech.archunit.lang.syntax.ArchRuleDefinition.classes;
@@ -12,20 +16,43 @@ import static com.tngtech.archunit.lang.syntax.ArchRuleDefinition.methods;
 /**
  * The type Api controller test.
  */
-@AnalyzeClasses(packages = "com.example.demo")
 public class APIControllerTest {
-    @ArchTest
-    private final ArchRule loggers_should_be_private_static_final =
-            methods().that().areDeclaredInClassesThat()
-                    .areAnnotatedWith(RestController.class).and().arePublic()
-                    .should()
-                    .haveRawReturnType(ResponseEntity.class)
-                    .because("we don't want to expose domain models directly");
 
-    @ArchTest
-    private final ArchRule rule =
-            classes().that().areAnnotatedWith(RestController.class).should()
-                    .bePackagePrivate().andShould().haveOnlyFinalFields()
-                    .because("Controllers should be only delegates");
+    private static final GivenClassesConjunction CONTROLLER_CLASSES = classes()
+            .that()
+            .areAnnotatedWith(RestController.class);
+
+    private static final GivenMethodsConjunction CONTROLLER_PUBLIC_METHODS
+            = methods().that().areDeclaredInClassesThat()
+            .areAnnotatedWith(RestController.class).and().arePublic();
+
+    @Test
+    public void controller_immutable_stateless() {
+        JavaClasses importedClasses = new ClassFileImporter()
+                .importPackages("com.techatpark");
+
+        ArchRule rule = CONTROLLER_CLASSES
+                .should()
+                .bePackagePrivate()
+                .andShould().haveOnlyFinalFields()
+//                .andShould().onlyDependOnClassesThat()
+//                .resideInAnyPackage("..service.."
+//                        , "java.lang"
+//                , "org.springframework.http.."
+//                , "io.swagger.v3.oas.annotations.."
+//                        , "org.springframework.web.bind.annotation"
+//                , "java.security")
+                .because("Controllers should be only delegates");
+
+        rule.check(importedClasses);
+
+        rule = CONTROLLER_PUBLIC_METHODS
+                .should()
+                .haveRawReturnType(ResponseEntity.class)
+                .because("we don't want to expose domain models directly");
+
+        rule.check(importedClasses);
+    }
+
 
 }

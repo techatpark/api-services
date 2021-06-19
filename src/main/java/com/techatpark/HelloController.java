@@ -21,13 +21,19 @@ class HelloController {
      * application name.
      */
     @Value("${spring.application.name}")
-    private String name;
+    private final String name;
 
     /**
      * Application version.
      */
     @Value("${spring.application.version}")
-    private String version;
+    private final String version;
+
+    HelloController(String name, String version) {
+        this.name = name;
+        this.version = version;
+    }
+
 
     /**
      * index method to show he details.

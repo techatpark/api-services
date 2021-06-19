@@ -30,7 +30,7 @@ import java.security.Principal;
 @RequestMapping("/api/auth")
 @Tag(name = "Authentication",
         description = "Resource to manage authentication")
-public class AuthenticationApiController {
+class AuthenticationApiController {
 
     /**
      * instance of authenticationManager.

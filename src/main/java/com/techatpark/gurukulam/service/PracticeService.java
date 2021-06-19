@@ -61,7 +61,8 @@ public class PracticeService {
 
     /**
      * Instantiates a new Practice service.
-     *  @param aJdbcTemplate        the a jdbc template
+     *
+     * @param aJdbcTemplate        the a jdbc template
      * @param aDatasource          the a datasource
      * @param anApplicationContext the an application context
      * @param aObjectMapper        the a object mapper
@@ -154,7 +155,7 @@ public class PracticeService {
 
         Set<ConstraintViolation<Practice>> violations = validator
                 .validate(practice);
-        if(violations.isEmpty()) {
+        if (violations.isEmpty()) {
             final SimpleJdbcInsert insert = new SimpleJdbcInsert(dataSource)
                     .withTableName("practices")
                     .usingGeneratedKeyColumns("id")
@@ -185,8 +186,7 @@ public class PracticeService {
 
             });
             return createdExam;
-        }
-        else {
+        } else {
             throw new ConstraintViolationException(violations);
         }
 
