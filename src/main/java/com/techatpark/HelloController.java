@@ -29,9 +29,9 @@ class HelloController {
     @Value("${spring.application.version}")
     private final String version;
 
-    HelloController(String name, String version) {
-        this.name = name;
-        this.version = version;
+    HelloController(final String aName, final String aVersion) {
+        this.name = aName;
+        this.version = aVersion;
     }
 
 

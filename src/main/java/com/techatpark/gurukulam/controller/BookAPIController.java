@@ -38,7 +38,7 @@ class BookAPIController {
      *
      * @param abookService the book service
      */
-    public BookAPIController(final BookService abookService) {
+    BookAPIController(final BookService abookService) {
         this.bookService = abookService;
     }
 
@@ -76,7 +76,8 @@ class BookAPIController {
      */
     @Operation(summary = "Creates a new user note",
             description =
-                    "Can be called only by users with 'auth management' rights.",
+                    "Can be called only by users with 'auth management'"
+                            + " rights.",
             security = @SecurityRequirement(name = "bearerAuth"))
     @ApiResponses(value = {@ApiResponse(responseCode = "200",
             description = "user note found successfully"),

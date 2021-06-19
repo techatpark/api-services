@@ -52,7 +52,7 @@ class AuthenticationApiController {
      * @param anUserDetailsService    the an user details service
      * @param aTokenUtil              the a token util
      */
-    public AuthenticationApiController(final AuthenticationManager
+    AuthenticationApiController(final AuthenticationManager
                                                anAuthenticationManager,
                                        final CustomUserDetailsService
                                                anUserDetailsService,
