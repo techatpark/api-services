@@ -1,14 +1,5 @@
 package com.techatpark.gurukulam.controller;
 
-import java.io.IOException;
-import java.security.Principal;
-import java.util.List;
-import java.util.Optional;
-
-import javax.validation.Valid;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.techatpark.gurukulam.model.Practice;
 import com.techatpark.gurukulam.model.Question;
@@ -17,7 +8,10 @@ import com.techatpark.gurukulam.service.AnswerService;
 import com.techatpark.gurukulam.service.PracticeService;
 import com.techatpark.gurukulam.service.QuestionService;
 import com.techatpark.gurukulam.service.UserNoteService;
-
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -30,10 +24,13 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import io.swagger.v3.oas.annotations.responses.ApiResponses;
-import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import javax.validation.Valid;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import java.io.IOException;
+import java.security.Principal;
+import java.util.List;
+import java.util.Optional;
 
 
 /**
@@ -86,8 +83,8 @@ abstract class PracticeAPIController<T extends Practice> {
             security = @SecurityRequirement(name = "bearerAuth"))
     @ApiResponses(value = {@ApiResponse(responseCode = "201", description =
             "practice created successfully"),
-    @ApiResponse(responseCode = "401",
-         description = "invalid credentials"),
+            @ApiResponse(responseCode = "401",
+                    description = "invalid credentials"),
             @ApiResponse(responseCode = "400", description =
                     "practice is invalid")})
     @PostMapping
@@ -116,7 +113,7 @@ abstract class PracticeAPIController<T extends Practice> {
     @ApiResponses(value = {@ApiResponse(responseCode = "200",
             description = "practice"),
             @ApiResponse(responseCode = "401",
-         description = "invalid credentials"),
+                    description = "invalid credentials"),
             @ApiResponse(responseCode = "404",
                     description = "practice not found")})
     @GetMapping("/{id}")
@@ -138,7 +135,7 @@ abstract class PracticeAPIController<T extends Practice> {
             description = "Listing all the practice"),
             @ApiResponse(responseCode = "204",
                     description = "practice are not available"),
-                    @ApiResponse(responseCode = "401",
+            @ApiResponse(responseCode = "401",
                     description = "invalid credentials")})
     @GetMapping
     public ResponseEntity<Page<T>> findAll(
@@ -165,8 +162,8 @@ abstract class PracticeAPIController<T extends Practice> {
             description = "practice updated successfully"),
             @ApiResponse(responseCode = "400",
                     description = "practice is invalid"),
-                    @ApiResponse(responseCode = "401",
-         description = "invalid credentials"),
+            @ApiResponse(responseCode = "401",
+                    description = "invalid credentials"),
             @ApiResponse(responseCode = "404",
                     description = "practice not found")})
     @PutMapping("/{id}")
@@ -196,7 +193,7 @@ abstract class PracticeAPIController<T extends Practice> {
             description = "practice deleted successfully"),
             @ApiResponse(responseCode = "404",
                     description = "practice not found"),
-                    @ApiResponse(responseCode = "401",
+            @ApiResponse(responseCode = "401",
                     description = "invalid credentials")})
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteExamById(
@@ -221,7 +218,7 @@ abstract class PracticeAPIController<T extends Practice> {
             description = "question created successfully"),
             @ApiResponse(responseCode = "400",
                     description = "question is invalid"),
-                    @ApiResponse(responseCode = "401",
+            @ApiResponse(responseCode = "401",
                     description = "invalid credentials")})
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/{practiceId}/questions/{questionType}")
@@ -250,7 +247,7 @@ abstract class PracticeAPIController<T extends Practice> {
     @ApiResponses(value = {@ApiResponse(responseCode = "200",
             description = "question"),
             @ApiResponse(responseCode = "401",
-         description = "invalid credentials"),
+                    description = "invalid credentials"),
             @ApiResponse(responseCode = "404",
                     description = "question not found")})
     @GetMapping("/{practiceId}/questions/{id}")
@@ -273,7 +270,7 @@ abstract class PracticeAPIController<T extends Practice> {
             description = "Listing all the questions"),
             @ApiResponse(responseCode = "204",
                     description = "questions are not available"),
-                    @ApiResponse(responseCode = "401",
+            @ApiResponse(responseCode = "401",
                     description = "invalid credentials")})
     @GetMapping("/{practiceId}/questions")
     public ResponseEntity<List<Question>> findAllQuestions(final Principal
@@ -307,8 +304,8 @@ abstract class PracticeAPIController<T extends Practice> {
             description = "question updated successfully"),
             @ApiResponse(responseCode = "400",
                     description = "question is invalid"),
-                    @ApiResponse(responseCode = "401",
-         description = "invalid credentials"),
+            @ApiResponse(responseCode = "401",
+                    description = "invalid credentials"),
             @ApiResponse(responseCode = "404",
                     description = "question not found")})
     @PutMapping("/{practiceId}/questions/{questionType}/{id}")
@@ -342,7 +339,7 @@ abstract class PracticeAPIController<T extends Practice> {
     @ApiResponses(value = {@ApiResponse(responseCode = "200",
             description = "question deleted successfully"),
             @ApiResponse(responseCode = "401",
-         description = "invalid credentials"),
+                    description = "invalid credentials"),
             @ApiResponse(responseCode = "404",
                     description = "question not found")})
     @DeleteMapping("/{practiceId}/questions/{id}")
@@ -365,7 +362,7 @@ abstract class PracticeAPIController<T extends Practice> {
     @ApiResponses(value = {@ApiResponse(responseCode = "202",
             description = "Answered a question successfully"),
             @ApiResponse(responseCode = "401",
-         description = "invalid credentials"),
+                    description = "invalid credentials"),
             @ApiResponse(responseCode = "406",
                     description = "Answer is invalid")})
     @ResponseStatus(HttpStatus.ACCEPTED)
