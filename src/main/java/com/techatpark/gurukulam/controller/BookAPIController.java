@@ -52,15 +52,22 @@ public class BookAPIController {
          * @param userNotes the user note
          * @return the response entity
          */
-        @Operation(summary = "Creates a new user note", description = "Can be called "
-                        + "only by users with 'auth management' rights.", security = @SecurityRequirement(name = "bearerAuth"))
-        @ApiResponses(value = { @ApiResponse(responseCode = "201", description = "user note created successfully"),
-                        @ApiResponse(responseCode = "401", description = "invalid credentials"),
-                        @ApiResponse(responseCode = "400", description = "user note is invalid") })
+        @Operation(summary = "Creates a new user note",
+        description = "Can be called "
+                        + "only by users with 'auth management' rights.",
+                         security = @SecurityRequirement(name = "bearerAuth"))
+        @ApiResponses(value = { @ApiResponse(responseCode = "201",
+        description = "user note created successfully"),
+                        @ApiResponse(responseCode = "401",
+                        description = "invalid credentials"),
+                        @ApiResponse(responseCode = "400",
+                        description = "user note is invalid") })
         @PostMapping("/{bookName}/note")
-        public ResponseEntity<Optional<UserNote>> createNote(final @PathVariable String bookName,
+        public ResponseEntity<Optional<UserNote>> createNote(
+                final @PathVariable String bookName,
                         final @Valid @RequestBody UserNote userNotes) {
-                return ResponseEntity.status(HttpStatus.CREATED).body(bookService.createNote(bookName, userNotes));
+                return ResponseEntity.status(HttpStatus.CREATED).body(
+                        bookService.createNote(bookName, userNotes));
         }
 
         /**
@@ -70,14 +77,22 @@ public class BookAPIController {
          * @param chapterName the user note
          * @return the response entity
          */
-        @Operation(summary = "Creates a new user note", description = "Can be called only by users with 'auth management' rights.", security = @SecurityRequirement(name = "bearerAuth"))
-        @ApiResponses(value = { @ApiResponse(responseCode = "200", description = "user note found successfully"),
-                        @ApiResponse(responseCode = "401", description = "invalid credentials"),
-                        @ApiResponse(responseCode = "404", description = "user note not found") })
+        @Operation(summary = "Creates a new user note",
+              description =
+                  "Can be called only by users with 'auth management' rights.",
+         security = @SecurityRequirement(name = "bearerAuth"))
+        @ApiResponses(value = { @ApiResponse(responseCode = "200",
+        description = "user note found successfully"),
+                        @ApiResponse(responseCode = "401",
+                        description = "invalid credentials"),
+                        @ApiResponse(responseCode = "404",
+                        description = "user note not found") })
         @PostMapping("/{bookName}/note/_search")
-        public ResponseEntity<List<UserNote>> searchNotes(final @PathVariable String bookName,
+        public ResponseEntity<List<UserNote>> searchNotes(
+                final @PathVariable String bookName,
                         final @Valid @RequestBody String chapterName) {
-                return ResponseEntity.status(HttpStatus.OK).body(bookService.searchNotes(bookName, chapterName));
+                return ResponseEntity.status(HttpStatus.OK).body(
+                        bookService.searchNotes(bookName, chapterName));
         }
 
         /**
@@ -88,18 +103,28 @@ public class BookAPIController {
          * @param userNote the user note
          * @return the response entity
          */
-        @Operation(summary = "Updates the note by given id", description = "Can be called only by users with "
-                        + "'auth management' rights.", security = @SecurityRequirement(name = "bearerAuth"))
-        @ApiResponses(value = { @ApiResponse(responseCode = "200", description = "note updated successfully"),
-                        @ApiResponse(responseCode = "400", description = "note is invalid"),
-                        @ApiResponse(responseCode = "401", description = "invalid credentials"),
-                        @ApiResponse(responseCode = "404", description = "note not found") })
+        @Operation(summary = "Updates the note by given id",
+        description = "Can be called only by users with "
+                        + "'auth management' rights.",
+                        security = @SecurityRequirement(name = "bearerAuth"))
+        @ApiResponses(value = { @ApiResponse(responseCode = "200",
+        description = "note updated successfully"),
+                        @ApiResponse(responseCode = "400",
+                        description = "note is invalid"),
+                        @ApiResponse(responseCode = "401",
+                        description = "invalid credentials"),
+                        @ApiResponse(responseCode = "404",
+                        description = "note not found") })
         @PutMapping("/{bookName}/note/{id}")
-        public ResponseEntity<Optional<UserNote>> update(final @PathVariable String bookName,
-                        final @PathVariable Integer id, final @Valid @RequestBody UserNote userNote) {
-                final Optional<UserNote> updatednote = bookService.updateNote(id, userNote);
-                return updatednote == null ? new ResponseEntity<>(HttpStatus.NOT_FOUND)
-                                : ResponseEntity.ok(updatednote);
+        public ResponseEntity<Optional<UserNote>> update(
+                final @PathVariable String bookName,
+                        final @PathVariable Integer id,
+                          final @Valid @RequestBody UserNote userNote) {
+                final Optional<UserNote> updatednote = bookService.updateNote(
+                                                           id, userNote);
+                return updatednote == null ? new ResponseEntity<>(
+                                     HttpStatus.NOT_FOUND)
+                                     : ResponseEntity.ok(updatednote);
         }
 
         /**
@@ -109,15 +134,21 @@ public class BookAPIController {
          * @param id       the id
          * @return the response entity
          */
-        @Operation(summary = "Deletes the note by given id", security = @SecurityRequirement(name = "bearerAuth"))
-        @ApiResponses(value = { @ApiResponse(responseCode = "200", description = "note deleted successfully"),
-                        @ApiResponse(responseCode = "401", description = "invalid credentials"),
-                        @ApiResponse(responseCode = "404", description = "note not found") })
+        @Operation(summary = "Deletes the note by given id",
+        security = @SecurityRequirement(name = "bearerAuth"))
+        @ApiResponses(value = { @ApiResponse(responseCode = "200",
+        description = "note deleted successfully"),
+                        @ApiResponse(responseCode = "401",
+                        description = "invalid credentials"),
+                        @ApiResponse(responseCode = "404",
+                        description = "note not found") })
         @DeleteMapping("/{bookName}/note/{id}")
-        public ResponseEntity<Void> deleteNoteById(final @PathVariable String bookName,
+        public ResponseEntity<Void> deleteNoteById(
+                final @PathVariable String bookName,
                         final @PathVariable Integer id) {
                 return bookService.delete(id) ? ResponseEntity.ok().build()
-                                : new ResponseEntity<Void>(HttpStatus.NOT_FOUND);
+                                : new ResponseEntity<Void>(
+                                        HttpStatus.NOT_FOUND);
         }
 
 }
