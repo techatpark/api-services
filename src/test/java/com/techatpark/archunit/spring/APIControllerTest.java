@@ -35,6 +35,8 @@ public class APIControllerTest {
                 .should()
                 .bePackagePrivate()
                 .andShould().haveOnlyFinalFields()
+                .andShould().accessClassesThat()
+                .resideOutsideOfPackage("javax.validation")
                 .andShould().onlyDependOnClassesThat()
                 .resideInAnyPackage(
                         "com.techatpark.gurukulam.controller"

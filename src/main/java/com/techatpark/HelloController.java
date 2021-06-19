@@ -20,16 +20,17 @@ class HelloController {
     /**
      * application name.
      */
-    @Value("${spring.application.name}")
     private final String name;
 
     /**
      * Application version.
      */
-    @Value("${spring.application.version}")
     private final String version;
 
-    HelloController(final String aName, final String aVersion) {
+    HelloController(@Value("${spring.application.name}")
+                    final String aName,
+                    @Value("${spring.application.version}")
+                    final String aVersion) {
         this.name = aName;
         this.version = aVersion;
     }
