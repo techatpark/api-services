@@ -88,7 +88,7 @@ class BookAPIController {
     @PostMapping("/{bookName}/note/_search")
     public ResponseEntity<List<UserNote>> searchNotes(
             final @PathVariable String bookName,
-            final @Valid @RequestBody String chapterName) {
+            final @RequestBody String chapterName) {
         return ResponseEntity.status(HttpStatus.OK).body(
                 bookService.searchNotes(bookName, chapterName));
     }
