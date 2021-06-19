@@ -16,11 +16,16 @@ import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Service;
 
 import javax.sql.DataSource;
+import javax.validation.ConstraintViolation;
+import javax.validation.ConstraintViolationException;
+import javax.validation.Valid;
+import javax.validation.Validator;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 
 /**
  * The type Practice service.
@@ -48,23 +53,30 @@ public class PracticeService {
      */
     private final ObjectMapper objectMapper;
 
+    /**
+     * Validator.
+     */
+    private final Validator validator;
+
 
     /**
      * Instantiates a new Practice service.
-     *
-     * @param aJdbcTemplate        the a jdbc template
+     *  @param aJdbcTemplate        the a jdbc template
      * @param aDatasource          the a datasource
      * @param anApplicationContext the an application context
      * @param aObjectMapper        the a object mapper
+     * @param aValidator           the validator
      */
     public PracticeService(final JdbcTemplate aJdbcTemplate,
                            final DataSource aDatasource,
                            final ApplicationContext anApplicationContext,
-                           final ObjectMapper aObjectMapper) {
+                           final ObjectMapper aObjectMapper,
+                           final Validator aValidator) {
         this.jdbcTemplate = aJdbcTemplate;
         this.dataSource = aDatasource;
         this.applicationContext = anApplicationContext;
         this.objectMapper = aObjectMapper;
+        this.validator = aValidator;
     }
 
     /**
@@ -137,38 +149,47 @@ public class PracticeService {
      */
     public <T extends Practice> Optional<T> create(final String type,
                                                    final String owner,
-                                                   final T practice)
+                                                   @Valid final T practice)
             throws JsonProcessingException {
-        final SimpleJdbcInsert insert = new SimpleJdbcInsert(dataSource)
-                .withTableName("practices")
-                .usingGeneratedKeyColumns("id")
-                .usingColumns("name",
-                        "type",
-                        "owner",
-                        "description",
-                        "meta_data");
-        final String metaData = getMetadata(practice);
-        final Map<String, Object> valueMap = metaData == null
-                ? Map.of("name",
-                practice.getName(),
-                "type", type,
-                "owner", owner,
-                "description", practice.getDescription())
-                : Map.of("name",
-                practice.getName(),
-                "type", type,
-                "owner", owner,
-                "description", practice.getDescription(),
-                "meta_data", metaData);
-        final Number examId = insert.executeAndReturnKey(valueMap);
-        final Optional<T> createdExam = read(examId.intValue());
-        createdExam.ifPresent(exam1 -> {
-            if (exam1 instanceof SqlPractice) {
-                loadScripts((SqlPractice) exam1);
-            }
 
-        });
-        return createdExam;
+        Set<ConstraintViolation<Practice>> violations = validator
+                .validate(practice);
+        if(violations.isEmpty()) {
+            final SimpleJdbcInsert insert = new SimpleJdbcInsert(dataSource)
+                    .withTableName("practices")
+                    .usingGeneratedKeyColumns("id")
+                    .usingColumns("name",
+                            "type",
+                            "owner",
+                            "description",
+                            "meta_data");
+            final String metaData = getMetadata(practice);
+            final Map<String, Object> valueMap = metaData == null
+                    ? Map.of("name",
+                    practice.getName(),
+                    "type", type,
+                    "owner", owner,
+                    "description", practice.getDescription())
+                    : Map.of("name",
+                    practice.getName(),
+                    "type", type,
+                    "owner", owner,
+                    "description", practice.getDescription(),
+                    "meta_data", metaData);
+            final Number examId = insert.executeAndReturnKey(valueMap);
+            final Optional<T> createdExam = read(examId.intValue());
+            createdExam.ifPresent(exam1 -> {
+                if (exam1 instanceof SqlPractice) {
+                    loadScripts((SqlPractice) exam1);
+                }
+
+            });
+            return createdExam;
+        }
+        else {
+            throw new ConstraintViolationException(violations);
+        }
+
     }
 
     /**

@@ -91,9 +91,7 @@ abstract class PracticeAPIController<T extends Practice> {
     public ResponseEntity<Optional<T>> create(final Principal principal,
                                               final
                                               @RequestBody
-                                              @Valid
-                                              @NotNull
-                                              @NotBlank T
+                                                      T
                                                       practice)
             throws IOException {
 

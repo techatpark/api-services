@@ -5,7 +5,7 @@ DROP TABLE IF EXISTS practices;
 CREATE TABLE practices (
   id INT auto_increment PRIMARY KEY,
   name VARCHAR(55) NOT NULL,
-  description TEXT NOT NULL,
+  description TEXT,
   type VARCHAR(55) NOT NULL,
   owner VARCHAR(55) NOT NULL,
   meta_data TEXT
