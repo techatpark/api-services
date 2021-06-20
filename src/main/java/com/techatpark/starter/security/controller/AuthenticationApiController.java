@@ -20,7 +20,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.validation.Valid;
 import java.security.Principal;
 
 /**
@@ -53,10 +52,10 @@ class AuthenticationApiController {
      * @param aTokenUtil              the a token util
      */
     AuthenticationApiController(final AuthenticationManager
-                                               anAuthenticationManager,
-                                       final CustomUserDetailsService
-                                               anUserDetailsService,
-                                       final TokenProvider aTokenUtil) {
+                                        anAuthenticationManager,
+                                final CustomUserDetailsService
+                                        anUserDetailsService,
+                                final TokenProvider aTokenUtil) {
         this.authenticationManager = anAuthenticationManager;
         this.userDetailsService = anUserDetailsService;
         this.tokenUtil = aTokenUtil;
@@ -71,7 +70,7 @@ class AuthenticationApiController {
     @Operation(summary = "Login with credentials")
     @PostMapping("/login")
     public ResponseEntity<AuthenticationResponse> login(
-            final @RequestBody @Valid
+            final @RequestBody
                     AuthenticationRequest
                     authenticationRequest) {
 

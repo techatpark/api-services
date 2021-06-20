@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.validation.Valid;
+import javax.validation.constraints.NotBlank;
 import java.util.List;
 import java.util.Optional;
 
@@ -61,8 +61,8 @@ class BookAPIController {
                     description = "user note is invalid")})
     @PostMapping("/{bookName}/note")
     public ResponseEntity<Optional<UserNote>> createNote(
-            final @PathVariable String bookName,
-            final @Valid @RequestBody UserNote userNotes) {
+            final @NotBlank @PathVariable String bookName,
+            final @RequestBody UserNote userNotes) {
         return ResponseEntity.status(HttpStatus.CREATED).body(
                 bookService.createNote(bookName, userNotes));
     }
@@ -117,7 +117,7 @@ class BookAPIController {
     public ResponseEntity<Optional<UserNote>> update(
             final @PathVariable String bookName,
             final @PathVariable Integer id,
-            final @Valid @RequestBody UserNote userNote) {
+            final @RequestBody UserNote userNote) {
         final Optional<UserNote> updatednote = bookService.updateNote(
                 id, userNote);
         return updatednote == null ? new ResponseEntity<>(

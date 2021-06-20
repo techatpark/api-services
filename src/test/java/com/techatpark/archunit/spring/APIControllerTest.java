@@ -9,11 +9,9 @@ import com.tngtech.archunit.lang.syntax.elements.GivenMethodsConjunction;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
-
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -61,18 +59,18 @@ public class APIControllerTest {
                         , "org.springframework.beans.factory.annotation"
                         , "java.util"
                         , "..service.."
-                        ,"..model.."
+                        , "..model.."
                         , "..payload.."
                         , "java.lang"
-                , "org.springframework.http"
+                        , "org.springframework.http"
                         , "org.springframework.web.bind.annotation"
-                , "io.swagger.v3.oas.annotations"
+                        , "io.swagger.v3.oas.annotations"
                         , "io.swagger.v3.oas.annotations.tags"
                         , "io.swagger.v3.oas.annotations.parameters"
                         , "org.springframework.web.bind"
                         , "io.swagger.v3.oas.annotations.responses"
                         , "io.swagger.v3.oas.annotations.security"
-                , "java.security")
+                        , "java.security")
                 .because("Controllers should be only delegates");
 
         rule.check(importedClasses);
@@ -86,13 +84,10 @@ public class APIControllerTest {
         rule.check(importedClasses);
 
         //TODO: https://github.com/TNG/ArchUnit/issues/113
+        // We should not validate at Controller Layer
         try (Stream<Path> walk = Files.walk(Paths.get("src/main/java"))) {
             List<Path> controllerFiles = walk
                     .filter(p -> !Files.isDirectory(p))
-                    // this is a path, not string,
-                    // this only test if path end with a certain path
-                    //.filter(p -> p.endsWith(fileExtension))
-                    // convert path to string first
                     .filter(p -> p.toString().endsWith("Controller.java"))
                     .filter(path -> {
                         try {
@@ -104,12 +99,11 @@ public class APIControllerTest {
                     })
                     .collect(Collectors.toList());
 
-            Assertions.assertEquals(0,controllerFiles.size(),
+            Assertions.assertEquals(0, controllerFiles.size(),
                     "No Validation at Controller");
         }
 
     }
-
 
 
 }

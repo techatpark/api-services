@@ -24,7 +24,6 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
-import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import java.io.IOException;
 import java.security.Principal;
@@ -166,7 +165,7 @@ abstract class PracticeAPIController<T extends Practice> {
     @PutMapping("/{id}")
     public ResponseEntity<Optional<T>> update(final @PathVariable
                                                       Integer id,
-                                              final @Valid
+                                              final
                                               @RequestBody
                                                       Practice
                                                       practice)
@@ -224,7 +223,7 @@ abstract class PracticeAPIController<T extends Practice> {
                                                      final @PathVariable
                                                              QuestionType
                                                              questionType,
-                                                     final @Valid
+                                                     final
                                                      @RequestBody
                                                              Question
                                                              question) {
@@ -313,7 +312,7 @@ abstract class PracticeAPIController<T extends Practice> {
                                                      final @PathVariable
                                                              QuestionType
                                                              questionType,
-                                                     final @Valid
+                                                     final
                                                      @RequestBody
                                                              Question
                                                              question) {

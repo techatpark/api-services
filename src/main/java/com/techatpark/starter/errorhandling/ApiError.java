@@ -25,9 +25,9 @@ public final class ApiError {
     /**
      * Builds API Error.
      *
-     * @param aStatus  the status
-     * @param aMessage the message
-     * @param theErrors  the errors
+     * @param aStatus   the status
+     * @param aMessage  the message
+     * @param theErrors the errors
      */
     public ApiError(final HttpStatus aStatus, final String aMessage,
                     final List<String> theErrors) {

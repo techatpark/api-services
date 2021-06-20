@@ -18,7 +18,6 @@ import org.springframework.stereotype.Service;
 import javax.sql.DataSource;
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
-import javax.validation.Valid;
 import javax.validation.Validator;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -150,7 +149,7 @@ public class PracticeService {
      */
     public <T extends Practice> Optional<T> create(final String type,
                                                    final String owner,
-                                                   @Valid final T practice)
+                                                   final T practice)
             throws JsonProcessingException {
 
         Set<ConstraintViolation<Practice>> violations = validator
