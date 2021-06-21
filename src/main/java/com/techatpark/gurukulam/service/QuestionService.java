@@ -408,7 +408,7 @@ public class QuestionService {
             final Map<String, Object> expressionVariables = new HashMap<>();
             if (question.getType().equals(QuestionType.MULTI_CHOICE)
                     || question.getType()
-                        .equals(QuestionType.CHOOSE_THE_BEST)) {
+                    .equals(QuestionType.CHOOSE_THE_BEST)) {
                 if (question.getChoices() == null
                         || question.getChoices().size() < 2) {
                     ConstraintViolation<Question> violation
@@ -420,13 +420,34 @@ public class QuestionService {
                             question, leafBeanInstance, value, propertyPath,
                             constraintDescriptor, elementType);
                     violations.add(violation);
-                }
-                if (question.getAnswer() != null) {
+                } else if (question.getAnswer() != null) {
                     ConstraintViolation<Question> violation
                             = ConstraintViolationImpl.forBeanValidation(
                             messageTemplate, messageParameters,
                             expressionVariables,
                             "Answer should be empty", rootBeanClass,
+                            question, leafBeanInstance, value, propertyPath,
+                            constraintDescriptor, elementType);
+                    violations.add(violation);
+                }
+            } else {
+                if (question.getAnswer() == null) {
+                    ConstraintViolation<Question> violation
+                            = ConstraintViolationImpl.forBeanValidation(
+                            messageTemplate, messageParameters,
+                            expressionVariables,
+                            "Answer should not be empty",
+                            rootBeanClass,
+                            question, leafBeanInstance, value, propertyPath,
+                            constraintDescriptor, elementType);
+                    violations.add(violation);
+                } else if (question.getChoices() != null) {
+                    ConstraintViolation<Question> violation
+                            = ConstraintViolationImpl.forBeanValidation(
+                            messageTemplate, messageParameters,
+                            expressionVariables,
+                            "Choiced should not be aavailable",
+                            rootBeanClass,
                             question, leafBeanInstance, value, propertyPath,
                             constraintDescriptor, elementType);
                     violations.add(violation);
