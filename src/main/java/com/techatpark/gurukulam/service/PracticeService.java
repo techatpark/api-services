@@ -251,14 +251,21 @@ public class PracticeService {
     public <T extends Practice> Optional<T> update(final Integer id,
                                                    final T practice)
             throws JsonProcessingException {
-        final String query =
-                "UPDATE practices SET name = ?, meta_data = ? ,"
-                        + "description = ? WHERE id = ?";
-        final Integer updatedRows = jdbcTemplate.update(query,
-                practice.getName(),
-                getMetadata(practice),
-                practice.getDescription(), id);
-        return updatedRows == 0 ? null : read(id);
+        Set<ConstraintViolation<Practice>> violations = validator
+                .validate(practice);
+        if (violations.isEmpty()) {
+            final String query =
+                    "UPDATE practices SET name = ?, meta_data = ? ,"
+                            + "description = ? WHERE id = ?";
+            final Integer updatedRows = jdbcTemplate.update(query,
+                    practice.getName(),
+                    getMetadata(practice),
+                    practice.getDescription(), id);
+            return updatedRows == 0 ? null : read(id);
+        } else {
+            throw new ConstraintViolationException(violations);
+        }
+
     }
 
     /**
