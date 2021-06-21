@@ -4,6 +4,7 @@ import com.techatpark.gurukulam.model.Choice;
 import com.techatpark.gurukulam.model.Practice;
 import com.techatpark.gurukulam.model.Question;
 import com.techatpark.gurukulam.model.QuestionType;
+import org.hibernate.validator.internal.engine.ConstraintViolationImpl;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -13,8 +14,12 @@ import org.springframework.stereotype.Service;
 import javax.sql.DataSource;
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
+import javax.validation.Path;
 import javax.validation.Validator;
+import javax.validation.metadata.ConstraintDescriptor;
+import java.lang.annotation.ElementType;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -104,8 +109,7 @@ public class QuestionService {
                                      final QuestionType type,
                                      final Question question) {
         question.setType(type);
-        Set<ConstraintViolation<Question>> violations = validator
-                .validate(question);
+        Set<ConstraintViolation<Question>> violations = getViolations(question);
         if (violations.isEmpty()) {
             final SimpleJdbcInsert insert =
                     new SimpleJdbcInsert(dataSource)
@@ -213,8 +217,7 @@ public class QuestionService {
                                      final Integer id,
                                      final Question question) {
         question.setType(type);
-        Set<ConstraintViolation<Question>> violations = validator
-                .validate(question);
+        Set<ConstraintViolation<Question>> violations = getViolations(question);
         if (violations.isEmpty()) {
             final String query =
                     "UPDATE questions SET exam_id = ?,"
@@ -380,5 +383,56 @@ public class QuestionService {
         String query = "SELECT id,exam_id,question,type,answer FROM questions";
         query = query + " LIMIT " + pageSize + " OFFSET " + (pageNumber - 1);
         return jdbcTemplate.query(query, rowMapper);
+    }
+
+    /**
+     * Validate Question.
+     *
+     * @param question
+     * @return violations
+     */
+    private Set<ConstraintViolation<Question>> getViolations(final Question
+                                                                     question) {
+        Set<ConstraintViolation<Question>> violations = new HashSet<>(validator
+                .validate(question));
+        if (violations.isEmpty()) {
+            final String messageTemplate = null;
+            final Class<Question> rootBeanClass = Question.class;
+            final Object rootBean = null;
+            final Object leafBeanInstance = null;
+            final Object value = null;
+            final Path propertyPath = null;
+            final ConstraintDescriptor<?> constraintDescriptor = null;
+            final ElementType elementType = null;
+            final Map<String, Object> messageParameters = new HashMap<>();
+            final Map<String, Object> expressionVariables = new HashMap<>();
+            if (question.getType().equals(QuestionType.MULTI_CHOICE)
+                    || question.getType()
+                        .equals(QuestionType.CHOOSE_THE_BEST)) {
+                if (question.getChoices() == null
+                        || question.getChoices().size() < 2) {
+                    ConstraintViolation<Question> violation
+                            = ConstraintViolationImpl.forBeanValidation(
+                            messageTemplate, messageParameters,
+                            expressionVariables,
+                            "Minimun 2 choices",
+                            rootBeanClass,
+                            question, leafBeanInstance, value, propertyPath,
+                            constraintDescriptor, elementType);
+                    violations.add(violation);
+                }
+                if (question.getAnswer() != null) {
+                    ConstraintViolation<Question> violation
+                            = ConstraintViolationImpl.forBeanValidation(
+                            messageTemplate, messageParameters,
+                            expressionVariables,
+                            "Answer should be empty", rootBeanClass,
+                            question, leafBeanInstance, value, propertyPath,
+                            constraintDescriptor, elementType);
+                    violations.add(violation);
+                }
+            }
+        }
+        return violations;
     }
 }
