@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.constraints.NotBlank;
+import java.security.Principal;
 import java.util.List;
 import java.util.Optional;
 
@@ -45,6 +46,7 @@ class BookAPIController {
     /**
      * Create response entity.
      *
+     * @param principal
      * @param bookName  the book name
      * @param userNotes the user note
      * @return the response entity
@@ -61,15 +63,18 @@ class BookAPIController {
                     description = "user note is invalid")})
     @PostMapping("/{bookName}/note")
     public ResponseEntity<Optional<UserNote>> createNote(
+            final Principal principal,
             final @NotBlank @PathVariable String bookName,
             final @RequestBody UserNote userNotes) {
         return ResponseEntity.status(HttpStatus.CREATED).body(
-                bookService.createNote(bookName, userNotes));
+                bookService.createNote(bookName, principal.getName(),
+                        userNotes));
     }
 
     /**
      * Create response entity.
      *
+     * @param principal
      * @param bookName    the book name
      * @param chapterName the user note
      * @return the response entity
@@ -87,10 +92,12 @@ class BookAPIController {
                     description = "user note not found")})
     @PostMapping("/{bookName}/note/_search")
     public ResponseEntity<List<UserNote>> searchNotes(
+            final Principal principal,
             final @PathVariable String bookName,
             final @RequestBody String chapterName) {
         return ResponseEntity.status(HttpStatus.OK).body(
-                bookService.searchNotes(bookName, chapterName));
+                bookService.searchNotes(bookName, principal.getName(),
+                        chapterName));
     }
 
     /**

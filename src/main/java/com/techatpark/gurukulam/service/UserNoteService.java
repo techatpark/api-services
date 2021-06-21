@@ -58,17 +58,21 @@ public class UserNoteService {
     /**
      * Create optional.
      *
+     * @param userName user name
      * @param userNote the user note
      * @return the optional
      */
-    public Optional<UserNote> create(final UserNote userNote) {
+    public Optional<UserNote> create(final UserNote userNote,
+                                     final String userName) {
         final SimpleJdbcInsert insert =
                 new SimpleJdbcInsert(dataSource).withTableName("user_notes")
                         .usingGeneratedKeyColumns("id")
-                        .usingColumns("on_type", "on_instance", "on_section",
+                        .usingColumns("owner", "on_type", "on_instance",
+                                "on_section",
                                 "prev_word", "text", "note");
 
         final Map<String, Object> valueMap = new HashMap<>();
+        valueMap.put("owner", userName);
         valueMap.put("on_type", userNote.getOnType());
         valueMap.put("on_instance", userNote.getOnInstance());
         valueMap.put("on_section", userNote.getOnSection());
@@ -101,18 +105,20 @@ public class UserNoteService {
 
     /**
      * List list.
-     *
+     * @param userName user name
      * @param onInstance the on instance
      * @param onSection  the on section
      * @return the list
      */
-    public List<UserNote> searchNotes(final String onInstance,
+    public List<UserNote> searchNotes(final String userName,
+                                        final String onInstance,
                                       final String onSection) {
         final String query = "SELECT id,on_type,on_instance,on_section,"
                 + "prev_word,text,note FROM "
                 + "user_notes WHERE"
-                + " on_instance = ? and on_section = ?";
-        return jdbcTemplate.query(query, rowMapper, onInstance, onSection);
+                + " on_instance = ? and on_section = ? and owner = ?";
+        return jdbcTemplate.query(query, rowMapper, onInstance,
+                onSection, userName);
     }
 
     /**

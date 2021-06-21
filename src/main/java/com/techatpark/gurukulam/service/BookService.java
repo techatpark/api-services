@@ -32,27 +32,31 @@ public class BookService {
      * Create note optional.
      *
      * @param bookName  the book name
+     * @param owner  the owner
      * @param userNotes the user note
      * @return the optional
      */
     public Optional<UserNote> createNote(final String bookName,
+                                         final String owner,
                                          final UserNote userNotes) {
         userNotes.setOnType("books");
         userNotes.setOnInstance(bookName);
-        return userNotesService.create(userNotes);
+        return userNotesService.create(userNotes, owner);
     }
 
     /**
      * Search note optional.
      *
+     * @param owner  the owner
      * @param bookName    the book name
      * @param chapterName the chapterName
      * @return the list
      */
     public List<UserNote> searchNotes(final String bookName,
+                                      final String owner,
                                       final String chapterName) {
 
-        return userNotesService.searchNotes(bookName, chapterName);
+        return userNotesService.searchNotes(owner, bookName, chapterName);
     }
 
     /**
