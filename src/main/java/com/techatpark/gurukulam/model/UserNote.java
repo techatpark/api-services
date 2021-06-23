@@ -1,5 +1,6 @@
 package com.techatpark.gurukulam.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
@@ -14,16 +15,17 @@ public class UserNote {
     /**
      * declare onType.
      */
-    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
+    @JsonIgnore
     private String onType;
     /**
      * declare onInstance.
      */
-    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
+    @JsonIgnore
     private String onInstance;
     /**
      * declare onSection.
      */
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String onSection;
     /**
      * declares variable previous word.
