@@ -15,22 +15,24 @@ Authorization: Bearer {{login.response.body.authToken}}
 Content-Type: application/json
 
 {
-	"name":"mani",
-	"description":"hello"
+	"name":"practice1",
+	"description":"exam1"
 }
 
 #### Get Practice with given id
-GET {{base}}/practices/java/{id}
+GET {{base}}/practices/java/1
 Authorization: Bearer {{login.response.body.authToken}}
 Content-Type: application/json
 
+
+
 #### Create single line question
-POST {{base}}/practices/java/{practiceId}/questions/SINGLE_LINE
+POST {{base}}/practices/java/1/questions/SINGLE_LINE
 Authorization: Bearer {{login.response.body.authToken}}
 Content-Type: application/json
 
 {
-    "practiceId" : "8",
+    
     "question": "string",
     "answer": "string"
 }
