@@ -24,6 +24,61 @@ GET {{base}}/practices/java/{id}
 Authorization: Bearer {{login.response.body.authToken}}
 Content-Type: application/json
 
+#### Create single line question
+POST {{base}}/practices/java/{practiceId}/questions/SINGLE_LINE
+Authorization: Bearer {{login.response.body.authToken}}
+Content-Type: application/json
+
+{
+    "practiceId" : "8",
+    "question": "string",
+    "answer": "string"
+}
+
+#### Create new multi line question
+POST {{base}}/practices/java/{practiceId}/questions/MULTI_LINE
+Authorization: Bearer {{login.response.body.authToken}}
+Content-Type: application/json
+
+{
+    "question": "string",
+    "answer": "string",
+}
+
+#### Create new choose the best question
+POST {{base}}/practices/java/{practiceId}/questions/CHOOSE_THE_BEST
+Authorization: Bearer {{login.response.body.authToken}}
+Content-Type: application/json
+
+{
+  "question": "string",
+  "answer": "string",
+  "choices": [
+    {
+      "id": 0,
+      "value": "string",
+      "answer": true
+    }
+  ]
+}
+
+#### Create new multi choice question
+POST {{base}}/practices/java/{practiceId}/questions/MULTI_CHOICE
+Authorization: Bearer {{login.response.body.authToken}}
+Content-Type: application/json
+
+{
+  "question": "string",
+  "answer": "string",
+  "choices": [
+    {
+      "id": 0,
+      "value": "string",
+      "answer": true
+    }
+  ]
+}
+
 #### Logout current user
 POST {{base}}/auth/logout
 Authorization: Bearer {{login.response.body.authToken}}
