@@ -10,6 +10,7 @@ Content-Type: application/json
 }
 
 #### Create Practice
+# @name practice
 POST {{base}}/practices/java
 Authorization: Bearer {{login.response.body.authToken}}
 Content-Type: application/json
@@ -19,15 +20,9 @@ Content-Type: application/json
 	"description":"exam1"
 }
 
-#### Get Practice with given id
-GET {{base}}/practices/java/1
-Authorization: Bearer {{login.response.body.authToken}}
-Content-Type: application/json
-
-
 
 #### Create single line question
-POST {{base}}/practices/java/1/questions/SINGLE_LINE
+POST {{base}}/practices/java/{{practice.response.body.id}}/questions/SINGLE_LINE
 Authorization: Bearer {{login.response.body.authToken}}
 Content-Type: application/json
 
@@ -38,26 +33,28 @@ Content-Type: application/json
 }
 
 #### Create new multi line question
-POST {{base}}/practices/java/{practiceId}/questions/MULTI_LINE
+POST {{base}}/practices/java/{{practice.response.body.id}}/questions/MULTI_LINE
 Authorization: Bearer {{login.response.body.authToken}}
 Content-Type: application/json
 
 {
     "question": "string",
-    "answer": "string",
+    "answer": "string"
 }
 
 #### Create new choose the best question
-POST {{base}}/practices/java/{practiceId}/questions/CHOOSE_THE_BEST
+POST {{base}}/practices/java/{{practice.response.body.id}}/questions/CHOOSE_THE_BEST
 Authorization: Bearer {{login.response.body.authToken}}
 Content-Type: application/json
 
 {
   "question": "string",
-  "answer": "string",
   "choices": [
     {
-      "id": 0,
+      "value": "string",
+      "answer": true
+    },
+    {
       "value": "string",
       "answer": true
     }
@@ -65,7 +62,7 @@ Content-Type: application/json
 }
 
 #### Create new multi choice question
-POST {{base}}/practices/java/{practiceId}/questions/MULTI_CHOICE
+POST {{base}}/practices/java/{{practice.response.body.id}}/questions/MULTI_CHOICE
 Authorization: Bearer {{login.response.body.authToken}}
 Content-Type: application/json
 
@@ -85,9 +82,3 @@ Content-Type: application/json
 POST {{base}}/auth/logout
 Authorization: Bearer {{login.response.body.authToken}}
 Content-Type: application/json
-
-
-
-content
-#### Info
-GET {{base}}/info
