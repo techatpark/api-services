@@ -1,44 +1,36 @@
-@base = https://gurukulam.techatpark.com/api HTTP/1.1
-	#### Login
-	# @aname login 
-	POST {{base}}/auth/login
-	Content-Type: application/json
-	{
-	    "userName": "tom",
-        "password": "password"
-	}
-	
-	#### Create Practice
-	POST {{base}}/practices/java
-	Authorization: Bearer {{login.response.body.authToken}}
-	Content-Type: application/json
-	
-	{
-	   "name": "string",
-       "description": "string"
-	}
-	
-	#### Get Practice with given id
-	GET  {{base}}/practices/java/{id}
-	Authorization: Bearer {{login.response.body.authToken}}
-	Content-Type: application/json
-	
-	{
-	    "id": 0,
-        "name": "string",
-        "description": "string",
-        "owner": "string"
-	}
-	
-	#### List Practices
-	GET {{base}}/practices/java
-	Authorization: Bearer {{login.response.body.authToken}}
-	Content-Type: application/json
-	
-	#### Logout
-	POST {{base}}/auth/logout
-	Authorization: Bearer {{login.response.body.authToken}}
-	Content-Type: application/json
-	
-	#### Info
-	GET {{base}}/info
+@base = https://gurukulam.techatpark.com/api 
+#### Login
+# @name login 
+POST {{base}}/auth/login
+Content-Type: application/json
+
+{
+    "userName": "tom",
+    "password": "password"
+}
+
+#### Create Practice
+POST {{base}}/practices/java
+Authorization: Bearer {{login.response.body.authToken}}
+Content-Type: application/json
+
+{
+	"name":"mani",
+	"description":"hello"
+}
+
+#### Get Practice with given id
+GET {{base}}/practices/java/{id}
+Authorization: Bearer {{login.response.body.authToken}}
+Content-Type: application/json
+
+#### Logout current user
+POST {{base}}/auth/logout
+Authorization: Bearer {{login.response.body.authToken}}
+Content-Type: application/json
+
+
+
+content
+#### Info
+GET {{base}}/info
