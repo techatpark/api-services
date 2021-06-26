@@ -40,7 +40,6 @@ CREATE TABLE user_notes (
    note VARCHAR(500)
 );
 
-
 CREATE TABLE question_choices (
     id INT auto_increment PRIMARY KEY,
     question_id int NOT NULL,

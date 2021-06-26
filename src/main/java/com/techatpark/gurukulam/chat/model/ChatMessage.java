@@ -1,7 +1,7 @@
 package com.techatpark.gurukulam.chat.model;
 
 /**
- * Created by rajeevkumarsingh on 24/07/17.
+ * Message.
  */
 public class ChatMessage {
     /**

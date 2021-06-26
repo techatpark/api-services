@@ -32,7 +32,7 @@ public class BookService {
      * Create note optional.
      *
      * @param bookName  the book name
-     * @param owner  the owner
+     * @param owner     the owner
      * @param userNotes the user note
      * @return the optional
      */
@@ -47,7 +47,7 @@ public class BookService {
     /**
      * Search note optional.
      *
-     * @param owner  the owner
+     * @param owner       the owner
      * @param bookName    the book name
      * @param chapterName the chapterName
      * @return the list

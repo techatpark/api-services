@@ -105,13 +105,14 @@ public class UserNoteService {
 
     /**
      * List list.
-     * @param userName user name
+     *
+     * @param userName   user name
      * @param onInstance the on instance
      * @param onSection  the on section
      * @return the list
      */
     public List<UserNote> searchNotes(final String userName,
-                                        final String onInstance,
+                                      final String onInstance,
                                       final String onSection) {
         final String query = "SELECT id,on_type,on_instance,on_section,"
                 + "prev_word,text,note FROM "
