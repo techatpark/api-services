@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 class PracticeController {
 
     /**
-     * Forwards Practice Requests
+     * Forwards Practice Requests.
      * @return forward
      */
     @GetMapping("/practices/books")
