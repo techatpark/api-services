@@ -32,7 +32,7 @@ jobs:
           username: ${{ secrets.USERNAME }}
           #           port: ${{ secrets.PORT }}
           key: ${{ secrets.KEY }}
-          source: "target/*.jar"
+          source: "gurukulams-web/target/*.jar"
           target: ${{ secrets.TARGET_DIR }}
           strip_components: 1
       - name: Deploy
