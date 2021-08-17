@@ -139,8 +139,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 "/practices/**",
                 "/courses/**", "/courses/**/**", "/courses/**/**/**",
                 "/subjects/**",
-                "/books/**", "/books/**/**", "/books/**/**/**",
-                "/chat", "/chat/**", "/chat/**/**", "/chat/**/**/**");
+                "/books/**",
+                "/books/**/**",
+                "/books/**/**/**",
+                "/books/**/**/**/**",
+                "/books/**/**/**/**",
+                "/chat",
+                "/chat/**",
+                "/chat/**/**",
+                "/chat/**/**/**");
     }
 
     /**
