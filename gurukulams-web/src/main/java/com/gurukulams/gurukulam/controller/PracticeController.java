@@ -1,5 +1,6 @@
 package com.gurukulams.gurukulam.controller;
 
+import com.gurukulams.gurukulam.service.PracticeService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -10,13 +11,22 @@ import org.springframework.web.bind.annotation.PathVariable;
  */
 @Controller
 class PracticeController {
+    /**
+     * Service for Practices.
+     */
+    private final PracticeService practiceService;
+
+    PracticeController(final PracticeService aPracticeService) {
+        this.practiceService = aPracticeService;
+    }
 
     /**
      * Forwards Practice Requests.
+     * @param bookId
      * @return forward
      */
     @GetMapping("/practices/books/{bookId}/**")
-    public String practice(@PathVariable String bookId) {
-        return "forward:/practices/"+bookId+"/index.html";
+    public String practice(final @PathVariable String bookId) {
+        return "forward:/practices/" + bookId + "/index.html";
     }
 }
