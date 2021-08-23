@@ -1,5 +1,7 @@
 package com.gurukulams.gurukulam.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.gurukulams.gurukulam.model.Practice;
 import com.gurukulams.gurukulam.service.PracticeService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,7 +28,9 @@ class PracticeController {
      * @return forward
      */
     @GetMapping("/practices/books/{bookId}/**")
-    public String practice(final @PathVariable String bookId) {
+    public String practice(final @PathVariable String bookId)
+            throws JsonProcessingException {
+        Practice practice = practiceService.getPractice(bookId);
         return "forward:/practices/" + bookId + "/index.html";
     }
 }

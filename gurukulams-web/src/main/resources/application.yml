@@ -39,7 +39,7 @@ server:
     key-alias: localhost
 ## Open API
 springdoc:
-  packagesToScan: com.techatpark.gurukulam,com.techatpark.starter.security.controller
+  packagesToScan: com.gurukulams,com.gurukulams.starter.security.controller
   swagger-ui:
     operationsSorter: method
 

@@ -6,9 +6,11 @@ CREATE TABLE practices (
   id INT auto_increment PRIMARY KEY,
   name VARCHAR(55) NOT NULL,
   description TEXT,
+  book VARCHAR(55),
   type VARCHAR(55) NOT NULL,
   owner VARCHAR(55) NOT NULL,
-  meta_data TEXT
+  meta_data TEXT,
+  CONSTRAINT book_constraint UNIQUE (book)
 );
 
 CREATE TABLE questions (

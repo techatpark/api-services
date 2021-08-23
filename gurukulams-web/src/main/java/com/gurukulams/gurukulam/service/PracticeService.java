@@ -21,6 +21,7 @@ import javax.validation.ConstraintViolationException;
 import javax.validation.Validator;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -148,7 +149,26 @@ public class PracticeService {
      * @throws JsonProcessingException the json processing exception
      */
     public <T extends Practice> Optional<T> create(final String type,
+                                                    final String owner,
+                                                    final T practice)
+            throws JsonProcessingException {
+        return create(type, owner, null, practice);
+    }
+
+    /**
+     * inserts data to database.
+     *
+     * @param <T>      the type parameter
+     * @param type     the type
+     * @param owner    the owner
+     * @param book    the book
+     * @param practice the practice
+     * @return p. optional
+     * @throws JsonProcessingException the json processing exception
+     */
+    private <T extends Practice> Optional<T> create(final String type,
                                                    final String owner,
+                                                   final String book,
                                                    final T practice)
             throws JsonProcessingException {
 
@@ -161,21 +181,18 @@ public class PracticeService {
                     .usingColumns("name",
                             "type",
                             "owner",
+                            "book",
                             "description",
                             "meta_data");
             final String metaData = getMetadata(practice);
-            final Map<String, Object> valueMap = metaData == null
-                    ? Map.of("name",
-                    practice.getName(),
-                    "type", type,
-                    "owner", owner,
-                    "description", practice.getDescription())
-                    : Map.of("name",
-                    practice.getName(),
-                    "type", type,
-                    "owner", owner,
-                    "description", practice.getDescription(),
-                    "meta_data", metaData);
+            final Map<String, Object> valueMap = new HashMap<>(6);
+            valueMap.put("name",
+                    practice.getName());
+            valueMap.put("type", type);
+            valueMap.put("owner", owner);
+            valueMap.put("book", book);
+            valueMap.put("description", practice.getDescription());
+            valueMap.put("meta_data", metaData);
             final Number examId = insert.executeAndReturnKey(valueMap);
             final Optional<T> createdExam = read(examId.intValue());
             createdExam.ifPresent(exam1 -> {
@@ -189,6 +206,42 @@ public class PracticeService {
             throw new ConstraintViolationException(violations);
         }
 
+    }
+
+    /**
+     * get pracice for a book.
+     * create if not exists alredy.
+     * @param book
+     * @return pracice
+     */
+    public Practice getPractice(final String book)
+            throws JsonProcessingException {
+        Optional<Practice> oPractice = readByBook(book);
+
+        if (oPractice.isEmpty()) {
+            Practice practice = new Practice();
+            practice.setName("Book:$" + book);
+            practice.setDescription("Question Bank for the book " + book);
+            oPractice = create(book, "SYSTEM", practice);
+        }
+
+        return oPractice.get();
+    }
+
+    private <T extends Practice> Optional<T> readByBook(final String newBook) {
+        final String query =
+                "SELECT id,name,owner,type,meta_data,description "
+                        + "FROM practices WHERE book = ?";
+
+
+        try {
+            final T p = (T) jdbcTemplate
+                    .queryForObject(query, new Object[]{newBook},
+                            this::rowMapper);
+            return Optional.of(p);
+        } catch (final EmptyResultDataAccessException e) {
+            return Optional.empty();
+        }
     }
 
     /**
