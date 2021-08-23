@@ -30,7 +30,7 @@ class PracticeController {
     @GetMapping("/practices/books/{bookId}/**")
     public String practice(final @PathVariable String bookId)
             throws JsonProcessingException {
-        Practice practice = practiceService.getPractice(bookId);
+        Practice practice = practiceService.getPracticeByBook(bookId);
         return "forward:/practices/" + bookId + "/index.html";
     }
 }

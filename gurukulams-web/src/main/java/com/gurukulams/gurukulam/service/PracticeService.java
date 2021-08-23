@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.gurukulams.gurukulam.model.Practice;
 import com.gurukulams.gurukulam.model.sql.SqlPractice;
 import com.gurukulams.gurukulam.service.connector.DatabaseConnector;
+import com.gurukulams.starter.util.PropertyPlaceholderExposer;
 import org.springframework.context.ApplicationContext;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.Page;
@@ -44,6 +45,10 @@ public class PracticeService {
     private final DataSource dataSource;
 
     /**
+     * Reade Properties.
+     */
+    private final PropertyPlaceholderExposer propertyPlaceholderExposer;
+    /**
      * this is ApplicationContext of Spring.
      */
     private final ApplicationContext applicationContext;
@@ -66,17 +71,20 @@ public class PracticeService {
      * @param aDatasource          the a datasource
      * @param anApplicationContext the an application context
      * @param aObjectMapper        the a object mapper
+     * @param aPExpo               the propery expser
      * @param aValidator           the validator
      */
     public PracticeService(final JdbcTemplate aJdbcTemplate,
                            final DataSource aDatasource,
                            final ApplicationContext anApplicationContext,
+                           final PropertyPlaceholderExposer aPExpo,
                            final ObjectMapper aObjectMapper,
                            final Validator aValidator) {
         this.jdbcTemplate = aJdbcTemplate;
         this.dataSource = aDatasource;
         this.applicationContext = anApplicationContext;
         this.objectMapper = aObjectMapper;
+        this.propertyPlaceholderExposer = aPExpo;
         this.validator = aValidator;
     }
 
@@ -214,7 +222,7 @@ public class PracticeService {
      * @param book
      * @return pracice
      */
-    public Practice getPractice(final String book)
+    public Practice getPracticeByBook(final String book)
             throws JsonProcessingException {
         Optional<Practice> oPractice = readByBook(book);
 
@@ -222,7 +230,9 @@ public class PracticeService {
             Practice practice = new Practice();
             practice.setName("Book:$" + book);
             practice.setDescription("Question Bank for the book " + book);
-            oPractice = create(book, "SYSTEM", practice);
+            oPractice = create(book,
+                    propertyPlaceholderExposer.get("admins." + book),
+                    practice);
         }
 
         return oPractice.get();
