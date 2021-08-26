@@ -1,5 +1,6 @@
 package com.gurukulams.gurukulam.service;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.gurukulams.gurukulam.model.Choice;
 import com.gurukulams.gurukulam.model.Practice;
 import com.gurukulams.gurukulam.model.Question;
@@ -369,6 +370,22 @@ public class QuestionService {
             });
         }
         return questions;
+    }
+
+    /**
+     * List questions of exam.
+     *
+     * @param userName   the user name
+     * @param bookName the practice id
+     * @return quetions in given exam
+     */
+    public List<Question> list(final String userName,
+                               final String bookName)
+            throws JsonProcessingException {
+
+        Practice practice = practiceService.getQuestionBank(bookName);
+
+        return list(userName, practice.getId());
     }
 
     /**

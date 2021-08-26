@@ -217,21 +217,22 @@ public class PracticeService {
     }
 
     /**
-     * get pracice for a book.
+     * get pracice for a bookName.
      * create if not exists alredy.
-     * @param book
+     * @param bookName
      * @return pracice
      */
-    public Practice getPracticeByBook(final String book)
+    public Practice getQuestionBank(final String bookName)
             throws JsonProcessingException {
-        Optional<Practice> oPractice = readByBook(book);
+        Optional<Practice> oPractice = readByBook(bookName);
 
         if (oPractice.isEmpty()) {
             Practice practice = new Practice();
-            practice.setName("Book:$" + book);
-            practice.setDescription("Question Bank for the book " + book);
-            oPractice = create(book,
-                    propertyPlaceholderExposer.get("admins." + book),
+            practice.setName("Book:$" + bookName);
+            practice.setDescription("Question Bank for the bookName "
+                    + bookName);
+            oPractice = create(bookName,
+                    propertyPlaceholderExposer.get("admins." + bookName),
                     practice);
         }
 

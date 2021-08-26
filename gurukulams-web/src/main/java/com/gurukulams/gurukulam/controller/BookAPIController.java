@@ -1,5 +1,7 @@
 package com.gurukulams.gurukulam.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.gurukulams.gurukulam.model.Question;
 import com.gurukulams.gurukulam.model.UserNote;
 import com.gurukulams.gurukulam.service.BookService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -10,6 +12,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -81,7 +84,8 @@ class BookAPIController {
      */
     @Operation(summary = "Creates a new user note",
             description =
-                    "Can be called only by users with 'auth management'"
+                    "Can be called only by users "
+                            + "with 'auth management'"
                             + " rights.",
             security = @SecurityRequirement(name = "bearerAuth"))
     @ApiResponses(value = {@ApiResponse(responseCode = "200",
@@ -156,4 +160,68 @@ class BookAPIController {
                 HttpStatus.NOT_FOUND);
     }
 
+    /**
+     * Find all questions response entity.
+     *
+     * @param principal the principal
+     * @param bookName  the practice id
+     * @return the response entity
+     */
+    @Operation(summary = "lists all the questions for given book",
+            description = " Can be invoked by auth users only",
+            security = @SecurityRequirement(name = "bearerAuth"))
+    @ApiResponses(value = {@ApiResponse(responseCode = "200",
+            description = "Listing all the questions"),
+            @ApiResponse(responseCode = "204",
+                    description = "questions are not available"),
+            @ApiResponse(responseCode = "401",
+                    description = "invalid credentials")})
+    @GetMapping("/{bookName}/questions")
+    public ResponseEntity<List<Question>> findAllQuestions(final Principal
+                                                                   principal,
+                                                           final
+                                                           @PathVariable
+                                                                   String
+                                                                   bookName)
+            throws JsonProcessingException {
+
+        final List<Question> questions = bookService.questions(
+                principal.getName(),
+                bookName);
+        return questions.isEmpty() ? new ResponseEntity<List<Question>>(
+                HttpStatus.NO_CONTENT)
+                : ResponseEntity.ok(questions);
+    }
+
+    /**
+     * Find all questions response entity.
+     *
+     * @param principal  the principal
+     * @param bookName   the practice id
+     * @param chaptorame the practice id
+     * @return the response entity
+     */
+    @Operation(summary = "lists all the questions for given book and give chap",
+            description = " Can be invoked by auth users only",
+            security = @SecurityRequirement(name = "bearerAuth"))
+    @ApiResponses(value = {@ApiResponse(responseCode = "200",
+            description = "Listing all the questions"),
+            @ApiResponse(responseCode = "204",
+                    description = "questions are not available"),
+            @ApiResponse(responseCode = "401",
+                    description = "invalid credentials")})
+    @GetMapping("/{bookName}/questions/**")
+    public ResponseEntity<List<Question>>
+    findAllQuestionsByChap(final Principal
+                                   principal,
+                           final
+                           @PathVariable
+                                   Integer
+                                   bookName,
+                           final
+                           @PathVariable
+                                   Integer
+                                   chaptorame) {
+        return null;
+    }
 }

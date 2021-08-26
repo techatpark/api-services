@@ -13,7 +13,7 @@ import com.gurukulams.gurukulam.service.UserNoteService;
 //@RequestMapping("/api/practices/sql")
 //@Tag(name = "SQL Practices", description = "Resource to manage sql
 // practices")
-class SqlPracticeController extends PracticeAPIController<SqlPractice> {
+class SqlPracticeAPIController extends PracticeAPIController<SqlPractice> {
     /**
      * Instantiates a new Sql practice controller.
      *
@@ -22,10 +22,10 @@ class SqlPracticeController extends PracticeAPIController<SqlPractice> {
      * @param newAnswerService   the new answer service
      * @param userNotesService   the new user note service
      */
-    SqlPracticeController(final PracticeService newPracticeService,
-                          final QuestionService newQuestionService,
-                          final AnswerService newAnswerService,
-                          final UserNoteService userNotesService) {
+    SqlPracticeAPIController(final PracticeService newPracticeService,
+                             final QuestionService newQuestionService,
+                             final AnswerService newAnswerService,
+                             final UserNoteService userNotesService) {
         super(newPracticeService, newQuestionService, newAnswerService,
                 userNotesService);
     }

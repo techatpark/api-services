@@ -1,5 +1,7 @@
 package com.gurukulams;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,8 +16,10 @@ import java.util.Map;
  * Hello controller to test.
  */
 @RestController
-@RequestMapping("/api/info")
-class HelloController {
+@RequestMapping("/api/metrics")
+@Tag(name = "Application Metrics",
+        description = "Resource to retrieve application metrics")
+class MetricsAPIController {
 
     /**
      * application name.
@@ -27,9 +31,9 @@ class HelloController {
      */
     private final String version;
 
-    HelloController(@Value("${spring.application.name}")
+    MetricsAPIController(@Value("${spring.application.name}")
                     final String aName,
-                    @Value("${spring.application.version}")
+                         @Value("${spring.application.version}")
                     final String aVersion) {
         this.name = aName;
         this.version = aVersion;
@@ -42,7 +46,8 @@ class HelloController {
      * @return list of details
      * @throws URISyntaxException the uri syntax exception
      */
-    @GetMapping
+    @Operation(summary = "provides application metrics")
+    @GetMapping("/info")
     public ResponseEntity<Map<String, Object>> index()
             throws URISyntaxException {
         final Map<String, Object> map =

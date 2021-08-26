@@ -1,5 +1,7 @@
 package com.gurukulams.gurukulam.service;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.gurukulams.gurukulam.model.Question;
 import com.gurukulams.gurukulam.model.UserNote;
 import org.springframework.stereotype.Service;
 
@@ -18,13 +20,20 @@ public class BookService {
     private final UserNoteService userNotesService;
 
     /**
+     * Service for Practices.
+     */
+    private final QuestionService questionService;
+
+    /**
      * Instantiates a new Book service.
-     *
-     * @param theUserNotesService the user note service
+     *  @param theUserNotesService the user note service
+     * @param theQuestionService the question service
      */
     public BookService(
-            final UserNoteService theUserNotesService) {
+            final UserNoteService theUserNotesService, final
+                                    QuestionService theQuestionService) {
         this.userNotesService = theUserNotesService;
+        this.questionService = theQuestionService;
     }
 
 
@@ -91,4 +100,19 @@ public class BookService {
     public boolean delete(final Integer id) {
         return userNotesService.delete(id);
     }
+
+    /**
+     * Read note optional.
+     *
+     * @param userName the username
+     * @param bookName the username
+     * @return the optional
+     */
+    public List<Question> questions(final String userName,
+                                    final String bookName)
+                            throws JsonProcessingException {
+        return questionService.list(userName, bookName);
+
+    }
+
 }
