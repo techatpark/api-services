@@ -24,16 +24,25 @@ public class BookService {
      */
     private final QuestionService questionService;
 
+
+    /**
+     * this helps to practiceService.
+     */
+    private final PracticeService practiceService;
+
     /**
      * Instantiates a new Book service.
-     *  @param theUserNotesService the user note service
+     * @param theUserNotesService the user note service
      * @param theQuestionService the question service
+     * @param thePracticeService the practice service
      */
     public BookService(
             final UserNoteService theUserNotesService, final
-                                    QuestionService theQuestionService) {
+            QuestionService theQuestionService,
+            final PracticeService thePracticeService) {
         this.userNotesService = theUserNotesService;
         this.questionService = theQuestionService;
+        this.practiceService = thePracticeService;
     }
 
 
@@ -115,4 +124,14 @@ public class BookService {
 
     }
 
+    /**
+     * Checks if given user is owner of the book.
+     *
+     * @param userName
+     * @param bookName
+     * @return isOwner
+     */
+    public boolean isOwner(final String userName, final String bookName) {
+        return practiceService.isOwner(userName, bookName);
+    }
 }

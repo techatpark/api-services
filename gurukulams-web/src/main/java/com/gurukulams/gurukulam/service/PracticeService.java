@@ -232,11 +232,15 @@ public class PracticeService {
             practice.setDescription("Question Bank for the bookName "
                     + bookName);
             oPractice = create(bookName,
-                    propertyPlaceholderExposer.get("admins." + bookName),
+                    getOwnerName(bookName),
                     practice);
         }
 
         return oPractice.get();
+    }
+
+    private String getOwnerName(final String bookName) {
+        return propertyPlaceholderExposer.get("admins." + bookName);
     }
 
     private <T extends Practice> Optional<T> readByBook(final String newBook) {
@@ -414,4 +418,14 @@ public class PracticeService {
                 jdbcTemplate.queryForObject(countsQuery, Long.class, type));
     }
 
+    /**
+     * Checks if given user is owner of the book.
+     *
+     * @param userName
+     * @param bookName
+     * @return isOwner
+     */
+    public boolean isOwner(final String userName, final String bookName) {
+        return getOwnerName(bookName).equals(userName);
+    }
 }

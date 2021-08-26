@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.constraints.NotBlank;
@@ -158,6 +159,34 @@ class BookAPIController {
         return bookService.delete(id) ? ResponseEntity.ok().build()
                 : new ResponseEntity<Void>(
                 HttpStatus.NOT_FOUND);
+    }
+    /**
+     * Is the owner of the book current user.
+     *
+     * @param principal the principal
+     * @param bookName  the practice id
+     * @return the response entity
+     */
+    @Operation(summary = "Am I the owner the given book",
+            description = "Can be called only by"
+                    + " users with 'auth management' rights.",
+            security = @SecurityRequirement(name = "bearerAuth"))
+    @ApiResponses(value = {@ApiResponse(responseCode = "202",
+            description = "Current user is the owner"),
+            @ApiResponse(responseCode = "401",
+                    description = "invalid credentials"),
+            @ApiResponse(responseCode = "406",
+                    description = "Current user is not the owner")})
+    @ResponseStatus(HttpStatus.ACCEPTED)
+    @GetMapping("/{bookName}/owner")
+    public ResponseEntity<Void> isOwner(final Principal
+                                                    principal,
+                                        final @PathVariable
+                                               String bookName) {
+        return bookService.isOwner(principal.getName(), bookName)
+                ? ResponseEntity.status(
+                HttpStatus.ACCEPTED).build()
+                : ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).build();
     }
 
     /**
