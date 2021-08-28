@@ -17,6 +17,7 @@ CREATE TABLE questions (
   id INT auto_increment,
   exam_id int NOT NULL,
   question VARCHAR(500) NOT NULL,
+  chapter_path VARCHAR(500),
   type VARCHAR(55) NOT NULL,
   answer VARCHAR(500),
   PRIMARY KEY (id, exam_id),

@@ -21,8 +21,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.constraints.NotBlank;
+import java.io.IOException;
 import java.security.Principal;
 import java.util.List;
 import java.util.Optional;
@@ -161,6 +165,7 @@ class BookAPIController {
                 : new ResponseEntity<Void>(
                 HttpStatus.NOT_FOUND);
     }
+
     /**
      * Is the owner of the book current user.
      *
@@ -193,8 +198,6 @@ class BookAPIController {
 
     /**
      * Create response entity.
-     *
-     * @param practiceId   the practice id
      * @param questionType the question type
      * @param question     the question
      * @return the response entity
@@ -212,14 +215,20 @@ class BookAPIController {
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/{bookName}/question-bank/{questionType}/**")
     public ResponseEntity<Optional<Question>> create(final @PathVariable
-                                                             Integer practiceId,
+                                                             String bookName,
                                                      final @PathVariable
                                                              QuestionType
                                                              questionType,
                                                      final
                                                      @RequestBody
                                                              Question
-                                                             question) {
+                                                             question,
+            final HttpServletRequest request)
+            throws ServletException, IOException {
+        String chaptorPath = request.getRequestURI().replaceFirst("/api" +
+                "/books/"+bookName+"/question-bank/"+questionType+"/","");
+
+        System.out.println(chaptorPath);
         return null;
     }
 
@@ -307,7 +316,7 @@ class BookAPIController {
         final List<Question> questions = bookService.questions(
                 principal.getName(),
                 bookName);
-        return questions.isEmpty() ? new ResponseEntity<List<Question>>(
+        return questions.isEmpty() ? new ResponseEntity<>(
                 HttpStatus.NO_CONTENT)
                 : ResponseEntity.ok(questions);
     }
@@ -316,11 +325,12 @@ class BookAPIController {
      * Find all questions response entity.
      *
      * @param principal  the principal
-     * @param bookName   the practice id
-     * @param chaptorame the practice id
+     * @param bookName   the bookName
+     * @param chaptername the chaptername
      * @return the response entity
      */
-    @Operation(summary = "lists all the questions for given book and give chaptor",
+    @Operation(summary = "lists all the questions for given book and give " +
+            "chapter",
             description = " Can be invoked by auth users only",
             security = @SecurityRequirement(name = "bearerAuth"))
     @ApiResponses(value = {@ApiResponse(responseCode = "200",
@@ -340,7 +350,7 @@ class BookAPIController {
                            final
                            @PathVariable
                                    Integer
-                                   chaptorame) {
+                                   chaptername) {
         return null;
     }
 }
