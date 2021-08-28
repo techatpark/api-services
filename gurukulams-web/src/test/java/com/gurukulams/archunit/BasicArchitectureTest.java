@@ -1,23 +1,34 @@
 package com.gurukulams.archunit;
 
-import com.tngtech.archunit.junit.AnalyzeClasses;
-import com.tngtech.archunit.junit.ArchTag;
+import com.tngtech.archunit.core.domain.JavaClasses;
+import com.tngtech.archunit.core.importer.ClassFileImporter;
 import com.tngtech.archunit.junit.ArchTest;
 import com.tngtech.archunit.lang.ArchRule;
+import org.junit.jupiter.api.Test;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.Statement;
 
 import static com.tngtech.archunit.library.GeneralCodingRules.NO_CLASSES_SHOULD_USE_JODATIME;
+import static com.tngtech.archunit.lang.syntax.ArchRuleDefinition.noClasses;
 
 /**
  * The type Basic architecture test.
  */
-@ArchTag("basic")
-@AnalyzeClasses(packages = "com.example.demo")
 public class BasicArchitectureTest {
 
-    // @ArchTest
-    // private final ArchRule no_access_to_jdbc = noClasses().should().accessClassesThat()
-    //                 .belongToAnyOf(Connection.class, Statement.class, PreparedStatement.class)
-    //                 .because("we do not use JDBC directly");
+    JavaClasses classes = new ClassFileImporter().importPackages("com.gurukulams");
+
+     @Test
+     void no_access_to_jdbc() {
+         ArchRule no_access_to_jdbc = noClasses().that()
+                 .resideOutsideOfPackage("com.gurukulams.gurukulam.service.connector")
+                 .should().accessClassesThat()
+                    .belongToAnyOf(Connection.class, Statement.class, PreparedStatement.class)
+                 .because("we do not use JDBC directly");
+         no_access_to_jdbc.check(classes);
+     }
 
     // @ArchTest
     // private final ArchRule no_access_to_standard_streams = NO_CLASSES_SHOULD_ACCESS_STANDARD_STREAMS;
