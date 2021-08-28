@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 @Controller
 class QuestionBankController {
 
-
     /**
      * Forwards Practice Requests.
      * @param bookName
@@ -21,8 +20,6 @@ class QuestionBankController {
     @GetMapping("/practices/books/{bookName}/**")
     public String questionBank(final @PathVariable String bookName)
             throws JsonProcessingException {
-        // In case if Question Bank unavailable create one
-
         return "forward:/practices/" + bookName + "/index.html";
     }
 }

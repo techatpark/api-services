@@ -2,6 +2,7 @@ package com.gurukulams.gurukulam.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.gurukulams.gurukulam.model.Question;
+import com.gurukulams.gurukulam.model.QuestionType;
 import com.gurukulams.gurukulam.model.UserNote;
 import com.gurukulams.gurukulam.service.BookService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -189,6 +190,95 @@ class BookAPIController {
                 : ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).build();
     }
 
+
+    /**
+     * Create response entity.
+     *
+     * @param practiceId   the practice id
+     * @param questionType the question type
+     * @param question     the question
+     * @return the response entity
+     */
+    @Operation(summary = "Creates a new question",
+            description = "Can be called only by users with"
+                    + " 'auth management' rights.",
+            security = @SecurityRequirement(name = "bearerAuth"))
+    @ApiResponses(value = {@ApiResponse(responseCode = "201",
+            description = "question created successfully"),
+            @ApiResponse(responseCode = "400",
+                    description = "question is invalid"),
+            @ApiResponse(responseCode = "401",
+                    description = "invalid credentials")})
+    @ResponseStatus(HttpStatus.CREATED)
+    @PostMapping("/{bookName}/question-bank/{questionType}/**")
+    public ResponseEntity<Optional<Question>> create(final @PathVariable
+                                                             Integer practiceId,
+                                                     final @PathVariable
+                                                             QuestionType
+                                                             questionType,
+                                                     final
+                                                     @RequestBody
+                                                             Question
+                                                             question) {
+        return null;
+    }
+
+    /**
+     * Update response entity.
+     *
+     * @param practiceId   the practice id
+     * @param questionType the question type
+     * @param id           the id
+     * @param question     the question
+     * @return the response entity
+     */
+    @Operation(summary = "Updates the question by given id",
+            description = "Can be called only by users "
+                    + "with 'auth management' rights.",
+            security = @SecurityRequirement(name = "bearerAuth"))
+    @ApiResponses(value = {@ApiResponse(responseCode = "200",
+            description = "question updated successfully"),
+            @ApiResponse(responseCode = "400",
+                    description = "question is invalid"),
+            @ApiResponse(responseCode = "401",
+                    description = "invalid credentials"),
+            @ApiResponse(responseCode = "404",
+                    description = "question not found")})
+    @PutMapping("/{bookName}/question-bank/{questionType}/{id}")
+    public ResponseEntity<Optional<Question>> update(final @PathVariable
+                                                             Integer practiceId,
+                                                     final @PathVariable
+                                                             Integer id,
+                                                     final @PathVariable
+                                                             QuestionType
+                                                             questionType,
+                                                     final
+                                                     @RequestBody
+                                                             Question
+                                                             question) {
+
+        return null;
+    }
+
+    /**
+     * Delete response entity.
+     *
+     * @param id the id
+     * @return the response entity
+     */
+    @Operation(summary = "Deletes the question by given id",
+            security = @SecurityRequirement(name = "bearerAuth"))
+    @ApiResponses(value = {@ApiResponse(responseCode = "200",
+            description = "question deleted successfully"),
+            @ApiResponse(responseCode = "401",
+                    description = "invalid credentials"),
+            @ApiResponse(responseCode = "404",
+                    description = "question not found")})
+    @DeleteMapping("/{bookName}/question-bank/{questionType}/{id}")
+    public ResponseEntity<Void> delete(final @PathVariable Integer id) {
+        return null;
+    }
+
     /**
      * Find all questions response entity.
      *
@@ -205,7 +295,7 @@ class BookAPIController {
                     description = "questions are not available"),
             @ApiResponse(responseCode = "401",
                     description = "invalid credentials")})
-    @GetMapping("/{bookName}/questions")
+    @GetMapping("/{bookName}/question-bank")
     public ResponseEntity<List<Question>> findAllQuestions(final Principal
                                                                    principal,
                                                            final
@@ -230,7 +320,7 @@ class BookAPIController {
      * @param chaptorame the practice id
      * @return the response entity
      */
-    @Operation(summary = "lists all the questions for given book and give chap",
+    @Operation(summary = "lists all the questions for given book and give chaptor",
             description = " Can be invoked by auth users only",
             security = @SecurityRequirement(name = "bearerAuth"))
     @ApiResponses(value = {@ApiResponse(responseCode = "200",
@@ -239,7 +329,7 @@ class BookAPIController {
                     description = "questions are not available"),
             @ApiResponse(responseCode = "401",
                     description = "invalid credentials")})
-    @GetMapping("/{bookName}/questions/**")
+    @GetMapping("/{bookName}/question-bank/**")
     public ResponseEntity<List<Question>>
     findAllQuestionsByChap(final Principal
                                    principal,
