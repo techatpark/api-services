@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+//import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -186,9 +186,9 @@ class BookAPIController {
     @ResponseStatus(HttpStatus.ACCEPTED)
     @GetMapping("/{bookName}/owner")
     public ResponseEntity<Void> isOwner(final Principal
-                                                    principal,
+                                                principal,
                                         final @PathVariable
-                                               String bookName) {
+                                                String bookName) {
         return bookService.isOwner(principal.getName(), bookName)
                 ? ResponseEntity.status(
                 HttpStatus.ACCEPTED).build()
@@ -198,8 +198,11 @@ class BookAPIController {
 
     /**
      * Create response entity.
+     *
      * @param questionType the question type
      * @param question     the question
+     * @param bookName     the bookName
+     * @param request      the request
      * @return the response entity
      */
     @Operation(summary = "Creates a new question",
@@ -223,10 +226,12 @@ class BookAPIController {
                                                      @RequestBody
                                                              Question
                                                              question,
-            final HttpServletRequest request)
+                                final HttpServletRequest request)
             throws ServletException, IOException {
-        String chaptorPath = request.getRequestURI().replaceFirst("/api" +
-                "/books/"+bookName+"/question-bank/"+questionType+"/","");
+        String chaptorPath = request.getRequestURI().replaceFirst("/api"
+                        + "/books/" + bookName + "/question-bank/"
+                        + questionType + "/",
+                        "");
 
         System.out.println(chaptorPath);
         return null;
@@ -324,13 +329,13 @@ class BookAPIController {
     /**
      * Find all questions response entity.
      *
-     * @param principal  the principal
-     * @param bookName   the bookName
+     * @param principal   the principal
+     * @param bookName    the bookName
      * @param chaptername the chaptername
      * @return the response entity
      */
-    @Operation(summary = "lists all the questions for given book and give " +
-            "chapter",
+    @Operation(summary = "lists all the questions for given book and give "
+            + "chapter",
             description = " Can be invoked by auth users only",
             security = @SecurityRequirement(name = "bearerAuth"))
     @ApiResponses(value = {@ApiResponse(responseCode = "200",
