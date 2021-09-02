@@ -59,6 +59,7 @@ public class QuestionService {
         question.setId(rs.getInt("id"));
         question.setExamId(rs.getInt("exam_id"));
         question.setQuestion(rs.getString("question"));
+        question.setQuestion(rs.getString("chapter_path"));
         question.setType(QuestionType.valueOf(rs.getString("type")));
         question.setAnswer(rs.getString("answer"));
         return question;
@@ -99,6 +100,21 @@ public class QuestionService {
     }
 
     /**
+     * inserts data, (method overloading).
+     *
+     * @param practiceId the practice id
+     * @param type       the type
+     * @param question   the question
+     * @return question optional
+     */
+    public Optional<Question> create(final Integer practiceId,
+                                     final QuestionType type,
+                                     final Question question) {
+        return create(practiceId,null,type, question);
+    }
+
+
+    /**
      * inserts data.
      *
      * @param practiceId the practice id
@@ -107,6 +123,7 @@ public class QuestionService {
      * @return question optional
      */
     public Optional<Question> create(final Integer practiceId,
+                                     final String chapter_path,
                                      final QuestionType type,
                                      final Question question) {
         question.setType(type);
@@ -117,11 +134,13 @@ public class QuestionService {
                             .withTableName("questions")
                             .usingGeneratedKeyColumns("id")
                             .usingColumns("exam_id",
-                                    "question", "type", "answer");
+                                    "question", "chapter_path", "type",
+                                    "answer");
 
             final Map<String, Object> valueMap = new HashMap<>();
             valueMap.put("exam_id", practiceId);
             valueMap.put("question", question.getQuestion());
+            valueMap.put("chapter_path", chapter_path);
             valueMap.put("type", type);
             valueMap.put("answer", question.getAnswer());
 
@@ -158,6 +177,16 @@ public class QuestionService {
 
     }
 
+    public Optional<Question> createAQuestion(String bookName, QuestionType questionType, Question question, String chapterPath) {
+
+        Optional<Practice> practice = practiceService.readByBook(bookName);
+        if(practice.isPresent()) {
+            return (create(practice.get().getId(), chapterPath,
+                    questionType,  question));
+        }
+        return Optional.empty();
+    }
+
     /**
      * List question choice list.
      *
@@ -185,7 +214,8 @@ public class QuestionService {
      */
     public Optional<Question> read(final Integer id) {
         final String query =
-                "SELECT id,exam_id,question,type,answer FROM questions WHERE"
+                "SELECT id,exam_id,question,chapter_path,type,answer FROM " +
+                        "questions WHERE"
                         + " id = ?";
         try {
 

@@ -4,6 +4,8 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.gurukulams.gurukulam.model.Practice;
+import com.gurukulams.gurukulam.model.Question;
+import com.gurukulams.gurukulam.model.QuestionType;
 import com.gurukulams.gurukulam.model.sql.SqlPractice;
 import com.gurukulams.gurukulam.service.connector.DatabaseConnector;
 import com.gurukulams.starter.util.PropertyPlaceholderExposer;
@@ -33,6 +35,7 @@ import java.util.Set;
  */
 @Service
 public class PracticeService {
+
 
     /**
      * this helps to execute sql queries.
@@ -70,16 +73,17 @@ public class PracticeService {
      * @param aJdbcTemplate        the a jdbc template
      * @param aDatasource          the a datasource
      * @param anApplicationContext the an application context
-     * @param aObjectMapper        the a object mapper
      * @param aPExpo               the propery expser
+     * @param aObjectMapper        the a object mapper
      * @param aValidator           the validator
      */
-    public PracticeService(final JdbcTemplate aJdbcTemplate,
-                           final DataSource aDatasource,
-                           final ApplicationContext anApplicationContext,
-                           final PropertyPlaceholderExposer aPExpo,
-                           final ObjectMapper aObjectMapper,
-                           final Validator aValidator) {
+    public PracticeService(
+            final JdbcTemplate aJdbcTemplate,
+            final DataSource aDatasource,
+            final ApplicationContext anApplicationContext,
+            final PropertyPlaceholderExposer aPExpo,
+            final ObjectMapper aObjectMapper,
+            final Validator aValidator) {
         this.jdbcTemplate = aJdbcTemplate;
         this.dataSource = aDatasource;
         this.applicationContext = anApplicationContext;
@@ -243,7 +247,7 @@ public class PracticeService {
         return propertyPlaceholderExposer.get("admins." + bookName);
     }
 
-    private <T extends Practice> Optional<T> readByBook(final String newBook) {
+    <T extends Practice> Optional<T> readByBook(final String newBook) {
         final String query =
                 "SELECT id,name,owner,type,meta_data,description "
                         + "FROM practices WHERE book = ?";
@@ -306,6 +310,8 @@ public class PracticeService {
             return Optional.empty();
         }
     }
+
+
 
     /**
      * update database.
@@ -428,4 +434,5 @@ public class PracticeService {
     public boolean isOwner(final String userName, final String bookName) {
         return getOwnerName(bookName).equals(userName);
     }
+
 }

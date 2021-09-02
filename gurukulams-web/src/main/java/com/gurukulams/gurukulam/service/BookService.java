@@ -1,7 +1,9 @@
 package com.gurukulams.gurukulam.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.gurukulams.gurukulam.model.Practice;
 import com.gurukulams.gurukulam.model.Question;
+import com.gurukulams.gurukulam.model.QuestionType;
 import com.gurukulams.gurukulam.model.UserNote;
 import org.springframework.stereotype.Service;
 
@@ -133,5 +135,16 @@ public class BookService {
      */
     public boolean isOwner(final String userName, final String bookName) {
         return practiceService.isOwner(userName, bookName);
+    }
+
+    public Optional<Question> createAQuestion(final String bookName,
+                                    final QuestionType questionType,
+                                    final Question question,
+                                              final String chapterPath) {
+
+
+
+        return questionService.createAQuestion(bookName, questionType,
+                question, chapterPath);
     }
 }

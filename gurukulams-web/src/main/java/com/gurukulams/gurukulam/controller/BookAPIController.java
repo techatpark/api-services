@@ -225,11 +225,13 @@ class BookAPIController {
                                                              question,
             final HttpServletRequest request)
             throws ServletException, IOException {
-        String chaptorPath = request.getRequestURI().replaceFirst("/api" +
+        String chapterPath = request.getRequestURI().replaceFirst("/api" +
                 "/books/"+bookName+"/question-bank/"+questionType+"/","");
 
-        System.out.println(chaptorPath);
-        return null;
+        return ResponseEntity.status(HttpStatus.CREATED).body(
+                bookService.createAQuestion(bookName, questionType,
+                        question, chapterPath));
+
     }
 
     /**
