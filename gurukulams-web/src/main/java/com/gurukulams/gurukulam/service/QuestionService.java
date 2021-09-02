@@ -356,6 +356,8 @@ public class QuestionService {
         return !(updatedRows == 0);
     }
 
+    //create a function delete with 3 parameter.
+
     /**
      * Cleaning up all exams.
      *

@@ -225,11 +225,13 @@ class BookAPIController {
                                                              question,
             final HttpServletRequest request)
             throws ServletException, IOException {
-        String chaptorPath = request.getRequestURI().replaceFirst("/api" +
+        String chapterPath = request.getRequestURI().replaceFirst("/api" +
                 "/books/"+bookName+"/question-bank/"+questionType+"/","");
+        bookService.createAQuestion(bookName, questionType, question, chapterPath );
 
-        System.out.println(chaptorPath);
-        return null;
+        return ResponseEntity.status(HttpStatus.CREATED).body(
+                bookService.createAQuestion(bookName, questionType, question
+                        , chapterPath ));
     }
 
     /**
@@ -270,7 +272,7 @@ class BookAPIController {
     }
 
     /**
-     * Delete response entity.
+     * Delete a question from the given question bank.
      *
      * @param id the id
      * @return the response entity
@@ -285,6 +287,7 @@ class BookAPIController {
                     description = "question not found")})
     @DeleteMapping("/{bookName}/question-bank/{questionType}/{id}")
     public ResponseEntity<Void> delete(final @PathVariable Integer id) {
+        //bookservice
         return null;
     }
 

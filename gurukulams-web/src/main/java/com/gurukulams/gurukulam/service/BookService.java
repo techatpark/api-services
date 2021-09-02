@@ -147,4 +147,6 @@ public class BookService {
         return questionService.createAQuestion(bookName, questionType,
                 question, chapterPath);
     }
+
+    //create a function to delete, it must done inside question service
 }
