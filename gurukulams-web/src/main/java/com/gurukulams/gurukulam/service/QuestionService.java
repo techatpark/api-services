@@ -330,7 +330,6 @@ public class QuestionService {
 
 
     }
-
     /**
      * deletes from database.
      *
@@ -338,7 +337,24 @@ public class QuestionService {
      * @return successflag boolean
      */
     public Boolean delete(final Integer id) {
-        final String query = "DELETE FROM questions WHERE ID=?";
+
+        return delete(id , null);
+    }
+
+    /**
+     * deletes from database.
+     *
+     * @param id the id
+     * @return successflag boolean
+     */
+    public Boolean delete(final Integer id, final QuestionType questionType) {
+        String query;
+        if(questionType != null) {
+            query  = "DELETE FROM questions WHERE ID=?, type = ?";
+        }
+        else{
+           query = "DELETE FROM questions WHERE ID=?";
+        }
         final Integer updatedRows = jdbcTemplate.update(query, id);
         return !(updatedRows == 0);
     }
@@ -356,7 +372,6 @@ public class QuestionService {
         return !(updatedRows == 0);
     }
 
-    //create a function delete with 3 parameter.
 
     /**
      * Cleaning up all exams.
@@ -504,5 +519,16 @@ public class QuestionService {
             }
         }
         return violations;
+    }
+    /**
+     * deletes from database.
+     *
+     * @param id the id
+     * @return successflag boolean
+     */
+    public Boolean deleteAQuestion(int id, QuestionType questionType) {
+        final String query = "DELETE FROM questions WHERE ID=?";
+        final Integer updatedRows = jdbcTemplate.update(query, id);
+        return !(updatedRows == 0);
     }
 }

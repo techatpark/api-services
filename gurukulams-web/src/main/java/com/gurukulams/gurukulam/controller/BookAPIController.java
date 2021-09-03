@@ -250,11 +250,11 @@ class BookAPIController {
     @ApiResponses(value = {@ApiResponse(responseCode = "200",
             description = "question updated successfully"),
             @ApiResponse(responseCode = "400",
-                    description = "question is invalid"),
+                      description = "question is invalid"),
             @ApiResponse(responseCode = "401",
-                    description = "invalid credentials"),
+                      description = "invalid credentials"),
             @ApiResponse(responseCode = "404",
-                    description = "question not found")})
+                      description = "question not found")})
     @PutMapping("/{bookName}/question-bank/{questionType}/{id}")
     public ResponseEntity<Optional<Question>> update(final @PathVariable
                                                              Integer practiceId,
@@ -267,8 +267,11 @@ class BookAPIController {
                                                      @RequestBody
                                                              Question
                                                              question) {
-
-        return null;
+        final Optional<Question> updateedQuestion = bookService.updateQuestion(
+                practiceId, id, questionType, question);
+        return updateedQuestion == null ? new ResponseEntity<>(
+                HttpStatus.NOT_FOUND)
+                : ResponseEntity.ok(updateedQuestion);
     }
 
     /**
@@ -280,14 +283,16 @@ class BookAPIController {
     @Operation(summary = "Deletes the question by given id",
             security = @SecurityRequirement(name = "bearerAuth"))
     @ApiResponses(value = {@ApiResponse(responseCode = "200",
-            description = "question deleted successfully"),
+                 description = "question deleted successfully"),
             @ApiResponse(responseCode = "401",
-                    description = "invalid credentials"),
+                 description = "invalid credentials"),
             @ApiResponse(responseCode = "404",
-                    description = "question not found")})
+                 description = "question not found")})
     @DeleteMapping("/{bookName}/question-bank/{questionType}/{id}")
-    public ResponseEntity<Void> delete(final @PathVariable Integer id) {
+    public ResponseEntity<Void> delete(final @PathVariable Integer id,
+                                       final @PathVariable QuestionType questionType) {
         //bookservice
+        bookService.deleteAQuestion(id, questionType);
         return null;
     }
 

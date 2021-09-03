@@ -149,4 +149,19 @@ public class BookService {
     }
 
     //create a function to delete, it must done inside question service
+    /**
+     * delete the question.
+     * @param questionType the questionType
+     * @return successflag boolean
+     */
+    public Boolean deleteAQuestion(final int id,
+                                   final QuestionType questionType) {
+
+        return questionService.deleteAQuestion(id, questionType);
+    }
+
+    public Optional<Question> updateQuestion(final Integer practiceId,final Integer id,
+                                             final QuestionType questionType,final Question question) {
+        return questionService.update(practiceId, questionType, id, question);
+    }
 }
