@@ -246,7 +246,7 @@ public class PracticeService {
         return propertyPlaceholderExposer.get("admins." + bookName);
     }
 
-    <T extends Practice> Optional<T> readByBook(final String newBook) {
+    final <T extends Practice> Optional<T> readByBook(final String newBook) {
         final String query =
                 "SELECT id,name,owner,type,meta_data,description "
                         + "FROM practices WHERE book = ?";

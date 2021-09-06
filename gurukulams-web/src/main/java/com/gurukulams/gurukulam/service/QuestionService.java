@@ -118,13 +118,13 @@ public class QuestionService {
      * inserts data.
      *
      * @param practiceId the practice id
-     * @param chapter_path the chapter_path
+     * @param chapterPath the chapterPath
      * @param type       the type
      * @param question   the question
      * @return question optional
      */
     public Optional<Question> create(final Integer practiceId,
-                                     final String chapter_path,
+                                     final String chapterPath,
                                      final QuestionType type,
                                      final Question question) {
         question.setType(type);
@@ -135,13 +135,13 @@ public class QuestionService {
                             .withTableName("questions")
                             .usingGeneratedKeyColumns("id")
                             .usingColumns("exam_id",
-                                    "question", "chapter_path", "type",
+                                    "question", "chapterPath", "type",
                                     "answer");
 
             final Map<String, Object> valueMap = new HashMap<>();
             valueMap.put("exam_id", practiceId);
             valueMap.put("question", question.getQuestion());
-            valueMap.put("chapter_path", chapter_path);
+            valueMap.put("chapterPath", chapterPath);
             valueMap.put("type", type);
             valueMap.put("answer", question.getAnswer());
 
