@@ -10,25 +10,17 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.Statement;
 
-import static com.tngtech.archunit.library.GeneralCodingRules.NO_CLASSES_SHOULD_USE_JODATIME;
 import static com.tngtech.archunit.lang.syntax.ArchRuleDefinition.noClasses;
+import static com.tngtech.archunit.library.GeneralCodingRules.NO_CLASSES_SHOULD_USE_JODATIME;
 
 /**
  * The type Basic architecture test.
  */
 public class BasicArchitectureTest {
 
+    @ArchTest
+    private final ArchRule no_jodatime = NO_CLASSES_SHOULD_USE_JODATIME;
     JavaClasses classes = new ClassFileImporter().importPackages("com.gurukulams");
-
-     @Test
-     void no_access_to_jdbc() {
-         ArchRule no_access_to_jdbc = noClasses().that()
-                 .resideOutsideOfPackage("com.gurukulams.gurukulam.service.connector")
-                 .should().accessClassesThat()
-                    .belongToAnyOf(Connection.class, Statement.class, PreparedStatement.class)
-                 .because("we do not use JDBC directly");
-         no_access_to_jdbc.check(classes);
-     }
 
     // @ArchTest
     // private final ArchRule no_access_to_standard_streams = NO_CLASSES_SHOULD_ACCESS_STANDARD_STREAMS;
@@ -49,8 +41,15 @@ public class BasicArchitectureTest {
     //                 .should().bePrivate().andShould().beStatic().andShould().beFinal()
     //                 .because("we agreed on this convention");
 
-    @ArchTest
-    private final ArchRule no_jodatime = NO_CLASSES_SHOULD_USE_JODATIME;
+    @Test
+    void no_access_to_jdbc() {
+        ArchRule no_access_to_jdbc = noClasses().that()
+                .resideOutsideOfPackage("com.gurukulams.gurukulam.service.connector")
+                .should().accessClassesThat()
+                .belongToAnyOf(Connection.class, Statement.class, PreparedStatement.class)
+                .because("we do not use JDBC directly");
+        no_access_to_jdbc.check(classes);
+    }
 
     // @ArchTest
     // static final ArchRule no_classes_should_access_standard_streams_or_throw_generic_exceptions = CompositeArchRule

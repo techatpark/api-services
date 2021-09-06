@@ -4,8 +4,6 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.gurukulams.gurukulam.model.Practice;
-import com.gurukulams.gurukulam.model.Question;
-import com.gurukulams.gurukulam.model.QuestionType;
 import com.gurukulams.gurukulam.model.sql.SqlPractice;
 import com.gurukulams.gurukulam.service.connector.DatabaseConnector;
 import com.gurukulams.starter.util.PropertyPlaceholderExposer;
@@ -161,8 +159,8 @@ public class PracticeService {
      * @throws JsonProcessingException the json processing exception
      */
     public <T extends Practice> Optional<T> create(final String type,
-                                                    final String owner,
-                                                    final T practice)
+                                                   final String owner,
+                                                   final T practice)
             throws JsonProcessingException {
         return create(type, owner, null, practice);
     }
@@ -173,15 +171,15 @@ public class PracticeService {
      * @param <T>      the type parameter
      * @param type     the type
      * @param owner    the owner
-     * @param book    the book
+     * @param book     the book
      * @param practice the practice
      * @return p. optional
      * @throws JsonProcessingException the json processing exception
      */
     private <T extends Practice> Optional<T> create(final String type,
-                                                   final String owner,
-                                                   final String book,
-                                                   final T practice)
+                                                    final String owner,
+                                                    final String book,
+                                                    final T practice)
             throws JsonProcessingException {
 
         Set<ConstraintViolation<Practice>> violations = validator
@@ -223,6 +221,7 @@ public class PracticeService {
     /**
      * get pracice for a bookName.
      * create if not exists alredy.
+     *
      * @param bookName
      * @return pracice
      */
@@ -310,7 +309,6 @@ public class PracticeService {
             return Optional.empty();
         }
     }
-
 
 
     /**

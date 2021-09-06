@@ -32,9 +32,8 @@ class MetricsAPIController {
     private final String version;
 
     MetricsAPIController(@Value("${spring.application.name}")
-                    final String aName,
-                         @Value("${spring.application.version}")
-                    final String aVersion) {
+                                                final String aName,
+        @Value("${spring.application.version}") final String aVersion) {
         this.name = aName;
         this.version = aVersion;
     }

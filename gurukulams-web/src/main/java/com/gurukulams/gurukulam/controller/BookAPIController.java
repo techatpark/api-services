@@ -21,7 +21,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -186,9 +185,9 @@ class BookAPIController {
     @ResponseStatus(HttpStatus.ACCEPTED)
     @GetMapping("/{bookName}/owner")
     public ResponseEntity<Void> isOwner(final Principal
-                                                    principal,
+                                                principal,
                                         final @PathVariable
-                                               String bookName) {
+                                                String bookName) {
         return bookService.isOwner(principal.getName(), bookName)
                 ? ResponseEntity.status(
                 HttpStatus.ACCEPTED).build()
@@ -198,8 +197,11 @@ class BookAPIController {
 
     /**
      * Create response entity.
+     *
      * @param questionType the question type
      * @param question     the question
+     * @param bookName     the bookName
+     * @param request      the request
      * @return the response entity
      */
     @Operation(summary = "Creates a new question",
@@ -223,15 +225,16 @@ class BookAPIController {
                                                      @RequestBody
                                                              Question
                                                              question,
-            final HttpServletRequest request)
+                                  final HttpServletRequest request)
             throws ServletException, IOException {
-        String chapterPath = request.getRequestURI().replaceFirst("/api" +
-                "/books/"+bookName+"/question-bank/"+questionType+"/","");
-        bookService.createAQuestion(bookName, questionType, question, chapterPath );
+        String chapterPath = request.getRequestURI().replaceFirst("/api"
+                + "/books/" + bookName
+                + "/question-bank/" + questionType + "/", "");
+    bookService.createAQuestion(bookName, questionType, question, chapterPath);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(
-                bookService.createAQuestion(bookName, questionType, question
-                        , chapterPath ));
+                bookService.createAQuestion(bookName, questionType, question,
+                        chapterPath));
     }
 
     /**
@@ -250,11 +253,11 @@ class BookAPIController {
     @ApiResponses(value = {@ApiResponse(responseCode = "200",
             description = "question updated successfully"),
             @ApiResponse(responseCode = "400",
-                      description = "question is invalid"),
+                    description = "question is invalid"),
             @ApiResponse(responseCode = "401",
-                      description = "invalid credentials"),
+                    description = "invalid credentials"),
             @ApiResponse(responseCode = "404",
-                      description = "question not found")})
+                    description = "question not found")})
     @PutMapping("/{bookName}/question-bank/{questionType}/{id}")
     public ResponseEntity<Optional<Question>> update(final @PathVariable
                                                              Integer practiceId,
@@ -277,21 +280,21 @@ class BookAPIController {
     /**
      * Delete a question from the given question bank.
      *
-     * @param id the id
+     * @param id           the id
+     * @param questionType the questionType
      * @return the response entity
      */
     @Operation(summary = "Deletes the question by given id",
             security = @SecurityRequirement(name = "bearerAuth"))
     @ApiResponses(value = {@ApiResponse(responseCode = "200",
-                 description = "question deleted successfully"),
+            description = "question deleted successfully"),
             @ApiResponse(responseCode = "401",
-                 description = "invalid credentials"),
+                    description = "invalid credentials"),
             @ApiResponse(responseCode = "404",
-                 description = "question not found")})
+                    description = "question not found")})
     @DeleteMapping("/{bookName}/question-bank/{questionType}/{id}")
     public ResponseEntity<Void> delete(final @PathVariable Integer id,
-                                       final @PathVariable QuestionType questionType) {
-        //bookservice
+                        final @PathVariable QuestionType questionType) {
         bookService.deleteAQuestion(id, questionType);
         return null;
     }
@@ -332,13 +335,13 @@ class BookAPIController {
     /**
      * Find all questions response entity.
      *
-     * @param principal  the principal
-     * @param bookName   the bookName
+     * @param principal   the principal
+     * @param bookName    the bookName
      * @param chaptername the chaptername
      * @return the response entity
      */
-    @Operation(summary = "lists all the questions for given book and give " +
-            "chapter",
+    @Operation(summary = "lists all the questions for given book and give "
+            + "chapter",
             description = " Can be invoked by auth users only",
             security = @SecurityRequirement(name = "bearerAuth"))
     @ApiResponses(value = {@ApiResponse(responseCode = "200",

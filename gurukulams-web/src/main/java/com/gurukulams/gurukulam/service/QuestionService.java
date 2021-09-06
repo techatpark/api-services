@@ -110,7 +110,7 @@ public class QuestionService {
     public Optional<Question> create(final Integer practiceId,
                                      final QuestionType type,
                                      final Question question) {
-        return create(practiceId,null,type, question);
+        return create(practiceId, null, type, question);
     }
 
 
@@ -118,6 +118,7 @@ public class QuestionService {
      * inserts data.
      *
      * @param practiceId the practice id
+     * @param chapter_path the chapter_path
      * @param type       the type
      * @param question   the question
      * @return question optional
@@ -176,13 +177,24 @@ public class QuestionService {
         }
 
     }
-
-    public Optional<Question> createAQuestion(String bookName, QuestionType questionType, Question question, String chapterPath) {
+    /**
+     * updates question with id.
+     *
+     * @param bookName the bookName
+     * @param questionType the questionType
+     * @param question   the question
+     * @param chapterPath chapterPath
+     * @return question optional
+     */
+    public Optional<Question> createAQuestion(final String bookName,
+                                             final QuestionType questionType,
+                                              final Question question,
+                                            final String chapterPath) {
 
         Optional<Practice> practice = practiceService.readByBook(bookName);
-        if(practice.isPresent()) {
+        if (practice.isPresent()) {
             return (create(practice.get().getId(), chapterPath,
-                    questionType,  question));
+                    questionType, question));
         }
         return Optional.empty();
     }
@@ -214,8 +226,8 @@ public class QuestionService {
      */
     public Optional<Question> read(final Integer id) {
         final String query =
-                "SELECT id,exam_id,question,chapter_path,type,answer FROM " +
-                        "questions WHERE"
+                "SELECT id,exam_id,question,chapter_path,type,answer FROM "
+                        + "questions WHERE"
                         + " id = ?";
         try {
 
@@ -330,6 +342,7 @@ public class QuestionService {
 
 
     }
+
     /**
      * deletes from database.
      *
@@ -338,22 +351,21 @@ public class QuestionService {
      */
     public Boolean delete(final Integer id) {
 
-        return delete(id , null);
+        return delete(id, null);
     }
 
     /**
      * deletes from database.
-     *
+     * @param questionType the questionType
      * @param id the id
      * @return successflag boolean
      */
     public Boolean delete(final Integer id, final QuestionType questionType) {
         String query;
-        if(questionType != null) {
-            query  = "DELETE FROM questions WHERE ID=?, type = ?";
-        }
-        else{
-           query = "DELETE FROM questions WHERE ID=?";
+        if (questionType != null) {
+            query = "DELETE FROM questions WHERE ID=?, type = ?";
+        } else {
+            query = "DELETE FROM questions WHERE ID=?";
         }
         final Integer updatedRows = jdbcTemplate.update(query, id);
         return !(updatedRows == 0);
@@ -422,7 +434,7 @@ public class QuestionService {
     /**
      * List questions of exam.
      *
-     * @param userName   the user name
+     * @param userName the user name
      * @param bookName the practice id
      * @return quetions in given exam
      */
@@ -520,13 +532,16 @@ public class QuestionService {
         }
         return violations;
     }
+
     /**
      * deletes from database.
      *
      * @param id the id
+     * @param questionType the questionType
      * @return successflag boolean
      */
-    public Boolean deleteAQuestion(int id, QuestionType questionType) {
+    public Boolean deleteAQuestion(final int id,
+                                   final QuestionType questionType) {
         final String query = "DELETE FROM questions WHERE ID=?";
         final Integer updatedRows = jdbcTemplate.update(query, id);
         return !(updatedRows == 0);

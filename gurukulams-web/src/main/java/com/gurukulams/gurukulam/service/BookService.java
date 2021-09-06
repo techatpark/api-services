@@ -1,7 +1,6 @@
 package com.gurukulams.gurukulam.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.gurukulams.gurukulam.model.Practice;
 import com.gurukulams.gurukulam.model.Question;
 import com.gurukulams.gurukulam.model.QuestionType;
 import com.gurukulams.gurukulam.model.UserNote;
@@ -34,13 +33,14 @@ public class BookService {
 
     /**
      * Instantiates a new Book service.
+     *
      * @param theUserNotesService the user note service
-     * @param theQuestionService the question service
-     * @param thePracticeService the practice service
+     * @param theQuestionService  the question service
+     * @param thePracticeService  the practice service
      */
     public BookService(
             final UserNoteService theUserNotesService, final
-            QuestionService theQuestionService,
+    QuestionService theQuestionService,
             final PracticeService thePracticeService) {
         this.userNotesService = theUserNotesService;
         this.questionService = theQuestionService;
@@ -121,7 +121,7 @@ public class BookService {
      */
     public List<Question> questions(final String userName,
                                     final String bookName)
-                            throws JsonProcessingException {
+            throws JsonProcessingException {
         return questionService.list(userName, bookName);
 
     }
@@ -136,12 +136,18 @@ public class BookService {
     public boolean isOwner(final String userName, final String bookName) {
         return practiceService.isOwner(userName, bookName);
     }
-
+    /**
+     * create the question.
+     * @param bookName bookName
+     * @param questionType the questionType
+     * @param question question
+     * @param chapterPath chapterPath
+     * @return successflag boolean
+     */
     public Optional<Question> createAQuestion(final String bookName,
-                                    final QuestionType questionType,
-                                    final Question question,
+                                              final QuestionType questionType,
+                                              final Question question,
                                               final String chapterPath) {
-
 
 
         return questionService.createAQuestion(bookName, questionType,
@@ -149,8 +155,10 @@ public class BookService {
     }
 
     //create a function to delete, it must done inside question service
+
     /**
      * delete the question.
+     * @param id the id
      * @param questionType the questionType
      * @return successflag boolean
      */
@@ -160,8 +168,18 @@ public class BookService {
         return questionService.deleteAQuestion(id, questionType);
     }
 
-    public Optional<Question> updateQuestion(final Integer practiceId,final Integer id,
-                                             final QuestionType questionType,final Question question) {
+    /**
+     * update the question.
+     * @param practiceId the practiceId
+     * @param id the id
+     * @param questionType the questionType
+     * @param question question
+     * @return successflag boolean
+     */
+    public Optional<Question> updateQuestion(final Integer practiceId,
+                                             final Integer id,
+                                             final QuestionType questionType,
+                                             final Question question) {
         return questionService.update(practiceId, questionType, id, question);
     }
 }
