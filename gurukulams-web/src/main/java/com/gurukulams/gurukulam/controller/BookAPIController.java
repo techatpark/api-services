@@ -215,7 +215,7 @@ class BookAPIController {
             @ApiResponse(responseCode = "401",
                     description = "invalid credentials")})
     @ResponseStatus(HttpStatus.CREATED)
-    @PostMapping("/{bookName}/question-bank/{questionType}/**")
+    @PostMapping("/{bookName}/questions/{questionType}/**")
     public ResponseEntity<Optional<Question>> create(final @PathVariable
                                                              String bookName,
                                                      final @PathVariable
@@ -229,7 +229,7 @@ class BookAPIController {
             throws ServletException, IOException {
         String chapterPath = request.getRequestURI().replaceFirst("/api"
                 + "/books/" + bookName
-                + "/question-bank/" + questionType + "/", "");
+                + "/questions/" + questionType + "/", "");
     bookService.createAQuestion(bookName, questionType, question, chapterPath);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(
@@ -258,7 +258,7 @@ class BookAPIController {
                     description = "invalid credentials"),
             @ApiResponse(responseCode = "404",
                     description = "question not found")})
-    @PutMapping("/{bookName}/question-bank/{questionType}/{id}")
+    @PutMapping("/{bookName}/questions/{questionType}/{id}")
     public ResponseEntity<Optional<Question>> update(final @PathVariable
                                                              Integer practiceId,
                                                      final @PathVariable
@@ -281,7 +281,6 @@ class BookAPIController {
      * Delete a question from the given question bank.
      *
      * @param id           the id
-     * @param questionType the questionType
      * @return the response entity
      */
     @Operation(summary = "Deletes the question by given id",
@@ -292,10 +291,9 @@ class BookAPIController {
                     description = "invalid credentials"),
             @ApiResponse(responseCode = "404",
                     description = "question not found")})
-    @DeleteMapping("/{bookName}/question-bank/{questionType}/{id}")
-    public ResponseEntity<Void> delete(final @PathVariable Integer id,
-                        final @PathVariable QuestionType questionType) {
-        bookService.deleteAQuestion(id, questionType);
+    @DeleteMapping("/{bookName}/questions/{id}")
+    public ResponseEntity<Void> delete(final @PathVariable Integer id) {
+        bookService.deleteAQuestion(id, QuestionType.CHOOSE_THE_BEST);
         return null;
     }
 
@@ -315,7 +313,7 @@ class BookAPIController {
                     description = "questions are not available"),
             @ApiResponse(responseCode = "401",
                     description = "invalid credentials")})
-    @GetMapping("/{bookName}/question-bank")
+    @GetMapping("/{bookName}/questions")
     public ResponseEntity<List<Question>> findAllQuestions(final Principal
                                                                    principal,
                                                            final
@@ -350,7 +348,7 @@ class BookAPIController {
                     description = "questions are not available"),
             @ApiResponse(responseCode = "401",
                     description = "invalid credentials")})
-    @GetMapping("/{bookName}/question-bank/**")
+    @GetMapping("/{bookName}/questions/**")
     public ResponseEntity<List<Question>>
     findAllQuestionsByChap(final Principal
                                    principal,
