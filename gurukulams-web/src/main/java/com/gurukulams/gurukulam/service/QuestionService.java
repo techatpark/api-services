@@ -189,14 +189,14 @@ public class QuestionService {
     public Optional<Question> createAQuestion(final String bookName,
                                              final QuestionType questionType,
                                               final Question question,
-                                            final String chapterPath) {
+                                            final String chapterPath)
+            throws JsonProcessingException {
 
-        Optional<Practice> practice = practiceService.readByBook(bookName);
-        if (practice.isPresent()) {
-            return (create(practice.get().getId(), chapterPath,
+        Practice practice = practiceService.getQuestionBank(bookName);
+
+            return (create(practice.getId(), chapterPath,
                     questionType, question));
-        }
-        return Optional.empty();
+
     }
 
     /**

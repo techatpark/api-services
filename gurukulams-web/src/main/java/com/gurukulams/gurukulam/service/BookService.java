@@ -147,7 +147,8 @@ public class BookService {
     public Optional<Question> createAQuestion(final String bookName,
                                               final QuestionType questionType,
                                               final Question question,
-                                              final String chapterPath) {
+                                              final String chapterPath)
+            throws JsonProcessingException {
 
 
         return questionService.createAQuestion(bookName, questionType,
