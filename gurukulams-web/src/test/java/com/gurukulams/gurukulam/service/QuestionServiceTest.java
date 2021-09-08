@@ -117,12 +117,12 @@ class QuestionServiceTest {
     void testUpdateAQuestion() throws JsonProcessingException {
 
         Question question = questionService.createAQuestion("maths",
-                QuestionType.MULTI_LINE, getQuestion(), "/chap1").get();
+                QuestionType.MULTI_LINE, getQuestion(), "chap1").get();
         question.setQuestion("Updated Query");
         final Integer newQuestionId = question.getId();
         question = questionService
                 .updateAQuestion("maths", QuestionType.MULTI_LINE,
-                        newQuestionId, question, "/chap1").get();
+                        newQuestionId, question, "chap1").get();
         assertEquals("Updated Query", question.getQuestion(), "Updated");
     }
 
@@ -180,8 +180,6 @@ class QuestionServiceTest {
 
         assertEquals(1, questionService.list( "user","maths","chap1").size(), "Test " +
                 "Listing");
-
-
 
     }
 
