@@ -59,7 +59,6 @@ public class QuestionService {
         question.setId(rs.getInt("id"));
         question.setExamId(rs.getInt("exam_id"));
         question.setQuestion(rs.getString("question"));
-        question.setQuestion(rs.getString("chapter_path"));
         question.setType(QuestionType.valueOf(rs.getString("type")));
         question.setAnswer(rs.getString("answer"));
         return question;
