@@ -15,6 +15,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import java.io.IOException;
 import java.util.NoSuchElementException;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -167,6 +168,21 @@ class QuestionServiceTest {
         assertEquals(2, questionService.list(1, 2).size(), "Test Listing");
         assertEquals(1, questionService.list(1, 1).size(),
                 "Test Listing with restricted page");
+    }
+
+
+    @Test
+    void testListQuestionBank() throws JsonProcessingException {
+
+        Optional<Question> question =
+                questionService.createAQuestion("maths",
+                        QuestionType.MULTI_LINE, getQuestion(), "/chap1");
+
+        assertEquals(1, questionService.list( "user","maths").size(), "Test " +
+                "Listing");
+
+
+
     }
 
     /**

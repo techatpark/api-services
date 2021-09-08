@@ -275,12 +275,12 @@ class BookAPIController {
         String chapterPath = request.getRequestURI().replaceFirst("/api"
                 + "/books/" + bookName
                 + "/questions/" + questionType + "/", "");
-        final Optional<Question> updateedQuestion =
+        final Optional<Question> updatedQuestion =
                 bookService.updateAQuestion(
                 bookName, id, questionType, question, chapterPath);
-        return updateedQuestion == null ? new ResponseEntity<>(
+        return updatedQuestion == null ? new ResponseEntity<>(
                 HttpStatus.NOT_FOUND)
-                : ResponseEntity.ok(updateedQuestion);
+                : ResponseEntity.ok(updatedQuestion);
     }
 
     /**
@@ -328,7 +328,7 @@ class BookAPIController {
                                                                    bookName)
             throws JsonProcessingException {
 
-        final List<Question> questions = bookService.questions(
+        final List<Question> questions = bookService.listAllQuestions(
                 principal.getName(),
                 bookName);
         return questions.isEmpty() ? new ResponseEntity<>(

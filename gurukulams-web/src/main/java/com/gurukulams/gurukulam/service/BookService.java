@@ -119,7 +119,7 @@ public class BookService {
      * @param bookName the username
      * @return the optional
      */
-    public List<Question> questions(final String userName,
+    public List<Question> listAllQuestions(final String userName,
                                     final String bookName)
             throws JsonProcessingException {
         return questionService.list(userName, bookName);

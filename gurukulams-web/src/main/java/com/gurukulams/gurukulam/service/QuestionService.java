@@ -542,7 +542,26 @@ public class QuestionService {
 
         Practice practice = practiceService.getQuestionBank(bookName);
 
-        return list(userName, practice.getId());
+        boolean isOwner = practice.getOwner().equals(userName);
+
+        final String query = "SELECT id,exam_id,question,type,"
+                + (isOwner ? "answer" : "NULL")
+                + " AS answer"
+                + " FROM questions"
+                + " where exam_id = ? order by id";
+        List<Question> questions = jdbcTemplate.query(query, rowMapper,
+                practice.getId());
+        if (!questions.isEmpty()) {
+            questions.forEach(question -> {
+                if ((question.getType().equals(QuestionType.CHOOSE_THE_BEST)
+                        || question.getType()
+                        .equals(QuestionType.MULTI_CHOICE))) {
+                    question.setChoices(this
+                            .listQuestionChoice(isOwner, question.getId()));
+                }
+            });
+        }
+        return questions;
     }
 
     /**
