@@ -155,6 +155,23 @@ class QuestionServiceTest {
         });
     }
 
+
+    /**
+     * Test delete.
+     */
+    @Test
+    void testDeleteWithQType() {
+        Assertions.assertThrows(NoSuchElementException.class, () -> {
+            final Question question =
+                    questionService
+                            .create(practice.getId(), QuestionType.MULTI_LINE,
+                                    getQuestion()).get();
+            final Integer newQuestionId = question.getId();
+            questionService.deleteAQuestion(newQuestionId, QuestionType.MULTI_LINE);
+            questionService.read(newQuestionId).get();
+        });
+    }
+
     /**
      * Test list.
      */

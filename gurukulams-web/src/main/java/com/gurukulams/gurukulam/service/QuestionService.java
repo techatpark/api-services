@@ -441,30 +441,15 @@ public class QuestionService {
 
     }
 
+
     /**
      * deletes from database.
-     *
      * @param id the id
      * @return successflag boolean
      */
     public Boolean delete(final Integer id) {
+        String query = "DELETE FROM questions WHERE ID=?";
 
-        return delete(id, null);
-    }
-
-    /**
-     * deletes from database.
-     * @param questionType the questionType
-     * @param id the id
-     * @return successflag boolean
-     */
-    public Boolean delete(final Integer id, final QuestionType questionType) {
-        String query;
-        if (questionType != null) {
-            query = "DELETE FROM questions WHERE ID=?, type = ?";
-        } else {
-            query = "DELETE FROM questions WHERE ID=?";
-        }
         final Integer updatedRows = jdbcTemplate.update(query, id);
         return !(updatedRows == 0);
     }
@@ -660,8 +645,8 @@ public class QuestionService {
      */
     public Boolean deleteAQuestion(final int id,
                                    final QuestionType questionType) {
-        final String query = "DELETE FROM questions WHERE ID=?";
-        final Integer updatedRows = jdbcTemplate.update(query, id);
+        final String query = "DELETE FROM questions WHERE ID=? and type = ?";
+        final int updatedRows = jdbcTemplate.update(query, id, questionType);
         return !(updatedRows == 0);
     }
 }

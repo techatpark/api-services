@@ -298,7 +298,7 @@ class BookAPIController {
             @ApiResponse(responseCode = "404",
                     description = "question not found")})
     @DeleteMapping("/{bookName}/questions/{id}")
-    public ResponseEntity<Void> delete(final @PathVariable Integer id) {
+    public ResponseEntity<Void> deleteAQuestionById(final @PathVariable Integer id) {
         bookService.deleteAQuestion(id, QuestionType.CHOOSE_THE_BEST);
         return null;
     }
