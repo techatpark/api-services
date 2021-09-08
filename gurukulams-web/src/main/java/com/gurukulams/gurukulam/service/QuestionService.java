@@ -135,13 +135,13 @@ public class QuestionService {
                             .withTableName("questions")
                             .usingGeneratedKeyColumns("id")
                             .usingColumns("exam_id",
-                                    "question", "chapterPath", "type",
+                                    "question", "chapter_path", "type",
                                     "answer");
 
             final Map<String, Object> valueMap = new HashMap<>();
             valueMap.put("exam_id", practiceId);
             valueMap.put("question", question.getQuestion());
-            valueMap.put("chapterPath", chapterPath);
+            valueMap.put("chapter_path", chapterPath);
             valueMap.put("type", type);
             valueMap.put("answer", question.getAnswer());
 

@@ -230,7 +230,7 @@ class BookAPIController {
         String chapterPath = request.getRequestURI().replaceFirst("/api"
                 + "/books/" + bookName
                 + "/questions/" + questionType + "/", "");
-    bookService.createAQuestion(bookName, questionType, question, chapterPath);
+
 
         return ResponseEntity.status(HttpStatus.CREATED).body(
                 bookService.createAQuestion(bookName, questionType, question,
