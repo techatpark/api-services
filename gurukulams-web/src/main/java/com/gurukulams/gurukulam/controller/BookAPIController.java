@@ -274,7 +274,7 @@ class BookAPIController {
                                                          HttpServletRequest request) {
         String chapterPath = request.getRequestURI().replaceFirst("/api"
                 + "/books/" + bookName
-                + "/questions/" + questionType + "/", "");
+                + "/questions/" + questionType + "/"+ id + "/", "");
         final Optional<Question> updatedQuestion =
                 bookService.updateAQuestion(
                 bookName, id, questionType, question, chapterPath);
