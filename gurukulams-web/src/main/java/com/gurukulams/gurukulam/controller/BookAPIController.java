@@ -297,8 +297,18 @@ class BookAPIController {
                     description = "invalid credentials"),
             @ApiResponse(responseCode = "404",
                     description = "question not found")})
-    @DeleteMapping("/{bookName}/questions/{id}")
-    public ResponseEntity<Void> deleteAQuestionById(final @PathVariable Integer id) {
+    @DeleteMapping("/{bookName}/questions/{questionType}/{id}/**")
+    public ResponseEntity<Void> deleteAQuestionById(final @PathVariable
+                                                                String bookName,
+                                                    final @PathVariable Integer id,
+                                                    final @PathVariable
+                                                            QuestionType
+                                                            questionType,
+                                                    final
+                                                        HttpServletRequest request) {
+        String chapterPath = request.getRequestURI().replaceFirst("/api"
+                + "/books/" + bookName
+                + "/questions/" + questionType + "/"+ id + "/", "");
         bookService.deleteAQuestion(id, QuestionType.CHOOSE_THE_BEST);
         return null;
     }
