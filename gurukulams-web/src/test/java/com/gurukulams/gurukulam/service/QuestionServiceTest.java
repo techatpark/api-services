@@ -1,5 +1,6 @@
 package com.gurukulams.gurukulam.service;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.gurukulams.gurukulam.model.Database;
 import com.gurukulams.gurukulam.model.Practice;
 import com.gurukulams.gurukulam.model.Question;
@@ -80,10 +81,18 @@ class QuestionServiceTest {
      * Test create.
      */
     @Test
+    void testCreateAQuestion() throws JsonProcessingException {
+        final Question question = questionService.createAQuestion("maths",
+                QuestionType.MULTI_LINE, getQuestion(), "/chap1").get();
+        assertEquals(QUERY1, question.getQuestion(), "Created Successfully");
+    }
+
+    @Test
     void testCreate() {
         final Question question = questionService.create(practice.getId(),
                 QuestionType.MULTI_LINE, getQuestion()).get();
         assertEquals(QUERY1, question.getQuestion(), "Created Successfully");
+
     }
 
     /**
@@ -99,6 +108,20 @@ class QuestionServiceTest {
         question = questionService
                 .update(practice.getId(), QuestionType.MULTI_LINE,
                         newQuestionId, question).get();
+        assertEquals("Updated Query", question.getQuestion(), "Updated");
+    }
+
+
+    @Test
+    void testUpdateAQuestion() throws JsonProcessingException {
+
+        Question question = questionService.createAQuestion("maths",
+                QuestionType.MULTI_LINE, getQuestion(), "/chap1").get();
+        question.setQuestion("Updated Query");
+        final Integer newQuestionId = question.getId();
+        question = questionService
+                .updateAQuestion("maths", QuestionType.MULTI_LINE,
+                        newQuestionId, question, "/chap1").get();
         assertEquals("Updated Query", question.getQuestion(), "Updated");
     }
 
@@ -184,4 +207,6 @@ class QuestionServiceTest {
         exam.setDescription("description");
         return exam;
     }
+
+
 }

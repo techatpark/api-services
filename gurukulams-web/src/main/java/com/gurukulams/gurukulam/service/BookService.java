@@ -171,16 +171,18 @@ public class BookService {
 
     /**
      * update the question.
-     * @param practiceId the practiceId
+     * @param bookName the bookname
      * @param id the id
      * @param questionType the questionType
      * @param question question
      * @return successflag boolean
      */
-    public Optional<Question> updateQuestion(final Integer practiceId,
+    public Optional<Question> updateAQuestion(final String bookName,
                                              final Integer id,
                                              final QuestionType questionType,
-                                             final Question question) {
-        return questionService.update(practiceId, questionType, id, question);
+                                             final Question question,
+                                              final String chapterPath) {
+        return questionService.updateAQuestion(bookName, questionType, id,
+                question, chapterPath);
     }
 }

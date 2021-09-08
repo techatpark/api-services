@@ -84,8 +84,8 @@ public class QuestionService {
      * initializes.
      *
      * @param aJdbcTemplate    the a jdbc template
-     * @param aPracticeService
-     * @param aValidator
+     * @param aPracticeService the practiceservice
+     * @param aValidator thevalidator
      * @param aDataSource      the a data source
      */
     public QuestionService(final JdbcTemplate aJdbcTemplate,
@@ -243,6 +243,105 @@ public class QuestionService {
             return Optional.empty();
         }
     }
+
+
+    /**
+     * updates question with id.
+     *
+     * @param bookName the exam id
+     * @param id         the id
+     * @param type       the type
+     * @param question   the question
+     * @return question optional
+     */
+    public Optional<Question> updateAQuestion(final String bookName,
+                                     final QuestionType type,
+                                     final Integer id,
+                                     final Question question,
+                                              final String chapterPath) {
+
+        question.setType(type);
+        Set<ConstraintViolation<Question>> violations = getViolations(question);
+        if (violations.isEmpty()) {
+            final String query =
+                    "UPDATE questions SET question = ?, answer = ?"
+                            + " WHERE id = ? AND type = ? AND chapter_path = ?";
+            final Integer updatedRows =
+                    jdbcTemplate.update(query,
+                            question.getQuestion(),
+                            question.getAnswer(), id, type.toString(),
+                            chapterPath);
+
+            if ((type.equals(QuestionType.CHOOSE_THE_BEST)
+                    || type.equals(QuestionType.MULTI_CHOICE))
+                    && question.getChoices() != null) {
+
+
+                final SimpleJdbcInsert insertQuestionChoice =
+                        new SimpleJdbcInsert(dataSource)
+                                .withTableName("question_choices")
+                                .usingGeneratedKeyColumns("id")
+                                .usingColumns("question_id",
+                                        "value", "is_answer");
+
+                List<Integer> availableIds = question.getChoices()
+                        .stream()
+                        .filter(choice -> choice.getId() != null)
+                        .map(Choice::getId)
+                        .collect(Collectors.toList());
+
+                if (!availableIds.isEmpty()) {
+                    final String deletequestionChoice =
+                            "DELETE question_choices "
+                                    + "WHERE id NOT IN ("
+                                    + availableIds.stream()
+                                    .map(aId -> "?")
+                                    .collect(Collectors.joining(","))
+                                    + ")";
+                    jdbcTemplate.update(deletequestionChoice,
+                            availableIds.toArray());
+                }
+
+                question.getChoices().forEach(choice -> {
+                    if (choice.getId() == null) {
+                        Map<String, Object> valueMapQuestionChoice =
+                                new HashMap<>();
+                        valueMapQuestionChoice.put("question_id", id);
+                        valueMapQuestionChoice
+                                .put("value", choice.getValue());
+                        valueMapQuestionChoice
+                                .put("is_answer",
+                                        choice.isAnswer() != null
+                                                && choice.isAnswer());
+
+                        final Number insertedId = insertQuestionChoice
+                                .executeAndReturnKey(valueMapQuestionChoice);
+
+
+                    } else {
+
+                        final String updatequestionChoice =
+                                "UPDATE question_choices SET value = ?, "
+                                        + "is_answer = ? "
+                                        + "WHERE id = ?";
+
+                        jdbcTemplate.update(updatequestionChoice,
+                                choice.getValue(),
+                                choice.isAnswer() != null && choice.isAnswer(),
+                                choice.getId());
+                    }
+
+
+                });
+
+            }
+            return updatedRows == 0 ? null : read(id);
+        } else {
+            throw new ConstraintViolationException(violations);
+        }
+    }
+
+
 
 
     /**

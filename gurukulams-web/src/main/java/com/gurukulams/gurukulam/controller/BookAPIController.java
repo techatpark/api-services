@@ -54,7 +54,7 @@ class BookAPIController {
     /**
      * Create response entity.
      *
-     * @param principal
+     * @param principal the principal
      * @param bookName  the book name
      * @param userNotes the user note
      * @return the response entity
@@ -82,7 +82,7 @@ class BookAPIController {
     /**
      * Create response entity.
      *
-     * @param principal
+     * @param principal the principal
      * @param bookName    the book name
      * @param chapterName the user note
      * @return the response entity
@@ -161,7 +161,7 @@ class BookAPIController {
             final @PathVariable String bookName,
             final @PathVariable Integer id) {
         return bookService.delete(id) ? ResponseEntity.ok().build()
-                : new ResponseEntity<Void>(
+                : new ResponseEntity<>(
                 HttpStatus.NOT_FOUND);
     }
 
@@ -240,7 +240,7 @@ class BookAPIController {
     /**
      * Update response entity.
      *
-     * @param practiceId   the practice id
+     * @param bookName   the bookname
      * @param questionType the question type
      * @param id           the id
      * @param question     the question
@@ -258,9 +258,9 @@ class BookAPIController {
                     description = "invalid credentials"),
             @ApiResponse(responseCode = "404",
                     description = "question not found")})
-    @PutMapping("/{bookName}/questions/{questionType}/{id}")
+    @PutMapping("/{bookName}/questions/{questionType}/{id}/**")
     public ResponseEntity<Optional<Question>> update(final @PathVariable
-                                                             Integer practiceId,
+                                                             String bookName,
                                                      final @PathVariable
                                                              Integer id,
                                                      final @PathVariable
@@ -269,9 +269,15 @@ class BookAPIController {
                                                      final
                                                      @RequestBody
                                                              Question
-                                                             question) {
-        final Optional<Question> updateedQuestion = bookService.updateQuestion(
-                practiceId, id, questionType, question);
+                                                             question,
+                                                     final
+                                                         HttpServletRequest request) {
+        String chapterPath = request.getRequestURI().replaceFirst("/api"
+                + "/books/" + bookName
+                + "/questions/" + questionType + "/", "");
+        final Optional<Question> updateedQuestion =
+                bookService.updateAQuestion(
+                bookName, id, questionType, question, chapterPath);
         return updateedQuestion == null ? new ResponseEntity<>(
                 HttpStatus.NOT_FOUND)
                 : ResponseEntity.ok(updateedQuestion);
