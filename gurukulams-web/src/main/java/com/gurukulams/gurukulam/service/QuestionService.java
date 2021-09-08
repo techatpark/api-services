@@ -537,7 +537,8 @@ public class QuestionService {
      * @return quetions in given exam
      */
     public List<Question> list(final String userName,
-                               final String bookName)
+                               final String bookName,
+                               final String chapterPath)
             throws JsonProcessingException {
 
         Practice practice = practiceService.getQuestionBank(bookName);
@@ -548,9 +549,9 @@ public class QuestionService {
                 + (isOwner ? "answer" : "NULL")
                 + " AS answer"
                 + " FROM questions"
-                + " where exam_id = ? order by id";
+                + " where exam_id = ? AND chapter_path = ? order by id";
         List<Question> questions = jdbcTemplate.query(query, rowMapper,
-                practice.getId());
+                practice.getId(),chapterPath);
         if (!questions.isEmpty()) {
             questions.forEach(question -> {
                 if ((question.getType().equals(QuestionType.CHOOSE_THE_BEST)

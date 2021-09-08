@@ -176,9 +176,9 @@ class QuestionServiceTest {
 
         Optional<Question> question =
                 questionService.createAQuestion("maths",
-                        QuestionType.MULTI_LINE, getQuestion(), "/chap1");
+                        QuestionType.MULTI_LINE, getQuestion(), "chap1");
 
-        assertEquals(1, questionService.list( "user","maths").size(), "Test " +
+        assertEquals(1, questionService.list( "user","maths","chap1").size(), "Test " +
                 "Listing");
 
 

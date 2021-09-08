@@ -235,7 +235,7 @@ public class PracticeService {
             practice.setDescription("Question Bank for the bookName "
                     + bookName);
             oPractice = create(bookName,
-                    getOwnerName(bookName),
+                    getOwnerName(bookName),bookName,
                     practice);
         }
 

@@ -303,45 +303,13 @@ class BookAPIController {
         return null;
     }
 
-    /**
-     * Find all questions response entity.
-     *
-     * @param principal the principal
-     * @param bookName  the practice id
-     * @return the response entity
-     */
-    @Operation(summary = "lists all the questions for given book",
-            description = " Can be invoked by auth users only",
-            security = @SecurityRequirement(name = "bearerAuth"))
-    @ApiResponses(value = {@ApiResponse(responseCode = "200",
-            description = "Listing all the questions"),
-            @ApiResponse(responseCode = "204",
-                    description = "questions are not available"),
-            @ApiResponse(responseCode = "401",
-                    description = "invalid credentials")})
-    @GetMapping("/{bookName}/questions")
-    public ResponseEntity<List<Question>> findAllQuestions(final Principal
-                                                                   principal,
-                                                           final
-                                                           @PathVariable
-                                                                   String
-                                                                   bookName)
-            throws JsonProcessingException {
 
-        final List<Question> questions = bookService.listAllQuestions(
-                principal.getName(),
-                bookName);
-        return questions.isEmpty() ? new ResponseEntity<>(
-                HttpStatus.NO_CONTENT)
-                : ResponseEntity.ok(questions);
-    }
 
     /**
      * Find all questions response entity.
      *
      * @param principal   the principal
      * @param bookName    the bookName
-     * @param chaptername the chaptername
      * @return the response entity
      */
     @Operation(summary = "lists all the questions for given book and give "
@@ -360,12 +328,16 @@ class BookAPIController {
                                    principal,
                            final
                            @PathVariable
-                                   Integer
+                                   String
                                    bookName,
-                           final
-                           @PathVariable
-                                   Integer
-                                   chaptername) {
-        return null;
+                           final HttpServletRequest request)
+            throws JsonProcessingException {
+
+        String chapterPath = request.getRequestURI().replaceFirst("/api"
+                + "/books/" + bookName
+                + "/questions/" , "");
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(bookService.listAllQuestions(principal.getName(),
+                bookName,chapterPath));
     }
 }
