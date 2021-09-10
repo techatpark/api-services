@@ -235,7 +235,7 @@ public class PracticeService {
             practice.setDescription("Question Bank for the bookName "
                     + bookName);
             oPractice = create(bookName,
-                    getOwnerName(bookName),bookName,
+                    getOwnerName(bookName), bookName,
                     practice);
         }
 
@@ -246,7 +246,8 @@ public class PracticeService {
         return propertyPlaceholderExposer.get("admins." + bookName);
     }
 
-    private final <T extends Practice> Optional<T> readByBook(final String newBook) {
+    private <T extends Practice> Optional<T> readByBook(
+                                            final String newBook) {
         final String query =
                 "SELECT id,name,owner,type,meta_data,description "
                         + "FROM practices WHERE book = ?";

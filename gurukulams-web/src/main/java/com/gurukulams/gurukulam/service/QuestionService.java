@@ -252,6 +252,7 @@ public class QuestionService {
      * @param id         the id
      * @param type       the type
      * @param question   the question
+     * @param chapterPath the chapterPath
      * @return question optional
      */
     public Optional<Question> updateAQuestion(final String bookName,
@@ -519,6 +520,7 @@ public class QuestionService {
      *
      * @param userName the user name
      * @param bookName the practice id
+     * @param chapterPath the chapterPath
      * @return quetions in given exam
      */
     public List<Question> list(final String userName,
@@ -536,7 +538,7 @@ public class QuestionService {
                 + " FROM questions"
                 + " where exam_id = ? AND chapter_path = ? order by id";
         List<Question> questions = jdbcTemplate.query(query, rowMapper,
-                practice.getId(),chapterPath);
+                practice.getId(), chapterPath);
         if (!questions.isEmpty()) {
             questions.forEach(question -> {
                 if ((question.getType().equals(QuestionType.CHOOSE_THE_BEST)

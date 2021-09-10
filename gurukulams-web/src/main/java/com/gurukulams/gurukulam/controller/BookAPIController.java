@@ -244,6 +244,7 @@ class BookAPIController {
      * @param questionType the question type
      * @param id           the id
      * @param question     the question
+     * @param request the request
      * @return the response entity
      */
     @Operation(summary = "Updates the question by given id",
@@ -271,10 +272,10 @@ class BookAPIController {
                                                              Question
                                                              question,
                                                      final
-                                                         HttpServletRequest request) {
+                                             HttpServletRequest request) {
         String chapterPath = request.getRequestURI().replaceFirst("/api"
                 + "/books/" + bookName
-                + "/questions/" + questionType + "/"+ id + "/", "");
+                + "/questions/" + questionType + "/" + id + "/", "");
         final Optional<Question> updatedQuestion =
                 bookService.updateAQuestion(
                 bookName, id, questionType, question, chapterPath);
@@ -286,7 +287,10 @@ class BookAPIController {
     /**
      * Delete a question from the given question bank.
      *
-     * @param id  the id
+     * @param id           the id
+     * @param questionType the question type
+     * @param bookName the bookname
+     * @param request the request
      * @return the response entity
      */
     @Operation(summary = "Deletes the question by given id",
@@ -299,17 +303,17 @@ class BookAPIController {
                     description = "question not found")})
     @DeleteMapping("/{bookName}/questions/{questionType}/{id}/**")
     public ResponseEntity<Void> deleteAQuestionById(final @PathVariable
-                                                                String bookName,
-                                                    final @PathVariable Integer id,
+                                                   String bookName,
+                                     final @PathVariable Integer id,
                                                     final @PathVariable
                                                             QuestionType
                                                             questionType,
                                                     final
-                                                        HttpServletRequest request) {
-//        String chapterPath = request.getRequestURI().replaceFirst("/api"
-//                + "/books/" + bookName
-//                + "/questions/" + questionType + "/"+ id + "/", "");
-        bookService.deleteAQuestion(id, questionType);
+                                                 HttpServletRequest request) {
+        String chapterPath = request.getRequestURI().replaceFirst("/api"
+                + "/books/" + bookName
+                + "/questions/" + questionType + "/" + id + "/", "");
+        bookService.deleteAQuestion(id, QuestionType.CHOOSE_THE_BEST);
         return null;
     }
 
@@ -320,6 +324,7 @@ class BookAPIController {
      *
      * @param principal   the principal
      * @param bookName    the bookName
+     * @param request the request
      * @return the response entity
      */
     @Operation(summary = "lists all the questions for given book and give "
@@ -339,15 +344,14 @@ class BookAPIController {
                            final
                            @PathVariable
                                    String
-                                   bookName,
-                           final HttpServletRequest request)
+                                   bookName, final HttpServletRequest request)
             throws JsonProcessingException {
 
         String chapterPath = request.getRequestURI().replaceFirst("/api"
                 + "/books/" + bookName
-                + "/questions/" , "");
+                + "/questions/", "");
         return ResponseEntity.status(HttpStatus.OK)
                 .body(bookService.listAllQuestions(principal.getName(),
-                bookName,chapterPath));
+                bookName, chapterPath));
     }
 }
