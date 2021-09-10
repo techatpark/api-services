@@ -85,7 +85,7 @@ public class QuestionService {
      *
      * @param aJdbcTemplate    the a jdbc template
      * @param aPracticeService the practiceservice
-     * @param aValidator thevalidator
+     * @param aValidator       thevalidator
      * @param aDataSource      the a data source
      */
     public QuestionService(final JdbcTemplate aJdbcTemplate,
@@ -116,10 +116,10 @@ public class QuestionService {
     /**
      * inserts data.
      *
-     * @param practiceId the practice id
+     * @param practiceId  the practice id
      * @param chapterPath the chapterPath
-     * @param type       the type
-     * @param question   the question
+     * @param type        the type
+     * @param question    the question
      * @return question optional
      */
     public Optional<Question> create(final Integer practiceId,
@@ -127,7 +127,8 @@ public class QuestionService {
                                      final QuestionType type,
                                      final Question question) {
         question.setType(type);
-        Set<ConstraintViolation<Question>> violations = getViolations(question);
+        Set<ConstraintViolation<Question>> violations =
+                getViolations(question);
         if (violations.isEmpty()) {
             final SimpleJdbcInsert insert =
                     new SimpleJdbcInsert(dataSource)
@@ -176,25 +177,26 @@ public class QuestionService {
         }
 
     }
+
     /**
      * updates question with id.
      *
-     * @param bookName the bookName
+     * @param bookName     the bookName
      * @param questionType the questionType
-     * @param question   the question
-     * @param chapterPath chapterPath
+     * @param question     the question
+     * @param chapterPath  chapterPath
      * @return question optional
      */
     public Optional<Question> createAQuestion(final String bookName,
-                                             final QuestionType questionType,
+                                              final QuestionType questionType,
                                               final Question question,
-                                            final String chapterPath)
+                                              final String chapterPath)
             throws JsonProcessingException {
 
         Practice practice = practiceService.getQuestionBank(bookName);
 
-            return (create(practice.getId(), chapterPath,
-                    questionType, question));
+        return (create(practice.getId(), chapterPath,
+                questionType, question));
 
     }
 
@@ -248,25 +250,27 @@ public class QuestionService {
     /**
      * updates question with id.
      *
-     * @param bookName the exam id
-     * @param id         the id
-     * @param type       the type
-     * @param question   the question
+     * @param bookName    the exam id
+     * @param id          the id
+     * @param type        the type
+     * @param question    the question
      * @param chapterPath the chapterPath
      * @return question optional
      */
     public Optional<Question> updateAQuestion(final String bookName,
-                                     final QuestionType type,
-                                     final Integer id,
-                                     final Question question,
+                                              final QuestionType type,
+                                              final Integer id,
+                                              final Question question,
                                               final String chapterPath) {
 
         question.setType(type);
-        Set<ConstraintViolation<Question>> violations = getViolations(question);
+        Set<ConstraintViolation<Question>> violations =
+                getViolations(question);
         if (violations.isEmpty()) {
             final String query =
                     "UPDATE questions SET question = ?, answer = ?"
-                            + " WHERE id = ? AND type = ? AND chapter_path = ?";
+                            +
+                            " WHERE id = ? AND type = ? AND chapter_path = ?";
             final Integer updatedRows =
                     jdbcTemplate.update(query,
                             question.getQuestion(),
@@ -343,8 +347,6 @@ public class QuestionService {
     }
 
 
-
-
     /**
      * updates question with id.
      *
@@ -359,7 +361,8 @@ public class QuestionService {
                                      final Integer id,
                                      final Question question) {
         question.setType(type);
-        Set<ConstraintViolation<Question>> violations = getViolations(question);
+        Set<ConstraintViolation<Question>> violations =
+                getViolations(question);
         if (violations.isEmpty()) {
             final String query =
                     "UPDATE questions SET exam_id = ?,"
@@ -445,6 +448,7 @@ public class QuestionService {
 
     /**
      * deletes from database.
+     *
      * @param id the id
      * @return successflag boolean
      */
@@ -518,8 +522,8 @@ public class QuestionService {
     /**
      * List questions of exam.
      *
-     * @param userName the user name
-     * @param bookName the practice id
+     * @param userName    the user name
+     * @param bookName    the practice id
      * @param chapterPath the chapterPath
      * @return quetions in given exam
      */
@@ -641,20 +645,20 @@ public class QuestionService {
     /**
      * deletes from database.
      *
-     * @param id the id
+     * @param id           the id
      * @param questionType the questionType
      * @return successflag boolean
      */
     public Boolean deleteAQuestion(final int id,
                                    final QuestionType questionType) {
 
-            deleteQuestionChoice(id);
+        deleteQuestionChoice(id);
 
-            final String query =
-                    "DELETE FROM questions WHERE ID=? and type = ?";
-            int updatedRow =
-                    jdbcTemplate.update(query, id, questionType.toString());
-            return !(updatedRow == 0);
+        final String query =
+                "DELETE FROM questions WHERE ID=? and type = ?";
+        int updatedRow =
+                jdbcTemplate.update(query, id, questionType.toString());
+        return !(updatedRow == 0);
 
     }
 }
