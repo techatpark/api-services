@@ -286,7 +286,7 @@ class BookAPIController {
     /**
      * Delete a question from the given question bank.
      *
-     * @param id           the id
+     * @param id  the id
      * @return the response entity
      */
     @Operation(summary = "Deletes the question by given id",
@@ -306,10 +306,10 @@ class BookAPIController {
                                                             questionType,
                                                     final
                                                         HttpServletRequest request) {
-        String chapterPath = request.getRequestURI().replaceFirst("/api"
-                + "/books/" + bookName
-                + "/questions/" + questionType + "/"+ id + "/", "");
-        bookService.deleteAQuestion(id, QuestionType.CHOOSE_THE_BEST);
+//        String chapterPath = request.getRequestURI().replaceFirst("/api"
+//                + "/books/" + bookName
+//                + "/questions/" + questionType + "/"+ id + "/", "");
+        bookService.deleteAQuestion(id, questionType);
         return null;
     }
 

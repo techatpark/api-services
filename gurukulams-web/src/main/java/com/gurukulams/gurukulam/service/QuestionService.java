@@ -645,8 +645,14 @@ public class QuestionService {
      */
     public Boolean deleteAQuestion(final int id,
                                    final QuestionType questionType) {
-        final String query = "DELETE FROM questions WHERE ID=? and type = ?";
-        final int updatedRows = jdbcTemplate.update(query, id, questionType);
-        return !(updatedRows == 0);
+
+            deleteQuestionChoice(id);
+
+            final String query =
+                    "DELETE FROM questions WHERE ID=? and type = ?";
+            int updatedRow =
+                    jdbcTemplate.update(query, id, questionType.toString());
+            return !(updatedRow == 0);
+
     }
 }
