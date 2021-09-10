@@ -117,14 +117,14 @@ public class BookService {
      *
      * @param userName the username
      * @param bookName the username
-     * @param bookName the chapterPath
+     * @param chapterPath the chapterPath
      * @return the optional
      */
     public List<Question> listAllQuestions(final String userName,
                                     final String bookName,
                                            final String chapterPath)
             throws JsonProcessingException {
-        return questionService.list(userName, bookName,chapterPath);
+        return questionService.list(userName, bookName, chapterPath);
 
     }
 
@@ -177,6 +177,7 @@ public class BookService {
      * @param id the id
      * @param questionType the questionType
      * @param question question
+     * @param chapterPath the chapterPath
      * @return successflag boolean
      */
     public Optional<Question> updateAQuestion(final String bookName,
