@@ -11,6 +11,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.sql.DataSource;
 import javax.validation.ConstraintViolation;
@@ -122,6 +123,7 @@ public class QuestionService {
      * @param question    the question
      * @return question optional
      */
+    @Transactional
     public Optional<Question> create(final Integer practiceId,
                                      final String chapterPath,
                                      final QuestionType type,
@@ -257,6 +259,7 @@ public class QuestionService {
      * @param chapterPath the chapterPath
      * @return question optional
      */
+    @Transactional
     public Optional<Question> updateAQuestion(final String bookName,
                                               final QuestionType type,
                                               final Integer id,
@@ -649,6 +652,7 @@ public class QuestionService {
      * @param questionType the questionType
      * @return successflag boolean
      */
+    @Transactional
     public Boolean deleteAQuestion(final int id,
                                    final QuestionType questionType) {
 
