@@ -69,7 +69,8 @@ class BookAPIController {
                     description = "invalid credentials"),
             @ApiResponse(responseCode = "400",
                     description = "user note is invalid")})
-    @PostMapping("/{bookName}/note")
+    // commenting User notes
+    // @PostMapping("/{bookName}/note")
     public ResponseEntity<Optional<UserNote>> createNote(
             final Principal principal,
             final @NotBlank @PathVariable String bookName,
@@ -99,7 +100,7 @@ class BookAPIController {
                     description = "invalid credentials"),
             @ApiResponse(responseCode = "404",
                     description = "user note not found")})
-    @PostMapping("/{bookName}/note/_search")
+    // @PostMapping("/{bookName}/note/_search")
     public ResponseEntity<List<UserNote>> searchNotes(
             final Principal principal,
             final @PathVariable String bookName,
@@ -129,7 +130,7 @@ class BookAPIController {
                     description = "invalid credentials"),
             @ApiResponse(responseCode = "404",
                     description = "note not found")})
-    @PutMapping("/{bookName}/note/{id}")
+    //@PutMapping("/{bookName}/note/{id}")
     public ResponseEntity<Optional<UserNote>> update(
             final @PathVariable String bookName,
             final @PathVariable Integer id,
@@ -156,7 +157,7 @@ class BookAPIController {
                     description = "invalid credentials"),
             @ApiResponse(responseCode = "404",
                     description = "note not found")})
-    @DeleteMapping("/{bookName}/note/{id}")
+    //@DeleteMapping("/{bookName}/note/{id}")
     public ResponseEntity<Void> deleteNoteById(
             final @PathVariable String bookName,
             final @PathVariable Integer id) {
