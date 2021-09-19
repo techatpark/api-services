@@ -1,6 +1,6 @@
-![GitHub Actions status | techatpark/spring-boot-azure](https://github.com/techatpark/spring-boot-azure/workflows/Java%20CI%20with%20Maven/badge.svg)
+![GitHub Actions status | techatpark/api-services](https://github.com/techatpark/api-services/workflows/Java%20CI%20with%20Maven/badge.svg)
 
-# Gurukulam Practice
+# Gurukulams Practice
 
 1. This is testing ground for practice in Gurukulam
 1. Instructors will frame the questions upon a set topics. Few examples for topics are 10th Grade, Neet, Java, Banking.
