@@ -307,7 +307,7 @@ public class QuestionService {
                                     .collect(Collectors.joining(","))
                                     + ")";
                     jdbcTemplate.update(deletequestionChoice,
-                            id,availableIds.toArray());
+                            id, availableIds.toArray());
                 }
 
                 question.getChoices().forEach(choice -> {
@@ -404,7 +404,7 @@ public class QuestionService {
                                     .collect(Collectors.joining(","))
                                     + ")";
                     jdbcTemplate.update(deletequestionChoice,
-                            id,availableIds.toArray());
+                            id, availableIds.toArray());
                 }
 
                 question.getChoices().forEach(choice -> {
