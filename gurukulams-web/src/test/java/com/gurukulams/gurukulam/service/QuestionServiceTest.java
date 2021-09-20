@@ -121,7 +121,7 @@ class QuestionServiceTest {
         question.setQuestion("Updated Query");
         final Integer newQuestionId = question.getId();
         question = questionService
-                .updateAQuestion("maths", QuestionType.MULTI_LINE,
+                .updateQuestion("maths", QuestionType.MULTI_LINE,
                         newQuestionId, question, "chap1").get();
         assertEquals("Updated Query", question.getQuestion(), "Updated");
     }

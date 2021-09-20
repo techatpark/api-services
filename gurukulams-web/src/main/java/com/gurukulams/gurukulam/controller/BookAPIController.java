@@ -278,7 +278,7 @@ class BookAPIController {
                 + "/books/" + bookName
                 + "/questions/" + questionType + "/" + id + "/", "");
         final Optional<Question> updatedQuestion =
-                bookService.updateAQuestion(
+                bookService.updateQuestion(
                 bookName, id, questionType, question, chapterPath);
         return updatedQuestion == null ? new ResponseEntity<>(
                 HttpStatus.NOT_FOUND)

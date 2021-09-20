@@ -46,7 +46,7 @@ CREATE TABLE user_notes (
 CREATE TABLE question_choices (
     id INT auto_increment PRIMARY KEY,
     question_id int NOT NULL,
-    value VARCHAR(500) NOT NULL,
+    value TEXT NOT NULL,
     is_answer BOOLEAN NOT NULL DEFAULT FALSE,
     FOREIGN KEY (question_id) REFERENCES questions (id)
 );

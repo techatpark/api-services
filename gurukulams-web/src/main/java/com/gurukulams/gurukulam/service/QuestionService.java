@@ -260,7 +260,7 @@ public class QuestionService {
      * @return question optional
      */
     @Transactional
-    public Optional<Question> updateAQuestion(final String bookName,
+    public Optional<Question> updateQuestion(final String bookName,
                                               final QuestionType type,
                                               final Integer id,
                                               final Question question,
@@ -301,13 +301,13 @@ public class QuestionService {
                 if (!availableIds.isEmpty()) {
                     final String deletequestionChoice =
                             "DELETE question_choices "
-                                    + "WHERE id NOT IN ("
+                                    + "WHERE question_id <> ? AND id NOT IN ("
                                     + availableIds.stream()
                                     .map(aId -> "?")
                                     .collect(Collectors.joining(","))
                                     + ")";
                     jdbcTemplate.update(deletequestionChoice,
-                            availableIds.toArray());
+                            id,availableIds.toArray());
                 }
 
                 question.getChoices().forEach(choice -> {
@@ -398,13 +398,13 @@ public class QuestionService {
                 if (!availableIds.isEmpty()) {
                     final String deletequestionChoice =
                             "DELETE question_choices "
-                                    + "WHERE id NOT IN ("
+                                    + "WHERE question_id <> ? AND id NOT IN ("
                                     + availableIds.stream()
                                     .map(aId -> "?")
                                     .collect(Collectors.joining(","))
                                     + ")";
                     jdbcTemplate.update(deletequestionChoice,
-                            availableIds.toArray());
+                            id,availableIds.toArray());
                 }
 
                 question.getChoices().forEach(choice -> {

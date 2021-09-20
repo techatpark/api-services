@@ -180,12 +180,12 @@ public class BookService {
      * @param chapterPath the chapterPath
      * @return successflag boolean
      */
-    public Optional<Question> updateAQuestion(final String bookName,
+    public Optional<Question> updateQuestion(final String bookName,
                                              final Integer id,
                                              final QuestionType questionType,
                                              final Question question,
                                               final String chapterPath) {
-        return questionService.updateAQuestion(bookName, questionType, id,
+        return questionService.updateQuestion(bookName, questionType, id,
                 question, chapterPath);
     }
 }
