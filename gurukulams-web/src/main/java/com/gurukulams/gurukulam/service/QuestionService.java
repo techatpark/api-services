@@ -181,7 +181,7 @@ public class QuestionService {
     }
 
     /**
-     * updates question with id.
+     * creates a new question for a book.
      *
      * @param bookName     the bookName
      * @param questionType the questionType
@@ -189,16 +189,16 @@ public class QuestionService {
      * @param chapterPath  chapterPath
      * @return question optional
      */
-    public Optional<Question> createAQuestion(final String bookName,
-                                              final QuestionType questionType,
-                                              final Question question,
-                                              final String chapterPath)
+    public Optional<Question> create(final String bookName,
+                                     final QuestionType questionType,
+                                     final Question question,
+                                     final String chapterPath)
             throws JsonProcessingException {
 
         Practice practice = practiceService.getQuestionBank(bookName);
 
-        return (create(practice.getId(), chapterPath,
-                questionType, question));
+        return create(practice.getId(), chapterPath,
+                questionType, question);
 
     }
 
@@ -206,11 +206,11 @@ public class QuestionService {
      * List question choice list.
      *
      * @param isOwner          isOwner calling
-     * @param questionChoiceId the question choice id
+     * @param questionId the question choice id
      * @return the list
      */
     private List<Choice> listQuestionChoice(final boolean isOwner,
-                                            final Integer questionChoiceId) {
+                                            final Integer questionId) {
         final String query =
                 "SELECT id,question_id,value,"
                         + (isOwner ? "is_answer" : "NULL")
@@ -218,7 +218,7 @@ public class QuestionService {
                         + " FROM question_choices WHERE"
                         + " question_id = ?";
         return jdbcTemplate.query(query, rowMapperQuestionChoice,
-                questionChoiceId);
+                questionId);
     }
 
     /**
@@ -250,7 +250,7 @@ public class QuestionService {
 
 
     /**
-     * updates question with id.
+     * updates question with id for a book.
      *
      * @param bookName    the exam id
      * @param id          the id
@@ -260,93 +260,18 @@ public class QuestionService {
      * @return question optional
      */
     @Transactional
-    public Optional<Question> updateQuestion(final String bookName,
-                                              final QuestionType type,
-                                              final Integer id,
-                                              final Question question,
-                                              final String chapterPath) {
+    public Optional<Question> update(final String bookName,
+                                     final QuestionType type,
+                                     final Integer id,
+                                     final Question question,
+                                     final String chapterPath)
+            throws JsonProcessingException {
 
-        question.setType(type);
-        Set<ConstraintViolation<Question>> violations =
-                getViolations(question);
-        if (violations.isEmpty()) {
-            final String query =
-                    "UPDATE questions SET question = ?, answer = ?"
-                            +
-                            " WHERE id = ? AND type = ? AND chapter_path = ?";
-            final Integer updatedRows =
-                    jdbcTemplate.update(query,
-                            question.getQuestion(),
-                            question.getAnswer(), id, type.toString(),
-                            chapterPath);
+        Practice practice = practiceService.getQuestionBank(bookName);
 
-            if ((type.equals(QuestionType.CHOOSE_THE_BEST)
-                    || type.equals(QuestionType.MULTI_CHOICE))
-                    && question.getChoices() != null) {
+        return update(practice.getId(), type,
+                id, question);
 
-
-                final SimpleJdbcInsert insertQuestionChoice =
-                        new SimpleJdbcInsert(dataSource)
-                                .withTableName("question_choices")
-                                .usingGeneratedKeyColumns("id")
-                                .usingColumns("question_id",
-                                        "value", "is_answer");
-
-                List<Integer> availableIds = question.getChoices()
-                        .stream()
-                        .filter(choice -> choice.getId() != null)
-                        .map(Choice::getId)
-                        .collect(Collectors.toList());
-
-                if (!availableIds.isEmpty()) {
-                    final String deletequestionChoice =
-                            "DELETE question_choices "
-                                    + "WHERE question_id <> ? AND id NOT IN ("
-                                    + availableIds.stream()
-                                    .map(aId -> "?")
-                                    .collect(Collectors.joining(","))
-                                    + ")";
-                    jdbcTemplate.update(deletequestionChoice,
-                            id, availableIds.toArray());
-                }
-
-                question.getChoices().forEach(choice -> {
-                    if (choice.getId() == null) {
-                        Map<String, Object> valueMapQuestionChoice =
-                                new HashMap<>();
-                        valueMapQuestionChoice.put("question_id", id);
-                        valueMapQuestionChoice
-                                .put("value", choice.getValue());
-                        valueMapQuestionChoice
-                                .put("is_answer",
-                                        choice.isAnswer() != null
-                                                && choice.isAnswer());
-
-                        final Number insertedId = insertQuestionChoice
-                                .executeAndReturnKey(valueMapQuestionChoice);
-
-
-                    } else {
-
-                        final String updatequestionChoice =
-                                "UPDATE question_choices SET value = ?, "
-                                        + "is_answer = ? "
-                                        + "WHERE id = ?";
-
-                        jdbcTemplate.update(updatequestionChoice,
-                                choice.getValue(),
-                                choice.isAnswer() != null && choice.isAnswer(),
-                                choice.getId());
-                    }
-
-
-                });
-
-            }
-            return updatedRows == 0 ? null : read(id);
-        } else {
-            throw new ConstraintViolationException(violations);
-        }
     }
 
 
@@ -398,13 +323,14 @@ public class QuestionService {
                 if (!availableIds.isEmpty()) {
                     final String deletequestionChoice =
                             "DELETE question_choices "
-                                    + "WHERE question_id <> ? AND id NOT IN ("
+                                    + "WHERE question_id = ? AND id NOT IN ("
                                     + availableIds.stream()
                                     .map(aId -> "?")
                                     .collect(Collectors.joining(","))
                                     + ")";
+                    availableIds.add(0, id);
                     jdbcTemplate.update(deletequestionChoice,
-                            id, availableIds.toArray());
+                             availableIds.toArray());
                 }
 
                 question.getChoices().forEach(choice -> {

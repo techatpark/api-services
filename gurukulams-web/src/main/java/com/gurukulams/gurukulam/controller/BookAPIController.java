@@ -273,7 +273,8 @@ class BookAPIController {
                                                              Question
                                                              question,
                                                      final
-                                             HttpServletRequest request) {
+                                             HttpServletRequest request)
+            throws JsonProcessingException {
         String chapterPath = request.getRequestURI().replaceFirst("/api"
                 + "/books/" + bookName
                 + "/questions/" + questionType + "/" + id + "/", "");

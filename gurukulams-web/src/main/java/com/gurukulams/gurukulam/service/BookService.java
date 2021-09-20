@@ -153,7 +153,7 @@ public class BookService {
             throws JsonProcessingException {
 
 
-        return questionService.createAQuestion(bookName, questionType,
+        return questionService.create(bookName, questionType,
                 question, chapterPath);
     }
 
@@ -184,8 +184,9 @@ public class BookService {
                                              final Integer id,
                                              final QuestionType questionType,
                                              final Question question,
-                                              final String chapterPath) {
-        return questionService.updateQuestion(bookName, questionType, id,
+                                              final String chapterPath)
+            throws JsonProcessingException {
+        return questionService.update(bookName, questionType, id,
                 question, chapterPath);
     }
 }
