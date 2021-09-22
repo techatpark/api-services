@@ -36,7 +36,7 @@ public class CustomUserDetailsService implements UserDetailsService {
         this.users = new ArrayList<>();
 
         if (Arrays.binarySearch(environment.getActiveProfiles(),
-                "prod") == -1) {
+                "prod") < 0) {
             User user = new User();
             user.setName("tom");
             user.setPassword(passwordEncoder.encode("password"));
