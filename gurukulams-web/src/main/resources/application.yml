@@ -1,4 +1,6 @@
 spring:
+  profiles:
+    active: @spring.profiles.active@
   application:
     name: Gurukulam API
     version: 2.0
