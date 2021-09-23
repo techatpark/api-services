@@ -1,5 +1,6 @@
 package com.gurukulams.gurukulam.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import javax.validation.constraints.NotBlank;
@@ -18,7 +19,7 @@ public class Question {
     /**
      * tells the exam_id of the question.
      */
-    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
+    @JsonIgnore
     private Integer examId;
 
     /**

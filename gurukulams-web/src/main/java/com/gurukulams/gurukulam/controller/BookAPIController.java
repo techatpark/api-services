@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.gurukulams.gurukulam.model.Question;
 import com.gurukulams.gurukulam.model.QuestionType;
 import com.gurukulams.gurukulam.model.UserNote;
+import com.gurukulams.gurukulam.service.AnswerService;
 import com.gurukulams.gurukulam.service.BookService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -43,12 +44,20 @@ class BookAPIController {
     private final BookService bookService;
 
     /**
+     * answerService.
+     */
+    private final AnswerService answerService;
+
+    /**
      * Instantiates a new Book api controller.
      *
      * @param abookService the book service
+     * @param aAnswerService a Answer Service
      */
-    BookAPIController(final BookService abookService) {
+    BookAPIController(final BookService abookService,
+                      AnswerService aAnswerService) {
         this.bookService = abookService;
+        this.answerService = aAnswerService;
     }
 
     /**
@@ -243,12 +252,12 @@ class BookAPIController {
      *
      * @param bookName   the bookname
      * @param questionType the question type
-     * @param id           the id
+     * @param questionId           the questionId
      * @param question     the question
      * @param request the request
      * @return the response entity
      */
-    @Operation(summary = "Updates the question by given id",
+    @Operation(summary = "Updates the question by given questionId",
             description = "Can be called only by users "
                     + "with 'auth management' rights.",
             security = @SecurityRequirement(name = "bearerAuth"))
@@ -260,11 +269,11 @@ class BookAPIController {
                     description = "invalid credentials"),
             @ApiResponse(responseCode = "404",
                     description = "question not found")})
-    @PutMapping("/{bookName}/questions/{questionType}/{id}/**")
+    @PutMapping("/{bookName}/questions/{questionType}/{questionId}/**")
     public ResponseEntity<Optional<Question>> update(final @PathVariable
                                                              String bookName,
                                                      final @PathVariable
-                                                             Integer id,
+                                                             Integer questionId,
                                                      final @PathVariable
                                                              QuestionType
                                                              questionType,
@@ -277,10 +286,11 @@ class BookAPIController {
             throws JsonProcessingException {
         String chapterPath = request.getRequestURI().replaceFirst("/api"
                 + "/books/" + bookName
-                + "/questions/" + questionType + "/" + id + "/", "");
+                + "/questions/" + questionType
+                + "/" + questionId + "/", "");
         final Optional<Question> updatedQuestion =
                 bookService.updateQuestion(
-                bookName, id, questionType, question, chapterPath);
+                bookName, questionId, questionType, question, chapterPath);
         return updatedQuestion == null ? new ResponseEntity<>(
                 HttpStatus.NOT_FOUND)
                 : ResponseEntity.ok(updatedQuestion);
@@ -355,5 +365,35 @@ class BookAPIController {
         return ResponseEntity.status(HttpStatus.OK)
                 .body(bookService.listAllQuestions(principal.getName(),
                 bookName, chapterPath));
+    }
+
+
+    /**
+     * Answer response entity.
+     *
+     * @param questionId the question id
+     * @param answer     the answer
+     * @return the response entity
+     */
+    @Operation(summary = "Answer a question",
+            description = "Can be called only by"
+                    + " users with 'auth management' rights.",
+            security = @SecurityRequirement(name = "bearerAuth"))
+    @ApiResponses(value = {@ApiResponse(responseCode = "202",
+            description = "Answered a question successfully"),
+            @ApiResponse(responseCode = "401",
+                    description = "invalid credentials"),
+            @ApiResponse(responseCode = "406",
+                    description = "Answer is invalid")})
+    @ResponseStatus(HttpStatus.ACCEPTED)
+    @PostMapping("/{bookName}/questions/{questionId}/answer")
+    public ResponseEntity<Void> answer(final @PathVariable
+                                               Integer questionId,
+                                       final @RequestBody
+                                               String answer) {
+        return answerService.answer(questionId, answer)
+                ? ResponseEntity.status(
+                HttpStatus.ACCEPTED).build()
+                : ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).build();
     }
 }
