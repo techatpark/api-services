@@ -14,6 +14,7 @@ import io.swagger.v3.oas.annotations.security.SecurityScheme;
 import io.swagger.v3.oas.annotations.servers.Server;
 import io.swagger.v3.oas.models.media.Schema;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 import org.springframework.data.domain.Page;
 
 import java.util.Iterator;
@@ -21,6 +22,7 @@ import java.util.Iterator;
 /**
  * The type Swagger config.
  */
+@Profile("!prod")
 @Configuration
 @OpenAPIDefinition(info = @Info(title = "Gurukulam API",
         version = "2.0",
