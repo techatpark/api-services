@@ -36,7 +36,7 @@ import java.util.Optional;
  */
 @RestController
 @RequestMapping("/api/books")
-@Tag(name = "Books", description = "Resource to manage Books ")
+@Tag(name = "Books", description = "Resource to manage Books")
 class BookAPIController {
     /**
      * declare a bookservice.
