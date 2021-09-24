@@ -42,7 +42,7 @@ public class APIControllerTest {
                 .withImportOption(ImportOption.Predefined.DO_NOT_INCLUDE_TESTS)
                 .withImportOption(ImportOption.Predefined.DO_NOT_INCLUDE_JARS)
                 .withImportOption(ImportOption.Predefined.DO_NOT_INCLUDE_ARCHIVES)
-                .importPackages("com.techatpark");
+                .importPackages("com.gurukulams");
 
         ArchRule rule = CONTROLLER_CLASSES
                 .should()
@@ -52,9 +52,12 @@ public class APIControllerTest {
                 .resideOutsideOfPackage("javax.validation")
                 .andShould().onlyDependOnClassesThat()
                 .resideInAnyPackage(
-                        "com.techatpark.gurukulam.controller"
+                        "com.gurukulams.gurukulam.controller"
+                        , "javax.servlet.http"
+                        , "javax.servlet"
+                        , "java.io"
                         , "java.net"
-                        , "com.techatpark.starter.security.security"
+                        , "com.gurukulams.starter.security.security"
                         , "org.springframework.security.authentication"
                         , "org.springframework.beans.factory.annotation"
                         , "java.util"
@@ -63,6 +66,7 @@ public class APIControllerTest {
                         , "..payload.."
                         , "java.lang"
                         , "org.springframework.http"
+                        , "com.fasterxml.jackson.core"
                         , "org.springframework.web.bind.annotation"
                         , "io.swagger.v3.oas.annotations"
                         , "io.swagger.v3.oas.annotations.tags"
@@ -71,7 +75,7 @@ public class APIControllerTest {
                         , "io.swagger.v3.oas.annotations.responses"
                         , "io.swagger.v3.oas.annotations.security"
                         , "java.security")
-                .because("Controllers should be only delegates");
+                .because("Controllers should only be delegates");
 
         rule.check(importedClasses);
 
