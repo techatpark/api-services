@@ -85,7 +85,7 @@ public class AnswerService {
                     }
                     break;
                 default:
-                    isRigntAnswer = answer.toLowerCase().equals(
+                    isRigntAnswer = answer.equalsIgnoreCase(
                             question.getAnswer().toLowerCase()
                     );
                     break;
