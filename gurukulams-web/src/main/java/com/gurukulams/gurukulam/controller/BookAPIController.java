@@ -55,7 +55,7 @@ class BookAPIController {
      * @param aAnswerService a Answer Service
      */
     BookAPIController(final BookService abookService,
-                      AnswerService aAnswerService) {
+                      final AnswerService aAnswerService) {
         this.bookService = abookService;
         this.answerService = aAnswerService;
     }
