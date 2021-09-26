@@ -23,6 +23,7 @@ public class Application {
      * Ref: https://github.com/checkstyle/checkstyle/issues/3155
      */
     public void s() {
+        throw new UnsupportedOperationException("Dummy Method");
     }
 
 }
