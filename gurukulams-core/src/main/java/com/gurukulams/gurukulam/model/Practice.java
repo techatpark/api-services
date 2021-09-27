@@ -3,6 +3,7 @@ package com.gurukulams.gurukulam.model;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import javax.validation.constraints.NotBlank;
+import java.time.Instant;
 
 /**
  * The type Practice.
@@ -30,6 +31,26 @@ public class Practice {
      */
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private String owner;
+
+    /**
+     * owner of exam.
+     */
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
+    private Instant createdAt;
+
+    public Instant getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(Instant updatedAt) {
+        this.updatedAt = updatedAt;
+    }
+
+    /**
+     * owner of exam.
+     */
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
+    private Instant updatedAt;
 
     /**
      * gets the id of exam.
@@ -101,5 +122,21 @@ public class Practice {
      */
     public void setOwner(final String theOwner) {
         this.owner = theOwner;
+    }
+
+    /**
+     * sets created at.
+     * @return createdAt
+     */
+    public Instant getCreatedAt() {
+        return createdAt;
+    }
+
+    /**
+     * gets created At.
+     * @param createdAt the created at
+     */
+    public void setCreatedAt(Instant createdAt) {
+        this.createdAt = createdAt;
     }
 }

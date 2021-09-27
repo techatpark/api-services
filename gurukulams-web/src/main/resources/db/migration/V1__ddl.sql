@@ -10,6 +10,10 @@ CREATE TABLE practices (
   type VARCHAR(55) NOT NULL,
   owner VARCHAR(55) NOT NULL,
   meta_data TEXT,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  created_by VARCHAR(200),
+  modified_at TIMESTAMP,
+  modified_by VARCHAR(200),
   CONSTRAINT book_constraint UNIQUE (book)
 );
 
