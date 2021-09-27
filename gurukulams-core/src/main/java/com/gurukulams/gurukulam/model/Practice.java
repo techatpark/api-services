@@ -27,13 +27,13 @@ public class Practice {
     private String description;
 
     /**
-     * owner of exam.
+     * created_by of exam.
      */
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
-    private String owner;
+    private String createdBy;
 
     /**
-     * owner of exam.
+     * created_by of exam.
      */
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private Instant createdAt;
@@ -41,7 +41,7 @@ public class Practice {
 
 
     /**
-     * owner of exam.
+     * created_by of exam.
      */
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private Instant updatedAt;
@@ -101,21 +101,21 @@ public class Practice {
     }
 
     /**
-     * owner of the exam.
+     * created_by of the exam.
      *
-     * @return owner owner
+     * @return created_by created_by
      */
-    public String getOwner() {
-        return owner;
+    public String getCreatedBy() {
+        return createdBy;
     }
 
     /**
-     * Sets owner of the exam.
+     * Sets created_by of the exam.
      *
-     * @param theOwner the the owner
+     * @param theOwner the the created_by
      */
-    public void setOwner(final String theOwner) {
-        this.owner = theOwner;
+    public void setCreatedBy(final String theOwner) {
+        this.createdBy = theOwner;
     }
 
     /**

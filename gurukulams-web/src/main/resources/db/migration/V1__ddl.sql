@@ -8,10 +8,9 @@ CREATE TABLE practices (
   description TEXT,
   book VARCHAR(55),
   type VARCHAR(55) NOT NULL,
-  owner VARCHAR(55) NOT NULL,
   meta_data TEXT,
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-  created_by VARCHAR(200),
+  created_by VARCHAR(55) NOT NULL,
   modified_at TIMESTAMP,
   modified_by VARCHAR(200),
   CONSTRAINT book_constraint UNIQUE (book)
@@ -41,7 +40,7 @@ CREATE TABLE user_notes (
    on_type VARCHAR NOT NULL,
    on_instance VARCHAR NOT NULL,
    on_section VARCHAR NOT NULL,
-   owner VARCHAR(55) NOT NULL,
+   created_by VARCHAR(55) NOT NULL,
    prev_word VARCHAR(500) NOT NULL,
    text VARCHAR(500) NOT NULL,
    note VARCHAR(500)

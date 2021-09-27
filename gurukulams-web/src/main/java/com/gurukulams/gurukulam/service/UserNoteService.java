@@ -67,12 +67,12 @@ public class UserNoteService {
         final SimpleJdbcInsert insert =
                 new SimpleJdbcInsert(dataSource).withTableName("user_notes")
                         .usingGeneratedKeyColumns("id")
-                        .usingColumns("owner", "on_type", "on_instance",
+                        .usingColumns("created_by", "on_type", "on_instance",
                                 "on_section",
                                 "prev_word", "text", "note");
 
         final Map<String, Object> valueMap = new HashMap<>();
-        valueMap.put("owner", userName);
+        valueMap.put("created_by", userName);
         valueMap.put("on_type", userNote.getOnType());
         valueMap.put("on_instance", userNote.getOnInstance());
         valueMap.put("on_section", userNote.getOnSection());
@@ -117,7 +117,7 @@ public class UserNoteService {
         final String query = "SELECT id,on_type,on_instance,on_section,"
                 + "prev_word,text,note FROM "
                 + "user_notes WHERE"
-                + " on_instance = ? and on_section = ? and owner = ?";
+                + " on_instance = ? and on_section = ? and created_by = ?";
         return jdbcTemplate.query(query, rowMapper, onInstance,
                 onSection, userName);
     }

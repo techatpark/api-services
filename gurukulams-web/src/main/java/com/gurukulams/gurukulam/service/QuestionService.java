@@ -426,7 +426,7 @@ public class QuestionService {
                 .read(practiceId)
                 .orElseThrow(IllegalArgumentException::new);
 
-        boolean isOwner = practice.getOwner().equals(userName);
+        boolean isOwner = practice.getCreatedBy().equals(userName);
 
         final String query = "SELECT id,exam_id,question,type,"
                 + (isOwner ? "answer" : "NULL")
@@ -463,7 +463,7 @@ public class QuestionService {
 
         Practice practice = practiceService.getQuestionBank(bookName);
 
-        boolean isOwner = practice.getOwner().equals(userName);
+        boolean isOwner = practice.getCreatedBy().equals(userName);
 
         final String query = "SELECT id,exam_id,question,type,"
                 + (isOwner ? "answer" : "NULL")

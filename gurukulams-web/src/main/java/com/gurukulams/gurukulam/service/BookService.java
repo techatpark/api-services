@@ -52,31 +52,31 @@ public class BookService {
      * Create note optional.
      *
      * @param bookName  the book name
-     * @param owner     the owner
+     * @param createdBy     the createdBy
      * @param userNotes the user note
      * @return the optional
      */
     public Optional<UserNote> createNote(final String bookName,
-                                         final String owner,
+                                         final String createdBy,
                                          final UserNote userNotes) {
         userNotes.setOnType("books");
         userNotes.setOnInstance(bookName);
-        return userNotesService.create(userNotes, owner);
+        return userNotesService.create(userNotes, createdBy);
     }
 
     /**
      * Search note optional.
      *
-     * @param owner       the owner
+     * @param createdBy       the createdBy
      * @param bookName    the book name
      * @param chapterName the chapterName
      * @return the list
      */
     public List<UserNote> searchNotes(final String bookName,
-                                      final String owner,
+                                      final String createdBy,
                                       final String chapterName) {
 
-        return userNotesService.searchNotes(owner, bookName, chapterName);
+        return userNotesService.searchNotes(createdBy, bookName, chapterName);
     }
 
     /**
@@ -129,7 +129,7 @@ public class BookService {
     }
 
     /**
-     * Checks if given user is owner of the book.
+     * Checks if given user is created_by of the book.
      *
      * @param userName
      * @param bookName

@@ -120,7 +120,7 @@ public class PracticeService {
         }
         practice.setId(rs.getInt("id"));
         practice.setName(rs.getString("name"));
-        practice.setOwner(rs.getString("owner"));
+        practice.setCreatedBy(rs.getString("created_by"));
         practice.setDescription(rs.getString("description"));
 
 
@@ -173,16 +173,16 @@ public class PracticeService {
      *
      * @param <T>      the type parameter
      * @param type     the type
-     * @param owner    the owner
+     * @param createdBy    the createdBy
      * @param practice the practice
      * @return p. optional
      * @throws JsonProcessingException the json processing exception
      */
     public <T extends Practice> Optional<T> create(final String type,
-                                                   final String owner,
+                                                   final String createdBy,
                                                    final T practice)
             throws JsonProcessingException {
-        return create(type, owner, null, practice);
+        return create(type, createdBy, null, practice);
     }
 
     /**
@@ -190,14 +190,14 @@ public class PracticeService {
      *
      * @param <T>      the type parameter
      * @param type     the type
-     * @param owner    the owner
+     * @param createdBy    the createdBy
      * @param book     the book
      * @param practice the practice
      * @return p. optional
      * @throws JsonProcessingException the json processing exception
      */
     private <T extends Practice> Optional<T> create(final String type,
-                                                    final String owner,
+                                                    final String createdBy,
                                                     final String book,
                                                     final T practice)
             throws JsonProcessingException {
@@ -210,7 +210,7 @@ public class PracticeService {
                     .usingGeneratedKeyColumns("id")
                     .usingColumns("name",
                             "type",
-                            "owner",
+                            "created_by",
                             "book",
                             "description",
                             "meta_data");
@@ -219,7 +219,7 @@ public class PracticeService {
             valueMap.put("name",
                     practice.getName());
             valueMap.put("type", type);
-            valueMap.put("owner", owner);
+            valueMap.put("created_by", createdBy);
             valueMap.put("book", book);
             valueMap.put("description", practice.getDescription());
             valueMap.put("meta_data", metaData);
@@ -269,7 +269,7 @@ public class PracticeService {
     private <T extends Practice> Optional<T> readByBook(
                                             final String newBook) {
         final String query =
-                "SELECT id,name,owner,type,meta_data,description,"
+                "SELECT id,name,created_by,type,meta_data,description,"
                         + "created_at,modified_at "
                         + "FROM practices WHERE book = ?";
 
@@ -317,7 +317,7 @@ public class PracticeService {
      * @return p. optional
      */
     public <T extends Practice> Optional<T> read(final Integer newPracticeId) {
-        final String query = "SELECT id,name,owner,type,meta_data,"
+        final String query = "SELECT id,name,created_by,type,meta_data,"
                         + "description,created_at,modified_at "
                         + "FROM practices WHERE id = ?";
 
@@ -410,7 +410,7 @@ public class PracticeService {
     public <T extends Practice> List<T> list(final String type) {
 
         final String recordsQuery =
-                "SELECT id,name,owner,type,meta_data,description,"
+                "SELECT id,name,created_by,type,meta_data,description,"
                         + "created_at,modified_at"
                         + " FROM practices where type = ?";
         final List<T> tList =
@@ -430,7 +430,7 @@ public class PracticeService {
                                              final Pageable pageable) {
 
         final String recordsQuery =
-                "SELECT id,name,owner,type,meta_data,description,"
+                "SELECT id,name,created_by,type,meta_data,description,"
                         + "created_at,modified_at"
                         + " FROM practices where type = ? LIMIT "
                         + pageable.getPageSize()
@@ -447,7 +447,7 @@ public class PracticeService {
     }
 
     /**
-     * Checks if given user is owner of the book.
+     * Checks if given user is created_by of the book.
      *
      * @param userName
      * @param bookName
