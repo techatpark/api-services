@@ -38,13 +38,7 @@ public class Practice {
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private Instant createdAt;
 
-    public Instant getUpdatedAt() {
-        return updatedAt;
-    }
 
-    public void setUpdatedAt(Instant updatedAt) {
-        this.updatedAt = updatedAt;
-    }
 
     /**
      * owner of exam.
@@ -134,9 +128,25 @@ public class Practice {
 
     /**
      * gets created At.
-     * @param createdAt the created at
+     * @param aCreatedAt the created at
      */
-    public void setCreatedAt(Instant createdAt) {
-        this.createdAt = createdAt;
+    public void setCreatedAt(final Instant aCreatedAt) {
+        this.createdAt = aCreatedAt;
+    }
+
+    /**
+     * gets updated at.
+     * @return updatedAt
+     */
+    public Instant getUpdatedAt() {
+        return updatedAt;
+    }
+
+    /**
+     * Sets updated at.
+     * @param aupdatedAt
+     */
+    public void setUpdatedAt(final Instant aupdatedAt) {
+        this.updatedAt = aupdatedAt;
     }
 }

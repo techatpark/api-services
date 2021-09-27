@@ -23,7 +23,6 @@ import javax.validation.Validator;
 import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
@@ -125,19 +124,20 @@ public class PracticeService {
         practice.setDescription(rs.getString("description"));
 
 
-        LocalDate calendarDate = rs.getDate("created_at").toLocalDate();
-        ZonedDateTime zdt = calendarDate.atStartOfDay(ZoneId.of("Europe/Paris"));
+        LocalDate calendarDate = rs.getDate("created_at")
+                .toLocalDate();
+        ZonedDateTime zdt = calendarDate.atStartOfDay(ZoneId
+                .of("Europe/Paris"));
 
 
         practice.setCreatedAt(zdt.toInstant());
         Date sqlDate = rs.getDate("modified_at");
 
         if (sqlDate != null) {
-            calendarDate =sqlDate.toLocalDate();
+            calendarDate = sqlDate.toLocalDate();
             zdt = calendarDate.atStartOfDay(ZoneId.of("Europe/Paris"));
             practice.setUpdatedAt(zdt.toInstant());
         }
-        
         return (T) practice;
     }
 
@@ -269,7 +269,8 @@ public class PracticeService {
     private <T extends Practice> Optional<T> readByBook(
                                             final String newBook) {
         final String query =
-                "SELECT id,name,owner,type,meta_data,description,created_at,modified_at "
+                "SELECT id,name,owner,type,meta_data,description,"
+                        + "created_at,modified_at "
                         + "FROM practices WHERE book = ?";
 
 
@@ -316,8 +317,8 @@ public class PracticeService {
      * @return p. optional
      */
     public <T extends Practice> Optional<T> read(final Integer newPracticeId) {
-        final String query =
-                "SELECT id,name,owner,type,meta_data,description,created_at,modified_at "
+        final String query = "SELECT id,name,owner,type,meta_data,"
+                        + "description,created_at,modified_at "
                         + "FROM practices WHERE id = ?";
 
 
@@ -348,8 +349,9 @@ public class PracticeService {
                 .validate(practice);
         if (violations.isEmpty()) {
             final String query =
-                    "UPDATE practices SET name = ?, meta_data = ? ,"
-                            + "description = ?, modified_at = CURRENT_TIMESTAMP WHERE id = ?";
+                    "UPDATE practices SET name=?, meta_data=?,"
+                            + "description=?, modified_at=CURRENT_TIMESTAMP "
+                            + "WHERE id = ?";
             final Integer updatedRows = jdbcTemplate.update(query,
                     practice.getName(),
                     getMetadata(practice),
@@ -408,7 +410,8 @@ public class PracticeService {
     public <T extends Practice> List<T> list(final String type) {
 
         final String recordsQuery =
-                "SELECT id,name,owner,type,meta_data,description,created_at,modified_at"
+                "SELECT id,name,owner,type,meta_data,description,"
+                        + "created_at,modified_at"
                         + " FROM practices where type = ?";
         final List<T> tList =
                 jdbcTemplate.query(recordsQuery, this::rowMapper, type);
@@ -427,12 +430,12 @@ public class PracticeService {
                                              final Pageable pageable) {
 
         final String recordsQuery =
-                "SELECT id,name,owner,type,meta_data,description,created_at,modified_at"
+                "SELECT id,name,owner,type,meta_data,description,"
+                        + "created_at,modified_at"
                         + " FROM practices where type = ? LIMIT "
                         + pageable.getPageSize()
                         + " OFFSET "
-                        +
-                        ((pageable.getPageNumber() * pageable.getPageSize()));
+                        + ((pageable.getPageNumber() * pageable.getPageSize()));
 
         final String countsQuery = "SELECT COUNT(id) FROM practices"
                 + " where type = ?";
