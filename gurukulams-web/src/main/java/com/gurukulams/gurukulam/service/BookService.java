@@ -144,17 +144,19 @@ public class BookService {
      * @param questionType the questionType
      * @param question question
      * @param chapterPath chapterPath
+     * @param createdBy createdBy
      * @return successflag boolean
      */
     public Optional<Question> createAQuestion(final String bookName,
                                               final QuestionType questionType,
+                                              final String createdBy,
                                               final Question question,
                                               final String chapterPath)
             throws JsonProcessingException {
 
 
         return questionService.create(bookName, questionType,
-                question, chapterPath);
+                question, createdBy, chapterPath);
     }
 
     //create a function to delete, it must done inside question service

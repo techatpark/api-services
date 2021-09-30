@@ -20,6 +20,10 @@ import javax.validation.Path;
 import javax.validation.Validator;
 import javax.validation.metadata.ConstraintDescriptor;
 import java.lang.annotation.ElementType;
+import java.sql.Date;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -61,7 +65,24 @@ public class QuestionService {
         question.setExamId(rs.getInt("exam_id"));
         question.setQuestion(rs.getString("question"));
         question.setType(QuestionType.valueOf(rs.getString("type")));
+        question.setCreatedBy(rs.getString("created_by"));
         question.setAnswer(rs.getString("answer"));
+
+
+        LocalDate calendarDate = rs.getDate("created_at")
+                .toLocalDate();
+        ZonedDateTime zdt = calendarDate.atStartOfDay(ZoneId
+                .of("Europe/Paris"));
+
+
+        question.setCreatedAt(zdt.toInstant());
+        Date sqlDate = rs.getDate("modified_at");
+
+        if (sqlDate != null) {
+            calendarDate = sqlDate.toLocalDate();
+            zdt = calendarDate.atStartOfDay(ZoneId.of("Europe/Paris"));
+            question.setUpdatedAt(zdt.toInstant());
+        }
         return question;
     };
     /**
@@ -105,12 +126,14 @@ public class QuestionService {
      * @param practiceId the practice id
      * @param type       the type
      * @param question   the question
+     * @param createdBy  the createdBy
      * @return question optional
      */
     public Optional<Question> create(final Integer practiceId,
                                      final QuestionType type,
-                                     final Question question) {
-        return create(practiceId, null, type, question);
+                                     final Question question,
+                                     final String createdBy) {
+        return create(practiceId, null, type, createdBy, question);
     }
 
 
@@ -120,6 +143,7 @@ public class QuestionService {
      * @param practiceId  the practice id
      * @param chapterPath the chapterPath
      * @param type        the type
+     * @param createdBy    the createdBy
      * @param question    the question
      * @return question optional
      */
@@ -127,6 +151,7 @@ public class QuestionService {
     public Optional<Question> create(final Integer practiceId,
                                      final String chapterPath,
                                      final QuestionType type,
+                                     final String createdBy,
                                      final Question question) {
         question.setType(type);
         Set<ConstraintViolation<Question>> violations =
@@ -138,13 +163,14 @@ public class QuestionService {
                             .usingGeneratedKeyColumns("id")
                             .usingColumns("exam_id",
                                     "question", "chapter_path", "type",
-                                    "answer");
+                                   "created_By", "answer");
 
             final Map<String, Object> valueMap = new HashMap<>();
             valueMap.put("exam_id", practiceId);
             valueMap.put("question", question.getQuestion());
             valueMap.put("chapter_path", chapterPath);
             valueMap.put("type", type);
+            valueMap.put("created_by", createdBy);
             valueMap.put("answer", question.getAnswer());
 
             final Number id = insert.executeAndReturnKey(valueMap);
@@ -186,19 +212,21 @@ public class QuestionService {
      * @param bookName     the bookName
      * @param questionType the questionType
      * @param question     the question
+     * @param createdBy    the createdBy
      * @param chapterPath  chapterPath
      * @return question optional
      */
     public Optional<Question> create(final String bookName,
                                      final QuestionType questionType,
                                      final Question question,
+                                     final String createdBy,
                                      final String chapterPath)
             throws JsonProcessingException {
 
         Practice practice = practiceService.getQuestionBank(bookName);
 
         return create(practice.getId(), chapterPath,
-                questionType, question);
+                questionType, createdBy, question);
 
     }
 
@@ -229,7 +257,8 @@ public class QuestionService {
      */
     public Optional<Question> read(final Integer id) {
         final String query =
-                "SELECT id,exam_id,question,chapter_path,type,answer FROM "
+                "SELECT id,exam_id,question,created_by,chapter_path,type,"
+                        + "answer,created_at,modified_at FROM "
                         + "questions WHERE"
                         + " id = ?";
         try {
@@ -294,7 +323,8 @@ public class QuestionService {
         if (violations.isEmpty()) {
             final String query =
                     "UPDATE questions SET exam_id = ?,"
-                            + "question = ?, answer = ?"
+                         + "question = ?, answer = ?,"
+                            + "modified_at=CURRENT_TIMESTAMP"
                             + " WHERE id = ? AND type = ? AND exam_id = ?";
             final Integer updatedRows =
                     jdbcTemplate.update(query,
@@ -429,6 +459,7 @@ public class QuestionService {
         boolean isOwner = practice.getCreatedBy().equals(userName);
 
         final String query = "SELECT id,exam_id,question,type,"
+                + "created_by,created_at,modified_at,"
                 + (isOwner ? "answer" : "NULL")
                 + " AS answer"
                 + " FROM questions"
@@ -466,6 +497,7 @@ public class QuestionService {
         boolean isOwner = practice.getCreatedBy().equals(userName);
 
         final String query = "SELECT id,exam_id,question,type,"
+                  + "created_by,created_at,modified_at,"
                 + (isOwner ? "answer" : "NULL")
                 + " AS answer"
                 + " FROM questions"
@@ -494,7 +526,8 @@ public class QuestionService {
      */
     public List<Question> list(final Integer pageNumber,
                                final Integer pageSize) {
-        String query = "SELECT id,exam_id,question,type,answer FROM questions";
+        String query = "SELECT id,exam_id,question,type,"
+                  + "created_by,created_at,modified_at,answer FROM questions";
         query = query + " LIMIT " + pageSize + " OFFSET " + (pageNumber - 1);
         return jdbcTemplate.query(query, rowMapper);
     }

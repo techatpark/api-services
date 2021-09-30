@@ -204,6 +204,7 @@ abstract class PracticeAPIController<T extends Practice> {
      * @param practiceId   the practice id
      * @param questionType the question type
      * @param question     the question
+     * @param createdBy    the createdBy
      * @return the response entity
      */
     @Operation(summary = "Creates a new question",
@@ -226,9 +227,11 @@ abstract class PracticeAPIController<T extends Practice> {
                                                      final
                                                      @RequestBody
                                                              Question
-                                                             question) {
+                                                             question,
+                                                     final String createdBy) {
         return ResponseEntity.status(HttpStatus.CREATED).body(
-                questionService.create(practiceId, questionType, question));
+                              questionService.create(practiceId, questionType,
+                                                       question, createdBy));
     }
 
 

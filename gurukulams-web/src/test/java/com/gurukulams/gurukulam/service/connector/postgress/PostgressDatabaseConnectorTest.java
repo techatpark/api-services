@@ -150,7 +150,7 @@ public class PostgressDatabaseConnectorTest {
      */
     Question createAndGQuestion(final Practice exam) {
         final Question question = questionService.create(exam.getId(),
-                QuestionType.MULTI_LINE, getQuestion()).get();
+                QuestionType.MULTI_LINE, getQuestion(),"user").get();
         return question;
     }
 

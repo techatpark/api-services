@@ -23,6 +23,10 @@ CREATE TABLE questions (
   chapter_path VARCHAR(500),
   type VARCHAR(55) NOT NULL,
   answer VARCHAR(500),
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  created_by VARCHAR(55) NOT NULL,
+  modified_at TIMESTAMP,
+  modified_by VARCHAR(200),
   PRIMARY KEY (id, exam_id),
   FOREIGN KEY (exam_id) REFERENCES practices (id)
 );

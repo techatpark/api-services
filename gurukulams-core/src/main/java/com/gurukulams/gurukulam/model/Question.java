@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import javax.validation.constraints.NotBlank;
+import java.time.Instant;
 import java.util.List;
 
 /**
@@ -31,6 +32,26 @@ public class Question {
      * tells the answer.
      */
     private String answer;
+
+    /**
+     * created_by of question.
+     */
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
+    private String createdBy;
+
+    /**
+     * created_at of question.
+     */
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
+    private Instant createdAt;
+
+
+
+    /**
+     * updated_at of question.
+     */
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
+    private Instant updatedAt;
 
     /**
      * tells the type of question being created.
@@ -151,4 +172,53 @@ public class Question {
         this.choices = theChoice;
     }
 
+    /**
+     * created_by of the question.
+     *
+     * @return created_by created_by
+     */
+    public String getCreatedBy() {
+        return createdBy;
+    }
+
+    /**
+     * Sets created_by of the question.
+     *
+     * @param theOwner the the created_by
+     */
+    public void setCreatedBy(final String theOwner) {
+        this.createdBy = theOwner;
+    }
+
+    /**
+     * sets created at.
+     * @return createdAt
+     */
+    public Instant getCreatedAt() {
+        return createdAt;
+    }
+
+    /**
+     * gets created At.
+     * @param aCreatedAt the created at
+     */
+    public void setCreatedAt(final Instant aCreatedAt) {
+        this.createdAt = aCreatedAt;
+    }
+
+    /**
+     * gets updated at.
+     * @return updatedAt
+     */
+    public Instant getUpdatedAt() {
+        return updatedAt;
+    }
+
+    /**
+     * Sets updated at.
+     * @param aupdatedAt
+     */
+    public void setUpdatedAt(final Instant aupdatedAt) {
+        this.updatedAt = aupdatedAt;
+    }
 }

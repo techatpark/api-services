@@ -84,14 +84,14 @@ class QuestionServiceTest {
     @Test
     void testCreateAQuestion() throws JsonProcessingException {
         final Question question = questionService.create("maths",
-                QuestionType.MULTI_LINE, getQuestion(), "/chap1").get();
+                QuestionType.MULTI_LINE, getQuestion(), "tom", "/chap1").get();
         assertEquals(QUERY1, question.getQuestion(), "Created Successfully");
     }
 
     @Test
     void testCreate() {
         final Question question = questionService.create(practice.getId(),
-                QuestionType.MULTI_LINE, getQuestion()).get();
+                QuestionType.MULTI_LINE, getQuestion(),"tom").get();
         assertEquals(QUERY1, question.getQuestion(), "Created Successfully");
 
     }
@@ -103,7 +103,7 @@ class QuestionServiceTest {
     void testUpdate() {
         Question question = questionService
                 .create(practice.getId(), QuestionType.MULTI_LINE,
-                        getQuestion()).get();
+                        getQuestion(),"tom").get();
         question.setQuestion("Updated Query");
         final Integer newQuestionId = question.getId();
         question = questionService
@@ -117,7 +117,7 @@ class QuestionServiceTest {
     void testUpdateAQuestion() throws JsonProcessingException {
 
         Question question = questionService.create("maths",
-                QuestionType.MULTI_LINE, getQuestion(), "chap1").get();
+                QuestionType.MULTI_LINE, getQuestion(), "tom","chap1").get();
         question.setQuestion("Updated Query");
         final Integer newQuestionId = question.getId();
         question = questionService
@@ -132,7 +132,7 @@ class QuestionServiceTest {
     @Test
     void testRead() {
         final Question question = questionService.create(practice.getId(),
-                QuestionType.MULTI_LINE, getQuestion()).get();
+                QuestionType.MULTI_LINE, getQuestion(), "tom").get();
         final Integer newQuestionId = question.getId();
         Assertions.assertNotNull(questionService.read(newQuestionId).get(),
                 "Assert Created");
@@ -148,7 +148,7 @@ class QuestionServiceTest {
             final Question question =
                     questionService
                             .create(practice.getId(), QuestionType.MULTI_LINE,
-                                    getQuestion()).get();
+                                    getQuestion(),"tom").get();
             final Integer newQuestionId = question.getId();
             questionService.delete(newQuestionId);
             questionService.read(newQuestionId).get();
@@ -165,7 +165,7 @@ class QuestionServiceTest {
             final Question question =
                     questionService
                             .create(practice.getId(), QuestionType.MULTI_LINE,
-                                    getQuestion()).get();
+                                    getQuestion(),"tom").get();
             final Integer newQuestionId = question.getId();
             questionService.deleteAQuestion(newQuestionId, QuestionType.MULTI_LINE);
             questionService.read(newQuestionId).get();
@@ -178,10 +178,10 @@ class QuestionServiceTest {
     @Test
     void testList() {
         questionService.create(practice.getId(), QuestionType.MULTI_LINE,
-                getQuestion()).get();
+                getQuestion(),"tom").get();
         final Question question2 = getQuestion();
         questionService
-                .create(practice.getId(), QuestionType.MULTI_LINE, question2);
+                .create(practice.getId(), QuestionType.MULTI_LINE, question2,"tom");
         assertEquals(2, questionService.list(1, 2).size(), "Test Listing");
         assertEquals(1, questionService.list(1, 1).size(),
                 "Test Listing with restricted page");
@@ -193,7 +193,7 @@ class QuestionServiceTest {
 
         Optional<Question> question =
                 questionService.create("maths",
-                        QuestionType.MULTI_LINE, getQuestion(), "chap1");
+                        QuestionType.MULTI_LINE, getQuestion(), "tom", "chap1");
 
         assertEquals(1, questionService.list( "user","maths","chap1").size(), "Test " +
                 "Listing");
@@ -206,7 +206,7 @@ class QuestionServiceTest {
     @Test
     void testListWithExamId() {
         final Question question = questionService.create(practice.getId(),
-                QuestionType.MULTI_LINE, getQuestion()).get();
+                QuestionType.MULTI_LINE, getQuestion(), "tom").get();
         final Integer newExamId = question.getExamId();
         assertNotNull(questionService.list("user", newExamId),
                 "Assert Created");
