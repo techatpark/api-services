@@ -191,4 +191,9 @@ public class BookService {
         return questionService.update(bookName, questionType, id,
                 question, chapterPath);
     }
+
+    //learner create method
+    public Object learner(String bookName, String createdBy, String chapterPath) {
+     return 0;
+    }
 }

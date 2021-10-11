@@ -1,5 +1,6 @@
 package com.gurukulams.gurukulam.model;
 
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import javax.validation.constraints.NotBlank;

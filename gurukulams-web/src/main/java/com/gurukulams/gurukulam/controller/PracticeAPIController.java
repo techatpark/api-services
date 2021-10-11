@@ -79,12 +79,6 @@ abstract class PracticeAPIController<T extends Practice> {
     @Operation(summary = "Creates a new practice", description =
             "Can be called only by users with 'auth management' rights.",
             security = @SecurityRequirement(name = "bearerAuth"))
-    @ApiResponses(value = {@ApiResponse(responseCode = "201", description =
-            "practice created successfully"),
-            @ApiResponse(responseCode = "401",
-                    description = "invalid credentials"),
-            @ApiResponse(responseCode = "400", description =
-                    "practice is invalid")})
     @PostMapping
     public ResponseEntity<Optional<T>> create(final Principal principal,
                                               final
