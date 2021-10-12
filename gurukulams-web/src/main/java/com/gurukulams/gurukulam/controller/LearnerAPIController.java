@@ -21,43 +21,46 @@ import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 
 /**
- * the type learner api controller
+ * The type Learner api controller.
  */
 @RestController
 @RequestMapping("/api/learner")
 @Tag(name = "Gurukulam Learner", description = "Resource to manage learner")
 public class LearnerAPIController {
     /**
-     * declare a practiceService
+     * declare a practiceService.
      */
     private final PracticeService practiceService;
 
     /**
-     * declare a answerService
+     * answerService.
      */
     private final AnswerService answerService;
 
     /**
-     * declare a bookService
+     * bookService.
      */
     private final BookService bookService;
 
     /**
      *
-     * @param practiceService
-     * @param answerService
-     * @param bookService
+     * @param apracticeService
+     * @param aAnswerService
+     * @param abookService
      */
-    public LearnerAPIController(PracticeService practiceService, AnswerService answerService, BookService bookService) {
-        this.practiceService = practiceService;
-        this.answerService = answerService;
-        this.bookService = bookService;
+    public LearnerAPIController(final PracticeService apracticeService,
+                                final AnswerService aAnswerService,
+                                final BookService abookService) {
+        this.practiceService = apracticeService;
+        this.answerService = aAnswerService;
+        this.bookService = abookService;
     }
 
     /**
      * Create response entity.
      * @param bookName     the bookName
      * @param request      the request
+     * @param createdBy  the createdBy
      * @return the response entity
      */
     @Operation(summary = "Creates a new learner",
