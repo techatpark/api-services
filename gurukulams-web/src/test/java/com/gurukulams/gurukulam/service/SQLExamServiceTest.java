@@ -79,11 +79,11 @@ class SQLExamServiceTest {
         SqlPractice exam =
                 sqlExamService.create("sql", "user", examToBeCrated).get();
         exam.setName("Updated Name");
-        exam.setDatabase(Database.POSTGRES);
+        exam.setDatabase(Database.H2);
         final Integer newExamId = exam.getId();
         exam = sqlExamService.update(newExamId, exam).get();
         assertEquals("Updated Name", exam.getName(), "Updated");
-        assertEquals(Database.POSTGRES, exam.getDatabase(), "Updated");
+        assertEquals(Database.H2, exam.getDatabase(), "Updated");
     }
 
     /**
@@ -144,7 +144,7 @@ class SQLExamServiceTest {
     SqlPractice getExam() {
         final SqlPractice exam = new SqlPractice();
         exam.setName(EXAM1);
-        exam.setDatabase(Database.POSTGRES);
+        exam.setDatabase(Database.H2);
         exam.setScript(TestUtil.getScript(exam));
         exam.setDescription("description");
         return exam;

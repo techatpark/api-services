@@ -83,6 +83,8 @@ public class H2DatabaseConnector extends DatabaseConnector {
         final Integer id = exam.getId();
         unloadScript(exam);
         final String schemaName = "EXAM_" + id;
+        final String query = "DROP SCHEMA IF EXISTS " + schemaName;
+        update(query, exam);
         final HikariConfig config = new HikariConfig();
         config.setJdbcUrl(jdbcUrl.replaceAll("practice_db", schemaName));
         config.setUsername(username);

@@ -233,7 +233,7 @@ class QuestionServiceTest {
     SqlPractice getPractice() {
         final SqlPractice exam = new SqlPractice();
         exam.setName("Test Exam 1");
-        exam.setDatabase(Database.POSTGRES);
+        exam.setDatabase(Database.H2);
         exam.setScript(TestUtil.getScript(exam));
         exam.setDescription("description");
         return exam;

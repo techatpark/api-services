@@ -1,7 +1,6 @@
 package com.gurukulams.gurukulam.service.connector;
 
 import com.gurukulams.gurukulam.model.Database;
-import com.gurukulams.gurukulam.model.Practice;
 import com.gurukulams.gurukulam.model.Question;
 import com.gurukulams.gurukulam.model.sql.SqlPractice;
 import org.springframework.context.ApplicationContext;
@@ -90,11 +89,14 @@ public abstract class DatabaseConnector {
      * @param exam the exam
      * @return connetion connection
      */
-    protected Connection getConnection(final Practice exam) {
+    protected Connection getConnection(final SqlPractice exam) {
         Connection connection = null;
         try {
             connection = getDataSource().getConnection();
-            connection.setSchema("EXAM_" + exam.getId());
+            if (exam.getDatabase() != Database.H2) {
+                connection.setSchema("EXAM_" + exam.getId());
+            }
+
         } catch (final SQLException sqlException) {
             sqlException.printStackTrace();
         }
@@ -109,7 +111,7 @@ public abstract class DatabaseConnector {
      * @return count count
      */
     protected Integer getCount(final String countQuery,
-                               final Practice practice) {
+                               final SqlPractice practice) {
         Integer count = -1;
         try (Connection connection = getConnection(practice);
              Statement statement = connection.createStatement();
@@ -131,7 +133,7 @@ public abstract class DatabaseConnector {
      * @return numberOfUpdatedRows integer
      */
     protected Integer update(final String updateQuery,
-                             final Practice practice) {
+                             final SqlPractice practice) {
         Integer count = -1;
         try (Connection connection = getConnection(practice);
              Statement statement = connection.createStatement()) {
