@@ -26,7 +26,7 @@ import java.io.IOException;
 @RestController
 @RequestMapping("/api/learner")
 @Tag(name = "Gurukulam Learner", description = "Resource to manage learner")
-public class LearnerAPIController {
+class LearnerAPIController {
     /**
      * declare a practiceService.
      */
@@ -48,7 +48,7 @@ public class LearnerAPIController {
      * @param aAnswerService
      * @param abookService
      */
-    public LearnerAPIController(final PracticeService apracticeService,
+     LearnerAPIController(final PracticeService apracticeService,
                                 final AnswerService aAnswerService,
                                 final BookService abookService) {
         this.practiceService = apracticeService;
@@ -75,7 +75,7 @@ public class LearnerAPIController {
                     description = "invalid credentials")})
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/{bookName}/**")
-    public ResponseEntity<Object> create(final @PathVariable
+    public ResponseEntity create(final @PathVariable
                                               String bookName,
                                          final String createdBy,
                                          final HttpServletRequest request)
