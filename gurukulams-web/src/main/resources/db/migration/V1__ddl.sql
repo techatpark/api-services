@@ -57,3 +57,10 @@ CREATE TABLE question_choices (
     is_answer BOOLEAN NOT NULL DEFAULT FALSE,
     FOREIGN KEY (question_id) REFERENCES questions (id)
 );
+
+CREATE TABLE syllabus (
+    id INT auto_increment PRIMARY KEY,
+     title VARCHAR(55),
+     description TEXT
+);
+
