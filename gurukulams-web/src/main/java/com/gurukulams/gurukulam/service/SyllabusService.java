@@ -49,7 +49,7 @@ public class SyllabusService {
      * @param syllabus the syllabus
      * @return question optional
      */
-    public Optional<Syllabus> delete(final String userName,
+    public Boolean delete(final String userName,
                                      final Syllabus syllabus) {
         return null;
     }

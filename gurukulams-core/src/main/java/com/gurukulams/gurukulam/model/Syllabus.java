@@ -11,11 +11,11 @@ public class Syllabus {
     /**
      * declare title.
      */
-    private static String title;
+    private String title;
     /**
      * declare description.
      */
-    private static String description;
+    private String description;
 
     /**
      * Gets id.
@@ -28,7 +28,7 @@ public class Syllabus {
      * Gets title.
      * @return the title
      */
-    public static String getTitle() {
+    public String getTitle() {
         return title;
     }
     /**
@@ -52,7 +52,7 @@ public class Syllabus {
      *
      * @return the description
      */
-    public static String getDescription() {
+    public String getDescription() {
         return description;
     }
     /**
