@@ -19,7 +19,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  * The type Sql exam service test.
  */
 @SpringBootTest
-class SQLExamServiceTest {
+class SqlPracticeTest {
     /**
      * instance used for test cases.
      */

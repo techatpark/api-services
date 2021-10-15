@@ -7,12 +7,11 @@ import com.gurukulams.gurukulam.service.QuestionService;
 import com.gurukulams.gurukulam.service.UserNoteService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 
 /**
  * The type Java practice controller.
  */
-@RestController
+//@RestController
 @RequestMapping("/api/practices/java")
 @Tag(name = "Java Practices",
         description = "Resource to manage java practices")

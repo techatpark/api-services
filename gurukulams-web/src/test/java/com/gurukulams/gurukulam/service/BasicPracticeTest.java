@@ -1,11 +1,9 @@
 package com.gurukulams.gurukulam.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.gurukulams.gurukulam.model.Database;
 import com.gurukulams.gurukulam.model.Practice;
 import com.gurukulams.gurukulam.model.Question;
 import com.gurukulams.gurukulam.model.QuestionType;
-import com.gurukulams.gurukulam.model.sql.SqlPractice;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -24,17 +22,17 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
  * The type Question service test.
  */
 @SpringBootTest
-class QuestionServiceTest {
-    /**
-     * variable to be used for testing.
-     */
-    private static final String QUERY1 = "Query for all tables.";
+class BasicPracticeTest {
 
     /**
-     * variable to be used for testing.
+     * This is a question.
      */
-    private static final String ANSWER1 = "SELECT * FROM exams;";
+    private static final String QUESTION = "This is a question";
 
+    /**
+     * This is a answer.
+     */
+    private static final String ANSWER = "This is an answer";
 
     /**
      * Instance of Exam is used for testing Question.
@@ -51,7 +49,7 @@ class QuestionServiceTest {
      * Connection created with Question Service.
      */
     @Autowired
-    private PracticeService sqlPracticeService;
+    private PracticeService practiceService;
 
     /**
      * Before.
@@ -62,12 +60,11 @@ class QuestionServiceTest {
     void before() throws IOException {
         cleanUp();
         practice =
-                sqlPracticeService.create("sql", "user", getPractice()).get();
+                practiceService.create("sql", "user", getPractice()).get();
     }
 
     private void cleanUp() {
         questionService.delete();
-        sqlPracticeService.delete("sql");
     }
 
     /**
@@ -85,14 +82,14 @@ class QuestionServiceTest {
     void testCreateAQuestion() throws JsonProcessingException {
         final Question question = questionService.create("maths",
                 QuestionType.MULTI_LINE, getQuestion(), "tom", "/chap1").get();
-        assertEquals(QUERY1, question.getQuestion(), "Created Successfully");
+        assertEquals(QUESTION, question.getQuestion(), "Created Successfully");
     }
 
     @Test
     void testCreate() {
         final Question question = questionService.create(practice.getId(),
                 QuestionType.MULTI_LINE, getQuestion(),"tom").get();
-        assertEquals(QUERY1, question.getQuestion(), "Created Successfully");
+        assertEquals(QUESTION, question.getQuestion(), "Created Successfully");
 
     }
 
@@ -219,8 +216,8 @@ class QuestionServiceTest {
      */
     Question getQuestion() {
         final Question question = new Question();
-        question.setQuestion(QUERY1);
-        question.setAnswer(ANSWER1);
+        question.setQuestion(QUESTION);
+        question.setAnswer(ANSWER);
         question.setType(QuestionType.MULTI_LINE);
         return question;
     }
@@ -230,12 +227,10 @@ class QuestionServiceTest {
      *
      * @return the practice
      */
-    SqlPractice getPractice() {
-        final SqlPractice exam = new SqlPractice();
-        exam.setName("Test Exam 1");
-        exam.setDatabase(Database.H2);
-        exam.setScript(TestUtil.getScript(exam));
-        exam.setDescription("description");
+    Practice getPractice() {
+        final Practice exam = new Practice();
+        exam.setName("Test Practice");
+        exam.setDescription("Test Practice description");
         return exam;
     }
 
