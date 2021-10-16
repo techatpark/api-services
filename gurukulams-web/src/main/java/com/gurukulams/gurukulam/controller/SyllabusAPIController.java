@@ -3,12 +3,14 @@ package com.gurukulams.gurukulam.controller;
 import com.gurukulams.gurukulam.model.Syllabus;
 import com.gurukulams.gurukulam.service.SyllabusService;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.security.Principal;
+import java.util.Optional;
 
 /**
  * The type Syllabus api controller.
@@ -33,9 +35,10 @@ class SyllabusAPIController {
      * @param syllabus the syllabus
      * @return question optional
      */
-    public ResponseEntity<Syllabus> create(final Principal principal,
-                                final @RequestBody Syllabus syllabus) {
-        return syllabusService.create(principal.getName(), syllabus);
+    public ResponseEntity<Optional<Syllabus>> create(final Principal principal,
+                                                              final @RequestBody Syllabus syllabus) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(
+                syllabusService.create(principal.getName(), syllabus));
     }
 
     /**
