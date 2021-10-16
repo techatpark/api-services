@@ -24,15 +24,12 @@ import java.security.Principal;
 import java.util.List;
 import java.util.Optional;
 
-/**
- * The type Syllabus api controller.
- */
 @RestController
 @RequestMapping("/api/syllabus")
 @Tag(name = "Syllabus", description = "Resource to manage Syllabus")
 class SyllabusAPIController {
     /**
-     * declare a syllabusService.
+     * declare a syllabus service.
      */
     private final SyllabusService syllabusService;
 
@@ -41,13 +38,6 @@ class SyllabusAPIController {
     }
 
 
-    /**
-     * Create response entity.
-     *
-     * @param principal the principal
-     * @param syllabus  the syllabus
-     * @return the response entity
-     */
     @Operation(summary = "Creates a new syllabus",
             description = "Can be called "
                     + "only by users with 'auth management' rights.",
@@ -66,12 +56,6 @@ class SyllabusAPIController {
                 syllabusService.create(principal.getName(), syllabus));
     }
 
-    /**
-     * reads from syllabus.
-     * @param principal the principal
-     * @param syllabus the syllabus
-     * @return syllabus optional
-     */
     @Operation(summary = "Get the Syllabus with given id",
             security = @SecurityRequirement(name = "bearerAuth"))
     @ApiResponses(value = {@ApiResponse(responseCode = "200",
@@ -81,20 +65,15 @@ class SyllabusAPIController {
             @ApiResponse(responseCode = "404",
                     description = "syllabus not found")})
 
-    @GetMapping("/{id}/{title}/description")
-    public ResponseEntity<Syllabus> read(final Principal principal,
+    @GetMapping("/{id}")
+    public ResponseEntity<Syllabus> read(final @PathVariable Long id,
+                                         final Principal principal,
                                    final @PathVariable Syllabus syllabus) {
-        return ResponseEntity.of(syllabusService.read(principal.getName(),
+        return ResponseEntity.of(syllabusService.read(id, principal.getName(),
                                                                 syllabus));
     }
 
-    /**
-     * updates the syllabus.
-     * @param principal the principal
-     * @param syllabus the syllabus
-     * @return syllabus optional
-     */
-    @Operation(summary = "Updates the syllabus by given id",
+   @Operation(summary = "Updates the syllabus by given id",
             description = "Can be called only by users "
                     + "with 'auth management' rights.",
             security = @SecurityRequirement(name = "bearerAuth"))
@@ -106,25 +85,21 @@ class SyllabusAPIController {
                     description = "invalid credentials"),
             @ApiResponse(responseCode = "404",
                     description = "syllabus not found")})
-    @PutMapping
-    public ResponseEntity<Optional<Syllabus>> update(final Principal
+    @PutMapping("/{id}")
+    public ResponseEntity<Optional<Syllabus>> update(final@PathVariable Long id,
+                                                     final Principal
                                                         principal,
                                                      final @RequestBody
                                                              Syllabus
                                                              syllabus)
             throws JsonProcessingException {
         final Optional<Syllabus> updatedSyllabus =
-                syllabusService.update(principal.getName(), syllabus);
+                syllabusService.update(id, principal.getName(), syllabus);
         return updatedSyllabus == null ? new ResponseEntity<>(
                 HttpStatus.NOT_FOUND)
                 : ResponseEntity.ok(updatedSyllabus);
     }
 
-    /**
-     * delete the syllabus.
-     * @param id the id
-     * @return syllabus optional
-     */
     @Operation(summary = "Deletes the syllabus by given id",
             security = @SecurityRequirement(name = "bearerAuth"))
     @ApiResponses(value = {@ApiResponse(responseCode = "200",
@@ -135,17 +110,11 @@ class SyllabusAPIController {
                     description = "syllabus not found")})
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(final @PathVariable
-                                               long id) {
+                                               Long id) {
         return syllabusService.delete(id) ? ResponseEntity.ok().build()
                 : new ResponseEntity<Void>(HttpStatus.NOT_FOUND);
     }
 
-    /**
-     * list the syllabus.
-     * @param principal the principal
-     * @param syllabus the syllabus
-     * @return syllabus optional
-     */
     @Operation(summary = "lists the syllabus",
             description = " Can be invoked by auth users only",
             security = @SecurityRequirement(name = "bearerAuth"))

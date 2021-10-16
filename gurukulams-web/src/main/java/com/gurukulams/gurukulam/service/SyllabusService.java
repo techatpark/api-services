@@ -24,22 +24,26 @@ public class SyllabusService {
     }
     /**
      * reads from syllabus.
+     * @param id the id
      * @param userName the userName
      * @param syllabus the syllabus
      * @return question optional
      */
-    public Optional<Syllabus> read(final String userName,
+    public Optional<Syllabus> read(final Long id,
+                                   final String userName,
                                        final Syllabus syllabus) {
         return null;
     }
 
     /**
      * update the syllabus.
+     * @param id the id
      * @param userName the userName
      * @param syllabus the syllabus
      * @return question optional
      */
-    public Optional<Syllabus> update(final String userName,
+    public Optional<Syllabus> update(final Long id,
+                                     final String userName,
                                       final Syllabus syllabus) {
         return null;
     }
@@ -48,7 +52,7 @@ public class SyllabusService {
      * @param id the id
      * @return question optional
      */
-    public Boolean delete(final long id) {
+    public Boolean delete(final Long id) {
         return false;
     }
     /**

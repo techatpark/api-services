@@ -59,7 +59,7 @@ CREATE TABLE question_choices (
 );
 
 CREATE TABLE syllabus (
-    id integer auto_increment PRIMARY KEY,
+    id Long auto_increment PRIMARY KEY,
      title VARCHAR(55),
      description TEXT
 );

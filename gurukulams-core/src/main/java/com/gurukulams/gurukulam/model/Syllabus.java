@@ -7,7 +7,7 @@ public class Syllabus {
     /**
      * declare id.
      */
-    private long id;
+    private Long id;
     /**
      * declare title.
      */
@@ -21,7 +21,7 @@ public class Syllabus {
      * Gets id.
      * @return the id
      */
-    public long getId() {
+    public Long getId() {
         return id;
     }
     /**
@@ -36,7 +36,7 @@ public class Syllabus {
      *
      * @param anid an id
      */
-    public void setId(final long anid) {
+    public void setId(final Long anid) {
         this.id = anid;
     }
     /**
