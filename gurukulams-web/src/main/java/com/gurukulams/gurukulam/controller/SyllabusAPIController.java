@@ -22,8 +22,8 @@ class SyllabusAPIController {
      */
     private final SyllabusService syllabusService;
 
-    SyllabusAPIController(SyllabusService syllabusService) {
-        this.syllabusService = syllabusService;
+    SyllabusAPIController(final SyllabusService asyllabusService) {
+        this.syllabusService = asyllabusService;
     }
 
 
@@ -34,7 +34,7 @@ class SyllabusAPIController {
      * @return question optional
      */
     public ResponseEntity<Syllabus> create(final Principal principal,
-                                           final @RequestBody Syllabus syllabus) {
+                                final @RequestBody Syllabus syllabus) {
         return syllabusService.create(principal.getName(), syllabus);
     }
 
@@ -45,7 +45,7 @@ class SyllabusAPIController {
      * @return question optional
      */
     public ResponseEntity<Syllabus> read(final Principal principal,
-                                     final @RequestBody Syllabus syllabus) {
+                                   final @RequestBody Syllabus syllabus) {
         return syllabusService.read(principal.getName(), syllabus);
     }
 
@@ -53,21 +53,20 @@ class SyllabusAPIController {
      * update the syllabus.
      * @param principal the principal
      * @param syllabus the syllabus
-     * @return question optional
+     * @return syllabus optional
      */
     public ResponseEntity<Syllabus> update(final Principal principal,
-                                 final @RequestBody Syllabus syllabus) {
+                               final @RequestBody Syllabus syllabus) {
         return syllabusService.update(principal.getName(), syllabus);
     }
 
     /**
-     * deletes from database.
-     * @param principal the principal
-     * @param syllabus the syllabus
+     * delete the syllabus.
+     * @param id the id
      * @return question optional
      */
-    public Boolean delete(final Principal principal, Syllabus syllabus) {
-        return syllabusService.delete(principal.getName(), syllabus);
+    public Boolean delete(final long id) {
+        return syllabusService.delete(id);
     }
 
     /**

@@ -17,7 +17,7 @@ public class SyllabusService {
      * @return question optional
      */
     public ResponseEntity<Syllabus> create(final String userName,
-                                      final Syllabus syllabus) {
+                                                    final Syllabus syllabus) {
         return null;
     }
     /**
@@ -41,16 +41,13 @@ public class SyllabusService {
                                       final Syllabus syllabus) {
         return null;
     }
-
     /**
-     * deletes from database.
-     * @param userName the userName
-     * @param syllabus the syllabus
+     * delete the syllabus.
+     * @param id the id
      * @return question optional
      */
-    public Boolean delete(final String userName,
-                                    final Syllabus syllabus) {
-        return null;
+    public Boolean delete(final long id) {
+        return false;
     }
     /**
      * list the syllabus.
