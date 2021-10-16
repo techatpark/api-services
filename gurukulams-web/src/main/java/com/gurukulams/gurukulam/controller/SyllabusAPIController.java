@@ -3,13 +3,14 @@ package com.gurukulams.gurukulam.controller;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.gurukulams.gurukulam.model.Syllabus;
 import com.gurukulams.gurukulam.service.SyllabusService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
 import java.util.List;
@@ -33,11 +34,23 @@ class SyllabusAPIController {
 
 
     /**
-     * inserts data.
-     * @param principal the userName
-     * @param syllabus the syllabus
-     * @return syllabus optional
+     * Create response entity.
+     *
+     * @param principal the principal
+     * @param syllabus  the syllabus
+     * @return the response entity
      */
+    @Operation(summary = "Creates a new syllabus",
+            description = "Can be called "
+                    + "only by users with 'auth management' rights.",
+            security = @SecurityRequirement(name = "bearerAuth"))
+    @ApiResponses(value = {@ApiResponse(responseCode = "201",
+            description = "user note created successfully"),
+            @ApiResponse(responseCode = "401",
+                    description = "invalid syllabus"),
+            @ApiResponse(responseCode = "400",
+                    description = "user note is invalid")})
+    @PostMapping
     public ResponseEntity<Optional<Syllabus>> create(final Principal principal,
                                         final @RequestBody Syllabus syllabus) {
         return ResponseEntity.status(HttpStatus.CREATED).body(

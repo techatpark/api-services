@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequestMapping("/api/")
-@Tag(name = "Gurukulam Institute", description = "Resource to manage Institute")
+@Tag(name = "Institutes", description = "Resource to manage Institutes")
 class InstituteAPIController {
 
 

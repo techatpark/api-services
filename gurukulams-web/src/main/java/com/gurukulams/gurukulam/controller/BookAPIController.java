@@ -182,18 +182,18 @@ class BookAPIController {
      * @param bookName  the practice id
      * @return the response entity
      */
-    @Operation(summary = "Am I the created_by the given book",
+    @Operation(summary = "Am I the owner the given book ?",
             description = "Can be called only by"
                     + " users with 'auth management' rights.",
             security = @SecurityRequirement(name = "bearerAuth"))
     @ApiResponses(value = {@ApiResponse(responseCode = "202",
-            description = "Current user is the created_by"),
+            description = "Current user is the owner"),
             @ApiResponse(responseCode = "401",
                     description = "invalid credentials"),
             @ApiResponse(responseCode = "406",
                     description = "Current user is not the created_by")})
     @ResponseStatus(HttpStatus.ACCEPTED)
-    @GetMapping("/{bookName}/created_by")
+    @GetMapping("/{bookName}/owner")
     public ResponseEntity<Void> isOwner(final Principal
                                                 principal,
                                         final @PathVariable

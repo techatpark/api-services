@@ -24,9 +24,9 @@ import java.util.Iterator;
  */
 @Profile("!prod")
 @Configuration
-@OpenAPIDefinition(info = @Info(title = "Gurukulam API",
+@OpenAPIDefinition(info = @Info(title = "Gurukulams API",
         version = "2.0",
-        description = "Gurukulam API Documentation",
+        description = "Gurukulams API Documentation",
         license = @License(name = "Apache 2.0",
                 url = "https://foo.bar"),
         contact = @Contact(url = "https://www.techatpark.com",
