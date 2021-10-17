@@ -1,4 +1,4 @@
-package com.gurukulams.gurukulam.controller;
+package com.gurukulams.gurukulam.controller.api;
 
 import com.gurukulams.gurukulam.model.Practice;
 import com.gurukulams.gurukulam.service.AnswerService;

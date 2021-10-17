@@ -1,4 +1,4 @@
-package com.gurukulams.gurukulam.controller;
+package com.gurukulams.gurukulam.controller.api;
 
 import com.gurukulams.gurukulam.model.sql.SqlPractice;
 import com.gurukulams.gurukulam.service.AnswerService;

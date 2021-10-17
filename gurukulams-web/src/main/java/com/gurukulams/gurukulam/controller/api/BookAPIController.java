@@ -1,4 +1,4 @@
-package com.gurukulams.gurukulam.controller;
+package com.gurukulams.gurukulam.controller.api;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.gurukulams.gurukulam.model.Question;
