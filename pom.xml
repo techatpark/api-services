@@ -19,6 +19,15 @@
     <properties>
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
+
+        <!-- Version of Dependencies -->
+        <springdoc.version>1.5.11</springdoc.version>
+        <maven.checkstyle.version>3.1.2</maven.checkstyle.version>
+        <checkstyle.version>9.0.1</checkstyle.version>
+        <jsonwebtoken.version>0.11.2</jsonwebtoken.version>
+        <swagger.version>2.1.11</swagger.version>
+        <archunit.version>0.21.0</archunit.version>
+        <exec-maven.version>3.0.0</exec-maven.version>
     </properties>
 
     <modules>
@@ -34,14 +43,13 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-checkstyle-plugin</artifactId>
-                <version>3.1.2</version>
+                <version>${maven.checkstyle.version}</version>
                 <dependencies>
                     <dependency>
                         <groupId>com.puppycrawl.tools</groupId>
                         <artifactId>checkstyle</artifactId>
-                        <version>9.0.1</version>
+                        <version>${checkstyle.version}</version>
                     </dependency>
-
                 </dependencies>
                 <configuration>
                     <suppressionsLocation>checkstyle-suppressions.xml
