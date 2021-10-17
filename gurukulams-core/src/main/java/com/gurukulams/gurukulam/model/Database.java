@@ -2,9 +2,6 @@ package com.gurukulams.gurukulam.model;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
-import com.gurukulams.gurukulam.service.connector.DatabaseConnector;
-import com.gurukulams.gurukulam.service.connector.h2.H2DatabaseConnector;
-import com.gurukulams.gurukulam.service.connector.postgress.PostgressDatabaseConnector;
 
 /**
  * defines database type.
@@ -14,11 +11,11 @@ public enum Database {
     /**
      * h2 database.
      */
-    H2("h2", H2DatabaseConnector.class),
+    H2("h2"),
     /**
      * postgresql database.
      */
-    POSTGRES("postgresql", PostgressDatabaseConnector.class);
+    POSTGRES("postgresql");
 
     /**
      * value will be either mysql or postgres.
@@ -26,20 +23,12 @@ public enum Database {
     private final String value;
 
     /**
-     * implementation class for connctor.
-     */
-    private final Class<? extends DatabaseConnector> clazz;
-
-    /**
      * constructor to create type of database.
      *
      * @param aValue
-     * @param aClazz
      */
-    Database(final String aValue, final Class<? extends DatabaseConnector>
-            aClazz) {
+    Database(final String aValue) {
         this.value = aValue;
-        this.clazz = aClazz;
     }
 
     /**
@@ -68,15 +57,6 @@ public enum Database {
     @JsonValue
     public String getValue() {
         return value;
-    }
-
-    /**
-     * get Class thatimplements given Database Connector.
-     *
-     * @return clazz connector class
-     */
-    public Class<? extends DatabaseConnector> getConnectorClass() {
-        return clazz;
     }
 
 }

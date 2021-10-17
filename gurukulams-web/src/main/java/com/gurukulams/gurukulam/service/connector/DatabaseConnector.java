@@ -3,6 +3,8 @@ package com.gurukulams.gurukulam.service.connector;
 import com.gurukulams.gurukulam.model.Database;
 import com.gurukulams.gurukulam.model.Question;
 import com.gurukulams.gurukulam.model.sql.SqlPractice;
+import com.gurukulams.gurukulam.service.connector.h2.H2DatabaseConnector;
+import com.gurukulams.gurukulam.service.connector.postgress.PostgressDatabaseConnector;
 import org.springframework.context.ApplicationContext;
 
 import javax.sql.DataSource;
@@ -49,9 +51,17 @@ public abstract class DatabaseConnector {
             final ApplicationContext applicationContext) {
         DatabaseConnector databaseConnector = MAPPING.get(database.getValue());
         if (databaseConnector == null) {
-            databaseConnector =
-                    applicationContext.getBean(database.getConnectorClass());
-            MAPPING.put(database.getValue(), databaseConnector);
+            switch (database) {
+                case H2 -> MAPPING.put(database.getValue(),
+                        applicationContext
+                                .getBean(H2DatabaseConnector.class));
+                case POSTGRES -> MAPPING.put(database.getValue(),
+                        applicationContext
+                                .getBean(PostgressDatabaseConnector.class));
+                default -> throw
+                        new IllegalArgumentException("Unreachable Statement");
+            }
+            databaseConnector = MAPPING.get(database.getValue());
         }
         return databaseConnector;
     }
