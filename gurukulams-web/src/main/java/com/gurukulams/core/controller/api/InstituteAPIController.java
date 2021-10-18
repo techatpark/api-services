@@ -29,7 +29,7 @@ import java.util.Optional;
  * The type Institute api controller.
  */
 @RestController
-@RequestMapping("/api/")
+@RequestMapping("/api/institutes")
 @Tag(name = "Institutes", description = "Resource to manage Institutes")
 class InstituteAPIController {
 
@@ -53,7 +53,7 @@ class InstituteAPIController {
             @ApiResponse(responseCode = "400",
                     description = "invalid credentials")})
     @ResponseStatus(HttpStatus.CREATED)
-    @PostMapping
+    @PostMapping(produces = "application/json",consumes = "application/json")
     public ResponseEntity<Optional<Institute>> create(final Principal principal,
                                                       final @RequestBody
                                                               Institute institute) {
