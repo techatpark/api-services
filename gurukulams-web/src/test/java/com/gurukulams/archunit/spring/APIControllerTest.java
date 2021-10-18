@@ -37,7 +37,7 @@ public class APIControllerTest {
             .areAnnotatedWith(RestController.class).and().arePublic();
 
     @Test
-    public void controller_immutable_stateless() throws IOException {
+    public void controller_immutable_stateless() {
         JavaClasses importedClasses = new ClassFileImporter()
                 .withImportOption(ImportOption.Predefined.DO_NOT_INCLUDE_TESTS)
                 .withImportOption(ImportOption.Predefined.DO_NOT_INCLUDE_JARS)
@@ -87,25 +87,48 @@ public class APIControllerTest {
 
         rule.check(importedClasses);
 
+
+    }
+
+    @Test
+    public void testSourceText() throws IOException {
+        List<Path> controllerFiles ;
         //TODO: https://github.com/TNG/ArchUnit/issues/113
         // We should not validate at Controller Layer
         try (Stream<Path> walk = Files.walk(Paths.get("src/main/java"))) {
-            List<Path> controllerFiles = walk
+            controllerFiles = walk
                     .filter(p -> !Files.isDirectory(p))
-                    .filter(p -> p.toString().endsWith("Controller.java"))
-                    .filter(path -> {
-                        try {
-                            return Files.readString(path).contains("@Valid");
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-                        return false;
-                    })
+                    .filter(p -> p.toString().endsWith("APIController.java"))
                     .collect(Collectors.toList());
 
-            Assertions.assertEquals(0, controllerFiles.size(),
-                    "No Validation at Controller");
         }
+
+        List<Path> problematicFiles = controllerFiles.stream()
+                .filter(path -> {
+                    try {
+                        return Files.readString(path).contains("@Valid");
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    return false;
+                }).toList() ;
+
+        Assertions.assertEquals(0, problematicFiles.size(),
+                "No Validation at Controller " + problematicFiles.toString());
+
+        problematicFiles = controllerFiles.stream()
+                .filter(path -> {
+                    try {
+                        return Files.readString(path).contains("new ResponseEntity");
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    return false;
+                }).toList();
+        Assertions.assertEquals(0, problematicFiles.size(),
+                "Response Entity should only be created by convinient methods "
+                        + problematicFiles.toString());
+
 
     }
 
