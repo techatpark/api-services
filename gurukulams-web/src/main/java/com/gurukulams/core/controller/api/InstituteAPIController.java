@@ -52,10 +52,10 @@ class InstituteAPIController {
             @ApiResponse(responseCode = "401",
                     description = "invalid credentials")})
     @ResponseStatus(HttpStatus.CREATED)
-    @PostMapping(produces = "application/json",consumes = "application/json")
+    @PostMapping(produces = "application/json", consumes = "application/json")
     public ResponseEntity<Optional<Institute>> create(final Principal principal,
                                                       final @RequestBody
-                                                              Institute institute) {
+                                                     Institute institute) {
         return ResponseEntity.status(HttpStatus.CREATED).body(
                 instituteService.create(principal.getName(), institute));
     }
@@ -71,7 +71,7 @@ class InstituteAPIController {
     @GetMapping(value = "/{id}", produces = "application/json")
     public ResponseEntity<Institute> read(final @PathVariable Long id,
                                          final Principal principal) {
-        return ResponseEntity.of(instituteService.read(id, principal.getName()));
+    return ResponseEntity.of(instituteService.read(id, principal.getName()));
     }
 
     @Operation(summary = "Updates the institute by given id",
@@ -88,7 +88,8 @@ class InstituteAPIController {
                     description = "institute not found")})
     @PutMapping(value = "/{id}", produces = "application/json", consumes =
             "application/json")
-    public ResponseEntity<Optional<Institute>> update(final@PathVariable Long id,
+    public ResponseEntity<Optional<Institute>> update(final@PathVariable
+                                                                  Long id,
                                                      final Principal
                                                              principal,
                                                      final @RequestBody

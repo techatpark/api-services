@@ -26,12 +26,10 @@ public class SyllabusService {
      * reads from syllabus.
      * @param id the id
      * @param userName the userName
-     * @param syllabus the syllabus
      * @return question optional
      */
     public Optional<Syllabus> read(final Long id,
-                                   final String userName,
-                                       final Syllabus syllabus) {
+                                   final String userName) {
         return null;
     }
 
@@ -58,11 +56,9 @@ public class SyllabusService {
     /**
      * list the syllabus.
      * @param userName the userName
-     * @param syllabus the syllabus
      * @return question optional
      */
-    public List<Syllabus> list(final String userName,
-                               final Syllabus syllabus) {
+    public List<Syllabus> list(final String userName) {
         return null;
     }
 }

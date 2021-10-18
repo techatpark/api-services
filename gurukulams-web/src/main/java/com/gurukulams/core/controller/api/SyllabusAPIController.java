@@ -44,12 +44,12 @@ class SyllabusAPIController {
             security = @SecurityRequirement(name = "bearerAuth"))
     @ApiResponses(value = {@ApiResponse(responseCode = "201",
             description = "syllabus created successfully"),
-            @ApiResponse(responseCode = "401",
-                    description = "syllabus is invalid"),
             @ApiResponse(responseCode = "400",
+                    description = "syllabus is invalid"),
+            @ApiResponse(responseCode = "401",
                     description = "invalid credentials")})
     @ResponseStatus(HttpStatus.CREATED)
-    @PostMapping
+    @PostMapping(produces = "application/json", consumes = "application/json")
     public ResponseEntity<Optional<Syllabus>> create(final Principal principal,
                                         final @RequestBody Syllabus syllabus) {
         return ResponseEntity.status(HttpStatus.CREATED).body(
@@ -67,10 +67,8 @@ class SyllabusAPIController {
 
     @GetMapping("/{id}")
     public ResponseEntity<Syllabus> read(final @PathVariable Long id,
-                                         final Principal principal,
-                                   final @PathVariable Syllabus syllabus) {
-        return ResponseEntity.of(syllabusService.read(id, principal.getName(),
-                                                                syllabus));
+                                         final Principal principal) {
+        return ResponseEntity.of(syllabusService.read(id, principal.getName()));
     }
 
    @Operation(summary = "Updates the syllabus by given id",
@@ -85,7 +83,8 @@ class SyllabusAPIController {
                     description = "invalid credentials"),
             @ApiResponse(responseCode = "404",
                     description = "syllabus not found")})
-    @PutMapping("/{id}")
+   @PutMapping(value = "/{id}", produces = "application/json", consumes =
+                                                        "application/json")
     public ResponseEntity<Optional<Syllabus>> update(final@PathVariable Long id,
                                                      final Principal
                                                         principal,
@@ -124,16 +123,11 @@ class SyllabusAPIController {
                     description = "syllabus are not available"),
             @ApiResponse(responseCode = "401",
                     description = "invalid credentials")})
-    @GetMapping
+    @GetMapping(produces = "application/json")
     public ResponseEntity<List<Syllabus>> list(final Principal
-                                                     principal,
-                                                           final
-                                                           @RequestBody
-                                                                   Syllabus
-                                                                   syllabus) {
+                                                     principal) {
         final List<Syllabus> syllabusList = syllabusService.list(
-                principal.getName(),
-                syllabus);
+                principal.getName());
         return syllabusList.isEmpty() ? new ResponseEntity<List<Syllabus>>(
                 HttpStatus.NO_CONTENT)
                 : ResponseEntity.ok(syllabusList);

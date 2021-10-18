@@ -1,7 +1,6 @@
 package com.gurukulams.core.service;
 
 import com.gurukulams.core.model.Institute;
-import com.gurukulams.core.model.Syllabus;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -51,6 +50,7 @@ public class InstituteService {
     /**
      * delete the institute.
      * @param id the id
+     * @return false
      */
     public Boolean delete(final Long id) {
         return false;
