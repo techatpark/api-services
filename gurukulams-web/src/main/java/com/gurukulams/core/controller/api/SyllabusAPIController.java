@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.net.URI;
 import java.security.Principal;
 import java.util.List;
 import java.util.Optional;
@@ -50,10 +51,11 @@ class SyllabusAPIController {
                     description = "invalid credentials")})
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping(produces = "application/json", consumes = "application/json")
-    public ResponseEntity<Optional<Syllabus>> create(final Principal principal,
+    public ResponseEntity<Syllabus> create(final Principal principal,
                                         final @RequestBody Syllabus syllabus) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(
-                syllabusService.create(principal.getName(), syllabus));
+    Syllabus created = syllabusService.create(principal.getName(), syllabus);
+    return ResponseEntity.created(URI.create("/api/syllabus" + created.id()))
+                                                                 .body(created);
     }
 
     @Operation(summary = "Get the Syllabus with given id",
@@ -109,8 +111,10 @@ class SyllabusAPIController {
                     description = "syllabus not found")})
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(final @PathVariable
-                                               Long id) {
-        return syllabusService.delete(id) ? ResponseEntity.ok().build()
+                                               Long id,
+                                       final Principal principal) {
+        return syllabusService.delete(id,
+                  principal.getName()) ? ResponseEntity.ok().build()
                 : new ResponseEntity<Void>(HttpStatus.NOT_FOUND);
     }
 

@@ -13,12 +13,12 @@ import java.util.Optional;
 public class SyllabusService {
 
     /**
-     * inserts data.
+     * creates new syllabus.
      * @param userName the userName
      * @param syllabus the syllabus
      * @return question optional
      */
-    public Optional<Syllabus> create(final String userName,
+    public Syllabus create(final String userName,
                                      final Syllabus syllabus) {
         return null;
     }
@@ -48,9 +48,11 @@ public class SyllabusService {
     /**
      * delete the syllabus.
      * @param id the id
+     * @param userName the userName
      * @return question optional
      */
-    public Boolean delete(final Long id) {
+    public Boolean delete(final Long id,
+                          final String userName) {
         return false;
     }
     /**
