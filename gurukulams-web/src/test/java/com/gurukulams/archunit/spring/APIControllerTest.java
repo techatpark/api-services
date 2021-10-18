@@ -52,7 +52,7 @@ public class APIControllerTest {
                 .resideOutsideOfPackage("javax.validation")
                 .andShould().onlyDependOnClassesThat()
                 .resideInAnyPackage(
-                        "com.gurukulams.gurukulam.controller.api"
+                        "com.gurukulams.core.controller.api"
                         , "javax.servlet.http"
                         , "javax.servlet"
                         , "java.io"

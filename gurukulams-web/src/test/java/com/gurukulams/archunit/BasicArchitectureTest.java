@@ -44,7 +44,7 @@ public class BasicArchitectureTest {
     @Test
     void no_access_to_jdbc() {
         ArchRule no_access_to_jdbc = noClasses().that()
-                .resideOutsideOfPackage("com.gurukulams.gurukulam.service.connector")
+                .resideOutsideOfPackage("com.gurukulams.core.service.connector")
                 .should().accessClassesThat()
                 .belongToAnyOf(Connection.class, Statement.class, PreparedStatement.class)
                 .because("we do not use JDBC directly");
