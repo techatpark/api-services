@@ -59,7 +59,7 @@ CREATE TABLE question_choices (
 );
 
 CREATE TABLE syllabus (
-    id Long auto_increment PRIMARY KEY,
+    id INT auto_increment PRIMARY KEY,
     title VARCHAR(55),
     description TEXT,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
@@ -69,7 +69,7 @@ CREATE TABLE syllabus (
 );
 
 CREATE TABLE institute (
-    id Long auto_increment PRIMARY KEY,
+    id INT auto_increment PRIMARY KEY,
     title VARCHAR(55),
     description TEXT,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
