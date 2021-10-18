@@ -2,7 +2,6 @@ package com.gurukulams.core.controller.api;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.gurukulams.core.model.Institute;
-import com.gurukulams.core.model.Syllabus;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -48,9 +47,9 @@ class InstituteAPIController {
             security = @SecurityRequirement(name = "bearerAuth"))
     @ApiResponses(value = {@ApiResponse(responseCode = "201",
             description = "institute created successfully"),
-            @ApiResponse(responseCode = "401",
-                    description = "institute is invalid"),
             @ApiResponse(responseCode = "400",
+                    description = "institute is invalid"),
+            @ApiResponse(responseCode = "401",
                     description = "invalid credentials")})
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping(produces = "application/json",consumes = "application/json")
