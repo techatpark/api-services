@@ -68,12 +68,10 @@ class InstituteAPIController {
                     description = "invalid credentials"),
             @ApiResponse(responseCode = "404",
                     description = "institute not found")})
-    @GetMapping("/{id}")
+    @GetMapping(value = "/{id}", produces = "application/json")
     public ResponseEntity<Institute> read(final @PathVariable Long id,
-                                         final Principal principal,
-                                         final @PathVariable Institute institute) {
-        return ResponseEntity.of(instituteService.read(id, principal.getName(),
-                institute));
+                                         final Principal principal) {
+        return ResponseEntity.of(instituteService.read(id, principal.getName()));
     }
 
     @Operation(summary = "Updates the institute by given id",
@@ -88,7 +86,8 @@ class InstituteAPIController {
                     description = "invalid credentials"),
             @ApiResponse(responseCode = "404",
                     description = "institute not found")})
-    @PutMapping("/{id}")
+    @PutMapping(value = "/{id}", produces = "application/json", consumes =
+            "application/json")
     public ResponseEntity<Optional<Institute>> update(final@PathVariable Long id,
                                                      final Principal
                                                              principal,
@@ -127,16 +126,11 @@ class InstituteAPIController {
                     description = "syllabus are not available"),
             @ApiResponse(responseCode = "401",
                     description = "invalid credentials")})
-    @GetMapping
+    @GetMapping(produces = "application/json")
     public ResponseEntity<List<Institute>> list(final Principal
-                                                       principal,
-                                               final
-                                               @RequestBody
-                                                       Institute
-                                                       institute) {
+                                                       principal) {
         final List<Institute> instituteList = instituteService.list(
-                principal.getName(),
-                institute);
+                principal.getName());
         return instituteList.isEmpty() ? new ResponseEntity<List<Institute>>(
                 HttpStatus.NO_CONTENT)
                 : ResponseEntity.ok(instituteList);

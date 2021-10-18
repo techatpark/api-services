@@ -28,12 +28,10 @@ public class InstituteService {
      * reads from institute.
      * @param id the id
      * @param userName the userName
-     * @param institute the institute
      * @return question optional
      */
     public Optional<Institute> read(final Long id,
-                                   final String userName,
-                                   final Institute institute) {
+                                   final String userName) {
         return null;
     }
 
@@ -61,11 +59,9 @@ public class InstituteService {
     /**
      * list the institute.
      * @param userName the userName
-     * @param institute the institute
      * @return question optional
      */
-    public List<Institute> list(final String userName,
-                               final Institute institute) {
+    public List<Institute> list(final String userName) {
         return null;
     }
 }
