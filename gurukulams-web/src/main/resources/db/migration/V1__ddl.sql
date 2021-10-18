@@ -60,7 +60,21 @@ CREATE TABLE question_choices (
 
 CREATE TABLE syllabus (
     id Long auto_increment PRIMARY KEY,
-     title VARCHAR(55),
-     description TEXT
+    title VARCHAR(55),
+    description TEXT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    created_by VARCHAR(55) NOT NULL,
+    modified_at TIMESTAMP,
+    modified_by VARCHAR(200)
+);
+
+CREATE TABLE institute (
+    id Long auto_increment PRIMARY KEY,
+    title VARCHAR(55),
+    description TEXT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    created_by VARCHAR(55) NOT NULL,
+    modified_at TIMESTAMP,
+    modified_by VARCHAR(200)
 );
 
