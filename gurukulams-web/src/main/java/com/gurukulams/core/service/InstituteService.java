@@ -119,7 +119,7 @@ public final class InstituteService {
 
 
         try {
-            final Institute p = (Institute) jdbcTemplate
+            final Institute p = jdbcTemplate
                     .queryForObject(query, new Object[]{id},
                             this::rowMapper);
             return Optional.of(p);
@@ -173,7 +173,7 @@ public final class InstituteService {
      */
     public List<Institute> list(final String userName) {
         String query = "SELECT id,title,description,created_by,"
-                + "created_at, modified_at, modified_by FROM institutes ";
+                + "created_at, modified_at, modified_by FROM institutes";
         return jdbcTemplate.query(query, this::rowMapper);
     }
 

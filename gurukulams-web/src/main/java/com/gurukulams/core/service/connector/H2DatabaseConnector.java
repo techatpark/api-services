@@ -1,8 +1,7 @@
-package com.gurukulams.core.service.connector.h2;
+package com.gurukulams.core.service.connector;
 
 import com.gurukulams.core.model.Question;
 import com.gurukulams.core.model.sql.SqlPractice;
-import com.gurukulams.core.service.connector.DatabaseConnector;
 import com.gurukulams.core.service.util.FlywayUtil;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
@@ -17,7 +16,7 @@ import javax.sql.DataSource;
  * The type H 2 database connector.
  */
 @Component
-public class H2DatabaseConnector extends DatabaseConnector {
+public final class H2DatabaseConnector extends DatabaseConnector {
 
     /**
      * logger for thiss class.
@@ -56,7 +55,7 @@ public class H2DatabaseConnector extends DatabaseConnector {
      * @return Boolean
      */
     @Override
-    public final Boolean verify(final SqlPractice exam,
+    public Boolean verify(final SqlPractice exam,
                                 final Question question,
                                 final String sqlAnswer) {
         Boolean isRigntAnswer = false;
@@ -79,7 +78,7 @@ public class H2DatabaseConnector extends DatabaseConnector {
      * @return Boolean
      */
     @Override
-    public final Boolean loadScript(final SqlPractice exam) {
+    public Boolean loadScript(final SqlPractice exam) {
         final Integer id = exam.getId();
         unloadScript(exam);
         final String schemaName = "EXAM_" + id;

@@ -3,8 +3,6 @@ package com.gurukulams.core.service.connector;
 import com.gurukulams.core.model.Database;
 import com.gurukulams.core.model.Question;
 import com.gurukulams.core.model.sql.SqlPractice;
-import com.gurukulams.core.service.connector.h2.H2DatabaseConnector;
-import com.gurukulams.core.service.connector.postgress.PostgressDatabaseConnector;
 import org.springframework.context.ApplicationContext;
 
 import javax.sql.DataSource;
@@ -18,7 +16,9 @@ import java.util.Map;
 /**
  * The type Database connector.
  */
-public abstract class DatabaseConnector {
+public abstract sealed class DatabaseConnector
+        permits H2DatabaseConnector,
+        PostgressDatabaseConnector {
 
     /**
      * Contains Connector Implementation Mappings.

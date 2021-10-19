@@ -1,8 +1,7 @@
-package com.gurukulams.core.service.connector.postgress;
+package com.gurukulams.core.service.connector;
 
 import com.gurukulams.core.model.Question;
 import com.gurukulams.core.model.sql.SqlPractice;
-import com.gurukulams.core.service.connector.DatabaseConnector;
 import com.gurukulams.core.service.util.FlywayUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,7 +14,7 @@ import javax.sql.DataSource;
  * The type Postgress database connector.
  */
 @Component
-public class PostgressDatabaseConnector extends DatabaseConnector {
+public final class PostgressDatabaseConnector extends DatabaseConnector {
 
     /**
      * logger for thiss class.
@@ -40,7 +39,7 @@ public class PostgressDatabaseConnector extends DatabaseConnector {
      * @return Boolean
      */
     @Override
-    public final Boolean verify(final SqlPractice exam,
+    public Boolean verify(final SqlPractice exam,
                                 final Question question,
                                 final String sqlAnswer) {
         Boolean isRigntAnswer = false;
@@ -63,7 +62,7 @@ public class PostgressDatabaseConnector extends DatabaseConnector {
      * @return Boolean
      */
     @Override
-    public final Boolean loadScript(final SqlPractice exam) {
+    public Boolean loadScript(final SqlPractice exam) {
         final Integer id = exam.getId();
         unloadScript(exam);
         final String query = "CREATE DATABASE EXAM_" + id;
