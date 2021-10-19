@@ -131,8 +131,7 @@ abstract class PracticeAPIController<T extends Practice> {
     public ResponseEntity<Page<T>> findAll(
             @NotNull final Pageable pageable) {
         final Page<T> practices = practiceService.page(getType(), pageable);
-        return practices.isEmpty() ? new ResponseEntity<Page<T>>(
-                HttpStatus.NO_CONTENT)
+        return practices.isEmpty() ? ResponseEntity.noContent().build()
                 : ResponseEntity.ok(practices);
     }
 
@@ -166,8 +165,7 @@ abstract class PracticeAPIController<T extends Practice> {
             throws JsonProcessingException {
         final Optional<T> updatedpractice = (Optional<T>)
                 practiceService.update(id, practice);
-        return updatedpractice == null ? new ResponseEntity<Optional<T>>(
-                HttpStatus.NOT_FOUND)
+        return updatedpractice == null ? ResponseEntity.notFound().build()
                 : ResponseEntity.ok(updatedpractice);
     }
 
@@ -189,7 +187,7 @@ abstract class PracticeAPIController<T extends Practice> {
     public ResponseEntity<Void> deleteExamById(
             final @PathVariable Integer id) {
         return practiceService.delete(id) ? ResponseEntity.ok().build()
-                : new ResponseEntity<Void>(HttpStatus.NOT_FOUND);
+                : ResponseEntity.notFound().build();
     }
 
     /**
@@ -275,8 +273,7 @@ abstract class PracticeAPIController<T extends Practice> {
         final List<Question> questions = questionService.list(
                 principal.getName(),
                 practiceId);
-        return questions.isEmpty() ? new ResponseEntity<List<Question>>(
-                HttpStatus.NO_CONTENT)
+        return questions.isEmpty() ? ResponseEntity.noContent().build()
                 : ResponseEntity.ok(questions);
     }
 
@@ -316,8 +313,7 @@ abstract class PracticeAPIController<T extends Practice> {
         final Optional<Question> updatedQuestion = questionService.update(
                 practiceId, questionType, id, question);
         return updatedQuestion == null
-                ? new ResponseEntity<Optional<Question>>(
-                HttpStatus.NOT_FOUND)
+                ? ResponseEntity.notFound().build()
                 : ResponseEntity.ok(updatedQuestion);
     }
 
@@ -338,7 +334,7 @@ abstract class PracticeAPIController<T extends Practice> {
     @DeleteMapping("/{practiceId}/questions/{id}")
     public ResponseEntity<Void> delete(final @PathVariable Integer id) {
         return questionService.delete(id) ? ResponseEntity.ok().build()
-                : new ResponseEntity<Void>(HttpStatus.NOT_FOUND);
+                : ResponseEntity.notFound().build();
     }
 
     /**

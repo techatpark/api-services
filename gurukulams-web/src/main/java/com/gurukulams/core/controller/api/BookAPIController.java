@@ -146,8 +146,7 @@ class BookAPIController {
             final @RequestBody UserNote userNote) {
         final Optional<UserNote> updatednote = bookService.updateNote(
                 id, userNote);
-        return updatednote == null ? new ResponseEntity<>(
-                HttpStatus.NOT_FOUND)
+        return updatednote == null ? ResponseEntity.notFound().build()
                 : ResponseEntity.ok(updatednote);
     }
 
@@ -171,8 +170,7 @@ class BookAPIController {
             final @PathVariable String bookName,
             final @PathVariable Integer id) {
         return bookService.delete(id) ? ResponseEntity.ok().build()
-                : new ResponseEntity<>(
-                HttpStatus.NOT_FOUND);
+                : ResponseEntity.notFound().build();
     }
 
     /**
@@ -292,8 +290,7 @@ class BookAPIController {
         final Optional<Question> updatedQuestion =
                 bookService.updateQuestion(
                 bookName, questionId, questionType, question, chapterPath);
-        return updatedQuestion == null ? new ResponseEntity<>(
-                HttpStatus.NOT_FOUND)
+        return updatedQuestion == null ? ResponseEntity.notFound().build()
                 : ResponseEntity.ok(updatedQuestion);
     }
 

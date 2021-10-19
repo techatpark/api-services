@@ -98,8 +98,7 @@ class InstituteAPIController {
             throws JsonProcessingException {
         final Optional<Institute> updatedInstitute =
                 instituteService.update(id, principal.getName(), institute);
-        return updatedInstitute == null ? new ResponseEntity<>(
-                HttpStatus.NOT_FOUND)
+        return updatedInstitute == null ? ResponseEntity.notFound().build()
                 : ResponseEntity.ok(updatedInstitute);
     }
 
@@ -115,7 +114,7 @@ class InstituteAPIController {
     public ResponseEntity<Void> delete(final @PathVariable
                                                Long id) {
         return instituteService.delete(id) ? ResponseEntity.ok().build()
-                : new ResponseEntity<Void>(HttpStatus.NOT_FOUND);
+                : ResponseEntity.notFound().build();
     }
 
     @Operation(summary = "lists the institute",
@@ -132,8 +131,7 @@ class InstituteAPIController {
                                                        principal) {
         final List<Institute> instituteList = instituteService.list(
                 principal.getName());
-        return instituteList.isEmpty() ? new ResponseEntity<List<Institute>>(
-                HttpStatus.NO_CONTENT)
+        return instituteList.isEmpty() ? ResponseEntity.noContent().build()
                 : ResponseEntity.ok(instituteList);
     }
 

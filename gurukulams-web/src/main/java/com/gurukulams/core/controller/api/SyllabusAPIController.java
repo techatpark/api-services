@@ -96,8 +96,7 @@ class SyllabusAPIController {
             throws JsonProcessingException {
         final Optional<Syllabus> updatedSyllabus =
                 syllabusService.update(id, principal.getName(), syllabus);
-        return updatedSyllabus == null ? new ResponseEntity<>(
-                HttpStatus.NOT_FOUND)
+        return updatedSyllabus == null ? ResponseEntity.notFound().build()
                 : ResponseEntity.ok(updatedSyllabus);
     }
 
@@ -115,7 +114,7 @@ class SyllabusAPIController {
                                        final Principal principal) {
         return syllabusService.delete(id,
                   principal.getName()) ? ResponseEntity.ok().build()
-                : new ResponseEntity<Void>(HttpStatus.NOT_FOUND);
+                : ResponseEntity.notFound().build();
     }
 
     @Operation(summary = "lists the syllabus",
@@ -132,8 +131,7 @@ class SyllabusAPIController {
                                                      principal) {
         final List<Syllabus> syllabusList = syllabusService.list(
                 principal.getName());
-        return syllabusList.isEmpty() ? new ResponseEntity<List<Syllabus>>(
-                HttpStatus.NO_CONTENT)
+        return syllabusList.isEmpty() ? ResponseEntity.noContent().build()
                 : ResponseEntity.ok(syllabusList);
     }
 }
