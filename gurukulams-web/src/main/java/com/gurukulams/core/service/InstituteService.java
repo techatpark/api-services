@@ -1,12 +1,22 @@
 package com.gurukulams.core.service;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.gurukulams.core.model.Institute;
+import com.gurukulams.core.model.Practice;
 import com.gurukulams.core.model.sql.SqlPractice;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Service;
 
 import javax.sql.DataSource;
+import java.sql.Date;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -16,7 +26,7 @@ import java.util.Optional;
  * The type Institute service.
  */
 @Service
-public class InstituteService {
+public final class InstituteService {
 
     /**
      * this helps to execute sql queries.
@@ -34,6 +44,27 @@ public class InstituteService {
         this.dataSource = dataSource;
     }
 
+    /**
+     * Maps the data from and to the database.
+     *
+     * @param rs
+     * @param rowNum
+     * @return p
+     * @throws SQLException
+     */
+    private Institute rowMapper(final ResultSet rs,
+                                             final Integer rowNum)
+            throws SQLException {
+
+        LocalDate calendarDate = rs.getDate("created_at")
+                .toLocalDate();
+
+        Institute institute = new Institute((long) rs.getInt("id"), rs.getString(
+                "title"), rs.getString("description"),
+                calendarDate, rs.getString("created_by"));
+
+        return institute;
+    }
     /**
      * inserts data.
      * @param userName the userName
@@ -73,7 +104,19 @@ public class InstituteService {
      */
     public Optional<Institute> read(final Long id,
                                    final String userName) {
-        return null;
+        final String query = "SELECT id,title,description,created_by," +
+                "created_at"
+                + "FROM institutes WHERE id = ?";
+
+
+        try {
+            final Institute p = (Institute) jdbcTemplate
+                    .queryForObject(query, new Object[]{id},
+                            this::rowMapper);
+            return Optional.of(p);
+        } catch (final EmptyResultDataAccessException e) {
+            return Optional.empty();
+        }
     }
 
     /**

@@ -1,6 +1,9 @@
 package com.gurukulams.core.model;
 
-public record Institute(Long id, String title, String description) {
+import java.time.LocalDate;
+
+public record Institute(Long id, String title, String description,
+                        LocalDate created_at, String created_by) {
 
 
 }
