@@ -2,7 +2,6 @@ package com.gurukulams.core.controller.api;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.gurukulams.core.model.Institute;
-import com.gurukulams.core.model.Syllabus;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -60,7 +59,8 @@ class InstituteAPIController {
                                                      Institute institute) {
         Institute createdInstitute =
                 instituteService.create(principal.getName(), institute);
-        return ResponseEntity.created(URI.create("/api/syllabus" + createdInstitute.id()))
+        return ResponseEntity.created(URI.create("/api/syllabus"
+                        + createdInstitute.id()))
                 .body(createdInstitute);
 
     }
@@ -76,7 +76,7 @@ class InstituteAPIController {
     @GetMapping(value = "/{id}", produces = "application/json")
     public ResponseEntity<Institute> read(final @PathVariable Long id,
                                          final Principal principal) {
-    return ResponseEntity.of(instituteService.read(id, principal.getName()));
+    return ResponseEntity.of(instituteService.read(principal.getName(), id));
     }
 
     @Operation(summary = "Updates the institute by given id",
@@ -117,8 +117,11 @@ class InstituteAPIController {
                     description = "institute not found")})
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(final @PathVariable
-                                               Long id) {
-        return instituteService.delete(id) ? ResponseEntity.ok().build()
+                                               Long id,
+                                       final Principal
+                                               principal) {
+        return instituteService.delete(principal.getName(), id)
+                ? ResponseEntity.ok().build()
                 : ResponseEntity.notFound().build();
     }
 

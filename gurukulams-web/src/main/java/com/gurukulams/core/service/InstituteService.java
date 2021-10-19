@@ -31,10 +31,15 @@ public final class InstituteService {
      */
     private final DataSource dataSource;
 
+    /**
+     * this is the constructor.
+     * @param anJdbcTemplate
+     * @param aDataSource
+     */
     public InstituteService(
-            JdbcTemplate jdbcTemplate, DataSource dataSource) {
-        this.jdbcTemplate = jdbcTemplate;
-        this.dataSource = dataSource;
+            final JdbcTemplate anJdbcTemplate, final DataSource aDataSource) {
+        this.jdbcTemplate = anJdbcTemplate;
+        this.dataSource = aDataSource;
     }
 
     /**
@@ -83,9 +88,8 @@ public final class InstituteService {
         valueMap.put("created_by", userName);
 
         final Number instituteId = insert.executeAndReturnKey(valueMap);
-        final Optional<Institute> createdInstitute=
-                read(instituteId.longValue(),
-                userName);
+        final Optional<Institute> createdInstitute =
+                read(userName, instituteId.longValue());
 
         return createdInstitute.get();
     }
@@ -97,11 +101,10 @@ public final class InstituteService {
      * @param userName the userName
      * @return question optional
      */
-    public Optional<Institute> read(final Long id,
-                                   final String userName) {
-        final String query = "SELECT id,title,description,created_by," +
-                "created_at"
-                + "FROM institutes WHERE id = ?";
+    public Optional<Institute> read(final String userName, final Long id) {
+        final String query = "SELECT id,title,description,created_by,"
+                + "created_at, modified_at, modified_by FROM institutes "
+                + "WHERE id = ?";
 
 
         try {
@@ -124,24 +127,48 @@ public final class InstituteService {
     public Optional<Institute> update(final Long id,
                                      final String userName,
                                      final Institute institute) {
-        return null;
+
+        final String query =
+                "UPDATE institutes SET title = ?,"
+                        + "description = ?, modified_by = ? WHERE id = ?";
+        final Integer updatedRows =
+                jdbcTemplate.update(query, institute.title(),
+                        institute.description(), userName, id);
+        return updatedRows == 0 ? null : read(userName, id);
     }
 
     /**
      * delete the institute.
      * @param id the id
+     * @param userName the userName
      * @return false
      */
-    public Boolean delete(final Long id) {
-        return false;
+    public Boolean delete(final String userName, final Long id) {
+        String query = "DELETE FROM institutes WHERE ID=?";
+
+        final Integer updatedRows = jdbcTemplate.update(query, id);
+        return !(updatedRows == 0);
+    }
+
+
+    /**
+     * list of institutes.
+     * @param userName the userName
+     * @return institutes list
+     */
+    public List<Institute> list(final String userName) {
+        String query = "SELECT id,title,description,created_by,"
+                + "created_at, modified_at, modified_by FROM institutes ";
+        return jdbcTemplate.query(query, this::rowMapper);
     }
 
     /**
-     * list the institute.
-     * @param userName the userName
-     * @return question optional
+     * Cleaning up all institutes.
+     *
+     * @return no.of institutes deleted
      */
-    public List<Institute> list(final String userName) {
-        return null;
+    public Integer deleteAll() {
+        final String query = "DELETE FROM institutes";
+        return jdbcTemplate.update(query);
     }
 }

@@ -395,7 +395,7 @@ public class PracticeService {
      */
     public Integer delete(final String type) {
         final int count = 0;
-        final List<SqlPractice> practices = list(type);
+        final List<Practice> practices = list(type);
         practices.parallelStream().forEach(exam -> delete(exam.getId()));
         return count;
     }
