@@ -23,8 +23,6 @@ import com.gurukulams.core.service.InstituteService;
 import java.net.URI;
 import java.security.Principal;
 import java.util.List;
-import java.util.Optional;
-
 /**
  * The type Institute api controller.
  */
@@ -93,7 +91,7 @@ class InstituteAPIController {
                     description = "institute not found")})
     @PutMapping(value = "/{id}", produces = "application/json", consumes =
             "application/json")
-    public ResponseEntity<Optional<Institute>> update(final@PathVariable
+    public ResponseEntity<Institute> update(final@PathVariable
                                                                   Long id,
                                                      final Principal
                                                              principal,
@@ -101,10 +99,9 @@ class InstituteAPIController {
                                                                   Institute
                                                                   institute)
             throws JsonProcessingException {
-        final Optional<Institute> updatedInstitute =
+        final Institute updatedInstitute =
                 instituteService.update(id, principal.getName(), institute);
-        return updatedInstitute == null ? ResponseEntity.notFound().build()
-                : ResponseEntity.ok(updatedInstitute);
+        return ResponseEntity.ok(updatedInstitute);
     }
 
     @Operation(summary = "Deletes the institute by given id",

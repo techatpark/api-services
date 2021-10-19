@@ -52,7 +52,6 @@ class InstituteServiceTest {
     void create() {
         final Institute institute = instituteService.create("hari",
                 anInstitute());
-        System.out.println(institute.title());
         assertEquals("HariInstitute", institute.title(), "Created Successfully");
     }
 
@@ -73,9 +72,14 @@ class InstituteServiceTest {
         final Long newInstituteId = institute.id();
         Institute newInstitute = new Institute(null, "HansiInstitute", "An " +
                 "Institute", null, null, null, null);
-        Optional<Institute> updatedInstitute = instituteService
+        Institute updatedInstitute = instituteService
                 .update(newInstituteId, "priya", newInstitute);
-        assertEquals("HansiInstitute", updatedInstitute.get().title(), "Updated");
+        assertEquals("HansiInstitute", updatedInstitute.title(), "Updated");
+
+                Assertions.assertThrows(IllegalArgumentException.class, () -> {
+                    instituteService
+                            .update(10000L, "priya", newInstitute);
+        });
     }
 
     @Test

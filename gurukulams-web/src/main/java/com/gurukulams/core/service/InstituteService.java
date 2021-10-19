@@ -1,6 +1,8 @@
 package com.gurukulams.core.service;
 
 import com.gurukulams.core.model.Institute;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
@@ -20,6 +22,13 @@ import java.util.Optional;
  */
 @Service
 public final class InstituteService {
+
+    /**
+     * Logger Facade.
+     */
+    private final Logger logger =
+            LoggerFactory.getLogger(InstituteService.class);
+
 
     /**
      * this helps to execute sql queries.
@@ -91,6 +100,8 @@ public final class InstituteService {
         final Optional<Institute> createdInstitute =
                 read(userName, instituteId.longValue());
 
+        logger.info("Created Institute {}", instituteId);
+
         return createdInstitute.get();
     }
 
@@ -124,17 +135,21 @@ public final class InstituteService {
      * @param institute the institute
      * @return question optional
      */
-    public Optional<Institute> update(final Long id,
+    public Institute update(final Long id,
                                      final String userName,
                                      final Institute institute) {
-
+        logger.debug("Entering Update for Institute {}", id);
         final String query =
                 "UPDATE institutes SET title = ?,"
                         + "description = ?, modified_by = ? WHERE id = ?";
         final Integer updatedRows =
                 jdbcTemplate.update(query, institute.title(),
                         institute.description(), userName, id);
-        return updatedRows == 0 ? null : read(userName, id);
+        if (updatedRows == 0) {
+            logger.error("Update not found {}", id);
+            throw new IllegalArgumentException("Institute not found");
+        }
+        return read(userName, id).get();
     }
 
     /**

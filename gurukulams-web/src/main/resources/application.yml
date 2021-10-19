@@ -44,7 +44,14 @@ springdoc:
   packagesToScan: com.gurukulams,com.gurukulams.starter.security.controller
   swagger-ui:
     operationsSorter: method
-
+logging:
+  level:
+    root: ERROR
+    com:
+      gurukulams: INFO
+    org:
+      springframework:
+        jdbc: DEBUG
 app:
   auth:
     tokenSecret: 926D96C90030DD58429D2751926D96C90030DD58429D2751AC1BDBBC926D96C90030DD58429D2751AC1BDBBC926D96C90030DD58429D2751AC1BDBBC926D96C90030DD58429D2751AC1BDBBC926D96C90030DD58429D2751AC1BDBBC926D96C90030DD58429D2751AC1BDBBC926D96C90030DD58429D2751AC1BDBBCAC1BDBBC
