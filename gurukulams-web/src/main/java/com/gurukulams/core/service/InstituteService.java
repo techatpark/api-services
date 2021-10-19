@@ -1,9 +1,15 @@
 package com.gurukulams.core.service;
 
 import com.gurukulams.core.model.Institute;
+import com.gurukulams.core.model.sql.SqlPractice;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Service;
 
+import javax.sql.DataSource;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 /**
@@ -13,15 +19,51 @@ import java.util.Optional;
 public class InstituteService {
 
     /**
+     * this helps to execute sql queries.
+     */
+    private final JdbcTemplate jdbcTemplate;
+
+    /**
+     * this is the connection for the database.
+     */
+    private final DataSource dataSource;
+
+    public InstituteService(
+            JdbcTemplate jdbcTemplate, DataSource dataSource) {
+        this.jdbcTemplate = jdbcTemplate;
+        this.dataSource = dataSource;
+    }
+
+    /**
      * inserts data.
      * @param userName the userName
      * @param institute the institute
      * @return question optional
      */
-    public Optional<Institute> create(final String userName,
+    public Institute create(final String userName,
                                       final Institute institute) {
-        return null;
+
+        final SimpleJdbcInsert insert = new SimpleJdbcInsert(dataSource)
+                .withTableName("institutes")
+                .usingGeneratedKeyColumns("id")
+                .usingColumns("title",
+                        "description",
+                        "created_by");
+
+        final Map<String, Object> valueMap = new HashMap<>();
+        valueMap.put("title",
+                institute.title());
+        valueMap.put("description", institute.description());
+        valueMap.put("created_by", userName);
+
+        final Number instituteId = insert.executeAndReturnKey(valueMap);
+        final Optional<Institute> createdInstitute=
+                read(instituteId.longValue(),
+                userName);
+
+        return createdInstitute.get();
     }
+
 
     /**
      * reads from institute.

@@ -68,7 +68,7 @@ CREATE TABLE syllabus (
     modified_by VARCHAR(200)
 );
 
-CREATE TABLE institute (
+CREATE TABLE institutes (
     id INT auto_increment PRIMARY KEY,
     title VARCHAR(55),
     description TEXT,

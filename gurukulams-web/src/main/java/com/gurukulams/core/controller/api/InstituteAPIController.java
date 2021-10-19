@@ -2,6 +2,7 @@ package com.gurukulams.core.controller.api;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.gurukulams.core.model.Institute;
+import com.gurukulams.core.model.Syllabus;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import com.gurukulams.core.service.InstituteService;
 
+import java.net.URI;
 import java.security.Principal;
 import java.util.List;
 import java.util.Optional;
@@ -53,11 +55,14 @@ class InstituteAPIController {
                     description = "invalid credentials")})
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping(produces = "application/json", consumes = "application/json")
-    public ResponseEntity<Optional<Institute>> create(final Principal principal,
+    public ResponseEntity<Institute> create(final Principal principal,
                                                       final @RequestBody
                                                      Institute institute) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(
-                instituteService.create(principal.getName(), institute));
+        Institute createdInstitute =
+                instituteService.create(principal.getName(), institute);
+        return ResponseEntity.created(URI.create("/api/syllabus" + createdInstitute.id()))
+                .body(createdInstitute);
+
     }
 
     @Operation(summary = "Get the Institute with given id",
