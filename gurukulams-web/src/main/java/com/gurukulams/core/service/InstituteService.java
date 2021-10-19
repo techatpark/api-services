@@ -1,22 +1,15 @@
 package com.gurukulams.core.service;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.gurukulams.core.model.Institute;
-import com.gurukulams.core.model.Practice;
-import com.gurukulams.core.model.sql.SqlPractice;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Service;
 
 import javax.sql.DataSource;
-import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.time.LocalDate;
-import java.time.ZoneId;
-import java.time.ZonedDateTime;
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -56,12 +49,14 @@ public final class InstituteService {
                                              final Integer rowNum)
             throws SQLException {
 
-        LocalDate calendarDate = rs.getDate("created_at")
-                .toLocalDate();
 
-        Institute institute = new Institute((long) rs.getInt("id"), rs.getString(
-                "title"), rs.getString("description"),
-                calendarDate, rs.getString("created_by"));
+        Institute institute = new Institute((long) rs.getInt("id"),
+                rs.getString("title"),
+                rs.getString("description"),
+                rs.getObject("created_at", LocalDateTime.class),
+                rs.getString("created_by"),
+                rs.getObject("modified_at", LocalDateTime.class),
+                rs.getString("modified_by"));
 
         return institute;
     }

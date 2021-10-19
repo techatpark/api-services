@@ -1,9 +1,11 @@
 package com.gurukulams.core.model;
 
-import java.time.LocalDate;
+
+import java.time.LocalDateTime;
 
 public record Institute(Long id, String title, String description,
-                        LocalDate created_at, String created_by) {
+                        LocalDateTime createdAt, String createdBy,
+                        LocalDateTime modifiedAt, String modifiedBy) {
 
 
 }
