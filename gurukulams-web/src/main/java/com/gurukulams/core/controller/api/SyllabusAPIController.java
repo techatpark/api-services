@@ -23,7 +23,6 @@ import org.springframework.web.bind.annotation.RestController;
 import java.net.URI;
 import java.security.Principal;
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/syllabus")
@@ -87,14 +86,14 @@ class SyllabusAPIController {
                     description = "syllabus not found")})
    @PutMapping(value = "/{id}", produces = "application/json", consumes =
                                                         "application/json")
-    public ResponseEntity<Optional<Syllabus>> update(final@PathVariable Long id,
+    public ResponseEntity<Syllabus> update(final@PathVariable Long id,
                                                      final Principal
                                                         principal,
                                                      final @RequestBody
                                                              Syllabus
                                                              syllabus)
             throws JsonProcessingException {
-        final Optional<Syllabus> updatedSyllabus =
+        final Syllabus updatedSyllabus =
                 syllabusService.update(id, principal.getName(), syllabus);
         return updatedSyllabus == null ? ResponseEntity.notFound().build()
                 : ResponseEntity.ok(updatedSyllabus);
