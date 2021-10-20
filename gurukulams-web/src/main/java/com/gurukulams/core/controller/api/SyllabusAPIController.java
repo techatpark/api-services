@@ -69,7 +69,7 @@ class SyllabusAPIController {
     @GetMapping("/{id}")
     public ResponseEntity<Syllabus> read(final @PathVariable Long id,
                                          final Principal principal) {
-        return ResponseEntity.of(syllabusService.read(id, principal.getName()));
+        return ResponseEntity.of(syllabusService.read(principal.getName(), id));
     }
 
    @Operation(summary = "Updates the syllabus by given id",
@@ -111,8 +111,8 @@ class SyllabusAPIController {
     public ResponseEntity<Void> delete(final @PathVariable
                                                Long id,
                                        final Principal principal) {
-        return syllabusService.delete(id,
-                  principal.getName()) ? ResponseEntity.ok().build()
+        return syllabusService.delete(principal.getName(),
+                                  id) ? ResponseEntity.ok().build()
                 : ResponseEntity.notFound().build();
     }
 

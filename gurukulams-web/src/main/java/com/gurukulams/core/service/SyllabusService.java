@@ -93,7 +93,7 @@ public class SyllabusService {
 
         final Number syllabusId = insert.executeAndReturnKey(valueMap);
         final Optional<Syllabus> createdSyllabus =
-                read(syllabusId.longValue(), userName);
+                read(userName, syllabusId.longValue());
 
         return createdSyllabus.get();
     }
@@ -103,15 +103,14 @@ public class SyllabusService {
      * @param userName the userName
      * @return question optional
      */
-    public Optional<Syllabus> read(final Long id,
-                                   final String userName) {
+    public Optional<Syllabus> read(final String userName, final Long id) {
         final String query = "SELECT id,title,description,created_by,"
-                + "created_at"
-                + "FROM syllabus WHERE id = ?";
+                + "created_at, modified_at, modified_by FROM institutes "
+                + "WHERE id = ?";
 
 
         try {
-            final Syllabus p = (Syllabus) jdbcTemplate
+            final Syllabus p = jdbcTemplate
                     .queryForObject(query, new Object[]{id},
                             this::rowMapper);
             return Optional.of(p);
@@ -140,7 +139,7 @@ public class SyllabusService {
             logger.error("Update not found", id);
             throw new IllegalArgumentException("Syllabus not found");
         }
-        return read(id, userName).get();
+        return read(userName, id).get();
     }
     /**
      * delete the syllabus.
@@ -148,8 +147,7 @@ public class SyllabusService {
      * @param userName the userName
      * @return question optional
      */
-    public Boolean delete(final Long id,
-                          final String userName) {
+    public Boolean delete(final String userName, final Long id) {
         final String query = "DELETE FROM syllabus WHERE id = ?";
         final Integer updatedRows = jdbcTemplate.update(query, id);
         return !(updatedRows == 0);
@@ -164,5 +162,15 @@ public class SyllabusService {
                 + "created_at,modified_at,modified_by FROM syllabus";
         return jdbcTemplate.query(query, this::rowMapper);
 
+    }
+
+    /**
+     * Cleaning up all institutes.
+     *
+     * @return no.of syllabus deleted
+     */
+    public Integer deleteAll() {
+        final String query = "DELETE FROM syllabus";
+        return jdbcTemplate.update(query);
     }
 }
