@@ -105,7 +105,7 @@ public class SyllabusService {
      */
     public Optional<Syllabus> read(final String userName, final Long id) {
         final String query = "SELECT id,title,description,created_by,"
-                + "created_at, modified_at, modified_by FROM institutes "
+                + "created_at, modified_at, modified_by FROM syllabus "
                 + "WHERE id = ?";
 
 
