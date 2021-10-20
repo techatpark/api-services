@@ -78,3 +78,13 @@ CREATE TABLE institutes (
     modified_by VARCHAR(200)
 );
 
+    CREATE TABLE learners (
+    id INT auto_increment PRIMARY KEY,
+    title VARCHAR(55),
+    description TEXT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    created_by VARCHAR(55) NOT NULL,
+    modified_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    modified_by VARCHAR(200)
+    );
+
