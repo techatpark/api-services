@@ -126,7 +126,17 @@ public class LearnerService {
     public Learner update(final Long id,
                           final String userName,
                           final Learner learner) {
-        return null;
+        logger.debug("Entering updating from learner {}", id);
+        final String query = "UPDATE learner SET title=?,"
+                + "description=?,modified_by=? WHERE id=?";
+        final Integer updatedRows = jdbcTemplate.update(query,
+                          learner.title(), learner.description(),
+                           userName, id);
+        if (updatedRows == 0) {
+            logger.error("update not found", id);
+            throw new IllegalArgumentException("Learner not found");
+        }
+        return read(userName, id).get();
     }
 
     /**
@@ -137,7 +147,9 @@ public class LearnerService {
      */
     public Boolean delete(final String userName,
                           final Long id) {
-        return false;
+        final String query = "DELETE FROM learner WHERE id = ?";
+        final Integer updatedRows = jdbcTemplate.update(query, id);
+        return !(updatedRows == 0);
     }
 
     /**
@@ -146,7 +158,9 @@ public class LearnerService {
      * @return learner
      */
     public List<Learner> list(final String userName) {
-        return null;
+        final String query = "SELECT id,title,description,created_by,"
+                + "created_at,modified_by,modified_at FROM learner";
+        return jdbcTemplate.query(query, this::rowMapper);
     }
 
     /**

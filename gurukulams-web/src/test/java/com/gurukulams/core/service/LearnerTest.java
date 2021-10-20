@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.io.IOException;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
@@ -53,22 +54,45 @@ public class LearnerTest {
                 newLearnerId), "Assert created");
     }
 
+    @Test
+    void update() {
+        final Learner learner=learnerService.create("Manikanta",
+                                                      anLearner());
+        final Long newLearnerId = learner.id();
+        Learner newLearner=new Learner(null, "maniLearner", "An Learner",
+                null,null,null,null);
+        Learner updatedLearner=learnerService.update(newLearnerId,
+                                    "Mani",newLearner);
+        assertEquals("maniLearner", updatedLearner.title(), "updated");
+               Assertions.assertThrows(IllegalArgumentException.class, () -> {
+                   learnerService.update(10000L, "Mani", newLearner);
+        });
+    }
+
+    @Test
+    void delete() {
+        final Learner learner=learnerService.create("Manikanta",
+                                                 anLearner());
+        final Long newLearnerId=learner.id();
+        Assertions.assertTrue(learnerService.delete("Manikanta",
+                                                    newLearnerId));
+    }
+
+    @Test
+    void list() {
+        final Learner learner=learnerService.create("Manikanta",
+                                                        anLearner());
+        Learner newLearner=new Learner(null, "tom", "An Learner",
+                null, null, null, null);
+        learnerService.create("Manikanta", newLearner);
+        List<Learner> listOfLearner = learnerService.list("Manikanta");
+        Assertions.assertEquals(2, listOfLearner.size());
+    }
+
     Learner anLearner() {
         Learner learner=new Learner(null,"Manikanta",
                 "An Description", null,null,
                 null,null);
         return learner;
-    }
-
-    @Test
-    void update() {
-    }
-
-    @Test
-    void delete() {
-    }
-
-    @Test
-    void list() {
     }
 }
