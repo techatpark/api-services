@@ -78,7 +78,7 @@ CREATE TABLE institutes (
     modified_by VARCHAR(200)
 );
 
-    CREATE TABLE learners (
+    CREATE TABLE learner (
     id INT auto_increment PRIMARY KEY,
     title VARCHAR(55),
     description TEXT,
