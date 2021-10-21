@@ -27,7 +27,7 @@ public class SyllabusService {
      * Logger Facade.
      */
     private final Logger logger =
-            LoggerFactory.getLogger(InstituteService.class);
+            LoggerFactory.getLogger(SyllabusService.class);
 
     /**
      * this helps to execute sql queries.
