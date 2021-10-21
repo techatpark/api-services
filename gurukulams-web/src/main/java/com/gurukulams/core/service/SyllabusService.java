@@ -115,7 +115,7 @@ public class SyllabusService {
                             this::rowMapper);
             return Optional.of(p);
         } catch (final EmptyResultDataAccessException e) {
-            return Optional.empty();
+            return null;
         }
     }
 

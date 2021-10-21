@@ -33,10 +33,6 @@ public class LearnerTest {
         learnerService.deleteAll();
     }
 
-    private void cleanUp() {
-        learnerService.deleteAll();
-    }
-
     @Test
     void create() {
     final Learner learner = learnerService.create("Manikanta",
