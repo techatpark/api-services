@@ -20,7 +20,7 @@ jobs:
         with:
           java-version: 17
       - name: Checkstyle with Maven
-        run: mvn -B compile checkstyle:checkstyle --file pom.xml
+        run: mvn -B versions:update-parent validate compile --file pom.xml
 #        Not Required for now. when we need docker enable
 #      - name: Build the docker-compose stack
 #        run: docker-compose up -d
