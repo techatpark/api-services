@@ -60,7 +60,7 @@ class BasicPracticeTest {
     void before() throws IOException {
         cleanUp();
         practice =
-                practiceService.create("sql", "user", getPractice()).get();
+                practiceService.create("basic", "user", getPractice()).get();
     }
 
     private void cleanUp() {
