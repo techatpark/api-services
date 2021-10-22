@@ -11,7 +11,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import java.io.IOException;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 public class SyllabusServiceTest {
@@ -43,10 +43,9 @@ public class SyllabusServiceTest {
 
     @Test
     void create(){
-        final Syllabus syllabus=syllabusService.create("mani",
+        final Syllabus syllabus = syllabusService.create("mani",
                 anSyllabus());
-        assertEquals("MathsSyllabus", syllabus.title(), "Created Successfully");
-
+        assertTrue(syllabusService.read("mani",syllabus.id()).isPresent(),"Created Syllobous");
     }
 
     @Test
@@ -83,10 +82,8 @@ public class SyllabusServiceTest {
 
         final Syllabus syllabus = syllabusService.create("mani",
                 anSyllabus());
-        Assertions.assertTrue(syllabusService.delete("mani", syllabus.id()));
-//        Assertions.assertThrows(NoSuchElementException.class, () -> {
-//            syllabusService.read("mani", newSyllabusId);
-//        });
+        syllabusService.delete("mani",syllabus.id())
+        assertFalse(syllabusService.read("mani",syllabus.id()).isPresent(),"Deleted Syllobous");
 
     }
 
