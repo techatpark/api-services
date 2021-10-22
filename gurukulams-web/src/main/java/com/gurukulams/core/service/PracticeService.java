@@ -457,4 +457,14 @@ public class PracticeService {
         return getOwnerName(bookName).equals(userName);
     }
 
+
+    /**
+     * Cleaning up all practices.
+     *
+     * @return no.of exams deleted
+     */
+    public Integer delete() {
+        final String query = "DELETE FROM practices";
+        return jdbcTemplate.update(query);
+    }
 }

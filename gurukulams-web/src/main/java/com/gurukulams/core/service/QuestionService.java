@@ -433,7 +433,7 @@ public class QuestionService {
 
 
     /**
-     * Cleaning up all exams.
+     * Cleaning up all questions.
      *
      * @return no.of exams deleted
      */

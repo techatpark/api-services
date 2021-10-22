@@ -65,6 +65,7 @@ class BasicPracticeTest {
 
     private void cleanUp() {
         questionService.delete();
+        practiceService.delete();
     }
 
     /**
