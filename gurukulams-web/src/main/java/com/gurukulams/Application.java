@@ -18,12 +18,12 @@ public class Application {
         SpringApplication.run(Application.class, args);
     }
 
-//    /**
-//     * Workaround to fix Checkstyle Issue.
-//     * Ref: https://github.com/checkstyle/checkstyle/issues/3155
-//     */
-//    public void s() {
-//        throw new UnsupportedOperationException("Dummy Method");
-//    }
+    /**
+     * Workaround to fix Checkstyle Issue.
+     * Ref: https://github.com/checkstyle/checkstyle/issues/3155
+     */
+    public void s() {
+        throw new UnsupportedOperationException("Dummy Method");
+    }
 
 }
