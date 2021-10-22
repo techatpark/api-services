@@ -47,7 +47,9 @@ public class LearnerTest {
                                      anLearner());
         final Long newLearnerId = learner.id();
         Assertions.assertNotNull(learnerService.read("Manikanta",
-                newLearnerId), "Assert created");
+                newLearnerId), "Learner created");
+        Assertions.assertNull(learnerService.read("Manikanta",
+                10000L), "Invalid learner unavailable");
     }
 
     @Test

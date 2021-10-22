@@ -83,10 +83,9 @@ public class SyllabusServiceTest {
 
         final Syllabus syllabus = syllabusService.create("mani",
                 anSyllabus());
-        final Long newSyllabusId = syllabus.id();
-        Assertions.assertTrue(syllabusService.delete("manikanta", newSyllabusId));
+        Assertions.assertTrue(syllabusService.delete("mani", syllabus.id()));
 //        Assertions.assertThrows(NoSuchElementException.class, () -> {
-//            syllabusService.read("manikanta", newSyllabusId);
+//            syllabusService.read("mani", newSyllabusId);
 //        });
 
     }

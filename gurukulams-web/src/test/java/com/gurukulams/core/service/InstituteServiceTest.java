@@ -61,7 +61,9 @@ class InstituteServiceTest {
                 anInstitute());
         final Long newInstituteId = institute.id();
         Assertions.assertNotNull(instituteService.read("hari", newInstituteId),
-                "Assert Created");
+                "Institute Created");
+        Assertions.assertNull(instituteService.read("hari", 10000L),
+                "Invalid Institute Unavilable");
     }
 
     @Test
