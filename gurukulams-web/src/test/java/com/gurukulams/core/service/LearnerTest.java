@@ -11,8 +11,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import java.io.IOException;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 public class LearnerTest {
@@ -35,10 +34,10 @@ public class LearnerTest {
 
     @Test
     void create() {
-    final Learner learner = learnerService.create("Manikanta",
+    final Learner learner = learnerService.create("mani",
                                                       anLearner());
-    assertEquals("Manikanta", learner.title(),
-                                   "created successfully");
+        assertTrue(learnerService.read("mani",learner.id()).isPresent(),"Created Learner");
+
     }
 
     @Test
@@ -71,9 +70,8 @@ public class LearnerTest {
     void delete() {
         final Learner learner=learnerService.create("Manikanta",
                                                  anLearner());
-        final Long newLearnerId=learner.id();
-        Assertions.assertTrue(learnerService.delete("Manikanta",
-                                                    newLearnerId));
+        learnerService.delete("mani",learner.id());
+        assertFalse(learnerService.read("mani",learner.id()).isPresent(),"Deleted Learner");
     }
 
     @Test

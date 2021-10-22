@@ -17,7 +17,7 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 class InstituteServiceTest {
@@ -52,7 +52,7 @@ class InstituteServiceTest {
     void create() {
         final Institute institute = instituteService.create("hari",
                 anInstitute());
-        assertEquals("HariInstitute", institute.title(), "Created Successfully");
+        assertTrue(instituteService.read("hari",institute.id()).isPresent(),"Created Institute");
     }
 
     @Test
@@ -60,8 +60,7 @@ class InstituteServiceTest {
         final Institute institute = instituteService.create("hari",
                 anInstitute());
         final Long newInstituteId = institute.id();
-        Assertions.assertNotNull(instituteService.read("hari", newInstituteId),
-                "Institute Created");
+        Assertions.assertTrue(instituteService.read("hari",institute.id()).isPresent(),"Created Institute");
         Assertions.assertNull(instituteService.read("hari", 10000L),
                 "Invalid Institute Unavilable");
     }
@@ -89,12 +88,8 @@ class InstituteServiceTest {
 
             final Institute institute = instituteService.create("hari",
                     anInstitute());
-            final Long newInstituteId = institute.id();
-        Assertions.assertTrue(instituteService.delete("hari", newInstituteId));
-//        Assertions.assertThrows(NoSuchElementException.class, () -> {
-//            instituteService.read("hari", newInstituteId);
-//        });
-
+        instituteService.delete("mani",institute.id());
+        assertFalse(instituteService.read("mani",institute.id()).isPresent(),"Deleted Institute");
     }
 
     @Test

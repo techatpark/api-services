@@ -46,6 +46,7 @@ public class Practice {
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private Instant updatedAt;
 
+
     /**
      * gets the id of exam.
      *

@@ -82,7 +82,7 @@ public class SyllabusServiceTest {
 
         final Syllabus syllabus = syllabusService.create("mani",
                 anSyllabus());
-        syllabusService.delete("mani",syllabus.id())
+        syllabusService.delete("mani",syllabus.id());
         assertFalse(syllabusService.read("mani",syllabus.id()).isPresent(),"Deleted Syllobous");
 
     }

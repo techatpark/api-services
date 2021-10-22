@@ -328,7 +328,7 @@ public class PracticeService {
                             this::rowMapper);
             return Optional.of(p);
         } catch (final EmptyResultDataAccessException e) {
-            return Optional.empty();
+            return null;
         }
     }
 
