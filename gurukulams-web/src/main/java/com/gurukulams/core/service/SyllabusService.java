@@ -89,11 +89,13 @@ public class SyllabusService {
 
         valueMap.put("title", syllabus.title());
         valueMap.put("description", syllabus.description());
-        valueMap.put("created_by", syllabus.created_by());
+        valueMap.put("created_by", userName);
 
         final Number syllabusId = insert.executeAndReturnKey(valueMap);
         final Optional<Syllabus> createdSyllabus =
                 read(userName, syllabusId.longValue());
+
+        logger.info("Syllobous Created {}",syllabusId);
 
         return createdSyllabus.get();
     }

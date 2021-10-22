@@ -31,3 +31,4 @@ build/
 .DS_Store
 
 src/test/java/com/techatpark/hackerrank/*
+/*.log

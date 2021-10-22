@@ -109,7 +109,7 @@ public class SyllabusServiceTest {
     Syllabus anSyllabus() {
 
         Syllabus syllabus = new Syllabus(null, "MathsSyllabus",
-                "An " + "Syllabus", null, "tom",
+                "An " + "Syllabus", null, null,
                                         null, null);
         return syllabus;
     }

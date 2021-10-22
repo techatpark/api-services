@@ -45,6 +45,11 @@ springdoc:
   swagger-ui:
     operationsSorter: method
 logging:
+  file:
+    name: school-management.log
+    max-size=: 1MB
+  pattern:
+    rolling-file-name: school-management-%d{yyyy-MM-dd}.%i.log
   level:
     root: ERROR
     com:
@@ -69,3 +74,4 @@ app:
 admins:
   maths: tom
   physics: jerry
+
