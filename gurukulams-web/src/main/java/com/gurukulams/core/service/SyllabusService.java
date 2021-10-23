@@ -95,7 +95,7 @@ public class SyllabusService {
         final Optional<Syllabus> createdSyllabus =
                 read(userName, syllabusId.longValue());
 
-        logger.info("Syllobous Created {}",syllabusId);
+        logger.info("Syllabus Created {}", syllabusId);
 
         return createdSyllabus.get();
     }
