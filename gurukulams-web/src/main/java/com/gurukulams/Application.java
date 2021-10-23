@@ -1,8 +1,13 @@
 package com.gurukulams;
 
 
+import com.gurukulams.core.service.SyllabusService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.event.ContextRefreshedEvent;
+import org.springframework.context.event.EventListener;
 
 
 /**
@@ -10,6 +15,12 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  */
 @SpringBootApplication
 public class Application {
+
+    /**
+     * Logger Facade.
+     */
+    private final Logger logger =
+            LoggerFactory.getLogger(SyllabusService.class);
 
     /**
      * Main method of this application.
@@ -21,11 +32,11 @@ public class Application {
     }
 
     /**
-     * Workaround to fix Checkstyle Issue.
-     * Ref: https://github.com/checkstyle/checkstyle/issues/3155
+     * This will be invoked one the application is started.
+     * @param event
      */
-    public void s() {
-        throw new UnsupportedOperationException("Dummy Method");
+    @EventListener
+    public void onApplicationEvent(final ContextRefreshedEvent event) {
+        logger.info("Application Started", event.getTimestamp());
     }
-
 }
