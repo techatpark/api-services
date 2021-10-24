@@ -1,5 +1,6 @@
 package com.gurukulams.core.service;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.gurukulams.core.model.Database;
 import com.gurukulams.core.model.sql.SqlPractice;
 import org.junit.jupiter.api.AfterEach;
@@ -97,7 +98,7 @@ class SqlPracticeTest {
         final SqlPractice exam =
                 sqlExamService.create("sql", "user", examToBeCrated).get();
         final Integer newExamId = exam.getId();
-        Assertions.assertNotNull(sqlExamService.read(newExamId).get(),
+        Assertions.assertTrue(sqlExamService.read(newExamId).isPresent(),
                 "Exam Created");
     }
 
@@ -105,15 +106,16 @@ class SqlPracticeTest {
      * Test delete.
      */
     @Test
-    void testDelete() {
-        Assertions.assertThrows(NoSuchElementException.class, () -> {
+    void testDelete() throws JsonProcessingException {
+
             final SqlPractice examToBeCrated = getExam();
             final SqlPractice exam =
                     sqlExamService.create("sql", "user", examToBeCrated).get();
             final Integer newExamId = exam.getId();
             sqlExamService.delete(newExamId);
-            sqlExamService.read(newExamId).get();
-        });
+        Assertions.assertFalse(sqlExamService.read(newExamId).isPresent(),
+                "Exam Created");
+
     }
 
     /**

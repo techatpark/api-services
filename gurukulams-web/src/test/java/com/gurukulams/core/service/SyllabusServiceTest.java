@@ -53,10 +53,8 @@ public class SyllabusServiceTest {
         final Syllabus syllabus=syllabusService.create("mani",
                 anSyllabus());
         final Long newSyllabusId = syllabus.id();
-        Assertions.assertNotNull(syllabusService.read("mani", newSyllabusId),
+        Assertions.assertTrue(syllabusService.read("mani", newSyllabusId).isPresent(),
                 "syllabus Created");
-        Assertions.assertNull(syllabusService.read("mani", 10000L),
-                "invalid syllabus unavailable");
     }
 
     @Test

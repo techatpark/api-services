@@ -14,7 +14,7 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
-public class LearnerTest {
+public class LearnerServiceTest {
     @Autowired
     private LearnerService learnerService;
 
@@ -44,11 +44,8 @@ public class LearnerTest {
     void read() {
         final Learner learner = learnerService.create("Manikanta",
                                      anLearner());
-        final Long newLearnerId = learner.id();
-        Assertions.assertNotNull(learnerService.read("Manikanta",
-                newLearnerId), "Learner created");
-        Assertions.assertNull(learnerService.read("Manikanta",
-                10000L), "Invalid learner unavailable");
+        Assertions.assertTrue(learnerService.read("Manikanta",
+                learner.id()).isPresent(), "Learner created");
     }
 
     @Test

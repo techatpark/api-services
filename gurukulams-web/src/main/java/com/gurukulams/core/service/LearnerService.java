@@ -112,7 +112,7 @@ public class LearnerService {
                     new Object[]{id}, this::rowMapper);
             return Optional.of(p);
         } catch (final EmptyResultDataAccessException e) {
-            return null;
+            return Optional.empty();
         }
     }
 
