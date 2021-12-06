@@ -58,7 +58,7 @@ class BoardAPIController {
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping(produces = "application/json", consumes = "application/json")
     public ResponseEntity<Board> create(final Principal principal,
-                                           final @RequestBody Board board) {
+                                        @RequestBody final Board board) {
         Board created = boardService.create(principal.getName(), board);
         return ResponseEntity.created(URI.create("/api/board" + created.id()))
                 .body(created);
@@ -80,7 +80,7 @@ class BoardAPIController {
                     description = "syllabus not found")})
 
     @GetMapping("/{id}")
-    public ResponseEntity<Board> read(final @PathVariable Long id,
+    public ResponseEntity<Board> read( @PathVariable final Long id,
                                          final Principal principal) {
         return ResponseEntity.of(boardService.read(principal.getName(), id));
     }
@@ -107,11 +107,10 @@ class BoardAPIController {
                     description = "syllabus not found")})
     @PutMapping(value = "/{id}", produces = "application/json", consumes =
             "application/json")
-    public ResponseEntity<Board> update(final@PathVariable Long id,
+    public ResponseEntity<Board> update(@PathVariable final Long id,
                                            final Principal
                                                    principal,
-                                           final @RequestBody
-                                                   Board
+                                        @RequestBody final Board
                                                        board)
             throws JsonProcessingException {
         final Board updatedBoard =
@@ -135,8 +134,8 @@ class BoardAPIController {
             @ApiResponse(responseCode = "404",
                     description = "board not found")})
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(final @PathVariable
-                                               Long id,
+    public ResponseEntity<Void> delete(@PathVariable final
+                                           Long id,
                                        final Principal principal) {
         return boardService.delete(principal.getName(),
                 id) ? ResponseEntity.ok().build()

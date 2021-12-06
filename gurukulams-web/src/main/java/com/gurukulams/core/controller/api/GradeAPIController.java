@@ -25,7 +25,7 @@ import java.security.Principal;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/grades/{board-id}")
+@RequestMapping("/api/grades/{boardId}")
 @Tag(name = "Grade", description = "Resource to manage Grade")
 class GradeAPIController {
 
@@ -52,7 +52,7 @@ class GradeAPIController {
         @ResponseStatus(HttpStatus.CREATED)
         @PostMapping(produces = "application/json",
                                           consumes = "application/json")
-        public ResponseEntity<Grade> create(final Long boardId,
+        public ResponseEntity<Grade> create(@PathVariable final Long boardId,
                                             final Principal principal,
                                                final @RequestBody Grade grade) {
             Grade created = gradeService.create(boardId, principal.getName(),
@@ -72,8 +72,8 @@ class GradeAPIController {
                         description = "grade not found")})
 
         @GetMapping("/{id}")
-        public ResponseEntity<Grade> read(final Long boardId,
-                                          final @PathVariable Long id,
+        public ResponseEntity<Grade> read(@PathVariable final Long boardId,
+                                          @PathVariable final Long id,
                                        final Principal principal) {
                 return ResponseEntity.of(gradeService.read(boardId,
                                                  principal.getName(), id));
@@ -93,8 +93,8 @@ class GradeAPIController {
                         description = "grade not found")})
         @PutMapping(value = "/{id}", produces = "application/json", consumes =
                 "application/json")
-        public ResponseEntity<Grade> update(final Long boardId,
-                                            final@PathVariable Long id,
+        public ResponseEntity<Grade> update(@PathVariable final Long boardId,
+                                            @PathVariable final Long id,
                                                final Principal
                                                        principal,
                                                final @RequestBody
@@ -117,8 +117,8 @@ class GradeAPIController {
                 @ApiResponse(responseCode = "404",
                         description = "grade not found")})
         @DeleteMapping("/{id}")
-        public ResponseEntity<Void> delete(final Long boardId,
-                                           final @PathVariable
+        public ResponseEntity<Void> delete(@PathVariable final Long boardId,
+                                           @PathVariable final
                                                    Long id,
                                            final Principal principal) {
                 return gradeService.delete(boardId, principal.getName(),
@@ -136,7 +136,7 @@ class GradeAPIController {
                 @ApiResponse(responseCode = "401",
                         description = "invalid credentials")})
         @GetMapping(produces = "application/json")
-        public ResponseEntity<List<Grade>> list(final Long boardId,
+        public ResponseEntity<List<Grade>> list(@PathVariable final Long boardId,
                                                 final Principal
                                                            principal) {
                 final List<Grade> gradeList = gradeService.list(boardId,
