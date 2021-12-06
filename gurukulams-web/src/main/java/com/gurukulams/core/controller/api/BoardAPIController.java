@@ -80,7 +80,7 @@ class BoardAPIController {
                     description = "syllabus not found")})
 
     @GetMapping("/{id}")
-    public ResponseEntity<Board> read( @PathVariable final Long id,
+    public ResponseEntity<Board> read(@PathVariable final Long id,
                                          final Principal principal) {
         return ResponseEntity.of(boardService.read(principal.getName(), id));
     }

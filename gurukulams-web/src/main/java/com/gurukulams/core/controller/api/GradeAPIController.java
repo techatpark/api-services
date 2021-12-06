@@ -136,7 +136,8 @@ class GradeAPIController {
                 @ApiResponse(responseCode = "401",
                         description = "invalid credentials")})
         @GetMapping(produces = "application/json")
-        public ResponseEntity<List<Grade>> list(@PathVariable final Long boardId,
+        public ResponseEntity<List<Grade>> list(@PathVariable final
+                                                        Long boardId,
                                                 final Principal
                                                            principal) {
                 final List<Grade> gradeList = gradeService.list(boardId,
