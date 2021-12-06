@@ -18,7 +18,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/grade")
 @Tag(name = "Grade", description = "Resource to manage grade")
-public class GradeAPIController {
+class GradeAPIController {
         /**
          * declare a grade service.
          */
