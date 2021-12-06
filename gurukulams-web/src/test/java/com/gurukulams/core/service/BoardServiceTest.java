@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.io.IOException;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -86,6 +87,20 @@ public class BoardServiceTest {
         boardService.delete("mani",board.id());
         assertFalse(boardService.read("mani",board.id()).isPresent(),
                 "Deleted Board");
+
+    }
+
+    @Test
+    void list() {
+
+        final Board board = boardService.create("manikanta",
+                anBoard());
+        Board newBoard = new Board(null, "Board New", "A " +
+                "Board", null, "tom", null, null);
+        boardService.create("manikanta",
+                newBoard);
+        List<Board> listofboard = boardService.list("manikanta");
+        Assertions.assertEquals(2, listofboard.size());
 
     }
 
