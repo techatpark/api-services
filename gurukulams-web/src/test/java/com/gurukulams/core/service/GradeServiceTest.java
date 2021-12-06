@@ -1,5 +1,6 @@
 package com.gurukulams.core.service;
 
+import com.gurukulams.core.model.Board;
 import com.gurukulams.core.model.Grade;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
@@ -21,6 +22,9 @@ public class GradeServiceTest {
     @Autowired
     private GradeService gradeService;
 
+    @Autowired
+    private BoardService boardService;
+
     /**
      * Before.
      *
@@ -40,51 +44,59 @@ public class GradeServiceTest {
     }
 
     private void cleanUp() {
-        gradeService.deleteAll();
+        gradeService.deleteAllForTestCase();
     }
 
     @Test
     void create(){
-        final Grade grade = gradeService.create("mani",
-                anGrade());
-        assertTrue(gradeService.read("mani",grade.id()).isPresent(),
+        final Board board = boardService.create("mani",
+                aBoard());
+        final Grade grade = gradeService.create(board.id(),"mani",
+                aGrade());
+        assertTrue(gradeService.read(board.id(), "mani",grade.id()).isPresent(),
                 "Created Grade");
     }
 
     @Test
     void read() {
-        final Grade grade = gradeService.create("mani",
-                anGrade());
+        final Board board = boardService.create("mani",
+                aBoard());
+        final Grade grade = gradeService.create(board.id(), "mani",
+                aGrade());
         final Long newGradeId = grade.id();
-        Assertions.assertTrue(gradeService.read("mani", newGradeId).isPresent(),
+        Assertions.assertTrue(gradeService.read(board.id(), "mani",
+                        newGradeId).isPresent(),
                 "Grade Created");
     }
 
     @Test
     void update() {
-
-        final Grade grade = gradeService.create("mani",
-                anGrade());
+        final Board board = boardService.create("mani",
+                aBoard());
+        final Grade grade = gradeService.create(board.id(), "mani",
+                aGrade());
         final Long newGradeId = grade.id();
         Grade newGrade = new Grade(null, "Grade", "A " +
                 "Grade", null, "tom", null, null);
         Grade updatedGrade = gradeService
-                .update(newGradeId, "manikanta", newGrade);
+                .update(board.id(), newGradeId, "manikanta", newGrade);
         assertEquals("Grade", updatedGrade.title(), "Updated");
 
         Assertions.assertThrows(IllegalArgumentException.class, () -> {
             gradeService
-                    .update(10000L, "manikanta", newGrade);
+                    .update(board.id(), 10000L, "manikanta", newGrade);
         });
     }
 
     @Test
     void delete() {
 
-        final Grade grade = gradeService.create("mani",
-                anGrade());
-        gradeService.delete("mani",grade.id());
-        assertFalse(gradeService.read("mani",grade.id()).isPresent(),
+        final Board board = boardService.create("mani",
+                aBoard());
+        final Grade grade = gradeService.create(board.id(), "mani",
+                aGrade());
+        gradeService.delete(board.id(), "mani",grade.id());
+        assertFalse(gradeService.read(board.id(), "mani",grade.id()).isPresent(),
                 "Deleted Grade");
 
     }
@@ -92,13 +104,15 @@ public class GradeServiceTest {
     @Test
     void list() {
 
-        final Grade grade = gradeService.create("manikanta",
-                anGrade());
+        final Board board = boardService.create("mani",
+                aBoard());
+        final Grade grade = gradeService.create(board.id(), "manikanta",
+                aGrade());
         Grade newGrade = new Grade(null, "Grade New", "A " +
                 "Grade", null, "tom", null, null);
-        gradeService.create("manikanta",
+        gradeService.create(board.id(), "manikanta",
                 newGrade);
-        List<Grade> listofgrade = gradeService.list("manikanta");
+        List<Grade> listofgrade = gradeService.list(board.id(), "manikanta");
         Assertions.assertEquals(2, listofgrade.size());
 
     }
@@ -108,11 +122,24 @@ public class GradeServiceTest {
      *
      * @return the grade
      */
-    Grade anGrade() {
+    Grade aGrade() {
 
         Grade grade = new Grade(null, "Student Grade",
                 "A " + "Grade", null, null,
                 null, null);
         return grade;
+    }
+
+    /**
+     * Gets board.
+     *
+     * @return the board
+     */
+    Board aBoard() {
+
+        Board board = new Board(null, "State Board",
+                "A " + "Board", null, null,
+                null, null);
+        return board;
     }
 }

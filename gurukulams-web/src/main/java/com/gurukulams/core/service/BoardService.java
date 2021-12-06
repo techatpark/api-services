@@ -79,7 +79,7 @@ public class BoardService {
     public Board create(final String userName,
                            final Board board) {
         final SimpleJdbcInsert insert = new SimpleJdbcInsert(dataSource)
-                .withTableName("board").usingGeneratedKeyColumns("id")
+                .withTableName("boards").usingGeneratedKeyColumns("id")
                 .usingColumns("title", "description", "created_by");
 
         final Map<String, Object> valueMap = new HashMap<>();
@@ -105,7 +105,7 @@ public class BoardService {
      */
     public Optional<Board> read(final String userName, final Long id) {
         final String query = "SELECT id,title,description,created_by,"
-                + "created_at, modified_at, modified_by FROM board "
+                + "created_at, modified_at, modified_by FROM boards "
                 + "WHERE id = ?";
 
 
@@ -130,7 +130,7 @@ public class BoardService {
                            final String userName,
                            final Board board) {
         logger.debug("Entering update for Board {}", id);
-        final String query = "UPDATE board SET title=?,"
+        final String query = "UPDATE boards SET title=?,"
                 + "description=?,modified_by=? WHERE id=?";
         final Integer updatedRows =
                 jdbcTemplate.update(query, board.title(),
@@ -149,7 +149,7 @@ public class BoardService {
      * @return board optional
      */
     public Boolean delete(final String userName, final Long id) {
-        final String query = "DELETE FROM board WHERE id = ?";
+        final String query = "DELETE FROM boards WHERE id = ?";
         final Integer updatedRows = jdbcTemplate.update(query, id);
         return !(updatedRows == 0);
     }
@@ -161,7 +161,7 @@ public class BoardService {
      */
     public List<Board> list(final String userName) {
         String query = "SELECT id,title,description,created_by,"
-                + "created_at,modified_at,modified_by FROM board";
+                + "created_at,modified_at,modified_by FROM boards";
         return jdbcTemplate.query(query, this::rowMapper);
 
     }
@@ -172,7 +172,7 @@ public class BoardService {
      * @return no.of board deleted
      */
     public Integer deleteAll() {
-        final String query = "DELETE FROM board";
+        final String query = "DELETE FROM boards";
         return jdbcTemplate.update(query);
     }
 }
