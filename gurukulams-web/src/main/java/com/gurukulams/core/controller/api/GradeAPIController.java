@@ -10,15 +10,25 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestController;
+
 import java.net.URI;
 import java.security.Principal;
 import java.util.List;
 
 @RestController
 @RequestMapping("/api/grade")
-@Tag(name = "Grade", description = "Resource to manage grade")
+@Tag(name = "Grade", description = "Resource to manage Grade")
 class GradeAPIController {
+
         /**
          * declare a grade service.
          */
@@ -27,6 +37,7 @@ class GradeAPIController {
         GradeAPIController(final GradeService agradeService) {
                 this.gradeService = agradeService;
         }
+
 
         @Operation(summary = "Creates a new grade",
                 description = "Can be called "
@@ -39,11 +50,13 @@ class GradeAPIController {
                 @ApiResponse(responseCode = "401",
                         description = "invalid credentials")})
         @ResponseStatus(HttpStatus.CREATED)
-        @PostMapping(produces = "application/json", consumes = "application/json")
+        @PostMapping(produces = "application/json",
+                                          consumes = "application/json")
         public ResponseEntity<Grade> create(final Principal principal,
-                                       final @RequestBody Grade grade) {
-                Grade created = gradeService.create(principal.getName(), grade);
-                return ResponseEntity.created(URI.create("/api/grade" + created.id()))
+                                               final @RequestBody Grade grade) {
+            Grade created = gradeService.create(principal.getName(), grade);
+            return ResponseEntity.created(URI.create("/api/grade"
+                                                         + created.id()))
                         .body(created);
         }
 
@@ -58,8 +71,9 @@ class GradeAPIController {
 
         @GetMapping("/{id}")
         public ResponseEntity<Grade> read(final @PathVariable Long id,
-                                          final Principal principal) {
-                return ResponseEntity.of(gradeService.read(principal.getName(), id));
+                                       final Principal principal) {
+                return ResponseEntity.of(gradeService.read(
+                                                 principal.getName(), id));
         }
 
         @Operation(summary = "Updates the grade by given id",
@@ -117,10 +131,12 @@ class GradeAPIController {
                         description = "invalid credentials")})
         @GetMapping(produces = "application/json")
         public ResponseEntity<List<Grade>> list(final Principal
-                                                        principal) {
+                                                           principal) {
                 final List<Grade> gradeList = gradeService.list(
                         principal.getName());
                 return gradeList.isEmpty() ? ResponseEntity.noContent().build()
                         : ResponseEntity.ok(gradeList);
         }
-        }
+}
+
+

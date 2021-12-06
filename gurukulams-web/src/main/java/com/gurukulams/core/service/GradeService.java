@@ -6,6 +6,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
+import org.springframework.stereotype.Service;
 
 import javax.sql.DataSource;
 import java.sql.ResultSet;
@@ -16,6 +17,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+@Service
 public class GradeService {
 
     /**
@@ -90,7 +92,7 @@ public class GradeService {
         final Optional<Grade> createdGrade =
                 read(userName, gradeId.longValue());
 
-        logger.info("Syllabus Created {}", gradeId);
+        logger.info("grade Created {}", gradeId);
 
         return createdGrade.get();
     }
@@ -99,7 +101,7 @@ public class GradeService {
      * reads from grade.
      * @param id the id
      * @param userName the userName
-     * @return grade optional
+     * @return gread optional
      */
     public Optional<Grade> read(final String userName, final Long id) {
         final String query = "SELECT id,title,description,created_by,"
@@ -165,9 +167,9 @@ public class GradeService {
     }
 
     /**
-     * Cleaning up all grades.
+     * Cleaning up all boards.
      *
-     * @return no.of grades deleted
+     * @return no.of grade deleted
      */
     public Integer deleteAll() {
         final String query = "DELETE FROM grade";
