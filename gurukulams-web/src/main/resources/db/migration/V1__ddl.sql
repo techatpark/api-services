@@ -68,7 +68,7 @@ CREATE TABLE board (
     modified_by VARCHAR(200)
 );
 
-CREATE TABLE course (
+CREATE TABLE grade (
     id INT auto_increment PRIMARY KEY,
     title VARCHAR(55),
     description TEXT,
