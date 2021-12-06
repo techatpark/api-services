@@ -2,7 +2,6 @@ package com.gurukulams.core.controller.api;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.gurukulams.core.model.Board;
-import com.gurukulams.core.model.Syllabus;
 import com.gurukulams.core.service.BoardService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -28,7 +27,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/board")
 @Tag(name = "Board", description = "Resource to manage Board")
-public class BoardAPIController {
+class BoardAPIController {
 
     /**
      * declare a board service.
@@ -39,6 +38,13 @@ public class BoardAPIController {
         this.boardService = aBoardService;
     }
 
+    /**
+     * Create response entity.
+     *
+     * @param principal the principal
+     * @param board  the board name
+     * @return the response entity
+     */
     @Operation(summary = "Creates a new board",
             description = "Can be called "
                     + "only by users with 'auth management' rights.",
@@ -58,6 +64,12 @@ public class BoardAPIController {
                 .body(created);
     }
 
+    /**
+     * Read a board.
+     * @param id
+     * @param principal
+     * @return a board
+     */
     @Operation(summary = "Get the Board with given id",
             security = @SecurityRequirement(name = "bearerAuth"))
     @ApiResponses(value = {@ApiResponse(responseCode = "200",
@@ -73,6 +85,14 @@ public class BoardAPIController {
         return ResponseEntity.of(boardService.read(principal.getName(), id));
     }
 
+    /**
+     * Update a Board.
+     * @param id
+     * @param principal
+     * @param board
+     * @return a board
+     * @throws JsonProcessingException
+     */
     @Operation(summary = "Updates the board by given id",
             description = "Can be called only by users "
                     + "with 'auth management' rights.",
@@ -91,7 +111,7 @@ public class BoardAPIController {
                                            final Principal
                                                    principal,
                                            final @RequestBody
-                                                   Syllabus
+                                                   Board
                                                        board)
             throws JsonProcessingException {
         final Board updatedBoard =
@@ -100,6 +120,12 @@ public class BoardAPIController {
                 : ResponseEntity.ok(updatedBoard);
     }
 
+    /**
+     * Delete a Board.
+     * @param id
+     * @param principal
+     * @return board
+     */
     @Operation(summary = "Deletes the board by given id",
             security = @SecurityRequirement(name = "bearerAuth"))
     @ApiResponses(value = {@ApiResponse(responseCode = "200",
@@ -117,6 +143,11 @@ public class BoardAPIController {
                 : ResponseEntity.notFound().build();
     }
 
+    /**
+     * List the Boards.
+     * @param principal
+     * @return list of board
+     */
     @Operation(summary = "lists the board",
             description = " Can be invoked by auth users only",
             security = @SecurityRequirement(name = "bearerAuth"))
