@@ -117,10 +117,8 @@ class InstituteAPIController {
                     description = "institute not found")})
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable final Long boardId,
-                                       final @PathVariable
-                                               Long id,
-                                       final Principal
-                                               principal) {
+                                       final @PathVariable Long id,
+                                       final Principal principal) {
         return instituteService.delete(boardId, principal.getName(), id)
                 ? ResponseEntity.ok().build()
                 : ResponseEntity.notFound().build();
