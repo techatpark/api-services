@@ -78,19 +78,21 @@ public final class InstituteService {
      * inserts data.
      * @param userName the userName
      * @param institute the institute
+     * @param boardId the board Id
      * @return question optional
      */
-    public Institute create(final String userName,
+    public Institute create(final Long boardId, final String userName,
                                       final Institute institute) {
 
         final SimpleJdbcInsert insert = new SimpleJdbcInsert(dataSource)
                 .withTableName("institutes")
                 .usingGeneratedKeyColumns("id")
-                .usingColumns("title",
+                .usingColumns("board_id", "title",
                         "description",
                         "created_by");
 
         final Map<String, Object> valueMap = new HashMap<>();
+        valueMap.put("board_id", boardId);
         valueMap.put("title",
                 institute.title());
         valueMap.put("description", institute.description());
@@ -98,7 +100,7 @@ public final class InstituteService {
 
         final Number instituteId = insert.executeAndReturnKey(valueMap);
         final Optional<Institute> createdInstitute =
-                read(userName, instituteId.longValue());
+                read(boardId, userName, instituteId.longValue());
 
         logger.info("Created Institute {}", instituteId);
 
@@ -110,17 +112,19 @@ public final class InstituteService {
      * reads from institute.
      * @param id the id
      * @param userName the userName
-     * @return question optional
+     * @param boardId the board Id
+     * @return institute optional
      */
-    public Optional<Institute> read(final String userName, final Long id) {
+    public Optional<Institute> read(final Long boardId,
+                                    final String userName, final Long id) {
         final String query = "SELECT id,title,description,created_by,"
                 + "created_at, modified_at, modified_by FROM institutes "
-                + "WHERE id = ?";
+                + "WHERE id = ? and board_id = ?";
 
 
         try {
             final Institute p = jdbcTemplate
-                    .queryForObject(query, new Object[]{id},
+                    .queryForObject(query, new Object[]{id, boardId},
                             this::rowMapper);
             return Optional.of(p);
         } catch (final EmptyResultDataAccessException e) {
@@ -133,35 +137,39 @@ public final class InstituteService {
      * @param id the id
      * @param userName the userName
      * @param institute the institute
+     * @param boardId the board Id
      * @return question optional
      */
-    public Institute update(final Long id,
+    public Institute update(final Long boardId, final Long id,
                                      final String userName,
-                                     final Institute institute) {
+                                final Institute institute) {
         logger.debug("Entering Update for Institute {}", id);
-        final String query =
-                "UPDATE institutes SET title = ?,"
-                        + "description = ?, modified_by = ? WHERE id = ?";
+        final String query = "UPDATE institutes SET title=?,"
+                + "description=?,modified_by=? WHERE id=? and board_id = "
+                + "?";
         final Integer updatedRows =
                 jdbcTemplate.update(query, institute.title(),
-                        institute.description(), userName, id);
+                        institute.description(), userName, id, boardId);
         if (updatedRows == 0) {
             logger.error("Update not found {}", id);
             throw new IllegalArgumentException("Institute not found");
         }
-        return read(userName, id).get();
+        return read(boardId, userName, id).get();
     }
 
     /**
      * delete the institute.
      * @param id the id
      * @param userName the userName
+     * @param boardId the board Id
      * @return false
      */
-    public Boolean delete(final String userName, final Long id) {
-        String query = "DELETE FROM institutes WHERE ID=?";
+    public Boolean delete(final Long boardId, final String userName,
+                                                         final Long id) {
+        String query = "DELETE FROM institutes WHERE ID=? and board_id ="
+                + " ?";
 
-        final Integer updatedRows = jdbcTemplate.update(query, id);
+        final Integer updatedRows = jdbcTemplate.update(query, id, boardId);
         return !(updatedRows == 0);
     }
 
@@ -169,12 +177,14 @@ public final class InstituteService {
     /**
      * list of institutes.
      * @param userName the userName
+     * @param boardId the board Id
      * @return institutes list
      */
-    public List<Institute> list(final String userName) {
+    public List<Institute> list(final Long boardId, final String userName) {
         String query = "SELECT id,title,description,created_by,"
-                + "created_at, modified_at, modified_by FROM institutes";
-        return jdbcTemplate.query(query, this::rowMapper);
+                + "created_at, modified_at, modified_by FROM institutes WHERE "
+                + "board_id = ?";
+        return jdbcTemplate.query(query, this::rowMapper, boardId);
     }
 
     /**

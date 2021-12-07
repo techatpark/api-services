@@ -27,7 +27,7 @@ import java.util.List;
  * The type Institute api controller.
  */
 @RestController
-@RequestMapping("/api/institutes")
+@RequestMapping("/api/institutes/{boardId}")
 @Tag(name = "Institutes", description = "Resource to manage Institutes")
 class InstituteAPIController {
 
@@ -52,11 +52,12 @@ class InstituteAPIController {
                     description = "invalid credentials")})
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping(produces = "application/json", consumes = "application/json")
-    public ResponseEntity<Institute> create(final Principal principal,
+    public ResponseEntity<Institute> create(@PathVariable final Long boardId,
+                                            final Principal principal,
                                                       final @RequestBody
                                                      Institute institute) {
-        Institute createdInstitute =
-                instituteService.create(principal.getName(), institute);
+        Institute createdInstitute = instituteService.create(boardId,
+                                          principal.getName(), institute);
         return ResponseEntity.created(URI.create("/api/syllabus"
                         + createdInstitute.id()))
                 .body(createdInstitute);
@@ -72,9 +73,11 @@ class InstituteAPIController {
             @ApiResponse(responseCode = "404",
                     description = "institute not found")})
     @GetMapping(value = "/{id}", produces = "application/json")
-    public ResponseEntity<Institute> read(final @PathVariable Long id,
+    public ResponseEntity<Institute> read(@PathVariable final Long boardId,
+                                          final @PathVariable Long id,
                                          final Principal principal) {
-    return ResponseEntity.of(instituteService.read(principal.getName(), id));
+    return ResponseEntity.of(instituteService.read(boardId,
+                                               principal.getName(), id));
     }
 
     @Operation(summary = "Updates the institute by given id",
@@ -91,16 +94,16 @@ class InstituteAPIController {
                     description = "institute not found")})
     @PutMapping(value = "/{id}", produces = "application/json", consumes =
             "application/json")
-    public ResponseEntity<Institute> update(final@PathVariable
-                                                                  Long id,
+    public ResponseEntity<Institute> update(@PathVariable final Long boardId,
+                                            final@PathVariable Long id,
                                                      final Principal
                                                              principal,
                                                      final @RequestBody
                                                                   Institute
                                                                   institute)
             throws JsonProcessingException {
-        final Institute updatedInstitute =
-                instituteService.update(id, principal.getName(), institute);
+        final Institute updatedInstitute = instituteService.update(boardId,
+                                          id, principal.getName(), institute);
         return ResponseEntity.ok(updatedInstitute);
     }
 
@@ -113,11 +116,12 @@ class InstituteAPIController {
             @ApiResponse(responseCode = "404",
                     description = "institute not found")})
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(final @PathVariable
+    public ResponseEntity<Void> delete(@PathVariable final Long boardId,
+                                       final @PathVariable
                                                Long id,
                                        final Principal
                                                principal) {
-        return instituteService.delete(principal.getName(), id)
+        return instituteService.delete(boardId, principal.getName(), id)
                 ? ResponseEntity.ok().build()
                 : ResponseEntity.notFound().build();
     }
@@ -132,10 +136,12 @@ class InstituteAPIController {
             @ApiResponse(responseCode = "401",
                     description = "invalid credentials")})
     @GetMapping(produces = "application/json")
-    public ResponseEntity<List<Institute>> list(final Principal
+    public ResponseEntity<List<Institute>> list(
+                                  @PathVariable final Long boardId,
+                                                final Principal
                                                        principal) {
         final List<Institute> instituteList = instituteService.list(
-                principal.getName());
+                boardId, principal.getName());
         return instituteList.isEmpty() ? ResponseEntity.noContent().build()
                 : ResponseEntity.ok(instituteList);
     }
