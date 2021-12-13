@@ -64,7 +64,7 @@ public class LearnerService {
                     rs.getInt("id"),
                     rs.getString("name"),
                     rs.getString("email"),
-                    rs.getString("displaying"),
+                    rs.getString("display_name"),
                     rs.getObject("created_at", LocalDateTime.class),
                     rs.getObject("modified_at", LocalDateTime.class)
                 );
@@ -82,11 +82,11 @@ public class LearnerService {
         final SimpleJdbcInsert insert = new SimpleJdbcInsert(dataSource)
                                         .withTableName("learner")
                                         .usingGeneratedKeyColumns("id")
-                          .usingColumns("name", "email", "displaying");
+                          .usingColumns("name", "email", "display_name");
         final Map<String, Object> valueMap = new HashMap<>();
         valueMap.put("name", learner.name());
         valueMap.put("email", learner.email());
-        valueMap.put("displaying", learner.displaying());
+        valueMap.put("display_name", learner.displayName());
         final Number learnerId = insert.executeAndReturnKey(valueMap);
         final Optional<Learner> createdLearner = read(userName,
                 learnerId.longValue());
@@ -102,7 +102,7 @@ public class LearnerService {
      */
     public Optional<Learner> read(final String userName,
                                  final Long id) {
-            final String query = "SELECT id,name,email,displaying,"
+            final String query = "SELECT id,name,email,display_name,"
                     + "created_at, modified_at FROM learner "
                     + "WHERE id = ?";
 
@@ -127,10 +127,10 @@ public class LearnerService {
                           final Learner learner) {
         logger.debug("Entering updating from learner {}", id);
         final String query = "UPDATE learner SET name=?,email=?,"
-                + "displaying=? WHERE id=?";
+                + "display_name=? WHERE id=?";
         final Integer updatedRows = jdbcTemplate.update(query,
-                          learner.name(), learner.email(), learner.displaying(),
-                            id);
+                          learner.name(), learner.email(),
+                                learner.displayName(), id);
         if (updatedRows == 0) {
             logger.error("update not found", id);
             throw new IllegalArgumentException("Learner not found");
@@ -157,7 +157,7 @@ public class LearnerService {
      * @return learner
      */
     public List<Learner> list(final String userName) {
-        final String query = "SELECT id,name,email,displaying,"
+        final String query = "SELECT id,name,email,display_name,"
                 + "created_at,modified_at FROM learner";
         return jdbcTemplate.query(query, this::rowMapper);
     }
