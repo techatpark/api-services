@@ -57,7 +57,7 @@ public class LearnerServiceTest {
                 null,null);
         Learner updatedLearner=learnerService.update(newLearnerId,
                                     "Mani",newLearner);
-        assertEquals("maniLearner", updatedLearner.title(), "updated");
+        assertEquals("maniLearner", updatedLearner.name(), "updated");
                Assertions.assertThrows(IllegalArgumentException.class, () -> {
                    learnerService.update(10000L, "Mani", newLearner);
         });
@@ -84,7 +84,7 @@ public class LearnerServiceTest {
 
     Learner anLearner() {
         Learner learner=new Learner(null,"Manikanta",
-                "An Description",
+                "An Learner",
                 null,null);
         return learner;
     }

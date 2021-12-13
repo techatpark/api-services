@@ -104,8 +104,8 @@ CREATE TABLE institutes (
 
 CREATE TABLE learner (
     id INT auto_increment PRIMARY KEY,
-    title VARCHAR(55),
-    description TEXT,
+    name VARCHAR(55),
+    displaying TEXT,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     modified_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
