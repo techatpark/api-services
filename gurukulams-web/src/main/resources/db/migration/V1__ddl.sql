@@ -105,6 +105,7 @@ CREATE TABLE institutes (
 CREATE TABLE learner (
     id INT auto_increment PRIMARY KEY,
     name VARCHAR(55),
+    email VARCHAR(55),
     displaying TEXT,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     modified_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
