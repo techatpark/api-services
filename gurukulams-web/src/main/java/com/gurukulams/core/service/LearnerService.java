@@ -128,7 +128,7 @@ public class LearnerService {
                 + "description=? WHERE id=?";
         final Integer updatedRows = jdbcTemplate.update(query,
                           learner.title(), learner.description(),
-                           userName, id);
+                            id);
         if (updatedRows == 0) {
             logger.error("update not found", id);
             throw new IllegalArgumentException("Learner not found");
