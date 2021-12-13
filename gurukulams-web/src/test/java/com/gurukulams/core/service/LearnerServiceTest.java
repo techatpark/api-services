@@ -54,7 +54,7 @@ public class LearnerServiceTest {
                                                       anLearner());
         final Long newLearnerId = learner.id();
         Learner newLearner=new Learner(null, "maniLearner", "An Learner",
-                null,null,null,null);
+                null,null);
         Learner updatedLearner=learnerService.update(newLearnerId,
                                     "Mani",newLearner);
         assertEquals("maniLearner", updatedLearner.title(), "updated");
@@ -76,7 +76,7 @@ public class LearnerServiceTest {
         final Learner learner=learnerService.create("Manikanta",
                                                         anLearner());
         Learner newLearner=new Learner(null, "tom", "An Learner",
-                null, null, null, null);
+                null, null);
         learnerService.create("Manikanta", newLearner);
         List<Learner> listOfLearner = learnerService.list("Manikanta");
         Assertions.assertEquals(2, listOfLearner.size());
@@ -84,7 +84,7 @@ public class LearnerServiceTest {
 
     Learner anLearner() {
         Learner learner=new Learner(null,"Manikanta",
-                "An Description", null,null,
+                "An Description",
                 null,null);
         return learner;
     }
