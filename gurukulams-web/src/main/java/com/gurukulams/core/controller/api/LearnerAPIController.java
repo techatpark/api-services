@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.security.Principal;
+import java.util.List;
 
 /**
  * The type Learner api controller.
@@ -48,6 +49,19 @@ class LearnerAPIController {
                                         final @PathVariable Long id) {
         return ResponseEntity.of(learnerService.read(principal.getName(),
                 id));
+    }
+
+    @Operation(summary = "Get the Learner with given id",
+            security = @SecurityRequirement(name = "bearerAuth"))
+    @ApiResponses(value = {@ApiResponse(responseCode = "200",
+            description = "getting learner successfully"),
+            @ApiResponse(responseCode = "401",
+                    description = "invalid credentials"),
+            @ApiResponse(responseCode = "404",
+                    description = "learner not found")})
+    @GetMapping(produces = "application/json")
+    public ResponseEntity<List<Learner>> list(final Principal principal) {
+        return ResponseEntity.ok(learnerService.list(principal.getName()));
     }
 
 }
