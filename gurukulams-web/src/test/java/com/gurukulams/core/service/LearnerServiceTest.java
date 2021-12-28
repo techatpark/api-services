@@ -99,7 +99,7 @@ public class LearnerServiceTest {
     void list() {
         final Learner learner=learnerService.create("Manikanta",
                                                         anLearner());
-        Learner newLearner=new Learner(null, "tom","abcd123@gmail.com",
+        Learner newLearner=new Learner(null, "tom","abcdnew@gmail.com",
                          "An Learner", null, null);
         learnerService.create("Manikanta", newLearner);
         List<Learner> listOfLearner = learnerService.list("Manikanta");
