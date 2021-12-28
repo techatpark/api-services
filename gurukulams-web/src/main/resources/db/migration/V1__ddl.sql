@@ -108,6 +108,7 @@ CREATE TABLE learner (
     email VARCHAR(55),
     display_name VARCHAR(55),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    modified_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    modified_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    UNIQUE KEY email_UNIQUE (email)
 );
 

@@ -117,6 +117,28 @@ public class LearnerService {
 
     /**
      *
+     * @param userName
+     * @param emailId
+     * @return learner
+     */
+    public Optional<Learner> readByEmail(final String userName,
+                                  final String emailId) {
+        final String query = "SELECT id,name,email,display_name,"
+                + "created_at, modified_at FROM learner "
+                + "WHERE email = ?";
+
+        try {
+            final Learner p = jdbcTemplate.queryForObject(query,
+                    new Object[]{emailId}, this::rowMapper);
+            return Optional.of(p);
+        } catch (final EmptyResultDataAccessException e) {
+            return Optional.empty();
+        }
+    }
+
+
+    /**
+     *
      * @param id
      * @param userName
      * @param learner
