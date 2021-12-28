@@ -112,3 +112,14 @@ CREATE TABLE learner (
     UNIQUE KEY email_UNIQUE (email)
 );
 
+CREATE TABLE chat_messages (
+    id INT auto_increment PRIMARY KEY,
+    chat_id INT,
+    sender_id INT,
+    recipient_id INT,
+    sender_name VARCHAR(55),
+    recipient_name VARCHAR(55),
+    message VARCHAR(256),
+    time TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
