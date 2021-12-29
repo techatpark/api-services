@@ -106,6 +106,8 @@ CREATE TABLE learner (
     id INT auto_increment PRIMARY KEY,
     name VARCHAR(55),
     email VARCHAR(55),
+    imageUrl VARCHAR(55),
+    password VARCHAR(55),
     display_name VARCHAR(55),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     modified_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,

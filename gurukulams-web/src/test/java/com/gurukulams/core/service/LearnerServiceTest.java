@@ -78,7 +78,8 @@ public class LearnerServiceTest {
                                                       anLearner());
         final Long newLearnerId = learner.id();
         Learner newLearner=new Learner(null, "maniLearner","abcd123@gmail.com",
-                           "An Learner", null,null);
+                           "http://learnerimage.jpg","GYTL5@1654",
+                      "An Learner", null,null);
         Learner updatedLearner=learnerService.update(newLearnerId,
                                     "Mani",newLearner);
         assertEquals("maniLearner", updatedLearner.name(), "updated");
@@ -100,6 +101,7 @@ public class LearnerServiceTest {
         final Learner learner=learnerService.create("Manikanta",
                                                         anLearner());
         Learner newLearner=new Learner(null, "tom","abcdnew@gmail.com",
+                "http://learnerimage.jpg","GYTL5@1654",
                          "An Learner", null, null);
         learnerService.create("Manikanta", newLearner);
         List<Learner> listOfLearner = learnerService.list("Manikanta");
@@ -109,6 +111,8 @@ public class LearnerServiceTest {
     Learner anLearner() {
         Learner learner=new Learner(null,"Manikanta",
                 "abcd123@gmail.com",
+                "http://learnerimage.jpg",
+                "GYTL5@1654",
                 "An Learner",
                 null,null);
         return learner;
