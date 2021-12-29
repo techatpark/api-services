@@ -108,6 +108,8 @@ CREATE TABLE learner (
     email VARCHAR(55),
     imageUrl VARCHAR(55),
     password VARCHAR(55),
+    provider TEXT,
+    providerId TEXT,
     display_name VARCHAR(55),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     modified_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,

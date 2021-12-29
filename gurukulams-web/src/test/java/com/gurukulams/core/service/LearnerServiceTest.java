@@ -79,6 +79,7 @@ public class LearnerServiceTest {
         final Long newLearnerId = learner.id();
         Learner newLearner=new Learner(null, "maniLearner","abcd123@gmail.com",
                            "http://learnerimage.jpg","GYTL5@1654",
+                      "google","121",
                       "An Learner", null,null);
         Learner updatedLearner=learnerService.update(newLearnerId,
                                     "Mani",newLearner);
@@ -102,6 +103,7 @@ public class LearnerServiceTest {
                                                         anLearner());
         Learner newLearner=new Learner(null, "tom","abcdnew@gmail.com",
                 "http://learnerimage.jpg","GYTL5@1654",
+                    "google","121",
                          "An Learner", null, null);
         learnerService.create("Manikanta", newLearner);
         List<Learner> listOfLearner = learnerService.list("Manikanta");
@@ -113,6 +115,8 @@ public class LearnerServiceTest {
                 "abcd123@gmail.com",
                 "http://learnerimage.jpg",
                 "GYTL5@1654",
+                "google",
+                "121",
                 "An Learner",
                 null,null);
         return learner;

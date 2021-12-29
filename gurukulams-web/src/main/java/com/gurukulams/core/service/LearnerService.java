@@ -66,6 +66,8 @@ public class LearnerService {
                     rs.getString("email"),
                     rs.getString("imageUrl"),
                     rs.getString("password"),
+                    rs.getString("provider"),
+                    rs.getString("providerId"),
                     rs.getString("display_name"),
                     rs.getObject("created_at", LocalDateTime.class),
                     rs.getObject("modified_at", LocalDateTime.class)
@@ -85,12 +87,15 @@ public class LearnerService {
                                         .withTableName("learner")
                                         .usingGeneratedKeyColumns("id")
                           .usingColumns("name", "email",
-                                   "imageUrl", "password", "display_name");
+                                   "imageUrl", "password", "provider",
+                                  "providerId", "display_name");
         final Map<String, Object> valueMap = new HashMap<>();
         valueMap.put("name", learner.name());
         valueMap.put("email", learner.email());
         valueMap.put("imageUrl", learner.imageUrl());
         valueMap.put("password", learner.password());
+        valueMap.put("provider", learner.provider());
+        valueMap.put("providerId", learner.providerId());
         valueMap.put("display_name", learner.displayName());
         final Number learnerId = insert.executeAndReturnKey(valueMap);
         final Optional<Learner> createdLearner = read(userName,
@@ -108,7 +113,7 @@ public class LearnerService {
     public Optional<Learner> read(final String userName,
                                  final Long id) {
             final String query = "SELECT id,name,email,imageUrl,"
-                                   + "password,display_name,"
+                       + "password,provider,providerId,display_name,"
                     + "created_at, modified_at FROM learner "
                     + "WHERE id = ?";
 
@@ -130,7 +135,7 @@ public class LearnerService {
     public Optional<Learner> readByEmail(final String userName,
                                   final String emailId) {
         final String query = "SELECT id,name,email,"
-                          + "imageUrl,password,display_name,"
+               + "imageUrl,password,provider,providerId,display_name,"
                 + "created_at, modified_at FROM learner "
                 + "WHERE email = ?";
 
@@ -156,10 +161,12 @@ public class LearnerService {
                           final Learner learner) {
         logger.debug("Entering updating from learner {}", id);
         final String query = "UPDATE learner SET name=?,email=?,"
-                + "imageUrl=?, password=?, display_name=? WHERE id=?";
+                + "imageUrl=?, password=?,provider=?,providerId=?,"
+                + "display_name=? WHERE id=?";
         final Integer updatedRows = jdbcTemplate.update(query,
                                 learner.name(), learner.email(),
                                 learner.imageUrl(), learner.password(),
+                                learner.provider(), learner.providerId(),
                                 learner.displayName(), id);
         if (updatedRows == 0) {
             logger.error("update not found", id);
@@ -188,7 +195,7 @@ public class LearnerService {
      */
     public List<Learner> list(final String userName) {
         final String query = "SELECT id,name,email,"
-                        + "imageUrl,password,display_name,"
+                        + "imageUrl,password,provider,providerId,display_name,"
                 + "created_at,modified_at FROM learner";
         return jdbcTemplate.query(query, this::rowMapper);
     }
