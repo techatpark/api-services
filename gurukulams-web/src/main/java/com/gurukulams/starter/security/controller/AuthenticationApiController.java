@@ -1,5 +1,6 @@
 package com.gurukulams.starter.security.controller;
 
+import com.gurukulams.core.service.LearnerService;
 import com.gurukulams.starter.security.payload.AuthenticationRequest;
 import com.gurukulams.starter.security.payload.AuthenticationResponse;
 import com.gurukulams.starter.security.security.CustomUserDetailsService;
@@ -38,7 +39,7 @@ class AuthenticationApiController {
     /**
      * instance of userDetailsService.
      */
-    private final CustomUserDetailsService userDetailsService;
+    private final LearnerService userDetailsService;
     /**
      * instance of tokenUtil.
      */
@@ -53,7 +54,7 @@ class AuthenticationApiController {
      */
     AuthenticationApiController(final AuthenticationManager
                                         anAuthenticationManager,
-                                final CustomUserDetailsService
+                                final LearnerService
                                         anUserDetailsService,
                                 final TokenProvider aTokenUtil) {
         this.authenticationManager = anAuthenticationManager;
@@ -90,9 +91,9 @@ class AuthenticationApiController {
                 new AuthenticationResponse(authenticationRequest.getUserName(),
                         token,
                         "Refresh",
-                        userDetailsService.findByName(authenticationRequest
+                        userDetailsService.readByEmail(authenticationRequest
                                 .getUserName())
-                                .get().getImageUrl());
+                                .get().imageUrl());
         return ResponseEntity.ok().body(authenticationResponse);
     }
 
@@ -129,9 +130,9 @@ class AuthenticationApiController {
                 new AuthenticationResponse(principal.getName(),
                         "",
                         "Refresh",
-                        userDetailsService.findByName(principal
+                        userDetailsService.readByEmail(principal
                                 .getName())
-                                .get().getImageUrl());
+                                .get().imageUrl());
         return ResponseEntity.ok().body(authenticationResponse);
     }
 }

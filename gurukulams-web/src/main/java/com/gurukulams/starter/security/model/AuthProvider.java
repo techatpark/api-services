@@ -5,10 +5,6 @@ package com.gurukulams.starter.security.model;
  */
 public enum AuthProvider {
     /**
-     * summa.
-     */
-    local,
-    /**
      * facebook.
      */
     facebook,

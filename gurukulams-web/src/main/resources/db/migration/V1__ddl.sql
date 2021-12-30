@@ -107,7 +107,7 @@ CREATE TABLE learner (
     name VARCHAR(55),
     email VARCHAR(55),
     imageUrl VARCHAR(55),
-    password VARCHAR(55),
+    password VARCHAR(255),
     provider TEXT,
     providerId TEXT,
     display_name VARCHAR(55),

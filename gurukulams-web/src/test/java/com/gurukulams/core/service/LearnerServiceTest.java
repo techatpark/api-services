@@ -37,9 +37,9 @@ public class LearnerServiceTest {
 
     @Test
     void create() {
-    final Learner learner = learnerService.create("mani",
+    final Learner learner = learnerService.create(
                                                       anLearner());
-        assertTrue(learnerService.read("mani",learner.id()).isPresent(),"Created Learner");
+        assertTrue(learnerService.read(learner.id()).isPresent(),"Created Learner");
 
     }
 //
@@ -58,15 +58,15 @@ public class LearnerServiceTest {
 
     @Test
     void read() {
-        final Learner learner = learnerService.create("Manikanta",
+        final Learner learner = learnerService.create(
                                      anLearner());
-        Assertions.assertTrue(learnerService.read("Manikanta",
+        Assertions.assertTrue(learnerService.read(
                 learner.id()).isPresent(), "Learner Found");
     }
 
     @Test
     void readByEmail() {
-        final Learner learner = learnerService.create("Manikanta",
+        final Learner learner = learnerService.create(
                 anLearner());
         Assertions.assertTrue(learnerService.readByEmail(learner.email()).isPresent(),
                                                    "Learner Found");
@@ -74,7 +74,7 @@ public class LearnerServiceTest {
 
     @Test
     void update() {
-        final Learner learner=learnerService.create("Manikanta",
+        final Learner learner=learnerService.create(
                                                       anLearner());
         final Long newLearnerId = learner.id();
         Learner newLearner=new Learner(null, "maniLearner","abcd123@gmail.com",
@@ -82,30 +82,30 @@ public class LearnerServiceTest {
                       "google","121",
                       "An Learner", null,null);
         Learner updatedLearner=learnerService.update(newLearnerId,
-                                    "Mani",newLearner);
+                                    newLearner);
         assertEquals("maniLearner", updatedLearner.name(), "updated");
                Assertions.assertThrows(IllegalArgumentException.class, () -> {
-                   learnerService.update(10000L, "Mani", newLearner);
+                   learnerService.update(10000L, newLearner);
         });
     }
 
     @Test
     void delete() {
-        final Learner learner=learnerService.create("Manikanta",
+        final Learner learner=learnerService.create(
                                                  anLearner());
         learnerService.delete("mani",learner.id());
-        assertFalse(learnerService.read("mani",learner.id()).isPresent(),"Deleted Learner");
+        assertFalse(learnerService.read(learner.id()).isPresent(),"Deleted Learner");
     }
 
     @Test
     void list() {
-        final Learner learner=learnerService.create("Manikanta",
+        final Learner learner=learnerService.create(
                                                         anLearner());
         Learner newLearner=new Learner(null, "tom","abcdnew@gmail.com",
                 "http://learnerimage.jpg","GYTL5@1654",
                     "google","121",
                          "An Learner", null, null);
-        learnerService.create("Manikanta", newLearner);
+        learnerService.create( newLearner);
         List<Learner> listOfLearner = learnerService.list("Manikanta");
         Assertions.assertEquals(2, listOfLearner.size());
     }

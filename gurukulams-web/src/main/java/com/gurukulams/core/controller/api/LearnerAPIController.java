@@ -47,7 +47,7 @@ class LearnerAPIController {
     @GetMapping(value = "/{id}", produces = "application/json")
     public ResponseEntity<Learner> read(final Principal principal,
                                         final @PathVariable Long id) {
-        return ResponseEntity.of(learnerService.read(principal.getName(),
+        return ResponseEntity.of(learnerService.read(
                 id));
     }
 

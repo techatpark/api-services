@@ -1,8 +1,9 @@
 package com.gurukulams.starter.security.security.oauth2;
 
+import com.gurukulams.core.model.Learner;
+import com.gurukulams.core.service.LearnerService;
 import com.gurukulams.starter.security.exception.OAuth2AuthenticationProcessingException;
 import com.gurukulams.starter.security.model.AuthProvider;
-import com.gurukulams.starter.security.model.User;
 import com.gurukulams.starter.security.security.CustomUserDetailsService;
 import com.gurukulams.starter.security.security.UserPrincipal;
 import com.gurukulams.starter.security.security.oauth2.user.OAuth2UserInfo;
@@ -29,7 +30,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
      * User Details Service.
      */
     @Autowired
-    private CustomUserDetailsService userRepository;
+    private LearnerService userRepository;
 
     /**
      * Loads the user.
@@ -66,19 +67,19 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
                     "Email not found from OAuth2 provider");
         }
 
-        final Optional<User> userOptional =
-                userRepository.findByName(oAuth2UserInfo.getEmail());
-        User user;
+        final Optional<Learner> userOptional =
+                userRepository.readByEmail(oAuth2UserInfo.getEmail());
+        Learner user;
         if (userOptional.isPresent()) {
             user = userOptional.get();
-            if (!user.getProvider().equals(AuthProvider.valueOf(
+            if (!user.provider().equals(AuthProvider.valueOf(
                     oAuth2UserRequest.getClientRegistration()
                             .getRegistrationId()))) {
                 throw new OAuth2AuthenticationProcessingException(
                         "Looks like you're signed up with "
-                                + user.getProvider()
+                                + user.provider()
                                 + " account. Please use your "
-                                + user.getProvider()
+                                + user.provider()
                                 + " account to login.");
             }
             user = updateExistingUser(user, oAuth2UserInfo);
@@ -89,25 +90,19 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         return UserPrincipal.create(user, oAuth2User.getAttributes());
     }
 
-    private User registerNewUser(final OAuth2UserRequest oAuth2UserRequest,
-                                 final OAuth2UserInfo oAuth2UserInfo) {
-        final User user = new User();
+    private Learner registerNewUser(final OAuth2UserRequest oAuth2UserRequest,
+                                    final OAuth2UserInfo oAuth2UserInfo) {
+        final Learner user = new Learner(null,"tom",oAuth2UserInfo.getEmail(),oAuth2UserInfo.getImageUrl()
+                ,null,oAuth2UserRequest.getClientRegistration()
+                .getRegistrationId(),oAuth2UserInfo.getId(),"Tom",null,null);
 
-        user.setProvider(AuthProvider.valueOf(
-                oAuth2UserRequest.getClientRegistration()
-                        .getRegistrationId()));
-        user.setProviderId(oAuth2UserInfo.getId());
-        user.setName(oAuth2UserInfo.getEmail());
-//        user.setEmail(oAuth2UserInfo.getEmail());
-        user.setImageUrl(oAuth2UserInfo.getImageUrl());
-        return userRepository.save(user);
+        return userRepository.create(user);
     }
 
-    private User updateExistingUser(final User existingUser,
+    private Learner updateExistingUser(final Learner existingUser,
                                     final OAuth2UserInfo oAuth2UserInfo) {
-        existingUser.setName(oAuth2UserInfo.getEmail());
-        existingUser.setImageUrl(oAuth2UserInfo.getImageUrl());
-        return userRepository.save(existingUser);
+
+        return userRepository.update(existingUser.id(),existingUser);
     }
 
 }

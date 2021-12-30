@@ -77,12 +77,10 @@ public class LearnerService {
 
     /**
      *
-     * @param userName
      * @param learner
      * @return learner
      */
-    public Learner create(final String userName,
-                          final Learner learner) {
+    public Learner create(final Learner learner) {
         final SimpleJdbcInsert insert = new SimpleJdbcInsert(dataSource)
                                         .withTableName("learner")
                                         .usingGeneratedKeyColumns("id")
@@ -98,7 +96,7 @@ public class LearnerService {
         valueMap.put("providerId", learner.providerId());
         valueMap.put("display_name", learner.displayName());
         final Number learnerId = insert.executeAndReturnKey(valueMap);
-        final Optional<Learner> createdLearner = read(userName,
+        final Optional<Learner> createdLearner = read(
                 learnerId.longValue());
         logger.info("Created learner {}", learnerId);
         return createdLearner.get();
@@ -106,12 +104,10 @@ public class LearnerService {
 
     /**
      *
-     * @param userName
      * @param id
      * @return learner
      */
-    public Optional<Learner> read(final String userName,
-                                 final Long id) {
+    public Optional<Learner> read(final Long id) {
             final String query = "SELECT id,name,email,imageUrl,"
                        + "password,provider,providerId,display_name,"
                     + "created_at, modified_at FROM learner "
@@ -150,12 +146,10 @@ public class LearnerService {
     /**
      *
      * @param id
-     * @param userName
      * @param learner
      * @return learner
      */
     public Learner update(final Long id,
-                          final String userName,
                           final Learner learner) {
         logger.debug("Entering updating from learner {}", id);
         final String query = "UPDATE learner SET name=?,email=?,"
@@ -170,7 +164,7 @@ public class LearnerService {
             logger.error("update not found", id);
             throw new IllegalArgumentException("Learner not found");
         }
-        return read(userName, id).get();
+        return read(id).get();
     }
 
     /**
