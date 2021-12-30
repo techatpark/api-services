@@ -61,7 +61,7 @@ public class UserPrincipal implements OAuth2User, UserDetails {
 
         return new UserPrincipal(
 
-                learner.name(),
+                learner.email(),
                 learner.password(),
                 authorities
         );
