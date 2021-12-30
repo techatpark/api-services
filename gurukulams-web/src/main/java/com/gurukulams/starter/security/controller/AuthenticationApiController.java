@@ -3,7 +3,6 @@ package com.gurukulams.starter.security.controller;
 import com.gurukulams.core.service.LearnerService;
 import com.gurukulams.starter.security.payload.AuthenticationRequest;
 import com.gurukulams.starter.security.payload.AuthenticationResponse;
-import com.gurukulams.starter.security.security.CustomUserDetailsService;
 import com.gurukulams.starter.security.security.TokenProvider;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;

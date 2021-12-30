@@ -4,7 +4,6 @@ import com.gurukulams.core.model.Learner;
 import com.gurukulams.core.service.LearnerService;
 import com.gurukulams.starter.security.exception.OAuth2AuthenticationProcessingException;
 import com.gurukulams.starter.security.model.AuthProvider;
-import com.gurukulams.starter.security.security.CustomUserDetailsService;
 import com.gurukulams.starter.security.security.UserPrincipal;
 import com.gurukulams.starter.security.security.oauth2.user.OAuth2UserInfo;
 import com.gurukulams.starter.security.security.oauth2.user.OAuth2UserInfoFactory;
@@ -92,9 +91,11 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 
     private Learner registerNewUser(final OAuth2UserRequest oAuth2UserRequest,
                                     final OAuth2UserInfo oAuth2UserInfo) {
-        final Learner user = new Learner(null,"tom",oAuth2UserInfo.getEmail(),oAuth2UserInfo.getImageUrl()
-                ,null,oAuth2UserRequest.getClientRegistration()
-                .getRegistrationId(),oAuth2UserInfo.getId(),"Tom",null,null);
+        final Learner user = new Learner(null, "tom",
+                      oAuth2UserInfo.getEmail(), oAuth2UserInfo.getImageUrl(),
+                 null, oAuth2UserRequest.getClientRegistration()
+                .getRegistrationId(), oAuth2UserInfo.getId(), "Tom",
+                                                      null, null);
 
         return userRepository.create(user);
     }
@@ -102,7 +103,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
     private Learner updateExistingUser(final Learner existingUser,
                                     final OAuth2UserInfo oAuth2UserInfo) {
 
-        return userRepository.update(existingUser.id(),existingUser);
+        return userRepository.update(existingUser.id(), existingUser);
     }
 
 }
