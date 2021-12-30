@@ -128,12 +128,10 @@ public class LearnerService {
 
     /**
      *
-     * @param userName
      * @param emailId
      * @return learner
      */
-    public Optional<Learner> readByEmail(final String userName,
-                                  final String emailId) {
+    public Optional<Learner> readByEmail(final String emailId) {
         final String query = "SELECT id,name,email,"
                + "imageUrl,password,provider,providerId,display_name,"
                 + "created_at, modified_at FROM learner "

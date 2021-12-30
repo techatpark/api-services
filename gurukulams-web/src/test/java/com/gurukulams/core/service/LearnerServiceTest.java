@@ -68,8 +68,8 @@ public class LearnerServiceTest {
     void readByEmail() {
         final Learner learner = learnerService.create("Manikanta",
                 anLearner());
-        Assertions.assertTrue(learnerService.readByEmail("Manikanta",
-                learner.email()).isPresent(), "Learner Found");
+        Assertions.assertTrue(learnerService.readByEmail(learner.email()).isPresent(),
+                                                   "Learner Found");
     }
 
     @Test
