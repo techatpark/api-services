@@ -35,11 +35,11 @@ public class CustomUserDetailsService implements UserDetailsService {
 
         if (Arrays.binarySearch(environment.getActiveProfiles(),
                 "prod") < 0) {
-            learnerService.create(new Learner(null, "tom", "tom@email.com",
+            learnerService.create(new Learner(null, "Tom", "tom@email.com",
                     "/images/tom.png", passwordEncoder.encode("password"),
                     "local", "local", "Tom", null, null));
 
-            learnerService.create(new Learner(null, "jerry", "jerry@email.com",
+            learnerService.create(new Learner(null, "Jerry", "jerry@email.com",
                     "/images/jerry.png", passwordEncoder.encode("password"),
                     "local",  "local", "Jerry", null, null));
 
