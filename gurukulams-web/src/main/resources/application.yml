@@ -18,7 +18,6 @@ spring:
       password: password
   ## Security
   security:
-    require-ssl: true
     oauth2:
       client:
         registration:
@@ -31,17 +30,6 @@ spring:
               - profile
   jackson:
     default-property-inclusion: non_null
-http:
-  port: 8080
-server:
-  port: 8443
-  http2:
-    enabled: true
-  ssl:
-    key-store-type: PKCS12
-    key-store: "classpath:localhost.p12"
-    key-store-password: javatoday
-    key-alias: localhost
 ## Open API
 springdoc:
   packagesToScan: com.gurukulams,com.gurukulams.starter.security.controller
