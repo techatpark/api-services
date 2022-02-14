@@ -1,4 +1,4 @@
-  DROP TABLE IF EXISTS answers;
+DROP TABLE IF EXISTS answers;
 DROP TABLE IF EXISTS questions;
 DROP TABLE IF EXISTS practices;
 
@@ -10,7 +10,7 @@ CREATE TABLE practices (
   type VARCHAR(55) NOT NULL,
   meta_data TEXT,
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-  created_by VARCHAR(55) NOT NULL,
+  created_by VARCHAR(55),
   modified_at TIMESTAMP,
   modified_by VARCHAR(200),
   CONSTRAINT book_constraint UNIQUE (book)
@@ -24,7 +24,7 @@ CREATE TABLE questions (
   type VARCHAR(55) NOT NULL,
   answer VARCHAR(500),
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-  created_by VARCHAR(55) NOT NULL,
+  created_by VARCHAR(55),
   modified_at TIMESTAMP,
   modified_by VARCHAR(200),
   PRIMARY KEY (id, exam_id),
@@ -44,7 +44,7 @@ CREATE TABLE user_notes (
    on_type VARCHAR NOT NULL,
    on_instance VARCHAR NOT NULL,
    on_section VARCHAR NOT NULL,
-   created_by VARCHAR(55) NOT NULL,
+   created_by VARCHAR(55),
    prev_word VARCHAR(500) NOT NULL,
    text VARCHAR(500) NOT NULL,
    note VARCHAR(500)
@@ -63,7 +63,7 @@ CREATE TABLE boards (
     title VARCHAR(55),
     description TEXT,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    created_by VARCHAR(55) NOT NULL,
+    created_by VARCHAR(55),
     modified_at TIMESTAMP,
     modified_by VARCHAR(200)
 );
@@ -74,7 +74,7 @@ CREATE TABLE grades (
     title VARCHAR(55),
     description TEXT,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    created_by VARCHAR(55) NOT NULL,
+    created_by VARCHAR(55),
     modified_at TIMESTAMP,
     modified_by VARCHAR(200),
     FOREIGN KEY (board_id) REFERENCES boards (id)
@@ -85,7 +85,7 @@ CREATE TABLE syllabus (
     title VARCHAR(55),
     description TEXT,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    created_by VARCHAR(55) NOT NULL,
+    created_by VARCHAR(55),
     modified_at TIMESTAMP,
     modified_by VARCHAR(200)
 );
@@ -95,18 +95,18 @@ CREATE TABLE institutes (
     title VARCHAR(55),
     description TEXT,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    created_by VARCHAR(55) NOT NULL,
+    created_by VARCHAR(55),
     modified_at TIMESTAMP,
     modified_by VARCHAR(200)
 );
 
-    CREATE TABLE learner (
+CREATE TABLE learner (
     id INT auto_increment PRIMARY KEY,
     title VARCHAR(55),
     description TEXT,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    created_by VARCHAR(55) NOT NULL,
+    created_by VARCHAR(55),
     modified_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     modified_by VARCHAR(200)
-    );
+);
 
