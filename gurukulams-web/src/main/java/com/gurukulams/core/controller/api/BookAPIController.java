@@ -233,7 +233,7 @@ class BookAPIController {
                                                      @RequestBody
                                                              Question
                                                              question,
-                                                    final String createdBy,
+                                                    final Principal principal,
                                   final HttpServletRequest request)
             throws ServletException, IOException {
         String chapterPath = request.getRequestURI().replaceFirst("/api"
@@ -243,7 +243,7 @@ class BookAPIController {
 
         return ResponseEntity.status(HttpStatus.CREATED).body(
                 bookService.createAQuestion(bookName, questionType,
-                                          createdBy, question, chapterPath));
+                        principal.getName(), question, chapterPath));
     }
 
     /**
