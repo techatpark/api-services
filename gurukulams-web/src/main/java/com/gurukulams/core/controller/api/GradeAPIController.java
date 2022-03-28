@@ -26,7 +26,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/grades/{boardId}")
-@Tag(name = "Grade", description = "Resource to manage Grade")
+@Tag(name = "Grades", description = "Resource to manage Grade")
 class GradeAPIController {
 
         /**

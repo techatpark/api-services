@@ -26,7 +26,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/board")
-@Tag(name = "Board", description = "Resource to manage Board")
+@Tag(name = "Boards", description = "Resource to manage Board")
 class BoardAPIController {
 
     /**

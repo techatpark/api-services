@@ -29,7 +29,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/api/learner")
-@Tag(name = "learner", description = "Resources to manage Learner")
+@Tag(name = "Learners", description = "Resources to manage Learner")
 class LearnerAPIController {
 
     /**
