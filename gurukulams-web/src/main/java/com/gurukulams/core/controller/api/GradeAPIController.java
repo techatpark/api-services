@@ -25,7 +25,7 @@ import java.security.Principal;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/grades/{boardId}")
+@RequestMapping("/api/grades")
 @Tag(name = "Grades", description = "Resource to manage Grade")
 class GradeAPIController {
 
@@ -55,7 +55,7 @@ class GradeAPIController {
         public ResponseEntity<Grade> create(@PathVariable final Long boardId,
                                             final Principal principal,
                                                final @RequestBody Grade grade) {
-            Grade created = gradeService.create(boardId, principal.getName(),
+            Grade created = gradeService.create(principal.getName(),
                     grade);
             return ResponseEntity.created(URI.create("/api/grade"
                                                          + created.id()))
@@ -72,11 +72,10 @@ class GradeAPIController {
                         description = "grade not found")})
 
         @GetMapping("/{id}")
-        public ResponseEntity<Grade> read(@PathVariable final Long boardId,
-                                          @PathVariable final Long id,
+        public ResponseEntity<Grade> read(@PathVariable final Long id,
                                        final Principal principal) {
-                return ResponseEntity.of(gradeService.read(boardId,
-                                                 principal.getName(), id));
+                return ResponseEntity.of(gradeService
+                        .read(principal.getName(), id));
         }
 
         @Operation(summary = "Updates the grade by given id",
@@ -93,8 +92,7 @@ class GradeAPIController {
                         description = "grade not found")})
         @PutMapping(value = "/{id}", produces = "application/json", consumes =
                 "application/json")
-        public ResponseEntity<Grade> update(@PathVariable final Long boardId,
-                                            @PathVariable final Long id,
+        public ResponseEntity<Grade> update(@PathVariable final Long id,
                                                final Principal
                                                        principal,
                                                final @RequestBody
@@ -102,7 +100,7 @@ class GradeAPIController {
                                                        grade)
                 throws JsonProcessingException {
                 final Grade updatedGrade =
-                        gradeService.update(boardId, id, principal.getName(),
+                        gradeService.update(id, principal.getName(),
                                 grade);
                 return updatedGrade == null ? ResponseEntity.notFound().build()
                         : ResponseEntity.ok(updatedGrade);
@@ -117,11 +115,10 @@ class GradeAPIController {
                 @ApiResponse(responseCode = "404",
                         description = "grade not found")})
         @DeleteMapping("/{id}")
-        public ResponseEntity<Void> delete(@PathVariable final Long boardId,
-                                           @PathVariable final
+        public ResponseEntity<Void> delete(@PathVariable final
                                                    Long id,
                                            final Principal principal) {
-                return gradeService.delete(boardId, principal.getName(),
+                return gradeService.delete(principal.getName(),
                         id) ? ResponseEntity.ok().build()
                         : ResponseEntity.notFound().build();
         }
@@ -136,12 +133,10 @@ class GradeAPIController {
                 @ApiResponse(responseCode = "401",
                         description = "invalid credentials")})
         @GetMapping(produces = "application/json")
-        public ResponseEntity<List<Grade>> list(@PathVariable final
-                                                        Long boardId,
-                                                final Principal
+        public ResponseEntity<List<Grade>> list(final Principal
                                                            principal) {
-                final List<Grade> gradeList = gradeService.list(boardId,
-                        principal.getName());
+                final List<Grade> gradeList = gradeService.list(principal
+                        .getName());
                 return gradeList.isEmpty() ? ResponseEntity.noContent().build()
                         : ResponseEntity.ok(gradeList);
         }

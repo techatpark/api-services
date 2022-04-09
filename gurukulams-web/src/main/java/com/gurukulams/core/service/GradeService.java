@@ -74,25 +74,24 @@ public class GradeService {
      * creates new grade.
      * @param userName the userName
      * @param grade the grade
-     * @param boardId the board Id
      * @return grade optional
      */
-    public Grade create(final Long boardId, final String userName,
+    public Grade create(final String userName,
                         final Grade grade) {
         final SimpleJdbcInsert insert = new SimpleJdbcInsert(dataSource)
                 .withTableName("grades").usingGeneratedKeyColumns("id")
-                .usingColumns("board_id", "title", "description", "created_by");
+                .usingColumns("title", "description", "created_by");
 
         final Map<String, Object> valueMap = new HashMap<>();
 
-        valueMap.put("board_id", boardId);
+
         valueMap.put("title", grade.title());
         valueMap.put("description", grade.description());
         valueMap.put("created_by", userName);
 
         final Number gradeId = insert.executeAndReturnKey(valueMap);
         final Optional<Grade> createdGrade =
-                read(boardId, userName, gradeId.longValue());
+                read(userName, gradeId.longValue());
 
         logger.info("grade Created {}", gradeId);
 
@@ -103,18 +102,17 @@ public class GradeService {
      * reads from grade.
      * @param id the id
      * @param userName the userName
-     * @param boardId the board Id
      * @return gread optional
      */
-    public Optional<Grade> read(final Long boardId, final String userName,
+    public Optional<Grade> read(final String userName,
                                 final Long id) {
         final String query = "SELECT id,title,description,created_by,"
                 + "created_at, modified_at, modified_by FROM grades "
-                + "WHERE id = ? and board_id = ?";
+                + "WHERE id = ?";
 
         try {
             final Grade p = jdbcTemplate
-                    .queryForObject(query, new Object[]{id, boardId},
+                    .queryForObject(query, new Object[]{id},
                             this::rowMapper);
             return Optional.of(p);
         } catch (final EmptyResultDataAccessException e) {
@@ -127,52 +125,47 @@ public class GradeService {
      * @param id the id
      * @param userName the userName
      * @param grade the grade
-     * @param boardId the board Id
      * @return grade optional
      */
-    public Grade update(final Long boardId, final Long id,
+    public Grade update(final Long id,
                         final String userName,
                         final Grade grade) {
         logger.debug("Entering update for Grade {}", id);
         final String query = "UPDATE grades SET title=?,"
-                + "description=?,modified_by=? WHERE id=? and board_id = "
+                + "description=?,modified_by=? WHERE id=? "
                 + "?";
         final Integer updatedRows =
                 jdbcTemplate.update(query, grade.title(),
-                        grade.description(), userName, id, boardId);
+                        grade.description(), userName, id);
         if (updatedRows == 0) {
             logger.error("Update not found", id);
             throw new IllegalArgumentException("Grade not found");
         }
-        return read(boardId, userName, id).get();
+        return read(userName, id).get();
     }
 
     /**
      * delete the grade.
      * @param id the id
      * @param userName the userName
-     * @param boardId the board Id
      * @return grade optional
      */
-    public Boolean delete(final Long boardId, final String userName,
+    public Boolean delete(final String userName,
                           final Long id) {
-        final String query = "DELETE FROM grades WHERE id = ? and board_id ="
-                + " ?";
-        final Integer updatedRows = jdbcTemplate.update(query, id, boardId);
+        final String query = "DELETE FROM grades WHERE id = ?";
+        final Integer updatedRows = jdbcTemplate.update(query, id);
         return !(updatedRows == 0);
     }
 
     /**
      * list the grade.
      * @param userName the userName
-     * @param boardId the board Id
      * @return grade optional
      */
-    public List<Grade> list(final Long boardId, final String userName) {
+    public List<Grade> list(final String userName) {
         String query = "SELECT id,title,description,created_by,"
-                + "created_at,modified_at,modified_by FROM grades WHERE "
-                + "board_id = ?";
-        return jdbcTemplate.query(query, this::rowMapper, boardId);
+                + "created_at,modified_at,modified_by FROM grades";
+        return jdbcTemplate.query(query, this::rowMapper);
 
     }
 

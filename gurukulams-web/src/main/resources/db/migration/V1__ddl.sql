@@ -70,14 +70,12 @@ CREATE TABLE boards (
 
 CREATE TABLE grades (
     id INT auto_increment PRIMARY KEY,
-    board_id INT,
     title VARCHAR(55),
     description TEXT,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     created_by VARCHAR(55) NOT NULL,
     modified_at TIMESTAMP,
-    modified_by VARCHAR(200),
-    FOREIGN KEY (board_id) REFERENCES boards (id)
+    modified_by VARCHAR(200)
 );
 
 CREATE TABLE syllabus (
