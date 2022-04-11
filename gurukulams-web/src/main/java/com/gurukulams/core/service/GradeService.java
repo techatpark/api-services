@@ -132,8 +132,7 @@ public class GradeService {
                         final Grade grade) {
         logger.debug("Entering update for Grade {}", id);
         final String query = "UPDATE grades SET title=?,"
-                + "description=?,modified_by=? WHERE id=? "
-                + "?";
+                + "description=?,modified_by=? WHERE id=?";
         final Integer updatedRows =
                 jdbcTemplate.update(query, grade.title(),
                         grade.description(), userName, id);
