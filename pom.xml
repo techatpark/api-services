@@ -76,7 +76,7 @@
                 <version>0.8.7</version>
                 <configuration>
                     <includes>
-                        <include>com/gurukulams/gurukulam/service/*</include>
+                        <include>com/gurukulams/core/service/*</include>
                     </includes>
 
                 </configuration>
@@ -113,12 +113,7 @@
                                         <limit>
                                             <counter>LINE</counter>
                                             <value>COVEREDRATIO</value>
-                                            <minimum>0.59</minimum>
-                                        </limit>
-                                        <limit>
-                                            <counter>BRANCH</counter>
-                                            <value>COVEREDRATIO</value>
-                                            <minimum>0.33</minimum>
+                                            <minimum>0.56</minimum>
                                         </limit>
                                     </limits>
                                 </rule>
