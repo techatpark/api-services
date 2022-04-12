@@ -1,5 +1,6 @@
 package com.gurukulams.core.service;
 
+import com.gurukulams.core.model.Grade;
 import com.gurukulams.core.model.Syllabus;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
@@ -18,6 +19,9 @@ public class SyllabusServiceTest {
 
     @Autowired
     private SyllabusService syllabusService;
+
+    @Autowired
+    private GradeService gradeService;
 
     /**
      * Before.
@@ -99,6 +103,19 @@ public class SyllabusServiceTest {
 
     }
 
+@Test
+    void listbyGrades() {
+
+    final Grade grade = gradeService.create("tom", aGrade());
+    final Syllabus syllabus = syllabusService.create("tom",anSyllabus());
+
+    assertTrue(syllabusService.addToGrades("tom",grade.id(), syllabus.id()),"Unable to add syllabus to grade");
+
+    assertEquals(1,syllabusService.list("tom", grade.id()).size(),"Unable to list syllabus");
+
+
+}
+
     /**
      * Gets syllabus.
      *
@@ -110,5 +127,14 @@ public class SyllabusServiceTest {
                 "An " + "Syllabus", null, null,
                                         null, null);
         return syllabus;
+    }
+
+
+    Grade aGrade() {
+
+        Grade grade = new Grade(null, "Student Grade",
+                "A " + "Grade", null, null,
+                null, null);
+        return grade;
     }
 }

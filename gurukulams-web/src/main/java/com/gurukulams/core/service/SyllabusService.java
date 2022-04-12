@@ -167,12 +167,52 @@ public class SyllabusService {
     }
 
     /**
+     * Adds grade to board.
+     * @param userName the userName
+     * @param gradeId the gradeId
+     * @param syllabusId the syllabusId
+     * @return grade optional
+     */
+    public boolean addToGrades(final String userName, final Long gradeId,
+                              final Long syllabusId) {
+        // Insert to boards_grades
+        final SimpleJdbcInsert insert = new SimpleJdbcInsert(dataSource)
+                .withTableName("grades_syllabus")
+                .usingColumns("grade_id", "syllabus_id");
+
+        // Fill the values
+        final Map<String, Object> valueMap = new HashMap<>();
+
+        valueMap.put("grade_id", gradeId);
+        valueMap.put("syllabus_id", syllabusId);
+
+        int noOfRowsInserted = insert.execute(valueMap);
+
+        return noOfRowsInserted == 1;
+    }
+
+    /**
+     * list the grade by board.
+     * @param userName the userName
+     * @param gradeId the grade
+     * @return syllabus optional
+     */
+    public List<Syllabus> list(final String userName, final Long gradeId) {
+        String query = "SELECT id,title,description,created_by,"
+                + "created_at,modified_at,modified_by FROM syllabus "
+                + "JOIN grades_syllabus ON syllabus.id "
+                + "= grades_syllabus.syllabus_id "
+                + " where grades_syllabus.grade_id = ?";
+        return jdbcTemplate.query(query, this::rowMapper, gradeId);
+    }
+
+    /**
      * Cleaning up all institutes.
      *
-     * @return no.of syllabus deleted
      */
-    public Integer deleteAll() {
-        final String query = "DELETE FROM syllabus";
-        return jdbcTemplate.update(query);
+    public void deleteAll() {
+        jdbcTemplate.update("DELETE FROM grades_syllabus");
+        jdbcTemplate.update("DELETE FROM syllabus");
+
     }
 }
