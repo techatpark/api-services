@@ -117,6 +117,11 @@ public class GradeServiceTest {
 
     }
 
+    @Test
+    void listByBoard() {
+
+    }
+
     /**
      * Gets grade.
      *

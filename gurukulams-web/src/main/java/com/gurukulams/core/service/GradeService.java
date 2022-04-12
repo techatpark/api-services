@@ -169,6 +169,17 @@ public class GradeService {
     }
 
     /**
+     * list the grade by board.
+     * @param userName the userName
+     * @param boardId the boardId
+     * @return grade optional
+     */
+    public List<Grade> list(final String userName,final Long boardId) {
+        return null;
+
+    }
+
+    /**
      * Cleaning up all boards.
      * @param boardId the board Id
      * @return no.of grade deleted
