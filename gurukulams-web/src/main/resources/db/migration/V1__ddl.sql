@@ -112,5 +112,6 @@ CREATE TABLE boards_grades(
     board_id INT NOT NULL,
     grade_id INT NOT NULL,
     PRIMARY KEY(board_id, grade_id),
-    FOREIGN KEY (board_id) REFERENCES boards (id)
+    FOREIGN KEY (board_id) REFERENCES boards (id),
+    FOREIGN KEY (grade_id) REFERENCES grades (id)
 );

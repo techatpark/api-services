@@ -212,7 +212,7 @@ public class GradeService {
      *
      */
     public void deleteAllForTestCase() {
-        jdbcTemplate.update("DELETE FROM grades");
         jdbcTemplate.update("DELETE FROM boards_grades");
+        jdbcTemplate.update("DELETE FROM grades");
     }
 }
