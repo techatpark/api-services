@@ -201,18 +201,18 @@ public class GradeService {
      */
     public List<Grade> list(final String userName, final Long boardId) {
         String query = "SELECT id,title,description,created_by,"
-                + "created_at,modified_at,modified_by FROM grades,boards_grades"
-                + " where grades.id=boards_grades.grade_id AND boards_grades.board_id = ?";
-        return jdbcTemplate.query(query, this::rowMapper,boardId);
+                + "created_at,modified_at,modified_by FROM grades "
+                + "JOIN boards_grades ON grades.id=boards_grades.grade_id"
+                + " where boards_grades.board_id = ?";
+        return jdbcTemplate.query(query, this::rowMapper, boardId);
     }
 
     /**
-     * Cleaning up all boards.
+     * Cleaning up all grades.
      *
-     * @return no.of grade deleted
      */
-    public Integer deleteAllForTestCase() {
-        final String query = "DELETE FROM grades";
-        return jdbcTemplate.update(query);
+    public void deleteAllForTestCase() {
+        jdbcTemplate.update("DELETE FROM grades");
+        jdbcTemplate.update("DELETE FROM boards_grades");
     }
 }
