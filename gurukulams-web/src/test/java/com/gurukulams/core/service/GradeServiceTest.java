@@ -119,6 +119,14 @@ public class GradeServiceTest {
 
     @Test
     void listByBoard() {
+        final Board board = boardService.create("mani",
+                aBoard());
+        final Grade grade = gradeService.create("manikanta",
+                aGrade());
+
+        assertTrue(gradeService.addToBoard("tom",board.id(),grade.id()),"Unable to add grade to board");
+
+        assertEquals(1,gradeService.list("tom",board.id()).size(),"Unable to list grades");
 
     }
 
