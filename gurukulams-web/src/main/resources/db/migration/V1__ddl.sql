@@ -122,5 +122,4 @@ CREATE TABLE grades_syllabus(
     PRIMARY KEY(grade_id, syllabus_id),
     FOREIGN KEY (grade_id) REFERENCES grades (id),
     FOREIGN KEY (syllabus_id) REFERENCES syllabus (id)
-    );
 );
