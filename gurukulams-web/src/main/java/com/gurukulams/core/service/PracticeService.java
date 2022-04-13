@@ -6,7 +6,7 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.gurukulams.core.model.Practice;
 import com.gurukulams.core.model.sql.SqlPractice;
 import com.gurukulams.core.service.connector.DatabaseConnector;
-import com.gurukulams.starter.util.PropertyPlaceholderExposer;
+import com.gurukulams.web.starter.util.PropertyPlaceholderExposer;
 import org.springframework.context.ApplicationContext;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.Page;

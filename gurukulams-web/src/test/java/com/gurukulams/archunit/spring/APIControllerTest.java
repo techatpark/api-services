@@ -57,7 +57,7 @@ public class APIControllerTest {
                         , "javax.servlet"
                         , "java.io"
                         , "java.net"
-                        , "com.gurukulams.starter.security.security"
+                        , "com.gurukulams.web.starter.security.security"
                         , "org.springframework.security.authentication"
                         , "org.springframework.beans.factory.annotation"
                         , "java.util"
