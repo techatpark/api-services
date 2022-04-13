@@ -2,7 +2,9 @@ package com.gurukulams.web.api;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.gurukulams.core.model.Grade;
+import com.gurukulams.core.model.Syllabus;
 import com.gurukulams.core.service.GradeService;
+import com.gurukulams.core.service.SyllabusService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -34,10 +36,16 @@ class GradeAPIController {
          */
         private final GradeService gradeService;
 
-        GradeAPIController(final GradeService agradeService) {
-                this.gradeService = agradeService;
-        }
+        /**
+         * declare a syllabus service.
+         */
+        private final SyllabusService syllabusService;
 
+        GradeAPIController(final GradeService agradeService,
+                           final SyllabusService asyllabusService) {
+                this.gradeService = agradeService;
+                this.syllabusService = asyllabusService;
+        }
 
         @Operation(summary = "Creates a new grade",
                 description = "Can be called "
@@ -140,6 +148,27 @@ class GradeAPIController {
                 return gradeList.isEmpty() ? ResponseEntity.noContent().build()
                         : ResponseEntity.ok(gradeList);
         }
+
+        @Operation(summary = "lists the syllabus with given grade id",
+                description = " Can be invoked by auth users only",
+                security = @SecurityRequirement(name = "bearerAuth"))
+        @ApiResponses(value = {@ApiResponse(responseCode = "200",
+                description = "Listing the syllabus with given grade id"),
+                @ApiResponse(responseCode = "204",
+                        description = "syllabus are not available"),
+                @ApiResponse(responseCode = "401",
+                        description = "invalid credentials")})
+        @GetMapping("/{id}/syllabus")
+        public ResponseEntity<List<Syllabus>> list(final Principal principal,
+                                                   @PathVariable final
+                                                   Long id) {
+                final List<Syllabus> syllabusList = syllabusService.list(
+                        principal.getName());
+                return syllabusList.isEmpty() ? ResponseEntity.noContent()
+                        .build() : ResponseEntity.ok(syllabusList);
+        }
+
+
 }
 
 

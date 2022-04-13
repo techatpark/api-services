@@ -2,7 +2,9 @@ package com.gurukulams.web.api;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.gurukulams.core.model.Board;
+import com.gurukulams.core.model.Grade;
 import com.gurukulams.core.service.BoardService;
+import com.gurukulams.core.service.GradeService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -34,8 +36,15 @@ class BoardAPIController {
      */
     private final BoardService boardService;
 
-    BoardAPIController(final BoardService aBoardService) {
+    /**
+     * declare a grade service.
+     */
+    private final GradeService gradeService;
+
+    BoardAPIController(final BoardService aBoardService,
+                       final GradeService agradeService) {
         this.boardService = aBoardService;
+        this.gradeService = agradeService;
     }
 
     /**
@@ -163,6 +172,32 @@ class BoardAPIController {
                 principal.getName());
         return boardList.isEmpty() ? ResponseEntity.noContent().build()
                 : ResponseEntity.ok(boardList);
+    }
+
+
+    /**
+     * List the Grades.
+     * @param principal
+     * @param id
+     * @return list of grades
+     */
+    @Operation(summary = "lists the grades with given  board id",
+            description = " Can be invoked by auth users only",
+            security = @SecurityRequirement(name = "bearerAuth"))
+    @ApiResponses(value = {@ApiResponse(responseCode = "200",
+            description = "Listing the grades with given board id"),
+            @ApiResponse(responseCode = "204",
+                    description = "grades are not available"),
+            @ApiResponse(responseCode = "401",
+                    description = "invalid credentials")})
+    @GetMapping("/{id}/grades")
+    public ResponseEntity<List<Grade>> list(final Principal principal,
+                                            @PathVariable final Long id) {
+        final List<Grade> gradeList = gradeService.list(
+                principal.getName(), id);
+        return gradeList.isEmpty() ? ResponseEntity.noContent().build()
+                : ResponseEntity.ok(gradeList);
+
     }
 
 }
