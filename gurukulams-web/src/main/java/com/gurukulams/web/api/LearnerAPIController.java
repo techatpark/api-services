@@ -1,4 +1,4 @@
-package com.gurukulams.core.controller.api;
+package com.gurukulams.web.api;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.gurukulams.core.model.Learner;

@@ -1,4 +1,4 @@
-package com.gurukulams.core.controller;
+package com.gurukulams.web;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import org.springframework.stereotype.Controller;

@@ -1,8 +1,8 @@
-package com.gurukulams.core.controller.api;
+package com.gurukulams.web.api;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.gurukulams.core.model.Board;
-import com.gurukulams.core.service.BoardService;
+import com.gurukulams.core.model.Syllabus;
+import com.gurukulams.core.service.SyllabusService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -25,144 +25,114 @@ import java.security.Principal;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/board")
-@Tag(name = "Boards", description = "Resource to manage Board")
-class BoardAPIController {
-
+@RequestMapping("/api/syllabus")
+@Tag(name = "Syllabus", description = "Resource to manage Syllabus")
+class SyllabusAPIController {
     /**
-     * declare a board service.
+     * declare a syllabus service.
      */
-    private final BoardService boardService;
+    private final SyllabusService syllabusService;
 
-    BoardAPIController(final BoardService aBoardService) {
-        this.boardService = aBoardService;
+    SyllabusAPIController(final SyllabusService asyllabusService) {
+        this.syllabusService = asyllabusService;
     }
 
-    /**
-     * Create response entity.
-     *
-     * @param principal the principal
-     * @param board  the board name
-     * @return the response entity
-     */
-    @Operation(summary = "Creates a new board",
+
+    @Operation(summary = "Creates a new syllabus",
             description = "Can be called "
                     + "only by users with 'auth management' rights.",
             security = @SecurityRequirement(name = "bearerAuth"))
     @ApiResponses(value = {@ApiResponse(responseCode = "201",
-            description = "board created successfully"),
+            description = "syllabus created successfully"),
             @ApiResponse(responseCode = "400",
-                    description = "board is invalid"),
+                    description = "syllabus is invalid"),
             @ApiResponse(responseCode = "401",
                     description = "invalid credentials")})
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping(produces = "application/json", consumes = "application/json")
-    public ResponseEntity<Board> create(final Principal principal,
-                                        @RequestBody final Board board) {
-        Board created = boardService.create(principal.getName(), board);
-        return ResponseEntity.created(URI.create("/api/board" + created.id()))
-                .body(created);
+    public ResponseEntity<Syllabus> create(final Principal principal,
+                                        final @RequestBody Syllabus syllabus) {
+    Syllabus created = syllabusService.create(principal.getName(), syllabus);
+    return ResponseEntity.created(URI.create("/api/syllabus" + created.id()))
+                                                                 .body(created);
     }
 
-    /**
-     * Read a board.
-     * @param id
-     * @param principal
-     * @return a board
-     */
-    @Operation(summary = "Get the Board with given id",
+    @Operation(summary = "Get the Syllabus with given id",
             security = @SecurityRequirement(name = "bearerAuth"))
     @ApiResponses(value = {@ApiResponse(responseCode = "200",
-            description = "getting board successfully"),
+            description = "getting syllabus successfully"),
             @ApiResponse(responseCode = "401",
                     description = "invalid credentials"),
             @ApiResponse(responseCode = "404",
                     description = "syllabus not found")})
 
     @GetMapping("/{id}")
-    public ResponseEntity<Board> read(@PathVariable final Long id,
+    public ResponseEntity<Syllabus> read(final @PathVariable Long id,
                                          final Principal principal) {
-        return ResponseEntity.of(boardService.read(principal.getName(), id));
+        return ResponseEntity.of(syllabusService.read(principal.getName(), id));
     }
 
-    /**
-     * Update a Board.
-     * @param id
-     * @param principal
-     * @param board
-     * @return a board
-     * @throws JsonProcessingException
-     */
-    @Operation(summary = "Updates the board by given id",
+   @Operation(summary = "Updates the syllabus by given id",
             description = "Can be called only by users "
                     + "with 'auth management' rights.",
             security = @SecurityRequirement(name = "bearerAuth"))
     @ApiResponses(value = {@ApiResponse(responseCode = "200",
-            description = "board updated successfully"),
+            description = "syllabus updated successfully"),
             @ApiResponse(responseCode = "400",
-                    description = "board is invalid"),
+                    description = "syllabus is invalid"),
             @ApiResponse(responseCode = "401",
                     description = "invalid credentials"),
             @ApiResponse(responseCode = "404",
                     description = "syllabus not found")})
-    @PutMapping(value = "/{id}", produces = "application/json", consumes =
-            "application/json")
-    public ResponseEntity<Board> update(@PathVariable final Long id,
-                                           final Principal
-                                                   principal,
-                                        @RequestBody final Board
-                                                       board)
+   @PutMapping(value = "/{id}", produces = "application/json", consumes =
+                                                        "application/json")
+    public ResponseEntity<Syllabus> update(final@PathVariable Long id,
+                                                     final Principal
+                                                        principal,
+                                                     final @RequestBody
+                                                             Syllabus
+                                                             syllabus)
             throws JsonProcessingException {
-        final Board updatedBoard =
-                boardService.update(id, principal.getName(), board);
-        return updatedBoard == null ? ResponseEntity.notFound().build()
-                : ResponseEntity.ok(updatedBoard);
+        final Syllabus updatedSyllabus =
+                syllabusService.update(id, principal.getName(), syllabus);
+        return updatedSyllabus == null ? ResponseEntity.notFound().build()
+                : ResponseEntity.ok(updatedSyllabus);
     }
 
-    /**
-     * Delete a Board.
-     * @param id
-     * @param principal
-     * @return board
-     */
-    @Operation(summary = "Deletes the board by given id",
+    @Operation(summary = "Deletes the syllabus by given id",
             security = @SecurityRequirement(name = "bearerAuth"))
     @ApiResponses(value = {@ApiResponse(responseCode = "200",
-            description = "board deleted successfully"),
+            description = "syllabus deleted successfully"),
             @ApiResponse(responseCode = "401",
                     description = "invalid credentials"),
             @ApiResponse(responseCode = "404",
-                    description = "board not found")})
+                    description = "syllabus not found")})
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable final
-                                           Long id,
+    public ResponseEntity<Void> delete(final @PathVariable
+                                               Long id,
                                        final Principal principal) {
-        return boardService.delete(principal.getName(),
-                id) ? ResponseEntity.ok().build()
+        return syllabusService.delete(principal.getName(),
+                                  id) ? ResponseEntity.ok().build()
                 : ResponseEntity.notFound().build();
     }
 
-    /**
-     * List the Boards.
-     * @param principal
-     * @return list of board
-     */
-    @Operation(summary = "lists the board",
+    @Operation(summary = "lists the syllabus",
             description = " Can be invoked by auth users only",
             security = @SecurityRequirement(name = "bearerAuth"))
     @ApiResponses(value = {@ApiResponse(responseCode = "200",
-            description = "Listing the board"),
+            description = "Listing the syllabus"),
             @ApiResponse(responseCode = "204",
-                    description = "board are not available"),
+                    description = "syllabus are not available"),
             @ApiResponse(responseCode = "401",
                     description = "invalid credentials")})
     @GetMapping(produces = "application/json")
-    public ResponseEntity<List<Board>> list(final Principal
-                                                       principal) {
-        final List<Board> boardList = boardService.list(
+    public ResponseEntity<List<Syllabus>> list(final Principal
+                                                     principal) {
+        final List<Syllabus> syllabusList = syllabusService.list(
                 principal.getName());
-        return boardList.isEmpty() ? ResponseEntity.noContent().build()
-                : ResponseEntity.ok(boardList);
+        return syllabusList.isEmpty() ? ResponseEntity.noContent().build()
+                : ResponseEntity.ok(syllabusList);
     }
-
 }
+
+
