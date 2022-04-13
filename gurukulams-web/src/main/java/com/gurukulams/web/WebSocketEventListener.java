@@ -1,6 +1,6 @@
-package com.gurukulams.core.chat.controller;
+package com.gurukulams.web;
 
-import com.gurukulams.core.chat.model.ChatMessage;
+import com.gurukulams.core.model.ChatMessage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

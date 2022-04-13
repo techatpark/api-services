@@ -1,6 +1,6 @@
-package com.gurukulams.core.chat.controller;
+package com.gurukulams.web;
 
-import com.gurukulams.core.chat.model.ChatMessage;
+import com.gurukulams.core.model.ChatMessage;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.handler.annotation.SendTo;

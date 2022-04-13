@@ -1,4 +1,4 @@
-package com.gurukulams.core.chat.model;
+package com.gurukulams.core.model;
 
 /**
  * Message.

@@ -1,4 +1,4 @@
-package com.gurukulams.core.chat.config;
+package com.gurukulams.starter.web;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.messaging.simp.config.MessageBrokerRegistry;
