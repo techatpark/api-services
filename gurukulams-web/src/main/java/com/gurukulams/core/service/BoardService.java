@@ -169,10 +169,9 @@ public class BoardService {
     /**
      * Cleaning up all boards.
      *
-     * @return no.of board deleted
      */
-    public Integer deleteAll() {
-        final String query = "DELETE FROM boards";
-        return jdbcTemplate.update(query);
+    public void deleteAll() {
+        jdbcTemplate.update("DELETE FROM boards_grades");
+        jdbcTemplate.update("DELETE FROM boards");
     }
 }
