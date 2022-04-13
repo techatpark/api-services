@@ -1,4 +1,4 @@
-package com.gurukulams.web.starter.util;
+package com.gurukulams.core.util;
 
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.BeanFactoryAware;

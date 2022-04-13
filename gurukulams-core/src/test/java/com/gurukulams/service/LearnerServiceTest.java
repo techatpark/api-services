@@ -1,6 +1,7 @@
-package com.gurukulams.core.service;
+package com.gurukulams.service;
 
 import com.gurukulams.core.model.Learner;
+import com.gurukulams.core.service.LearnerService;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -36,7 +37,7 @@ public class LearnerServiceTest {
     void create() {
     final Learner learner = learnerService.create("mani",
                                                       anLearner());
-        assertTrue(learnerService.read("mani",learner.id()).isPresent(),"Created Learner");
+        Assertions.assertTrue(learnerService.read("mani",learner.id()).isPresent(),"Created Learner");
 
     }
 
@@ -57,7 +58,7 @@ public class LearnerServiceTest {
                 null,null,null,null);
         Learner updatedLearner=learnerService.update(newLearnerId,
                                     "Mani",newLearner);
-        assertEquals("maniLearner", updatedLearner.title(), "updated");
+        Assertions.assertEquals("maniLearner", updatedLearner.title(), "updated");
                Assertions.assertThrows(IllegalArgumentException.class, () -> {
                    learnerService.update(10000L, "Mani", newLearner);
         });
@@ -68,7 +69,7 @@ public class LearnerServiceTest {
         final Learner learner=learnerService.create("Manikanta",
                                                  anLearner());
         learnerService.delete("mani",learner.id());
-        assertFalse(learnerService.read("mani",learner.id()).isPresent(),"Deleted Learner");
+        Assertions.assertFalse(learnerService.read("mani",learner.id()).isPresent(),"Deleted Learner");
     }
 
     @Test

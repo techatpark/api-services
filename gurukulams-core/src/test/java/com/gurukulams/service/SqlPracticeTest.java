@@ -1,8 +1,9 @@
-package com.gurukulams.core.service;
+package com.gurukulams.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.gurukulams.core.model.Database;
 import com.gurukulams.core.model.sql.SqlPractice;
+import com.gurukulams.core.service.PracticeService;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -12,7 +13,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.PageRequest;
 
 import java.io.IOException;
-import java.util.NoSuchElementException;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -65,7 +65,7 @@ class SqlPracticeTest {
         final SqlPractice examToBeCrated = getExam();
         final SqlPractice createdExam =
                 sqlExamService.create("sql", "user", examToBeCrated).get();
-        assertEquals(EXAM1, createdExam.getName());
+        Assertions.assertEquals(EXAM1, createdExam.getName());
     }
 
 
@@ -83,8 +83,8 @@ class SqlPracticeTest {
         exam.setDatabase(Database.H2);
         final Integer newExamId = exam.getId();
         exam = sqlExamService.update(newExamId, exam).get();
-        assertEquals("Updated Name", exam.getName(), "Updated");
-        assertEquals(Database.H2, exam.getDatabase(), "Updated");
+        Assertions.assertEquals("Updated Name", exam.getName(), "Updated");
+        Assertions.assertEquals(Database.H2, exam.getDatabase(), "Updated");
     }
 
     /**
@@ -129,11 +129,11 @@ class SqlPracticeTest {
         sqlExamService.create("sql", "user", examToBeCrated).get();
         final SqlPractice examToBeCrated2 = getExam();
         sqlExamService.create("sql", "user", examToBeCrated2);
-        assertEquals(2,
+        Assertions.assertEquals(2,
                 sqlExamService.page("sql", PageRequest.of(0, 2)).getContent()
                         .size()
                 , "Test Listing");
-        assertEquals(1,
+        Assertions.assertEquals(1,
                 sqlExamService.page("sql", PageRequest.of(0, 1)).getContent()
                         .size(), "Test Listing with restricted page");
     }

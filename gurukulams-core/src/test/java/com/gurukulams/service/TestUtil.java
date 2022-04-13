@@ -1,4 +1,4 @@
-package com.gurukulams.core.service;
+package com.gurukulams.service;
 
 import com.gurukulams.core.model.sql.SqlPractice;
 

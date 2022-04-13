@@ -4,6 +4,8 @@ import com.tngtech.archunit.core.domain.JavaClasses;
 import com.tngtech.archunit.core.importer.ClassFileImporter;
 import com.tngtech.archunit.junit.ArchTest;
 import com.tngtech.archunit.lang.ArchRule;
+import com.tngtech.archunit.lang.syntax.ArchRuleDefinition;
+import com.tngtech.archunit.library.GeneralCodingRules;
 import org.junit.jupiter.api.Test;
 
 import java.sql.Connection;
@@ -19,7 +21,7 @@ import static com.tngtech.archunit.library.GeneralCodingRules.NO_CLASSES_SHOULD_
 public class BasicArchitectureTest {
 
     @ArchTest
-    private final ArchRule no_jodatime = NO_CLASSES_SHOULD_USE_JODATIME;
+    private final ArchRule no_jodatime = GeneralCodingRules.NO_CLASSES_SHOULD_USE_JODATIME;
     JavaClasses classes = new ClassFileImporter().importPackages("com.gurukulams");
 
     // @ArchTest
@@ -43,7 +45,7 @@ public class BasicArchitectureTest {
 
     @Test
     void no_access_to_jdbc() {
-        ArchRule no_access_to_jdbc = noClasses().that()
+        ArchRule no_access_to_jdbc = ArchRuleDefinition.noClasses().that()
                 .resideOutsideOfPackage("com.gurukulams.core.service.connector")
                 .should().accessClassesThat()
                 .belongToAnyOf(Connection.class, Statement.class, PreparedStatement.class)

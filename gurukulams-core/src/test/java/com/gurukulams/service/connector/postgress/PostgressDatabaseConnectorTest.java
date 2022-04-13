@@ -1,4 +1,4 @@
-package com.gurukulams.core.service.connector.postgress;
+package com.gurukulams.service.connector.postgress;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.gurukulams.core.model.Database;
@@ -8,8 +8,9 @@ import com.gurukulams.core.model.QuestionType;
 import com.gurukulams.core.model.sql.SqlPractice;
 import com.gurukulams.core.service.PracticeService;
 import com.gurukulams.core.service.QuestionService;
-import com.gurukulams.core.service.TestUtil;
+import com.gurukulams.service.TestUtil;
 import com.gurukulams.core.service.connector.DatabaseConnector;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -78,7 +79,7 @@ public class PostgressDatabaseConnectorTest {
         final Question question = createAndGQuestion(exam);
         final boolean result =
                 postgressDatabaseConnector.verify(exam, question, getAnswer());
-        assertTrue(result);
+        Assertions.assertTrue(result);
     }
 
     /**
@@ -92,7 +93,7 @@ public class PostgressDatabaseConnectorTest {
         final Question question = createAndGQuestion(exam);
         final boolean result = postgressDatabaseConnector
                 .verify(exam, question, "select * from abc");
-        assertFalse(result);
+        Assertions.assertFalse(result);
     }
 
     /**

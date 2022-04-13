@@ -1,7 +1,9 @@
-package com.gurukulams.core.service;
+package com.gurukulams.service;
 
 import com.gurukulams.core.model.Grade;
 import com.gurukulams.core.model.Syllabus;
+import com.gurukulams.core.service.GradeService;
+import com.gurukulams.core.service.SyllabusService;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -49,7 +51,7 @@ public class SyllabusServiceTest {
     void create(){
         final Syllabus syllabus = syllabusService.create("mani",
                 anSyllabus());
-        assertTrue(syllabusService.read("mani",syllabus.id()).isPresent(),"Created Syllobous");
+        Assertions.assertTrue(syllabusService.read("mani",syllabus.id()).isPresent(),"Created Syllobous");
     }
 
     @Test
@@ -71,7 +73,7 @@ public class SyllabusServiceTest {
                 "Syllabus", null, "tom", null, null);
         Syllabus updatedSyllabus = syllabusService
                 .update(newSyllabusId, "manikanta", newSyllabus);
-        assertEquals("MathsSyllabus", updatedSyllabus.title(), "Updated");
+        Assertions.assertEquals("MathsSyllabus", updatedSyllabus.title(), "Updated");
 
         Assertions.assertThrows(IllegalArgumentException.class, () -> {
             syllabusService
@@ -85,7 +87,7 @@ public class SyllabusServiceTest {
         final Syllabus syllabus = syllabusService.create("mani",
                 anSyllabus());
         syllabusService.delete("mani",syllabus.id());
-        assertFalse(syllabusService.read("mani",syllabus.id()).isPresent(),"Deleted Syllobous");
+        Assertions.assertFalse(syllabusService.read("mani",syllabus.id()).isPresent(),"Deleted Syllobous");
 
     }
 
@@ -109,9 +111,9 @@ public class SyllabusServiceTest {
     final Grade grade = gradeService.create("tom", aGrade());
     final Syllabus syllabus = syllabusService.create("tom",anSyllabus());
 
-    assertTrue(syllabusService.addToGrades("tom",grade.id(), syllabus.id()),"Unable to add syllabus to grade");
+    Assertions.assertTrue(syllabusService.addToGrades("tom",grade.id(), syllabus.id()),"Unable to add syllabus to grade");
 
-    assertEquals(1,syllabusService.list("tom", grade.id()).size(),"Unable to list syllabus");
+    Assertions.assertEquals(1,syllabusService.list("tom", grade.id()).size(),"Unable to list syllabus");
 
 
 }

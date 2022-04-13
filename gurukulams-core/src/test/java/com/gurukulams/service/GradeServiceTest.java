@@ -1,7 +1,9 @@
-package com.gurukulams.core.service;
+package com.gurukulams.service;
 
 import com.gurukulams.core.model.Board;
 import com.gurukulams.core.model.Grade;
+import com.gurukulams.core.service.BoardService;
+import com.gurukulams.core.service.GradeService;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -53,7 +55,7 @@ public class GradeServiceTest {
                 aBoard());
         final Grade grade = gradeService.create("mani",
                 aGrade());
-        assertTrue(gradeService.read("mani",grade.id()).isPresent(),
+        Assertions.assertTrue(gradeService.read("mani",grade.id()).isPresent(),
                 "Created Grade");
     }
 
@@ -80,7 +82,7 @@ public class GradeServiceTest {
                 "Grade", null, "tom", null, null);
         Grade updatedGrade = gradeService
                 .update(newGradeId, "manikanta", newGrade);
-        assertEquals("Grade", updatedGrade.title(), "Updated");
+        Assertions.assertEquals("Grade", updatedGrade.title(), "Updated");
 
         Assertions.assertThrows(IllegalArgumentException.class, () -> {
             gradeService
@@ -96,7 +98,7 @@ public class GradeServiceTest {
         final Grade grade = gradeService.create("mani",
                 aGrade());
         gradeService.delete("mani",grade.id());
-        assertFalse(gradeService.read("mani",grade.id()).isPresent(),
+        Assertions.assertFalse(gradeService.read("mani",grade.id()).isPresent(),
                 "Deleted Grade");
 
     }
@@ -124,9 +126,9 @@ public class GradeServiceTest {
         final Grade grade = gradeService.create("manikanta",
                 aGrade());
 
-        assertTrue(gradeService.addToBoard("tom",grade.id(),board.id()),"Unable to add grade to board");
+        Assertions.assertTrue(gradeService.addToBoard("tom",grade.id(),board.id()),"Unable to add grade to board");
 
-        assertEquals(1,gradeService.list("tom",board.id()).size(),"Unable to list grades");
+        Assertions.assertEquals(1,gradeService.list("tom",board.id()).size(),"Unable to list grades");
 
     }
 

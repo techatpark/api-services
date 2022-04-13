@@ -1,18 +1,16 @@
-package com.gurukulams.core.service;
+package com.gurukulams.service;
 
 import com.gurukulams.core.model.Practice;
-import com.gurukulams.core.model.Question;
-import com.gurukulams.core.model.Syllabus;
+import com.gurukulams.core.service.PracticeService;
+import com.gurukulams.core.service.QuestionService;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.security.core.parameters.P;
 
 import java.io.IOException;
-import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -75,7 +73,7 @@ class BasicPracticeTest {
     @Test
     void create() throws IOException {
         final Practice practice=practiceService.create("Basic", "Mani", anPractice()).get();
-        assertEquals("Java Practice", practice.getName(), "Created Successfully");
+        Assertions.assertEquals("Java Practice", practice.getName(), "Created Successfully");
     }
 
     @Test

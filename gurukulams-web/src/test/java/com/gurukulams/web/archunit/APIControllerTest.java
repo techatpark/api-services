@@ -1,4 +1,4 @@
-package com.gurukulams.archunit.spring;
+package com.gurukulams.web.archunit;
 
 import com.tngtech.archunit.core.domain.JavaClasses;
 import com.tngtech.archunit.core.importer.ClassFileImporter;

@@ -1,7 +1,7 @@
-package com.gurukulams.core.service;
+package com.gurukulams.service;
 
 import com.gurukulams.core.model.Board;
-import com.gurukulams.core.model.Syllabus;
+import com.gurukulams.core.service.BoardService;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -48,7 +48,7 @@ public class BoardServiceTest {
     void create(){
         final Board board = boardService.create("mani",
                 anBoard());
-        assertTrue(boardService.read("mani",board.id()).isPresent(),
+        Assertions.assertTrue(boardService.read("mani",board.id()).isPresent(),
                 "Created Board");
     }
 
@@ -71,7 +71,7 @@ public class BoardServiceTest {
                 "Board", null, "tom", null, null);
         Board updatedBoard = boardService
                 .update(newBoardId, "manikanta", newBoard);
-        assertEquals("Board", updatedBoard.title(), "Updated");
+        Assertions.assertEquals("Board", updatedBoard.title(), "Updated");
 
         Assertions.assertThrows(IllegalArgumentException.class, () -> {
             boardService
@@ -85,7 +85,7 @@ public class BoardServiceTest {
         final Board board = boardService.create("mani",
                 anBoard());
         boardService.delete("mani",board.id());
-        assertFalse(boardService.read("mani",board.id()).isPresent(),
+        Assertions.assertFalse(boardService.read("mani",board.id()).isPresent(),
                 "Deleted Board");
 
     }
