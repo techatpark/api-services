@@ -3,8 +3,10 @@ package com.gurukulams.web.api;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.gurukulams.core.model.Board;
 import com.gurukulams.core.model.Grade;
+import com.gurukulams.core.model.Syllabus;
 import com.gurukulams.core.service.BoardService;
 import com.gurukulams.core.service.GradeService;
+import com.gurukulams.core.service.SyllabusService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -41,10 +43,17 @@ class BoardAPIController {
      */
     private final GradeService gradeService;
 
+    /**
+     * declare a syllabus service.
+     */
+    private final SyllabusService syllabusService;
+
     BoardAPIController(final BoardService aBoardService,
-                       final GradeService agradeService) {
+                       final GradeService agradeService,
+                       final SyllabusService asyllabusService) {
         this.boardService = aBoardService;
         this.gradeService = agradeService;
+        this.syllabusService = asyllabusService;
     }
 
     /**
@@ -199,5 +208,36 @@ class BoardAPIController {
                 : ResponseEntity.ok(gradeList);
 
     }
+
+
+    /**
+     * List the syllabus as per board and grade.
+     * @param principal
+     * @param boardId
+     * @param gradeId
+     * @return list of syllabus
+     */
+    @Operation(summary = "lists the syllabus with given  board id and grade id",
+            description = " Can be invoked by auth users only",
+            security = @SecurityRequirement(name = "bearerAuth"))
+    @ApiResponses(value = {@ApiResponse(responseCode = "200",
+            description = "Listing the syllabus with given"
+                     + " board id and grade id"),
+            @ApiResponse(responseCode = "204",
+                    description = "grades are not available"),
+            @ApiResponse(responseCode = "401",
+                    description = "invalid credentials")})
+    @GetMapping("/{boardId}/grades/{gradeId}/syllabus")
+    public ResponseEntity<List<Syllabus>> list(final Principal principal,
+                             @PathVariable final Long boardId,
+                         @PathVariable final Long gradeId) {
+        final List<Syllabus> syllabusList = syllabusService.list(
+                principal.getName(), boardId, gradeId);
+        return syllabusList.isEmpty() ? ResponseEntity.noContent().build()
+                : ResponseEntity.ok(syllabusList);
+
+    }
+
+
 
 }

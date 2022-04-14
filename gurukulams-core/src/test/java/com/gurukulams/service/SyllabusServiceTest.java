@@ -1,7 +1,9 @@
 package com.gurukulams.service;
 
+import com.gurukulams.core.model.Board;
 import com.gurukulams.core.model.Grade;
 import com.gurukulams.core.model.Syllabus;
+import com.gurukulams.core.service.BoardService;
 import com.gurukulams.core.service.GradeService;
 import com.gurukulams.core.service.SyllabusService;
 import org.junit.jupiter.api.AfterEach;
@@ -23,7 +25,12 @@ public class SyllabusServiceTest {
     private SyllabusService syllabusService;
 
     @Autowired
+    private BoardService boardService;
+
+    @Autowired
     private GradeService gradeService;
+
+
 
     /**
      * Before.
@@ -106,14 +113,17 @@ public class SyllabusServiceTest {
     }
 
 @Test
-    void listbyGrades() {
+    void listbyBoardandgrade() {
 
+    final Board board = boardService.create("mani",
+            anBoard());
     final Grade grade = gradeService.create("tom", aGrade());
     final Syllabus syllabus = syllabusService.create("tom",anSyllabus());
 
-    Assertions.assertTrue(syllabusService.addToGrades("tom",grade.id(), syllabus.id()),"Unable to add syllabus to grade");
+    Assertions.assertTrue(syllabusService.addToBoardsGrades("tom", board.id(), grade.id(), syllabus.id()),"Unable to add syllabus to grade");
 
-    Assertions.assertEquals(1,syllabusService.list("tom", grade.id()).size(),"Unable to list syllabus");
+    Assertions.assertEquals(1,syllabusService.list("tom", board.id(),
+            grade.id()).size(),"Unable to list syllabus");
 
 
 }
@@ -138,5 +148,19 @@ public class SyllabusServiceTest {
                 "A " + "Grade", null, null,
                 null, null);
         return grade;
+    }
+
+
+    /**
+     * Gets board.
+     *
+     * @return the board
+     */
+    Board anBoard() {
+
+        Board board = new Board(null, "State Board",
+                "A " + "Board", null, null,
+                null, null);
+        return board;
     }
 }

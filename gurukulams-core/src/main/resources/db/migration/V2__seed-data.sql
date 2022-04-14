@@ -36,36 +36,5 @@ INSERT INTO syllabus(title,description,created_by) VALUES ('Science','Science St
 INSERT INTO syllabus(title,description,created_by) VALUES ('Social','Social Standard State Board','tom');
 
 INSERT INTO boards_grades(board_id,grade_id) VALUES ('1','1');
-INSERT INTO boards_grades(board_id,grade_id) VALUES ('1','2');
+INSERT INTO boards_grades_syllabus(board_id,grade_id,syllabus_id) VALUES ('1','1','1');
 
-INSERT INTO grades_syllabus(grade_id,syllabus_id) VALUES ('1','1');
-INSERT INTO grades_syllabus(grade_id,syllabus_id) VALUES ('1','2');
-INSERT INTO grades_syllabus(grade_id,syllabus_id) VALUES ('1','3');
-INSERT INTO grades_syllabus(grade_id,syllabus_id) VALUES ('1','4');
-INSERT INTO grades_syllabus(grade_id,syllabus_id) VALUES ('1','5');
-INSERT INTO grades_syllabus(grade_id,syllabus_id) VALUES ('1','6');
-
-INSERT INTO grades_syllabus(grade_id,syllabus_id) VALUES ('2','7');
-INSERT INTO grades_syllabus(grade_id,syllabus_id) VALUES ('2','8');
-INSERT INTO grades_syllabus(grade_id,syllabus_id) VALUES ('2','9');
-INSERT INTO grades_syllabus(grade_id,syllabus_id) VALUES ('2','10');
-INSERT INTO grades_syllabus(grade_id,syllabus_id) VALUES ('2','11');
-INSERT INTO grades_syllabus(grade_id,syllabus_id) VALUES ('2','12');
-
-
-INSERT INTO boards_grades(board_id,grade_id) VALUES ('2','3');
-INSERT INTO boards_grades(board_id,grade_id) VALUES ('2','4');
-
-INSERT INTO grades_syllabus(grade_id,syllabus_id) VALUES ('3','13');
-INSERT INTO grades_syllabus(grade_id,syllabus_id) VALUES ('3','14');
-INSERT INTO grades_syllabus(grade_id,syllabus_id) VALUES ('3','15');
-INSERT INTO grades_syllabus(grade_id,syllabus_id) VALUES ('3','16');
-INSERT INTO grades_syllabus(grade_id,syllabus_id) VALUES ('3','17');
-INSERT INTO grades_syllabus(grade_id,syllabus_id) VALUES ('3','18');
-
-INSERT INTO grades_syllabus(grade_id,syllabus_id) VALUES ('4','19');
-INSERT INTO grades_syllabus(grade_id,syllabus_id) VALUES ('4','20');
-INSERT INTO grades_syllabus(grade_id,syllabus_id) VALUES ('4','21');
-INSERT INTO grades_syllabus(grade_id,syllabus_id) VALUES ('4','22');
-INSERT INTO grades_syllabus(grade_id,syllabus_id) VALUES ('4','23');
-INSERT INTO grades_syllabus(grade_id,syllabus_id) VALUES ('4','24');
