@@ -163,7 +163,7 @@ class GradeAPIController {
                                                    @PathVariable final
                                                    Long id) {
                 final List<Syllabus> syllabusList = syllabusService.list(
-                        principal.getName());
+                        principal.getName(), id);
                 return syllabusList.isEmpty() ? ResponseEntity.noContent()
                         .build() : ResponseEntity.ok(syllabusList);
         }
