@@ -193,10 +193,10 @@ abstract class PracticeAPIController<T extends Practice> {
     /**
      * Create response entity.
      *
+     * @param principal   the user principal
      * @param practiceId   the practice id
      * @param questionType the question type
      * @param question     the question
-     * @param createdBy    the createdBy
      * @return the response entity
      */
     @Operation(summary = "Creates a new question",
@@ -211,7 +211,9 @@ abstract class PracticeAPIController<T extends Practice> {
                     description = "invalid credentials")})
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/{practiceId}/questions/{questionType}")
-    public ResponseEntity<Optional<Question>> create(final @PathVariable
+    public ResponseEntity<Optional<Question>> create(final Principal
+                                                                 principal,
+                                                     final @PathVariable
                                                              Integer practiceId,
                                                      final @PathVariable
                                                              QuestionType
@@ -219,11 +221,11 @@ abstract class PracticeAPIController<T extends Practice> {
                                                      final
                                                      @RequestBody
                                                              Question
-                                                             question,
-                                                     final String createdBy) {
+                                                             question) {
         return ResponseEntity.status(HttpStatus.CREATED).body(
                               questionService.create(practiceId, questionType,
-                                                       question, createdBy));
+                                                       question,
+                                      principal.getName()));
     }
 
 
