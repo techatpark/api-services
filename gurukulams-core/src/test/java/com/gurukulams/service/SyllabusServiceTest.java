@@ -122,8 +122,7 @@ public class SyllabusServiceTest {
 
     Assertions.assertTrue(syllabusService.addToBoardsGrades("tom", board.id(), grade.id(), syllabus.id()),"Unable to add syllabus to grade");
 
-    Assertions.assertEquals(1,syllabusService.list("tom", board.id(),
-            grade.id()).size(),"Unable to list syllabus");
+    Assertions.assertEquals(1,syllabusService.list("tom", board.id() , grade.id()).size(),"Unable to list syllabus");
 
 
 }

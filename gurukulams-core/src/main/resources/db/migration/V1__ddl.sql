@@ -88,6 +88,16 @@ CREATE TABLE syllabus (
     modified_by VARCHAR(200)
 );
 
+CREATE TABLE subjects (
+    id INT auto_increment PRIMARY KEY,
+    title VARCHAR(55),
+    description TEXT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    created_by VARCHAR(55) NOT NULL,
+    modified_at TIMESTAMP,
+    modified_by VARCHAR(200)
+);
+
 CREATE TABLE institutes (
     id INT auto_increment PRIMARY KEY,
     title VARCHAR(55),
@@ -124,4 +134,14 @@ CREATE TABLE boards_grades_syllabus(
     FOREIGN KEY (board_id) REFERENCES boards (id),
     FOREIGN KEY (grade_id) REFERENCES grades (id),
     FOREIGN KEY (syllabus_id) REFERENCES syllabus (id)
+);
+
+CREATE TABLE boards_grades_subjects(
+    board_id INT NOT NULL,
+    grade_id INT NOT NULL,
+    subject_id INT NOT NULL,
+    PRIMARY KEY(board_id, grade_id, subject_id),
+    FOREIGN KEY (board_id) REFERENCES boards (id),
+    FOREIGN KEY (grade_id) REFERENCES grades (id),
+    FOREIGN KEY (subject_id) REFERENCES subjects (id)
 );

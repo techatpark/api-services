@@ -3,9 +3,11 @@ package com.gurukulams.web.api;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.gurukulams.core.model.Board;
 import com.gurukulams.core.model.Grade;
+import com.gurukulams.core.model.Subject;
 import com.gurukulams.core.model.Syllabus;
 import com.gurukulams.core.service.BoardService;
 import com.gurukulams.core.service.GradeService;
+import com.gurukulams.core.service.SubjectService;
 import com.gurukulams.core.service.SyllabusService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -24,6 +26,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.io.File;
 import java.net.URI;
 import java.security.Principal;
 import java.util.List;
@@ -46,14 +49,14 @@ class BoardAPIController {
     /**
      * declare a syllabus service.
      */
-    private final SyllabusService syllabusService;
+    private final SubjectService subjectService;
 
     BoardAPIController(final BoardService aBoardService,
                        final GradeService agradeService,
-                       final SyllabusService asyllabusService) {
+                       final SubjectService asubjectService) {
         this.boardService = aBoardService;
         this.gradeService = agradeService;
-        this.syllabusService = asyllabusService;
+        this.subjectService = asubjectService;
     }
 
     /**
@@ -227,14 +230,15 @@ class BoardAPIController {
                     description = "grades are not available"),
             @ApiResponse(responseCode = "401",
                     description = "invalid credentials")})
-    @GetMapping("/{boardId}/grades/{gradeId}/syllabus")
-    public ResponseEntity<List<Syllabus>> list(final Principal principal,
+    @GetMapping("/{boardId}/grades/{gradeId}/subjects")
+    public ResponseEntity<List<Subject>> list(final Principal principal,
                              @PathVariable final Long boardId,
                          @PathVariable final Long gradeId) {
-        final List<Syllabus> syllabusList = syllabusService.list(
+
+        final List<Subject> subjectList = subjectService.list(
                 principal.getName(), boardId, gradeId);
-        return syllabusList.isEmpty() ? ResponseEntity.noContent().build()
-                : ResponseEntity.ok(syllabusList);
+        return subjectList.isEmpty() ? ResponseEntity.noContent().build()
+                : ResponseEntity.ok(subjectList);
 
     }
 
