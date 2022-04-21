@@ -126,16 +126,6 @@ CREATE TABLE boards_grades(
     FOREIGN KEY (grade_id) REFERENCES grades (id)
 );
 
-CREATE TABLE boards_grades_syllabus(
-    board_id INT NOT NULL,
-    grade_id INT NOT NULL,
-    syllabus_id INT NOT NULL,
-    PRIMARY KEY(board_id, grade_id, syllabus_id),
-    FOREIGN KEY (board_id) REFERENCES boards (id),
-    FOREIGN KEY (grade_id) REFERENCES grades (id),
-    FOREIGN KEY (syllabus_id) REFERENCES syllabus (id)
-);
-
 CREATE TABLE boards_grades_subjects(
     board_id INT NOT NULL,
     grade_id INT NOT NULL,

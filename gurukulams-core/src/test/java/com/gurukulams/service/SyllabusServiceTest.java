@@ -112,20 +112,6 @@ public class SyllabusServiceTest {
 
     }
 
-@Test
-    void listbyBoardandgrade() {
-
-    final Board board = boardService.create("mani",
-            anBoard());
-    final Grade grade = gradeService.create("tom", aGrade());
-    final Syllabus syllabus = syllabusService.create("tom",anSyllabus());
-
-    Assertions.assertTrue(syllabusService.addToBoardsGrades("tom", board.id(), grade.id(), syllabus.id()),"Unable to add syllabus to grade");
-
-    Assertions.assertEquals(1,syllabusService.list("tom", board.id() , grade.id()).size(),"Unable to list syllabus");
-
-
-}
 
     /**
      * Gets syllabus.
