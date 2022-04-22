@@ -2,7 +2,6 @@ package com.gurukulams.web.starter.security.security;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -32,20 +31,30 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
     /**
      * tokenProvider.
      */
-    @Autowired
-    private TokenProvider tokenProvider;
+    private final TokenProvider tokenProvider;
     /**
      * customUserDetailsService.
      */
-    @Autowired
-    private CustomUserDetailsService customUserDetailsService;
+    private final CustomUserDetailsService customUserDetailsService;
+
+    /**
+     * TokenAuthenticationFilter.
+     * @param aTokenProvider token provider
+     * @param aCustomUserDetailsService customer user detail service
+     */
+    public TokenAuthenticationFilter(final TokenProvider aTokenProvider,
+                                     final CustomUserDetailsService
+                                             aCustomUserDetailsService) {
+        this.tokenProvider = aTokenProvider;
+        this.customUserDetailsService = aCustomUserDetailsService;
+    }
 
     /**
      * override method to.
      *
-     * @param request
-     * @param response
-     * @param filterChain
+     * @param request request
+     * @param response response
+     * @param filterChain filterchain
      */
     @Override
     protected void doFilterInternal(final HttpServletRequest request,
@@ -84,7 +93,7 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
         final var bearerToken = request.getHeader("Authorization");
         if (StringUtils.hasText(bearerToken)
                 && bearerToken.startsWith("Bearer ")) {
-            return bearerToken.substring(N, bearerToken.length());
+            return bearerToken.substring(N);
         }
         return null;
     }

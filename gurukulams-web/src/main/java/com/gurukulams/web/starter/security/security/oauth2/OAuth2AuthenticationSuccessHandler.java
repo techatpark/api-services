@@ -7,10 +7,8 @@ import com.gurukulams.web.starter.security.util.CookieUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
-import org.springframework.stereotype.Component;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import javax.servlet.ServletException;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -21,7 +19,6 @@ import java.util.Optional;
 /**
  * The type O auth 2 authentication success handler.
  */
-@Component
 public class OAuth2AuthenticationSuccessHandler
         extends SimpleUrlAuthenticationSuccessHandler {
 
@@ -53,7 +50,7 @@ public class OAuth2AuthenticationSuccessHandler
      *                                                        request repository
      */
     @Autowired
-    OAuth2AuthenticationSuccessHandler(
+    public OAuth2AuthenticationSuccessHandler(
             final TokenProvider atokenProvider,
             final AppProperties theappProperties,
             final HttpCookieOAuth2AuthorizationRequestRepository
@@ -67,17 +64,16 @@ public class OAuth2AuthenticationSuccessHandler
     /**
      * overrides the method onAuthenticationSuccess.
      *
-     * @param arequest
-     * @param aresponse
-     * @param anauthentication
-     * @throws IOException
-     * @throws ServletException
+     * @param arequest request
+     * @param aresponse response
+     * @param anauthentication authentication
+     * @throws IOException exception
      */
     @Override
     public void onAuthenticationSuccess(final HttpServletRequest arequest,
                                         final HttpServletResponse aresponse,
                                         final Authentication anauthentication)
-            throws IOException, ServletException {
+            throws IOException {
         final String targetUrl =
                 determineTargetUrl(arequest, aresponse, anauthentication);
 
@@ -96,10 +92,10 @@ public class OAuth2AuthenticationSuccessHandler
     /**
      * determine target url.
      *
-     * @param arequest
-     * @param aresponse
-     * @param anauthentication
-     * @return targeturl
+     * @param arequest request
+     * @param aresponse response
+     * @param anauthentication authentication
+     * @return targeturl target url
      */
     protected String determineTargetUrl(final HttpServletRequest arequest,
                                         final HttpServletResponse aresponse,

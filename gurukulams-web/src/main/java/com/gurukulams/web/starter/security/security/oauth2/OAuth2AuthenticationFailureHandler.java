@@ -1,13 +1,11 @@
 package com.gurukulams.web.starter.security.security.oauth2;
 
 import com.gurukulams.web.starter.security.util.CookieUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler;
-import org.springframework.stereotype.Component;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import javax.servlet.ServletException;
+
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -16,31 +14,39 @@ import java.io.IOException;
 /**
  * The type O auth 2 authentication failure handler.
  */
-@Component
 public class OAuth2AuthenticationFailureHandler
         extends SimpleUrlAuthenticationFailureHandler {
 
     /**
      * The Http cookie o auth 2 authorization request repository.
      */
-    @Autowired
-    private HttpCookieOAuth2AuthorizationRequestRepository
+    private final HttpCookieOAuth2AuthorizationRequestRepository
             httpCookieOAuth2AuthorizationRequestRepository;
+
+    /**
+     * OAuth2AuthenticationFailureHandler.
+     * @param aHttpCookieOAuth2AuthorizationRequestRepository request
+     */
+    public OAuth2AuthenticationFailureHandler(
+            final HttpCookieOAuth2AuthorizationRequestRepository
+                    aHttpCookieOAuth2AuthorizationRequestRepository) {
+        this.httpCookieOAuth2AuthorizationRequestRepository =
+                aHttpCookieOAuth2AuthorizationRequestRepository;
+    }
 
     /**
      * method defines the process on authentication failure.
      *
-     * @param request
-     * @param response
-     * @param exception
-     * @throws IOException
-     * @throws ServletException
+     * @param request request
+     * @param response response
+     * @param exception exception
+     * @throws IOException exception
      */
     @Override
     public void onAuthenticationFailure(final HttpServletRequest request,
                                         final HttpServletResponse response,
                                         final AuthenticationException exception)
-            throws IOException, ServletException {
+            throws IOException {
         String targetUrl =
                 CookieUtils.getCookie(request,
                                 HttpCookieOAuth2AuthorizationRequestRepository

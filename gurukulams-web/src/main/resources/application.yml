@@ -1,7 +1,4 @@
 spring:
-  # TODO: Workaround. To be removed
-  main:
-    allow-circular-references: true
   profiles:
     active: @spring.profiles.active@
   application:

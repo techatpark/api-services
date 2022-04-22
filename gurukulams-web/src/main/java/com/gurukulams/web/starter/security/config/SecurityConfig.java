@@ -3,14 +3,15 @@ package com.gurukulams.web.starter.security.config;
 import com.gurukulams.web.starter.security.security.CustomUserDetailsService;
 import com.gurukulams.web.starter.security.security.RestAuthenticationEntryPoint;
 import com.gurukulams.web.starter.security.security.TokenAuthenticationFilter;
+import com.gurukulams.web.starter.security.security.TokenProvider;
 import com.gurukulams.web.starter.security.security.oauth2.CustomOAuth2UserService;
 import com.gurukulams.web.starter.security.security.oauth2.HttpCookieOAuth2AuthorizationRequestRepository;
 import com.gurukulams.web.starter.security.security.oauth2.OAuth2AuthenticationFailureHandler;
 import com.gurukulams.web.starter.security.security.oauth2.OAuth2AuthenticationSuccessHandler;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.env.Environment;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.BeanIds;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -40,70 +41,88 @@ import java.util.List;
         prePostEnabled = true
 )
 @EnableConfigurationProperties(AppProperties.class)
-public class SecurityConfig extends WebSecurityConfigurerAdapter {
+public final class SecurityConfig extends WebSecurityConfigurerAdapter {
+
+    /**
+     * PasswordEncoder.
+     */
+    private final PasswordEncoder passwordEncoder;
 
     /**
      * inject the customUserDetailsService object dependency.
      */
-    @Autowired
-    private CustomUserDetailsService customUserDetailsService;
+    private final CustomUserDetailsService customUserDetailsService;
 
     /**
      * inject the customOAuth2UserService object dependency.
      */
-    @Autowired
-    private CustomOAuth2UserService customOAuth2UserService;
+    private final CustomOAuth2UserService customOAuth2UserService;
+
+    /**
+     * TokenAuthenticationFilter.
+     */
+    private final TokenAuthenticationFilter tokenAuthenticationFilter;
 
     /**
      * inject the oAuth2AuthenticationSuccessHandler object dependency.
      */
-    @Autowired
-    private OAuth2AuthenticationSuccessHandler
+    private final OAuth2AuthenticationSuccessHandler
             oAuth2AuthenticationSuccessHandler;
+
+    /**
+     * By default, Spring OAuth2 uses
+     * HttpSessionOAuth2AuthorizationRequestRepository to save.
+     *
+     *  the authorization request. But, since our service is stateless,
+     *      we can't save it in
+     *      the session. We'll save the request in a
+     *      Base64 encoded cookie instead.
+     */
+    private final HttpCookieOAuth2AuthorizationRequestRepository
+            cookieAuthorizationRequestRepository;
 
     /**
      * inject the oAuth2AuthenticationFailureHandler object dependency.
      */
-    @Autowired
-    private OAuth2AuthenticationFailureHandler
+    private final OAuth2AuthenticationFailureHandler
             oAuth2AuthenticationFailureHandler;
 
-
     /**
-     * Token authentication filter token authentication filter.
-     *
-     * @return the token authentication filter
+     * Creates Security Config.
+     * @param appProperties properties
+     * @param environment environment
      */
-    @Bean
-    public TokenAuthenticationFilter tokenAuthenticationFilter() {
-        return new TokenAuthenticationFilter();
+    public SecurityConfig(final AppProperties appProperties,
+                          final Environment environment) {
+        TokenProvider tokenProvider = new TokenProvider(appProperties);
+        cookieAuthorizationRequestRepository = new
+                HttpCookieOAuth2AuthorizationRequestRepository();
+        oAuth2AuthenticationSuccessHandler = new
+                OAuth2AuthenticationSuccessHandler(tokenProvider,
+                appProperties,
+                cookieAuthorizationRequestRepository);
+        oAuth2AuthenticationFailureHandler = new
+                OAuth2AuthenticationFailureHandler(
+                        cookieAuthorizationRequestRepository);
+        passwordEncoder = new BCryptPasswordEncoder();
+        customUserDetailsService = new CustomUserDetailsService(
+                passwordEncoder, environment);
+        customOAuth2UserService = new CustomOAuth2UserService(
+                customUserDetailsService);
+        tokenAuthenticationFilter = new TokenAuthenticationFilter(
+                tokenProvider, customUserDetailsService);
     }
 
-    /*
-      By default, Spring OAuth2 uses
-      HttpSessionOAuth2AuthorizationRequestRepository to save
-      the authorization request. But, since our service is stateless,
-      we can't save it in
-      the session. We'll save the request in a Base64 encoded cookie instead.
-    */
-
-    /**
-     * Cookie authorization request repository http cookie o auth 2
-     * authorization request repository.
-     *
-     * @return the http cookie o auth 2 authorization request repository
-     */
     @Bean
-    public HttpCookieOAuth2AuthorizationRequestRepository
-    cookieAuthorizationRequestRepository() {
-        return new HttpCookieOAuth2AuthorizationRequestRepository();
+    CustomUserDetailsService customUserDetailsService() {
+        return customUserDetailsService;
     }
 
     /**
-     * method configure is overrided here.
+     * method configure is override here.
      *
-     * @param authenticationManagerBuilder
-     * @throws Exception
+     * @param authenticationManagerBuilder authentication manager builder
+     * @throws Exception exception
      */
     @Override
     public void configure(final
@@ -112,27 +131,17 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             throws Exception {
         authenticationManagerBuilder
                 .userDetailsService(customUserDetailsService)
-                .passwordEncoder(passwordEncoder());
-    }
-
-    /**
-     * Password encoder password encoder.
-     *
-     * @return the password encoder
-     */
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
+                .passwordEncoder(passwordEncoder);
     }
 
     /**
      * Hi.
      *
-     * @param web
-     * @throws Exception
+     * @param web web
+     * @throws Exception exception
      */
     @Override
-    public void configure(final WebSecurity web) throws Exception {
+    public void configure(final WebSecurity web) {
         web.ignoring().antMatchers("/api/metrics/**",
                 "/swagger-ui.html", "/swagger-ui/**",
                 "/v3/api-docs/**", "/resources/**",
@@ -154,7 +163,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     /**
      * method authenticationManagerBean is overrided.
      *
-     * @return
+     * @return AuthenticationManager
      * @throws Exception
      */
     @Bean(BeanIds.AUTHENTICATION_MANAGER)
@@ -166,8 +175,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     /**
      * method configure is overrided here.
      *
-     * @param http
-     * @throws Exception
+     * @param http http
+     * @throws Exception exception
      */
     @Override
     protected void configure(final HttpSecurity http) throws Exception {
@@ -209,7 +218,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizationEndpoint()
                 .baseUri("/oauth2/authorize")
                 .authorizationRequestRepository(
-                        cookieAuthorizationRequestRepository())
+                        cookieAuthorizationRequestRepository)
                 .and()
                 .redirectionEndpoint()
                 .baseUri("/oauth2/callback/*")
@@ -221,7 +230,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .failureHandler(oAuth2AuthenticationFailureHandler);
 
         // Add our custom Token based authentication filter
-        http.addFilterBefore(tokenAuthenticationFilter(),
+        http.addFilterBefore(tokenAuthenticationFilter,
                 UsernamePasswordAuthenticationFilter.class);
     }
 

@@ -7,7 +7,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -17,7 +16,6 @@ import java.util.Optional;
 /**
  * The type Custom user details service.
  */
-@Service
 public class CustomUserDetailsService implements UserDetailsService {
 
     /**
@@ -91,9 +89,9 @@ public class CustomUserDetailsService implements UserDetailsService {
     /**
      * load userdetails with username.
      *
-     * @param email
-     * @return
-     * @throws UsernameNotFoundException
+     * @param email email
+     * @return UserDetails user detail
+     * @throws UsernameNotFoundException exception
      */
     @Override
     public UserDetails loadUserByUsername(final String email)

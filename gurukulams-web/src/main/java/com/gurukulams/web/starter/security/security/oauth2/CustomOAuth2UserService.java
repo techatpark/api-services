@@ -7,14 +7,12 @@ import com.gurukulams.web.starter.security.security.CustomUserDetailsService;
 import com.gurukulams.web.starter.security.security.UserPrincipal;
 import com.gurukulams.web.starter.security.security.oauth2.user.OAuth2UserInfo;
 import com.gurukulams.web.starter.security.security.oauth2.user.OAuth2UserInfoFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.InternalAuthenticationServiceException;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
 import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
 import org.springframework.security.oauth2.core.user.OAuth2User;
-import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import java.util.Optional;
@@ -22,21 +20,28 @@ import java.util.Optional;
 /**
  * The type Custom o auth 2 user service.
  */
-@Service
 public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 
     /**
      * User Details Service.
      */
-    @Autowired
-    private CustomUserDetailsService userRepository;
+    private final CustomUserDetailsService userRepository;
+
+    /**
+     * CustomOAuth2UserService.
+     * @param anUserRepository user repository
+     */
+    public CustomOAuth2UserService(final CustomUserDetailsService
+                                           anUserRepository) {
+        this.userRepository = anUserRepository;
+    }
 
     /**
      * Loads the user.
      *
-     * @param oAuth2UserRequest
+     * @param oAuth2UserRequest request
      * @return OAuth2User
-     * @throws OAuth2AuthenticationException
+     * @throws OAuth2AuthenticationException auth to authentication exception
      */
     @Override
     public OAuth2User loadUser(final OAuth2UserRequest oAuth2UserRequest)
