@@ -41,7 +41,7 @@ import java.util.List;
         prePostEnabled = true
 )
 @EnableConfigurationProperties(AppProperties.class)
-public final class SecurityConfig extends WebSecurityConfigurerAdapter {
+public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     /**
      * PasswordEncoder.
@@ -113,6 +113,10 @@ public final class SecurityConfig extends WebSecurityConfigurerAdapter {
                 tokenProvider, customUserDetailsService);
     }
 
+    /**
+     * CustomUserDetailsService.
+     * @return customUserDetailsService
+     */
     @Bean
     CustomUserDetailsService customUserDetailsService() {
         return customUserDetailsService;

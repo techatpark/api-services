@@ -65,7 +65,8 @@ CREATE TABLE boards (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     created_by VARCHAR(55) NOT NULL,
     modified_at TIMESTAMP,
-    modified_by VARCHAR(200)
+    modified_by VARCHAR(200),
+    CONSTRAINT boards_title_constraint UNIQUE (title)
 );
 
 CREATE TABLE grades (
@@ -75,7 +76,8 @@ CREATE TABLE grades (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     created_by VARCHAR(55) NOT NULL,
     modified_at TIMESTAMP,
-    modified_by VARCHAR(200)
+    modified_by VARCHAR(200),
+    CONSTRAINT grades_title_constraint UNIQUE (title)
 );
 
 CREATE TABLE syllabus (
@@ -85,7 +87,8 @@ CREATE TABLE syllabus (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     created_by VARCHAR(55) NOT NULL,
     modified_at TIMESTAMP,
-    modified_by VARCHAR(200)
+    modified_by VARCHAR(200),
+    CONSTRAINT syllabus_title_constraint UNIQUE (title)
 );
 
 CREATE TABLE subjects (
@@ -95,7 +98,8 @@ CREATE TABLE subjects (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     created_by VARCHAR(55) NOT NULL,
     modified_at TIMESTAMP,
-    modified_by VARCHAR(200)
+    modified_by VARCHAR(200),
+    CONSTRAINT subjects_title_constraint UNIQUE (title)
 );
 
 CREATE TABLE institutes (
@@ -105,7 +109,8 @@ CREATE TABLE institutes (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     created_by VARCHAR(55) NOT NULL,
     modified_at TIMESTAMP,
-    modified_by VARCHAR(200)
+    modified_by VARCHAR(200),
+    CONSTRAINT institutes_title_constraint UNIQUE (title)
 );
 
 CREATE TABLE learner (

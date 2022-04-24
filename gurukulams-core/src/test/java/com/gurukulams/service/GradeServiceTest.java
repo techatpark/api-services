@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.io.IOException;
+import java.util.Date;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -139,7 +140,7 @@ public class GradeServiceTest {
      */
     Grade aGrade() {
 
-        Grade grade = new Grade(null, "Student Grade",
+        Grade grade = new Grade(null, "Student Grade" + new Date().getTime(),
                 "A " + "Grade", null, null,
                 null, null);
         return grade;
@@ -152,7 +153,7 @@ public class GradeServiceTest {
      */
     Board aBoard() {
 
-        Board board = new Board(null, "State Board",
+        Board board = new Board(null, "State Board" + new Date().getTime(),
                 "A " + "Board", null, null,
                 null, null);
         return board;
