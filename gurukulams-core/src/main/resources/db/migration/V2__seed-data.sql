@@ -1,6 +1,6 @@
 INSERT INTO boards(title,description,created_by) VALUES('TN State board','Tamilnadu State Board','tom');
 
-INSERT INTO grades(title,description,created_by) VALUES ('12 Standard','12 Standard','tom');
+--INSERT INTO grades(title,description,created_by) VALUES ('12 Standard','12 Standard','tom');
 INSERT INTO grades(title,description,created_by) VALUES ('11 Standard','11 Standard','tom');
 INSERT INTO grades(title,description,created_by) VALUES ('10 Standard','10 Standard ','tom');
 INSERT INTO grades(title,description,created_by) VALUES ('9 Standard','9 Standard','tom');
@@ -52,16 +52,14 @@ INSERT INTO boards_grades(board_id,grade_id) VALUES (1,11);
 INSERT INTO boards_grades(board_id,grade_id) VALUES (1,12);
 
 
-INSERT INTO boards_grades_subjects(board_id,grade_id,subject_id) VALUES (1,1,1);
-INSERT INTO boards_grades_subjects(board_id,grade_id,subject_id) VALUES (1,1,2);
 INSERT INTO boards_grades_subjects(board_id,grade_id,subject_id) VALUES (1,1,4);
 INSERT INTO boards_grades_subjects(board_id,grade_id,subject_id) VALUES (1,1,5);
 INSERT INTO boards_grades_subjects(board_id,grade_id,subject_id) VALUES (1,1,6);
-
+INSERT INTO boards_grades_subjects(board_id,grade_id,subject_id) VALUES (1,1,7);
 
 INSERT INTO boards(title,description,created_by) VALUES('TECH@PARK','TECH@PARK','tom');
 
-INSERT INTO boards_grades(board_id,grade_id) VALUES (2,13);
+INSERT INTO boards_grades(board_id,grade_id) VALUES (2,12);
 
-INSERT INTO boards_grades_subjects(board_id,grade_id,subject_id) VALUES (2,13,18);
-INSERT INTO boards_grades_subjects(board_id,grade_id,subject_id) VALUES (2,13,19);
+INSERT INTO boards_grades_subjects(board_id,grade_id,subject_id) VALUES (2,12,18);
+INSERT INTO boards_grades_subjects(board_id,grade_id,subject_id) VALUES (2,12,19);
