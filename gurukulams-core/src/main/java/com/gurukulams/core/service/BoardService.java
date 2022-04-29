@@ -12,10 +12,7 @@ import javax.sql.DataSource;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class BoardService {
@@ -77,6 +74,7 @@ public class BoardService {
      * @return board optional
      */
     public Board create(final String userName,
+                        final Locale locale,
                            final Board board) {
         final SimpleJdbcInsert insert = new SimpleJdbcInsert(dataSource)
                 .withTableName("boards").usingGeneratedKeyColumns("id")
@@ -89,12 +87,31 @@ public class BoardService {
         valueMap.put("created_by", userName);
 
         final Number boardId = insert.executeAndReturnKey(valueMap);
+
+        if (locale != null) {
+            valueMap.put("board_id", boardId);
+            valueMap.put("locale", locale.getLanguage());
+            createLocalizedBoard(valueMap);
+        }
+
         final Optional<Board> createdBoard =
-                read(userName, boardId.longValue());
+                read(userName, locale, boardId.longValue());
 
         logger.info("Syllabus Created {}", boardId);
 
         return createdBoard.get();
+    }
+
+    /**
+     * Create Localized Board.
+     * @param valueMap
+     * @return noOfBoards
+     */
+    private int createLocalizedBoard(final Map<String, Object> valueMap) {
+        return new SimpleJdbcInsert(dataSource)
+                .withTableName("boards_localized")
+                .usingColumns("board_id", "locale", "title", "description")
+                .execute(valueMap);
     }
 
     /**
@@ -103,16 +120,26 @@ public class BoardService {
      * @param userName the userName
      * @return board optional
      */
-    public Optional<Board> read(final String userName, final Long id) {
-        final String query = "SELECT id,title,description,created_by,"
-                + "created_at, modified_at, modified_by FROM boards "
-                + "WHERE id = ?";
+    public Optional<Board> read(final String userName,
+                                final Locale locale, final Long id) {
 
+        final String query = locale == null ?
+                    "SELECT id,title,description,created_by,"
+                    + "created_at, modified_at, modified_by FROM boards "
+                    + "WHERE id = ?" :
+                    "SELECT boards.id,boards_localized.title,boards_localized.description,boards.created_by,"
+                    + "boards.created_at, boards.modified_at, boards.modified_by FROM boards "
+                    + "JOIN boards_localized ON boards.id=boards_localized.board_id "
+                    + "WHERE boards_localized.board_id = ? AND boards_localized.locale = ?";
 
         try {
-            final Board p = jdbcTemplate
+            final Board p = locale == null ? jdbcTemplate
                     .queryForObject(query, new Object[]{id},
-                            this::rowMapper);
+                            this::rowMapper):
+                    jdbcTemplate
+                            .queryForObject(query, new Object[]{id,locale.getLanguage()},
+                                    this::rowMapper)
+                    ;
             return Optional.of(p);
         } catch (final EmptyResultDataAccessException e) {
             return Optional.empty();
@@ -128,18 +155,34 @@ public class BoardService {
      */
     public Board update(final Long id,
                            final String userName,
+                           final Locale locale,
                            final Board board) {
         logger.debug("Entering update for Board {}", id);
-        final String query = "UPDATE boards SET title=?,"
-                + "description=?,modified_by=? WHERE id=?";
-        final Integer updatedRows =
+        final String query = locale == null ?
+                "UPDATE boards SET title=?,"
+                + "description=?,modified_by=? WHERE id=?":
+                "UPDATE boards SET modified_by=? WHERE id=?";
+        Integer updatedRows = locale == null ?
                 jdbcTemplate.update(query, board.title(),
-                        board.description(), userName, id);
+                        board.description(), userName, id):
+                jdbcTemplate.update(query, userName, id);
         if (updatedRows == 0) {
             logger.error("Update not found", id);
             throw new IllegalArgumentException("Board not found");
+        } else if (locale != null){
+            updatedRows = jdbcTemplate.update("UPDATE boards_localized SET title=?,locale=?,"
+                    + "description=? WHERE board_id=? AND locale=?",board.title(),locale.getLanguage(),
+                    board.description(), id, locale.getLanguage());
+            if (updatedRows == 0) {
+                final Map<String,Object> valueMap = new HashMap<>(3);
+                valueMap.put("board_id",id);
+                valueMap.put("locale",locale.getLanguage());
+                valueMap.put("title",board.title());
+                valueMap.put("description",board.description());
+                createLocalizedBoard(valueMap);
+            }
         }
-        return read(userName, id).get();
+        return read(userName, locale, id).get();
     }
 
     /**

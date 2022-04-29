@@ -49,8 +49,6 @@ INSERT INTO boards_grades(board_id,grade_id) VALUES (1,8);
 INSERT INTO boards_grades(board_id,grade_id) VALUES (1,9);
 INSERT INTO boards_grades(board_id,grade_id) VALUES (1,10);
 INSERT INTO boards_grades(board_id,grade_id) VALUES (1,11);
-INSERT INTO boards_grades(board_id,grade_id) VALUES (1,12);
-
 
 INSERT INTO boards_grades_subjects(board_id,grade_id,subject_id) VALUES (1,1,4);
 INSERT INTO boards_grades_subjects(board_id,grade_id,subject_id) VALUES (1,1,5);

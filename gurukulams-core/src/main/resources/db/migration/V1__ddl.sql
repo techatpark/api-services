@@ -69,6 +69,15 @@ CREATE TABLE boards (
     CONSTRAINT boards_title_constraint UNIQUE (title)
 );
 
+CREATE TABLE boards_localized (
+    board_id INT,
+    locale VARCHAR(8) NOT NULL,
+    title VARCHAR(55),
+    description TEXT,
+    FOREIGN KEY (board_id) REFERENCES boards (id),
+    PRIMARY KEY(board_id, locale)
+);
+
 CREATE TABLE grades (
     id INT auto_increment PRIMARY KEY,
     title VARCHAR(55),

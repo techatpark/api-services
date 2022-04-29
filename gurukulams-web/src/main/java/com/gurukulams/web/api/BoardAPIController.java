@@ -1,6 +1,5 @@
 package com.gurukulams.web.api;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.gurukulams.core.model.Board;
 import com.gurukulams.core.model.Grade;
 import com.gurukulams.core.model.Subject;
@@ -14,22 +13,15 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
 import java.security.Principal;
 import java.util.List;
+import java.util.Locale;
 
 @RestController
-@RequestMapping("/api/board")
+@RequestMapping("/api/boards")
 @Tag(name = "Boards", description = "Resource to manage Board")
 class BoardAPIController {
 
@@ -76,8 +68,9 @@ class BoardAPIController {
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping(produces = "application/json", consumes = "application/json")
     public ResponseEntity<Board> create(final Principal principal,
+                                        @RequestHeader(name = "Accept-Language", required = false) final Locale locale,
                                         @RequestBody final Board board) {
-        Board created = boardService.create(principal.getName(), board);
+        Board created = boardService.create(principal.getName(), locale, board);
         return ResponseEntity.created(URI.create("/api/board" + created.id()))
                 .body(created);
     }
@@ -99,8 +92,9 @@ class BoardAPIController {
 
     @GetMapping("/{id}")
     public ResponseEntity<Board> read(@PathVariable final Long id,
+                                      @RequestHeader(name = "Accept-Language", required = false) final Locale locale,
                                          final Principal principal) {
-        return ResponseEntity.of(boardService.read(principal.getName(), id));
+        return ResponseEntity.of(boardService.read(principal.getName(), locale, id));
     }
 
     /**
@@ -109,7 +103,6 @@ class BoardAPIController {
      * @param principal
      * @param board
      * @return a board
-     * @throws JsonProcessingException
      */
     @Operation(summary = "Updates the board by given id",
             description = "Can be called only by users "
@@ -128,11 +121,11 @@ class BoardAPIController {
     public ResponseEntity<Board> update(@PathVariable final Long id,
                                            final Principal
                                                    principal,
+                                        @RequestHeader(name = "Accept-Language", required = false) final Locale locale,
                                         @RequestBody final Board
-                                                       board)
-            throws JsonProcessingException {
+                                                       board) {
         final Board updatedBoard =
-                boardService.update(id, principal.getName(), board);
+                boardService.update(id, principal.getName(), locale, board);
         return updatedBoard == null ? ResponseEntity.notFound().build()
                 : ResponseEntity.ok(updatedBoard);
     }
@@ -238,7 +231,5 @@ class BoardAPIController {
                 : ResponseEntity.ok(subjectList);
 
     }
-
-
 
 }

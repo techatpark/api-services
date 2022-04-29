@@ -52,7 +52,7 @@ public class GradeServiceTest {
 
     @Test
     void create(){
-        final Board board = boardService.create("mani",
+        final Board board = boardService.create("mani",null,
                 aBoard());
         final Grade grade = gradeService.create("mani",
                 aGrade());
@@ -62,7 +62,7 @@ public class GradeServiceTest {
 
     @Test
     void read() {
-        final Board board = boardService.create("mani",
+        final Board board = boardService.create("mani",null,
                 aBoard());
         final Grade grade = gradeService.create("mani",
                 aGrade());
@@ -74,7 +74,7 @@ public class GradeServiceTest {
 
     @Test
     void update() {
-        final Board board = boardService.create("mani",
+        final Board board = boardService.create("mani",null,
                 aBoard());
         final Grade grade = gradeService.create("mani",
                 aGrade());
@@ -94,7 +94,7 @@ public class GradeServiceTest {
     @Test
     void delete() {
 
-        final Board board = boardService.create("mani",
+        final Board board = boardService.create("mani",null,
                 aBoard());
         final Grade grade = gradeService.create("mani",
                 aGrade());
@@ -107,7 +107,7 @@ public class GradeServiceTest {
     @Test
     void list() {
 
-        final Board board = boardService.create("mani",
+        final Board board = boardService.create("mani",null,
                 aBoard());
         final Grade grade = gradeService.create("manikanta",
                 aGrade());
@@ -122,7 +122,7 @@ public class GradeServiceTest {
 
     @Test
     void listByBoard() {
-        final Board board = boardService.create("mani",
+        final Board board = boardService.create("mani",null,
                 aBoard());
         final Grade grade = gradeService.create("manikanta",
                 aGrade());

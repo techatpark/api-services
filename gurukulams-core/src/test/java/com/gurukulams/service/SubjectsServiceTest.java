@@ -114,7 +114,7 @@ public class SubjectsServiceTest {
     @Test
     void listbyBoardandgrade() {
 
-        final Board board = boardService.create("mani",
+        final Board board = boardService.create("mani",null,
                 anBoard());
         final Grade grade = gradeService.create("tom", aGrade());
         final Subject subject = subjectService.create("tom",anSubject());
