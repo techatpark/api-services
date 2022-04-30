@@ -13,8 +13,16 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestHeader;
 import java.net.URI;
 import java.security.Principal;
 import java.util.List;
@@ -53,6 +61,7 @@ class BoardAPIController {
      *
      * @param principal the principal
      * @param board  the board name
+     * @param locale the locale
      * @return the response entity
      */
     @Operation(summary = "Creates a new board",
@@ -68,8 +77,9 @@ class BoardAPIController {
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping(produces = "application/json", consumes = "application/json")
     public ResponseEntity<Board> create(final Principal principal,
-                                        @RequestHeader(name = "Accept-Language", required = false) final Locale locale,
-                                        @RequestBody final Board board) {
+                    @RequestHeader(name = "Accept-Language", required = false)
+                     final Locale locale,
+                    @RequestBody final Board board) {
         Board created = boardService.create(principal.getName(), locale, board);
         return ResponseEntity.created(URI.create("/api/board" + created.id()))
                 .body(created);
@@ -79,6 +89,7 @@ class BoardAPIController {
      * Read a board.
      * @param id
      * @param principal
+     * @param locale the locale
      * @return a board
      */
     @Operation(summary = "Get the Board with given id",
@@ -92,15 +103,18 @@ class BoardAPIController {
 
     @GetMapping("/{id}")
     public ResponseEntity<Board> read(@PathVariable final Long id,
-                                      @RequestHeader(name = "Accept-Language", required = false) final Locale locale,
-                                         final Principal principal) {
-        return ResponseEntity.of(boardService.read(principal.getName(), locale, id));
+                      @RequestHeader(name = "Accept-Language", required = false)
+                      final Locale locale,
+                      final Principal principal) {
+        return ResponseEntity.of(boardService.read(principal.getName(),
+                                                            locale, id));
     }
 
     /**
      * Update a Board.
      * @param id
      * @param principal
+     * @param locale
      * @param board
      * @return a board
      */
@@ -121,8 +135,9 @@ class BoardAPIController {
     public ResponseEntity<Board> update(@PathVariable final Long id,
                                            final Principal
                                                    principal,
-                                        @RequestHeader(name = "Accept-Language", required = false) final Locale locale,
-                                        @RequestBody final Board
+                     @RequestHeader(name = "Accept-Language", required = false)
+                                            final Locale locale,
+                     @RequestBody final Board
                                                        board) {
         final Board updatedBoard =
                 boardService.update(id, principal.getName(), locale, board);
