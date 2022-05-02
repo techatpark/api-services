@@ -16,6 +16,15 @@ CREATE TABLE practices (
   CONSTRAINT book_constraint UNIQUE (book)
 );
 
+CREATE TABLE practices_localized (
+    practice_id INT,
+    locale VARCHAR(8) NOT NULL,
+    name VARCHAR(55),
+    description TEXT,
+    FOREIGN KEY (practice_id) REFERENCES practices (id),
+    PRIMARY KEY(practice_id, locale)
+);
+
 CREATE TABLE questions (
   id INT auto_increment,
   exam_id int NOT NULL,

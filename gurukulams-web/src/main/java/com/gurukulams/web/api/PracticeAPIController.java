@@ -103,6 +103,7 @@ abstract class PracticeAPIController<T extends Practice> {
      * Find by id response entity.
      *
      * @param id the id
+     * @param locale the locale
      * @return the response entity
      */
     @Operation(summary = "Get practice with given id",
@@ -115,8 +116,12 @@ abstract class PracticeAPIController<T extends Practice> {
                     description = "practice not found")})
     @GetMapping("/{id}")
     public ResponseEntity<T> findById(
-            final @PathVariable Integer id) {
-        return ResponseEntity.of(practiceService.read(id));
+            final @PathVariable Integer id,
+            @RequestHeader(
+            name = "Accept-Language",
+            required = false)
+            final Locale locale) {
+        return ResponseEntity.of(practiceService.read(id, locale));
     }
 
     /**
@@ -147,6 +152,7 @@ abstract class PracticeAPIController<T extends Practice> {
      *
      * @param id       the id
      * @param practice the practice
+     * @param locale the locale
      * @return the response entity
      * @throws JsonProcessingException the json processing exception
      */
@@ -165,13 +171,17 @@ abstract class PracticeAPIController<T extends Practice> {
     @PutMapping("/{id}")
     public ResponseEntity<Optional<T>> update(final @PathVariable
                                                       Integer id,
+                                              @RequestHeader(
+                                              name = "Accept-Language",
+                                              required = false)
+                                              final Locale locale,
                                               final
                                               @RequestBody
                                                       Practice
                                                       practice)
             throws JsonProcessingException {
         final Optional<T> updatedpractice = (Optional<T>)
-                practiceService.update(id, practice);
+                practiceService.update(id, locale, practice);
         return updatedpractice == null ? ResponseEntity.notFound().build()
                 : ResponseEntity.ok(updatedpractice);
     }
@@ -180,6 +190,7 @@ abstract class PracticeAPIController<T extends Practice> {
      * Delete exam by id response entity.
      *
      * @param id the id
+     * @param locale the locale
      * @return the response entity
      */
     @Operation(summary = "Deletes the practice by given id",
@@ -192,8 +203,12 @@ abstract class PracticeAPIController<T extends Practice> {
                     description = "invalid credentials")})
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteExamById(
-            final @PathVariable Integer id) {
-        return practiceService.delete(id) ? ResponseEntity.ok().build()
+            final @PathVariable Integer id,
+            @RequestHeader(
+            name = "Accept-Language",
+            required = false)
+            final Locale locale) {
+        return practiceService.delete(id, locale) ? ResponseEntity.ok().build()
                 : ResponseEntity.notFound().build();
     }
 
@@ -267,6 +282,7 @@ abstract class PracticeAPIController<T extends Practice> {
      *
      * @param principal  the principal
      * @param practiceId the practice id
+     * @param locale the locale
      * @return the response entity
      */
     @Operation(summary = "lists all the questions",
@@ -281,12 +297,17 @@ abstract class PracticeAPIController<T extends Practice> {
     @GetMapping("/{practiceId}/questions")
     public ResponseEntity<List<Question>> findAllQuestions(final Principal
                                                                    principal,
-                                                           final
-                                                           @PathVariable
-                                                                   Integer
-                                                                   practiceId) {
+                                               @RequestHeader(
+                                               name = "Accept-Language",
+                                               required = false)
+                                               final Locale locale,
+                                               final
+                                               @PathVariable
+                                                       Integer
+                                                       practiceId) {
         final List<Question> questions = questionService.list(
                 principal.getName(),
+                locale,
                 practiceId);
         return questions.isEmpty() ? ResponseEntity.noContent().build()
                 : ResponseEntity.ok(questions);

@@ -49,7 +49,7 @@ class SqlPracticeTest {
      * Clean up.
      */
     void cleanUp() {
-        sqlExamService.delete("sql");
+        sqlExamService.delete("sql", null);
     }
 
 
@@ -80,7 +80,7 @@ class SqlPracticeTest {
         exam.setName("Updated Name");
         exam.setDatabase(Database.H2);
         final Integer newExamId = exam.getId();
-        exam = sqlExamService.update(newExamId, exam).get();
+        exam = sqlExamService.update(newExamId, null, exam).get();
         Assertions.assertEquals("Updated Name", exam.getName(), "Updated");
         Assertions.assertEquals(Database.H2, exam.getDatabase(), "Updated");
     }
@@ -96,7 +96,7 @@ class SqlPracticeTest {
         final SqlPractice exam =
                 sqlExamService.create("sql", "user", null, examToBeCrated).get();
         final Integer newExamId = exam.getId();
-        Assertions.assertTrue(sqlExamService.read(newExamId).isPresent(),
+        Assertions.assertTrue(sqlExamService.read(newExamId, null).isPresent(),
                 "Exam Created");
     }
 
@@ -110,8 +110,8 @@ class SqlPracticeTest {
             final SqlPractice exam =
                     sqlExamService.create("sql", "user",null, examToBeCrated).get();
             final Integer newExamId = exam.getId();
-            sqlExamService.delete(newExamId);
-        Assertions.assertFalse(sqlExamService.read(newExamId).isPresent(),
+            sqlExamService.delete(newExamId, null);
+        Assertions.assertFalse(sqlExamService.read(newExamId, null).isPresent(),
                 "Exam Created");
 
     }

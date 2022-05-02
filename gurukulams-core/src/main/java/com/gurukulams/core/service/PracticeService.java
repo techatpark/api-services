@@ -229,10 +229,16 @@ public class PracticeService {
             valueMap.put("description", practice.getDescription());
             valueMap.put("meta_data", metaData);
             final Number examId = insert.executeAndReturnKey(valueMap);
-            final Optional<T> createdExam = read(examId.intValue());
+            final Optional<T> createdExam = read(examId.intValue(), locale);
             createdExam.ifPresent(exam1 -> {
                 if (exam1 instanceof SqlPractice) {
                     loadScripts((SqlPractice) exam1);
+                }
+
+                if (locale != null) {
+                    valueMap.put("practice_id", exam1.getId());
+                    valueMap.put("locale", locale.getLanguage());
+                    createLocalizedBoard(valueMap);
                 }
 
             });
@@ -241,6 +247,18 @@ public class PracticeService {
             throw new ConstraintViolationException(violations);
         }
 
+    }
+
+    /**
+     * Create Localized practice.
+     * @param valueMap
+     * @return noOfPractices
+     */
+    private int createLocalizedBoard(final Map<String, Object> valueMap) {
+        return new SimpleJdbcInsert(dataSource)
+                .withTableName("practices_localized")
+                .usingColumns("practice_id", "locale", "name", "description")
+                .execute(valueMap);
     }
 
     /**
@@ -319,10 +337,12 @@ public class PracticeService {
      * read an practice.
      *
      * @param <T>           the type parameter
+     * @param locale the locale
      * @param newPracticeId the new practice id
      * @return p. optional
      */
-    public <T extends Practice> Optional<T> read(final Integer newPracticeId) {
+    public <T extends Practice> Optional<T> read(final Integer newPracticeId,
+                                                 final Locale locale) {
         final String query = "SELECT id,name,created_by,type,meta_data,"
                         + "description,created_at,modified_at "
                         + "FROM practices WHERE id = ?";
@@ -345,10 +365,12 @@ public class PracticeService {
      * @param <T>      the type parameter
      * @param id       the id
      * @param practice the practice
+     * @param locale the locale
      * @return p. optional
      * @throws JsonProcessingException the json processing exception
      */
     public <T extends Practice> Optional<T> update(final Integer id,
+                                                   final Locale locale,
                                                    final T practice)
             throws JsonProcessingException {
         Set<ConstraintViolation<Practice>> violations = validator
@@ -362,7 +384,7 @@ public class PracticeService {
                     practice.getName(),
                     getMetadata(practice),
                     practice.getDescription(), id);
-            return updatedRows == 0 ? null : read(id);
+            return updatedRows == 0 ? null : read(id, locale);
         } else {
             throw new ConstraintViolationException(violations);
         }
@@ -373,10 +395,11 @@ public class PracticeService {
      * deletes from database.
      *
      * @param id the id
+     * @param locale the locale
      * @return successflag boolean
      */
-    public Boolean delete(final Integer id) {
-        final Optional<Practice> oPractice = read(id);
+    public Boolean delete(final Integer id, final Locale locale) {
+        final Optional<Practice> oPractice = read(id, locale);
         Boolean success = false;
         if (oPractice.isPresent()) {
 
@@ -397,12 +420,14 @@ public class PracticeService {
      * Cleaning up all practices.
      *
      * @param type the type
+     * @param locale the locale
      * @return no.of practices deleted
      */
-    public Integer delete(final String type) {
+    public Integer delete(final String type, final Locale locale) {
         final int count = 0;
         final List<Practice> practices = list(type);
-        practices.parallelStream().forEach(exam -> delete(exam.getId()));
+        practices.parallelStream()
+                .forEach(exam -> delete(exam.getId(), locale));
         return count;
     }
 

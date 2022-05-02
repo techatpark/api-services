@@ -457,13 +457,15 @@ public class QuestionService {
      *
      * @param userName   the user name
      * @param practiceId the practice id
+     * @param locale the locale
      * @return quetions in given exam
      */
     public List<Question> list(final String userName,
+                               final Locale locale,
                                final Integer practiceId) {
 
         Practice practice = this.practiceService
-                .read(practiceId)
+                .read(practiceId, locale)
                 .orElseThrow(IllegalArgumentException::new);
 
         boolean isOwner = practice.getCreatedBy().equals(userName);
@@ -534,10 +536,12 @@ public class QuestionService {
      *
      * @param pageNumber the page number
      * @param pageSize   the page size
+     * @param locale the locale
      * @return question list
      */
     public List<Question> list(final Integer pageNumber,
-                               final Integer pageSize) {
+                               final Integer pageSize,
+                               final Locale locale) {
         String query = "SELECT id,exam_id,question,type,"
                   + "created_by,created_at,modified_at,answer FROM questions";
         query = query + " LIMIT " + pageSize + " OFFSET " + (pageNumber - 1);
