@@ -139,7 +139,7 @@ public class PostgressDatabaseConnectorTest {
      */
     SqlPractice createAndGetExam() throws JsonProcessingException {
         final SqlPractice exam =
-                sqlExamService.create("sql", "user", getExam()).get();
+                sqlExamService.create("sql", "user", null, getExam()).get();
         return exam;
     }
 
@@ -151,7 +151,7 @@ public class PostgressDatabaseConnectorTest {
      */
     Question createAndGQuestion(final Practice exam) {
         final Question question = questionService.create(exam.getId(),
-                QuestionType.MULTI_LINE, getQuestion(),"user").get();
+                QuestionType.MULTI_LINE, null , getQuestion(),"user").get();
         return question;
     }
 

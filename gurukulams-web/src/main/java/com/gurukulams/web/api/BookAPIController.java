@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
@@ -29,6 +30,7 @@ import javax.validation.constraints.NotBlank;
 import java.io.IOException;
 import java.security.Principal;
 import java.util.List;
+import java.util.Locale;
 import java.util.Optional;
 
 /**
@@ -233,6 +235,10 @@ class BookAPIController {
                                                      @RequestBody
                                                              Question
                                                              question,
+                                                     @RequestHeader(
+                                                     name = "Accept-Language",
+                                                     required = false)
+                                                         final Locale locale,
                                                     final Principal principal,
                                   final HttpServletRequest request)
             throws ServletException, IOException {
@@ -240,9 +246,8 @@ class BookAPIController {
                 + "/books/" + bookName
                 + "/questions/" + questionType + "/", "");
 
-
         return ResponseEntity.status(HttpStatus.CREATED).body(
-                bookService.createAQuestion(bookName, questionType,
+                bookService.createAQuestion(bookName, questionType, locale,
                         principal.getName(), question, chapterPath));
     }
 
@@ -273,6 +278,10 @@ class BookAPIController {
                                                              String bookName,
                                                      final @PathVariable
                                                              Integer questionId,
+                                                     @RequestHeader(
+                                                     name = "Accept-Language",
+                                                     required = false)
+                                                     final Locale locale,
                                                      final @PathVariable
                                                              QuestionType
                                                              questionType,
@@ -289,7 +298,8 @@ class BookAPIController {
                 + "/" + questionId + "/", "");
         final Optional<Question> updatedQuestion =
                 bookService.updateQuestion(
-                bookName, questionId, questionType, question, chapterPath);
+                bookName, questionId, locale, questionType,
+                        question, chapterPath);
         return updatedQuestion == null ? ResponseEntity.notFound().build()
                 : ResponseEntity.ok(updatedQuestion);
     }
@@ -351,6 +361,10 @@ class BookAPIController {
     public ResponseEntity<List<Question>>
     findAllQuestionsByChap(final Principal
                                    principal,
+                           @RequestHeader(
+                           name = "Accept-Language",
+                           required = false)
+                           final Locale locale,
                            final
                            @PathVariable
                                    String
@@ -362,7 +376,7 @@ class BookAPIController {
                 + "/questions/", "");
         return ResponseEntity.status(HttpStatus.OK)
                 .body(bookService.listAllQuestions(principal.getName(),
-                bookName, chapterPath));
+                bookName, locale, chapterPath));
     }
 
 

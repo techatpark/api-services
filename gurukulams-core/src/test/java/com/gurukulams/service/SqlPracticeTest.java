@@ -14,8 +14,6 @@ import org.springframework.data.domain.PageRequest;
 
 import java.io.IOException;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
 /**
  * The type Sql exam service test.
  */
@@ -64,7 +62,7 @@ class SqlPracticeTest {
     void testCreate() throws IOException {
         final SqlPractice examToBeCrated = getExam();
         final SqlPractice createdExam =
-                sqlExamService.create("sql", "user", examToBeCrated).get();
+                sqlExamService.create("sql", "user", null, examToBeCrated).get();
         Assertions.assertEquals(EXAM1, createdExam.getName());
     }
 
@@ -78,7 +76,7 @@ class SqlPracticeTest {
     void testUpdate() throws IOException {
         final SqlPractice examToBeCrated = getExam();
         SqlPractice exam =
-                sqlExamService.create("sql", "user", examToBeCrated).get();
+                sqlExamService.create("sql", "user", null,examToBeCrated).get();
         exam.setName("Updated Name");
         exam.setDatabase(Database.H2);
         final Integer newExamId = exam.getId();
@@ -96,7 +94,7 @@ class SqlPracticeTest {
     void testRead() throws IOException {
         final SqlPractice examToBeCrated = getExam();
         final SqlPractice exam =
-                sqlExamService.create("sql", "user", examToBeCrated).get();
+                sqlExamService.create("sql", "user", null, examToBeCrated).get();
         final Integer newExamId = exam.getId();
         Assertions.assertTrue(sqlExamService.read(newExamId).isPresent(),
                 "Exam Created");
@@ -110,7 +108,7 @@ class SqlPracticeTest {
 
             final SqlPractice examToBeCrated = getExam();
             final SqlPractice exam =
-                    sqlExamService.create("sql", "user", examToBeCrated).get();
+                    sqlExamService.create("sql", "user",null, examToBeCrated).get();
             final Integer newExamId = exam.getId();
             sqlExamService.delete(newExamId);
         Assertions.assertFalse(sqlExamService.read(newExamId).isPresent(),
@@ -126,9 +124,9 @@ class SqlPracticeTest {
     @Test
     void testList() throws IOException {
         final SqlPractice examToBeCrated = getExam();
-        sqlExamService.create("sql", "user", examToBeCrated).get();
+        sqlExamService.create("sql", "user", null,examToBeCrated).get();
         final SqlPractice examToBeCrated2 = getExam();
-        sqlExamService.create("sql", "user", examToBeCrated2);
+        sqlExamService.create("sql", "user", null, examToBeCrated2);
         Assertions.assertEquals(2,
                 sqlExamService.page("sql", PageRequest.of(0, 2)).getContent()
                         .size()

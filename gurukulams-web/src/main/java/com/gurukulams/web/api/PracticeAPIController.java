@@ -22,12 +22,14 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 import javax.validation.constraints.NotNull;
 import java.io.IOException;
 import java.security.Principal;
 import java.util.List;
+import java.util.Locale;
 import java.util.Optional;
 
 
@@ -73,6 +75,7 @@ abstract class PracticeAPIController<T extends Practice> {
      *
      * @param principal the principal
      * @param practice  the practice
+     * @param locale locale
      * @return the response entity
      * @throws IOException the io exception
      */
@@ -81,6 +84,10 @@ abstract class PracticeAPIController<T extends Practice> {
             security = @SecurityRequirement(name = "bearerAuth"))
     @PostMapping
     public ResponseEntity<Optional<T>> create(final Principal principal,
+                                              @RequestHeader(
+                                              name = "Accept-Language",
+                                              required = false)
+                                              final Locale locale,
                                               final
                                               @RequestBody
                                                       T
@@ -89,7 +96,7 @@ abstract class PracticeAPIController<T extends Practice> {
 
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(practiceService.create(getType(),
-                        principal.getName(), practice));
+                        principal.getName(), locale, practice));
     }
 
     /**
@@ -197,6 +204,7 @@ abstract class PracticeAPIController<T extends Practice> {
      * @param practiceId   the practice id
      * @param questionType the question type
      * @param question     the question
+     * @param locale locale
      * @return the response entity
      */
     @Operation(summary = "Creates a new question",
@@ -215,6 +223,10 @@ abstract class PracticeAPIController<T extends Practice> {
                                                                  principal,
                                                      final @PathVariable
                                                              Integer practiceId,
+                                                     @RequestHeader(
+                                                     name = "Accept-Language",
+                                                     required = false)
+                                                     final Locale locale,
                                                      final @PathVariable
                                                              QuestionType
                                                              questionType,
@@ -223,7 +235,8 @@ abstract class PracticeAPIController<T extends Practice> {
                                                              Question
                                                              question) {
         return ResponseEntity.status(HttpStatus.CREATED).body(
-                              questionService.create(practiceId, questionType,
+                              questionService.create(practiceId,
+                                      questionType, locale,
                                                        question,
                                       principal.getName()));
     }

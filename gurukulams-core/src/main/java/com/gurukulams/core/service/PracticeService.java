@@ -28,6 +28,7 @@ import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
@@ -174,15 +175,17 @@ public class PracticeService {
      * @param <T>      the type parameter
      * @param type     the type
      * @param createdBy    the createdBy
+     * @param locale    the locale
      * @param practice the practice
      * @return p. optional
      * @throws JsonProcessingException the json processing exception
      */
     public <T extends Practice> Optional<T> create(final String type,
                                                    final String createdBy,
+                                                   final Locale locale,
                                                    final T practice)
             throws JsonProcessingException {
-        return create(type, createdBy, null, practice);
+        return create(type, createdBy, locale, null, practice);
     }
 
     /**
@@ -191,6 +194,7 @@ public class PracticeService {
      * @param <T>      the type parameter
      * @param type     the type
      * @param createdBy    the createdBy
+     * @param locale     the locale
      * @param book     the book
      * @param practice the practice
      * @return p. optional
@@ -198,6 +202,7 @@ public class PracticeService {
      */
     private <T extends Practice> Optional<T> create(final String type,
                                                     final String createdBy,
+                                                    final Locale locale,
                                                     final String book,
                                                     final T practice)
             throws JsonProcessingException {
@@ -243,9 +248,10 @@ public class PracticeService {
      * create if not exists alredy.
      *
      * @param bookName
+     * @param locale
      * @return pracice
      */
-    public Practice getQuestionBank(final String bookName)
+    public Practice getQuestionBank(final String bookName, final Locale locale)
             throws JsonProcessingException {
         Optional<Practice> oPractice = readByBook(bookName);
 
@@ -255,7 +261,7 @@ public class PracticeService {
             practice.setDescription("Question Bank for the bookName "
                     + bookName);
             oPractice = create(bookName,
-                    getOwnerName(bookName), bookName,
+                    getOwnerName(bookName), locale, bookName,
                     practice);
         }
 

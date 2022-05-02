@@ -27,6 +27,7 @@ import java.time.ZonedDateTime;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
@@ -127,13 +128,16 @@ public class QuestionService {
      * @param type       the type
      * @param question   the question
      * @param createdBy  the createdBy
+     * @param locale locale
      * @return question optional
      */
     public Optional<Question> create(final Integer practiceId,
                                      final QuestionType type,
+                                     final Locale locale,
                                      final Question question,
                                      final String createdBy) {
-        return create(practiceId, null, type, createdBy, question);
+        return create(practiceId, null, type,
+                locale, createdBy, question);
     }
 
 
@@ -143,6 +147,7 @@ public class QuestionService {
      * @param practiceId  the practice id
      * @param chapterPath the chapterPath
      * @param type        the type
+     * @param locale the locale
      * @param createdBy    the createdBy
      * @param question    the question
      * @return question optional
@@ -151,6 +156,7 @@ public class QuestionService {
     public Optional<Question> create(final Integer practiceId,
                                      final String chapterPath,
                                      final QuestionType type,
+                                     final Locale locale,
                                      final String createdBy,
                                      final Question question) {
         question.setType(type);
@@ -213,20 +219,22 @@ public class QuestionService {
      * @param questionType the questionType
      * @param question     the question
      * @param createdBy    the createdBy
+     * @param locale       the locale
      * @param chapterPath  chapterPath
      * @return question optional
      */
     public Optional<Question> create(final String bookName,
                                      final QuestionType questionType,
+                                     final Locale locale,
                                      final Question question,
                                      final String createdBy,
                                      final String chapterPath)
             throws JsonProcessingException {
 
-        Practice practice = practiceService.getQuestionBank(bookName);
+        Practice practice = practiceService.getQuestionBank(bookName, locale);
 
         return create(practice.getId(), chapterPath,
-                questionType, createdBy, question);
+                questionType, locale, createdBy, question);
 
     }
 
@@ -284,6 +292,7 @@ public class QuestionService {
      * @param bookName    the exam id
      * @param id          the id
      * @param type        the type
+     * @param locale the locale
      * @param question    the question
      * @param chapterPath the chapterPath
      * @return question optional
@@ -292,11 +301,12 @@ public class QuestionService {
     public Optional<Question> update(final String bookName,
                                      final QuestionType type,
                                      final Integer id,
+                                     final Locale locale,
                                      final Question question,
                                      final String chapterPath)
             throws JsonProcessingException {
 
-        Practice practice = practiceService.getQuestionBank(bookName);
+        Practice practice = practiceService.getQuestionBank(bookName, locale);
 
         return update(practice.getId(), type,
                 id, question);
@@ -485,14 +495,16 @@ public class QuestionService {
      * @param userName    the user name
      * @param bookName    the practice id
      * @param chapterPath the chapterPath
+     * @param locale the locale
      * @return quetions in given exam
      */
     public List<Question> list(final String userName,
                                final String bookName,
+                               final Locale locale,
                                final String chapterPath)
             throws JsonProcessingException {
 
-        Practice practice = practiceService.getQuestionBank(bookName);
+        Practice practice = practiceService.getQuestionBank(bookName, locale);
 
         boolean isOwner = practice.getCreatedBy().equals(userName);
 

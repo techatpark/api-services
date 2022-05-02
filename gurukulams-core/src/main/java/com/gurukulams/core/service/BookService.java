@@ -7,6 +7,7 @@ import com.gurukulams.core.model.UserNote;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Locale;
 import java.util.Optional;
 
 /**
@@ -117,14 +118,16 @@ public class BookService {
      *
      * @param userName the username
      * @param bookName the username
+     * @param locale the locale
      * @param chapterPath the chapterPath
      * @return the optional
      */
     public List<Question> listAllQuestions(final String userName,
                                     final String bookName,
+                                           final Locale locale,
                                            final String chapterPath)
             throws JsonProcessingException {
-        return questionService.list(userName, bookName, chapterPath);
+        return questionService.list(userName, bookName, locale, chapterPath);
 
     }
 
@@ -144,18 +147,20 @@ public class BookService {
      * @param questionType the questionType
      * @param question question
      * @param chapterPath chapterPath
+     * @param locale the locale
      * @param createdBy createdBy
      * @return successflag boolean
      */
     public Optional<Question> createAQuestion(final String bookName,
                                               final QuestionType questionType,
+                                              final Locale locale,
                                               final String createdBy,
                                               final Question question,
                                               final String chapterPath)
             throws JsonProcessingException {
 
 
-        return questionService.create(bookName, questionType,
+        return questionService.create(bookName, questionType, locale,
                 question, createdBy, chapterPath);
     }
 
@@ -180,15 +185,17 @@ public class BookService {
      * @param questionType the questionType
      * @param question question
      * @param chapterPath the chapterPath
+     * @param locale the locale
      * @return successflag boolean
      */
     public Optional<Question> updateQuestion(final String bookName,
                                              final Integer id,
+                                             final Locale locale,
                                              final QuestionType questionType,
                                              final Question question,
                                               final String chapterPath)
             throws JsonProcessingException {
-        return questionService.update(bookName, questionType, id,
+        return questionService.update(bookName, questionType, id, locale,
                 question, chapterPath);
     }
 
