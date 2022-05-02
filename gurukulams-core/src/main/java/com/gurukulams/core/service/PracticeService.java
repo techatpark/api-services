@@ -361,8 +361,8 @@ public class PracticeService {
             final T p = locale == null ? (T) jdbcTemplate
                     .queryForObject(query, new Object[]{newPracticeId},
                             this::rowMapper) : (T) jdbcTemplate
-                    .queryForObject(query, new Object[]{newPracticeId
-                                    ,locale.getLanguage()},
+                    .queryForObject(query, new Object[]{newPracticeId,
+                                    locale.getLanguage()},
                             this::rowMapper);
             return Optional.of(p);
         } catch (final EmptyResultDataAccessException e) {
