@@ -55,6 +55,6 @@ app:
       - myiosapp://oauth2/redirect
 
 admins:
-  maths: tom
+  basic: tom
   physics: jerry
 

@@ -19,6 +19,6 @@ logging:
   level:
     root: ERROR
 admins:
-  maths: tom
+  basic: tom
   physics: jerry
 

@@ -11,6 +11,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Locale;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -106,6 +108,17 @@ public class BoardServiceTest {
 
     @Test
     void testLocalization() {
+        final Board board = boardService.create("mani",null,
+                anBoard());
+
+        boardService.update(board.id(),"mani", Locale.CHINA,anBoard(board,
+                "Chinese Title",
+                "Chinese Description"));
+
+        Optional<Board> createBoard = boardService.read("mani",Locale.CHINA,
+                board.id());
+        Assertions.assertEquals("Chinese Title", createBoard.get().title());
+        Assertions.assertEquals("Chinese Description", createBoard.get().description());
 
     }
 
@@ -115,10 +128,20 @@ public class BoardServiceTest {
      * @return the board
      */
     Board anBoard() {
-
         Board board = new Board(null, "State Board",
                 "A " + "Board", null, null,
                 null, null);
         return board;
+    }
+
+    /**
+     * Gets board from reference board.
+     *
+     * @return the board
+     */
+    Board anBoard(final Board ref,final String title,final String description) {
+        return new Board(ref.id(), title,
+                description, ref.created_at(), ref.created_by(),
+                ref.modified_at(), ref.modified_by());
     }
 }

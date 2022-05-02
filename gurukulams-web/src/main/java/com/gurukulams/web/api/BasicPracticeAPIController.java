@@ -13,10 +13,10 @@ import org.springframework.web.bind.annotation.RestController;
  * The type Maths practice controller.
  */
 @RestController
-@RequestMapping("/api/practices/maths")
-@Tag(name = "Maths Practices",
-        description = "Resource to manage maths practices")
-class MathsPracticeAPIController extends PracticeAPIController<Practice> {
+@RequestMapping("/api/practices/basic")
+@Tag(name = "Basic Practices",
+        description = "Resource to manage basic practices")
+class BasicPracticeAPIController extends PracticeAPIController<Practice> {
     /**
      * Instantiates a new Java practice controller.
      *
@@ -25,7 +25,7 @@ class MathsPracticeAPIController extends PracticeAPIController<Practice> {
      * @param newAnswerService   the new answer service
      * @param userNotesService   the new user note service
      */
-    MathsPracticeAPIController(final PracticeService newPracticeService,
+    BasicPracticeAPIController(final PracticeService newPracticeService,
                                final QuestionService newQuestionService,
                                final AnswerService newAnswerService,
                                final UserNoteService userNotesService) {
@@ -35,6 +35,6 @@ class MathsPracticeAPIController extends PracticeAPIController<Practice> {
 
     @Override
     protected String getType() {
-        return "maths";
+        return "basic";
     }
 }

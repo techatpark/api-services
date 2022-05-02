@@ -134,9 +134,9 @@ public class BoardService {
               ? "SELECT id,title,description,created_by,"
               + "created_at, modified_at, modified_by FROM boards "
               + "WHERE id = ?"
-              : "SELECT boards.id,boards_localized.title"
+              : "SELECT boards.id,boards_localized.title,"
               + "boards_localized.description, boards.created_by,"
-              + "boards.created_at, boards.modified_at"
+              + "boards.created_at, boards.modified_at,"
               + "boards.modified_by FROM boards "
               + "JOIN boards_localized ON boards.id=boards_localized.board_id "
               + "WHERE boards_localized.board_id = ?"
@@ -229,6 +229,7 @@ public class BoardService {
     public void deleteAll() {
         jdbcTemplate.update("DELETE FROM boards_grades_subjects");
         jdbcTemplate.update("DELETE FROM boards_grades");
+        jdbcTemplate.update("DELETE FROM boards_localized");
         jdbcTemplate.update("DELETE FROM boards");
     }
 }
