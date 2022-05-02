@@ -187,7 +187,7 @@ public class BoardService {
                     board.title(), locale.getLanguage(),
                     board.description(), id, locale.getLanguage());
             if (updatedRows == 0) {
-                final Map<String, Object> valueMap = new HashMap<>(3);
+                final Map<String, Object> valueMap = new HashMap<>(4);
                 valueMap.put("board_id", id);
                 valueMap.put("locale", locale.getLanguage());
                 valueMap.put("title", board.title());

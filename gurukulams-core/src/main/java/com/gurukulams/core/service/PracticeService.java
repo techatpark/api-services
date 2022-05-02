@@ -343,14 +343,26 @@ public class PracticeService {
      */
     public <T extends Practice> Optional<T> read(final Integer newPracticeId,
                                                  final Locale locale) {
-        final String query = "SELECT id,name,created_by,type,meta_data,"
+        final String query = locale == null
+                ? "SELECT id,name,created_by,type,meta_data,"
                         + "description,created_at,modified_at "
-                        + "FROM practices WHERE id = ?";
-
+                        + "FROM practices WHERE id = ?"
+                : "SELECT practices.id,practices_localized.name,"
+                + "practices.created_by,practices.type,practices.meta_data,"
+                + "practices_localized.description,practices.created_at,"
+                + "practices.modified_at,"
+                + "practices.modified_by FROM practices "
+                + "JOIN practices_localized ON "
+                + "practices.id=practices_localized.practice_id "
+                + "WHERE practices_localized.practice_id = ?"
+                + "AND practices_localized.locale = ?";
 
         try {
-            final T p = (T) jdbcTemplate
+            final T p = locale == null ? (T) jdbcTemplate
                     .queryForObject(query, new Object[]{newPracticeId},
+                            this::rowMapper) : (T) jdbcTemplate
+                    .queryForObject(query, new Object[]{newPracticeId
+                                    ,locale.getLanguage()},
                             this::rowMapper);
             return Optional.of(p);
         } catch (final EmptyResultDataAccessException e) {
@@ -376,15 +388,39 @@ public class PracticeService {
         Set<ConstraintViolation<Practice>> violations = validator
                 .validate(practice);
         if (violations.isEmpty()) {
-            final String query =
-                    "UPDATE practices SET name=?, meta_data=?,"
+            final String query = locale == null
+                    ? "UPDATE practices SET name=?, meta_data=?,"
                             + "description=?, modified_at=CURRENT_TIMESTAMP "
+                            + "WHERE id = ?"
+                    : "UPDATE practices SET meta_data=?,"
+                            + "modified_at=CURRENT_TIMESTAMP "
                             + "WHERE id = ?";
-            final Integer updatedRows = jdbcTemplate.update(query,
+            Integer updatedRows = locale == null
+                    ? jdbcTemplate.update(query,
                     practice.getName(),
                     getMetadata(practice),
-                    practice.getDescription(), id);
-            return updatedRows == 0 ? null : read(id, locale);
+                    practice.getDescription(), id)
+                    : jdbcTemplate.update(query,
+                            getMetadata(practice),
+                            id);
+            if (updatedRows == 0) {
+                throw new IllegalArgumentException("Practice not found");
+            } else if (locale != null) {
+                updatedRows = jdbcTemplate.update(
+                        "UPDATE practices_localized SET name=?,locale=?,"
+                        + "description=? WHERE practice_id=? AND locale=?",
+                        practice.getName(), locale.getLanguage(),
+                        practice.getDescription(), id, locale.getLanguage());
+                if (updatedRows == 0) {
+                    final Map<String, Object> valueMap = new HashMap<>(4);
+                    valueMap.put("practice_id", id);
+                    valueMap.put("locale", locale.getLanguage());
+                    valueMap.put("name", practice.getName());
+                    valueMap.put("description", practice.getDescription());
+                    createLocalizedBoard(valueMap);
+                }
+            }
+            return read(id, locale);
         } else {
             throw new ConstraintViolationException(violations);
         }
