@@ -108,17 +108,26 @@ public class BoardServiceTest {
 
     @Test
     void testLocalization() {
+        // Create a Board
         final Board board = boardService.create("mani",null,
                 anBoard());
 
+        // Update for China Language
         boardService.update(board.id(),"mani", Locale.CHINA,anBoard(board,
                 "Chinese Title",
                 "Chinese Description"));
 
+        // Get for China Language
         Optional<Board> createBoard = boardService.read("mani",Locale.CHINA,
                 board.id());
         Assertions.assertEquals("Chinese Title", createBoard.get().title());
         Assertions.assertEquals("Chinese Description", createBoard.get().description());
+
+        // Get for France which does not have data
+        createBoard = boardService.read("mani",Locale.FRANCE,
+                board.id());
+        Assertions.assertEquals("State Board", createBoard.get().title());
+        Assertions.assertEquals("State Board Description", createBoard.get().description());
 
     }
 
@@ -129,7 +138,7 @@ public class BoardServiceTest {
      */
     Board anBoard() {
         Board board = new Board(null, "State Board",
-                "A " + "Board", null, null,
+                "State Board Description", null, null,
                 null, null);
         return board;
     }
