@@ -152,7 +152,7 @@ public class BoardService {
                                     this::rowMapper);
             return Optional.of(p);
         } catch (final EmptyResultDataAccessException e) {
-            return Optional.empty();
+            return locale == null ? Optional.empty() : read(userName,null, id);
         }
     }
 
