@@ -236,8 +236,7 @@ public class BoardService {
                             final Locale locale) {
         final String query = locale == null
                 ? "SELECT id,title,description,created_by,"
-                + "created_at, modified_at, modified_by FROM boards "
-                + "WHERE id = ?"
+                + "created_at, modified_at, modified_by FROM boards"
                 : "SELECT DISTINCT b.ID, "
                 + "CASE WHEN bl.LOCALE = ? "
                 + "THEN bl.TITLE "
