@@ -134,25 +134,41 @@ public class BoardService {
               ? "SELECT id,title,description,created_by,"
               + "created_at, modified_at, modified_by FROM boards "
               + "WHERE id = ?"
-              : "SELECT boards.id,boards_localized.title,"
-              + "boards_localized.description, boards.created_by,"
-              + "boards.created_at, boards.modified_at,"
-              + "boards.modified_by FROM boards "
-              + "JOIN boards_localized ON boards.id=boards_localized.board_id "
-              + "WHERE boards_localized.board_id = ?"
-              + "AND boards_localized.locale = ?";
+              : "SELECT DISTINCT b.ID, "
+              + "CASE WHEN bl.LOCALE = ? "
+                + "THEN bl.TITLE "
+                + "ELSE b.TITLE "
+                + "END AS TITLE, "
+                + "CASE WHEN bl.LOCALE = ? "
+                + "THEN bl.DESCRIPTION "
+                + "ELSE b.DESCRIPTION "
+                + "END AS DESCRIPTION,"
+                + "created_by,created_at, modified_at, modified_by "
+                + "FROM BOARDS b "
+                + "LEFT JOIN BOARDS_LOCALIZED bl "
+                + "ON b.ID = bl.BOARD_ID "
+                + "WHERE b.ID = ? "
+                + "AND (bl.LOCALE IS NULL "
+                + "OR bl.LOCALE = ? OR "
+                + "b.ID NOT IN "
+                + "(SELECT BOARD_ID FROM BOARDS_LOCALIZED "
+                + "WHERE BOARD_ID=b.ID AND LOCALE = ?))";
 
         try {
             final Board p = locale == null ? jdbcTemplate
                     .queryForObject(query, new Object[]{id},
                             this::rowMapper)
                     : jdbcTemplate
-                            .queryForObject(query, new Object[]{id,
+                            .queryForObject(query, new Object[]{
+                                            locale.getLanguage(),
+                                            locale.getLanguage(),
+                                            id,
+                                            locale.getLanguage(),
                                             locale.getLanguage()},
                                     this::rowMapper);
             return Optional.of(p);
         } catch (final EmptyResultDataAccessException e) {
-            return locale == null ? Optional.empty() : read(userName, null, id);
+            return Optional.empty();
         }
     }
 
@@ -213,12 +229,42 @@ public class BoardService {
     /**
      * list the board.
      * @param userName the userName
+     * @param locale the locale
      * @return board optional
      */
-    public List<Board> list(final String userName) {
-        String query = "SELECT id,title,description,created_by,"
-                + "created_at,modified_at,modified_by FROM boards";
-        return jdbcTemplate.query(query, this::rowMapper);
+    public List<Board> list(final String userName,
+                            final Locale locale) {
+        final String query = locale == null
+                ? "SELECT id,title,description,created_by,"
+                + "created_at, modified_at, modified_by FROM boards "
+                + "WHERE id = ?"
+                : "SELECT DISTINCT b.ID, "
+                + "CASE WHEN bl.LOCALE = ? "
+                + "THEN bl.TITLE "
+                + "ELSE b.TITLE "
+                + "END AS TITLE, "
+                + "CASE WHEN bl.LOCALE = ? "
+                + "THEN bl.DESCRIPTION "
+                + "ELSE b.DESCRIPTION "
+                + "END AS DESCRIPTION,"
+                + "created_by,created_at, modified_at, modified_by "
+                + "FROM BOARDS b "
+                + "LEFT JOIN BOARDS_LOCALIZED bl "
+                + "ON b.ID = bl.BOARD_ID "
+                + "WHERE bl.LOCALE IS NULL "
+                + "OR bl.LOCALE = ? OR "
+                + "b.ID NOT IN "
+                + "(SELECT BOARD_ID FROM BOARDS_LOCALIZED "
+                + "WHERE BOARD_ID=b.ID AND LOCALE = ?)";
+        return locale == null
+                ? jdbcTemplate.query(query, this::rowMapper)
+                : jdbcTemplate
+                    .query(query, new Object[]{
+                                locale.getLanguage(),
+                                locale.getLanguage(),
+                                locale.getLanguage(),
+                                locale.getLanguage()},
+                        this::rowMapper);
 
     }
 

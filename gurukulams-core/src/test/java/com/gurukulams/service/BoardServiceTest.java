@@ -101,7 +101,7 @@ public class BoardServiceTest {
                 "Board", null, "tom", null, null);
         boardService.create("mani",null,
                 newBoard);
-        List<Board> listofboard = boardService.list("manikanta");
+        List<Board> listofboard = boardService.list("manikanta",null);
         Assertions.assertEquals(2, listofboard.size());
 
     }
@@ -118,16 +118,32 @@ public class BoardServiceTest {
                 "Chinese Description"));
 
         // Get for China Language
-        Optional<Board> createBoard = boardService.read("mani",Locale.CHINA,
-                board.id());
-        Assertions.assertEquals("Chinese Title", createBoard.get().title());
-        Assertions.assertEquals("Chinese Description", createBoard.get().description());
+        Board createBoard = boardService.read("mani",Locale.CHINA,
+                board.id()).get();
+        Assertions.assertEquals("Chinese Title", createBoard.title());
+        Assertions.assertEquals("Chinese Description", createBoard.description());
+
+        final Long id = createBoard.id();
+        createBoard = boardService.list("mani",Locale.CHINA)
+                .stream()
+                .filter(board1 -> board1.id().equals(id))
+                .findFirst().get();
+        Assertions.assertEquals("Chinese Title", createBoard.title());
+        Assertions.assertEquals("Chinese Description", createBoard.description());
 
         // Get for France which does not have data
         createBoard = boardService.read("mani",Locale.FRANCE,
-                board.id());
-        Assertions.assertEquals("State Board", createBoard.get().title());
-        Assertions.assertEquals("State Board Description", createBoard.get().description());
+                board.id()).get();
+        Assertions.assertEquals("State Board", createBoard.title());
+        Assertions.assertEquals("State Board Description", createBoard.description());
+
+        createBoard = boardService.list("mani",Locale.FRANCE)
+                .stream()
+                .filter(board1 -> board1.id().equals(id))
+                .findFirst().get();
+
+        Assertions.assertEquals("State Board", createBoard.title());
+        Assertions.assertEquals("State Board Description", createBoard.description());
 
     }
 
