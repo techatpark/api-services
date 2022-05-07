@@ -171,6 +171,7 @@ class BoardAPIController {
     /**
      * List the Boards.
      * @param principal
+     * @param locale
      * @return list of board
      */
     @Operation(summary = "lists the board",
@@ -184,9 +185,12 @@ class BoardAPIController {
                     description = "invalid credentials")})
     @GetMapping(produces = "application/json")
     public ResponseEntity<List<Board>> list(final Principal
-                                                       principal) {
+                                                       principal,
+                                        @RequestHeader(name = "Accept-Language",
+                                                required = false)
+                                        final Locale locale) {
         final List<Board> boardList = boardService.list(
-                principal.getName());
+                principal.getName(), locale);
         return boardList.isEmpty() ? ResponseEntity.noContent().build()
                 : ResponseEntity.ok(boardList);
     }
