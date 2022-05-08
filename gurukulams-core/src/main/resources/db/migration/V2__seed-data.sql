@@ -1,4 +1,5 @@
 INSERT INTO boards(title,description,created_by) VALUES('TN State board','Tamilnadu State Board','tom');
+INSERT INTO BOARDS_LOCALIZED (BOARD_ID ,LOCALE ,title,description) VALUES(1, 'ta', 'தமிழ் பள்ளிக் கல்வி','தமிழ் பள்ளிக் கல்வித்துறை');
 
 --INSERT INTO grades(title,description,created_by) VALUES ('12 Standard','12 Standard','tom');
 INSERT INTO grades(title,description,created_by) VALUES ('11 Standard','11 Standard','tom');
