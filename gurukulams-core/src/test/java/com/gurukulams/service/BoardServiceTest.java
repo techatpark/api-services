@@ -12,7 +12,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
-import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -21,6 +20,10 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 @SpringBootTest
 public class BoardServiceTest {
 
+    public static final String STATE_BOARD_IN_ENGLISH = "State Board";
+    public static final String STATE_BOARD_DESCRIPTION_IN_ENGLISH = "State Board Description";
+    public static final String STATE_BOARD_TITLE_IN_FRENCH = "Conseil d'État";
+    public static final String STATE_BOARD_DESCRIPTION_IN_FRENCH = "Description du conseil d'État";
     @Autowired
     private BoardService boardService;
 
@@ -113,37 +116,38 @@ public class BoardServiceTest {
                 anBoard());
 
         // Update for China Language
-        boardService.update(board.id(),"mani", Locale.CHINA,anBoard(board,
-                "Chinese Title",
-                "Chinese Description"));
+        boardService.update(board.id(),"mani", Locale.FRENCH,anBoard(board,
+                STATE_BOARD_TITLE_IN_FRENCH,
+                STATE_BOARD_DESCRIPTION_IN_FRENCH));
 
-        // Get for China Language
-        Board createBoard = boardService.read("mani",Locale.CHINA,
+        // Get for french Language
+        Board createBoard = boardService.read("mani",Locale.FRENCH,
                 board.id()).get();
-        Assertions.assertEquals("Chinese Title", createBoard.title());
-        Assertions.assertEquals("Chinese Description", createBoard.description());
+        Assertions.assertEquals(STATE_BOARD_TITLE_IN_FRENCH, createBoard.title());
+        Assertions.assertEquals(STATE_BOARD_DESCRIPTION_IN_FRENCH, createBoard.description());
 
         final Long id = createBoard.id();
-        createBoard = boardService.list("mani",Locale.CHINA)
+        createBoard = boardService.list("mani",Locale.FRENCH)
                 .stream()
                 .filter(board1 -> board1.id().equals(id))
                 .findFirst().get();
-        Assertions.assertEquals("Chinese Title", createBoard.title());
-        Assertions.assertEquals("Chinese Description", createBoard.description());
+        Assertions.assertEquals(STATE_BOARD_TITLE_IN_FRENCH, createBoard.title());
+        Assertions.assertEquals(STATE_BOARD_DESCRIPTION_IN_FRENCH,
+                createBoard.description());
 
         // Get for France which does not have data
-        createBoard = boardService.read("mani",Locale.FRANCE,
+        createBoard = boardService.read("mani",Locale.CHINESE,
                 board.id()).get();
-        Assertions.assertEquals("State Board", createBoard.title());
-        Assertions.assertEquals("State Board Description", createBoard.description());
+        Assertions.assertEquals(STATE_BOARD_IN_ENGLISH, createBoard.title());
+        Assertions.assertEquals(STATE_BOARD_DESCRIPTION_IN_ENGLISH, createBoard.description());
 
-        createBoard = boardService.list("mani",Locale.FRANCE)
+        createBoard = boardService.list("mani",Locale.CHINESE)
                 .stream()
                 .filter(board1 -> board1.id().equals(id))
                 .findFirst().get();
 
-        Assertions.assertEquals("State Board", createBoard.title());
-        Assertions.assertEquals("State Board Description", createBoard.description());
+        Assertions.assertEquals(STATE_BOARD_IN_ENGLISH, createBoard.title());
+        Assertions.assertEquals(STATE_BOARD_DESCRIPTION_IN_ENGLISH, createBoard.description());
 
     }
 
@@ -153,8 +157,8 @@ public class BoardServiceTest {
      * @return the board
      */
     Board anBoard() {
-        Board board = new Board(null, "State Board",
-                "State Board Description", null, null,
+        Board board = new Board(null, STATE_BOARD_IN_ENGLISH,
+                STATE_BOARD_DESCRIPTION_IN_ENGLISH, null, null,
                 null, null);
         return board;
     }
