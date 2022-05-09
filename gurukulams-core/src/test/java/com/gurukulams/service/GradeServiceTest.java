@@ -54,9 +54,9 @@ public class GradeServiceTest {
     void create(){
         final Board board = boardService.create("mani",null,
                 aBoard());
-        final Grade grade = gradeService.create("mani",
+        final Grade grade = gradeService.create("mani", null,
                 aGrade());
-        Assertions.assertTrue(gradeService.read("mani",grade.id()).isPresent(),
+        Assertions.assertTrue(gradeService.read("mani", null,grade.id()).isPresent(),
                 "Created Grade");
     }
 
@@ -64,10 +64,10 @@ public class GradeServiceTest {
     void read() {
         final Board board = boardService.create("mani",null,
                 aBoard());
-        final Grade grade = gradeService.create("mani",
+        final Grade grade = gradeService.create("mani", null,
                 aGrade());
         final Long newGradeId = grade.id();
-        Assertions.assertTrue(gradeService.read("mani",
+        Assertions.assertTrue(gradeService.read("mani", null,
                         newGradeId).isPresent(),
                 "Grade Created");
     }
@@ -76,18 +76,18 @@ public class GradeServiceTest {
     void update() {
         final Board board = boardService.create("mani",null,
                 aBoard());
-        final Grade grade = gradeService.create("mani",
+        final Grade grade = gradeService.create("mani", null,
                 aGrade());
         final Long newGradeId = grade.id();
         Grade newGrade = new Grade(null, "Grade", "A " +
                 "Grade", null, "tom", null, null);
         Grade updatedGrade = gradeService
-                .update(newGradeId, "manikanta", newGrade);
+                .update(newGradeId, "manikanta", null,  newGrade);
         Assertions.assertEquals("Grade", updatedGrade.title(), "Updated");
 
         Assertions.assertThrows(IllegalArgumentException.class, () -> {
             gradeService
-                    .update(10000L, "manikanta", newGrade);
+                    .update(10000L, "manikanta", null, newGrade);
         });
     }
 
@@ -96,10 +96,10 @@ public class GradeServiceTest {
 
         final Board board = boardService.create("mani",null,
                 aBoard());
-        final Grade grade = gradeService.create("mani",
+        final Grade grade = gradeService.create("mani", null,
                 aGrade());
         gradeService.delete("mani",grade.id());
-        Assertions.assertFalse(gradeService.read("mani",grade.id()).isPresent(),
+        Assertions.assertFalse(gradeService.read("mani", null,grade.id()).isPresent(),
                 "Deleted Grade");
 
     }
@@ -109,13 +109,13 @@ public class GradeServiceTest {
 
         final Board board = boardService.create("mani",null,
                 aBoard());
-        final Grade grade = gradeService.create("manikanta",
+        final Grade grade = gradeService.create("manikanta", null,
                 aGrade());
         Grade newGrade = new Grade(null, "Grade New", "A " +
                 "Grade", null, "tom", null, null);
-        gradeService.create("manikanta",
+        gradeService.create("manikanta", null,
                 newGrade);
-        List<Grade> listofgrade = gradeService.list("manikanta");
+        List<Grade> listofgrade = gradeService.list("manikanta", null);
         Assertions.assertEquals(2, listofgrade.size());
 
     }
@@ -124,12 +124,12 @@ public class GradeServiceTest {
     void listByBoard() {
         final Board board = boardService.create("mani",null,
                 aBoard());
-        final Grade grade = gradeService.create("manikanta",
+        final Grade grade = gradeService.create("manikanta", null,
                 aGrade());
 
         Assertions.assertTrue(gradeService.addToBoard("tom",grade.id(),board.id()),"Unable to add grade to board");
 
-        Assertions.assertEquals(1,gradeService.list("tom",board.id()).size(),"Unable to list grades");
+        Assertions.assertEquals(1,gradeService.list("tom",null, board.id()).size(),"Unable to list grades");
 
     }
 

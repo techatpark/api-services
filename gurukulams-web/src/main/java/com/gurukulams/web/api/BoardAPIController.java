@@ -199,6 +199,7 @@ class BoardAPIController {
     /**
      * List the Grades.
      * @param principal
+     * @param locale
      * @param id
      * @return list of grades
      */
@@ -213,9 +214,13 @@ class BoardAPIController {
                     description = "invalid credentials")})
     @GetMapping("/{id}/grades")
     public ResponseEntity<List<Grade>> list(final Principal principal,
+                                            @RequestHeader
+                                                    (name = "Accept-Language",
+                                                            required = false)
+                                            final Locale locale,
                                             @PathVariable final Long id) {
         final List<Grade> gradeList = gradeService.list(
-                principal.getName(), id);
+                principal.getName(), locale, id);
         return gradeList.isEmpty() ? ResponseEntity.noContent().build()
                 : ResponseEntity.ok(gradeList);
 

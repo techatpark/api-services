@@ -116,7 +116,7 @@ public class SubjectsServiceTest {
 
         final Board board = boardService.create("mani",null,
                 anBoard());
-        final Grade grade = gradeService.create("tom", aGrade());
+        final Grade grade = gradeService.create("tom", null, aGrade());
         final Subject subject = subjectService.create("tom",anSubject());
 
         Assertions.assertTrue(subjectService.addToBoardsGrades("tom", board.id(), grade.id(), subject.id()),"Unable to add subject ");

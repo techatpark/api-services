@@ -96,6 +96,15 @@ CREATE TABLE grades (
     CONSTRAINT grades_title_constraint UNIQUE (title)
 );
 
+CREATE TABLE grades_localized (
+    grade_id INT,
+    locale VARCHAR(8) NOT NULL,
+    title VARCHAR(55),
+    description TEXT,
+    FOREIGN KEY (grade_id) REFERENCES grades (id),
+    PRIMARY KEY(grade_id, locale)
+);
+
 CREATE TABLE syllabus (
     id INT auto_increment PRIMARY KEY,
     title VARCHAR(55),

@@ -11,20 +11,22 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.DeleteMapping;
 
 
 import java.net.URI;
 import java.security.Principal;
 import java.util.List;
+import java.util.Locale;
 
 @RestController
 @RequestMapping("/api/grades")
@@ -62,8 +64,12 @@ class GradeAPIController {
                                           consumes = "application/json")
         public ResponseEntity<Grade> create(@PathVariable final Long boardId,
                                             final Principal principal,
+                                            @RequestHeader
+                                            (name = "Accept-Language",
+                                                    required = false)
+                                                    final Locale locale,
                                                final @RequestBody Grade grade) {
-            Grade created = gradeService.create(principal.getName(),
+            Grade created = gradeService.create(principal.getName(), locale,
                     grade);
             return ResponseEntity.created(URI.create("/api/grade"
                                                          + created.id()))
@@ -81,9 +87,13 @@ class GradeAPIController {
 
         @GetMapping("/{id}")
         public ResponseEntity<Grade> read(@PathVariable final Long id,
+                                          @RequestHeader
+                                          (name = "Accept-Language",
+                                                  required = false)
+                                          final Locale locale,
                                        final Principal principal) {
                 return ResponseEntity.of(gradeService
-                        .read(principal.getName(), id));
+                        .read(principal.getName(), locale, id));
         }
 
         @Operation(summary = "Updates the grade by given id",
@@ -103,12 +113,16 @@ class GradeAPIController {
         public ResponseEntity<Grade> update(@PathVariable final Long id,
                                                final Principal
                                                        principal,
+                                            @RequestHeader
+                                            (name = "Accept-Language",
+                                                    required = false)
+                                                    final Locale locale,
                                                final @RequestBody
                                                        Grade
                                                        grade)
                 throws JsonProcessingException {
                 final Grade updatedGrade =
-                        gradeService.update(id, principal.getName(),
+                        gradeService.update(id, principal.getName(), locale,
                                 grade);
                 return updatedGrade == null ? ResponseEntity.notFound().build()
                         : ResponseEntity.ok(updatedGrade);
@@ -142,9 +156,14 @@ class GradeAPIController {
                         description = "invalid credentials")})
         @GetMapping(produces = "application/json")
         public ResponseEntity<List<Grade>> list(final Principal
-                                                           principal) {
+                                                           principal,
+                                                @RequestHeader
+                                                (name = "Accept-Language",
+                                                        required = false)
+                                                final Locale locale
+                                                ) {
                 final List<Grade> gradeList = gradeService.list(principal
-                        .getName());
+                        .getName(), locale);
                 return gradeList.isEmpty() ? ResponseEntity.noContent().build()
                         : ResponseEntity.ok(gradeList);
         }

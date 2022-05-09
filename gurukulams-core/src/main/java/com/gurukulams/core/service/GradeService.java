@@ -14,8 +14,10 @@ import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Optional;
+
 
 @Service
 public class GradeService {
@@ -38,8 +40,9 @@ public class GradeService {
 
     /**
      * this is the constructor.
+     *
      * @param ajdbcTemplate a jdbcTemplate
-     * @param adataSource a dataSource
+     * @param adataSource   a dataSource
      */
     public GradeService(final JdbcTemplate ajdbcTemplate,
                         final DataSource adataSource) {
@@ -72,11 +75,14 @@ public class GradeService {
 
     /**
      * creates new grade.
+     *
      * @param userName the userName
-     * @param grade the grade
+     * @param grade    the grade
+     * @param locale the locale
      * @return grade optional
      */
     public Grade create(final String userName,
+                        final Locale locale,
                         final Grade grade) {
         final SimpleJdbcInsert insert = new SimpleJdbcInsert(dataSource)
                 .withTableName("grades").usingGeneratedKeyColumns("id")
@@ -91,7 +97,7 @@ public class GradeService {
 
         final Number gradeId = insert.executeAndReturnKey(valueMap);
         final Optional<Grade> createdGrade =
-                read(userName, gradeId.longValue());
+                read(userName, null, gradeId.longValue());
 
         logger.info("grade Created {}", gradeId);
 
@@ -100,11 +106,14 @@ public class GradeService {
 
     /**
      * reads from grade.
-     * @param id the id
+     *
+     * @param id       the id
      * @param userName the userName
+     * @param locale
      * @return gread optional
      */
     public Optional<Grade> read(final String userName,
+                                final Locale locale,
                                 final Long id) {
         final String query = "SELECT id,title,description,created_by,"
                 + "created_at, modified_at, modified_by FROM grades "
@@ -122,13 +131,16 @@ public class GradeService {
 
     /**
      * update the grade.
-     * @param id the id
+     *
+     * @param id       the id
      * @param userName the userName
-     * @param grade the grade
+     * @param grade    the grade
+     * @param locale
      * @return grade optional
      */
     public Grade update(final Long id,
                         final String userName,
+                        final Locale locale,
                         final Grade grade) {
         logger.debug("Entering update for Grade {}", id);
         final String query = "UPDATE grades SET title=?,"
@@ -140,12 +152,13 @@ public class GradeService {
             logger.error("Update not found", id);
             throw new IllegalArgumentException("Grade not found");
         }
-        return read(userName, id).get();
+        return read(userName, null, id).get();
     }
 
     /**
      * delete the grade.
-     * @param id the id
+     *
+     * @param id       the id
      * @param userName the userName
      * @return grade optional
      */
@@ -158,10 +171,13 @@ public class GradeService {
 
     /**
      * list the grade.
+     *
      * @param userName the userName
+     * @param locale
      * @return grade optional
      */
-    public List<Grade> list(final String userName) {
+    public List<Grade> list(final String userName,
+                            final Locale locale) {
         String query = "SELECT id,title,description,created_by,"
                 + "created_at,modified_at,modified_by FROM grades";
         return jdbcTemplate.query(query, this::rowMapper);
@@ -170,9 +186,10 @@ public class GradeService {
 
     /**
      * Adds grade to board.
+     *
      * @param userName the userName
-     * @param gradeId the gradeId
-     * @param boardId the boardId
+     * @param gradeId  the gradeId
+     * @param boardId  the boardId
      * @return grade optional
      */
     public boolean addToBoard(final String userName, final Long gradeId,
@@ -195,11 +212,15 @@ public class GradeService {
 
     /**
      * list the grade by board.
+     *
      * @param userName the userName
-     * @param boardId the boardId
+     * @param boardId  the boardId
+     * @param locale
      * @return grade optional
      */
-    public List<Grade> list(final String userName, final Long boardId) {
+    public List<Grade> list(final String userName,
+                            final Locale locale,
+                            final Long boardId) {
         String query = "SELECT id,title,description,created_by,"
                 + "created_at,modified_at,modified_by FROM grades "
                 + "JOIN boards_grades ON grades.id=boards_grades.grade_id"
@@ -209,11 +230,11 @@ public class GradeService {
 
     /**
      * Cleaning up all grades.
-     *
      */
     public void deleteAllForTestCase() {
         jdbcTemplate.update("DELETE FROM boards_grades");
         jdbcTemplate.update("DELETE FROM boards_grades_subjects");
+        jdbcTemplate.update("DELETE FROM grades_localized");
         jdbcTemplate.update("DELETE FROM grades");
     }
 }
