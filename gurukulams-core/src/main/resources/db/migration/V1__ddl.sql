@@ -6,14 +6,12 @@ CREATE TABLE practices (
   id INT auto_increment PRIMARY KEY,
   name VARCHAR(55) NOT NULL,
   description TEXT,
-  book VARCHAR(55),
   type VARCHAR(55) NOT NULL,
   meta_data TEXT,
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   created_by VARCHAR(55) NOT NULL,
   modified_at TIMESTAMP,
-  modified_by VARCHAR(200),
-  CONSTRAINT book_constraint UNIQUE (book)
+  modified_by VARCHAR(200)
 );
 
 CREATE TABLE practices_localized (

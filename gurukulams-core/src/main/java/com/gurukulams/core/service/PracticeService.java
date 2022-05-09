@@ -175,35 +175,14 @@ public class PracticeService {
      * @param <T>      the type parameter
      * @param type     the type
      * @param createdBy    the createdBy
-     * @param locale    the locale
+     * @param locale     the locale
      * @param practice the practice
      * @return p. optional
      * @throws JsonProcessingException the json processing exception
      */
     public <T extends Practice> Optional<T> create(final String type,
-                                                   final String createdBy,
-                                                   final Locale locale,
-                                                   final T practice)
-            throws JsonProcessingException {
-        return create(type, createdBy, locale, null, practice);
-    }
-
-    /**
-     * inserts data to database.
-     *
-     * @param <T>      the type parameter
-     * @param type     the type
-     * @param createdBy    the createdBy
-     * @param locale     the locale
-     * @param book     the book
-     * @param practice the practice
-     * @return p. optional
-     * @throws JsonProcessingException the json processing exception
-     */
-    private <T extends Practice> Optional<T> create(final String type,
                                                     final String createdBy,
                                                     final Locale locale,
-                                                    final String book,
                                                     final T practice)
             throws JsonProcessingException {
 
@@ -216,7 +195,6 @@ public class PracticeService {
                     .usingColumns("name",
                             "type",
                             "created_by",
-                            "book",
                             "description",
                             "meta_data");
             final String metaData = getMetadata(practice);
@@ -225,7 +203,6 @@ public class PracticeService {
                     practice.getName());
             valueMap.put("type", type);
             valueMap.put("created_by", createdBy);
-            valueMap.put("book", book);
             valueMap.put("description", practice.getDescription());
             valueMap.put("meta_data", metaData);
             final Number examId = insert.executeAndReturnKey(valueMap);
@@ -279,7 +256,7 @@ public class PracticeService {
             practice.setDescription("Question Bank for the bookName "
                     + bookName);
             oPractice = create(bookName,
-                    getOwnerName(bookName), locale, bookName,
+                    getOwnerName(bookName), locale,
                     practice);
         }
 
