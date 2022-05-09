@@ -63,7 +63,7 @@ class SqlPracticeTest {
         final SqlPractice examToBeCrated = getExam();
         final SqlPractice createdExam =
                 sqlExamService.create("sql", "user", null, examToBeCrated).get();
-        Assertions.assertEquals(EXAM1, createdExam.getName());
+        Assertions.assertEquals(EXAM1, createdExam.getTitle());
     }
 
 
@@ -77,11 +77,11 @@ class SqlPracticeTest {
         final SqlPractice examToBeCrated = getExam();
         SqlPractice exam =
                 sqlExamService.create("sql", "user", null,examToBeCrated).get();
-        exam.setName("Updated Name");
+        exam.setTitle("Updated Name");
         exam.setDatabase(Database.H2);
         final Integer newExamId = exam.getId();
         exam = sqlExamService.update(newExamId, null, exam).get();
-        Assertions.assertEquals("Updated Name", exam.getName(), "Updated");
+        Assertions.assertEquals("Updated Name", exam.getTitle(), "Updated");
         Assertions.assertEquals(Database.H2, exam.getDatabase(), "Updated");
     }
 
@@ -143,7 +143,7 @@ class SqlPracticeTest {
      */
     SqlPractice getExam() {
         final SqlPractice exam = new SqlPractice();
-        exam.setName(EXAM1);
+        exam.setTitle(EXAM1);
         exam.setDatabase(Database.H2);
         exam.setScript(TestUtil.getScript(exam));
         exam.setDescription("description");

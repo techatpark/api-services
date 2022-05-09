@@ -103,7 +103,7 @@ public class PostgressDatabaseConnectorTest {
      */
     SqlPractice getExam() {
         final SqlPractice exam = new SqlPractice();
-        exam.setName("Exam_1");
+        exam.setTitle("Exam_1");
         exam.setDatabase(Database.H2);
         exam.setScript(TestUtil.getScript(exam));
         exam.setDescription("description");

@@ -73,7 +73,7 @@ class BasicPracticeTest {
     @Test
     void create() throws IOException {
         final Practice practice=practiceService.create("Basic", "Mani", null,anPractice()).get();
-        Assertions.assertEquals("Java Practice", practice.getName(), "Created Successfully");
+        Assertions.assertEquals("Java Practice", practice.getTitle(), "Created Successfully");
     }
 
     @Test
@@ -96,7 +96,7 @@ class BasicPracticeTest {
     Practice anPractice() {
         final Practice practice = new Practice();
         practice.setId(null);
-        practice.setName("Java Practice");
+        practice.setTitle("Java Practice");
         practice.setDescription("Test Practice description");
         return practice;
     }

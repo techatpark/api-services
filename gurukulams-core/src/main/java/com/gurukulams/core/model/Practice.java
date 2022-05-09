@@ -15,10 +15,10 @@ public class Practice {
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private Integer id;
     /**
-     * tells the name of exam.
+     * tells the title of exam.
      */
-    @NotBlank(message = "name is mandatory")
-    private String name;
+    @NotBlank(message = "title is mandatory")
+    private String title;
 
     /**
      * tells the description of exam.
@@ -66,21 +66,21 @@ public class Practice {
     }
 
     /**
-     * gets the name of exam.
+     * gets the title of exam.
      *
-     * @return name name
+     * @return title title
      */
-    public String getName() {
-        return name;
+    public String getTitle() {
+        return title;
     }
 
     /**
-     * sets the exam name.
+     * sets the exam title.
      *
-     * @param aName the a name
+     * @param aTitle the a title
      */
-    public void setName(final String aName) {
-        this.name = aName;
+    public void setTitle(final String aTitle) {
+        this.title = aTitle;
     }
 
     /**

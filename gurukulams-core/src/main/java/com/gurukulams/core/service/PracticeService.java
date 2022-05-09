@@ -120,7 +120,7 @@ public class PracticeService {
             }
         }
         practice.setId(rs.getInt("id"));
-        practice.setName(rs.getString("name"));
+        practice.setTitle(rs.getString("title"));
         practice.setCreatedBy(rs.getString("created_by"));
         practice.setDescription(rs.getString("description"));
 
@@ -162,7 +162,7 @@ public class PracticeService {
         if (!practice.getClass().equals(Practice.class)) {
             final ObjectNode oNode = objectMapper.valueToTree(practice);
             oNode.remove("id");
-            oNode.remove("name");
+            oNode.remove("title");
             oNode.remove("description");
             return objectMapper.writeValueAsString(oNode);
         }
@@ -192,15 +192,15 @@ public class PracticeService {
             final SimpleJdbcInsert insert = new SimpleJdbcInsert(dataSource)
                     .withTableName("practices")
                     .usingGeneratedKeyColumns("id")
-                    .usingColumns("name",
+                    .usingColumns("title",
                             "type",
                             "created_by",
                             "description",
                             "meta_data");
             final String metaData = getMetadata(practice);
             final Map<String, Object> valueMap = new HashMap<>(6);
-            valueMap.put("name",
-                    practice.getName());
+            valueMap.put("title",
+                    practice.getTitle());
             valueMap.put("type", type);
             valueMap.put("created_by", createdBy);
             valueMap.put("description", practice.getDescription());
@@ -234,43 +234,43 @@ public class PracticeService {
     private int createLocalizedBoard(final Map<String, Object> valueMap) {
         return new SimpleJdbcInsert(dataSource)
                 .withTableName("practices_localized")
-                .usingColumns("practice_id", "locale", "name", "description")
+                .usingColumns("practice_id", "locale", "title", "description")
                 .execute(valueMap);
     }
 
     /**
-     * get pracice for a bookName.
+     * get pracice for a bookTitle.
      * create if not exists alredy.
      *
-     * @param bookName
+     * @param bookTitle
      * @param locale
      * @return pracice
      */
-    public Practice getQuestionBank(final String bookName, final Locale locale)
+    public Practice getQuestionBank(final String bookTitle, final Locale locale)
             throws JsonProcessingException {
-        Optional<Practice> oPractice = readByBook(bookName);
+        Optional<Practice> oPractice = readByBook(bookTitle);
 
         if (oPractice.isEmpty()) {
             Practice practice = new Practice();
-            practice.setName("Book:$" + bookName);
-            practice.setDescription("Question Bank for the bookName "
-                    + bookName);
-            oPractice = create(bookName,
-                    getOwnerName(bookName), locale,
+            practice.setTitle("Book:$" + bookTitle);
+            practice.setDescription("Question Bank for the bookTitle "
+                    + bookTitle);
+            oPractice = create(bookTitle,
+                    getOwnerTitle(bookTitle), locale,
                     practice);
         }
 
         return oPractice.get();
     }
 
-    private String getOwnerName(final String bookName) {
-        return propertyPlaceholderExposer.get("admins." + bookName);
+    private String getOwnerTitle(final String bookTitle) {
+        return propertyPlaceholderExposer.get("admins." + bookTitle);
     }
 
     private <T extends Practice> Optional<T> readByBook(
                                             final String newBook) {
         final String query =
-                "SELECT id,name,created_by,type,meta_data,description,"
+                "SELECT id,title,created_by,type,meta_data,description,"
                         + "created_at,modified_at "
                         + "FROM practices WHERE book = ?";
 
@@ -321,10 +321,10 @@ public class PracticeService {
     public <T extends Practice> Optional<T> read(final Integer newPracticeId,
                                                  final Locale locale) {
         final String query = locale == null
-                ? "SELECT id,name,created_by,type,meta_data,"
+                ? "SELECT id,title,created_by,type,meta_data,"
                         + "description,created_at,modified_at "
                         + "FROM practices WHERE id = ?"
-                : "SELECT practices.id,practices_localized.name,"
+                : "SELECT practices.id,practices_localized.title,"
                 + "practices.created_by,practices.type,practices.meta_data,"
                 + "practices_localized.description,practices.created_at,"
                 + "practices.modified_at,"
@@ -366,7 +366,7 @@ public class PracticeService {
                 .validate(practice);
         if (violations.isEmpty()) {
             final String query = locale == null
-                    ? "UPDATE practices SET name=?, meta_data=?,"
+                    ? "UPDATE practices SET title=?, meta_data=?,"
                             + "description=?, modified_at=CURRENT_TIMESTAMP "
                             + "WHERE id = ?"
                     : "UPDATE practices SET meta_data=?,"
@@ -374,7 +374,7 @@ public class PracticeService {
                             + "WHERE id = ?";
             Integer updatedRows = locale == null
                     ? jdbcTemplate.update(query,
-                    practice.getName(),
+                    practice.getTitle(),
                     getMetadata(practice),
                     practice.getDescription(), id)
                     : jdbcTemplate.update(query,
@@ -384,15 +384,15 @@ public class PracticeService {
                 throw new IllegalArgumentException("Practice not found");
             } else if (locale != null) {
                 updatedRows = jdbcTemplate.update(
-                        "UPDATE practices_localized SET name=?,locale=?,"
+                        "UPDATE practices_localized SET title=?,locale=?,"
                         + "description=? WHERE practice_id=? AND locale=?",
-                        practice.getName(), locale.getLanguage(),
+                        practice.getTitle(), locale.getLanguage(),
                         practice.getDescription(), id, locale.getLanguage());
                 if (updatedRows == 0) {
                     final Map<String, Object> valueMap = new HashMap<>(4);
                     valueMap.put("practice_id", id);
                     valueMap.put("locale", locale.getLanguage());
-                    valueMap.put("name", practice.getName());
+                    valueMap.put("title", practice.getTitle());
                     valueMap.put("description", practice.getDescription());
                     createLocalizedBoard(valueMap);
                 }
@@ -454,7 +454,7 @@ public class PracticeService {
     public <T extends Practice> List<T> list(final String type) {
 
         final String recordsQuery =
-                "SELECT id,name,created_by,type,meta_data,description,"
+                "SELECT id,title,created_by,type,meta_data,description,"
                         + "created_at,modified_at"
                         + " FROM practices where type = ?";
         final List<T> tList =
@@ -474,7 +474,7 @@ public class PracticeService {
                                              final Pageable pageable) {
 
         final String recordsQuery =
-                "SELECT id,name,created_by,type,meta_data,description,"
+                "SELECT id,title,created_by,type,meta_data,description,"
                         + "created_at,modified_at"
                         + " FROM practices where type = ? LIMIT "
                         + pageable.getPageSize()
@@ -493,12 +493,12 @@ public class PracticeService {
     /**
      * Checks if given user is created_by of the book.
      *
-     * @param userName
-     * @param bookName
+     * @param userTitle
+     * @param bookTitle
      * @return isOwner
      */
-    public boolean isOwner(final String userName, final String bookName) {
-        return getOwnerName(bookName).equals(userName);
+    public boolean isOwner(final String userTitle, final String bookTitle) {
+        return getOwnerTitle(bookTitle).equals(userTitle);
     }
 
 

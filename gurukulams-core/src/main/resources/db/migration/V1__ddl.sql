@@ -4,7 +4,7 @@ DROP TABLE IF EXISTS practices;
 
 CREATE TABLE practices (
   id INT auto_increment PRIMARY KEY,
-  name VARCHAR(55) NOT NULL,
+  title VARCHAR(55) NOT NULL,
   description TEXT,
   type VARCHAR(55) NOT NULL,
   meta_data TEXT,
@@ -17,7 +17,7 @@ CREATE TABLE practices (
 CREATE TABLE practices_localized (
     practice_id INT,
     locale VARCHAR(8) NOT NULL,
-    name VARCHAR(55),
+    title VARCHAR(55),
     description TEXT,
     FOREIGN KEY (practice_id) REFERENCES practices (id),
     PRIMARY KEY(practice_id, locale)
