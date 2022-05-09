@@ -14,6 +14,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import java.io.IOException;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -133,6 +134,47 @@ public class GradeServiceTest {
 
     }
 
+    @Test
+    void testLocalization() {
+        // Create a Grade
+        final Grade grade = gradeService.create("mani",null,
+                aGrade());
+
+        // Update for China Language
+        gradeService.update(grade.id(),"mani", Locale.CHINA, aGrade(grade,
+                "Chinese Title",
+                "Chinese Description"));
+
+        // Get for China Language
+        Grade createGrade = gradeService.read("mani",Locale.CHINA,
+                grade.id()).get();
+        Assertions.assertEquals("Chinese Title", createGrade.title());
+        Assertions.assertEquals("Chinese Description", createGrade.description());
+
+        final Long id = createGrade.id();
+        createGrade = gradeService.list("mani", Locale.CHINA)
+                .stream()
+                .filter(grade1 -> grade1.id().equals(id))
+                .findFirst().get();
+        Assertions.assertEquals("Chinese Title", createGrade.title());
+        Assertions.assertEquals("Chinese Description", createGrade.description());
+
+        // Get for France which does not have data
+        createGrade = gradeService.read("mani",Locale.FRANCE,
+                grade.id()).get();
+        Assertions.assertEquals("State Grade", createGrade.title());
+        Assertions.assertEquals("State Grade Description", createGrade.description());
+
+        createGrade = gradeService.list("mani",Locale.FRANCE)
+                .stream()
+                .filter(grade1 -> grade1.id().equals(id))
+                .findFirst().get();
+
+        Assertions.assertEquals("State Grade", createGrade.title());
+        Assertions.assertEquals("State Grade Description", createGrade.description());
+
+    }
+
     /**
      * Gets grade.
      *
@@ -144,6 +186,17 @@ public class GradeServiceTest {
                 "A " + "Grade", null, null,
                 null, null);
         return grade;
+    }
+
+    /**
+     * Gets board from reference board.
+     *
+     * @return the board
+     */
+    Grade aGrade(final Grade ref,final String title,final String description) {
+        return new Grade(ref.id(), title,
+                description, ref.created_at(), ref.created_by(),
+                ref.modified_at(), ref.modified_by());
     }
 
     /**
