@@ -15,11 +15,17 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Locale;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 public class SyllabusServiceTest {
+
+    public static final String STATE_SYLLABUS_IN_ENGLISH = "State Board";
+    public static final String STATE_SYLLABUS_DESCRIPTION_IN_ENGLISH = "State Board Description";
+    public static final String STATE_SYLLABUS_TITLE_IN_FRENCH = "Conseil d'État";
+    public static final String STATE_SYLLABUS_DESCRIPTION_IN_FRENCH = "Description du conseil d'État";
 
     @Autowired
     private SyllabusService syllabusService;
@@ -115,6 +121,48 @@ public class SyllabusServiceTest {
 
     }
 
+    @Test
+    void testLocalization() {
+        // Create a Syllabus
+        final Syllabus syllabus = syllabusService.create("mani",null,
+                anSyllabus());
+
+        // Update for China Language
+        syllabusService.update(syllabus.id(),"mani", Locale.FRENCH,anSyllabus(syllabus,
+                STATE_SYLLABUS_TITLE_IN_FRENCH,
+                STATE_SYLLABUS_DESCRIPTION_IN_FRENCH));
+
+        // Get for french Language
+        Syllabus createSyllabus = syllabusService.read("mani",Locale.FRENCH,
+                syllabus.id()).get();
+        Assertions.assertEquals(STATE_SYLLABUS_TITLE_IN_FRENCH, createSyllabus.title());
+        Assertions.assertEquals(STATE_SYLLABUS_DESCRIPTION_IN_FRENCH, createSyllabus.description());
+
+        final Long id = createSyllabus.id();
+        createSyllabus = syllabusService.list("mani", Locale.FRENCH)
+                .stream()
+                .filter(syllabus1 -> syllabus1.id().equals(id))
+                .findFirst().get();
+        Assertions.assertEquals(STATE_SYLLABUS_TITLE_IN_FRENCH, createSyllabus.title());
+        Assertions.assertEquals(STATE_SYLLABUS_DESCRIPTION_IN_FRENCH,
+                createSyllabus.description());
+
+        // Get for France which does not have data
+        createSyllabus = syllabusService.read("mani",Locale.CHINESE,
+                syllabus.id()).get();
+        Assertions.assertEquals(STATE_SYLLABUS_IN_ENGLISH, createSyllabus.title());
+        Assertions.assertEquals(STATE_SYLLABUS_DESCRIPTION_IN_ENGLISH, createSyllabus.description());
+
+        createSyllabus = syllabusService.list("mani",Locale.CHINESE)
+                .stream()
+                .filter(syllabus1 -> syllabus1.id().equals(id))
+                .findFirst().get();
+
+        Assertions.assertEquals(STATE_SYLLABUS_IN_ENGLISH, createSyllabus.title());
+        Assertions.assertEquals(STATE_SYLLABUS_DESCRIPTION_IN_ENGLISH, createSyllabus.description());
+
+    }
+
 
     /**
      * Gets syllabus.
@@ -123,10 +171,21 @@ public class SyllabusServiceTest {
      */
     Syllabus anSyllabus() {
 
-        Syllabus syllabus = new Syllabus(null, "MathsSyllabus",
-                "An " + "Syllabus", null, null,
-                                        null, null);
+        Syllabus syllabus = new Syllabus(null, STATE_SYLLABUS_IN_ENGLISH,
+                STATE_SYLLABUS_DESCRIPTION_IN_ENGLISH, null, null,
+                null, null);
         return syllabus;
+    }
+
+    /**
+     * Gets syllabus from reference syllabus.
+     *
+     * @return the syllabus
+     */
+    Syllabus anSyllabus(final Syllabus ref,final String title,final String description) {
+        return new Syllabus(ref.id(), title,
+                description, ref.created_at(), ref.created_by(),
+                ref.modified_at(), ref.modified_by());
     }
 
 

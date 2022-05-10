@@ -95,6 +95,12 @@ public class SyllabusService {
         valueMap.put("created_by", userName);
 
         final Number syllabusId = insert.executeAndReturnKey(valueMap);
+
+        if (locale != null) {
+            valueMap.put("board_id", syllabusId);
+            valueMap.put("locale", locale.getLanguage());
+            createLocalizedSyllabus(valueMap);
+        }
         final Optional<Syllabus> createdSyllabus =
                 read(userName, null, syllabusId.longValue());
 
@@ -102,6 +108,19 @@ public class SyllabusService {
 
         return createdSyllabus.get();
     }
+
+    /**
+     * Create Localized syllabus.
+     * @param valueMap
+     * @return noOfSyllabus
+     */
+    private int createLocalizedSyllabus(final Map<String, Object> valueMap) {
+        return new SimpleJdbcInsert(dataSource)
+                .withTableName("syllabus_localized")
+                .usingColumns("syllabus_id", "locale", "title", "description")
+                .execute(valueMap);
+    }
+
     /**
      * reads from syllabus.
      * @param id the id
@@ -112,14 +131,43 @@ public class SyllabusService {
     public Optional<Syllabus> read(final String userName,
                                    final Locale locale,
                                    final Long id) {
-        final String query = "SELECT id,title,description,created_by,"
-                + "created_at, modified_at, modified_by FROM syllabus "
-                + "WHERE id = ?";
 
+
+        final String query = locale == null
+                ? "SELECT id,title,description,created_by,"
+                + "created_at, modified_at, modified_by FROM syllabus "
+                + "WHERE id = ?"
+                : "SELECT DISTINCT b.ID, "
+                + "CASE WHEN bl.LOCALE = ? "
+                + "THEN bl.TITLE "
+                + "ELSE b.TITLE "
+                + "END AS TITLE, "
+                + "CASE WHEN bl.LOCALE = ? "
+                + "THEN bl.DESCRIPTION "
+                + "ELSE b.DESCRIPTION "
+                + "END AS DESCRIPTION,"
+                + "created_by,created_at, modified_at, modified_by "
+                + "FROM SYLLABUS b "
+                + "LEFT JOIN SYLLABUS_LOCALIZED bl "
+                + "ON b.ID = bl.SYLLABUS_ID "
+                + "WHERE b.ID = ? "
+                + "AND (bl.LOCALE IS NULL "
+                + "OR bl.LOCALE = ? OR "
+                + "b.ID NOT IN "
+                + "(SELECT SYLLABUS_ID FROM SYLLABUS_LOCALIZED "
+                + "WHERE SYLLABUS_ID=b.ID AND LOCALE = ?))";
 
         try {
-            final Syllabus p = jdbcTemplate
+            final Syllabus p = locale == null ? jdbcTemplate
                     .queryForObject(query, new Object[]{id},
+                            this::rowMapper)
+                    : jdbcTemplate
+                    .queryForObject(query, new Object[]{
+                                    locale.getLanguage(),
+                                    locale.getLanguage(),
+                                    id,
+                                    locale.getLanguage(),
+                                    locale.getLanguage()},
                             this::rowMapper);
             return Optional.of(p);
         } catch (final EmptyResultDataAccessException e) {
@@ -140,17 +188,35 @@ public class SyllabusService {
                                       final Locale locale,
                                       final Syllabus syllabus) {
         logger.debug("Entering update for Syllabus {}", id);
-        final String query = "UPDATE syllabus SET title=?,"
-                + "description=?,modified_by=? WHERE id=?";
-        final Integer updatedRows =
-                jdbcTemplate.update(query, syllabus.title(),
-                        syllabus.description(), userName, id);
+        final String query = locale == null
+                ? "UPDATE syllabus SET title=?,"
+                + "description=?,modified_by=? WHERE id=?"
+                : "UPDATE syllabus SET modified_by=? WHERE id=?";
+        Integer updatedRows = locale == null
+                ? jdbcTemplate.update(query, syllabus.title(),
+                syllabus.description(), userName, id)
+                : jdbcTemplate.update(query, userName, id);
         if (updatedRows == 0) {
             logger.error("Update not found", id);
             throw new IllegalArgumentException("Syllabus not found");
+        } else if (locale != null) {
+            updatedRows = jdbcTemplate.update(
+                    "UPDATE syllabus_localized SET title=?,locale=?,"
+                            + "description=? WHERE syllabus_id=? AND locale=?",
+                    syllabus.title(), locale.getLanguage(),
+                    syllabus.description(), id, locale.getLanguage());
+            if (updatedRows == 0) {
+                final Map<String, Object> valueMap = new HashMap<>(4);
+                valueMap.put("syllabus_id", id);
+                valueMap.put("locale", locale.getLanguage());
+                valueMap.put("title", syllabus.title());
+                valueMap.put("description", syllabus.description());
+                createLocalizedSyllabus(valueMap);
+            }
         }
-        return read(userName, null, id).get();
+        return read(userName, locale, id).get();
     }
+
     /**
      * delete the syllabus.
      * @param id the id
@@ -170,10 +236,36 @@ public class SyllabusService {
      */
     public List<Syllabus> list(final String userName,
                                final Locale locale) {
-        String query = "SELECT id,title,description,created_by,"
-                + "created_at,modified_at,modified_by FROM syllabus";
-        return jdbcTemplate.query(query, this::rowMapper);
-
+        final String query = locale == null
+                ? "SELECT id,title,description,created_by,"
+                + "created_at, modified_at, modified_by FROM syllabus"
+                : "SELECT DISTINCT b.ID, "
+                + "CASE WHEN bl.LOCALE = ? "
+                + "THEN bl.TITLE "
+                + "ELSE b.TITLE "
+                + "END AS TITLE, "
+                + "CASE WHEN bl.LOCALE = ? "
+                + "THEN bl.DESCRIPTION "
+                + "ELSE b.DESCRIPTION "
+                + "END AS DESCRIPTION,"
+                + "created_by,created_at, modified_at, modified_by "
+                + "FROM syllabus b "
+                + "LEFT JOIN SYLLABUS_LOCALIZED bl "
+                + "ON b.ID = bl.SYLLABUS_ID "
+                + "WHERE bl.LOCALE IS NULL "
+                + "OR bl.LOCALE = ? OR "
+                + "b.ID NOT IN "
+                + "(SELECT SYLLABUS_ID FROM SYLLABUS_LOCALIZED "
+                + "WHERE SYLLABUS_ID=b.ID AND LOCALE = ?)";
+        return locale == null
+                ? jdbcTemplate.query(query, this::rowMapper)
+                : jdbcTemplate
+                .query(query, new Object[]{
+                                locale.getLanguage(),
+                                locale.getLanguage(),
+                                locale.getLanguage(),
+                                locale.getLanguage()},
+                        this::rowMapper);
     }
 
 
@@ -182,6 +274,7 @@ public class SyllabusService {
      *
      */
     public void deleteAll() {
+        jdbcTemplate.update("DELETE FROM syllabus_localized");
         jdbcTemplate.update("DELETE FROM syllabus");
     }
 }
