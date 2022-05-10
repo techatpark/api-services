@@ -2,6 +2,7 @@ package com.gurukulams.service;
 
 import com.gurukulams.core.model.Board;
 import com.gurukulams.core.model.Grade;
+import com.gurukulams.core.model.Syllabus;
 import com.gurukulams.core.service.BoardService;
 import com.gurukulams.core.service.GradeService;
 import org.junit.jupiter.api.AfterEach;
@@ -140,10 +141,26 @@ public class GradeServiceTest {
     }
 
     @Test
-    void testLocalization() {
-        // Create a Grade
+    void testLocalizationFromDefaultWithoutLocale() {
+        // Create a Grade without locale
         final Grade grade = gradeService.create("mani",null,
                 aGrade());
+
+        testLocalization(grade);
+
+    }
+
+    @Test
+    void testLocalizationFromCreateWithLocale() {
+        // Create a Grade with locale
+        final Grade grade = gradeService.create("mani",Locale.GERMAN,
+                aGrade());
+
+        testLocalization(grade);
+
+    }
+
+    void testLocalization(Grade grade) {
 
         // Update for French Language
         gradeService.update(grade.id(),"mani", Locale.FRENCH,aGrade(grade,
