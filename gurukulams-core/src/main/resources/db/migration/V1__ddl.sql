@@ -116,6 +116,15 @@ CREATE TABLE syllabus (
     CONSTRAINT syllabus_title_constraint UNIQUE (title)
 );
 
+CREATE TABLE syllabus_localized (
+    syllabus_id INT,
+    locale VARCHAR(8) NOT NULL,
+    title VARCHAR(55),
+    description TEXT,
+    FOREIGN KEY (syllabus_id) REFERENCES syllabus (id),
+    PRIMARY KEY(syllabus_id, locale)
+);
+
 CREATE TABLE subjects (
     id INT auto_increment PRIMARY KEY,
     title VARCHAR(55),
