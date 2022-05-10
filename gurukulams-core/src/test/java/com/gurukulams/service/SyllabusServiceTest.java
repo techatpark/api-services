@@ -122,11 +122,26 @@ public class SyllabusServiceTest {
     }
 
     @Test
-    void testLocalization() {
-        // Create a Syllabus
+    void testLocalizationFromDefaultWithoutLocale() {
+        // Create a Syllabus for Default Language
         final Syllabus syllabus = syllabusService.create("mani",null,
                 anSyllabus());
 
+        testLocalization(syllabus);
+
+    }
+
+    @Test
+    void testLocalizationFromCreateWithLocale() {
+        // Create a Syllabus for GERMAN Language
+        final Syllabus syllabus = syllabusService.create("mani",Locale.GERMAN,
+                anSyllabus());
+
+        testLocalization(syllabus);
+
+    }
+
+    private void testLocalization(Syllabus syllabus) {
         // Update for China Language
         syllabusService.update(syllabus.id(),"mani", Locale.FRENCH,anSyllabus(syllabus,
                 STATE_SYLLABUS_TITLE_IN_FRENCH,
@@ -160,7 +175,6 @@ public class SyllabusServiceTest {
 
         Assertions.assertEquals(STATE_SYLLABUS_IN_ENGLISH, createSyllabus.title());
         Assertions.assertEquals(STATE_SYLLABUS_DESCRIPTION_IN_ENGLISH, createSyllabus.description());
-
     }
 
 
