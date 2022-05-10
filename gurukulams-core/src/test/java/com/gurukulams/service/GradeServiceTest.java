@@ -23,6 +23,11 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 @SpringBootTest
 public class GradeServiceTest {
 
+    public static final String STATE_BOARD_IN_ENGLISH = "State Board";
+    public static final String STATE_BOARD_DESCRIPTION_IN_ENGLISH = "State Board Description";
+    public static final String STATE_BOARD_TITLE_IN_FRENCH = "Conseil d'État";
+    public static final String STATE_BOARD_DESCRIPTION_IN_FRENCH = "Description du conseil d'État";
+
     @Autowired
     private GradeService gradeService;
 
@@ -140,38 +145,39 @@ public class GradeServiceTest {
         final Grade grade = gradeService.create("mani",null,
                 aGrade());
 
-        // Update for China Language
-        gradeService.update(grade.id(),"mani", Locale.CHINA, aGrade(grade,
-                "Chinese Title",
-                "Chinese Description"));
+        // Update for French Language
+        gradeService.update(grade.id(),"mani", Locale.FRENCH,aGrade(grade,
+                STATE_BOARD_TITLE_IN_FRENCH,
+                STATE_BOARD_DESCRIPTION_IN_FRENCH));
 
-        // Get for China Language
-        Grade createGrade = gradeService.read("mani",Locale.CHINA,
+        // Get for french Language
+        Grade createGrade = gradeService.read("mani",Locale.FRENCH,
                 grade.id()).get();
-        Assertions.assertEquals("Chinese Title", createGrade.title());
-        Assertions.assertEquals("Chinese Description", createGrade.description());
+        Assertions.assertEquals(STATE_BOARD_TITLE_IN_FRENCH, createGrade.title());
+        Assertions.assertEquals(STATE_BOARD_DESCRIPTION_IN_FRENCH, createGrade.description());
 
         final Long id = createGrade.id();
-        createGrade = gradeService.list("mani", Locale.CHINA)
+        createGrade = gradeService.list("mani",Locale.FRENCH)
                 .stream()
                 .filter(grade1 -> grade1.id().equals(id))
                 .findFirst().get();
-        Assertions.assertEquals("Chinese Title", createGrade.title());
-        Assertions.assertEquals("Chinese Description", createGrade.description());
+        Assertions. assertEquals(STATE_BOARD_TITLE_IN_FRENCH, createGrade.title());
+        Assertions.assertEquals(STATE_BOARD_DESCRIPTION_IN_FRENCH,
+                createGrade.description());
 
-        // Get for France which does not have data
-        createGrade = gradeService.read("mani",Locale.FRANCE,
+        // Get for Chinese which does not have data
+        createGrade = gradeService.read("mani",Locale.CHINESE,
                 grade.id()).get();
-        Assertions.assertEquals("State Grade", createGrade.title());
-        Assertions.assertEquals("State Grade Description", createGrade.description());
+        Assertions.assertEquals(STATE_BOARD_IN_ENGLISH, createGrade.title());
+        Assertions.assertEquals(STATE_BOARD_DESCRIPTION_IN_ENGLISH, createGrade.description());
 
-        createGrade = gradeService.list("mani",Locale.FRANCE)
+        createGrade = gradeService.list("mani",Locale.CHINESE)
                 .stream()
                 .filter(grade1 -> grade1.id().equals(id))
                 .findFirst().get();
 
-        Assertions.assertEquals("State Grade", createGrade.title());
-        Assertions.assertEquals("State Grade Description", createGrade.description());
+        Assertions.assertEquals(STATE_BOARD_IN_ENGLISH, createGrade.title());
+        Assertions.assertEquals(STATE_BOARD_DESCRIPTION_IN_ENGLISH, createGrade.description());
 
     }
 
@@ -182,8 +188,8 @@ public class GradeServiceTest {
      */
     Grade aGrade() {
 
-        Grade grade = new Grade(null, "Student Grade" + new Date().getTime(),
-                "A " + "Grade", null, null,
+        Grade grade = new Grade(null, STATE_BOARD_IN_ENGLISH ,
+                STATE_BOARD_DESCRIPTION_IN_ENGLISH, null, null,
                 null, null);
         return grade;
     }
