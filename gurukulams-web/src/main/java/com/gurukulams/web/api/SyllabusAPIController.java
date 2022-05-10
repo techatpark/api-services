@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
@@ -23,6 +24,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.net.URI;
 import java.security.Principal;
 import java.util.List;
+import java.util.Locale;
 
 @RestController
 @RequestMapping("/api/syllabus")
@@ -51,8 +53,13 @@ class SyllabusAPIController {
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping(produces = "application/json", consumes = "application/json")
     public ResponseEntity<Syllabus> create(final Principal principal,
+                                           @RequestHeader
+                                                   (name = "Accept-Language",
+                                                           required = false)
+                                           final Locale locale,
                                         final @RequestBody Syllabus syllabus) {
-    Syllabus created = syllabusService.create(principal.getName(), syllabus);
+    Syllabus created = syllabusService.create(principal.getName(), null,
+                                                                     syllabus);
     return ResponseEntity.created(URI.create("/api/syllabus" + created.id()))
                                                                  .body(created);
     }
@@ -68,8 +75,13 @@ class SyllabusAPIController {
 
     @GetMapping("/{id}")
     public ResponseEntity<Syllabus> read(final @PathVariable Long id,
+                                         @RequestHeader
+                                                 (name = "Accept-Language",
+                                                         required = false)
+                                         final Locale locale,
                                          final Principal principal) {
-        return ResponseEntity.of(syllabusService.read(principal.getName(), id));
+        return ResponseEntity.of(syllabusService.read(principal.getName(),
+                                                          null, id));
     }
 
    @Operation(summary = "Updates the syllabus by given id",
@@ -89,12 +101,16 @@ class SyllabusAPIController {
     public ResponseEntity<Syllabus> update(final@PathVariable Long id,
                                                      final Principal
                                                         principal,
+                                           @RequestHeader
+                                                      (name = "Accept-Language",
+                                                              required = false)
+                                              final Locale locale,
                                                      final @RequestBody
                                                              Syllabus
                                                              syllabus)
             throws JsonProcessingException {
         final Syllabus updatedSyllabus =
-                syllabusService.update(id, principal.getName(), syllabus);
+                syllabusService.update(id, principal.getName(), null, syllabus);
         return updatedSyllabus == null ? ResponseEntity.notFound().build()
                 : ResponseEntity.ok(updatedSyllabus);
     }
@@ -127,9 +143,13 @@ class SyllabusAPIController {
                     description = "invalid credentials")})
     @GetMapping(produces = "application/json")
     public ResponseEntity<List<Syllabus>> list(final Principal
-                                                     principal) {
+                                                     principal,
+                                               @RequestHeader
+                                                 (name = "Accept-Language",
+                                                     required = false)
+                                               final Locale locale) {
         final List<Syllabus> syllabusList = syllabusService.list(
-                principal.getName());
+                principal.getName(), null);
         return syllabusList.isEmpty() ? ResponseEntity.noContent().build()
                 : ResponseEntity.ok(syllabusList);
     }

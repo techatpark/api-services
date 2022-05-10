@@ -56,58 +56,61 @@ public class SyllabusServiceTest {
 
     @Test
     void create(){
-        final Syllabus syllabus = syllabusService.create("mani",
+        final Syllabus syllabus = syllabusService.create("mani", null,
                 anSyllabus());
-        Assertions.assertTrue(syllabusService.read("mani",syllabus.id()).isPresent(),"Created Syllobous");
+        Assertions.assertTrue(syllabusService.read("mani", null,
+                syllabus.id()).isPresent(),"Created Syllobous");
     }
 
     @Test
     void read() {
-        final Syllabus syllabus=syllabusService.create("mani",
+        final Syllabus syllabus=syllabusService.create("mani", null,
                 anSyllabus());
         final Long newSyllabusId = syllabus.id();
-        Assertions.assertTrue(syllabusService.read("mani", newSyllabusId).isPresent(),
+        Assertions.assertTrue(syllabusService.read("mani", null,
+                        newSyllabusId).isPresent(),
                 "syllabus Created");
     }
 
     @Test
     void update() {
 
-        final Syllabus syllabus = syllabusService.create("mani",
+        final Syllabus syllabus = syllabusService.create("mani", null,
                 anSyllabus());
         final Long newSyllabusId = syllabus.id();
         Syllabus newSyllabus = new Syllabus(null, "MathsSyllabus", "An " +
                 "Syllabus", null, "tom", null, null);
         Syllabus updatedSyllabus = syllabusService
-                .update(newSyllabusId, "manikanta", newSyllabus);
+                .update(newSyllabusId, "manikanta", null, newSyllabus);
         Assertions.assertEquals("MathsSyllabus", updatedSyllabus.title(), "Updated");
 
         Assertions.assertThrows(IllegalArgumentException.class, () -> {
             syllabusService
-                    .update(10000L, "manikanta", newSyllabus);
+                    .update(10000L, "manikanta", null, newSyllabus);
         });
     }
 
     @Test
     void delete() {
 
-        final Syllabus syllabus = syllabusService.create("mani",
+        final Syllabus syllabus = syllabusService.create("mani", null,
                 anSyllabus());
         syllabusService.delete("mani",syllabus.id());
-        Assertions.assertFalse(syllabusService.read("mani",syllabus.id()).isPresent(),"Deleted Syllobous");
+        Assertions.assertFalse(syllabusService.read("mani", null,
+                              syllabus.id()).isPresent(),"Deleted Syllobous");
 
     }
 
     @Test
     void list() {
 
-        final Syllabus syllabus = syllabusService.create("manikanta",
+        final Syllabus syllabus = syllabusService.create("manikanta", null,
                 anSyllabus());
         Syllabus newSyllabus = new Syllabus(null, "PhysicsSyllabus", "An " +
                 "Syllabus", null, "tom", null, null);
-        syllabusService.create("manikanta",
+        syllabusService.create("manikanta", null,
                 newSyllabus);
-        List<Syllabus> listofsyllabus = syllabusService.list("manikanta");
+        List<Syllabus> listofsyllabus = syllabusService.list("manikanta", null);
         Assertions.assertEquals(2, listofsyllabus.size());
 
     }

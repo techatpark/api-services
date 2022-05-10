@@ -14,6 +14,7 @@ import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Optional;
 
@@ -77,9 +78,11 @@ public class SyllabusService {
      * creates new syllabus.
      * @param userName the userName
      * @param syllabus the syllabus
+     * @param locale the locale
      * @return syllabus optional
      */
     public Syllabus create(final String userName,
+                                     final Locale locale,
                                      final Syllabus syllabus) {
         final SimpleJdbcInsert insert = new SimpleJdbcInsert(dataSource)
                 .withTableName("syllabus").usingGeneratedKeyColumns("id")
@@ -93,7 +96,7 @@ public class SyllabusService {
 
         final Number syllabusId = insert.executeAndReturnKey(valueMap);
         final Optional<Syllabus> createdSyllabus =
-                read(userName, syllabusId.longValue());
+                read(userName, null, syllabusId.longValue());
 
         logger.info("Syllabus Created {}", syllabusId);
 
@@ -103,9 +106,12 @@ public class SyllabusService {
      * reads from syllabus.
      * @param id the id
      * @param userName the userName
+     * @param locale the locale
      * @return question optional
      */
-    public Optional<Syllabus> read(final String userName, final Long id) {
+    public Optional<Syllabus> read(final String userName,
+                                   final Locale locale,
+                                   final Long id) {
         final String query = "SELECT id,title,description,created_by,"
                 + "created_at, modified_at, modified_by FROM syllabus "
                 + "WHERE id = ?";
@@ -126,10 +132,12 @@ public class SyllabusService {
      * @param id the id
      * @param userName the userName
      * @param syllabus the syllabus
+     * @param locale the locale
      * @return question optional
      */
     public Syllabus update(final Long id,
                                      final String userName,
+                                      final Locale locale,
                                       final Syllabus syllabus) {
         logger.debug("Entering update for Syllabus {}", id);
         final String query = "UPDATE syllabus SET title=?,"
@@ -141,7 +149,7 @@ public class SyllabusService {
             logger.error("Update not found", id);
             throw new IllegalArgumentException("Syllabus not found");
         }
-        return read(userName, id).get();
+        return read(userName, null, id).get();
     }
     /**
      * delete the syllabus.
@@ -157,9 +165,11 @@ public class SyllabusService {
     /**
      * list the syllabus.
      * @param userName the userName
+     * @param locale the locale
      * @return question optional
      */
-    public List<Syllabus> list(final String userName) {
+    public List<Syllabus> list(final String userName,
+                               final Locale locale) {
         String query = "SELECT id,title,description,created_by,"
                 + "created_at,modified_at,modified_by FROM syllabus";
         return jdbcTemplate.query(query, this::rowMapper);
