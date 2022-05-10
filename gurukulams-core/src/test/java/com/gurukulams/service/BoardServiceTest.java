@@ -1,6 +1,7 @@
 package com.gurukulams.service;
 
 import com.gurukulams.core.model.Board;
+import com.gurukulams.core.model.Syllabus;
 import com.gurukulams.core.service.BoardService;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
@@ -110,10 +111,26 @@ public class BoardServiceTest {
     }
 
     @Test
-    void testLocalization() {
-        // Create a Board
+    void testLocalizationFromDefaultWithoutLocale() {
+        // Create a Board without locale
         final Board board = boardService.create("mani",null,
                 anBoard());
+
+        testLocalization(board);
+
+    }
+
+    @Test
+    void testLocalizationFromCreateWithLocale() {
+        // Create a Board with locale
+        final Board board = boardService.create("mani",Locale.GERMAN,
+                anBoard());
+
+        testLocalization(board);
+
+    }
+
+    void testLocalization(Board board) {
 
         // Update for China Language
         boardService.update(board.id(),"mani", Locale.FRENCH,anBoard(board,

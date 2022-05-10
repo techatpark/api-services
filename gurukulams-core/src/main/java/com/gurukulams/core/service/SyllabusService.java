@@ -97,7 +97,7 @@ public class SyllabusService {
         final Number syllabusId = insert.executeAndReturnKey(valueMap);
 
         if (locale != null) {
-            valueMap.put("board_id", syllabusId);
+            valueMap.put("syllabus_id", syllabusId);
             valueMap.put("locale", locale.getLanguage());
             createLocalizedSyllabus(valueMap);
         }
