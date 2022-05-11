@@ -58,7 +58,7 @@ class SyllabusAPIController {
                                                            required = false)
                                            final Locale locale,
                                         final @RequestBody Syllabus syllabus) {
-    Syllabus created = syllabusService.create(principal.getName(), null,
+    Syllabus created = syllabusService.create(principal.getName(), locale,
                                                                      syllabus);
     return ResponseEntity.created(URI.create("/api/syllabus" + created.id()))
                                                                  .body(created);
@@ -81,7 +81,7 @@ class SyllabusAPIController {
                                          final Locale locale,
                                          final Principal principal) {
         return ResponseEntity.of(syllabusService.read(principal.getName(),
-                                                          null, id));
+                                                          locale, id));
     }
 
    @Operation(summary = "Updates the syllabus by given id",
@@ -110,7 +110,8 @@ class SyllabusAPIController {
                                                              syllabus)
             throws JsonProcessingException {
         final Syllabus updatedSyllabus =
-                syllabusService.update(id, principal.getName(), null, syllabus);
+                syllabusService.update(id, principal.getName(),
+                                                 locale, syllabus);
         return updatedSyllabus == null ? ResponseEntity.notFound().build()
                 : ResponseEntity.ok(updatedSyllabus);
     }
@@ -149,7 +150,7 @@ class SyllabusAPIController {
                                                      required = false)
                                                final Locale locale) {
         final List<Syllabus> syllabusList = syllabusService.list(
-                principal.getName(), null);
+                principal.getName(), locale);
         return syllabusList.isEmpty() ? ResponseEntity.noContent().build()
                 : ResponseEntity.ok(syllabusList);
     }
