@@ -136,6 +136,15 @@ CREATE TABLE subjects (
     CONSTRAINT subjects_title_constraint UNIQUE (title)
 );
 
+CREATE TABLE subjects_localized (
+    subject_id INT,
+    locale VARCHAR(8) NOT NULL,
+    title VARCHAR(55),
+    description TEXT,
+    FOREIGN KEY (subject_id) REFERENCES subjects (id),
+    PRIMARY KEY(subject_id, locale)
+);
+
 CREATE TABLE institutes (
     id INT auto_increment PRIMARY KEY,
     title VARCHAR(55),

@@ -230,6 +230,7 @@ class BoardAPIController {
     /**
      * List the syllabus as per board and grade.
      * @param principal
+     * @param locale
      * @param boardId
      * @param gradeId
      * @return list of syllabus
@@ -246,11 +247,12 @@ class BoardAPIController {
                     description = "invalid credentials")})
     @GetMapping("/{boardId}/grades/{gradeId}/subjects")
     public ResponseEntity<List<Subject>> list(final Principal principal,
+                             final Locale locale,
                              @PathVariable final Long boardId,
                          @PathVariable final Long gradeId) {
 
         final List<Subject> subjectList = subjectService.list(
-                principal.getName(), boardId, gradeId);
+                principal.getName(), locale, boardId, gradeId);
         return subjectList.isEmpty() ? ResponseEntity.noContent().build()
                 : ResponseEntity.ok(subjectList);
 
