@@ -32,7 +32,6 @@
 
     <modules>
         <module>gurukulams-core</module>
-        <module>gurukulams-sdk</module>
         <module>gurukulams-web</module>
     </modules>
 
