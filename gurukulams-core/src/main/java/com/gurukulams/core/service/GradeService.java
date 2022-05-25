@@ -318,11 +318,34 @@ public class GradeService {
     public List<Grade> list(final String userName,
                             final Locale locale,
                             final Long boardId) {
-        String query = "SELECT id,title,description,created_by,"
+        final String query = locale == null
+                ? "SELECT id,title,description,created_by,"
                 + "created_at,modified_at,modified_by FROM grades "
                 + "JOIN boards_grades ON grades.id=boards_grades.grade_id"
-                + " where boards_grades.board_id = ?";
-        return jdbcTemplate.query(query, this::rowMapper, boardId);
+                + " where boards_grades.board_id = ?"
+                : " SELECT DISTINCT g.ID, "
+                + "CASE WHEN gl.LOCALE = ? "
+                + "THEN gl.TITLE "
+                + "ELSE g.TITLE "
+                + "END AS TITLE, "
+                + "CASE WHEN gl.LOCALE = ? "
+                + "THEN gl.DESCRIPTION "
+                + "ELSE g.DESCRIPTION "
+                + "END AS DESCRIPTION,"
+                + "created_by,created_at, modified_at, modified_by "
+                + "FROM grades g "
+                + "LEFT JOIN GRADES_LOCALIZED gl "
+                + "ON g.ID = gl.GRADE_ID "
+                + "LEFT JOIN boards_grades bg "
+                + "ON g.id = bg.grade_id where bg.board_id = ?";
+        return locale == null
+                ? jdbcTemplate.query(query, this::rowMapper, boardId)
+                : jdbcTemplate
+                .query(query, new Object[]{
+                                locale.getLanguage(),
+                                locale.getLanguage(),
+                               boardId},
+                        this::rowMapper);
     }
 
     /**

@@ -127,36 +127,34 @@ public class GradeServiceTest {
 
     }
 
-    @Test
-    void listByBoard() {
-        final Board board = boardService.create("mani",null,
-                aBoard());
-        final Grade grade = gradeService.create("manikanta", null,
-                aGrade());
 
-        Assertions.assertTrue(gradeService.addToBoard("tom",grade.id(),board.id()),"Unable to add grade to board");
-
-        Assertions.assertEquals(1,gradeService.list("tom",null, board.id()).size(),"Unable to list grades");
-
-    }
 
     @Test
     void testLocalizationFromDefaultWithoutLocale() {
         // Create a Grade without locale
+        final Board board = boardService.create("mani",null,
+                aBoard());
         final Grade grade = gradeService.create("mani",null,
                 aGrade());
 
         testLocalization(grade);
+        listByBoard(board,grade, null);
 
     }
 
     @Test
     void testLocalizationFromCreateWithLocale() {
         // Create a Grade with locale
+
+        final Board board = boardService.create("mani", Locale.FRENCH,
+                aBoard());
+
         final Grade grade = gradeService.create("mani",Locale.GERMAN,
                 aGrade());
 
         testLocalization(grade);
+        listByBoard(board,grade , Locale.FRENCH);
+
 
     }
 
@@ -195,6 +193,28 @@ public class GradeServiceTest {
 
         Assertions.assertEquals(STATE_BOARD_IN_ENGLISH, createGrade.title());
         Assertions.assertEquals(STATE_BOARD_DESCRIPTION_IN_ENGLISH, createGrade.description());
+
+    }
+
+    void listByBoard(Board board , Grade grade , Locale locale) {
+
+        Assertions.assertTrue(gradeService.addToBoard("tom",grade.id(),board.id()),"Unable to add grade to board");
+        final Long id = grade.id();
+        Grade getGrade = gradeService.list("tom",locale, board.id()).stream()
+                .filter(grade1 -> grade1.id().equals(id))
+                .findFirst().get();
+
+      if(locale == null){
+
+          Assertions.assertEquals(STATE_BOARD_IN_ENGLISH, getGrade.title());
+          Assertions.assertEquals(STATE_BOARD_DESCRIPTION_IN_ENGLISH, getGrade.description());
+
+      }else{
+
+          Assertions.assertEquals(STATE_BOARD_TITLE_IN_FRENCH, getGrade.title());
+          Assertions.assertEquals(STATE_BOARD_DESCRIPTION_IN_FRENCH, getGrade.description());
+
+      }
 
     }
 
