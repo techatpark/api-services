@@ -309,15 +309,41 @@ public class SubjectService {
                                final Locale locale,
                                final Long boardId,
                                final Long gradeId) {
-        String query = "SELECT id,title,description,created_by,"
+        final String query = locale == null
+                ? "SELECT id,title,description,created_by,"
                 + "created_at,modified_at,modified_by FROM subjects "
                 + "JOIN boards_grades_subjects ON subjects.id "
                 + "= boards_grades_subjects.subject_id "
                 + " where boards_grades_subjects.grade_id = ? "
                 + "AND "
-                + " boards_grades_subjects.board_id = ? ";
-        return jdbcTemplate.query(query, this::rowMapper, gradeId, boardId);
+                + " boards_grades_subjects.board_id = ? "
+                : " SELECT DISTINCT s.ID, "
+                + "CASE WHEN sl.LOCALE = ? "
+                + "THEN sl.TITLE "
+                + "ELSE s.TITLE "
+                + "END AS TITLE, "
+                + "CASE WHEN sl.LOCALE = ? "
+                + "THEN sl.DESCRIPTION "
+                + "ELSE s.DESCRIPTION "
+                + "END AS DESCRIPTION,"
+                + "created_by,created_at, modified_at, modified_by "
+                + "FROM subjects s "
+                + "LEFT JOIN SUBJECTS_LOCALIZED sl "
+                + "ON s.id = sl.subject_id "
+                + "LEFT JOIN boards_grades_subjects bgs "
+                + "ON s.id = bgs.subject_id where bgs.grade_id = ?"
+                + "AND bgs.board_id = ?";
+        return locale == null
+                ? jdbcTemplate.query(query, this::rowMapper, gradeId, boardId)
+                : jdbcTemplate
+                .query(query, new Object[]{
+                                locale.getLanguage(),
+                                locale.getLanguage(),
+                                gradeId,
+                                boardId},
+                        this::rowMapper);
     }
+
 
     /**
      * Cleaning up all subjects.

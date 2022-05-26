@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.io.IOException;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
@@ -119,38 +120,32 @@ public class SubjectsServiceTest {
 
 
     @Test
-    void listbyBoardandgrade() {
-
+    void testLocalizationFromDefaultWithoutLocale() {
+        // Create a Subject for Default Language
         final Board board = boardService.create("mani",null,
                 anBoard());
         final Grade grade = gradeService.create("tom", null, aGrade());
-        final Subject subject = subjectService.create("tom", null, anSubject());
-
-        Assertions.assertTrue(subjectService.addToBoardsGrades("tom", null, board.id(), grade.id(), subject.id()),"Unable to add subject ");
-
-        Assertions.assertEquals(1,subjectService.list("tom", null, board.id(),
-                grade.id()).size(),"Unable to list subjects");
-
-
-    }
-
-    @Test
-    void testLocalizationFromDefaultWithoutLocale() {
-        // Create a Subject for Default Language
         final Subject subject = subjectService.create("mani", null,
                 anSubject());
 
         testLocalization(subject);
+
+        listbyBoardandgrade(board, grade, subject , null);
 
     }
 
     @Test
     void testLocalizationFromCreateWithLocale() {
         // Create a Subject for GERMAN Language
+        final Board board = boardService.create("mani",Locale.GERMAN,
+                anBoard());
+        final Grade grade = gradeService.create("tom", Locale.GERMAN, aGrade());
         final Subject subject = subjectService.create("mani",Locale.GERMAN,
                 anSubject());
 
         testLocalization(subject);
+
+        listbyBoardandgrade(board, grade, subject, Locale.FRENCH);
 
     }
 
@@ -192,6 +187,31 @@ public class SubjectsServiceTest {
 
     }
 
+    void listbyBoardandgrade(Board board, Grade grade , Subject subject , Locale locale) {
+
+        Assertions.assertTrue(subjectService.addToBoardsGrades("tom", locale, board.id(), grade.id(), subject.id()),"Unable to add grade to board");
+
+        final Long id = subject.id();
+        Subject getSubject = subjectService.list("tom",locale , board.id(), grade.id()).stream()
+                .filter(subject1 -> subject1.id().equals(id))
+                .findFirst().get();
+
+        if(locale == null){
+
+            Assertions.assertEquals(STATE_SUBJECT_IN_ENGLISH, getSubject.title());
+            Assertions.assertEquals(STATE_SUBJECT_DESCRIPTION_IN_ENGLISH, getSubject.description());
+
+        }else{
+
+            Assertions.assertEquals(STATE_SUBJECT_TITLE_IN_FRENCH, getSubject.title());
+            Assertions.assertEquals(STATE_SUBJECT_DESCRIPTION_IN_FRENCH, getSubject.description());
+
+        }
+
+
+
+    }
+
     /**
      * Get subject.
      *
@@ -218,7 +238,7 @@ public class SubjectsServiceTest {
 
     Grade aGrade() {
 
-        Grade grade = new Grade(null, "Student Grade",
+        Grade grade = new Grade(null, "Student Grade"+ new Date().getTime(),
                 "A " + "Grade", null, null,
                 null, null);
         return grade;
@@ -232,11 +252,12 @@ public class SubjectsServiceTest {
      */
     Board anBoard() {
 
-        Board board = new Board(null, "State Board",
+        Board board = new Board(null, "State Board" + new Date().getTime(),
                 "A " + "Board", null, null,
                 null, null);
         return board;
     }
+
 
 
 }

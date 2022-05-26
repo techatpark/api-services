@@ -153,7 +153,7 @@ public class GradeServiceTest {
                 aGrade());
 
         testLocalization(grade);
-        listByBoard(board,grade , Locale.FRENCH);
+        listByBoard(board, grade , Locale.FRENCH);
 
 
     }
