@@ -24,8 +24,8 @@ CREATE TABLE practices_localized (
 );
 
 CREATE TABLE questions (
-  id INT auto_increment,
-  exam_id int NOT NULL,
+  id INT auto_increment PRIMARY KEY,
+  exam_id INT NOT NULL,
   question TEXT NOT NULL,
   chapter_path VARCHAR(500),
   type VARCHAR(55) NOT NULL,
@@ -34,16 +34,15 @@ CREATE TABLE questions (
   created_by VARCHAR(55) NOT NULL,
   modified_at TIMESTAMP,
   modified_by VARCHAR(200),
-  PRIMARY KEY (id, exam_id),
   FOREIGN KEY (exam_id) REFERENCES practices (id)
 );
 
 CREATE TABLE answers (
   id INT auto_increment PRIMARY KEY,
-  exam_id int NOT NULL,
-  question_id int NOT NULL,
+  exam_id INT NOT NULL,
+  question_id INT NOT NULL,
   student_answer VARCHAR(500) NOT NULL,
-  FOREIGN KEY (exam_id, question_id) REFERENCES questions (exam_id, id)
+  FOREIGN KEY (question_id) REFERENCES questions (id)
 );
 
 CREATE TABLE user_notes (
@@ -59,9 +58,8 @@ CREATE TABLE user_notes (
 
 CREATE TABLE question_choices (
     id INT auto_increment PRIMARY KEY,
-    question_id int NOT NULL,
-    value TEXT NOT NULL,
-    is_answer BOOLEAN NOT NULL DEFAULT FALSE,
+    question_id INT NOT NULL,
+    is_answer BOOLEAN,
     FOREIGN KEY (question_id) REFERENCES questions (id)
 );
 

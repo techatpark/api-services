@@ -99,8 +99,24 @@
             <dependencies>
                 <dependency>
                     <groupId>org.springdoc</groupId>
+                    <artifactId>springdoc-openapi-core</artifactId>
+                    <version>${springdoc.core.version}</version>
+                    <exclusions>
+                        <exclusion>
+                            <groupId>io.github.classgraph</groupId>
+                            <artifactId>classgraph</artifactId>
+                        </exclusion>
+                    </exclusions>
+                </dependency>
+                <dependency>
+                    <groupId>org.springdoc</groupId>
                     <artifactId>springdoc-openapi-ui</artifactId>
                     <version>${springdoc.version}</version>
+                </dependency>
+                <dependency>
+                    <groupId>io.github.classgraph</groupId>
+                    <artifactId>classgraph</artifactId>
+                    <version>4.8.147</version>
                 </dependency>
             </dependencies>
         </profile>
