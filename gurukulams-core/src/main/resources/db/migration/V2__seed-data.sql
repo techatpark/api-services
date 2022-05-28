@@ -11,8 +11,11 @@ INSERT INTO BOARDS_LOCALIZED (BOARD_ID ,LOCALE ,title,description) VALUES(1, 'ta
 
 -- Grades
 INSERT INTO grades(title,description,created_by) VALUES ('1 Standard','1 Standard','tom');
+INSERT INTO grades_localized(grade_id,locale,title,description) VALUES (1,'ta', '1ம் வகுப்பு','1ம் வகுப்பு');
 INSERT INTO grades(title,description,created_by) VALUES ('2 Standard','2 Standard','tom');
+INSERT INTO grades_localized(grade_id,locale,title,description) VALUES (2,'ta', '2ம் வகுப்பு','2ம் வகுப்பு');
 INSERT INTO grades(title,description,created_by) VALUES ('3 Standard','3 Standard','tom');
+INSERT INTO grades_localized(grade_id,locale,title,description) VALUES (3,'ta', '3ம் வகுப்பு','3ம் வகுப்பு');
 INSERT INTO grades(title,description,created_by) VALUES ('4 Standard','4 Standard','tom');
 INSERT INTO grades(title,description,created_by) VALUES ('5 Standard','5 Standard','tom');
 INSERT INTO grades(title,description,created_by) VALUES ('6 Standard','6 Standard','tom');
