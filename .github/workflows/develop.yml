@@ -18,6 +18,7 @@ jobs:
       - name: Set up JDK 17
         uses: actions/setup-java@v3
         with:
+          distribution: 'temurin'
           java-version: 17
       - name: Checkstyle with Maven
         run: mvn -B versions:update-parent versions:update-properties validate compile --file pom.xml
