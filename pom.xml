@@ -28,7 +28,9 @@
         <jsonwebtoken.version>0.11.2</jsonwebtoken.version>
         <swagger.version>2.2.0</swagger.version>
         <archunit.version>0.21.0</archunit.version>
-        <exec-maven.version>3.0.0</exec-maven.version>
+        <exec-maven.version>${maven-enforcer-plugin.version}</exec-maven.version>
+        <jacoco-maven-plugin.version>0.8.8</jacoco-maven-plugin.version>
+        <maven-enforcer-plugin.version>3.1.0</maven-enforcer-plugin.version>
     </properties>
 
     <modules>
@@ -73,7 +75,7 @@
             <plugin>
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
-                <version>0.8.7</version>
+                <version>${jacoco-maven-plugin.version}</version>
                 <configuration>
                     <includes>
                         <include>com/gurukulams/core/service/*</include>
@@ -137,7 +139,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-enforcer-plugin</artifactId>
-                <version>3.0.0</version>
+                <version>${maven-enforcer-plugin.version}</version>
                 <!--<dependencies> -->
                 <!--<dependency> -->
                 <!--<groupId>com.baeldung</groupId> -->
@@ -161,7 +163,7 @@
                                     <message>Please use the latest version. Check You POM that i have modified fo you</message>
                                 </requireFilesDontExist>
                                 <requireJavaVersion>
-                                    <version>17</version>
+                                    <version>${maven.compiler.source}</version>
                                 </requireJavaVersion>
                                 <!--other rules -->
                                 <!--<myCustomRule implementation="com.baeldung.enforcer.MyCustomRule"/> -->
