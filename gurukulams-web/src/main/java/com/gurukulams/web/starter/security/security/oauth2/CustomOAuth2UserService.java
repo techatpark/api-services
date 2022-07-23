@@ -1,9 +1,9 @@
 package com.gurukulams.web.starter.security.security.oauth2;
 
+import com.gurukulams.core.model.Learner;
+import com.gurukulams.core.service.LearnerService;
 import com.gurukulams.web.starter.security.exception.OAuth2AuthenticationProcessingException;
-import com.gurukulams.web.starter.security.model.AuthProvider;
-import com.gurukulams.web.starter.security.model.User;
-import com.gurukulams.web.starter.security.security.CustomUserDetailsService;
+import com.gurukulams.core.model.AuthProvider;
 import com.gurukulams.web.starter.security.security.UserPrincipal;
 import com.gurukulams.web.starter.security.security.oauth2.user.OAuth2UserInfo;
 import com.gurukulams.web.starter.security.security.oauth2.user.OAuth2UserInfoFactory;
@@ -23,15 +23,15 @@ import java.util.Optional;
 public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 
     /**
-     * User Details Service.
+     * Learner Details Service.
      */
-    private final CustomUserDetailsService userRepository;
+    private final LearnerService userRepository;
 
     /**
      * CustomOAuth2UserService.
      * @param anUserRepository user repository
      */
-    public CustomOAuth2UserService(final CustomUserDetailsService
+    public CustomOAuth2UserService(final LearnerService
                                            anUserRepository) {
         this.userRepository = anUserRepository;
     }
@@ -71,19 +71,19 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
                     "Email not found from OAuth2 provider");
         }
 
-        final Optional<User> userOptional =
-                userRepository.findByName(oAuth2UserInfo.getEmail());
-        User user;
+        final Optional<Learner> userOptional =
+                userRepository.readByEmail("System", oAuth2UserInfo.getEmail());
+        Learner user;
         if (userOptional.isPresent()) {
             user = userOptional.get();
-            if (!user.getProvider().equals(AuthProvider.valueOf(
+            if (!user.provider().equals(AuthProvider.valueOf(
                     oAuth2UserRequest.getClientRegistration()
                             .getRegistrationId()))) {
                 throw new OAuth2AuthenticationProcessingException(
                         "Looks like you're signed up with "
-                                + user.getProvider()
+                                + user.provider()
                                 + " account. Please use your "
-                                + user.getProvider()
+                                + user.provider()
                                 + " account to login.");
             }
             user = updateExistingUser(user, oAuth2UserInfo);
@@ -94,25 +94,26 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         return UserPrincipal.create(user, oAuth2User.getAttributes());
     }
 
-    private User registerNewUser(final OAuth2UserRequest oAuth2UserRequest,
+    private Learner registerNewUser(final OAuth2UserRequest oAuth2UserRequest,
                                  final OAuth2UserInfo oAuth2UserInfo) {
-        final User user = new User();
-
-        user.setProvider(AuthProvider.valueOf(
+        final Learner user = new Learner(null, oAuth2UserInfo.getEmail(),
+                null,
+                oAuth2UserInfo.getImageUrl(), AuthProvider.valueOf(
                 oAuth2UserRequest.getClientRegistration()
-                        .getRegistrationId()));
-        user.setProviderId(oAuth2UserInfo.getId());
-        user.setName(oAuth2UserInfo.getEmail());
-//        user.setEmail(oAuth2UserInfo.getEmail());
-        user.setImageUrl(oAuth2UserInfo.getImageUrl());
-        return userRepository.save(user);
+                        .getRegistrationId()), null, null,
+                null, null);
+        return userRepository.create("System", user);
     }
 
-    private User updateExistingUser(final User existingUser,
+    private Learner updateExistingUser(final Learner existingUser,
                                     final OAuth2UserInfo oAuth2UserInfo) {
-        existingUser.setName(oAuth2UserInfo.getEmail());
-        existingUser.setImageUrl(oAuth2UserInfo.getImageUrl());
-        return userRepository.save(existingUser);
+        return userRepository.update(existingUser.id(), "System",
+                new Learner(null, oAuth2UserInfo.getEmail(),
+                        null,
+                        oAuth2UserInfo.getImageUrl(),
+                        existingUser.provider(),
+                        null, null,
+                        null, null));
     }
 
 }

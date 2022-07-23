@@ -1,4 +1,4 @@
-package com.gurukulams.web.starter.security.model;
+package com.gurukulams.core.model;
 
 /**
  * The enum Auth provider.

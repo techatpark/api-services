@@ -158,6 +158,7 @@ CREATE TABLE learner (
     id INT auto_increment PRIMARY KEY,
     email VARCHAR(200) NOT NULL,
     image_url VARCHAR(200) NOT NULL,
+    provider VARCHAR(50) DEFAULT 'local' NOT NULL,
     password VARCHAR(200),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     created_by VARCHAR(55) NOT NULL,

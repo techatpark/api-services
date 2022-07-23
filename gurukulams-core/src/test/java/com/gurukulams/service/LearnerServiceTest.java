@@ -1,5 +1,6 @@
 package com.gurukulams.service;
 
+import com.gurukulams.core.model.AuthProvider;
 import com.gurukulams.core.model.Learner;
 import com.gurukulams.core.service.LearnerService;
 import org.junit.jupiter.api.AfterEach;
@@ -55,7 +56,7 @@ public class LearnerServiceTest {
                                                       anLearner());
         final Long newLearnerId = learner.id();
         Learner newLearner=new Learner(null, "maniLearner", "An Learner",
-                "Image Url",
+                "Image Url", AuthProvider.local,
                 null,null,null,null);
         Learner updatedLearner=learnerService.update(newLearnerId,
                                     "Mani",newLearner);
@@ -78,7 +79,7 @@ public class LearnerServiceTest {
         final Learner learner=learnerService.create("Manikanta",
                                                         anLearner());
         Learner newLearner=new Learner(null, "tom", "An Learner",
-                "Image Url",
+                "Image Url", AuthProvider.local,
                 null, null, null, null);
         learnerService.create("Manikanta", newLearner);
         List<Learner> listOfLearner = learnerService.list("Manikanta");
@@ -88,7 +89,7 @@ public class LearnerServiceTest {
     Learner anLearner() {
         Learner learner=new Learner(null,"Manikanta",
                 "An Description",
-                "Image Url",null,null,
+                "Image Url", AuthProvider.local,null,null,
                 null,null);
         return learner;
     }

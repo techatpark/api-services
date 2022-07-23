@@ -1,5 +1,6 @@
 package com.gurukulams.web.starter.security.config;
 
+import com.gurukulams.core.service.LearnerService;
 import com.gurukulams.web.starter.security.security.CustomUserDetailsService;
 import com.gurukulams.web.starter.security.security.RestAuthenticationEntryPoint;
 import com.gurukulams.web.starter.security.security.TokenAuthenticationFilter;
@@ -47,6 +48,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
      * PasswordEncoder.
      */
     private final PasswordEncoder passwordEncoder;
+    /**
+     * Learner Service.
+     */
+    private final LearnerService learnerService;
 
     /**
      * inject the customUserDetailsService object dependency.
@@ -89,11 +94,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     /**
      * Creates Security Config.
-     * @param appProperties properties
-     * @param environment environment
+     *
+     * @param alearnerService
+     * @param appProperties  properties
+     * @param environment    environment
      */
-    public SecurityConfig(final AppProperties appProperties,
+    public SecurityConfig(final LearnerService alearnerService,
+                          final AppProperties appProperties,
                           final Environment environment) {
+        this.learnerService = alearnerService;
         TokenProvider tokenProvider = new TokenProvider(appProperties);
         cookieAuthorizationRequestRepository = new
                 HttpCookieOAuth2AuthorizationRequestRepository();
@@ -106,9 +115,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         cookieAuthorizationRequestRepository);
         passwordEncoder = new BCryptPasswordEncoder();
         customUserDetailsService = new CustomUserDetailsService(
-                passwordEncoder, environment);
+                passwordEncoder, environment, this.learnerService);
         customOAuth2UserService = new CustomOAuth2UserService(
-                customUserDetailsService);
+                this.learnerService);
         tokenAuthenticationFilter = new TokenAuthenticationFilter(
                 tokenProvider, customUserDetailsService);
     }

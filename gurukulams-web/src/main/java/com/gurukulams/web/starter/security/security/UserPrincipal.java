@@ -1,6 +1,6 @@
 package com.gurukulams.web.starter.security.security;
 
-import com.gurukulams.web.starter.security.model.User;
+import com.gurukulams.core.model.Learner;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -55,14 +55,14 @@ public class UserPrincipal implements OAuth2User, UserDetails {
      * @param user the user
      * @return the user principal
      */
-    public static UserPrincipal create(final User user) {
+    public static UserPrincipal create(final Learner user) {
         final List<GrantedAuthority> authorities = Collections.
                 singletonList(new SimpleGrantedAuthority("ROLE_USER"));
 
         return new UserPrincipal(
 
-                user.getName(),
-                user.getPassword(),
+                user.email(),
+                user.password(),
                 authorities
         );
     }
@@ -74,7 +74,7 @@ public class UserPrincipal implements OAuth2User, UserDetails {
      * @param attributes the attributes
      * @return the user principal
      */
-    public static UserPrincipal create(final User user,
+    public static UserPrincipal create(final Learner user,
                                        final Map<String, Object> attributes) {
         final UserPrincipal userPrincipal = UserPrincipal.create(user);
         userPrincipal.setAttributes(attributes);

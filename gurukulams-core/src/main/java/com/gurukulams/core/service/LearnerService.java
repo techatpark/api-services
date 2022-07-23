@@ -1,5 +1,6 @@
 package com.gurukulams.core.service;
 
+import com.gurukulams.core.model.AuthProvider;
 import com.gurukulams.core.model.Learner;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -65,6 +66,7 @@ public class LearnerService {
                     rs.getString("email"),
                     rs.getString("password"),
                     rs.getString("image_url"),
+                    AuthProvider.valueOf(rs.getString("provider")),
                     rs.getObject("created_at", LocalDateTime.class),
                     rs.getString("created_by"),
                     rs.getObject("modified_at", LocalDateTime.class),
@@ -85,11 +87,12 @@ public class LearnerService {
                                         .withTableName("learner")
                                         .usingGeneratedKeyColumns("id")
                           .usingColumns("email", "password",
-                                  "image_url", "created_by");
+                                  "provider", "image_url", "created_by");
         final Map<String, Object> valueMap = new HashMap<>();
         valueMap.put("email", learner.email());
         valueMap.put("password", learner.password());
         valueMap.put("image_url", learner.imageUrl());
+        valueMap.put("provider", learner.provider().toString());
         valueMap.put("created_by", userName);
         final Number learnerId = insert.executeAndReturnKey(valueMap);
         final Optional<Learner> createdLearner = read(userName,
@@ -106,13 +109,34 @@ public class LearnerService {
      */
     public Optional<Learner> read(final String userName,
                                  final Long id) {
-            final String query = "SELECT id,email,password,image_url"
+            final String query = "SELECT id,email,password,image_url,provider"
                     + ",created_by,created_at, modified_at, modified_by"
                     + " FROM learner WHERE id = ?";
 
         try {
             final Learner p = jdbcTemplate.queryForObject(query,
                     new Object[]{id}, this::rowMapper);
+            return Optional.of(p);
+        } catch (final EmptyResultDataAccessException e) {
+            return Optional.empty();
+        }
+    }
+
+    /**
+     *
+     * @param userName
+     * @param email
+     * @return learner
+     */
+    public Optional<Learner> readByEmail(final String userName,
+                                  final String email) {
+        final String query = "SELECT id,email,password,image_url,provider"
+                + ",created_by,created_at, modified_at, modified_by"
+                + " FROM learner WHERE email = ?";
+
+        try {
+            final Learner p = jdbcTemplate.queryForObject(query,
+                    new Object[]{email}, this::rowMapper);
             return Optional.of(p);
         } catch (final EmptyResultDataAccessException e) {
             return Optional.empty();
@@ -130,10 +154,11 @@ public class LearnerService {
                           final String userName,
                           final Learner learner) {
         logger.debug("Entering updating from learner {}", id);
-        final String query = "UPDATE learner SET email=?,"
+        final String query = "UPDATE learner SET email=?,provider=?,"
                 + "password=?,image_url=?,modified_by=? WHERE id=?";
         final Integer updatedRows = jdbcTemplate.update(query,
-                          learner.email(), learner.password(),
+                          learner.email(), learner.provider().toString(),
+                learner.password(),
                 learner.imageUrl(), userName, id);
         if (updatedRows == 0) {
             logger.error("update not found", id);
@@ -161,7 +186,7 @@ public class LearnerService {
      * @return learner
      */
     public List<Learner> list(final String userName) {
-        final String query = "SELECT id,email,password,image_url,"
+        final String query = "SELECT id,email,password,image_url,provider,"
                 + "created_by,created_at,modified_by,modified_at FROM learner";
         return jdbcTemplate.query(query, this::rowMapper);
     }

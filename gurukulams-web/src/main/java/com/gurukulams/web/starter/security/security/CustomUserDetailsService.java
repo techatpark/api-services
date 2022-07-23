@@ -1,17 +1,16 @@
 package com.gurukulams.web.starter.security.security;
 
 
-import com.gurukulams.web.starter.security.model.User;
+import com.gurukulams.core.model.AuthProvider;
+import com.gurukulams.core.model.Learner;
+import com.gurukulams.core.service.LearnerService;
 import org.springframework.core.env.Environment;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
 
 /**
  * The type Custom user details service.
@@ -21,70 +20,37 @@ public class CustomUserDetailsService implements UserDetailsService {
     /**
      * Holds all the application users.
      */
-    private final List<User> users;
+    private final LearnerService learnerService;
 
     /**
      * Builds the Object.
      *
      * @param passwordEncoder the password encoder
-     * @param environment the environment
+     * @param environment     the environment
+     * @param alearnerService
      */
     public CustomUserDetailsService(final PasswordEncoder passwordEncoder,
-                                    final Environment environment) {
-        this.users = new ArrayList<>();
+                                       final Environment environment,
+                                       final LearnerService alearnerService) {
+        this.learnerService = alearnerService;
+
 
         if (Arrays.binarySearch(environment.getActiveProfiles(),
                 "prod") < 0) {
-            User user = new User();
-            user.setName("tom");
-            user.setPassword(passwordEncoder.encode("password"));
-            user.setImageUrl("/images/" + user.getName() + ".png");
+            learnerService.create("System", new Learner(null, "tom",
+                    passwordEncoder.encode("password"),
+                    "/images/tom.png", AuthProvider.local, null, null,
+                    null, null));
 
-            users.add(user);
-
-            user = new User();
-            user.setName("jerry");
-            user.setPassword(passwordEncoder.encode("password"));
-            user.setImageUrl("/images/" + user.getName() + ".png");
-            users.add(user);
+            learnerService.create("System", new Learner(null, "jerry",
+                    passwordEncoder.encode("password"),
+                    "/images/jerry.png", AuthProvider.local, null, null,
+                    null, null));
         }
 
 
     }
 
-    /**
-     * Find by name optional.
-     *
-     * @param name the name
-     * @return the optional
-     */
-    public Optional<User> findByName(final String name) {
-        return this.users.stream()
-                .filter(user -> user.getName().equals(name))
-                .findFirst();
-    }
-
-    /**
-     * Exists by name boolean.
-     *
-     * @param name the name
-     * @return the boolean
-     */
-    public Boolean existsByName(final String name) {
-        return this.users.stream()
-                .anyMatch(user -> user.getName().equals(name));
-    }
-
-    /**
-     * Save user.
-     *
-     * @param user the user
-     * @return the user
-     */
-    public User save(final User user) {
-        users.add(user);
-        return user;
-    }
 
     /**
      * load userdetails with username.
@@ -96,7 +62,7 @@ public class CustomUserDetailsService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(final String email)
             throws UsernameNotFoundException {
-        final User user = findByName(email)
+        final Learner user = learnerService.readByEmail("System", email)
                 .orElseThrow(() ->
                         new UsernameNotFoundException(
                                 "User not found with email : " + email)
