@@ -156,12 +156,14 @@ CREATE TABLE institutes (
 
 CREATE TABLE learner (
     id INT auto_increment PRIMARY KEY,
-    title VARCHAR(55),
-    description TEXT,
+    email VARCHAR(200) NOT NULL,
+    image_url VARCHAR(200) NOT NULL,
+    password VARCHAR(200),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     created_by VARCHAR(55) NOT NULL,
     modified_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    modified_by VARCHAR(200)
+    modified_by VARCHAR(200),
+    CONSTRAINT learner_email_constraint UNIQUE (email)
 );
 
 CREATE TABLE boards_grades(

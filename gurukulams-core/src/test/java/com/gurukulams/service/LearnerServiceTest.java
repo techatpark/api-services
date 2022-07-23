@@ -55,10 +55,11 @@ public class LearnerServiceTest {
                                                       anLearner());
         final Long newLearnerId = learner.id();
         Learner newLearner=new Learner(null, "maniLearner", "An Learner",
+                "Image Url",
                 null,null,null,null);
         Learner updatedLearner=learnerService.update(newLearnerId,
                                     "Mani",newLearner);
-        Assertions.assertEquals("maniLearner", updatedLearner.title(), "updated");
+        Assertions.assertEquals("maniLearner", updatedLearner.email(), "updated");
                Assertions.assertThrows(IllegalArgumentException.class, () -> {
                    learnerService.update(10000L, "Mani", newLearner);
         });
@@ -77,6 +78,7 @@ public class LearnerServiceTest {
         final Learner learner=learnerService.create("Manikanta",
                                                         anLearner());
         Learner newLearner=new Learner(null, "tom", "An Learner",
+                "Image Url",
                 null, null, null, null);
         learnerService.create("Manikanta", newLearner);
         List<Learner> listOfLearner = learnerService.list("Manikanta");
@@ -85,7 +87,8 @@ public class LearnerServiceTest {
 
     Learner anLearner() {
         Learner learner=new Learner(null,"Manikanta",
-                "An Description", null,null,
+                "An Description",
+                "Image Url",null,null,
                 null,null);
         return learner;
     }
