@@ -10,6 +10,7 @@ import com.gurukulams.web.starter.security.security.oauth2.HttpCookieOAuth2Autho
 import com.gurukulams.web.starter.security.security.oauth2.OAuth2AuthenticationFailureHandler;
 import com.gurukulams.web.starter.security.security.oauth2.OAuth2AuthenticationSuccessHandler;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.cache.CacheManager;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
@@ -98,12 +99,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
      * @param alearnerService
      * @param appProperties  properties
      * @param environment    environment
+     * @param aCacheManager  aCacheManager
      */
     public SecurityConfig(final LearnerService alearnerService,
                           final AppProperties appProperties,
-                          final Environment environment) {
+                          final Environment environment,
+                          final CacheManager aCacheManager) {
         this.learnerService = alearnerService;
-        TokenProvider tokenProvider = new TokenProvider(appProperties);
+        TokenProvider tokenProvider = new TokenProvider(appProperties,
+                aCacheManager);
         cookieAuthorizationRequestRepository = new
                 HttpCookieOAuth2AuthorizationRequestRepository();
         oAuth2AuthenticationSuccessHandler = new
@@ -130,7 +134,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     PasswordEncoder passwordEncoder() {
         return passwordEncoder;
     }
-
+    /**
+     * customUserDetailsService.
+     * @return customUserDetailsService
+     */
     @Bean
     CustomUserDetailsService customUserDetailsService() {
         return customUserDetailsService;

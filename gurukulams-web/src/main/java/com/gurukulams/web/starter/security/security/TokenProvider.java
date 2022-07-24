@@ -10,11 +10,14 @@ import io.jsonwebtoken.SignatureException;
 import io.jsonwebtoken.UnsupportedJwtException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.cache.Cache;
+import org.springframework.cache.CacheManager;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.HashMap;
+import java.util.UUID;
 
 /**
  * The type Token provider.
@@ -32,12 +35,26 @@ public class TokenProvider {
     private AppProperties appProperties;
 
     /**
+     * Cache Manager.
+     */
+    private final CacheManager cacheManager;
+
+    /**
+     * Cache to hold auth tokens.
+     */
+    private final Cache authCache;
+
+    /**
      * gg.
      *
      * @param appPropertie the app propertie
+     * @param acacheManager
      */
-    public TokenProvider(final AppProperties appPropertie) {
+    public TokenProvider(final AppProperties appPropertie,
+                         final CacheManager acacheManager) {
         this.appProperties = appPropertie;
+        this.cacheManager = acacheManager;
+        this.authCache = cacheManager.getCache("Auth");
     }
 
     /**
@@ -47,17 +64,20 @@ public class TokenProvider {
      * @return token string
      */
     public String generateToken(final Authentication authentication) {
+        String token = UUID.randomUUID().toString();
 
         final Date now = new Date();
         final Date expiryDate = new Date(now.getTime()
                 + appProperties.getAuth().getTokenExpirationMsec());
-        return Jwts.builder()
+
+        this.authCache.put(token, Jwts.builder()
                 .setClaims(new HashMap<>())
                 .setSubject(authentication.getName())
                 .setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(expiryDate)
                 .signWith(SignatureAlgorithm.HS512, appProperties.getAuth()
-                        .getTokenSecret()).compact();
+                        .getTokenSecret()).compact());
+        return token;
 
     }
 
@@ -70,7 +90,7 @@ public class TokenProvider {
     public String getUserNameFromToken(final String token) {
         final Claims claims = Jwts.parser()
                 .setSigningKey(appProperties.getAuth().getTokenSecret())
-                .parseClaimsJws(token)
+                .parseClaimsJws(authCache.get(token).get().toString())
                 .getBody();
 
         return claims.getSubject();
@@ -79,13 +99,18 @@ public class TokenProvider {
     /**
      * ddd.
      *
-     * @param authToken the auth token
+     * @param token the auth token
      * @return dd. boolean
      */
-    public boolean validateToken(final String authToken) {
+    public boolean validateToken(final String token) {
         try {
+            Cache.ValueWrapper authToken = authCache.get(token);
+            if (authToken == null) {
+                return false;
+            }
             Jwts.parser().setSigningKey(appProperties.getAuth()
-                    .getTokenSecret()).parseClaimsJws(authToken);
+                    .getTokenSecret())
+                    .parseClaimsJws(authToken.get().toString());
             return true;
         } catch (final SignatureException ex) {
             LOG.error("Invalid JWT signature");
@@ -99,6 +124,15 @@ public class TokenProvider {
             LOG.error("JWT claims string is empty.");
         }
         return false;
+    }
+
+    /**
+     * Logs Out user.
+     *
+     * @param token
+     */
+    public void logout(final String token) {
+        authCache.evict(token);
     }
 
 }

@@ -18,13 +18,14 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.validation.Valid;
+import javax.servlet.http.HttpServletRequest;
 import java.security.Principal;
 
 /**
@@ -36,6 +37,10 @@ import java.security.Principal;
         description = "Resource to manage authentication")
 class AuthenticationAPIController {
 
+    /**
+     * value.
+     */
+    private static final int VALUE = 7;
     /**
      * instance of authenticationManager.
      */
@@ -81,12 +86,14 @@ class AuthenticationAPIController {
     @Operation(summary = "Signup the User")
     @PostMapping("/signup")
     public ResponseEntity<Void> registerUser(final
-                                               @RequestBody @Valid SignupRequest signUpRequest) {
-        userDetailsService.create("System", new Learner(null, signUpRequest.getEmail(),
+                                               @RequestBody
+                                                 SignupRequest signUpRequest) {
+        userDetailsService.create("System",
+                new Learner(null, signUpRequest.getEmail(),
                 passwordEncoder.encode(signUpRequest.getPassword()),
                 signUpRequest.getImageUrl(), AuthProvider.local, null, null,
                 null, null));
-        return null;
+        return ResponseEntity.ok().build();
     }
 
     /**
@@ -127,14 +134,21 @@ class AuthenticationAPIController {
 
     /**
      * logout an user.
-     *
+     * @param request
      * @return void response entity
      */
     @Operation(summary = "logout current user",
             security = @SecurityRequirement(name = "bearerAuth"))
     @PostMapping("/logout")
-    public ResponseEntity<Void> logout() {
-        return ResponseEntity.noContent().build();
+    public ResponseEntity<Void> logout(final HttpServletRequest request) {
+        String headerAuth = request.getHeader("Authorization");
+
+        if (StringUtils.hasText(headerAuth) && headerAuth
+                .startsWith("Bearer ")) {
+            tokenUtil.logout(headerAuth.substring(VALUE));
+        }
+
+        return ResponseEntity.ok().build();
     }
 
     /**
