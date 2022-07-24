@@ -123,9 +123,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     /**
-     * CustomUserDetailsService.
-     * @return customUserDetailsService
+     * passwordEncoder.
+     * @return passwordEncoder
      */
+    @Bean
+    PasswordEncoder passwordEncoder() {
+        return passwordEncoder;
+    }
+
     @Bean
     CustomUserDetailsService customUserDetailsService() {
         return customUserDetailsService;

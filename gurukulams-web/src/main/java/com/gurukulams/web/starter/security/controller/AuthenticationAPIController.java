@@ -1,8 +1,11 @@
 package com.gurukulams.web.starter.security.controller;
 
+import com.gurukulams.core.model.AuthProvider;
+import com.gurukulams.core.model.Learner;
 import com.gurukulams.core.service.LearnerService;
 import com.gurukulams.web.starter.security.payload.AuthenticationRequest;
 import com.gurukulams.web.starter.security.payload.AuthenticationResponse;
+import com.gurukulams.web.starter.security.payload.SignupRequest;
 import com.gurukulams.web.starter.security.security.TokenProvider;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -14,12 +17,14 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
 import java.security.Principal;
 
 /**
@@ -29,7 +34,7 @@ import java.security.Principal;
 @RequestMapping("/api/auth")
 @Tag(name = "Authentication",
         description = "Resource to manage authentication")
-class AuthenticationApiController {
+class AuthenticationAPIController {
 
     /**
      * instance of authenticationManager.
@@ -45,20 +50,43 @@ class AuthenticationApiController {
     private final TokenProvider tokenUtil;
 
     /**
+     * instance of PasswordEncoder.
+     */
+    private final PasswordEncoder passwordEncoder;
+
+    /**
      * constructs authenticationManager,userDetailsService,tokenUtil.
      *
      * @param anAuthenticationManager the an authentication manager
      * @param anUserDetailsService    the an user details service
+     * @param apasswordEncoder        the a apasswordEncoder
      * @param aTokenUtil              the a token util
      */
-    AuthenticationApiController(final AuthenticationManager
+    AuthenticationAPIController(final AuthenticationManager
                                         anAuthenticationManager,
                                 final LearnerService
                                         anUserDetailsService,
+                                final PasswordEncoder apasswordEncoder,
                                 final TokenProvider aTokenUtil) {
         this.authenticationManager = anAuthenticationManager;
         this.userDetailsService = anUserDetailsService;
         this.tokenUtil = aTokenUtil;
+        this.passwordEncoder = apasswordEncoder;
+    }
+
+    /**
+     * @param signUpRequest
+     * @return loginRequest
+     */
+    @Operation(summary = "Signup the User")
+    @PostMapping("/signup")
+    public ResponseEntity<Void> registerUser(final
+                                               @RequestBody @Valid SignupRequest signUpRequest) {
+        userDetailsService.create("System", new Learner(null, signUpRequest.getEmail(),
+                passwordEncoder.encode(signUpRequest.getPassword()),
+                signUpRequest.getImageUrl(), AuthProvider.local, null, null,
+                null, null));
+        return null;
     }
 
     /**
