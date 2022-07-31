@@ -1,6 +1,5 @@
 package com.gurukulams.web.starter.errorhandling;
 
-import org.springframework.http.HttpStatus;
 
 import java.util.Arrays;
 import java.util.List;
@@ -25,7 +24,7 @@ public final class ApiError {
      * @param aMessage  the message
      * @param theErrors the errors
      */
-    public ApiError( final String aMessage,
+    public ApiError(final String aMessage,
                     final List<String> theErrors) {
         this.message = aMessage;
         this.errors = theErrors;
@@ -37,10 +36,9 @@ public final class ApiError {
      * @param localizedMessage the localized message
      * @param error            the error
      */
-    public ApiError(
-                    final String localizedMessage,
+    public ApiError(final String localizedMessage,
                     final String error) {
-        this( localizedMessage, Arrays.asList(error));
+        this(localizedMessage, Arrays.asList(error));
     }
 
 
