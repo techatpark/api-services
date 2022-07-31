@@ -116,9 +116,9 @@ public class APIControllerTest {
                     }
                     return false;
                 }).toList() ;
-//
-//        Assertions.assertEquals(0, problematicFiles.size(),
-//                "No Validation at Controller " + problematicFiles.toString());
+
+        Assertions.assertEquals(0, problematicFiles.size(),
+                "No Validation at Controller " + problematicFiles.toString());
 
         problematicFiles = controllerFiles.stream()
                 .filter(path -> {
