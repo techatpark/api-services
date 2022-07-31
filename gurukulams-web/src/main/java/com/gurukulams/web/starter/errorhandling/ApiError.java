@@ -9,10 +9,7 @@ import java.util.List;
  * Model class for application errors.
  */
 public final class ApiError {
-    /**
-     * tells a http status.
-     */
-    private final HttpStatus status;
+
     /**
      * tells a message.
      */
@@ -25,13 +22,11 @@ public final class ApiError {
     /**
      * Builds API Error.
      *
-     * @param aStatus   the status
      * @param aMessage  the message
      * @param theErrors the errors
      */
-    public ApiError(final HttpStatus aStatus, final String aMessage,
+    public ApiError( final String aMessage,
                     final List<String> theErrors) {
-        this.status = aStatus;
         this.message = aMessage;
         this.errors = theErrors;
     }
@@ -39,24 +34,16 @@ public final class ApiError {
     /**
      * Builds API from Single Error.
      *
-     * @param badRequest       the bad request
      * @param localizedMessage the localized message
      * @param error            the error
      */
-    public ApiError(final HttpStatus badRequest,
+    public ApiError(
                     final String localizedMessage,
                     final String error) {
-        this(badRequest, localizedMessage, Arrays.asList(error));
+        this( localizedMessage, Arrays.asList(error));
     }
 
-    /**
-     * Gets status.
-     *
-     * @return the status
-     */
-    public HttpStatus getStatus() {
-        return status;
-    }
+
 
     /**
      * Gets message.

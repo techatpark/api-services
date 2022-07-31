@@ -26,6 +26,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 import java.security.Principal;
 
 /**
@@ -86,7 +87,7 @@ class AuthenticationAPIController {
     @Operation(summary = "Signup the User")
     @PostMapping("/signup")
     public ResponseEntity<Void> registerUser(final
-                                               @RequestBody
+                                               @RequestBody @Valid
                                                  SignupRequest signUpRequest) {
         userDetailsService.create("System",
                 new Learner(null, signUpRequest.getEmail(),
