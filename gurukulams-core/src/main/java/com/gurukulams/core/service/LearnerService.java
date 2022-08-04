@@ -2,6 +2,7 @@ package com.gurukulams.core.service;
 
 import com.gurukulams.core.model.AuthProvider;
 import com.gurukulams.core.model.Learner;
+import com.gurukulams.core.payload.SignupRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -17,6 +18,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.function.Function;
+import java.util.function.Supplier;
 
 /**
  * The type Learner service.
@@ -74,6 +77,15 @@ public class LearnerService {
                 );
              return learner;
             }
+
+    public void signUp(final SignupRequest signUpRequest,
+                       final Function<String,String> encoderFunction) {
+        create("System",
+                new Learner(null, signUpRequest.getEmail(),
+                        encoderFunction.apply(signUpRequest.getPassword()),
+                        signUpRequest.getImageUrl(), AuthProvider.local, null, null,
+                        null, null));
+    }
 
     /**
      *

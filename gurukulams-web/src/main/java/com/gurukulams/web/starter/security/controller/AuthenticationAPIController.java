@@ -1,11 +1,9 @@
 package com.gurukulams.web.starter.security.controller;
 
-import com.gurukulams.core.model.AuthProvider;
-import com.gurukulams.core.model.Learner;
 import com.gurukulams.core.service.LearnerService;
-import com.gurukulams.web.starter.security.payload.AuthenticationRequest;
-import com.gurukulams.web.starter.security.payload.AuthenticationResponse;
-import com.gurukulams.web.starter.security.payload.SignupRequest;
+import com.gurukulams.core.payload.AuthenticationRequest;
+import com.gurukulams.core.payload.AuthenticationResponse;
+import com.gurukulams.core.payload.SignupRequest;
 import com.gurukulams.web.starter.security.security.TokenProvider;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -26,8 +24,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.validation.Valid;
 import java.security.Principal;
+import java.util.function.Function;
 
 /**
  * The type Authentication api controller.
@@ -87,15 +85,13 @@ class AuthenticationAPIController {
     @Operation(summary = "Signup the User")
     @PostMapping("/signup")
     public ResponseEntity<Void> registerUser(final
-                                               @RequestBody @Valid
+                                               @RequestBody
                                                  SignupRequest signUpRequest) {
-        userDetailsService.create("System",
-                new Learner(null, signUpRequest.getEmail(),
-                passwordEncoder.encode(signUpRequest.getPassword()),
-                signUpRequest.getImageUrl(), AuthProvider.local, null, null,
-                null, null));
+        userDetailsService.signUp(signUpRequest, s -> passwordEncoder.encode(s));
         return ResponseEntity.ok().build();
     }
+
+
 
     /**
      * performs the login function.

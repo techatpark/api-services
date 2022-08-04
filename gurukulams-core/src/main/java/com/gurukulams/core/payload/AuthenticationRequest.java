@@ -1,4 +1,4 @@
-package com.gurukulams.web.starter.security.payload;
+package com.gurukulams.core.payload;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;

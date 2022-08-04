@@ -1,4 +1,4 @@
-package com.gurukulams.web.starter.security.payload;
+package com.gurukulams.core.payload;
 
 
 import javax.validation.constraints.Email;
