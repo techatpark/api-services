@@ -6,9 +6,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
+import javax.validation.ConstraintViolation;
+import javax.validation.ConstraintViolationException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,6 +33,20 @@ public final class CustomRestExceptionHandler
         }
         final ApiError apiError = new ApiError("Validation Failed", errors);
         return handleExceptionInternal(ex, apiError, headers,
+                HttpStatus.BAD_REQUEST, request);
+    }
+
+    @ExceptionHandler(value = ConstraintViolationException.class)
+    public ResponseEntity<Object> handleConstraintViolationException(ConstraintViolationException exception,
+                                                                     final WebRequest request) {
+        HttpHeaders headers = new HttpHeaders();
+        final List<String> errors = new ArrayList();
+        for (final ConstraintViolation<?> error : exception.getConstraintViolations()) {
+            errors.add(
+                    error.getPropertyPath() + ": " + error.getMessage());
+        }
+        final ApiError apiError = new ApiError("Validation Failed", errors);
+        return handleExceptionInternal(exception, apiError, headers,
                 HttpStatus.BAD_REQUEST, request);
     }
 }

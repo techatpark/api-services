@@ -10,7 +10,11 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Service;
 
+import javax.validation.ConstraintViolationException;
+import javax.validation.Validator;
+
 import javax.sql.DataSource;
+import javax.validation.ConstraintViolation;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
@@ -18,8 +22,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 import java.util.function.Function;
-import java.util.function.Supplier;
 
 /**
  * The type Learner service.
@@ -41,15 +45,24 @@ public class LearnerService {
      * this helps to execute sql queries.
      */
     private final JdbcTemplate jdbcTemplate;
+
+    /**
+     * Bean Validator.
+     */
+    private final Validator validator;
+
     /**
      * this is the constructor.
-     * @param anJdbcTemplate
      * @param anDataSource
+     * @param anJdbcTemplate
+     * @param validator
      */
     public LearnerService(final DataSource anDataSource,
-                          final JdbcTemplate anJdbcTemplate) {
+                          final JdbcTemplate anJdbcTemplate,
+                          final Validator validator) {
         this.dataSource = anDataSource;
         this.jdbcTemplate = anJdbcTemplate;
+        this.validator = validator;
     }
 
     /**
@@ -78,13 +91,29 @@ public class LearnerService {
              return learner;
             }
 
+    /**
+     * Sigup an User.
+     * @param signUpRequest
+     * @param encoderFunction
+     */
     public void signUp(final SignupRequest signUpRequest,
-                       final Function<String,String> encoderFunction) {
-        create("System",
-                new Learner(null, signUpRequest.getEmail(),
-                        encoderFunction.apply(signUpRequest.getPassword()),
-                        signUpRequest.getImageUrl(), AuthProvider.local, null, null,
-                        null, null));
+                       final Function<String, String> encoderFunction) {
+        Set<ConstraintViolation<SignupRequest>> violations = validator.validate(signUpRequest);
+        if (violations.isEmpty()) {
+            create("System",
+                    new Learner(null, signUpRequest.getEmail(),
+                            encoderFunction.apply(signUpRequest.getPassword()),
+                            signUpRequest.getImageUrl(),
+                            AuthProvider.local, null, null,
+                            null, null));
+        } else {
+            StringBuilder sb = new StringBuilder();
+            for (ConstraintViolation<SignupRequest> constraintViolation : violations) {
+                sb.append(constraintViolation.getMessage());
+            }
+            throw new ConstraintViolationException("Error occurred: " + sb.toString(), violations);
+        }
+
     }
 
     /**

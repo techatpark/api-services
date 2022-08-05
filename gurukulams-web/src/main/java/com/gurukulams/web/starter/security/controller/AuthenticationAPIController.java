@@ -25,7 +25,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
 import java.security.Principal;
-import java.util.function.Function;
 
 /**
  * The type Authentication api controller.
@@ -87,7 +86,8 @@ class AuthenticationAPIController {
     public ResponseEntity<Void> registerUser(final
                                                @RequestBody
                                                  SignupRequest signUpRequest) {
-        userDetailsService.signUp(signUpRequest, s -> passwordEncoder.encode(s));
+        userDetailsService.signUp(signUpRequest,
+                s -> passwordEncoder.encode(s));
         return ResponseEntity.ok().build();
     }
 
