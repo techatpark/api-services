@@ -55,14 +55,15 @@ public class LearnerService {
      * this is the constructor.
      * @param anDataSource
      * @param anJdbcTemplate
-     * @param validator
+     * @param pValidator
      */
     public LearnerService(final DataSource anDataSource,
                           final JdbcTemplate anJdbcTemplate,
-                          final Validator validator) {
+                          final Validator
+                                  pValidator) {
         this.dataSource = anDataSource;
         this.jdbcTemplate = anJdbcTemplate;
-        this.validator = validator;
+        this.validator = pValidator;
     }
 
     /**
@@ -98,7 +99,8 @@ public class LearnerService {
      */
     public void signUp(final SignupRequest signUpRequest,
                        final Function<String, String> encoderFunction) {
-        Set<ConstraintViolation<SignupRequest>> violations = validator.validate(signUpRequest);
+        Set<ConstraintViolation<SignupRequest>> violations =
+                validator.validate(signUpRequest);
         if (violations.isEmpty()) {
             create("System",
                     new Learner(null, signUpRequest.getEmail(),
@@ -108,10 +110,12 @@ public class LearnerService {
                             null, null));
         } else {
             StringBuilder sb = new StringBuilder();
-            for (ConstraintViolation<SignupRequest> constraintViolation : violations) {
+            for (ConstraintViolation<SignupRequest>
+                    constraintViolation : violations) {
                 sb.append(constraintViolation.getMessage());
             }
-            throw new ConstraintViolationException("Error occurred: " + sb.toString(), violations);
+            throw new ConstraintViolationException("Error occurred: "
+                    + sb.toString(), violations);
         }
 
     }

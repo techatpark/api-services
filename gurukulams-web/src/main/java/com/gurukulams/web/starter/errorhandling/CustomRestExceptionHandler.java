@@ -1,5 +1,6 @@
 package com.gurukulams.web.starter.errorhandling;
 
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -36,12 +37,21 @@ public final class CustomRestExceptionHandler
                 HttpStatus.BAD_REQUEST, request);
     }
 
+    /**
+     *
+     * @param exception
+     * @param request
+     * @return ResponseEntity
+     */
     @ExceptionHandler(value = ConstraintViolationException.class)
-    public ResponseEntity<Object> handleConstraintViolationException(ConstraintViolationException exception,
-                                                                     final WebRequest request) {
+    public ResponseEntity<Object> handleConstraintViolationException(
+            final ConstraintViolationException exception,
+            final WebRequest request) {
         HttpHeaders headers = new HttpHeaders();
+
         final List<String> errors = new ArrayList();
-        for (final ConstraintViolation<?> error : exception.getConstraintViolations()) {
+        for (final ConstraintViolation<?> error
+                : exception.getConstraintViolations()) {
             errors.add(
                     error.getPropertyPath() + ": " + error.getMessage());
         }
@@ -49,4 +59,27 @@ public final class CustomRestExceptionHandler
         return handleExceptionInternal(exception, apiError, headers,
                 HttpStatus.BAD_REQUEST, request);
     }
+
+    /**
+     *
+     * @param exception
+     * @param request
+     * @return ResponseEntity
+     */
+    @ExceptionHandler(value = DuplicateKeyException.class)
+    public ResponseEntity<Object> handleDuplicateKeyException(
+            final DuplicateKeyException exception,
+            final WebRequest request) {
+        HttpHeaders headers = new HttpHeaders();
+
+        final List<String> errors = new ArrayList();
+        errors.add(
+                "Email id already exist");
+
+        final ApiError apiError = new ApiError("Validation Failed",
+                errors);
+        return handleExceptionInternal(exception, apiError, headers,
+                HttpStatus.NOT_ACCEPTABLE, request);
+    }
+
 }
