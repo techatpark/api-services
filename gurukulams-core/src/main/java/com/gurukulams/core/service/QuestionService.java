@@ -93,7 +93,7 @@ public class QuestionService {
             rs, rowNum) -> {
         final Choice choice = new Choice();
         choice.setId(rs.getInt("id"));
-        choice.setValue(rs.getString("value"));
+        choice.setValue(rs.getString("c_value"));
         choice.setAnswer(rs.getBoolean("is_answer"));
         // https://docs.oracle.com/javase/7/docs/api/java/sql
         // /ResultSet.html#wasNull%28%29
@@ -189,13 +189,13 @@ public class QuestionService {
                                 .withTableName("question_choices")
                                 .usingGeneratedKeyColumns("id")
                                 .usingColumns("question_id",
-                                        "value", "is_answer");
+                                        "c_value", "is_answer");
 
                 question.getChoices().forEach(choice -> {
                     Map<String, Object> valueMapQuestionChoice =
                             new HashMap<>();
                     valueMapQuestionChoice.put("question_id", id);
-                    valueMapQuestionChoice.put("value", choice.getValue());
+                    valueMapQuestionChoice.put("c_value", choice.getValue());
                     valueMapQuestionChoice.put("is_answer",
                             choice.isAnswer() != null && choice.isAnswer());
 
@@ -248,7 +248,7 @@ public class QuestionService {
     private List<Choice> listQuestionChoice(final boolean isOwner,
                                             final Integer questionId) {
         final String query =
-                "SELECT id,question_id,value,"
+                "SELECT id,question_id,c_value,"
                         + (isOwner ? "is_answer" : "NULL")
                         + " AS is_answer"
                         + " FROM question_choices WHERE"
@@ -352,7 +352,7 @@ public class QuestionService {
                                 .withTableName("question_choices")
                                 .usingGeneratedKeyColumns("id")
                                 .usingColumns("question_id",
-                                        "value", "is_answer");
+                                        "c_value", "is_answer");
 
                 List<Integer> availableIds = question.getChoices()
                         .stream()
@@ -379,7 +379,7 @@ public class QuestionService {
                                 new HashMap<>();
                         valueMapQuestionChoice.put("question_id", id);
                         valueMapQuestionChoice
-                                .put("value", choice.getValue());
+                                .put("c_value", choice.getValue());
                         valueMapQuestionChoice
                                 .put("is_answer",
                                         choice.isAnswer() != null
@@ -392,7 +392,7 @@ public class QuestionService {
                     } else {
 
                         final String updatequestionChoice =
-                                "UPDATE question_choices SET value = ?, "
+                                "UPDATE question_choices SET c_value = ?, "
                                         + "is_answer = ? "
                                         + "WHERE id = ?";
 
@@ -563,7 +563,7 @@ public class QuestionService {
             final Class<Question> rootBeanClass = Question.class;
             final Object rootBean = null;
             final Object leafBeanInstance = null;
-            final Object value = null;
+            final Object cValue = null;
             final Path propertyPath = null;
             final ConstraintDescriptor<?> constraintDescriptor = null;
             final ElementType elementType = null;
@@ -580,7 +580,7 @@ public class QuestionService {
                             expressionVariables,
                             "Minimun 2 choices",
                             rootBeanClass,
-                            question, leafBeanInstance, value, propertyPath,
+                            question, leafBeanInstance, cValue, propertyPath,
                             constraintDescriptor, elementType);
                     violations.add(violation);
                 } else if (question.getAnswer() != null) {
@@ -589,7 +589,7 @@ public class QuestionService {
                             messageTemplate, messageParameters,
                             expressionVariables,
                             "Answer should be empty", rootBeanClass,
-                            question, leafBeanInstance, value, propertyPath,
+                            question, leafBeanInstance, cValue, propertyPath,
                             constraintDescriptor, elementType);
                     violations.add(violation);
                 }
@@ -601,7 +601,7 @@ public class QuestionService {
                             expressionVariables,
                             "Answer should not be empty",
                             rootBeanClass,
-                            question, leafBeanInstance, value, propertyPath,
+                            question, leafBeanInstance, cValue, propertyPath,
                             constraintDescriptor, elementType);
                     violations.add(violation);
                 } else if (question.getChoices() != null) {
@@ -611,7 +611,7 @@ public class QuestionService {
                             expressionVariables,
                             "Choiced should not be aavailable",
                             rootBeanClass,
-                            question, leafBeanInstance, value, propertyPath,
+                            question, leafBeanInstance, cValue, propertyPath,
                             constraintDescriptor, elementType);
                     violations.add(violation);
                 }
