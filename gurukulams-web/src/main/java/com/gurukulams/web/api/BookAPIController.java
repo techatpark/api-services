@@ -1,6 +1,7 @@
 package com.gurukulams.web.api;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.gurukulams.core.model.Book;
 import com.gurukulams.core.model.Question;
 import com.gurukulams.core.model.QuestionType;
 import com.gurukulams.core.model.UserNote;
@@ -28,6 +29,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.constraints.NotBlank;
 import java.io.IOException;
+import java.net.URI;
 import java.security.Principal;
 import java.util.List;
 import java.util.Locale;
@@ -60,6 +62,148 @@ class BookAPIController {
                       final AnswerService aAnswerService) {
         this.bookService = abookService;
         this.answerService = aAnswerService;
+    }
+    /**
+     * Create response entity.
+     *
+     * @param principal the principal
+     * @param book  the book name
+     * @param locale the locale
+     * @return the response entity
+     */
+    @Operation(summary = "Creates a new book",
+            description = "Can be called "
+                    + "only by users with 'auth management' rights.",
+            security = @SecurityRequirement(name = "bearerAuth"))
+    @ApiResponses(value = {@ApiResponse(responseCode = "201",
+            description = "book created successfully"),
+            @ApiResponse(responseCode = "400",
+                    description = "book is invalid"),
+            @ApiResponse(responseCode = "401",
+                    description = "invalid credentials")})
+    @ResponseStatus(HttpStatus.CREATED)
+    @PostMapping(produces = "application/json", consumes = "application/json")
+    public ResponseEntity<Book> create(final Principal principal,
+                                       @RequestHeader(name = "Accept-Language",
+                                               required = false)
+                                       final Locale locale,
+                                       @RequestBody final Book book) {
+        Book created = bookService.create(principal.getName(), locale, book);
+        return ResponseEntity.created(URI.create("/api/book" + created.id()))
+                .body(created);
+    }
+
+    /**
+     * Read a book.
+     * @param id
+     * @param principal
+     * @param locale the locale
+     * @return a book
+     */
+    @Operation(summary = "Get the Book with given id",
+            security = @SecurityRequirement(name = "bearerAuth"))
+    @ApiResponses(value = {@ApiResponse(responseCode = "200",
+            description = "getting book successfully"),
+            @ApiResponse(responseCode = "401",
+                    description = "invalid credentials"),
+            @ApiResponse(responseCode = "404",
+                    description = "syllabus not found")})
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Book> read(@PathVariable final Long id,
+                                     @RequestHeader(name = "Accept-Language",
+                                             required = false)
+                                     final Locale locale,
+                                     final Principal principal) {
+        return ResponseEntity.of(bookService.read(principal.getName(),
+                locale, id));
+    }
+
+    /**
+     * Update a Book.
+     * @param id
+     * @param principal
+     * @param locale
+     * @param book
+     * @return a book
+     */
+    @Operation(summary = "Updates the book by given id",
+            description = "Can be called only by users "
+                    + "with 'auth management' rights.",
+            security = @SecurityRequirement(name = "bearerAuth"))
+    @ApiResponses(value = {@ApiResponse(responseCode = "200",
+            description = "book updated successfully"),
+            @ApiResponse(responseCode = "400",
+                    description = "book is invalid"),
+            @ApiResponse(responseCode = "401",
+                    description = "invalid credentials"),
+            @ApiResponse(responseCode = "404",
+                    description = "syllabus not found")})
+    @PutMapping(value = "/{id}", produces = "application/json", consumes =
+            "application/json")
+    public ResponseEntity<Book> update(@PathVariable final Long id,
+                                       final Principal
+                                               principal,
+                                       @RequestHeader(name = "Accept-Language",
+                                               required = false)
+                                       final Locale locale,
+                                       @RequestBody final Book
+                                               book) {
+        final Book updatedBook =
+                bookService.update(id, principal.getName(), locale, book);
+        return updatedBook == null ? ResponseEntity.notFound().build()
+                : ResponseEntity.ok(updatedBook);
+    }
+
+    /**
+     * Delete a Book.
+     * @param id
+     * @param principal
+     * @return book
+     */
+    @Operation(summary = "Deletes the book by given id",
+            security = @SecurityRequirement(name = "bearerAuth"))
+    @ApiResponses(value = {@ApiResponse(responseCode = "200",
+            description = "book deleted successfully"),
+            @ApiResponse(responseCode = "401",
+                    description = "invalid credentials"),
+            @ApiResponse(responseCode = "404",
+                    description = "book not found")})
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> delete(@PathVariable final
+                                       Long id,
+                                       final Principal principal) {
+        return bookService.delete(principal.getName(),
+                id) ? ResponseEntity.ok().build()
+                : ResponseEntity.notFound().build();
+    }
+
+    /**
+     * List the Books.
+     * @param principal
+     * @param locale
+     * @return list of book
+     */
+    @Operation(summary = "lists the book",
+            description = " Can be invoked by auth users only",
+            security = @SecurityRequirement(name = "bearerAuth"))
+    @ApiResponses(value = {@ApiResponse(responseCode = "200",
+            description = "Listing the book"),
+            @ApiResponse(responseCode = "204",
+                    description = "book are not available"),
+            @ApiResponse(responseCode = "401",
+                    description = "invalid credentials")})
+    @GetMapping(produces = "application/json")
+    public ResponseEntity<List<Book>> list(final Principal
+                                                   principal,
+                                           @RequestHeader(
+                                                   name = "Accept-Language",
+                                                   required = false)
+                                           final Locale locale) {
+        final List<Book> bookList = bookService.list(
+                principal.getName(), locale);
+        return bookList.isEmpty() ? ResponseEntity.noContent().build()
+                : ResponseEntity.ok(bookList);
     }
 
     /**
@@ -171,7 +315,7 @@ class BookAPIController {
     public ResponseEntity<Void> deleteNoteById(
             final @PathVariable String bookName,
             final @PathVariable Integer id) {
-        return bookService.delete(id) ? ResponseEntity.ok().build()
+        return bookService.deleteNote(id) ? ResponseEntity.ok().build()
                 : ResponseEntity.notFound().build();
     }
 

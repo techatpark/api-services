@@ -144,6 +144,26 @@ CREATE TABLE subjects_localized (
     PRIMARY KEY(subject_id, locale)
 );
 
+CREATE TABLE books (
+    id INT auto_increment PRIMARY KEY,
+    title VARCHAR(55),
+    description TEXT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    created_by VARCHAR(55) NOT NULL,
+    modified_at TIMESTAMP,
+    modified_by VARCHAR(200),
+    CONSTRAINT books_title_constraint UNIQUE (title)
+);
+
+CREATE TABLE books_localized (
+    book_id INT,
+    locale VARCHAR(8) NOT NULL,
+    title VARCHAR(55),
+    description TEXT,
+    FOREIGN KEY (book_id) REFERENCES books (id),
+    PRIMARY KEY(book_id, locale)
+);
+
 CREATE TABLE institutes (
     id INT auto_increment PRIMARY KEY,
     title VARCHAR(55),

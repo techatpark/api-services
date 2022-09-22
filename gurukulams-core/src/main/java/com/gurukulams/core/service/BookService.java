@@ -1,13 +1,25 @@
 package com.gurukulams.core.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.gurukulams.core.model.Book;
 import com.gurukulams.core.model.Question;
 import com.gurukulams.core.model.QuestionType;
 import com.gurukulams.core.model.UserNote;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Service;
 
+import javax.sql.DataSource;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.Optional;
 
 /**
@@ -15,6 +27,22 @@ import java.util.Optional;
  */
 @Service
 public class BookService {
+
+    /**
+     * Logger Facade.
+     */
+    private final Logger logger =
+            LoggerFactory.getLogger(BookService.class);
+
+    /**
+     * this helps to execute sql queries.
+     */
+    private final JdbcTemplate jdbcTemplate;
+
+    /**
+     * this is the connection for the database.
+     */
+    private final DataSource dataSource;
 
     /**
      * The User note service.
@@ -35,19 +63,249 @@ public class BookService {
     /**
      * Instantiates a new Book service.
      *
+     * @param ajdbcTemplate a jdbcTemplate
+     * @param adataSource a dataSource
      * @param theUserNotesService the user note service
      * @param theQuestionService  the question service
      * @param thePracticeService  the practice service
      */
-    public BookService(
+    public BookService(final JdbcTemplate ajdbcTemplate,
+                       final DataSource adataSource,
             final UserNoteService theUserNotesService, final
     QuestionService theQuestionService,
             final PracticeService thePracticeService) {
+        this.jdbcTemplate = ajdbcTemplate;
+        this.dataSource = adataSource;
         this.userNotesService = theUserNotesService;
         this.questionService = theQuestionService;
         this.practiceService = thePracticeService;
     }
 
+    /**
+     * Maps the data from and to the database.
+     *
+     * @param rs
+     * @param rowNum
+     * @return p
+     * @throws SQLException
+     */
+    private Book rowMapper(final ResultSet rs,
+                           final Integer rowNum)
+            throws SQLException {
+        Book book = new Book((long)
+                rs.getInt("id"),
+                rs.getString("title"),
+                rs.getString("description"),
+                rs.getObject("created_at", LocalDateTime.class),
+                rs.getString("created_by"),
+                rs.getObject("modified_at", LocalDateTime.class),
+                rs.getString("modified_by"));
+
+        return book;
+    }
+
+    /**
+     * creates new book.
+     * @param userName the userName
+     * @param locale the locale
+     * @param book the syllabus
+     * @return syllabus optional
+     */
+    public Book create(final String userName,
+                       final Locale locale,
+                       final Book book) {
+        final SimpleJdbcInsert insert = new SimpleJdbcInsert(dataSource)
+                .withTableName("books").usingGeneratedKeyColumns("id")
+                .usingColumns("title", "description", "created_by");
+
+        final Map<String, Object> valueMap = new HashMap<>();
+
+        valueMap.put("title", book.title());
+        valueMap.put("description", book.description());
+        valueMap.put("created_by", userName);
+
+        final Number bookId = insert.executeAndReturnKey(valueMap);
+
+        if (locale != null) {
+            valueMap.put("book_id", bookId);
+            valueMap.put("locale", locale.getLanguage());
+            createLocalizedBook(valueMap);
+        }
+        final Optional<Book> createdBooks =
+                read(userName, null, bookId.longValue());
+
+        logger.info("Book Created {}", bookId);
+
+        return createdBooks.get();
+    }
+
+    /**
+     * Create Localized book.
+     * @param valueMap
+     * @return noOfBook
+     */
+    private int createLocalizedBook(final Map<String, Object> valueMap) {
+        return new SimpleJdbcInsert(dataSource)
+                .withTableName("books_localized")
+                .usingColumns("book_id", "locale", "title", "description")
+                .execute(valueMap);
+    }
+
+    /**
+     * reads from syllabus.
+     * @param id the id
+     * @param userName the userName
+     * @param locale the locale
+     * @return question optional
+     */
+    public Optional<Book> read(final String userName,
+                               final Locale locale,
+                               final Long id) {
+        final String query = locale == null
+                ? "SELECT id,title,description,created_by,"
+                + "created_at, modified_at, modified_by FROM books "
+                + "WHERE id = ?"
+                : "SELECT DISTINCT b.ID, "
+                + "CASE WHEN bl.LOCALE = ? "
+                + "THEN bl.TITLE "
+                + "ELSE b.TITLE "
+                + "END AS TITLE, "
+                + "CASE WHEN bl.LOCALE = ? "
+                + "THEN bl.DESCRIPTION "
+                + "ELSE b.DESCRIPTION "
+                + "END AS DESCRIPTION,"
+                + "created_by,created_at, modified_at, modified_by "
+                + "FROM BOOKS b "
+                + "LEFT JOIN BOOKS_LOCALIZED bl "
+                + "ON b.ID = bl.BOOK_ID "
+                + "WHERE b.ID = ? "
+                + "AND (bl.LOCALE IS NULL "
+                + "OR bl.LOCALE = ? OR "
+                + "b.ID NOT IN "
+                + "(SELECT BOOK_ID FROM BOOKS_LOCALIZED "
+                + "WHERE BOOK_ID=b.ID AND LOCALE = ?))";
+
+        try {
+            final Book p = locale == null ? jdbcTemplate
+                    .queryForObject(query, new Object[]{id},
+                            this::rowMapper)
+                    : jdbcTemplate
+                    .queryForObject(query, new Object[]{
+                                    locale.getLanguage(),
+                                    locale.getLanguage(),
+                                    id,
+                                    locale.getLanguage(),
+                                    locale.getLanguage()},
+                            this::rowMapper);
+            return Optional.of(p);
+        } catch (final EmptyResultDataAccessException e) {
+            return Optional.empty();
+        }
+    }
+
+    /**
+     * update the books.
+     * @param id the id
+     * @param userName the userName
+     * @param locale the locale
+     * @param book the books
+     * @return question optional
+     */
+    public Book update(final Long id,
+                       final String userName,
+                       final Locale locale,
+                       final Book book) {
+        logger.debug("Entering update for Book {}", id);
+        final String query = locale == null
+                ? "UPDATE books SET title=?,"
+                + "description=?,modified_by=? WHERE id=?"
+                : "UPDATE books SET modified_by=? WHERE id=?";
+        Integer updatedRows = locale == null
+                ? jdbcTemplate.update(query, book.title(),
+                book.description(), userName, id)
+                : jdbcTemplate.update(query, userName, id);
+        if (updatedRows == 0) {
+            logger.error("Update not found", id);
+            throw new IllegalArgumentException("Book not found");
+        } else if (locale != null) {
+            updatedRows = jdbcTemplate.update(
+                    "UPDATE books_localized SET title=?,locale=?,"
+                            + "description=? WHERE book_id=? AND locale=?",
+                    book.title(), locale.getLanguage(),
+                    book.description(), id, locale.getLanguage());
+            if (updatedRows == 0) {
+                final Map<String, Object> valueMap = new HashMap<>(4);
+                valueMap.put("book_id", id);
+                valueMap.put("locale", locale.getLanguage());
+                valueMap.put("title", book.title());
+                valueMap.put("description", book.description());
+                createLocalizedBook(valueMap);
+            }
+        }
+        return read(userName, locale, id).get();
+    }
+
+    /**
+     * delete the book.
+     * @param id the id
+     * @param userName the userName
+     * @return question optional
+     */
+    public Boolean delete(final String userName, final Long id) {
+        final String query = "DELETE FROM books WHERE id = ?";
+        final Integer updatedRows = jdbcTemplate.update(query, id);
+        return !(updatedRows == 0);
+    }
+    /**
+     * list the book.
+     * @param userName the userName
+     * @param locale the locale
+     * @return question optional
+     */
+    public List<Book> list(final String userName,
+                           final Locale locale) {
+        final String query = locale == null
+                ? "SELECT id,title,description,created_by,"
+                + "created_at, modified_at, modified_by FROM books"
+                : "SELECT DISTINCT b.ID, "
+                + "CASE WHEN bl.LOCALE = ? "
+                + "THEN bl.TITLE "
+                + "ELSE b.TITLE "
+                + "END AS TITLE, "
+                + "CASE WHEN bl.LOCALE = ? "
+                + "THEN bl.DESCRIPTION "
+                + "ELSE b.DESCRIPTION "
+                + "END AS DESCRIPTION,"
+                + "created_by,created_at, modified_at, modified_by "
+                + "FROM BOOKS b "
+                + "LEFT JOIN BOOKS_LOCALIZED bl "
+                + "ON b.ID = bl.BOOK_ID "
+                + "WHERE bl.LOCALE IS NULL "
+                + "OR bl.LOCALE = ? OR "
+                + "b.ID NOT IN "
+                + "(SELECT BOOK_ID FROM BOOKS_LOCALIZED "
+                + "WHERE BOOK_ID=b.ID AND LOCALE = ?)";
+        return locale == null
+                ? jdbcTemplate.query(query, this::rowMapper)
+                : jdbcTemplate
+                .query(query, new Object[]{
+                                locale.getLanguage(),
+                                locale.getLanguage(),
+                                locale.getLanguage(),
+                                locale.getLanguage()},
+                        this::rowMapper);
+
+    }
+
+    /**
+     * Cleaning up all books.
+     *
+     */
+    public void deleteAll() {
+        jdbcTemplate.update("DELETE FROM books_localized");
+        jdbcTemplate.update("DELETE FROM books");
+
+    }
 
     /**
      * Create note optional.
@@ -109,7 +367,7 @@ public class BookService {
      * @param id the id
      * @return the boolean
      */
-    public boolean delete(final Integer id) {
+    public boolean deleteNote(final Integer id) {
         return userNotesService.delete(id);
     }
 
