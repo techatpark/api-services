@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Locale;
 
@@ -68,7 +69,7 @@ public class BookServiceTest {
         final Book book = bookService.create("mani",null,
                 anBook());
         final Long newBookId = book.id();
-        Book newBook = new Book(null, "Book", "A " +
+        Book newBook = new Book(null, "Book",LocalDateTime.now().toString(),"A " +
                 "Book", null, "tom", null, null);
         Book updatedBook = bookService
                 .update(newBookId, "mani", null, newBook);
@@ -96,7 +97,7 @@ public class BookServiceTest {
 
         final Book book = bookService.create("mani",null,
                 anBook());
-        Book newBook = new Book(null, "Book New", "A " +
+        Book newBook = new Book(null, "Book New",LocalDateTime.now().toString(), "A " +
                 "Book", null, "tom", null, null);
         bookService.create("mani",null,
                 newBook);
@@ -129,7 +130,7 @@ public class BookServiceTest {
 
         // Update for China Language
         bookService.update(book.id(),"mani", Locale.FRENCH,anBook(book,
-                STATE_BOARD_TITLE_IN_FRENCH,
+                STATE_BOARD_TITLE_IN_FRENCH,LocalDateTime.now().toString(),
                 STATE_BOARD_DESCRIPTION_IN_FRENCH));
 
         // Get for french Language
@@ -169,7 +170,7 @@ public class BookServiceTest {
      * @return the book
      */
     Book anBook() {
-        Book book = new Book(null, STATE_BOARD_IN_ENGLISH,
+        Book book = new Book(null, STATE_BOARD_IN_ENGLISH, LocalDateTime.now().toString(),
                 STATE_BOARD_DESCRIPTION_IN_ENGLISH, null, null,
                 null, null);
         return book;
@@ -180,8 +181,8 @@ public class BookServiceTest {
      *
      * @return the book
      */
-    Book anBook(final Book ref,final String title,final String description) {
-        return new Book(ref.id(), title,
+    Book anBook(final Book ref,final String title,final String path,final String description) {
+        return new Book(ref.id(), title,path,
                 description, ref.created_at(), ref.created_by(),
                 ref.modified_at(), ref.modified_by());
     }

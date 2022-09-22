@@ -147,11 +147,13 @@ CREATE TABLE subjects_localized (
 CREATE TABLE books (
     id INT auto_increment PRIMARY KEY,
     title VARCHAR(55),
+    path VARCHAR(255) NOT NULL,
     description TEXT,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     created_by VARCHAR(55) NOT NULL,
     modified_at TIMESTAMP,
     modified_by VARCHAR(200),
+    CONSTRAINT books_path_constraint UNIQUE (path),
     CONSTRAINT books_title_constraint UNIQUE (title)
 );
 

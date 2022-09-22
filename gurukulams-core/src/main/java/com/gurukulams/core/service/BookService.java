@@ -95,6 +95,7 @@ public class BookService {
         Book book = new Book((long)
                 rs.getInt("id"),
                 rs.getString("title"),
+                rs.getString("path"),
                 rs.getString("description"),
                 rs.getObject("created_at", LocalDateTime.class),
                 rs.getString("created_by"),
@@ -116,11 +117,12 @@ public class BookService {
                        final Book book) {
         final SimpleJdbcInsert insert = new SimpleJdbcInsert(dataSource)
                 .withTableName("books").usingGeneratedKeyColumns("id")
-                .usingColumns("title", "description", "created_by");
+                .usingColumns("title", "path", "description", "created_by");
 
         final Map<String, Object> valueMap = new HashMap<>();
 
         valueMap.put("title", book.title());
+        valueMap.put("path", book.title());
         valueMap.put("description", book.description());
         valueMap.put("created_by", userName);
 
@@ -162,7 +164,7 @@ public class BookService {
                                final Locale locale,
                                final Long id) {
         final String query = locale == null
-                ? "SELECT id,title,description,created_by,"
+                ? "SELECT id,title,path,description,created_by,"
                 + "created_at, modified_at, modified_by FROM books "
                 + "WHERE id = ?"
                 : "SELECT DISTINCT b.ID, "
@@ -170,6 +172,7 @@ public class BookService {
                 + "THEN bl.TITLE "
                 + "ELSE b.TITLE "
                 + "END AS TITLE, "
+                + "b.PATH, "
                 + "CASE WHEN bl.LOCALE = ? "
                 + "THEN bl.DESCRIPTION "
                 + "ELSE b.DESCRIPTION "
@@ -217,12 +220,12 @@ public class BookService {
                        final Book book) {
         logger.debug("Entering update for Book {}", id);
         final String query = locale == null
-                ? "UPDATE books SET title=?,"
+                ? "UPDATE books SET title=?,path=?,"
                 + "description=?,modified_by=? WHERE id=?"
                 : "UPDATE books SET modified_by=? WHERE id=?";
         Integer updatedRows = locale == null
                 ? jdbcTemplate.update(query, book.title(),
-                book.description(), userName, id)
+                book.path(), book.description(), userName, id)
                 : jdbcTemplate.update(query, userName, id);
         if (updatedRows == 0) {
             logger.error("Update not found", id);
@@ -265,13 +268,14 @@ public class BookService {
     public List<Book> list(final String userName,
                            final Locale locale) {
         final String query = locale == null
-                ? "SELECT id,title,description,created_by,"
+                ? "SELECT id,title,path,description,created_by,"
                 + "created_at, modified_at, modified_by FROM books"
                 : "SELECT DISTINCT b.ID, "
                 + "CASE WHEN bl.LOCALE = ? "
                 + "THEN bl.TITLE "
                 + "ELSE b.TITLE "
                 + "END AS TITLE, "
+                + "b.PATH, "
                 + "CASE WHEN bl.LOCALE = ? "
                 + "THEN bl.DESCRIPTION "
                 + "ELSE b.DESCRIPTION "
