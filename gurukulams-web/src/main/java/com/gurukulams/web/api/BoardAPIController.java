@@ -1,6 +1,7 @@
 package com.gurukulams.web.api;
 
 import com.gurukulams.core.model.Board;
+import com.gurukulams.core.model.Book;
 import com.gurukulams.core.model.Grade;
 import com.gurukulams.core.model.Subject;
 import com.gurukulams.core.service.BoardService;
@@ -228,12 +229,12 @@ class BoardAPIController {
 
 
     /**
-     * List the syllabus as per board and grade.
+     * List the subjects as per board and grade.
      * @param principal
      * @param locale
      * @param boardId
      * @param gradeId
-     * @return list of syllabus
+     * @return list of subjects
      */
     @Operation(summary = "lists the syllabus with given  board id and grade id",
             description = " Can be invoked by auth users only",
@@ -255,6 +256,35 @@ class BoardAPIController {
                 principal.getName(), locale, boardId, gradeId);
         return subjectList.isEmpty() ? ResponseEntity.noContent().build()
                 : ResponseEntity.ok(subjectList);
+
+    }
+
+    /**
+     * List the books as per board and grade.
+     * @param principal
+     * @param locale
+     * @param boardId
+     * @param gradeId
+     * @return list of syllabus
+     */
+    @Operation(summary = "lists the books with given  board id and grade id",
+            description = " Can be invoked by auth users only",
+            security = @SecurityRequirement(name = "bearerAuth"))
+    @ApiResponses(value = {@ApiResponse(responseCode = "200",
+            description = "Listing the books with given"
+                    + " board id and grade id"),
+            @ApiResponse(responseCode = "204",
+                    description = "books are not available"),
+            @ApiResponse(responseCode = "401",
+                    description = "invalid credentials")})
+    @GetMapping("/{boardId}/grades/{gradeId}/subjects/{subjectId}/books")
+    public ResponseEntity<List<Book>> list(final Principal principal,
+                                           final Locale locale,
+                                           @PathVariable final Long boardId,
+                                           @PathVariable final Long gradeId,
+                                           @PathVariable final Long subjectId) {
+
+        return null;
 
     }
 

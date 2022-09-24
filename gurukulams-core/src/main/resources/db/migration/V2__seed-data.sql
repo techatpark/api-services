@@ -78,6 +78,15 @@ INSERT INTO subjects_localized(subject_id,locale,title,description) VALUES (19,'
 INSERT INTO subjects(title,description,created_by) VALUES ('Environmental Science', 'Environmental Science','tom');
 INSERT INTO subjects_localized(subject_id,locale,title,description) VALUES (20,'ta','சுற்றுச்சூழல் அறிவியல்','சுற்றுச்சூழல் அறிவியல்');
 
+-- Books
+INSERT INTO books(title,path,description,created_by) VALUES ('11th Maths', '11-maths', '11th Maths','tom');
+INSERT INTO books(title,path,description,created_by) VALUES ('11th Physics', '11-physics', '11th Physics','tom');
+INSERT INTO books(title,path,description,created_by) VALUES ('11th Chemistry', '11-chemistry', '11th Chemistry','tom');
+INSERT INTO books(title,path,description,created_by) VALUES ('11th Biology', '11-biology', '11th Biology','tom');
+INSERT INTO books(title,path,description,created_by) VALUES ('12th Maths', '12-maths', '12th Maths','tom');
+INSERT INTO books(title,path,description,created_by) VALUES ('12th Physics', '12-physics', '12th Physics','tom');
+INSERT INTO books(title,path,description,created_by) VALUES ('12th Chemistry', '12-chemistry', '12th Chemistry','tom');
+INSERT INTO books(title,path,description,created_by) VALUES ('12th Biology', '12-biology', '12th Biology','tom');
 
 
 INSERT INTO subjects(title,description,created_by) VALUES ('HTML', 'HTML','tom');
@@ -191,14 +200,17 @@ INSERT INTO boards_grades_subjects(board_id,grade_id,subject_id) VALUES (1,10,4)
 
 -- 11th Standard
 
-INSERT INTO boards_grades_subjects(board_id,grade_id,subject_id) VALUES (1,11,1);
-INSERT INTO boards_grades_subjects(board_id,grade_id,subject_id) VALUES (1,11,2);
-INSERT INTO boards_grades_subjects(board_id,grade_id,subject_id) VALUES (1,11,3);
+--INSERT INTO boards_grades_subjects(board_id,grade_id,subject_id) VALUES (1,11,1);
+--INSERT INTO boards_grades_subjects(board_id,grade_id,subject_id) VALUES (1,11,2);
+--INSERT INTO boards_grades_subjects(board_id,grade_id,subject_id) VALUES (1,11,3);
 INSERT INTO boards_grades_subjects(board_id,grade_id,subject_id) VALUES (1,11,8);
+INSERT INTO boards_grades_subjects_books(board_id,grade_id,subject_id,book_id) VALUES (1,11,8,1);
 INSERT INTO boards_grades_subjects(board_id,grade_id,subject_id) VALUES (1,11,6);
+INSERT INTO boards_grades_subjects_books(board_id,grade_id,subject_id,book_id) VALUES (1,11,6,2);
 INSERT INTO boards_grades_subjects(board_id,grade_id,subject_id) VALUES (1,11,7);
+INSERT INTO boards_grades_subjects_books(board_id,grade_id,subject_id,book_id) VALUES (1,11,7,3);
 INSERT INTO boards_grades_subjects(board_id,grade_id,subject_id) VALUES (1,11,9);
-
+INSERT INTO boards_grades_subjects_books(board_id,grade_id,subject_id,book_id) VALUES (1,11,9,4);
 
 -- 12th Standard
 
