@@ -301,6 +301,59 @@ public class BookService {
 
     }
 
+    public List<Book> list(final String userName,
+                           final Locale locale,
+                           final Long boardId,
+                           final Long gradeId,
+                           final Long subjectId) {
+        final String query = locale == null
+                ? """
+        SELECT id,title,path, description,created_by,
+        created_at,modified_at,modified_by FROM books 
+        JOIN boards_grades_subjects_books ON books.id 
+        = boards_grades_subjects_books.book_id 
+        where boards_grades_subjects_books.grade_id = ? 
+        AND 
+        boards_grades_subjects_books.subject_id = ? 
+        AND 
+        boards_grades_subjects_books.board_id = ? """
+                :
+        """ 
+        SELECT DISTINCT b.ID, 
+        CASE WHEN bl.LOCALE = ? 
+        THEN bl.TITLE 
+        ELSE b.TITLE 
+        END AS TITLE, 
+        CASE WHEN bl.LOCALE = ? 
+        THEN bl.DESCRIPTION 
+        ELSE b.DESCRIPTION 
+        END AS DESCRIPTION,
+        created_by,created_at, modified_at, modified_by 
+        FROM books s 
+        LEFT JOIN books_localized bl 
+        ON b.id = bl.book_id 
+        LEFT JOIN boards_grades_subjects_books bgs 
+        ON b.id = bgs.books_id 
+        where bgs.grade_id = ?
+        AND 
+        bgs.subject_id = ?
+        AND 
+        bgs.board_id = ?
+        """;
+
+
+        return locale == null
+                ? jdbcTemplate.query(query,new Object[]{gradeId,subjectId,boardId}, this::rowMapper)
+                : jdbcTemplate
+                .query(query, new Object[]{
+                                locale.getLanguage(),
+                                locale.getLanguage(),
+                                gradeId,
+                                subjectId,
+                                boardId},
+                        this::rowMapper);
+
+    }
     /**
      * Cleaning up all books.
      *
