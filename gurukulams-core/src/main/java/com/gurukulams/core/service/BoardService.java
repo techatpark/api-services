@@ -272,6 +272,7 @@ public class BoardService {
      *
      */
     public void deleteAll() {
+        jdbcTemplate.update("DELETE FROM boards_grades_subjects_books");
         jdbcTemplate.update("DELETE FROM boards_grades_subjects");
         jdbcTemplate.update("DELETE FROM boards_grades");
         jdbcTemplate.update("DELETE FROM boards_localized");

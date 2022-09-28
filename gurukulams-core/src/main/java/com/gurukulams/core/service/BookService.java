@@ -301,58 +301,93 @@ public class BookService {
 
     }
 
+    /**
+     * Adds book to grade, board and subject.
+     * @param userName the userName
+     * @param locale the locale
+     * @param boardId the gradeId
+     * @param gradeId the gradeId
+     * @param subjectId the syllabusId
+     * @param bookId the bookId
+     * @return grade optional
+     */
+    public boolean addToBoardsGradesSubjects(final String userName,
+                                     final Locale locale,
+                                     final Long boardId,
+                                     final Long gradeId,
+                                     final Long subjectId,
+                                     final Long bookId) {
+        // Insert to boards_grades
+        final SimpleJdbcInsert insert = new SimpleJdbcInsert(dataSource)
+                .withTableName("boards_grades_subjects_books")
+                .usingColumns("board_id", "grade_id", "subject_id", "book_id");
+
+        // Fill the values
+        final Map<String, Object> valueMap = new HashMap<>();
+
+        valueMap.put("board_id", boardId);
+        valueMap.put("grade_id", gradeId);
+        valueMap.put("subject_id", subjectId);
+        valueMap.put("book_id", bookId);
+
+        int noOfRowsInserted = insert.execute(valueMap);
+
+        return noOfRowsInserted == 1;
+    }
+
+    /**
+     * list the subject by grade and board.
+     * @param userName the userName
+     * @param locale the locale
+     * @param boardId the grade
+     * @param gradeId the grade
+     * @param subjectId the syllabusId
+     * @return books optional
+     */
     public List<Book> list(final String userName,
-                           final Locale locale,
-                           final Long boardId,
-                           final Long gradeId,
-                           final Long subjectId) {
+                              final Locale locale,
+                              final Long boardId,
+                              final Long gradeId,
+                                final Long subjectId) {
         final String query = locale == null
-                ? """
-        SELECT id,title,path, description,created_by,
-        created_at,modified_at,modified_by FROM books 
-        JOIN boards_grades_subjects_books ON books.id 
-        = boards_grades_subjects_books.book_id 
-        where boards_grades_subjects_books.grade_id = ? 
-        AND 
-        boards_grades_subjects_books.subject_id = ? 
-        AND 
-        boards_grades_subjects_books.board_id = ? """
-                :
-        """ 
-        SELECT DISTINCT b.ID, 
-        CASE WHEN bl.LOCALE = ? 
-        THEN bl.TITLE 
-        ELSE b.TITLE 
-        END AS TITLE, 
-        CASE WHEN bl.LOCALE = ? 
-        THEN bl.DESCRIPTION 
-        ELSE b.DESCRIPTION 
-        END AS DESCRIPTION,
-        created_by,created_at, modified_at, modified_by 
-        FROM books s 
-        LEFT JOIN books_localized bl 
-        ON b.id = bl.book_id 
-        LEFT JOIN boards_grades_subjects_books bgs 
-        ON b.id = bgs.books_id 
-        where bgs.grade_id = ?
-        AND 
-        bgs.subject_id = ?
-        AND 
-        bgs.board_id = ?
-        """;
-
-
+                ? "SELECT id,title,path,description,created_by,"
+                + "created_at,modified_at,modified_by FROM books "
+                + "JOIN boards_grades_subjects_books ON books.id "
+                + "= boards_grades_subjects_books.book_id "
+                + " where boards_grades_subjects_books.grade_id = ? "
+                + "AND "
+                + " boards_grades_subjects_books.board_id = ? "
+                + "AND "
+                + " boards_grades_subjects_books.book_id = ? "
+                : "SELECT DISTINCT s.ID, "
+                + "CASE WHEN sl.LOCALE = ? "
+                + "THEN sl.TITLE "
+                + "ELSE s.TITLE "
+                + "END AS TITLE, "
+                + "s.path, "
+                + "CASE WHEN sl.LOCALE = ? "
+                + "THEN sl.DESCRIPTION "
+                + "ELSE s.DESCRIPTION "
+                + "END AS DESCRIPTION,"
+                + "created_by,created_at, modified_at, modified_by "
+                + "FROM books s "
+                + "LEFT JOIN BOOKS_LOCALIZED sl "
+                + "ON s.id = sl.book_id "
+                + "LEFT JOIN boards_grades_subjects_books bgs "
+                + "ON s.id = bgs.book_id where bgs.grade_id = ? "
+                + "AND bgs.board_id = ? "
+                + "AND bgs.subject_id = ? ";
         return locale == null
-                ? jdbcTemplate.query(query,new Object[]{gradeId,subjectId,boardId}, this::rowMapper)
+                ? jdbcTemplate.query(query, this::rowMapper,
+                            gradeId, boardId, subjectId)
                 : jdbcTemplate
                 .query(query, new Object[]{
                                 locale.getLanguage(),
                                 locale.getLanguage(),
                                 gradeId,
-                                subjectId,
-                                boardId},
+                                boardId,
+                                subjectId},
                         this::rowMapper);
-
     }
     /**
      * Cleaning up all books.

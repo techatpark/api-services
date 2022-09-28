@@ -5,6 +5,7 @@ import com.gurukulams.core.model.Book;
 import com.gurukulams.core.model.Grade;
 import com.gurukulams.core.model.Subject;
 import com.gurukulams.core.service.BoardService;
+import com.gurukulams.core.service.BookService;
 import com.gurukulams.core.service.GradeService;
 import com.gurukulams.core.service.SubjectService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -49,12 +50,19 @@ class BoardAPIController {
      */
     private final SubjectService subjectService;
 
+    /**
+     * declare a bookservice.
+     */
+    private final BookService bookService;
+
     BoardAPIController(final BoardService aBoardService,
                        final GradeService agradeService,
-                       final SubjectService asubjectService) {
+                       final SubjectService asubjectService,
+                       final BookService aBookService) {
         this.boardService = aBoardService;
         this.gradeService = agradeService;
         this.subjectService = asubjectService;
+        this.bookService = aBookService;
     }
 
     /**
@@ -265,6 +273,7 @@ class BoardAPIController {
      * @param locale
      * @param boardId
      * @param gradeId
+     * @param subjectId
      * @return list of syllabus
      */
     @Operation(summary = "lists the books with given  board id and grade id",
@@ -284,8 +293,10 @@ class BoardAPIController {
                                            @PathVariable final Long gradeId,
                                            @PathVariable final Long subjectId) {
 
-        return null;
-
+        final List<Book> subjectList = bookService.list(
+                principal.getName(), locale, boardId, gradeId, subjectId);
+        return subjectList.isEmpty() ? ResponseEntity.noContent().build()
+                : ResponseEntity.ok(subjectList);
     }
 
 }
