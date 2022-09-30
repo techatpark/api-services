@@ -214,10 +214,14 @@ INSERT INTO boards_grades_subjects_books(board_id,grade_id,subject_id,book_id) V
 
 -- 12th Standard
 
-INSERT INTO boards_grades_subjects(board_id,grade_id,subject_id) VALUES (1,12,1);
-INSERT INTO boards_grades_subjects(board_id,grade_id,subject_id) VALUES (1,12,2);
-INSERT INTO boards_grades_subjects(board_id,grade_id,subject_id) VALUES (1,12,3);
+--INSERT INTO boards_grades_subjects(board_id,grade_id,subject_id) VALUES (1,12,1);
+--INSERT INTO boards_grades_subjects(board_id,grade_id,subject_id) VALUES (1,12,2);
+--INSERT INTO boards_grades_subjects(board_id,grade_id,subject_id) VALUES (1,12,3);
 INSERT INTO boards_grades_subjects(board_id,grade_id,subject_id) VALUES (1,12,8);
+INSERT INTO boards_grades_subjects_books(board_id,grade_id,subject_id,book_id) VALUES (1,12,8,5);
 INSERT INTO boards_grades_subjects(board_id,grade_id,subject_id) VALUES (1,12,6);
+INSERT INTO boards_grades_subjects_books(board_id,grade_id,subject_id,book_id) VALUES (1,12,6,6);
 INSERT INTO boards_grades_subjects(board_id,grade_id,subject_id) VALUES (1,12,7);
+INSERT INTO boards_grades_subjects_books(board_id,grade_id,subject_id,book_id) VALUES (1,12,7,7);
 INSERT INTO boards_grades_subjects(board_id,grade_id,subject_id) VALUES (1,12,9);
+INSERT INTO boards_grades_subjects_books(board_id,grade_id,subject_id,book_id) VALUES (1,12,9,8);
