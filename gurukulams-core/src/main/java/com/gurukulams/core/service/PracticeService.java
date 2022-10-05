@@ -72,8 +72,7 @@ public class PracticeService {
 
     /**
      * Instantiates a new Practice service.
-     *
-     * @param aJdbcTemplate        the a jdbc template
+     *  @param aJdbcTemplate        the a jdbc template
      * @param aDatasource          the a datasource
      * @param anApplicationContext the an application context
      * @param aPExpo               the propery expser
@@ -258,9 +257,40 @@ public class PracticeService {
             oPractice = create(bookPath,
                     getOwner(bookPath), locale,
                     practice);
+
+            addPracticeToBook(oPractice.get().getId(), getBookId(bookPath));
         }
 
         return oPractice.get();
+    }
+
+    /**
+     * Gets Book Id for BookPath.
+     * @param bookPath
+     * @return bookId
+     */
+    public Integer getBookId(final String bookPath) {
+        String query = "SELECT ID FROM BOOKS WHERE PATH=?";
+        return jdbcTemplate
+                .queryForObject(query, Integer.class, bookPath);
+    }
+
+    /**
+     * Adds Practice to a Book.
+     * @param practiceId
+     * @param bookId
+     * @return added
+     */
+    private boolean addPracticeToBook(final Integer practiceId,
+                                      final Integer bookId) {
+        final SimpleJdbcInsert insert = new SimpleJdbcInsert(dataSource)
+                .withTableName("practices_books")
+                .usingColumns("practice_id",
+                        "book_id");
+        final Map<String, Object> valueMap = new HashMap<>(6);
+        valueMap.put("practice_id", practiceId);
+        valueMap.put("book_id", bookId);
+        return insert.execute(valueMap) == 1;
     }
 
     private String getOwner(final String bookTitle) {
@@ -270,10 +300,12 @@ public class PracticeService {
     private <T extends Practice> Optional<T> readByBook(
                                             final String bookPath) {
         final String query =
-                "SELECT id,title,created_by,type,meta_data,description,"
-                        + "created_at,modified_at "
-                        + "FROM practices WHERE book = ?";
-
+        "SELECT practices.id, practices.title, practices.created_by, "
+        + "practices.type, "
+        + "practices.meta_data, practices.description, practices.created_at, "
+        + "practices.modified_at FROM practices JOIN practices_books ON "
+        + "practices.id = practices_books.practice_id JOIN books "
+        + "ON practices_books.book_id = books.id WHERE books.PATH = ?";
 
         try {
             final T p = (T) jdbcTemplate

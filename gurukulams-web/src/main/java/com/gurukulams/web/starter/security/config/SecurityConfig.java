@@ -168,7 +168,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     public void configure(final WebSecurity web) {
         web.ignoring().antMatchers("/api/metrics/**",
-                "/h2-console","/h2-console/**",
+                "/h2-console", "/h2-console/**",
                 "/swagger-ui.html", "/swagger-ui/**",
                 "/v3/api-docs/**", "/resources/**",
                 "/static/**", "/css/**", "/js/**", "/images/**",
