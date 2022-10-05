@@ -219,3 +219,11 @@ CREATE TABLE boards_grades_subjects_books(
     FOREIGN KEY (subject_id) REFERENCES subjects (id),
     FOREIGN KEY (book_id) REFERENCES books (id)
 );
+
+CREATE TABLE practices_books (
+    practice_id INT NOT NULL,
+    book_id INT NOT NULL,
+    PRIMARY KEY(practice_id, book_id),
+    FOREIGN KEY (practice_id) REFERENCES practices (id),
+    FOREIGN KEY (book_id) REFERENCES books (id)
+);

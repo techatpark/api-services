@@ -239,36 +239,36 @@ public class PracticeService {
     }
 
     /**
-     * get pracice for a bookTitle.
+     * get pracice for a bookPath.
      * create if not exists alredy.
      *
-     * @param bookTitle
+     * @param bookPath
      * @param locale
      * @return pracice
      */
-    public Practice getQuestionBank(final String bookTitle, final Locale locale)
+    public Practice getQuestionBank(final String bookPath, final Locale locale)
             throws JsonProcessingException {
-        Optional<Practice> oPractice = readByBook(bookTitle);
+        Optional<Practice> oPractice = readByBook(bookPath);
 
         if (oPractice.isEmpty()) {
             Practice practice = new Practice();
-            practice.setTitle("Book:$" + bookTitle);
-            practice.setDescription("Question Bank for the bookTitle "
-                    + bookTitle);
-            oPractice = create(bookTitle,
-                    getOwnerTitle(bookTitle), locale,
+            practice.setTitle("Book:$" + bookPath);
+            practice.setDescription("Question Bank for the bookPath "
+                    + bookPath);
+            oPractice = create(bookPath,
+                    getOwner(bookPath), locale,
                     practice);
         }
 
         return oPractice.get();
     }
 
-    private String getOwnerTitle(final String bookTitle) {
+    private String getOwner(final String bookTitle) {
         return propertyPlaceholderExposer.get("admins." + bookTitle);
     }
 
     private <T extends Practice> Optional<T> readByBook(
-                                            final String newBook) {
+                                            final String bookPath) {
         final String query =
                 "SELECT id,title,created_by,type,meta_data,description,"
                         + "created_at,modified_at "
@@ -277,7 +277,7 @@ public class PracticeService {
 
         try {
             final T p = (T) jdbcTemplate
-                    .queryForObject(query, new Object[]{newBook},
+                    .queryForObject(query, new Object[]{bookPath},
                             this::rowMapper);
             return Optional.of(p);
         } catch (final EmptyResultDataAccessException e) {
@@ -498,7 +498,7 @@ public class PracticeService {
      * @return isOwner
      */
     public boolean isOwner(final String userTitle, final String bookTitle) {
-        return getOwnerTitle(bookTitle).equals(userTitle);
+        return getOwner(bookTitle).equals(userTitle);
     }
 
 
