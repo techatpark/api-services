@@ -447,6 +447,30 @@ class BookAPIController {
         return updatedQuestion == null ? ResponseEntity.notFound().build()
                 : ResponseEntity.ok(updatedQuestion);
     }
+    /**
+     * Delete a question from the given question bank.
+     *
+
+     * @param bookName the bookname
+     * @return the response entity
+     */
+    @Operation(summary = "Deletes the question bank for the book",
+            security = @SecurityRequirement(name = "bearerAuth"))
+    @ApiResponses(value = {@ApiResponse(responseCode = "200",
+            description = "question deleted successfully"),
+            @ApiResponse(responseCode = "401",
+                    description = "invalid credentials"),
+            @ApiResponse(responseCode = "404",
+                    description = "question not found")})
+    @DeleteMapping("/{bookName}/questions")
+    public ResponseEntity<Void> deleteQuestionBank(final @PathVariable
+                                                    String bookName)
+            throws JsonProcessingException {
+
+        boolean isDeleted = bookService.deleteQuestionBank(bookName);
+        return isDeleted ? ResponseEntity.ok().build()
+                : ResponseEntity.notFound().build();
+    }
 
     /**
      * Delete a question from the given question bank.

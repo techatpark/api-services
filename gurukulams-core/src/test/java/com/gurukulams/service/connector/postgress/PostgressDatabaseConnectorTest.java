@@ -65,7 +65,7 @@ public class PostgressDatabaseConnectorTest {
     @BeforeEach
     void before() throws IOException {
         questionService.delete();
-        sqlExamService.delete("sql", null);
+        sqlExamService.delete("sql");
     }
 
     /**

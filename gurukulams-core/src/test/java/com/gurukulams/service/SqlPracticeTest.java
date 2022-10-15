@@ -49,7 +49,7 @@ class SqlPracticeTest {
      * Clean up.
      */
     void cleanUp() {
-        sqlExamService.delete("sql", null);
+        sqlExamService.delete("sql");
     }
 
 
@@ -110,7 +110,7 @@ class SqlPracticeTest {
             final SqlPractice exam =
                     sqlExamService.create("sql", "user",null, examToBeCrated).get();
             final Integer newExamId = exam.getId();
-            sqlExamService.delete(newExamId, null);
+            sqlExamService.delete(newExamId);
         Assertions.assertFalse(sqlExamService.read(newExamId, null).isPresent(),
                 "Exam Created");
 

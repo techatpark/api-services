@@ -208,7 +208,7 @@ abstract class PracticeAPIController<T extends Practice> {
             name = "Accept-Language",
             required = false)
             final Locale locale) {
-        return practiceService.delete(id, locale) ? ResponseEntity.ok().build()
+        return practiceService.delete(id) ? ResponseEntity.ok().build()
                 : ResponseEntity.notFound().build();
     }
 

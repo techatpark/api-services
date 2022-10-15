@@ -238,6 +238,22 @@ public class PracticeService {
     }
 
     /**
+     * deletes pracice for a bookPath.
+     * create if not exists alredy.
+     *
+     * @param bookPath
+     * @return pracice
+     */
+    public boolean deleteQuestionBank(final String bookPath)
+            throws JsonProcessingException {
+        Optional<Practice> oPractice = readByBook(bookPath);
+        if (oPractice.isPresent()) {
+            return delete(oPractice.get().getId());
+        }
+        return false;
+    }
+
+    /**
      * get pracice for a bookPath.
      * create if not exists alredy.
      *
@@ -440,15 +456,16 @@ public class PracticeService {
      * deletes from database.
      *
      * @param id the id
-     * @param locale the locale
      * @return successflag boolean
      */
-    public Boolean delete(final Integer id, final Locale locale) {
-        final Optional<Practice> oPractice = read(id, locale);
+    public Boolean delete(final Integer id) {
+        final Optional<Practice> oPractice = read(id, null);
         Boolean success = false;
         if (oPractice.isPresent()) {
 
             String query = "DELETE FROM questions WHERE exam_id=?";
+            jdbcTemplate.update(query, id);
+            query = "DELETE FROM PRACTICES_BOOKS WHERE practice_id=?";
             jdbcTemplate.update(query, id);
             query = "DELETE FROM PRACTICES WHERE ID=?";
             final Integer updatedRows = jdbcTemplate.update(query, id);
@@ -465,14 +482,13 @@ public class PracticeService {
      * Cleaning up all practices.
      *
      * @param type the type
-     * @param locale the locale
      * @return no.of practices deleted
      */
-    public Integer delete(final String type, final Locale locale) {
+    public Integer delete(final String type) {
         final int count = 0;
         final List<Practice> practices = list(type);
         practices.parallelStream()
-                .forEach(exam -> delete(exam.getId(), locale));
+                .forEach(exam -> delete(exam.getId()));
         return count;
     }
 

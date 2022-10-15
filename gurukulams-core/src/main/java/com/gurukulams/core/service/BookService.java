@@ -530,6 +530,17 @@ public class BookService {
     }
 
     /**
+     * delete the questions of a book.
+     * @param bookPath the id
+     * @return successflag boolean
+     */
+    public Boolean deleteQuestionBank(final String bookPath)
+            throws JsonProcessingException {
+
+        return practiceService.deleteQuestionBank(bookPath);
+    }
+
+    /**
      * update the question.
      * @param bookName the bookname
      * @param id the id
