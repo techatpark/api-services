@@ -463,7 +463,8 @@ public class PracticeService {
         Boolean success = false;
         if (oPractice.isPresent()) {
 
-            String query = "DELETE FROM QUESTION_CHOICES WHERE question_id IN (SELECT id FROM questions WHERE exam_id=?)";
+            String query = "DELETE FROM QUESTION_CHOICES WHERE question_id IN "
+                    + "(SELECT id FROM questions WHERE exam_id=?)";
             jdbcTemplate.update(query, id);
             query = "DELETE FROM questions WHERE exam_id=?";
             jdbcTemplate.update(query, id);
