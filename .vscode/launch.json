@@ -8,6 +8,13 @@
       "type": "java",
       "name": "Launch Application",
       "request": "launch",
+      "mainClass": "com.gurukulams.Application",
+      "projectName": "gurukulams-web"
+    },
+    {
+      "type": "java",
+      "name": "Launch Application",
+      "request": "launch",
       "mainClass": "com.techatpark.Application",
       "projectName": "gurukulam-web"
     },
