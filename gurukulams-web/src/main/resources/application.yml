@@ -32,6 +32,7 @@ springdoc:
   packagesToScan: com.gurukulams,com.gurukulams.starter.security.controller
   swagger-ui:
     operationsSorter: method
+    tagsSorter: alpha
 logging:
   level:
     root: ERROR
