@@ -181,35 +181,50 @@ public class QuestionService {
 
             final Number id = insert.executeAndReturnKey(valueMap);
 
+            if (locale != null) {
+                valueMap.put("question_id", id.intValue());
+                valueMap.put("locale", locale.getLanguage());
+                new SimpleJdbcInsert(dataSource)
+                        .withTableName("questions_localized")
+                        .usingColumns("question_id", "locale", "question")
+                        .execute(valueMap);
+            }
+
             if ((question.getType().equals(QuestionType.CHOOSE_THE_BEST)
-                    || question.getType().equals(QuestionType.MULTI_CHOICE))
-                    && question.getChoices() != null) {
-                final SimpleJdbcInsert insertQuestionChoice =
-                        new SimpleJdbcInsert(dataSource)
-                                .withTableName("question_choices")
-                                .usingGeneratedKeyColumns("id")
-                                .usingColumns("question_id",
-                                        "c_value", "is_answer");
-
-                question.getChoices().forEach(choice -> {
-                    Map<String, Object> valueMapQuestionChoice =
-                            new HashMap<>();
-                    valueMapQuestionChoice.put("question_id", id);
-                    valueMapQuestionChoice.put("c_value", choice.getValue());
-                    valueMapQuestionChoice.put("is_answer",
-                            choice.isAnswer() != null && choice.isAnswer());
-
-                    insertQuestionChoice
-                            .executeAndReturnKey(valueMapQuestionChoice);
-                });
+                    || question.getType().equals(QuestionType.MULTI_CHOICE))) {
+                createChoices(question.getChoices(), id.intValue());
 
             }
 
-            return read(id.intValue());
+            return read(id.intValue(), locale);
         } else {
             throw new ConstraintViolationException(violations);
         }
 
+    }
+
+    private void createChoices(final List<Choice> choices,
+                               final Integer id) {
+        if (choices != null) {
+            final SimpleJdbcInsert insertQuestionChoice =
+                    new SimpleJdbcInsert(dataSource)
+                            .withTableName("question_choices")
+                            .usingGeneratedKeyColumns("id")
+                            .usingColumns("question_id",
+                                    "c_value", "is_answer");
+
+            choices.forEach(choice -> {
+                Map<String, Object> valueMapQuestionChoice =
+                        new HashMap<>();
+                valueMapQuestionChoice.put("question_id", id);
+                valueMapQuestionChoice.put("c_value", choice.getValue());
+                valueMapQuestionChoice.put("is_answer",
+                        choice.isAnswer() != null && choice.isAnswer());
+
+                insertQuestionChoice
+                        .executeAndReturnKey(valueMapQuestionChoice);
+            });
+        }
     }
 
     /**
@@ -261,18 +276,39 @@ public class QuestionService {
      * reads from question with given id.
      *
      * @param id the id
+     * @param locale
      * @return question optional
      */
-    public Optional<Question> read(final Integer id) {
-        final String query =
+    public Optional<Question> read(final Integer id,
+                                   final Locale locale) {
+        final String query = locale == null ?
                 "SELECT id,exam_id,question,created_by,chapter_path,type,"
                         + "answer,created_at,modified_at FROM "
                         + "questions WHERE"
-                        + " id = ?";
+                        + " id = ?"
+                : "SELECT id,exam_id,"
+                + "CASE WHEN ql.LOCALE = ? "
+                + "THEN ql.question "
+                + "ELSE q.question "
+                + "END AS question,"
+                + "created_by,chapter_path,type,"
+                + "answer,created_at,modified_at FROM "
+                + "questions q LEFT JOIN questions_localized ql ON "
+                + "q.ID = ql.QUESTION_ID WHERE"
+                + " q.id = ? "
+                + "AND (ql.LOCALE IS NULL "
+                + "OR ql.LOCALE = ? OR "
+                + "q.ID NOT IN "
+                + "(SELECT question_id FROM questions_localized "
+                + "WHERE QUESTION_ID=q.ID AND LOCALE = ?))"
+                ;
         try {
 
-            Question question = jdbcTemplate
-                    .queryForObject(query, new Object[]{id}, rowMapper);
+            Question question = locale == null ? jdbcTemplate
+                    .queryForObject(query, new Object[]{id}, rowMapper)
+                    : jdbcTemplate
+                    .queryForObject(query, new Object[]{locale.getLanguage(), id, locale.getLanguage(), locale.getLanguage()}, rowMapper)
+                    ;
 
             if ((question.getType().equals(QuestionType.CHOOSE_THE_BEST)
                     || question.getType().equals(QuestionType.MULTI_CHOICE))) {
@@ -309,7 +345,7 @@ public class QuestionService {
         Practice practice = practiceService.getQuestionBank(bookName, locale);
 
         return update(practice.getId(), type,
-                id, question);
+                id, locale, question);
 
     }
 
@@ -319,6 +355,7 @@ public class QuestionService {
      *
      * @param practiceId the exam id
      * @param id         the id
+     * @param locale     the language
      * @param type       the type
      * @param question   the question
      * @return question optional
@@ -326,6 +363,7 @@ public class QuestionService {
     public Optional<Question> update(final Integer practiceId,
                                      final QuestionType type,
                                      final Integer id,
+                                     final Locale locale,
                                      final Question question) {
         question.setType(type);
         Set<ConstraintViolation<Question>> violations =
@@ -406,7 +444,7 @@ public class QuestionService {
                 });
 
             }
-            return updatedRows == 0 ? null : read(id);
+            return updatedRows == 0 ? null : read(id, locale);
         } else {
             throw new ConstraintViolationException(violations);
         }
@@ -470,14 +508,33 @@ public class QuestionService {
 
         boolean isOwner = practice.getCreatedBy().equals(userName);
 
-        final String query = "SELECT id,exam_id,question,type,"
+        final String query = locale == null ? "SELECT id,exam_id,question,type,"
                 + "created_by,created_at,modified_at,"
                 + (isOwner ? "answer" : "NULL")
                 + " AS answer"
                 + " FROM questions"
-                + " where exam_id = ? order by id";
-        List<Question> questions = jdbcTemplate.query(query, rowMapper,
-                practiceId);
+                + " where exam_id = ? order by id"
+                : "SELECT id,exam_id,"
+                + "CASE WHEN ql.LOCALE = ? "
+                + "THEN ql.question "
+                + "ELSE q.question "
+                + "END AS question,"
+                + "created_by,chapter_path,type,"
+                + (isOwner ? "answer" : "NULL")
+                + ",created_at,modified_at FROM "
+                + "questions q LEFT JOIN questions_localized ql ON "
+                + "q.ID = ql.QUESTION_ID WHERE"
+                + " exam_id = ? AND"
+                + " (ql.LOCALE IS NULL "
+                + "OR ql.LOCALE = ? OR "
+                + "q.ID NOT IN "
+                + "(SELECT question_id FROM questions_localized "
+                + "WHERE QUESTION_ID=q.ID AND LOCALE = ?))";
+        List<Question> questions = locale == null ?
+                jdbcTemplate.query(query, rowMapper,
+                practiceId)
+                : jdbcTemplate.query(query, rowMapper, locale.getLanguage(),
+                practiceId,locale.getLanguage(), locale.getLanguage());
         if (!questions.isEmpty()) {
             questions.forEach(question -> {
                 if ((question.getType().equals(QuestionType.CHOOSE_THE_BEST)

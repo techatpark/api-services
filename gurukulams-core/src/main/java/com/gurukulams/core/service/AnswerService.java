@@ -47,7 +47,7 @@ public class AnswerService {
     public final Boolean answer(final Integer questionId,
                                 final String answer) {
         Boolean isRigntAnswer = false;
-        final Optional<Question> oQuestion = questionService.read(questionId);
+        final Optional<Question> oQuestion = questionService.read(questionId, null);
         if (oQuestion.isPresent()) {
             final Question question = oQuestion.get();
             switch (question.getType()) {

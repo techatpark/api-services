@@ -37,6 +37,14 @@ CREATE TABLE questions (
   FOREIGN KEY (exam_id) REFERENCES practices (id)
 );
 
+CREATE TABLE questions_localized (
+    question_id INT,
+    locale VARCHAR(8) NOT NULL,
+    question TEXT NOT NULL,
+    FOREIGN KEY (question_id) REFERENCES questions (id),
+    PRIMARY KEY(question_id)
+);
+
 CREATE TABLE answers (
   id INT auto_increment PRIMARY KEY,
   exam_id INT NOT NULL,

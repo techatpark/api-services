@@ -272,9 +272,13 @@ abstract class PracticeAPIController<T extends Practice> {
             @ApiResponse(responseCode = "404",
                     description = "question not found")})
     @GetMapping("/{practiceId}/questions/{id}")
-    public ResponseEntity<Question> findQuestionById(final @PathVariable
+    public ResponseEntity<Question> findQuestionById(@RequestHeader(
+                                                        name = "Accept-Language",
+                                                        required = false)
+                                                         final Locale locale,
+                                                     final @PathVariable
                                                              Integer id) {
-        return ResponseEntity.of(questionService.read(id));
+        return ResponseEntity.of(questionService.read(id, locale));
     }
 
     /**
@@ -342,12 +346,16 @@ abstract class PracticeAPIController<T extends Practice> {
                                                      final @PathVariable
                                                              QuestionType
                                                              questionType,
+                                                     @RequestHeader(
+                                                             name = "Accept-Language",
+                                                             required = false)
+                                                         final Locale locale,
                                                      final
                                                      @RequestBody
                                                              Question
                                                              question) {
         final Optional<Question> updatedQuestion = questionService.update(
-                practiceId, questionType, id, question);
+                practiceId, questionType, id, locale, question);
         return updatedQuestion == null
                 ? ResponseEntity.notFound().build()
                 : ResponseEntity.ok(updatedQuestion);
