@@ -281,8 +281,8 @@ public class QuestionService {
      */
     public Optional<Question> read(final Integer id,
                                    final Locale locale) {
-        final String query = locale == null ?
-                "SELECT id,exam_id,question,created_by,chapter_path,type,"
+        final String query = locale == null
+                ? "SELECT id,exam_id,question,created_by,chapter_path,type,"
                         + "answer,created_at,modified_at FROM "
                         + "questions WHERE"
                         + " id = ?"
@@ -300,15 +300,15 @@ public class QuestionService {
                 + "OR ql.LOCALE = ? OR "
                 + "q.ID NOT IN "
                 + "(SELECT question_id FROM questions_localized "
-                + "WHERE QUESTION_ID=q.ID AND LOCALE = ?))"
-                ;
+                + "WHERE QUESTION_ID=q.ID AND LOCALE = ?))";
         try {
 
             Question question = locale == null ? jdbcTemplate
                     .queryForObject(query, new Object[]{id}, rowMapper)
                     : jdbcTemplate
-                    .queryForObject(query, new Object[]{locale.getLanguage(), id, locale.getLanguage(), locale.getLanguage()}, rowMapper)
-                    ;
+                    .queryForObject(query, new Object[]{locale.getLanguage(),
+                            id, locale.getLanguage(), locale.getLanguage()},
+                            rowMapper);
 
             if ((question.getType().equals(QuestionType.CHOOSE_THE_BEST)
                     || question.getType().equals(QuestionType.MULTI_CHOICE))) {
@@ -369,16 +369,52 @@ public class QuestionService {
         Set<ConstraintViolation<Question>> violations =
                 getViolations(question);
         if (violations.isEmpty()) {
-            final String query =
-                    "UPDATE questions SET exam_id = ?,"
+            final String query = locale == null
+                    ? "UPDATE questions SET "
                          + "question = ?, answer = ?,"
                             + "modified_at=CURRENT_TIMESTAMP"
-                            + " WHERE id = ? AND type = ? AND exam_id = ?";
-            final Integer updatedRows =
-                    jdbcTemplate.update(query,
-                            practiceId, question.getQuestion(),
+                            + " WHERE id = ? AND type = ? AND exam_id = ?"
+                    : "UPDATE questions SET "
+                        + "answer = ?,"
+                        + "modified_at=CURRENT_TIMESTAMP"
+                        + " WHERE id = ? AND type = ? AND exam_id = ?";
+            Integer updatedRows = locale == null
+                    ? jdbcTemplate.update(query,
+                            question.getQuestion(),
                             question.getAnswer(), id, type.toString(),
-                            practiceId);
+                            practiceId)
+                    : jdbcTemplate.update(query,
+                        question.getAnswer(), id, type.toString(),
+                        practiceId);
+
+            if (locale != null) {
+                final String localizedUpdateQuery = """
+                        UPDATE QUESTIONS_LOCALIZED SET question = ?
+                            WHERE question_id = ? AND
+                                    locale = ? AND
+                                question_id IN
+                                    ( SELECT id from questions
+                                            where type
+                                            = ? AND exam_id = ? )
+                        """;
+
+                updatedRows = jdbcTemplate.update(localizedUpdateQuery,
+                        question.getQuestion(), id, locale.getLanguage(),
+                        type.toString(),
+                        practiceId);
+
+                if (updatedRows == 0) {
+                    final String localizedInsertQuery = """
+                        INSERT INTO QUESTIONS_LOCALIZED
+                            ( question_id, locale, question )
+                            VALUES ( ?, ? , ?)
+                        """;
+                    updatedRows = jdbcTemplate.update(localizedInsertQuery,
+                            id, locale.getLanguage(),
+                            question.getQuestion());
+
+                }
+            }
 
             if ((type.equals(QuestionType.CHOOSE_THE_BEST)
                     || type.equals(QuestionType.MULTI_CHOICE))
@@ -520,7 +556,8 @@ public class QuestionService {
                 + "ELSE q.question "
                 + "END AS question,"
                 + "created_by,chapter_path,type,"
-                + (isOwner ? "answer" : "NULL")
+                + (isOwner ? "q.answer" : "NULL")
+                + " AS answer"
                 + ",created_at,modified_at FROM "
                 + "questions q LEFT JOIN questions_localized ql ON "
                 + "q.ID = ql.QUESTION_ID WHERE"
@@ -530,11 +567,11 @@ public class QuestionService {
                 + "q.ID NOT IN "
                 + "(SELECT question_id FROM questions_localized "
                 + "WHERE QUESTION_ID=q.ID AND LOCALE = ?))";
-        List<Question> questions = locale == null ?
-                jdbcTemplate.query(query, rowMapper,
+        List<Question> questions = locale == null
+                ? jdbcTemplate.query(query, rowMapper,
                 practiceId)
                 : jdbcTemplate.query(query, rowMapper, locale.getLanguage(),
-                practiceId,locale.getLanguage(), locale.getLanguage());
+                practiceId, locale.getLanguage(), locale.getLanguage());
         if (!questions.isEmpty()) {
             questions.forEach(question -> {
                 if ((question.getType().equals(QuestionType.CHOOSE_THE_BEST)
@@ -567,14 +604,37 @@ public class QuestionService {
 
         boolean isOwner = practice.getCreatedBy().equals(userName);
 
-        final String query = "SELECT id,exam_id,question,type,"
-                  + "created_by,created_at,modified_at,"
+        final String query = locale == null ? "SELECT id,exam_id,question,type,"
+                + "created_by,created_at,modified_at,"
                 + (isOwner ? "answer" : "NULL")
                 + " AS answer"
                 + " FROM questions"
-                + " where exam_id = ? AND chapter_path = ? order by id";
-        List<Question> questions = jdbcTemplate.query(query, rowMapper,
-                practice.getId(), chapterPath);
+                + " where exam_id = ? AND chapter_path = ? order by id"
+                : "SELECT id,exam_id,"
+                + "CASE WHEN ql.LOCALE = ? "
+                + "THEN ql.question "
+                + "ELSE q.question "
+                + "END AS question,"
+                + "created_by,chapter_path,type,"
+                + (isOwner ? "q.answer" : "NULL")
+                + " AS answer"
+                + ",created_at,modified_at FROM "
+                + "questions q LEFT JOIN questions_localized ql ON "
+                + "q.ID = ql.QUESTION_ID WHERE"
+                + " exam_id = ? AND chapter_path = ? AND"
+                + " (ql.LOCALE IS NULL "
+                + "OR ql.LOCALE = ? OR "
+                + "q.ID NOT IN "
+                + "(SELECT question_id FROM questions_localized "
+                + "WHERE QUESTION_ID=q.ID AND LOCALE = ?))";
+
+        List<Question> questions = locale == null
+                ? jdbcTemplate.query(query, rowMapper,
+                practice.getId(), chapterPath)
+                : jdbcTemplate.query(query, rowMapper, locale.getLanguage(),
+                practice.getId(), chapterPath, locale.getLanguage(),
+                locale.getLanguage());
+
         if (!questions.isEmpty()) {
             questions.forEach(question -> {
                 if ((question.getType().equals(QuestionType.CHOOSE_THE_BEST)

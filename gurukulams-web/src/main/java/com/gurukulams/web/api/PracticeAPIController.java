@@ -261,6 +261,7 @@ abstract class PracticeAPIController<T extends Practice> {
      * Find question by id response entity.
      *
      * @param id the id
+     * @param locale
      * @return the response entity
      */
     @Operation(summary = "Get question with given id",
@@ -272,12 +273,13 @@ abstract class PracticeAPIController<T extends Practice> {
             @ApiResponse(responseCode = "404",
                     description = "question not found")})
     @GetMapping("/{practiceId}/questions/{id}")
-    public ResponseEntity<Question> findQuestionById(@RequestHeader(
-                                                        name = "Accept-Language",
-                                                        required = false)
-                                                         final Locale locale,
-                                                     final @PathVariable
-                                                             Integer id) {
+    public ResponseEntity<Question> findQuestionById(
+            @RequestHeader(
+                            name = "Accept-Language",
+                            required = false)
+                             final Locale locale,
+                         final @PathVariable
+                                 Integer id) {
         return ResponseEntity.of(questionService.read(id, locale));
     }
 
@@ -323,6 +325,7 @@ abstract class PracticeAPIController<T extends Practice> {
      * @param practiceId   the practice id
      * @param questionType the question type
      * @param id           the id
+     * @param locale
      * @param question     the question
      * @return the response entity
      */
@@ -347,9 +350,9 @@ abstract class PracticeAPIController<T extends Practice> {
                                                              QuestionType
                                                              questionType,
                                                      @RequestHeader(
-                                                             name = "Accept-Language",
-                                                             required = false)
-                                                         final Locale locale,
+                                                     name = "Accept-Language",
+                                                     required = false)
+                                                     final Locale locale,
                                                      final
                                                      @RequestBody
                                                              Question
