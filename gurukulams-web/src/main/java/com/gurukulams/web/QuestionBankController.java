@@ -19,4 +19,14 @@ class QuestionBankController {
     public String questionBank() {
         return "forward:/practices/basic/index.html";
     }
+
+    /**
+     * Forwards Practice Requests.
+     *
+     * @return forward
+     */
+    @GetMapping("/{languageCode}/practices/books/**")
+    public String questionBankLocalized() {
+        return "forward:/practices/basic/index.html";
+    }
 }
