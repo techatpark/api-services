@@ -192,8 +192,7 @@ public class QuestionService {
 
             if ((question.getType().equals(QuestionType.CHOOSE_THE_BEST)
                     || question.getType().equals(QuestionType.MULTI_CHOICE))) {
-                createChoices(question.getChoices(), id.intValue());
-
+                createChoices(question.getChoices(), locale, id.intValue());
             }
 
             return read(id.intValue(), locale);
@@ -203,27 +202,56 @@ public class QuestionService {
 
     }
 
+    private void createChoice(final Choice choice,
+                               final Locale locale,
+                               final Integer id) {
+        final SimpleJdbcInsert insertQuestionChoice =
+                new SimpleJdbcInsert(dataSource)
+                        .withTableName("question_choices")
+                        .usingGeneratedKeyColumns("id")
+                        .usingColumns("question_id",
+                                "c_value", "is_answer");
+
+
+
+            Map<String, Object> valueMapQuestionChoice =
+                    new HashMap<>();
+            valueMapQuestionChoice.put("question_id", id);
+            valueMapQuestionChoice.put("c_value", choice.getValue());
+            valueMapQuestionChoice.put("is_answer",
+                    choice.isAnswer() != null && choice.isAnswer());
+
+            Number choiceId = insertQuestionChoice
+                    .executeAndReturnKey(valueMapQuestionChoice);
+
+            if (locale != null) {
+                choice.setId(choiceId.intValue());
+                createLocalizedChoice(locale, choice);
+            }
+
+
+    }
+
+    private void createLocalizedChoice(final Locale locale, final Choice choice) {
+        final SimpleJdbcInsert insertLocalizedQuestionChoice =
+                new SimpleJdbcInsert(dataSource)
+                        .withTableName("question_choices_localized")
+                        .usingColumns("choice_id",
+                                "locale", "c_value");
+        Map<String, Object> valueMapQuestionChoice =
+                new HashMap<>();
+        valueMapQuestionChoice.put("choice_id", choice.getId());
+        valueMapQuestionChoice.put("locale", locale.getLanguage());
+        valueMapQuestionChoice.put("c_value", choice.getValue());
+        insertLocalizedQuestionChoice
+                .execute(valueMapQuestionChoice);
+    }
+
     private void createChoices(final List<Choice> choices,
+                               final Locale locale,
                                final Integer id) {
         if (choices != null) {
-            final SimpleJdbcInsert insertQuestionChoice =
-                    new SimpleJdbcInsert(dataSource)
-                            .withTableName("question_choices")
-                            .usingGeneratedKeyColumns("id")
-                            .usingColumns("question_id",
-                                    "c_value", "is_answer");
-
-            choices.forEach(choice -> {
-                Map<String, Object> valueMapQuestionChoice =
-                        new HashMap<>();
-                valueMapQuestionChoice.put("question_id", id);
-                valueMapQuestionChoice.put("c_value", choice.getValue());
-                valueMapQuestionChoice.put("is_answer",
-                        choice.isAnswer() != null && choice.isAnswer());
-
-                insertQuestionChoice
-                        .executeAndReturnKey(valueMapQuestionChoice);
-            });
+            choices.forEach(choice -> createChoice(choice, locale, id));
         }
     }
 
@@ -420,14 +448,6 @@ public class QuestionService {
                     || type.equals(QuestionType.MULTI_CHOICE))
                     && question.getChoices() != null) {
 
-
-                final SimpleJdbcInsert insertQuestionChoice =
-                        new SimpleJdbcInsert(dataSource)
-                                .withTableName("question_choices")
-                                .usingGeneratedKeyColumns("id")
-                                .usingColumns("question_id",
-                                        "c_value", "is_answer");
-
                 List<Integer> availableIds = question.getChoices()
                         .stream()
                         .filter(choice -> choice.getId() != null)
@@ -447,36 +467,14 @@ public class QuestionService {
                              availableIds.toArray());
                 }
 
+
+
                 question.getChoices().forEach(choice -> {
                     if (choice.getId() == null) {
-                        Map<String, Object> valueMapQuestionChoice =
-                                new HashMap<>();
-                        valueMapQuestionChoice.put("question_id", id);
-                        valueMapQuestionChoice
-                                .put("c_value", choice.getValue());
-                        valueMapQuestionChoice
-                                .put("is_answer",
-                                        choice.isAnswer() != null
-                                                && choice.isAnswer());
-
-                        final Number insertedId = insertQuestionChoice
-                                .executeAndReturnKey(valueMapQuestionChoice);
-
-
+                        createChoice(choice, locale, id);
                     } else {
-
-                        final String updatequestionChoice =
-                                "UPDATE question_choices SET c_value = ?, "
-                                        + "is_answer = ? "
-                                        + "WHERE id = ?";
-
-                        jdbcTemplate.update(updatequestionChoice,
-                                choice.getValue(),
-                                choice.isAnswer() != null && choice.isAnswer(),
-                                choice.getId());
+                        updateChoice(choice, locale);
                     }
-
-
                 });
 
             }
@@ -485,6 +483,30 @@ public class QuestionService {
             throw new ConstraintViolationException(violations);
         }
 
+
+    }
+
+    private void updateChoice(final Choice choice,
+                              final Locale locale) {
+        final String updatequestionChoice = locale == null
+                ? "UPDATE question_choices SET c_value = ?, "
+                        + "is_answer = ? "
+                        + "WHERE id = ?"
+                : "UPDATE question_choices SET "
+                + "is_answer = ? "
+                + "WHERE id = ?";
+        if (locale == null) {
+            jdbcTemplate.update(updatequestionChoice,
+                    choice.getValue(),
+                    choice.isAnswer() != null && choice.isAnswer(),
+                    choice.getId());
+        } else {
+            jdbcTemplate.update(updatequestionChoice,
+                    choice.isAnswer() != null && choice.isAnswer(),
+                    choice.getId());
+
+            createLocalizedChoice(locale, choice);
+        }
 
     }
 

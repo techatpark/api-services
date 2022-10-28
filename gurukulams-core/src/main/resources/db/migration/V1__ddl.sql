@@ -45,6 +45,22 @@ CREATE TABLE questions_localized (
     PRIMARY KEY(question_id)
 );
 
+CREATE TABLE question_choices (
+    id INT auto_increment PRIMARY KEY,
+    question_id INT NOT NULL,
+    c_value VARCHAR NOT NULL,
+    is_answer BOOLEAN,
+    FOREIGN KEY (question_id) REFERENCES questions (id)
+);
+
+CREATE TABLE question_choices_localized (
+    choice_id INT,
+    locale VARCHAR(8) NOT NULL,
+    c_value VARCHAR NOT NULL,
+    FOREIGN KEY (choice_id) REFERENCES question_choices (id),
+    PRIMARY KEY (choice_id)
+);
+
 CREATE TABLE answers (
   id INT auto_increment PRIMARY KEY,
   exam_id INT NOT NULL,
@@ -64,13 +80,7 @@ CREATE TABLE user_notes (
    note VARCHAR(500)
 );
 
-CREATE TABLE question_choices (
-    id INT auto_increment PRIMARY KEY,
-    question_id INT NOT NULL,
-    c_value VARCHAR NOT NULL,
-    is_answer BOOLEAN,
-    FOREIGN KEY (question_id) REFERENCES questions (id)
-);
+
 
 CREATE TABLE boards (
     id INT auto_increment PRIMARY KEY,
