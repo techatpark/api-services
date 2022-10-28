@@ -42,7 +42,7 @@ CREATE TABLE questions_localized (
     locale VARCHAR(8) NOT NULL,
     question TEXT NOT NULL,
     FOREIGN KEY (question_id) REFERENCES questions (id),
-    PRIMARY KEY(question_id)
+    PRIMARY KEY(question_id, locale)
 );
 
 CREATE TABLE question_choices (
@@ -58,7 +58,7 @@ CREATE TABLE question_choices_localized (
     locale VARCHAR(8) NOT NULL,
     c_value VARCHAR NOT NULL,
     FOREIGN KEY (choice_id) REFERENCES question_choices (id),
-    PRIMARY KEY (choice_id)
+    PRIMARY KEY (choice_id, locale)
 );
 
 CREATE TABLE answers (
