@@ -232,6 +232,18 @@ public class QuestionService {
 
     }
 
+    private void saveLocalizedChoice(final Locale locale,
+                                     final Choice choice) {
+        final String query = "UPDATE question_choices_localized SET "
+                + "c_value = ?"
+                + " WHERE choice_id = ? AND locale = ?";
+        int updatedRows = jdbcTemplate.update(query, choice.getValue(),
+                choice.getId(), locale.getLanguage());
+        if (updatedRows == 0) {
+            createLocalizedChoice(locale, choice);
+        }
+    }
+
     private void createLocalizedChoice(final Locale locale,
                                        final Choice choice) {
         final SimpleJdbcInsert insertLocalizedQuestionChoice =
@@ -528,7 +540,7 @@ public class QuestionService {
                     choice.isAnswer() != null && choice.isAnswer(),
                     choice.getId());
 
-            createLocalizedChoice(locale, choice);
+            saveLocalizedChoice(locale, choice);
         }
 
     }
