@@ -232,7 +232,8 @@ public class QuestionService {
 
     }
 
-    private void createLocalizedChoice(final Locale locale, final Choice choice) {
+    private void createLocalizedChoice(final Locale locale,
+                                       final Choice choice) {
         final SimpleJdbcInsert insertLocalizedQuestionChoice =
                 new SimpleJdbcInsert(dataSource)
                         .withTableName("question_choices_localized")
@@ -286,18 +287,40 @@ public class QuestionService {
      *
      * @param isOwner          isOwner calling
      * @param questionId the question choice id
+     * @param locale
      * @return the list
      */
     private List<Choice> listQuestionChoice(final boolean isOwner,
-                                            final Integer questionId) {
-        final String query =
-                "SELECT id,question_id,c_value,"
+                                            final Integer questionId,
+                                            final Locale locale) {
+        final String query = locale == null
+                ? "SELECT id,question_id,c_value,"
                         + (isOwner ? "is_answer" : "NULL")
                         + " AS is_answer"
                         + " FROM question_choices WHERE"
-                        + " question_id = ?";
-        return jdbcTemplate.query(query, rowMapperQuestionChoice,
-                questionId);
+                        + " question_id = ?"
+                : "SELECT id,question_id,"
+                + "CASE WHEN qcl.LOCALE = ? "
+                + "THEN qcl.c_value "
+                + "ELSE qc.c_value "
+                + "END AS c_value, "
+                + (isOwner ? "is_answer" : "NULL")
+                + " AS is_answer"
+                + " FROM question_choices qc "
+                + "LEFT JOIN question_choices_localized qcl ON"
+                + " qc.ID = qcl.choice_id WHERE"
+                + " question_id = ? AND ( qcl.LOCALE IS NULL OR "
+                + "qcl.LOCALE = ? OR qc.ID "
+                + "NOT IN (SELECT choice_id FROM "
+                + "question_choices_localized WHERE "
+                + "choice_id=qc.ID AND LOCALE = ?))";
+        return locale == null
+                ? jdbcTemplate.query(query, rowMapperQuestionChoice,
+                questionId)
+                : jdbcTemplate.query(query,
+                rowMapperQuestionChoice, locale.getLanguage(),
+                questionId, locale.getLanguage(),
+                locale.getLanguage());
     }
 
     /**
@@ -341,7 +364,7 @@ public class QuestionService {
             if ((question.getType().equals(QuestionType.CHOOSE_THE_BEST)
                     || question.getType().equals(QuestionType.MULTI_CHOICE))) {
                 question.setChoices(
-                        listQuestionChoice(true, question.getId()));
+                        listQuestionChoice(true, question.getId(), locale));
             }
             return Optional.of(question);
         } catch (final EmptyResultDataAccessException e) {
@@ -600,7 +623,8 @@ public class QuestionService {
                         || question.getType()
                         .equals(QuestionType.MULTI_CHOICE))) {
                     question.setChoices(this
-                            .listQuestionChoice(isOwner, question.getId()));
+                            .listQuestionChoice(isOwner,
+                                    question.getId(), locale));
                 }
             });
         }
@@ -663,7 +687,8 @@ public class QuestionService {
                         || question.getType()
                         .equals(QuestionType.MULTI_CHOICE))) {
                     question.setChoices(this
-                            .listQuestionChoice(isOwner, question.getId()));
+                            .listQuestionChoice(isOwner,
+                                    question.getId(), locale));
                 }
             });
         }
