@@ -268,6 +268,60 @@ public class BoardService {
     }
 
     /**
+     * Adds grade to board.
+     *
+     * @param userName the userName
+     * @param boardId  the boardId
+     * @param gradeId  the gradeId
+     * @return grade optional
+     */
+    public boolean attachGrade(final String userName, final Long boardId,
+                               final Long gradeId) {
+        // Insert to boards_grades
+        final SimpleJdbcInsert insert = new SimpleJdbcInsert(dataSource)
+                .withTableName("boards_grades")
+                .usingColumns("board_id", "grade_id");
+
+        // Fill the values
+        final Map<String, Object> valueMap = new HashMap<>();
+
+        valueMap.put("board_id", boardId);
+        valueMap.put("grade_id", gradeId);
+
+        int noOfRowsInserted = insert.execute(valueMap);
+
+        return noOfRowsInserted == 1;
+    }
+
+    /**
+     * Adds subject to grade and board.
+     * @param userName the userName
+     * @param boardId the gradeId
+     * @param gradeId the gradeId
+     * @param subjectId the syllabusId
+     * @return grade optional
+     */
+    public boolean attachSubject(final String userName,
+                                 final Long boardId,
+                                 final Long gradeId,
+                                 final Long subjectId) {
+        // Insert to boards_grades
+        final SimpleJdbcInsert insert = new SimpleJdbcInsert(dataSource)
+                .withTableName("boards_grades_subjects")
+                .usingColumns("board_id", "grade_id", "subject_id");
+
+        // Fill the values
+        final Map<String, Object> valueMap = new HashMap<>();
+
+        valueMap.put("board_id", boardId);
+        valueMap.put("grade_id", gradeId);
+        valueMap.put("subject_id", subjectId);
+
+        int noOfRowsInserted = insert.execute(valueMap);
+
+        return noOfRowsInserted == 1;
+    }
+    /**
      * Cleaning up all boards.
      *
      */

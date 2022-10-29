@@ -266,36 +266,7 @@ public class SubjectService {
                         this::rowMapper);
 
     }
-    /**
-     * Adds subject to grade and board.
-     * @param userName the userName
-     * @param locale the locale
-     * @param boardId the gradeId
-     * @param gradeId the gradeId
-     * @param subjectId the syllabusId
-     * @return grade optional
-     */
-    public boolean addToBoardsGrades(final String userName,
-                                     final Locale locale,
-                                     final Long boardId,
-                                     final Long gradeId,
-                                     final Long subjectId) {
-        // Insert to boards_grades
-        final SimpleJdbcInsert insert = new SimpleJdbcInsert(dataSource)
-                .withTableName("boards_grades_subjects")
-                .usingColumns("board_id", "grade_id", "subject_id");
 
-        // Fill the values
-        final Map<String, Object> valueMap = new HashMap<>();
-
-        valueMap.put("board_id", boardId);
-        valueMap.put("grade_id", gradeId);
-        valueMap.put("subject_id", subjectId);
-
-        int noOfRowsInserted = insert.execute(valueMap);
-
-        return noOfRowsInserted == 1;
-    }
 
     /**
      * list the subject by grade and board.

@@ -3,7 +3,6 @@ package com.gurukulams.service;
 import com.gurukulams.core.model.Board;
 import com.gurukulams.core.model.Grade;
 import com.gurukulams.core.model.Subject;
-import com.gurukulams.core.model.Syllabus;
 import com.gurukulams.core.service.BoardService;
 import com.gurukulams.core.service.GradeService;
 import com.gurukulams.core.service.SubjectService;
@@ -189,7 +188,7 @@ public class SubjectsServiceTest {
 
     void listbyBoardandgrade(Board board, Grade grade , Subject subject , Locale locale) {
 
-        Assertions.assertTrue(subjectService.addToBoardsGrades("tom", locale, board.id(), grade.id(), subject.id()),"Unable to add grade to board");
+        Assertions.assertTrue(boardService.attachSubject("tom", board.id(), grade.id(), subject.id()),"Unable to add grade to board");
 
         final Long id = subject.id();
         Subject getSubject = subjectService.list("tom",locale , board.id(), grade.id()).stream()

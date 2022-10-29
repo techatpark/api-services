@@ -282,32 +282,6 @@ public class GradeService {
 
 
     /**
-     * Adds grade to board.
-     *
-     * @param userName the userName
-     * @param gradeId  the gradeId
-     * @param boardId  the boardId
-     * @return grade optional
-     */
-    public boolean addToBoard(final String userName, final Long gradeId,
-                              final Long boardId) {
-        // Insert to boards_grades
-        final SimpleJdbcInsert insert = new SimpleJdbcInsert(dataSource)
-                .withTableName("boards_grades")
-                .usingColumns("board_id", "grade_id");
-
-        // Fill the values
-        final Map<String, Object> valueMap = new HashMap<>();
-
-        valueMap.put("board_id", boardId);
-        valueMap.put("grade_id", gradeId);
-
-        int noOfRowsInserted = insert.execute(valueMap);
-
-        return noOfRowsInserted == 1;
-    }
-
-    /**
      * list the grade by board.
      *
      * @param userName the userName

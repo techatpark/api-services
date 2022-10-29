@@ -62,8 +62,7 @@ class GradeAPIController {
         @ResponseStatus(HttpStatus.CREATED)
         @PostMapping(produces = "application/json",
                                           consumes = "application/json")
-        public ResponseEntity<Grade> create(@PathVariable final Long boardId,
-                                            final Principal principal,
+        public ResponseEntity<Grade> create(final Principal principal,
                                             @RequestHeader
                                             (name = "Accept-Language",
                                                     required = false)

@@ -2,7 +2,6 @@ package com.gurukulams.service;
 
 import com.gurukulams.core.model.Board;
 import com.gurukulams.core.model.Grade;
-import com.gurukulams.core.model.Syllabus;
 import com.gurukulams.core.service.BoardService;
 import com.gurukulams.core.service.GradeService;
 import org.junit.jupiter.api.AfterEach;
@@ -198,7 +197,7 @@ public class GradeServiceTest {
 
     void listByBoard(Board board , Grade grade , Locale locale) {
 
-        Assertions.assertTrue(gradeService.addToBoard("tom",grade.id(),board.id()),"Unable to add grade to board");
+        Assertions.assertTrue(boardService.attachGrade("tom", board.id(), grade.id()),"Unable to add grade to board");
         final Long id = grade.id();
         Grade getGrade = gradeService.list("tom",locale, board.id()).stream()
                 .filter(grade1 -> grade1.id().equals(id))
