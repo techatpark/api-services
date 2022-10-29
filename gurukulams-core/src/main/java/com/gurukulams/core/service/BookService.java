@@ -301,39 +301,7 @@ public class BookService {
 
     }
 
-    /**
-     * Adds book to grade, board and subject.
-     * @param userName the userName
-     * @param locale the locale
-     * @param boardId the gradeId
-     * @param gradeId the gradeId
-     * @param subjectId the syllabusId
-     * @param bookId the bookId
-     * @return grade optional
-     */
-    public boolean addToBoardsGradesSubjects(final String userName,
-                                     final Locale locale,
-                                     final Long boardId,
-                                     final Long gradeId,
-                                     final Long subjectId,
-                                     final Long bookId) {
-        // Insert to boards_grades
-        final SimpleJdbcInsert insert = new SimpleJdbcInsert(dataSource)
-                .withTableName("boards_grades_subjects_books")
-                .usingColumns("board_id", "grade_id", "subject_id", "book_id");
 
-        // Fill the values
-        final Map<String, Object> valueMap = new HashMap<>();
-
-        valueMap.put("board_id", boardId);
-        valueMap.put("grade_id", gradeId);
-        valueMap.put("subject_id", subjectId);
-        valueMap.put("book_id", bookId);
-
-        int noOfRowsInserted = insert.execute(valueMap);
-
-        return noOfRowsInserted == 1;
-    }
 
     /**
      * list the subject by grade and board.

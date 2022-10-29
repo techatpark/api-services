@@ -267,6 +267,68 @@ class BoardAPIController {
 
     }
 
+    @Operation(summary = "attaches grade to the given board",
+            description = " Can be invoked by auth users only",
+            security = @SecurityRequirement(name = "bearerAuth"))
+    @ApiResponses(value = {@ApiResponse(responseCode = "200",
+            description = "Listing the books with given"
+                    + " board id and grade id"),
+            @ApiResponse(responseCode = "404",
+                    description = "books are not available"),
+            @ApiResponse(responseCode = "401",
+                    description = "invalid credentials")})
+    @PostMapping("/{boardId}/grades/{gradeId}")
+    public ResponseEntity<Void> attachGrade(final Principal principal,
+                                           final Locale locale,
+                                           @PathVariable final Long boardId,
+                                           @PathVariable final Long gradeId) {
+        return boardService.attachGrade(principal.getName(), boardId, gradeId)
+                        ? ResponseEntity.ok().build()
+                                : ResponseEntity.notFound().build();
+    }
+
+    @Operation(summary = "attaches grade to the given board",
+            description = " Can be invoked by auth users only",
+            security = @SecurityRequirement(name = "bearerAuth"))
+    @ApiResponses(value = {@ApiResponse(responseCode = "200",
+            description = "Listing the books with given"
+                    + " board id and grade id"),
+            @ApiResponse(responseCode = "604",
+                    description = "books are not available"),
+            @ApiResponse(responseCode = "401",
+                    description = "invalid credentials")})
+    @PostMapping("/{boardId}/grades/{gradeId}/subjects/{subjectId}")
+    public ResponseEntity<Void> attachSubject(final Principal principal,
+                                       @PathVariable final Long boardId,
+                                       @PathVariable final Long gradeId,
+                                       @PathVariable final Long subjectId) {
+        return boardService.attachSubject(principal.getName(), boardId,
+                gradeId, subjectId)
+                ? ResponseEntity.ok().build()
+                : ResponseEntity.notFound().build();
+    }
+
+    @Operation(summary = "attaches grade to the given board",
+            description = " Can be invoked by auth users only",
+            security = @SecurityRequirement(name = "bearerAuth"))
+    @ApiResponses(value = {@ApiResponse(responseCode = "200",
+            description = "Listing the books with given"
+                    + " board id and grade id"),
+            @ApiResponse(responseCode = "604",
+                    description = "books are not available"),
+            @ApiResponse(responseCode = "401",
+                    description = "invalid credentials")})
+    @PostMapping("/{boardId}/grades/{gradeId}/subjects/{subjectId}/books/{bookId}")
+    public ResponseEntity<Void> attachSubject(final Principal principal,
+                                              @PathVariable final Long boardId,
+                                              @PathVariable final Long gradeId,
+                                              @PathVariable final Long subjectId,
+                                              @PathVariable final Long bookId) {
+        return boardService.attachBook(principal.getName(), boardId,
+                gradeId, subjectId, bookId)
+                ? ResponseEntity.ok().build()
+                : ResponseEntity.notFound().build();
+    }
     /**
      * List the books as per board and grade.
      * @param principal
