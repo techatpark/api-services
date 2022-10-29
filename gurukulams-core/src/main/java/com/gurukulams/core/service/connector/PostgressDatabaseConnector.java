@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 import javax.sql.DataSource;
+import java.util.UUID;
 
 /**
  * The type Postgress database connector.
@@ -63,7 +64,7 @@ public final class PostgressDatabaseConnector extends DatabaseConnector {
      */
     @Override
     public Boolean loadScript(final SqlPractice exam) {
-        final Integer id = exam.getId();
+        final UUID id = exam.getId();
         unloadScript(exam);
         final String query = "CREATE DATABASE EXAM_" + id;
         update(query, exam);
@@ -77,7 +78,7 @@ public final class PostgressDatabaseConnector extends DatabaseConnector {
      */
     @Override
     public Boolean unloadScript(final SqlPractice exam) {
-        final Integer id = exam.getId();
+        final UUID id = exam.getId();
         final String query = "DROP DATABASE IF EXISTS EXAM_" + id;
         update(query, exam);
         return null;

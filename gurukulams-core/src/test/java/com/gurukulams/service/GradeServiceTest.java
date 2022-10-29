@@ -15,6 +15,7 @@ import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -72,7 +73,7 @@ public class GradeServiceTest {
                 aBoard());
         final Grade grade = gradeService.create("mani", null,
                 aGrade());
-        final Long newGradeId = grade.id();
+        final UUID newGradeId = grade.id();
         Assertions.assertTrue(gradeService.read("mani", null,
                         newGradeId).isPresent(),
                 "Grade Created");
@@ -84,7 +85,7 @@ public class GradeServiceTest {
                 aBoard());
         final Grade grade = gradeService.create("mani", null,
                 aGrade());
-        final Long newGradeId = grade.id();
+        final UUID newGradeId = grade.id();
         Grade newGrade = new Grade(null, "Grade", "A " +
                 "Grade", null, "tom", null, null);
         Grade updatedGrade = gradeService
@@ -93,7 +94,7 @@ public class GradeServiceTest {
 
         Assertions.assertThrows(IllegalArgumentException.class, () -> {
             gradeService
-                    .update(10000L, "manikanta", null, newGrade);
+                    .update(UUID.randomUUID(), "manikanta", null, newGrade);
         });
     }
 
@@ -170,7 +171,7 @@ public class GradeServiceTest {
         Assertions.assertEquals(STATE_BOARD_TITLE_IN_FRENCH, createGrade.title());
         Assertions.assertEquals(STATE_BOARD_DESCRIPTION_IN_FRENCH, createGrade.description());
 
-        final Long id = createGrade.id();
+        final UUID id = createGrade.id();
         createGrade = gradeService.list("mani",Locale.FRENCH)
                 .stream()
                 .filter(grade1 -> grade1.id().equals(id))
@@ -198,7 +199,7 @@ public class GradeServiceTest {
     void listByBoard(Board board , Grade grade , Locale locale) {
 
         Assertions.assertTrue(boardService.attachGrade("tom", board.id(), grade.id()),"Unable to add grade to board");
-        final Long id = grade.id();
+        final UUID id = grade.id();
         Grade getGrade = gradeService.list("tom",locale, board.id()).stream()
                 .filter(grade1 -> grade1.id().equals(id))
                 .findFirst().get();

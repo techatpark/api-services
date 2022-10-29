@@ -23,6 +23,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
+import java.util.UUID;
 import java.util.function.Function;
 
 /**
@@ -78,8 +79,8 @@ public class LearnerService {
                               final Integer rowNum)
             throws SQLException {
 
-            Learner learner = new Learner((long)
-                    rs.getInt("id"),
+            Learner learner = new Learner((UUID)
+                rs.getObject("id"),
                     rs.getString("email"),
                     rs.getString("password"),
                     rs.getString("image_url"),
@@ -130,8 +131,8 @@ public class LearnerService {
                           final Learner learner) {
         final SimpleJdbcInsert insert = new SimpleJdbcInsert(dataSource)
                                         .withTableName("learner")
-                                        .usingGeneratedKeyColumns("id")
-                          .usingColumns("email", "password",
+                                        .usingColumns("id", "email",
+                                                "password",
                                   "provider", "image_url", "created_by");
         final Map<String, Object> valueMap = new HashMap<>();
         valueMap.put("email", learner.email());
@@ -139,9 +140,12 @@ public class LearnerService {
         valueMap.put("image_url", learner.imageUrl());
         valueMap.put("provider", learner.provider().toString());
         valueMap.put("created_by", userName);
-        final Number learnerId = insert.executeAndReturnKey(valueMap);
+        final UUID learnerId = UUID.randomUUID();
+        valueMap.put("id", learnerId);
+        insert.execute(valueMap);
+
         final Optional<Learner> createdLearner = read(userName,
-                learnerId.longValue());
+                learnerId);
         logger.info("Created learner {}", learnerId);
         return createdLearner.get();
     }
@@ -153,7 +157,7 @@ public class LearnerService {
      * @return learner
      */
     public Optional<Learner> read(final String userName,
-                                 final Long id) {
+                                 final UUID id) {
             final String query = "SELECT id,email,password,image_url,provider"
                     + ",created_by,created_at, modified_at, modified_by"
                     + " FROM learner WHERE id = ?";
@@ -195,7 +199,7 @@ public class LearnerService {
      * @param learner
      * @return learner
      */
-    public Learner update(final Long id,
+    public Learner update(final UUID id,
                           final String userName,
                           final Learner learner) {
         logger.debug("Entering updating from learner {}", id);
@@ -219,7 +223,7 @@ public class LearnerService {
      * @return learner
      */
     public Boolean delete(final String userName,
-                          final Long id) {
+                          final UUID id) {
         final String query = "DELETE FROM learner WHERE id = ?";
         final Integer updatedRows = jdbcTemplate.update(query, id);
         return !(updatedRows == 0);

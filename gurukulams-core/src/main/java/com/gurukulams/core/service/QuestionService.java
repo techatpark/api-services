@@ -31,6 +31,7 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 /**
@@ -62,8 +63,8 @@ public class QuestionService {
      */
     private final RowMapper<Question> rowMapper = (rs, rowNum) -> {
         final Question question = new Question();
-        question.setId(rs.getInt("id"));
-        question.setExamId(rs.getInt("exam_id"));
+        question.setId((UUID) rs.getObject("id"));
+        question.setExamId((UUID) rs.getObject("exam_id"));
         question.setQuestion(rs.getString("question"));
         question.setType(QuestionType.valueOf(rs.getString("type")));
         question.setCreatedBy(rs.getString("created_by"));
@@ -92,7 +93,7 @@ public class QuestionService {
     private final RowMapper<Choice> rowMapperQuestionChoice = (
             rs, rowNum) -> {
         final Choice choice = new Choice();
-        choice.setId(rs.getInt("id"));
+        choice.setId((UUID) rs.getObject("id"));
         choice.setValue(rs.getString("c_value"));
         choice.setAnswer(rs.getBoolean("is_answer"));
         // https://docs.oracle.com/javase/7/docs/api/java/sql
@@ -131,7 +132,7 @@ public class QuestionService {
      * @param locale locale
      * @return question optional
      */
-    public Optional<Question> create(final Integer practiceId,
+    public Optional<Question> create(final UUID practiceId,
                                      final QuestionType type,
                                      final Locale locale,
                                      final Question question,
@@ -153,7 +154,7 @@ public class QuestionService {
      * @return question optional
      */
     @Transactional
-    public Optional<Question> create(final Integer practiceId,
+    public Optional<Question> create(final UUID practiceId,
                                      final String chapterPath,
                                      final QuestionType type,
                                      final Locale locale,
@@ -179,10 +180,12 @@ public class QuestionService {
             valueMap.put("created_by", createdBy);
             valueMap.put("answer", question.getAnswer());
 
-            final Number id = insert.executeAndReturnKey(valueMap);
+            final UUID id = UUID.randomUUID();
+valueMap.put("id", id);
+insert.execute(valueMap);
 
             if (locale != null) {
-                valueMap.put("question_id", id.intValue());
+                valueMap.put("question_id", id);
                 valueMap.put("locale", locale.getLanguage());
                 new SimpleJdbcInsert(dataSource)
                         .withTableName("questions_localized")
@@ -192,10 +195,10 @@ public class QuestionService {
 
             if ((question.getType().equals(QuestionType.CHOOSE_THE_BEST)
                     || question.getType().equals(QuestionType.MULTI_CHOICE))) {
-                createChoices(question.getChoices(), locale, id.intValue());
+                createChoices(question.getChoices(), locale, id);
             }
 
-            return read(id.intValue(), locale);
+            return read(id, locale);
         } else {
             throw new ConstraintViolationException(violations);
         }
@@ -204,7 +207,7 @@ public class QuestionService {
 
     private void createChoice(final Choice choice,
                                final Locale locale,
-                               final Integer id) {
+                               final UUID questionId) {
         final SimpleJdbcInsert insertQuestionChoice =
                 new SimpleJdbcInsert(dataSource)
                         .withTableName("question_choices")
@@ -216,16 +219,18 @@ public class QuestionService {
 
             Map<String, Object> valueMapQuestionChoice =
                     new HashMap<>();
-            valueMapQuestionChoice.put("question_id", id);
+            valueMapQuestionChoice.put("question_id", questionId);
             valueMapQuestionChoice.put("c_value", choice.getValue());
             valueMapQuestionChoice.put("is_answer",
                     choice.isAnswer() != null && choice.isAnswer());
 
-            Number choiceId = insertQuestionChoice
-                    .executeAndReturnKey(valueMapQuestionChoice);
+            UUID choiceId = UUID.randomUUID();
+            valueMapQuestionChoice.put("id", choiceId);
+            insertQuestionChoice
+                    .execute(valueMapQuestionChoice);
 
             if (locale != null) {
-                choice.setId(choiceId.intValue());
+                choice.setId(choiceId);
                 createLocalizedChoice(locale, choice);
             }
 
@@ -262,7 +267,7 @@ public class QuestionService {
 
     private void createChoices(final List<Choice> choices,
                                final Locale locale,
-                               final Integer id) {
+                               final UUID id) {
         if (choices != null) {
             choices.forEach(choice -> createChoice(choice, locale, id));
         }
@@ -303,7 +308,7 @@ public class QuestionService {
      * @return the list
      */
     private List<Choice> listQuestionChoice(final boolean isOwner,
-                                            final Integer questionId,
+                                            final UUID questionId,
                                             final Locale locale) {
         final String query = locale == null
                 ? "SELECT id,question_id,c_value,"
@@ -342,7 +347,7 @@ public class QuestionService {
      * @param locale
      * @return question optional
      */
-    public Optional<Question> read(final Integer id,
+    public Optional<Question> read(final UUID id,
                                    final Locale locale) {
         final String query = locale == null
                 ? "SELECT id,exam_id,question,created_by,chapter_path,type,"
@@ -399,7 +404,7 @@ public class QuestionService {
     @Transactional
     public Optional<Question> update(final String bookName,
                                      final QuestionType type,
-                                     final Integer id,
+                                     final UUID id,
                                      final Locale locale,
                                      final Question question,
                                      final String chapterPath)
@@ -423,9 +428,9 @@ public class QuestionService {
      * @param question   the question
      * @return question optional
      */
-    public Optional<Question> update(final Integer practiceId,
+    public Optional<Question> update(final UUID practiceId,
                                      final QuestionType type,
-                                     final Integer id,
+                                     final UUID id,
                                      final Locale locale,
                                      final Question question) {
         question.setType(type);
@@ -483,7 +488,7 @@ public class QuestionService {
                     || type.equals(QuestionType.MULTI_CHOICE))
                     && question.getChoices() != null) {
 
-                List<Integer> availableIds = question.getChoices()
+                List<UUID> availableIds = question.getChoices()
                         .stream()
                         .filter(choice -> choice.getId() != null)
                         .map(Choice::getId)
@@ -552,7 +557,7 @@ public class QuestionService {
      * @param id the id
      * @return successflag boolean
      */
-    public Boolean delete(final Integer id) {
+    public Boolean delete(final UUID id) {
         String query = "DELETE FROM questions WHERE ID=?";
 
         final Integer updatedRows = jdbcTemplate.update(query, id);
@@ -565,7 +570,7 @@ public class QuestionService {
      * @param questionId
      * @return successflag boolean
      */
-    public Boolean deleteQuestionChoice(final Integer questionId) {
+    public Boolean deleteQuestionChoice(final UUID questionId) {
         final String query =
                 "DELETE FROM question_choices WHERE question_id = ?";
         final Integer updatedRows = jdbcTemplate.update(query, questionId);
@@ -593,7 +598,7 @@ public class QuestionService {
      */
     public List<Question> list(final String userName,
                                final Locale locale,
-                               final Integer practiceId) {
+                               final UUID practiceId) {
 
         Practice practice = this.practiceService
                 .read(practiceId, locale)
@@ -804,7 +809,7 @@ public class QuestionService {
      * @return successflag boolean
      */
     @Transactional
-    public Boolean deleteAQuestion(final int id,
+    public Boolean deleteAQuestion(final UUID id,
                                    final QuestionType questionType) {
 
         deleteQuestionChoice(id);

@@ -13,6 +13,7 @@ import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Locale;
+import java.util.UUID;
 
 @SpringBootTest
 public class BookServiceTest {
@@ -58,7 +59,7 @@ public class BookServiceTest {
     void read() {
         final Book book = bookService.create("mani",null,
                 anBook());
-        final Long newBookId = book.id();
+        final UUID newBookId = book.id();
         Assertions.assertTrue(bookService.read("mani",null, newBookId).isPresent(),
                 "Book Created");
     }
@@ -68,7 +69,7 @@ public class BookServiceTest {
 
         final Book book = bookService.create("mani",null,
                 anBook());
-        final Long newBookId = book.id();
+        final UUID newBookId = book.id();
         Book newBook = new Book(null, "Book",LocalDateTime.now().toString(),"A " +
                 "Book", null, "tom", null, null);
         Book updatedBook = bookService
@@ -77,7 +78,7 @@ public class BookServiceTest {
 
         Assertions.assertThrows(IllegalArgumentException.class, () -> {
             bookService
-                    .update(10000L, "mani", null,newBook);
+                    .update(UUID.randomUUID(), "mani", null,newBook);
         });
     }
 
@@ -139,7 +140,7 @@ public class BookServiceTest {
         Assertions.assertEquals(STATE_BOARD_TITLE_IN_FRENCH, createBook.title());
         Assertions.assertEquals(STATE_BOARD_DESCRIPTION_IN_FRENCH, createBook.description());
 
-        final Long id = createBook.id();
+        final UUID id = createBook.id();
         createBook = bookService.list("mani",Locale.FRENCH)
                 .stream()
                 .filter(book1 -> book1.id().equals(id))

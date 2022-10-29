@@ -3,8 +3,9 @@ package com.gurukulams.core.model;
 import io.swagger.v3.oas.annotations.media.Schema;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
-public record Learner(Long id, String email,
+public record Learner(UUID id, String email,
                       @Schema(accessMode = Schema.AccessMode.WRITE_ONLY)
                       String password,
                       @Schema(accessMode = Schema.AccessMode.READ_ONLY)

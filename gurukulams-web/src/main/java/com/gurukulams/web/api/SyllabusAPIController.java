@@ -25,6 +25,7 @@ import java.net.URI;
 import java.security.Principal;
 import java.util.List;
 import java.util.Locale;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/syllabus")
@@ -74,7 +75,7 @@ class SyllabusAPIController {
                     description = "syllabus not found")})
 
     @GetMapping("/{id}")
-    public ResponseEntity<Syllabus> read(final @PathVariable Long id,
+    public ResponseEntity<Syllabus> read(final @PathVariable UUID id,
                                          @RequestHeader
                                                  (name = "Accept-Language",
                                                          required = false)
@@ -98,7 +99,7 @@ class SyllabusAPIController {
                     description = "syllabus not found")})
    @PutMapping(value = "/{id}", produces = "application/json", consumes =
                                                         "application/json")
-    public ResponseEntity<Syllabus> update(final@PathVariable Long id,
+    public ResponseEntity<Syllabus> update(final@PathVariable UUID id,
                                                      final Principal
                                                         principal,
                                            @RequestHeader
@@ -126,7 +127,7 @@ class SyllabusAPIController {
                     description = "syllabus not found")})
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(final @PathVariable
-                                               Long id,
+                                               UUID id,
                                        final Principal principal) {
         return syllabusService.delete(principal.getName(),
                                   id) ? ResponseEntity.ok().build()

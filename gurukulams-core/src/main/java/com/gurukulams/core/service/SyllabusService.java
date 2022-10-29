@@ -17,6 +17,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Optional;
+import java.util.UUID;
 
 /**
  * The type Syllabus service.
@@ -62,8 +63,8 @@ public class SyllabusService {
     private Syllabus rowMapper(final ResultSet rs,
                                final Integer rowNum)
         throws SQLException {
-        Syllabus syllabus = new Syllabus((long)
-        rs.getInt("id"),
+        Syllabus syllabus = new Syllabus((UUID)
+                rs.getObject("id"),
         rs.getString("title"),
         rs.getString("description"),
         rs.getObject("created_at", LocalDateTime.class),
@@ -85,8 +86,9 @@ public class SyllabusService {
                                      final Locale locale,
                                      final Syllabus syllabus) {
         final SimpleJdbcInsert insert = new SimpleJdbcInsert(dataSource)
-                .withTableName("syllabus").usingGeneratedKeyColumns("id")
-                .usingColumns("title", "description", "created_by");
+                .withTableName("syllabus")
+                .usingColumns("id", "title",
+                        "description", "created_by");
 
         final Map<String, Object> valueMap = new HashMap<>();
 
@@ -94,7 +96,10 @@ public class SyllabusService {
         valueMap.put("description", syllabus.description());
         valueMap.put("created_by", userName);
 
-        final Number syllabusId = insert.executeAndReturnKey(valueMap);
+        final UUID syllabusId = UUID.randomUUID();
+        valueMap.put("id", syllabusId);
+        insert.execute(valueMap);
+
 
         if (locale != null) {
             valueMap.put("syllabus_id", syllabusId);
@@ -102,7 +107,7 @@ public class SyllabusService {
             createLocalizedSyllabus(valueMap);
         }
         final Optional<Syllabus> createdSyllabus =
-                read(userName, null, syllabusId.longValue());
+                read(userName, null, syllabusId);
 
         logger.info("Syllabus Created {}", syllabusId);
 
@@ -130,7 +135,7 @@ public class SyllabusService {
      */
     public Optional<Syllabus> read(final String userName,
                                    final Locale locale,
-                                   final Long id) {
+                                   final UUID id) {
 
 
         final String query = locale == null
@@ -183,7 +188,7 @@ public class SyllabusService {
      * @param locale the locale
      * @return question optional
      */
-    public Syllabus update(final Long id,
+    public Syllabus update(final UUID id,
                                      final String userName,
                                       final Locale locale,
                                       final Syllabus syllabus) {
@@ -223,7 +228,7 @@ public class SyllabusService {
      * @param userName the userName
      * @return question optional
      */
-    public Boolean delete(final String userName, final Long id) {
+    public Boolean delete(final String userName, final UUID id) {
         final String query = "DELETE FROM syllabus WHERE id = ?";
         final Integer updatedRows = jdbcTemplate.update(query, id);
         return !(updatedRows == 0);

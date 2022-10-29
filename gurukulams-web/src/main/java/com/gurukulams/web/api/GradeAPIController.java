@@ -27,6 +27,7 @@ import java.net.URI;
 import java.security.Principal;
 import java.util.List;
 import java.util.Locale;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/grades")
@@ -85,7 +86,7 @@ class GradeAPIController {
                         description = "grade not found")})
 
         @GetMapping("/{id}")
-        public ResponseEntity<Grade> read(@PathVariable final Long id,
+        public ResponseEntity<Grade> read(@PathVariable final UUID id,
                                           @RequestHeader
                                           (name = "Accept-Language",
                                                   required = false)
@@ -109,7 +110,7 @@ class GradeAPIController {
                         description = "grade not found")})
         @PutMapping(value = "/{id}", produces = "application/json", consumes =
                 "application/json")
-        public ResponseEntity<Grade> update(@PathVariable final Long id,
+        public ResponseEntity<Grade> update(@PathVariable final UUID id,
                                                final Principal
                                                        principal,
                                             @RequestHeader
@@ -137,7 +138,7 @@ class GradeAPIController {
                         description = "grade not found")})
         @DeleteMapping("/{id}")
         public ResponseEntity<Void> delete(@PathVariable final
-                                                   Long id,
+                                                   UUID id,
                                            final Principal principal) {
                 return gradeService.delete(principal.getName(),
                         id) ? ResponseEntity.ok().build()
@@ -179,7 +180,7 @@ class GradeAPIController {
         @GetMapping("/{id}/syllabus")
         public ResponseEntity<List<Syllabus>> list(final Principal principal,
                                                    @PathVariable final
-                                                   Long id) {
+                                                   UUID id) {
                 final List<Syllabus> syllabusList = syllabusService.list(
                         principal.getName(), id);
                 return syllabusList.isEmpty() ? ResponseEntity.noContent()

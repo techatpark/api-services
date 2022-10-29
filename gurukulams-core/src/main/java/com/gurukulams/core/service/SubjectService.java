@@ -17,6 +17,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Optional;
+import java.util.UUID;
 
 /**
  * The type Subjects service.
@@ -62,8 +63,8 @@ public class SubjectService {
     private Subject rowMapper(final ResultSet rs,
                                final Integer rowNum)
         throws SQLException {
-        Subject subject = new Subject((long)
-        rs.getInt("id"),
+        Subject subject = new Subject((UUID)
+                rs.getObject("id"),
         rs.getString("title"),
         rs.getString("description"),
         rs.getObject("created_at", LocalDateTime.class),
@@ -85,8 +86,9 @@ public class SubjectService {
                                      final Locale locale,
                                      final Subject subject) {
         final SimpleJdbcInsert insert = new SimpleJdbcInsert(dataSource)
-                .withTableName("subjects").usingGeneratedKeyColumns("id")
-                .usingColumns("title", "description", "created_by");
+                .withTableName("subjects")
+                .usingColumns("id", "title",
+                        "description", "created_by");
 
         final Map<String, Object> valueMap = new HashMap<>();
 
@@ -94,7 +96,10 @@ public class SubjectService {
         valueMap.put("description", subject.description());
         valueMap.put("created_by", userName);
 
-        final Number subjectId = insert.executeAndReturnKey(valueMap);
+        final UUID subjectId = UUID.randomUUID();
+        valueMap.put("id", subjectId);
+        insert.execute(valueMap);
+
 
         if (locale != null) {
             valueMap.put("subject_id", subjectId);
@@ -102,7 +107,7 @@ public class SubjectService {
             createLocalizedSubject(valueMap);
         }
         final Optional<Subject> createdSubjects =
-                read(userName, null, subjectId.longValue());
+                read(userName, null, subjectId);
 
         logger.info("Subject Created {}", subjectId);
 
@@ -130,7 +135,7 @@ public class SubjectService {
      */
     public Optional<Subject> read(final String userName,
                                   final Locale locale,
-                                  final Long id) {
+                                  final UUID id) {
         final String query = locale == null
                 ? "SELECT id,title,description,created_by,"
                 + "created_at, modified_at, modified_by FROM subjects "
@@ -181,7 +186,7 @@ public class SubjectService {
      * @param subject the subjects
      * @return question optional
      */
-    public Subject update(final Long id,
+    public Subject update(final UUID id,
                                      final String userName,
                                       final Locale locale,
                                       final Subject subject) {
@@ -221,7 +226,7 @@ public class SubjectService {
      * @param userName the userName
      * @return question optional
      */
-    public Boolean delete(final String userName, final Long id) {
+    public Boolean delete(final String userName, final UUID id) {
         final String query = "DELETE FROM subjects WHERE id = ?";
         final Integer updatedRows = jdbcTemplate.update(query, id);
         return !(updatedRows == 0);
@@ -278,8 +283,8 @@ public class SubjectService {
      */
     public List<Subject> list(final String userName,
                                final Locale locale,
-                               final Long boardId,
-                               final Long gradeId) {
+                               final UUID boardId,
+                               final UUID gradeId) {
         final String query = locale == null
                 ? "SELECT id,title,description,created_by,"
                 + "created_at,modified_at,modified_by FROM subjects "

@@ -3,6 +3,8 @@ package com.gurukulams.core.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import java.util.UUID;
+
 /**
  * The type User note.
  */
@@ -11,7 +13,7 @@ public class UserNote {
      * declare id.
      */
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
-    private Integer id;
+    private UUID id;
     /**
      * declare onType.
      */
@@ -63,7 +65,7 @@ public class UserNote {
      *
      * @return the id
      */
-    public Integer getId() {
+    public UUID getId() {
         return id;
     }
 
@@ -72,7 +74,7 @@ public class UserNote {
      *
      * @param anid the id
      */
-    public void setId(final Integer anid) {
+    public void setId(final UUID anid) {
         this.id = anid;
     }
 

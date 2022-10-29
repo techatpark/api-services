@@ -112,7 +112,7 @@
       "*/",
       "private ${1} mapRow(final ResultSet rs, final int rowNum) throws SQLException {",
       "final ${1} ${1} = new ${1}();",
-      "${1}.setId(rs.getInt(\"id\"));",
+      "${1}.setId((UUID) rs.getObject(\"id\"));",
       "${7}",
       "${1}.setCreatedAt(rs.getDate(\"created_at\"));",
       "${1}.setUpdatedAt(rs.getDate(\"updated_at\"));",

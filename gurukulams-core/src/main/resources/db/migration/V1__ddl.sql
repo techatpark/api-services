@@ -3,7 +3,7 @@ DROP TABLE IF EXISTS questions;
 DROP TABLE IF EXISTS practices;
 
 CREATE TABLE practices (
-  id INT auto_increment PRIMARY KEY,
+  id UUID PRIMARY KEY,
   title VARCHAR(55) NOT NULL,
   description TEXT,
   type VARCHAR(55) NOT NULL,
@@ -15,7 +15,7 @@ CREATE TABLE practices (
 );
 
 CREATE TABLE practices_localized (
-    practice_id INT,
+    practice_id UUID,
     locale VARCHAR(8) NOT NULL,
     title VARCHAR(55),
     description TEXT,
@@ -24,8 +24,8 @@ CREATE TABLE practices_localized (
 );
 
 CREATE TABLE questions (
-  id INT auto_increment PRIMARY KEY,
-  exam_id INT NOT NULL,
+  id UUID PRIMARY KEY,
+  exam_id UUID NOT NULL,
   question TEXT NOT NULL,
   chapter_path VARCHAR(500),
   type VARCHAR(55) NOT NULL,
@@ -38,7 +38,7 @@ CREATE TABLE questions (
 );
 
 CREATE TABLE questions_localized (
-    question_id INT,
+    question_id UUID,
     locale VARCHAR(8) NOT NULL,
     question TEXT NOT NULL,
     FOREIGN KEY (question_id) REFERENCES questions (id),
@@ -46,15 +46,15 @@ CREATE TABLE questions_localized (
 );
 
 CREATE TABLE question_choices (
-    id INT auto_increment PRIMARY KEY,
-    question_id INT NOT NULL,
+    id UUID PRIMARY KEY,
+    question_id UUID NOT NULL,
     c_value VARCHAR NOT NULL,
     is_answer BOOLEAN,
     FOREIGN KEY (question_id) REFERENCES questions (id)
 );
 
 CREATE TABLE question_choices_localized (
-    choice_id INT,
+    choice_id UUID,
     locale VARCHAR(8) NOT NULL,
     c_value VARCHAR NOT NULL,
     FOREIGN KEY (choice_id) REFERENCES question_choices (id),
@@ -62,15 +62,15 @@ CREATE TABLE question_choices_localized (
 );
 
 CREATE TABLE answers (
-  id INT auto_increment PRIMARY KEY,
-  exam_id INT NOT NULL,
-  question_id INT NOT NULL,
+  id UUID PRIMARY KEY,
+  exam_id UUID NOT NULL,
+  question_id UUID NOT NULL,
   student_answer VARCHAR(500) NOT NULL,
   FOREIGN KEY (question_id) REFERENCES questions (id)
 );
 
 CREATE TABLE user_notes (
-   id INT auto_increment PRIMARY KEY,
+   id UUID PRIMARY KEY,
    on_type VARCHAR NOT NULL,
    on_instance VARCHAR NOT NULL,
    on_section VARCHAR NOT NULL,
@@ -83,7 +83,7 @@ CREATE TABLE user_notes (
 
 
 CREATE TABLE boards (
-    id INT auto_increment PRIMARY KEY,
+    id UUID PRIMARY KEY,
     title VARCHAR(55),
     description TEXT,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
@@ -94,7 +94,7 @@ CREATE TABLE boards (
 );
 
 CREATE TABLE boards_localized (
-    board_id INT,
+    board_id UUID,
     locale VARCHAR(8) NOT NULL,
     title VARCHAR(55),
     description TEXT,
@@ -103,7 +103,7 @@ CREATE TABLE boards_localized (
 );
 
 CREATE TABLE grades (
-    id INT auto_increment PRIMARY KEY,
+    id UUID PRIMARY KEY,
     title VARCHAR(55),
     description TEXT,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
@@ -114,7 +114,7 @@ CREATE TABLE grades (
 );
 
 CREATE TABLE grades_localized (
-    grade_id INT,
+    grade_id UUID,
     locale VARCHAR(8) NOT NULL,
     title VARCHAR(55),
     description TEXT,
@@ -123,7 +123,7 @@ CREATE TABLE grades_localized (
 );
 
 CREATE TABLE syllabus (
-    id INT auto_increment PRIMARY KEY,
+    id UUID PRIMARY KEY,
     title VARCHAR(55),
     description TEXT,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
@@ -134,7 +134,7 @@ CREATE TABLE syllabus (
 );
 
 CREATE TABLE syllabus_localized (
-    syllabus_id INT,
+    syllabus_id UUID,
     locale VARCHAR(8) NOT NULL,
     title VARCHAR(55),
     description TEXT,
@@ -143,7 +143,7 @@ CREATE TABLE syllabus_localized (
 );
 
 CREATE TABLE subjects (
-    id INT auto_increment PRIMARY KEY,
+    id UUID PRIMARY KEY,
     title VARCHAR(55),
     description TEXT,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
@@ -154,7 +154,7 @@ CREATE TABLE subjects (
 );
 
 CREATE TABLE subjects_localized (
-    subject_id INT,
+    subject_id UUID,
     locale VARCHAR(8) NOT NULL,
     title VARCHAR(55),
     description TEXT,
@@ -163,7 +163,7 @@ CREATE TABLE subjects_localized (
 );
 
 CREATE TABLE books (
-    id INT auto_increment PRIMARY KEY,
+    id UUID PRIMARY KEY,
     title VARCHAR(55),
     path VARCHAR(255) NOT NULL,
     description TEXT,
@@ -176,7 +176,7 @@ CREATE TABLE books (
 );
 
 CREATE TABLE books_localized (
-    book_id INT,
+    book_id UUID,
     locale VARCHAR(8) NOT NULL,
     title VARCHAR(55),
     description TEXT,
@@ -185,7 +185,7 @@ CREATE TABLE books_localized (
 );
 
 CREATE TABLE institutes (
-    id INT auto_increment PRIMARY KEY,
+    id UUID PRIMARY KEY,
     title VARCHAR(55),
     description TEXT,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
@@ -196,7 +196,7 @@ CREATE TABLE institutes (
 );
 
 CREATE TABLE learner (
-    id INT auto_increment PRIMARY KEY,
+    id UUID PRIMARY KEY,
     email VARCHAR(200) NOT NULL,
     image_url VARCHAR(200) NOT NULL,
     provider VARCHAR(50) DEFAULT 'local' NOT NULL,
@@ -209,17 +209,17 @@ CREATE TABLE learner (
 );
 
 CREATE TABLE boards_grades(
-    board_id INT NOT NULL,
-    grade_id INT NOT NULL,
+    board_id UUID NOT NULL,
+    grade_id UUID NOT NULL,
     PRIMARY KEY(board_id, grade_id),
     FOREIGN KEY (board_id) REFERENCES boards (id),
     FOREIGN KEY (grade_id) REFERENCES grades (id)
 );
 
 CREATE TABLE boards_grades_subjects(
-    board_id INT NOT NULL,
-    grade_id INT NOT NULL,
-    subject_id INT NOT NULL,
+    board_id UUID NOT NULL,
+    grade_id UUID NOT NULL,
+    subject_id UUID NOT NULL,
     PRIMARY KEY(board_id, grade_id, subject_id),
     FOREIGN KEY (board_id) REFERENCES boards (id),
     FOREIGN KEY (grade_id) REFERENCES grades (id),
@@ -227,10 +227,10 @@ CREATE TABLE boards_grades_subjects(
 );
 
 CREATE TABLE boards_grades_subjects_books(
-    board_id INT NOT NULL,
-    grade_id INT NOT NULL,
-    subject_id INT NOT NULL,
-    book_id INT NOT NULL,
+    board_id UUID NOT NULL,
+    grade_id UUID NOT NULL,
+    subject_id UUID NOT NULL,
+    book_id UUID NOT NULL,
     PRIMARY KEY(board_id, grade_id, subject_id),
     FOREIGN KEY (board_id) REFERENCES boards (id),
     FOREIGN KEY (grade_id) REFERENCES grades (id),
@@ -239,8 +239,8 @@ CREATE TABLE boards_grades_subjects_books(
 );
 
 CREATE TABLE practices_books (
-    practice_id INT NOT NULL,
-    book_id INT NOT NULL,
+    practice_id UUID NOT NULL,
+    book_id UUID NOT NULL,
     PRIMARY KEY(practice_id, book_id),
     FOREIGN KEY (practice_id) REFERENCES practices (id),
     FOREIGN KEY (book_id) REFERENCES books (id)

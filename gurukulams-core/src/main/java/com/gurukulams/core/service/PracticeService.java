@@ -32,6 +32,7 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
+import java.util.UUID;
 
 /**
  * The type Practice service.
@@ -118,7 +119,7 @@ public class PracticeService {
                 practice = new Practice();
             }
         }
-        practice.setId(rs.getInt("id"));
+        practice.setId((UUID) rs.getObject("id"));
         practice.setTitle(rs.getString("title"));
         practice.setCreatedBy(rs.getString("created_by"));
         practice.setDescription(rs.getString("description"));
@@ -190,8 +191,7 @@ public class PracticeService {
         if (violations.isEmpty()) {
             final SimpleJdbcInsert insert = new SimpleJdbcInsert(dataSource)
                     .withTableName("practices")
-                    .usingGeneratedKeyColumns("id")
-                    .usingColumns("title",
+                    .usingColumns("id", "title",
                             "type",
                             "created_by",
                             "description",
@@ -204,8 +204,11 @@ public class PracticeService {
             valueMap.put("created_by", createdBy);
             valueMap.put("description", practice.getDescription());
             valueMap.put("meta_data", metaData);
-            final Number examId = insert.executeAndReturnKey(valueMap);
-            final Optional<T> createdExam = read(examId.intValue(), locale);
+            final UUID examId = UUID.randomUUID();
+            valueMap.put("id", examId);
+            insert.execute(valueMap);
+
+            final Optional<T> createdExam = read(examId, locale);
             createdExam.ifPresent(exam1 -> {
                 if (exam1 instanceof SqlPractice) {
                     loadScripts((SqlPractice) exam1);
@@ -297,7 +300,7 @@ public class PracticeService {
      * @param bookId
      * @return added
      */
-    private boolean addPracticeToBook(final Integer practiceId,
+    private boolean addPracticeToBook(final UUID practiceId,
                                       final Integer bookId) {
         final SimpleJdbcInsert insert = new SimpleJdbcInsert(dataSource)
                 .withTableName("practices_books")
@@ -366,7 +369,7 @@ public class PracticeService {
      * @param newPracticeId the new practice id
      * @return p. optional
      */
-    public <T extends Practice> Optional<T> read(final Integer newPracticeId,
+    public <T extends Practice> Optional<T> read(final UUID newPracticeId,
                                                  final Locale locale) {
         final String query = locale == null
                 ? "SELECT id,title,created_by,type,meta_data,"
@@ -406,7 +409,7 @@ public class PracticeService {
      * @return p. optional
      * @throws JsonProcessingException the json processing exception
      */
-    public <T extends Practice> Optional<T> update(final Integer id,
+    public <T extends Practice> Optional<T> update(final UUID id,
                                                    final Locale locale,
                                                    final T practice)
             throws JsonProcessingException {
@@ -458,7 +461,7 @@ public class PracticeService {
      * @param id the id
      * @return successflag boolean
      */
-    public Boolean delete(final Integer id) {
+    public Boolean delete(final UUID id) {
         final Optional<Practice> oPractice = read(id, null);
         Boolean success = false;
         if (oPractice.isPresent()) {

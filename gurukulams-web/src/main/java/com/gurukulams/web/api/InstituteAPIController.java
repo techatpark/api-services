@@ -23,6 +23,8 @@ import com.gurukulams.core.service.InstituteService;
 import java.net.URI;
 import java.security.Principal;
 import java.util.List;
+import java.util.UUID;
+
 /**
  * The type Institute api controller.
  */
@@ -72,7 +74,7 @@ class InstituteAPIController {
             @ApiResponse(responseCode = "404",
                     description = "institute not found")})
     @GetMapping(value = "/{id}", produces = "application/json")
-    public ResponseEntity<Institute> read(final @PathVariable Long id,
+    public ResponseEntity<Institute> read(final @PathVariable UUID id,
                                          final Principal principal) {
     return ResponseEntity.of(instituteService.read(principal.getName(), id));
     }
@@ -92,7 +94,7 @@ class InstituteAPIController {
     @PutMapping(value = "/{id}", produces = "application/json", consumes =
             "application/json")
     public ResponseEntity<Institute> update(final@PathVariable
-                                                                  Long id,
+                                                UUID id,
                                                      final Principal
                                                              principal,
                                                      final @RequestBody
@@ -114,7 +116,7 @@ class InstituteAPIController {
                     description = "institute not found")})
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(final @PathVariable
-                                               Long id,
+                                               UUID id,
                                        final Principal
                                                principal) {
         return instituteService.delete(principal.getName(), id)

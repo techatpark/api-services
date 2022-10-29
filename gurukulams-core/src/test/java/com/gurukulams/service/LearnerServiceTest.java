@@ -12,6 +12,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -54,7 +55,7 @@ public class LearnerServiceTest {
     void update() {
         final Learner learner=learnerService.create("Manikanta",
                                                       anLearner());
-        final Long newLearnerId = learner.id();
+        final UUID newLearnerId = learner.id();
         Learner newLearner=new Learner(null, "maniLearner", "An Learner",
                 "Image Url", AuthProvider.local,
                 null,null,null,null);
@@ -62,7 +63,7 @@ public class LearnerServiceTest {
                                     "Mani",newLearner);
         Assertions.assertEquals("maniLearner", updatedLearner.email(), "updated");
                Assertions.assertThrows(IllegalArgumentException.class, () -> {
-                   learnerService.update(10000L, "Mani", newLearner);
+                   learnerService.update(UUID.randomUUID(), "Mani", newLearner);
         });
     }
 

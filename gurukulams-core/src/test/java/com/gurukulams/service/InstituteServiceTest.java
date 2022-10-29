@@ -11,6 +11,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -54,7 +55,7 @@ class InstituteServiceTest {
     void read() {
         final Institute institute = instituteService.create("hari",
                 anInstitute());
-        final Long newInstituteId = institute.id();
+        final UUID newInstituteId = institute.id();
         Assertions.assertTrue(instituteService.read("hari",institute.id()).isPresent(),
                 "Created Institute");
     }
@@ -64,7 +65,7 @@ class InstituteServiceTest {
 
         final Institute institute = instituteService.create("hari",
                 anInstitute());
-        final Long newInstituteId = institute.id();
+        final UUID newInstituteId = institute.id();
         Institute newInstitute = new Institute(null, "HansiInstitute", "An " +
                 "Institute", null, null, null, null);
         Institute updatedInstitute = instituteService
@@ -73,7 +74,7 @@ class InstituteServiceTest {
 
                 Assertions.assertThrows(IllegalArgumentException.class, () -> {
                     instituteService
-                            .update(10000L, "priya", newInstitute);
+                            .update(UUID.randomUUID(), "priya", newInstitute);
         });
     }
 

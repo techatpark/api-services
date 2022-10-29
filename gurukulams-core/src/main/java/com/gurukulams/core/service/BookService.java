@@ -21,6 +21,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Optional;
+import java.util.UUID;
 
 /**
  * The type Book service.
@@ -92,8 +93,8 @@ public class BookService {
     private Book rowMapper(final ResultSet rs,
                            final Integer rowNum)
             throws SQLException {
-        Book book = new Book((long)
-                rs.getInt("id"),
+        Book book = new Book((UUID)
+                rs.getObject("id"),
                 rs.getString("title"),
                 rs.getString("path"),
                 rs.getString("description"),
@@ -116,8 +117,9 @@ public class BookService {
                        final Locale locale,
                        final Book book) {
         final SimpleJdbcInsert insert = new SimpleJdbcInsert(dataSource)
-                .withTableName("books").usingGeneratedKeyColumns("id")
-                .usingColumns("title", "path", "description", "created_by");
+                .withTableName("books")
+                .usingColumns("id", "title",
+                        "path", "description", "created_by");
 
         final Map<String, Object> valueMap = new HashMap<>();
 
@@ -126,7 +128,10 @@ public class BookService {
         valueMap.put("description", book.description());
         valueMap.put("created_by", userName);
 
-        final Number bookId = insert.executeAndReturnKey(valueMap);
+        final UUID bookId = UUID.randomUUID();
+        valueMap.put("id", bookId);
+        insert.execute(valueMap);
+
 
         if (locale != null) {
             valueMap.put("book_id", bookId);
@@ -134,7 +139,7 @@ public class BookService {
             createLocalizedBook(valueMap);
         }
         final Optional<Book> createdBooks =
-                read(userName, null, bookId.longValue());
+                read(userName, null, bookId);
 
         logger.info("Book Created {}", bookId);
 
@@ -162,7 +167,7 @@ public class BookService {
      */
     public Optional<Book> read(final String userName,
                                final Locale locale,
-                               final Long id) {
+                               final UUID id) {
         final String query = locale == null
                 ? "SELECT id,title,path,description,created_by,"
                 + "created_at, modified_at, modified_by FROM books "
@@ -214,7 +219,7 @@ public class BookService {
      * @param book the books
      * @return question optional
      */
-    public Book update(final Long id,
+    public Book update(final UUID id,
                        final String userName,
                        final Locale locale,
                        final Book book) {
@@ -254,7 +259,7 @@ public class BookService {
      * @param userName the userName
      * @return question optional
      */
-    public Boolean delete(final String userName, final Long id) {
+    public Boolean delete(final String userName, final UUID id) {
         final String query = "DELETE FROM books WHERE id = ?";
         final Integer updatedRows = jdbcTemplate.update(query, id);
         return !(updatedRows == 0);
@@ -314,9 +319,9 @@ public class BookService {
      */
     public List<Book> list(final String userName,
                               final Locale locale,
-                              final Long boardId,
-                              final Long gradeId,
-                                final Long subjectId) {
+                              final UUID boardId,
+                              final UUID gradeId,
+                                final UUID subjectId) {
         final String query = locale == null
                 ? "SELECT id,title,path,description,created_by,"
                 + "created_at,modified_at,modified_by FROM books "
@@ -405,7 +410,7 @@ public class BookService {
      * @param id the id
      * @return the optional
      */
-    public Optional<UserNote> readNote(final Integer id) {
+    public Optional<UserNote> readNote(final UUID id) {
         return userNotesService.read(id);
 
     }
@@ -417,7 +422,7 @@ public class BookService {
      * @param userNote the user note
      * @return the optional
      */
-    public Optional<UserNote> updateNote(final Integer id,
+    public Optional<UserNote> updateNote(final UUID id,
                                          final UserNote userNote) {
         return userNotesService.updateNote(id, userNote);
     }
@@ -428,7 +433,7 @@ public class BookService {
      * @param id the id
      * @return the boolean
      */
-    public boolean deleteNote(final Integer id) {
+    public boolean deleteNote(final UUID id) {
         return userNotesService.delete(id);
     }
 
@@ -491,7 +496,7 @@ public class BookService {
      * @param questionType the questionType
      * @return successflag boolean
      */
-    public Boolean deleteAQuestion(final int id,
+    public Boolean deleteAQuestion(final UUID id,
                                    final QuestionType questionType) {
 
         return questionService.deleteAQuestion(id, questionType);
@@ -519,7 +524,7 @@ public class BookService {
      * @return successflag boolean
      */
     public Optional<Question> updateQuestion(final String bookName,
-                                             final Integer id,
+                                             final UUID id,
                                              final Locale locale,
                                              final QuestionType questionType,
                                              final Question question,

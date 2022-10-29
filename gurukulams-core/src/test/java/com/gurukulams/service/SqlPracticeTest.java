@@ -13,6 +13,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.PageRequest;
 
 import java.io.IOException;
+import java.util.UUID;
 
 /**
  * The type Sql exam service test.
@@ -79,7 +80,7 @@ class SqlPracticeTest {
                 sqlExamService.create("sql", "user", null,examToBeCrated).get();
         exam.setTitle("Updated Name");
         exam.setDatabase(Database.H2);
-        final Integer newExamId = exam.getId();
+        final UUID newExamId = exam.getId();
         exam = sqlExamService.update(newExamId, null, exam).get();
         Assertions.assertEquals("Updated Name", exam.getTitle(), "Updated");
         Assertions.assertEquals(Database.H2, exam.getDatabase(), "Updated");
@@ -95,7 +96,7 @@ class SqlPracticeTest {
         final SqlPractice examToBeCrated = getExam();
         final SqlPractice exam =
                 sqlExamService.create("sql", "user", null, examToBeCrated).get();
-        final Integer newExamId = exam.getId();
+        final UUID newExamId = exam.getId();
         Assertions.assertTrue(sqlExamService.read(newExamId, null).isPresent(),
                 "Exam Created");
     }
@@ -109,7 +110,7 @@ class SqlPracticeTest {
             final SqlPractice examToBeCrated = getExam();
             final SqlPractice exam =
                     sqlExamService.create("sql", "user",null, examToBeCrated).get();
-            final Integer newExamId = exam.getId();
+            final UUID newExamId = exam.getId();
             sqlExamService.delete(newExamId);
         Assertions.assertFalse(sqlExamService.read(newExamId, null).isPresent(),
                 "Exam Created");

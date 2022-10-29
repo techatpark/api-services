@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.net.URI;
 import java.security.Principal;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * The type Learner api controller.
@@ -73,7 +74,7 @@ class LearnerAPIController {
                     description = "learner not found")})
     @GetMapping(value = "/{id}", produces = "application/json")
     public ResponseEntity<Learner> read(final Principal principal,
-                                  final @PathVariable Long id) {
+                                  final @PathVariable UUID id) {
         return ResponseEntity.of(learnerService.read(principal.getName(),
                                                         id));
     }
@@ -92,7 +93,7 @@ class LearnerAPIController {
                     description = "learner not found")})
     @PutMapping(value = "/{id}", produces = "application/json", consumes =
             "application/json")
-    public ResponseEntity<Learner> update(final @PathVariable Long id,
+    public ResponseEntity<Learner> update(final @PathVariable UUID id,
                                           final Principal principal,
                                           final @RequestBody Learner learner)
             throws JsonProcessingException {
@@ -110,7 +111,7 @@ class LearnerAPIController {
             @ApiResponse(responseCode = "404",
                     description = "learner not found")})
     @DeleteMapping("/id")
-    public ResponseEntity<Void> delete(final Long id,
+    public ResponseEntity<Void> delete(final UUID id,
                                        final Principal principal) {
     return learnerService.delete(principal.getName(), id)
             ? ResponseEntity.ok().build()

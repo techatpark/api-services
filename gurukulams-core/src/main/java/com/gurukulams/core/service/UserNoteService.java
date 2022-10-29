@@ -12,6 +12,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.UUID;
 
 /**
  * The type User note service.
@@ -32,7 +33,7 @@ public class UserNoteService {
      */
     private final RowMapper<UserNote> rowMapper = (rs, rowNum) -> {
         final UserNote userNote = new UserNote();
-        userNote.setId(rs.getInt("id"));
+        userNote.setId((UUID) rs.getObject("id"));
         userNote.setOnType(rs.getString("on_type"));
         userNote.setOnInstance(rs.getString("on_instance"));
         userNote.setOnSection(rs.getString("on_section"));
@@ -79,8 +80,10 @@ public class UserNoteService {
         valueMap.put("prev_word", userNote.getPrevWord());
         valueMap.put("text", userNote.getText());
         valueMap.put("note", userNote.getNote());
-        final Number id = insert.executeAndReturnKey(valueMap);
-        return read(id.intValue());
+        final UUID id = UUID.randomUUID();
+valueMap.put("id", id);
+insert.execute(valueMap);
+        return read(id);
     }
 
     /**
@@ -89,7 +92,7 @@ public class UserNoteService {
      * @param id the id
      * @return the optional
      */
-    public Optional<UserNote> read(final Integer id) {
+    public Optional<UserNote> read(final UUID id) {
         final String query =
                 "SELECT id,on_type,on_instance,on_section,prev_word,text,"
                         + "note FROM "
@@ -129,7 +132,7 @@ public class UserNoteService {
      * @param userNote the user note
      * @return the optional
      */
-    public Optional<UserNote> updateNote(final Integer id,
+    public Optional<UserNote> updateNote(final UUID id,
                                          final UserNote userNote) {
         final String query =
                 "UPDATE user_notes SET prev_word = ?,"
@@ -146,7 +149,7 @@ public class UserNoteService {
      * @param id the id
      * @return the boolean
      */
-    public Boolean delete(final Integer id) {
+    public Boolean delete(final UUID id) {
         final String query = "DELETE FROM user_notes WHERE ID=?";
         final Integer updatedRows = jdbcTemplate.update(query, id);
         return !(updatedRows == 0);

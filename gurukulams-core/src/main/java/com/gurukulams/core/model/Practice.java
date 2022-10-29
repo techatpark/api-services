@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import javax.validation.constraints.NotBlank;
 import java.time.Instant;
+import java.util.UUID;
 
 /**
  * The type Practice.
@@ -13,7 +14,7 @@ public class Practice {
      * tells the id of the exam.
      */
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
-    private Integer id;
+    private UUID id;
     /**
      * tells the title of exam.
      */
@@ -52,7 +53,7 @@ public class Practice {
      *
      * @return id id
      */
-    public Integer getId() {
+    public UUID getId() {
         return id;
     }
 
@@ -61,7 +62,7 @@ public class Practice {
      *
      * @param anId the an id
      */
-    public void setId(final Integer anId) {
+    public void setId(final UUID anId) {
         this.id = anId;
     }
 

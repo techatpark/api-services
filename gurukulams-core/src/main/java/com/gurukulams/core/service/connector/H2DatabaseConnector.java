@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import javax.sql.DataSource;
+import java.util.UUID;
 
 /**
  * The type H 2 database connector.
@@ -79,10 +80,11 @@ public final class H2DatabaseConnector extends DatabaseConnector {
      */
     @Override
     public Boolean loadScript(final SqlPractice exam) {
-        final Integer id = exam.getId();
+        final UUID id = exam.getId();
         unloadScript(exam);
-        final String schemaName = "EXAM_" + id;
-        final String query = "DROP SCHEMA IF EXISTS " + schemaName;
+        final String schemaName = "EXAM_"
+                + id.toString().replaceAll("-", "_");
+        final String query = "DROP SCHEMA IF EXISTS '" + schemaName + "'";
         update(query, exam);
         final HikariConfig config = new HikariConfig();
         config.setJdbcUrl(jdbcUrl.replaceAll("practice_db", schemaName));
@@ -101,8 +103,9 @@ public final class H2DatabaseConnector extends DatabaseConnector {
      */
     @Override
     public Boolean unloadScript(final SqlPractice exam) {
-        final Integer id = exam.getId();
-        final String query = "DROP SCHEMA IF EXISTS EXAM_" + id;
+        final UUID id = exam.getId();
+        final String query = "DROP SCHEMA IF EXISTS 'EXAM_"
+                + id.toString().replaceAll("-", "_") + "'";
         update(query, exam);
         return null;
     }

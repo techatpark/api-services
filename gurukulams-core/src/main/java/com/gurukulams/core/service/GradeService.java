@@ -17,6 +17,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Optional;
+import java.util.UUID;
 
 
 @Service
@@ -61,8 +62,8 @@ public class GradeService {
     private Grade rowMapper(final ResultSet rs,
                             final Integer rowNum)
             throws SQLException {
-        Grade grade = new Grade((long)
-                rs.getInt("id"),
+        Grade grade = new Grade((UUID)
+                rs.getObject("id"),
                 rs.getString("title"),
                 rs.getString("description"),
                 rs.getObject("created_at", LocalDateTime.class),
@@ -85,8 +86,9 @@ public class GradeService {
                         final Locale locale,
                         final Grade grade) {
         final SimpleJdbcInsert insert = new SimpleJdbcInsert(dataSource)
-                .withTableName("grades").usingGeneratedKeyColumns("id")
-                .usingColumns("title", "description", "created_by");
+                .withTableName("grades")
+                .usingColumns("id", "title",
+                        "description", "created_by");
 
         final Map<String, Object> valueMap = new HashMap<>();
 
@@ -95,7 +97,10 @@ public class GradeService {
         valueMap.put("description", grade.description());
         valueMap.put("created_by", userName);
 
-        final Number gradeId = insert.executeAndReturnKey(valueMap);
+        final UUID gradeId = UUID.randomUUID();
+        valueMap.put("id", gradeId);
+        insert.execute(valueMap);
+
 
         if (locale != null) {
             valueMap.put("grade_id", gradeId);
@@ -104,7 +109,7 @@ public class GradeService {
         }
 
         final Optional<Grade> createdGrade =
-                read(userName, null, gradeId.longValue());
+                read(userName, null, gradeId);
 
         logger.info("grade Created {}", gradeId);
 
@@ -135,7 +140,7 @@ public class GradeService {
      */
     public Optional<Grade> read(final String userName,
                                 final Locale locale,
-                                final Long id) {
+                                final UUID id) {
         final String query = locale == null
                 ? "SELECT id,title,description,created_by,"
                 + "created_at, modified_at, modified_by FROM grades "
@@ -189,7 +194,7 @@ public class GradeService {
      * @param locale
      * @return grade optional
      */
-    public Grade update(final Long id,
+    public Grade update(final UUID id,
                         final String userName,
                         final Locale locale,
                         final Grade grade) {
@@ -232,7 +237,7 @@ public class GradeService {
      * @return grade optional
      */
     public Boolean delete(final String userName,
-                          final Long id) {
+                          final UUID id) {
         final String query = "DELETE FROM grades WHERE id = ?";
         final Integer updatedRows = jdbcTemplate.update(query, id);
         return !(updatedRows == 0);
@@ -291,7 +296,7 @@ public class GradeService {
      */
     public List<Grade> list(final String userName,
                             final Locale locale,
-                            final Long boardId) {
+                            final UUID boardId) {
         final String query = locale == null
                 ? "SELECT id,title,description,created_by,"
                 + "created_at,modified_at,modified_by FROM grades "

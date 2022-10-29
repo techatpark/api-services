@@ -29,6 +29,7 @@ import java.net.URI;
 import java.security.Principal;
 import java.util.List;
 import java.util.Locale;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/boards")
@@ -111,7 +112,7 @@ class BoardAPIController {
                     description = "syllabus not found")})
 
     @GetMapping("/{id}")
-    public ResponseEntity<Board> read(@PathVariable final Long id,
+    public ResponseEntity<Board> read(@PathVariable final UUID id,
                       @RequestHeader(name = "Accept-Language", required = false)
                       final Locale locale,
                       final Principal principal) {
@@ -141,7 +142,7 @@ class BoardAPIController {
                     description = "syllabus not found")})
     @PutMapping(value = "/{id}", produces = "application/json", consumes =
             "application/json")
-    public ResponseEntity<Board> update(@PathVariable final Long id,
+    public ResponseEntity<Board> update(@PathVariable final UUID id,
                                            final Principal
                                                    principal,
                      @RequestHeader(name = "Accept-Language", required = false)
@@ -170,7 +171,7 @@ class BoardAPIController {
                     description = "board not found")})
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable final
-                                           Long id,
+                                           UUID id,
                                        final Principal principal) {
         return boardService.delete(principal.getName(),
                 id) ? ResponseEntity.ok().build()
@@ -227,7 +228,7 @@ class BoardAPIController {
                                                     (name = "Accept-Language",
                                                             required = false)
                                             final Locale locale,
-                                            @PathVariable final Long id) {
+                                            @PathVariable final UUID id) {
         final List<Grade> gradeList = gradeService.list(
                 principal.getName(), locale, id);
         return gradeList.isEmpty() ? ResponseEntity.noContent().build()
@@ -257,8 +258,8 @@ class BoardAPIController {
     @GetMapping("/{boardId}/grades/{gradeId}/subjects")
     public ResponseEntity<List<Subject>> list(final Principal principal,
                              final Locale locale,
-                             @PathVariable final Long boardId,
-                         @PathVariable final Long gradeId) {
+                             @PathVariable final UUID boardId,
+                         @PathVariable final UUID gradeId) {
 
         final List<Subject> subjectList = subjectService.list(
                 principal.getName(), locale, boardId, gradeId);
@@ -280,8 +281,8 @@ class BoardAPIController {
     @PostMapping("/{boardId}/grades/{gradeId}")
     public ResponseEntity<Void> attachGrade(final Principal principal,
                                            final Locale locale,
-                                           @PathVariable final Long boardId,
-                                           @PathVariable final Long gradeId) {
+                                           @PathVariable final UUID boardId,
+                                           @PathVariable final UUID gradeId) {
         return boardService.attachGrade(principal.getName(), boardId, gradeId)
                         ? ResponseEntity.ok().build()
                                 : ResponseEntity.notFound().build();
@@ -299,9 +300,9 @@ class BoardAPIController {
                     description = "invalid credentials")})
     @PostMapping("/{boardId}/grades/{gradeId}/subjects/{subjectId}")
     public ResponseEntity<Void> attachSubject(final Principal principal,
-                                       @PathVariable final Long boardId,
-                                       @PathVariable final Long gradeId,
-                                       @PathVariable final Long subjectId) {
+                                       @PathVariable final UUID boardId,
+                                       @PathVariable final UUID gradeId,
+                                       @PathVariable final UUID subjectId) {
         return boardService.attachSubject(principal.getName(), boardId,
                 gradeId, subjectId)
                 ? ResponseEntity.ok().build()
@@ -318,12 +319,13 @@ class BoardAPIController {
                     description = "books are not available"),
             @ApiResponse(responseCode = "401",
                     description = "invalid credentials")})
-    @PostMapping("/{boardId}/grades/{gradeId}/subjects/{subjectId}/books/{bookId}")
-    public ResponseEntity<Void> attachSubject(final Principal principal,
-                                              @PathVariable final Long boardId,
-                                              @PathVariable final Long gradeId,
-                                              @PathVariable final Long subjectId,
-                                              @PathVariable final Long bookId) {
+    @PostMapping("/{boardId}/grades/{gradeId}/subjects"
+            + "/{subjectId}/books/{bookId}")
+    public ResponseEntity<Void> attachBook(final Principal principal,
+                              @PathVariable final UUID boardId,
+                              @PathVariable final UUID gradeId,
+                              @PathVariable final UUID subjectId,
+                              @PathVariable final UUID bookId) {
         return boardService.attachBook(principal.getName(), boardId,
                 gradeId, subjectId, bookId)
                 ? ResponseEntity.ok().build()
@@ -351,9 +353,9 @@ class BoardAPIController {
     @GetMapping("/{boardId}/grades/{gradeId}/subjects/{subjectId}/books")
     public ResponseEntity<List<Book>> list(final Principal principal,
                                            final Locale locale,
-                                           @PathVariable final Long boardId,
-                                           @PathVariable final Long gradeId,
-                                           @PathVariable final Long subjectId) {
+                                           @PathVariable final UUID boardId,
+                                           @PathVariable final UUID gradeId,
+                                           @PathVariable final UUID subjectId) {
 
         final List<Book> subjectList = bookService.list(
                 principal.getName(), locale, boardId, gradeId, subjectId);

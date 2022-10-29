@@ -1,5 +1,7 @@
 package com.gurukulams.core.model;
 
+import java.util.UUID;
+
 /**
  * The type Answer choice.
  */
@@ -8,7 +10,7 @@ public class Choice {
     /**
      * tells the id.
      */
-    private Integer id;
+    private UUID id;
 
     /**
      * tells the value.
@@ -43,7 +45,7 @@ public class Choice {
      *
      * @return the id
      */
-    public Integer getId() {
+    public UUID getId() {
         return id;
     }
 
@@ -52,7 +54,7 @@ public class Choice {
      *
      * @param anId the id
      */
-    public void setId(final Integer anId) {
+    public void setId(final UUID anId) {
         this.id = anId;
     }
 

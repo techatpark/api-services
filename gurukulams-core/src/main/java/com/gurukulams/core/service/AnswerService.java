@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 /**
@@ -44,7 +45,7 @@ public class AnswerService {
      * @param answer     the answer
      * @return true boolean
      */
-    public final Boolean answer(final Integer questionId,
+    public final Boolean answer(final UUID questionId,
                                 final String answer) {
         Boolean isRigntAnswer = false;
         final Optional<Question> oQuestion = questionService

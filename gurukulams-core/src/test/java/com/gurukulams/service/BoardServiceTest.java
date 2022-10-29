@@ -13,6 +13,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
+import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -62,7 +63,7 @@ public class BoardServiceTest {
     void read() {
         final Board board = boardService.create("mani",null,
                 anBoard());
-        final Long newBoardId = board.id();
+        final UUID newBoardId = board.id();
         Assertions.assertTrue(boardService.read("mani",null, newBoardId).isPresent(),
                 "Board Created");
     }
@@ -72,7 +73,7 @@ public class BoardServiceTest {
 
         final Board board = boardService.create("mani",null,
                 anBoard());
-        final Long newBoardId = board.id();
+        final UUID newBoardId = board.id();
         Board newBoard = new Board(null, "Board", "A " +
                 "Board", null, "tom", null, null);
         Board updatedBoard = boardService
@@ -81,7 +82,7 @@ public class BoardServiceTest {
 
         Assertions.assertThrows(IllegalArgumentException.class, () -> {
             boardService
-                    .update(10000L, "mani", null,newBoard);
+                    .update(UUID.randomUUID(), "mani", null,newBoard);
         });
     }
 
@@ -143,7 +144,7 @@ public class BoardServiceTest {
         Assertions.assertEquals(STATE_BOARD_TITLE_IN_FRENCH, createBoard.title());
         Assertions.assertEquals(STATE_BOARD_DESCRIPTION_IN_FRENCH, createBoard.description());
 
-        final Long id = createBoard.id();
+        final UUID id = createBoard.id();
         createBoard = boardService.list("mani",Locale.FRENCH)
                 .stream()
                 .filter(board1 -> board1.id().equals(id))

@@ -16,6 +16,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
+import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -72,7 +73,7 @@ public class SyllabusServiceTest {
     void read() {
         final Syllabus syllabus=syllabusService.create("mani", null,
                 anSyllabus());
-        final Long newSyllabusId = syllabus.id();
+        final UUID newSyllabusId = syllabus.id();
         Assertions.assertTrue(syllabusService.read("mani", null,
                         newSyllabusId).isPresent(),
                 "syllabus Created");
@@ -83,7 +84,7 @@ public class SyllabusServiceTest {
 
         final Syllabus syllabus = syllabusService.create("mani", null,
                 anSyllabus());
-        final Long newSyllabusId = syllabus.id();
+        final UUID newSyllabusId = syllabus.id();
         Syllabus newSyllabus = new Syllabus(null, "MathsSyllabus", "An " +
                 "Syllabus", null, "tom", null, null);
         Syllabus updatedSyllabus = syllabusService
@@ -92,7 +93,7 @@ public class SyllabusServiceTest {
 
         Assertions.assertThrows(IllegalArgumentException.class, () -> {
             syllabusService
-                    .update(10000L, "manikanta", null, newSyllabus);
+                    .update(UUID.randomUUID(), "manikanta", null, newSyllabus);
         });
     }
 
@@ -153,7 +154,7 @@ public class SyllabusServiceTest {
         Assertions.assertEquals(STATE_SYLLABUS_TITLE_IN_FRENCH, createSyllabus.title());
         Assertions.assertEquals(STATE_SYLLABUS_DESCRIPTION_IN_FRENCH, createSyllabus.description());
 
-        final Long id = createSyllabus.id();
+        final UUID id = createSyllabus.id();
         createSyllabus = syllabusService.list("mani", Locale.FRENCH)
                 .stream()
                 .filter(syllabus1 -> syllabus1.id().equals(id))

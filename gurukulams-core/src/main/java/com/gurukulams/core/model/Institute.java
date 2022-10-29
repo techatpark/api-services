@@ -4,8 +4,9 @@ package com.gurukulams.core.model;
 import io.swagger.v3.oas.annotations.media.Schema;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
-public record Institute(Long id, String title, String description,
+public record Institute(UUID id, String title, String description,
                         @Schema(accessMode = Schema.AccessMode.READ_ONLY)
                         LocalDateTime createdAt,
                         @Schema(accessMode = Schema.AccessMode.READ_ONLY)

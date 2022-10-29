@@ -17,6 +17,7 @@ import java.util.Map;
 import java.util.List;
 import java.util.Optional;
 import java.util.HashMap;
+import java.util.UUID;
 
 
 @Service
@@ -60,8 +61,8 @@ public class BoardService {
     private Board rowMapper(final ResultSet rs,
                                final Integer rowNum)
             throws SQLException {
-        Board board = new Board((long)
-                rs.getInt("id"),
+        Board board = new Board((UUID)
+                rs.getObject("id"),
                 rs.getString("title"),
                 rs.getString("description"),
                 rs.getObject("created_at", LocalDateTime.class),
@@ -83,8 +84,9 @@ public class BoardService {
                         final Locale locale,
                            final Board board) {
         final SimpleJdbcInsert insert = new SimpleJdbcInsert(dataSource)
-                .withTableName("boards").usingGeneratedKeyColumns("id")
-                .usingColumns("title", "description", "created_by");
+                .withTableName("boards")
+                .usingColumns("id", "title",
+                        "description", "created_by");
 
         final Map<String, Object> valueMap = new HashMap<>();
 
@@ -92,7 +94,10 @@ public class BoardService {
         valueMap.put("description", board.description());
         valueMap.put("created_by", userName);
 
-        final Number boardId = insert.executeAndReturnKey(valueMap);
+        final UUID boardId = UUID.randomUUID();
+        valueMap.put("id", boardId);
+        insert.execute(valueMap);
+
 
         if (locale != null) {
             valueMap.put("board_id", boardId);
@@ -101,7 +106,7 @@ public class BoardService {
         }
 
         final Optional<Board> createdBoard =
-                read(userName, locale, boardId.longValue());
+                read(userName, locale, boardId);
 
         logger.info("Syllabus Created {}", boardId);
 
@@ -128,7 +133,7 @@ public class BoardService {
      * @return board optional
      */
     public Optional<Board> read(final String userName,
-                                final Locale locale, final Long id) {
+                                final Locale locale, final UUID id) {
 
         final String query = locale == null
               ? "SELECT id,title,description,created_by,"
@@ -180,7 +185,7 @@ public class BoardService {
      * @param locale the locale
      * @return board optional
      */
-    public Board update(final Long id,
+    public Board update(final UUID id,
                            final String userName,
                            final Locale locale,
                            final Board board) {
@@ -220,7 +225,7 @@ public class BoardService {
      * @param userName the userName
      * @return board optional
      */
-    public Boolean delete(final String userName, final Long id) {
+    public Boolean delete(final String userName, final UUID id) {
         final String query = "DELETE FROM boards WHERE id = ?";
         final Integer updatedRows = jdbcTemplate.update(query, id);
         return !(updatedRows == 0);
@@ -275,8 +280,8 @@ public class BoardService {
      * @param gradeId  the gradeId
      * @return grade optional
      */
-    public boolean attachGrade(final String userName, final Long boardId,
-                               final Long gradeId) {
+    public boolean attachGrade(final String userName, final UUID boardId,
+                               final UUID gradeId) {
         // Insert to boards_grades
         final SimpleJdbcInsert insert = new SimpleJdbcInsert(dataSource)
                 .withTableName("boards_grades")
@@ -302,9 +307,9 @@ public class BoardService {
      * @return grade optional
      */
     public boolean attachSubject(final String userName,
-                                 final Long boardId,
-                                 final Long gradeId,
-                                 final Long subjectId) {
+                                 final UUID boardId,
+                                 final UUID gradeId,
+                                 final UUID subjectId) {
         // Insert to boards_grades
         final SimpleJdbcInsert insert = new SimpleJdbcInsert(dataSource)
                 .withTableName("boards_grades_subjects")
@@ -332,10 +337,10 @@ public class BoardService {
      * @return grade optional
      */
     public boolean attachBook(final String userName,
-                                             final Long boardId,
-                                             final Long gradeId,
-                                             final Long subjectId,
-                                             final Long bookId) {
+                                             final UUID boardId,
+                                             final UUID gradeId,
+                                             final UUID subjectId,
+                                             final UUID bookId) {
         // Insert to boards_grades
         final SimpleJdbcInsert insert = new SimpleJdbcInsert(dataSource)
                 .withTableName("boards_grades_subjects_books")

@@ -1,5 +1,7 @@
 package com.gurukulams.core.model;
 
+import java.util.UUID;
+
 /**
  * The type Answer.
  */
@@ -8,15 +10,15 @@ public class Answer {
     /**
      * tells the id of studentanswer.
      */
-    private Integer id;
+    private UUID id;
     /**
      * Tells the exam id.
      */
-    private Integer examId;
+    private UUID examId;
     /**
      * tells the question id.
      */
-    private Integer questionId;
+    private UUID questionId;
     /**
      * tells the student answer.
      */
@@ -27,7 +29,7 @@ public class Answer {
      *
      * @return id id
      */
-    public Integer getId() {
+    public UUID getId() {
         return id;
     }
 
@@ -36,7 +38,7 @@ public class Answer {
      *
      * @param anId the an id
      */
-    public void setId(final Integer anId) {
+    public void setId(final UUID anId) {
         this.id = anId;
     }
 
@@ -45,7 +47,7 @@ public class Answer {
      *
      * @return exam id
      */
-    public Integer getExamId() {
+    public UUID getExamId() {
         return examId;
     }
 
@@ -54,7 +56,7 @@ public class Answer {
      *
      * @param anExamId the an exam id
      */
-    public void setExamId(final Integer anExamId) {
+    public void setExamId(final UUID anExamId) {
         this.examId = anExamId;
     }
 
@@ -63,7 +65,7 @@ public class Answer {
      *
      * @return question id
      */
-    public Integer getQuestionId() {
+    public UUID getQuestionId() {
         return questionId;
     }
 
@@ -72,7 +74,7 @@ public class Answer {
      *
      * @param anQuestionId the an question id
      */
-    public void setQuestionId(final Integer anQuestionId) {
+    public void setQuestionId(final UUID anQuestionId) {
         this.questionId = anQuestionId;
     }
 

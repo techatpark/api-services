@@ -3,8 +3,9 @@ package com.gurukulams.core.model;
 import io.swagger.v3.oas.annotations.media.Schema;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
-public record Grade(Long id, String title, String description,
+public record Grade(UUID id, String title, String description,
                     @Schema(accessMode = Schema.AccessMode.READ_ONLY)
                     LocalDateTime created_at,
                     @Schema(accessMode = Schema.AccessMode.READ_ONLY)

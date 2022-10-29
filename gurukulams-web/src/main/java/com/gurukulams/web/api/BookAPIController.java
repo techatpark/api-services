@@ -34,6 +34,7 @@ import java.security.Principal;
 import java.util.List;
 import java.util.Locale;
 import java.util.Optional;
+import java.util.UUID;
 
 /**
  * The type Book api controller.
@@ -110,7 +111,7 @@ class BookAPIController {
                     description = "syllabus not found")})
 
     @GetMapping("/{id}")
-    public ResponseEntity<Book> read(@PathVariable final Long id,
+    public ResponseEntity<Book> read(@PathVariable final UUID id,
                                      @RequestHeader(name = "Accept-Language",
                                              required = false)
                                      final Locale locale,
@@ -141,7 +142,7 @@ class BookAPIController {
                     description = "syllabus not found")})
     @PutMapping(value = "/{id}", produces = "application/json", consumes =
             "application/json")
-    public ResponseEntity<Book> update(@PathVariable final Long id,
+    public ResponseEntity<Book> update(@PathVariable final UUID id,
                                        final Principal
                                                principal,
                                        @RequestHeader(name = "Accept-Language",
@@ -171,7 +172,7 @@ class BookAPIController {
                     description = "book not found")})
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable final
-                                       Long id,
+                                       UUID id,
                                        final Principal principal) {
         return bookService.delete(principal.getName(),
                 id) ? ResponseEntity.ok().build()
@@ -288,7 +289,7 @@ class BookAPIController {
     //@PutMapping("/{bookName}/note/{id}")
     public ResponseEntity<Optional<UserNote>> update(
             final @PathVariable String bookName,
-            final @PathVariable Integer id,
+            final @PathVariable UUID id,
             final @RequestBody UserNote userNote) {
         final Optional<UserNote> updatednote = bookService.updateNote(
                 id, userNote);
@@ -314,7 +315,7 @@ class BookAPIController {
     //@DeleteMapping("/{bookName}/note/{id}")
     public ResponseEntity<Void> deleteNoteById(
             final @PathVariable String bookName,
-            final @PathVariable Integer id) {
+            final @PathVariable UUID id) {
         return bookService.deleteNote(id) ? ResponseEntity.ok().build()
                 : ResponseEntity.notFound().build();
     }
@@ -421,7 +422,7 @@ class BookAPIController {
     public ResponseEntity<Optional<Question>> update(final @PathVariable
                                                              String bookName,
                                                      final @PathVariable
-                                                             Integer questionId,
+                                                             UUID questionId,
                                                      @RequestHeader(
                                                      name = "Accept-Language",
                                                      required = false)
@@ -492,7 +493,7 @@ class BookAPIController {
     @DeleteMapping("/{bookName}/questions/{questionType}/{id}/**")
     public ResponseEntity<Void> deleteAQuestionById(final @PathVariable
                                                    String bookName,
-                                     final @PathVariable Integer id,
+                                     final @PathVariable UUID id,
                                                     final @PathVariable
                                                             QuestionType
                                                             questionType,
@@ -568,7 +569,7 @@ class BookAPIController {
     @ResponseStatus(HttpStatus.ACCEPTED)
     @PostMapping("/{bookName}/questions/{questionId}/answer")
     public ResponseEntity<Void> answer(final @PathVariable
-                                               Integer questionId,
+                                               UUID questionId,
                                        final @RequestBody
                                                String answer) {
         return answerService.answer(questionId, answer)

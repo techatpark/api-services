@@ -16,6 +16,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.UUID;
 
 /**
  * The type Institute service.
@@ -64,7 +65,8 @@ public final class InstituteService {
             throws SQLException {
 
 
-        Institute institute = new Institute((long) rs.getInt("id"),
+        Institute institute = new Institute((UUID)
+                rs.getObject("id"),
                 rs.getString("title"),
                 rs.getString("description"),
                 rs.getObject("created_at", LocalDateTime.class),
@@ -85,8 +87,7 @@ public final class InstituteService {
 
         final SimpleJdbcInsert insert = new SimpleJdbcInsert(dataSource)
                 .withTableName("institutes")
-                .usingGeneratedKeyColumns("id")
-                .usingColumns("title",
+                .usingColumns("id", "title",
                         "description",
                         "created_by");
 
@@ -96,9 +97,11 @@ public final class InstituteService {
         valueMap.put("description", institute.description());
         valueMap.put("created_by", userName);
 
-        final Number instituteId = insert.executeAndReturnKey(valueMap);
+        final UUID instituteId = UUID.randomUUID();
+        valueMap.put("id", instituteId);
+        insert.execute(valueMap);
         final Optional<Institute> createdInstitute =
-                read(userName, instituteId.longValue());
+                read(userName, instituteId);
 
         logger.info("Created Institute {}", instituteId);
 
@@ -112,7 +115,7 @@ public final class InstituteService {
      * @param userName the userName
      * @return question optional
      */
-    public Optional<Institute> read(final String userName, final Long id) {
+    public Optional<Institute> read(final String userName, final UUID id) {
         final String query = "SELECT id,title,description,created_by,"
                 + "created_at, modified_at, modified_by FROM institutes "
                 + "WHERE id = ?";
@@ -135,7 +138,7 @@ public final class InstituteService {
      * @param institute the institute
      * @return question optional
      */
-    public Institute update(final Long id,
+    public Institute update(final UUID id,
                                      final String userName,
                                      final Institute institute) {
         logger.debug("Entering Update for Institute {}", id);
@@ -158,7 +161,7 @@ public final class InstituteService {
      * @param userName the userName
      * @return false
      */
-    public Boolean delete(final String userName, final Long id) {
+    public Boolean delete(final String userName, final UUID id) {
         String query = "DELETE FROM institutes WHERE ID=?";
 
         final Integer updatedRows = jdbcTemplate.update(query, id);

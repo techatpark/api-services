@@ -31,6 +31,7 @@ import java.security.Principal;
 import java.util.List;
 import java.util.Locale;
 import java.util.Optional;
+import java.util.UUID;
 
 
 /**
@@ -116,7 +117,7 @@ abstract class PracticeAPIController<T extends Practice> {
                     description = "practice not found")})
     @GetMapping("/{id}")
     public ResponseEntity<T> findById(
-            final @PathVariable Integer id,
+            final @PathVariable UUID id,
             @RequestHeader(
             name = "Accept-Language",
             required = false)
@@ -170,7 +171,7 @@ abstract class PracticeAPIController<T extends Practice> {
                     description = "practice not found")})
     @PutMapping("/{id}")
     public ResponseEntity<Optional<T>> update(final @PathVariable
-                                                      Integer id,
+                                                      UUID id,
                                               @RequestHeader(
                                               name = "Accept-Language",
                                               required = false)
@@ -203,7 +204,7 @@ abstract class PracticeAPIController<T extends Practice> {
                     description = "invalid credentials")})
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteExamById(
-            final @PathVariable Integer id,
+            final @PathVariable UUID id,
             @RequestHeader(
             name = "Accept-Language",
             required = false)
@@ -237,7 +238,7 @@ abstract class PracticeAPIController<T extends Practice> {
     public ResponseEntity<Optional<Question>> create(final Principal
                                                                  principal,
                                                      final @PathVariable
-                                                             Integer practiceId,
+                                                             UUID practiceId,
                                                      @RequestHeader(
                                                      name = "Accept-Language",
                                                      required = false)
@@ -279,7 +280,7 @@ abstract class PracticeAPIController<T extends Practice> {
                             required = false)
                              final Locale locale,
                          final @PathVariable
-                                 Integer id) {
+                                 UUID id) {
         return ResponseEntity.of(questionService.read(id, locale));
     }
 
@@ -309,7 +310,7 @@ abstract class PracticeAPIController<T extends Practice> {
                                                final Locale locale,
                                                final
                                                @PathVariable
-                                                       Integer
+                                                       UUID
                                                        practiceId) {
         final List<Question> questions = questionService.list(
                 principal.getName(),
@@ -343,9 +344,9 @@ abstract class PracticeAPIController<T extends Practice> {
                     description = "question not found")})
     @PutMapping("/{practiceId}/questions/{questionType}/{id}")
     public ResponseEntity<Optional<Question>> update(final @PathVariable
-                                                             Integer practiceId,
+                                                             UUID practiceId,
                                                      final @PathVariable
-                                                             Integer id,
+                                                             UUID id,
                                                      final @PathVariable
                                                              QuestionType
                                                              questionType,
@@ -379,7 +380,7 @@ abstract class PracticeAPIController<T extends Practice> {
             @ApiResponse(responseCode = "404",
                     description = "question not found")})
     @DeleteMapping("/{practiceId}/questions/{id}")
-    public ResponseEntity<Void> delete(final @PathVariable Integer id) {
+    public ResponseEntity<Void> delete(final @PathVariable UUID id) {
         return questionService.delete(id) ? ResponseEntity.ok().build()
                 : ResponseEntity.notFound().build();
     }
@@ -404,7 +405,7 @@ abstract class PracticeAPIController<T extends Practice> {
     @ResponseStatus(HttpStatus.ACCEPTED)
     @PostMapping("/{practiceId}/questions/{questionId}/answer")
     public ResponseEntity<Void> answer(final @PathVariable
-                                               Integer questionId,
+                                               UUID questionId,
                                        final @RequestBody
                                                String answer) {
         return answerService.answer(questionId, answer)

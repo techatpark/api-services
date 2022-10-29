@@ -17,6 +17,7 @@ import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.UUID;
 
 @SpringBootTest
 public class SubjectsServiceTest {
@@ -70,7 +71,7 @@ public class SubjectsServiceTest {
     void read() {
         final Subject subject = subjectService.create("mani", null,
                 anSubject());
-        final Long newSubjectId = subject.id();
+        final UUID newSubjectId = subject.id();
         Assertions.assertTrue(subjectService.read("mani", null, newSubjectId).isPresent(),
                 "subject Created");
     }
@@ -80,7 +81,7 @@ public class SubjectsServiceTest {
 
         final Subject subject = subjectService.create("mani", null,
                 anSubject());
-        final Long newSubjectId = subject.id();
+        final UUID newSubjectId = subject.id();
         Subject newSubject = new Subject(null, "MathsSubject", "An " +
                 "Syllabus", null, "tom", null, null);
         Subject updateSubject = subjectService
@@ -89,7 +90,7 @@ public class SubjectsServiceTest {
 
         Assertions.assertThrows(IllegalArgumentException.class, () -> {
             subjectService
-                    .update(10000L, "manikanta", null, newSubject);
+                    .update(UUID.randomUUID(), "manikanta", null, newSubject);
         });
     }
 
@@ -161,7 +162,7 @@ public class SubjectsServiceTest {
         Assertions.assertEquals(STATE_SUBJECT_TITLE_IN_FRENCH, createSubject.title());
         Assertions.assertEquals(STATE_SUBJECT_DESCRIPTION_IN_FRENCH, createSubject.description());
 
-        final Long id = createSubject.id();
+        final UUID id = createSubject.id();
         createSubject = subjectService.list("mani",Locale.FRENCH)
                 .stream()
                 .filter(subject1 -> subject1.id().equals(id))
@@ -190,7 +191,7 @@ public class SubjectsServiceTest {
 
         Assertions.assertTrue(boardService.attachSubject("tom", board.id(), grade.id(), subject.id()),"Unable to add grade to board");
 
-        final Long id = subject.id();
+        final UUID id = subject.id();
         Subject getSubject = subjectService.list("tom",locale , board.id(), grade.id()).stream()
                 .filter(subject1 -> subject1.id().equals(id))
                 .findFirst().get();

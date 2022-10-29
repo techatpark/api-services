@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import javax.validation.constraints.NotBlank;
 import java.time.Instant;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * The type Question.
@@ -15,13 +16,13 @@ public class Question {
      * tells the id of question.
      */
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
-    private Integer id;
+    private UUID id;
 
     /**
      * tells the exam_id of the question.
      */
     @JsonIgnore
-    private Integer examId;
+    private UUID examId;
 
     /**
      * this is the question.
@@ -87,7 +88,7 @@ public class Question {
      *
      * @return id id
      */
-    public Integer getId() {
+    public UUID getId() {
         return id;
     }
 
@@ -96,7 +97,7 @@ public class Question {
      *
      * @param anId the an id
      */
-    public void setId(final Integer anId) {
+    public void setId(final UUID anId) {
         this.id = anId;
     }
 
@@ -105,7 +106,7 @@ public class Question {
      *
      * @return exam_id exam id
      */
-    public Integer getExamId() {
+    public UUID getExamId() {
         return examId;
     }
 
@@ -114,7 +115,7 @@ public class Question {
      *
      * @param anExamId the an exam id
      */
-    public void setExamId(final Integer anExamId) {
+    public void setExamId(final UUID anExamId) {
         this.examId = anExamId;
     }
 
