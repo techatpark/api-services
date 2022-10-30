@@ -1,7 +1,6 @@
 package com.gurukulams.service;
 
 import com.gurukulams.core.model.Board;
-import com.gurukulams.core.model.Syllabus;
 import com.gurukulams.core.service.BoardService;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;

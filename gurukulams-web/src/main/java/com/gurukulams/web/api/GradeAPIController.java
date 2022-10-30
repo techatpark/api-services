@@ -3,7 +3,6 @@ package com.gurukulams.web.api;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.gurukulams.core.model.Grade;
 import com.gurukulams.core.service.GradeService;
-import com.gurukulams.core.service.SyllabusService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -39,15 +38,9 @@ class GradeAPIController {
          */
         private final GradeService gradeService;
 
-        /**
-         * declare a syllabus service.
-         */
-        private final SyllabusService syllabusService;
 
-        GradeAPIController(final GradeService agradeService,
-                           final SyllabusService asyllabusService) {
+        GradeAPIController(final GradeService agradeService) {
                 this.gradeService = agradeService;
-                this.syllabusService = asyllabusService;
         }
 
         @Operation(summary = "Creates a new grade",

@@ -122,26 +122,6 @@ CREATE TABLE grades_localized (
     PRIMARY KEY(grade_id, locale)
 );
 
-CREATE TABLE syllabus (
-    id UUID PRIMARY KEY,
-    title VARCHAR(55),
-    description TEXT,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    created_by VARCHAR(55) NOT NULL,
-    modified_at TIMESTAMP,
-    modified_by VARCHAR(200),
-    CONSTRAINT syllabus_title_constraint UNIQUE (title)
-);
-
-CREATE TABLE syllabus_localized (
-    syllabus_id UUID,
-    locale VARCHAR(8) NOT NULL,
-    title VARCHAR(55),
-    description TEXT,
-    FOREIGN KEY (syllabus_id) REFERENCES syllabus (id),
-    PRIMARY KEY(syllabus_id, locale)
-);
-
 CREATE TABLE subjects (
     id UUID PRIMARY KEY,
     title VARCHAR(55),
