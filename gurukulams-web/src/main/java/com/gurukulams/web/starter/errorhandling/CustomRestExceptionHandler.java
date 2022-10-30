@@ -74,7 +74,7 @@ public final class CustomRestExceptionHandler
 
         final List<String> errors = new ArrayList();
         errors.add(
-                "Email id already exist");
+                exception.getMessage());
 
         final ApiError apiError = new ApiError("Validation Failed",
                 errors);

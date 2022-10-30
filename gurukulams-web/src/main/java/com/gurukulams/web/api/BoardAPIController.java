@@ -284,7 +284,8 @@ class BoardAPIController {
                                            @PathVariable final UUID boardId,
                                            @PathVariable final UUID gradeId) {
         return boardService.attachGrade(principal.getName(), boardId, gradeId)
-                        ? ResponseEntity.ok().build()
+                        ? ResponseEntity.created(URI.create("/api/boards"
+                + boardId + "/grades" + gradeId)).build()
                                 : ResponseEntity.notFound().build();
     }
 
@@ -305,7 +306,8 @@ class BoardAPIController {
                                        @PathVariable final UUID subjectId) {
         return boardService.attachSubject(principal.getName(), boardId,
                 gradeId, subjectId)
-                ? ResponseEntity.ok().build()
+                ? ResponseEntity.created(URI.create("/api/boards" + boardId
+                + "/grades" + gradeId + "/subjects" + subjectId)).build()
                 : ResponseEntity.notFound().build();
     }
 
@@ -328,7 +330,9 @@ class BoardAPIController {
                               @PathVariable final UUID bookId) {
         return boardService.attachBook(principal.getName(), boardId,
                 gradeId, subjectId, bookId)
-                ? ResponseEntity.ok().build()
+                ? ResponseEntity.created(URI.create("/api/boards"
+                + boardId + "/grades" + gradeId
+                + "/subjects" + subjectId + "/books" + bookId)).build()
                 : ResponseEntity.notFound().build();
     }
     /**
