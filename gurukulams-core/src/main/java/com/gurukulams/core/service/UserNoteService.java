@@ -67,8 +67,9 @@ public class UserNoteService {
                                      final String userName) {
         final SimpleJdbcInsert insert =
                 new SimpleJdbcInsert(dataSource).withTableName("user_notes")
-                        .usingGeneratedKeyColumns("id")
-                        .usingColumns("created_by", "on_type", "on_instance",
+
+                        .usingColumns("id", "created_by",
+                                "on_type", "on_instance",
                                 "on_section",
                                 "prev_word", "text", "note");
 
@@ -81,8 +82,8 @@ public class UserNoteService {
         valueMap.put("text", userNote.getText());
         valueMap.put("note", userNote.getNote());
         final UUID id = UUID.randomUUID();
-valueMap.put("id", id);
-insert.execute(valueMap);
+        valueMap.put("id", id);
+        insert.execute(valueMap);
         return read(id);
     }
 
