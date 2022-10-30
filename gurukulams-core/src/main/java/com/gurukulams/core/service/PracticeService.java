@@ -288,10 +288,10 @@ public class PracticeService {
      * @param bookPath
      * @return bookId
      */
-    public Integer getBookId(final String bookPath) {
+    public UUID getBookId(final String bookPath) {
         String query = "SELECT ID FROM BOOKS WHERE PATH=?";
         return jdbcTemplate
-                .queryForObject(query, Integer.class, bookPath);
+                .queryForObject(query, UUID.class, bookPath);
     }
 
     /**
@@ -301,7 +301,7 @@ public class PracticeService {
      * @return added
      */
     private boolean addPracticeToBook(final UUID practiceId,
-                                      final Integer bookId) {
+                                      final UUID bookId) {
         final SimpleJdbcInsert insert = new SimpleJdbcInsert(dataSource)
                 .withTableName("practices_books")
                 .usingColumns("practice_id",

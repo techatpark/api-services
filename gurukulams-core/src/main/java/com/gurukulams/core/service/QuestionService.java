@@ -167,8 +167,7 @@ public class QuestionService {
             final SimpleJdbcInsert insert =
                     new SimpleJdbcInsert(dataSource)
                             .withTableName("questions")
-                            .usingGeneratedKeyColumns("id")
-                            .usingColumns("exam_id",
+                            .usingColumns("id", "exam_id",
                                     "question", "chapter_path", "type",
                                    "created_By", "answer");
 
@@ -181,8 +180,8 @@ public class QuestionService {
             valueMap.put("answer", question.getAnswer());
 
             final UUID id = UUID.randomUUID();
-valueMap.put("id", id);
-insert.execute(valueMap);
+            valueMap.put("id", id);
+            insert.execute(valueMap);
 
             if (locale != null) {
                 valueMap.put("question_id", id);
@@ -211,8 +210,7 @@ insert.execute(valueMap);
         final SimpleJdbcInsert insertQuestionChoice =
                 new SimpleJdbcInsert(dataSource)
                         .withTableName("question_choices")
-                        .usingGeneratedKeyColumns("id")
-                        .usingColumns("question_id",
+                        .usingColumns("id", "question_id",
                                 "c_value", "is_answer");
 
 
