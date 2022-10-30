@@ -124,7 +124,7 @@ public class BookService {
         final Map<String, Object> valueMap = new HashMap<>();
 
         valueMap.put("title", book.title());
-        valueMap.put("path", book.title());
+        valueMap.put("path", book.path());
         valueMap.put("description", book.description());
         valueMap.put("created_by", userName);
 
