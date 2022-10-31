@@ -36,7 +36,8 @@ public class CustomUserDetailsService implements UserDetailsService {
 
 
         if (Arrays.binarySearch(environment.getActiveProfiles(),
-                "prod") < 0) {
+                "prod") < 0 && learnerService.list("System").isEmpty()) {
+
             learnerService.create("System", new Learner(null, "tom",
                     passwordEncoder.encode("password"),
                     "/images/tom.png", AuthProvider.local, null, null,
