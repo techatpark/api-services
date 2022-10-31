@@ -29,6 +29,12 @@ public class Question {
      */
     @NotBlank(message = "question is mandatory")
     private String question;
+
+    /**
+     * this is the explanation.
+     */
+    private String explanation;
+
     /**
      * tells the answer.
      */
@@ -135,6 +141,22 @@ public class Question {
      */
     public void setQuestion(final String anQuestion) {
         this.question = anQuestion;
+    }
+
+    /**
+     * Gets Explanation.
+     * @return explanation
+     */
+    public String getExplanation() {
+        return explanation;
+    }
+
+    /**
+     * Sets Explanation.
+     * @param anExplanation
+     */
+    public void setExplanation(final String anExplanation) {
+        this.explanation = anExplanation;
     }
 
     /**

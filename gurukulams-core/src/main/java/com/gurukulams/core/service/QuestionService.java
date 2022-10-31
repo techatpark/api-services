@@ -66,6 +66,7 @@ public class QuestionService {
         question.setId((UUID) rs.getObject("id"));
         question.setExamId((UUID) rs.getObject("exam_id"));
         question.setQuestion(rs.getString("question"));
+        question.setExplanation(rs.getString("explanation"));
         question.setType(QuestionType.valueOf(rs.getString("type")));
         question.setCreatedBy(rs.getString("created_by"));
         question.setAnswer(rs.getString("answer"));
@@ -168,12 +169,14 @@ public class QuestionService {
                     new SimpleJdbcInsert(dataSource)
                             .withTableName("questions")
                             .usingColumns("id", "exam_id",
-                                    "question", "chapter_path", "type",
+                                    "question", "explanation",
+                                    "chapter_path", "type",
                                    "created_By", "answer");
 
             final Map<String, Object> valueMap = new HashMap<>();
             valueMap.put("exam_id", practiceId);
             valueMap.put("question", question.getQuestion());
+            valueMap.put("explanation", question.getExplanation());
             valueMap.put("chapter_path", chapterPath);
             valueMap.put("type", type);
             valueMap.put("created_by", createdBy);
@@ -188,7 +191,8 @@ public class QuestionService {
                 valueMap.put("locale", locale.getLanguage());
                 new SimpleJdbcInsert(dataSource)
                         .withTableName("questions_localized")
-                        .usingColumns("question_id", "locale", "question")
+                        .usingColumns("question_id",
+                                "locale", "question", "explanation")
                         .execute(valueMap);
             }
 
@@ -348,7 +352,8 @@ public class QuestionService {
     public Optional<Question> read(final UUID id,
                                    final Locale locale) {
         final String query = locale == null
-                ? "SELECT id,exam_id,question,created_by,chapter_path,type,"
+                ? "SELECT id,exam_id,question,explanation"
+                        + ",created_by,chapter_path,type,"
                         + "answer,created_at,modified_at FROM "
                         + "questions WHERE"
                         + " id = ?"
@@ -357,6 +362,10 @@ public class QuestionService {
                 + "THEN ql.question "
                 + "ELSE q.question "
                 + "END AS question,"
+                + "CASE WHEN ql.LOCALE = ? "
+                + "THEN ql.explanation "
+                + "ELSE q.explanation "
+                + "END AS explanation,"
                 + "created_by,chapter_path,type,"
                 + "answer,created_at,modified_at FROM "
                 + "questions q LEFT JOIN questions_localized ql ON "
@@ -373,6 +382,7 @@ public class QuestionService {
                     .queryForObject(query, new Object[]{id}, rowMapper)
                     : jdbcTemplate
                     .queryForObject(query, new Object[]{locale.getLanguage(),
+                                    locale.getLanguage(),
                             id, locale.getLanguage(), locale.getLanguage()},
                             rowMapper);
 
@@ -437,7 +447,7 @@ public class QuestionService {
         if (violations.isEmpty()) {
             final String query = locale == null
                     ? "UPDATE questions SET "
-                         + "question = ?, answer = ?,"
+                         + "question = ?,explanation = ?, answer = ?,"
                             + "modified_at=CURRENT_TIMESTAMP"
                             + " WHERE id = ? AND type = ? AND exam_id = ?"
                     : "UPDATE questions SET "
@@ -447,6 +457,7 @@ public class QuestionService {
             Integer updatedRows = locale == null
                     ? jdbcTemplate.update(query,
                             question.getQuestion(),
+                            question.getExplanation(),
                             question.getAnswer(), id, type.toString(),
                             practiceId)
                     : jdbcTemplate.update(query,
@@ -455,7 +466,8 @@ public class QuestionService {
 
             if (locale != null) {
                 final String localizedUpdateQuery = """
-                        UPDATE QUESTIONS_LOCALIZED SET question = ?
+                        UPDATE QUESTIONS_LOCALIZED SET question = ?,
+                        explanation = ?
                             WHERE question_id = ? AND
                                     locale = ? AND
                                 question_id IN
@@ -465,19 +477,20 @@ public class QuestionService {
                         """;
 
                 updatedRows = jdbcTemplate.update(localizedUpdateQuery,
-                        question.getQuestion(), id, locale.getLanguage(),
+                        question.getQuestion(), question.getExplanation(),
+                        id, locale.getLanguage(),
                         type.toString(),
                         practiceId);
 
                 if (updatedRows == 0) {
                     final String localizedInsertQuery = """
                         INSERT INTO QUESTIONS_LOCALIZED
-                            ( question_id, locale, question )
-                            VALUES ( ?, ? , ?)
+                            ( question_id, locale, question, explanation )
+                            VALUES ( ?, ? , ?, ?)
                         """;
                     updatedRows = jdbcTemplate.update(localizedInsertQuery,
                             id, locale.getLanguage(),
-                            question.getQuestion());
+                            question.getQuestion(), question.getExplanation());
 
                 }
             }
@@ -604,7 +617,8 @@ public class QuestionService {
 
         boolean isOwner = practice.getCreatedBy().equals(userName);
 
-        final String query = locale == null ? "SELECT id,exam_id,question,type,"
+        final String query = locale == null
+                ? "SELECT id,exam_id,question,explanation,type,"
                 + "created_by,created_at,modified_at,"
                 + (isOwner ? "answer" : "NULL")
                 + " AS answer"
@@ -615,6 +629,10 @@ public class QuestionService {
                 + "THEN ql.question "
                 + "ELSE q.question "
                 + "END AS question,"
+                + "CASE WHEN ql.LOCALE = ? "
+                + "THEN ql.explanation "
+                + "ELSE q.explanation "
+                + "END AS explanation,"
                 + "created_by,chapter_path,type,"
                 + (isOwner ? "q.answer" : "NULL")
                 + " AS answer"
@@ -631,6 +649,7 @@ public class QuestionService {
                 ? jdbcTemplate.query(query, rowMapper,
                 practiceId)
                 : jdbcTemplate.query(query, rowMapper, locale.getLanguage(),
+                locale.getLanguage(),
                 practiceId, locale.getLanguage(), locale.getLanguage());
         if (!questions.isEmpty()) {
             questions.forEach(question -> {
@@ -665,7 +684,8 @@ public class QuestionService {
 
         boolean isOwner = practice.getCreatedBy().equals(userName);
 
-        final String query = locale == null ? "SELECT id,exam_id,question,type,"
+        final String query = locale == null
+                ? "SELECT id,exam_id,question,explanation,type,"
                 + "created_by,created_at,modified_at,"
                 + (isOwner ? "answer" : "NULL")
                 + " AS answer"
@@ -676,6 +696,10 @@ public class QuestionService {
                 + "THEN ql.question "
                 + "ELSE q.question "
                 + "END AS question,"
+                + "CASE WHEN ql.LOCALE = ? "
+                + "THEN ql.explanation "
+                + "ELSE q.explanation "
+                + "END AS explanation,"
                 + "created_by,chapter_path,type,"
                 + (isOwner ? "q.answer" : "NULL")
                 + " AS answer"
@@ -693,6 +717,7 @@ public class QuestionService {
                 ? jdbcTemplate.query(query, rowMapper,
                 practice.getId(), chapterPath)
                 : jdbcTemplate.query(query, rowMapper, locale.getLanguage(),
+                locale.getLanguage(),
                 practice.getId(), chapterPath, locale.getLanguage(),
                 locale.getLanguage());
 
@@ -721,7 +746,7 @@ public class QuestionService {
     public List<Question> list(final Integer pageNumber,
                                final Integer pageSize,
                                final Locale locale) {
-        String query = "SELECT id,exam_id,question,type,"
+        String query = "SELECT id,exam_id,question,explanation,type,"
                   + "created_by,created_at,modified_at,answer FROM questions";
         query = query + " LIMIT " + pageSize + " OFFSET " + (pageNumber - 1);
         return jdbcTemplate.query(query, rowMapper);

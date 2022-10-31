@@ -27,6 +27,7 @@ CREATE TABLE questions (
   id UUID PRIMARY KEY,
   exam_id UUID NOT NULL,
   question TEXT NOT NULL,
+  explanation TEXT NOT NULL,
   chapter_path VARCHAR(500),
   type VARCHAR(55) NOT NULL,
   answer VARCHAR(500),
@@ -41,6 +42,7 @@ CREATE TABLE questions_localized (
     question_id UUID,
     locale VARCHAR(8) NOT NULL,
     question TEXT NOT NULL,
+    explanation TEXT NOT NULL,
     FOREIGN KEY (question_id) REFERENCES questions (id),
     PRIMARY KEY(question_id, locale)
 );
