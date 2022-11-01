@@ -569,6 +569,11 @@ public class QuestionService {
      * @return successflag boolean
      */
     public Boolean delete(final UUID id) {
+        final String queryL =
+                """
+                    DELETE FROM questions_localized WHERE question_id = ?
+                    """;
+        jdbcTemplate.update(queryL, id);
         String query = "DELETE FROM questions WHERE ID=?";
 
         final Integer updatedRows = jdbcTemplate.update(query, id);
@@ -582,6 +587,12 @@ public class QuestionService {
      * @return successflag boolean
      */
     public Boolean deleteQuestionChoice(final UUID questionId) {
+        final String queryL =
+                """
+                    DELETE FROM question_choices_localized WHERE choice_id IN
+                    (SELECT id FROM question_choices WHERE question_id = ?)
+                    """;
+        jdbcTemplate.update(queryL, questionId);
         final String query =
                 "DELETE FROM question_choices WHERE question_id = ?";
         final Integer updatedRows = jdbcTemplate.update(query, questionId);
@@ -836,6 +847,11 @@ public class QuestionService {
                                    final QuestionType questionType) {
 
         deleteQuestionChoice(id);
+
+        final String queryL =
+                "DELETE FROM QUESTIONS_LOCALIZED WHERE question_id=?";
+
+        jdbcTemplate.update(queryL, id);
 
         final String query =
                 "DELETE FROM questions WHERE ID=? and type = ?";
