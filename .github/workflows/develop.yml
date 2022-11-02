@@ -45,4 +45,4 @@ jobs:
           key: ${{ secrets.KEY }}
           target: ${{ secrets.TARGET_DIR }}
           script:
-            echo "cd ${{ secrets.TARGET_DIR }} && sudo kill $(ps -ef | grep java | grep -v grep | awk '{print $2}') || true && sudo nohup ${{ secrets.SOFTWARES_DIR }}/jre/bin/java -jar gurukulams-web-*.jar >/dev/null 2>&1 &" > deploy.sh && sh deploy.sh &
+            echo "cd ${{ secrets.TARGET_DIR }} && kill $(ps -ef | grep java | grep -v grep | awk '{print $2}') || true && nohup ${{ secrets.SOFTWARES_DIR }}/jre/bin/java -jar gurukulams-web-*.jar >/dev/null 2>&1 &" > deploy.sh && sh deploy.sh &
