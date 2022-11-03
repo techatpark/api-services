@@ -247,8 +247,7 @@ public class PracticeService {
      * @param bookPath
      * @return pracice
      */
-    public boolean deleteQuestionBank(final String bookPath)
-            throws JsonProcessingException {
+    public boolean deleteQuestionBank(final String bookPath) {
         Optional<Practice> oPractice = readByBook(bookPath);
         if (oPractice.isPresent()) {
             return delete(oPractice.get().getId());

@@ -147,7 +147,7 @@ public class QuestionService {
      * inserts data.
      *
      * @param practiceId  the practice id
-     * @param chapterPath the chapterPath
+     * @param tagsPath the tagsPath
      * @param type        the type
      * @param locale the locale
      * @param createdBy    the createdBy
@@ -156,7 +156,7 @@ public class QuestionService {
      */
     @Transactional
     public Optional<Question> create(final UUID practiceId,
-                                     final String chapterPath,
+                                     final String tagsPath,
                                      final QuestionType type,
                                      final Locale locale,
                                      final String createdBy,
@@ -177,7 +177,7 @@ public class QuestionService {
             valueMap.put("exam_id", practiceId);
             valueMap.put("question", question.getQuestion());
             valueMap.put("explanation", question.getExplanation());
-            valueMap.put("chapter_path", chapterPath);
+            valueMap.put("chapter_path", tagsPath);
             valueMap.put("type", type);
             valueMap.put("created_by", createdBy);
             valueMap.put("answer", question.getAnswer());
@@ -200,6 +200,9 @@ public class QuestionService {
                     || question.getType().equals(QuestionType.MULTI_CHOICE))) {
                 createChoices(question.getChoices(), locale, id);
             }
+
+            List<String> tags = List.of(tagsPath.split("/"));
+            tags.forEach(tag -> attachTag(id, tag));
 
             return read(id, locale);
         } else {
@@ -860,4 +863,29 @@ public class QuestionService {
         return !(updatedRow == 0);
 
     }
+
+
+    /**
+     * Adds tag to question.
+     *
+     * @param questionId  the questionId
+     * @param tagId  the tagId
+     * @return grade optional
+     */
+    public boolean attachTag(final UUID questionId,
+                               final String tagId) {
+        final SimpleJdbcInsert insert = new SimpleJdbcInsert(dataSource)
+                .withTableName("questions_tags")
+                .usingColumns("question_id", "tag_id");
+
+        final Map<String, Object> valueMap = new HashMap<>();
+
+        valueMap.put("question_id", questionId);
+        valueMap.put("tag_id", tagId);
+
+        int noOfRowsInserted = insert.execute(valueMap);
+
+        return noOfRowsInserted == 1;
+    }
+
 }

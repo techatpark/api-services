@@ -223,7 +223,7 @@ CREATE TABLE practices_books (
 );
 
 CREATE TABLE tags (
-    id VARCHAR(255) PRIMARY KEY,
+    id VARCHAR(55) PRIMARY KEY,
     title TEXT,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     created_by VARCHAR(55) NOT NULL,
@@ -233,9 +233,17 @@ CREATE TABLE tags (
 );
 
 CREATE TABLE tags_localized (
-    tag_id VARCHAR(255),
+    tag_id VARCHAR(55),
     locale VARCHAR(8) NOT NULL,
     title TEXT,
     FOREIGN KEY (tag_id) REFERENCES tags (id),
     PRIMARY KEY(tag_id, locale)
+);
+
+CREATE TABLE questions_tags (
+    question_id UUID NOT NULL,
+    tag_id VARCHAR(55) NOT NULL,
+    PRIMARY KEY(question_id, tag_id),
+    FOREIGN KEY (question_id) REFERENCES questions (id),
+    FOREIGN KEY (tag_id) REFERENCES tags (id)
 );
