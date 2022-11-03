@@ -11,6 +11,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Locale;
 import java.util.UUID;
 
 @SpringBootTest
@@ -50,6 +51,14 @@ class TagServiceTest {
     }
 
     @Test
+    void createLocalized() {
+        final Tag tag = tagService.create("hari"
+                , Locale.GERMAN,anTag());
+        Assertions.assertTrue(tagService.read("hari",tag.id(), Locale.GERMAN).isPresent(),"Created Localized Tag");
+        Assertions.assertTrue(tagService.read("hari",tag.id(), null).isPresent(),"Created Tag");
+    }
+
+    @Test
     void read() {
         final Tag tag = tagService.create("hari",
                 null, anTag() );
@@ -70,6 +79,25 @@ class TagServiceTest {
                 Assertions.assertThrows(IllegalArgumentException.class, () -> {
                     tagService
                             .update(UUID.randomUUID().toString(), "priya", null, newTag);
+        });
+    }
+
+    @Test
+    void updateLocalized() {
+
+        final Tag tag = tagService.create("hari",
+                null,anTag());
+        Tag newTag = new Tag(tag.id(), "HansiTag", null, null, null, null);
+        Tag updatedTag = tagService
+                .update(tag.id(), "priya", Locale.GERMAN , newTag);
+
+        Assertions.assertEquals("HansiTag", tagService.read("mani", tag.id(), Locale.GERMAN).get().title(), "Updated");
+        Assertions.assertNotEquals("HansiTag", tagService.read("mani", tag.id(), null).get().title(), "Updated");
+
+
+        Assertions.assertThrows(IllegalArgumentException.class, () -> {
+            tagService
+                    .update(UUID.randomUUID().toString(), "priya", null, newTag);
         });
     }
 

@@ -94,6 +94,13 @@ public final class TagService {
         valueMap.put("created_by", userName);
 
         insert.execute(valueMap);
+
+        if (locale != null) {
+            valueMap.put("tag_id", tag.id());
+            valueMap.put("locale", locale.getLanguage());
+            createLocalizedTag(valueMap);
+        }
+
         final Optional<Tag> createdTag =
                 read(userName, tag.id(), locale);
 
@@ -102,6 +109,17 @@ public final class TagService {
         return createdTag.get();
     }
 
+    /**
+     * Create Localized Tag.
+     * @param valueMap
+     * @return noOfTags
+     */
+    private int createLocalizedTag(final Map<String, Object> valueMap) {
+        return new SimpleJdbcInsert(dataSource)
+                .withTableName("tags_localized")
+                .usingColumns("tag_id", "locale", "title")
+                .execute(valueMap);
+    }
 
     /**
      * reads from tag.
@@ -113,14 +131,36 @@ public final class TagService {
     public Optional<Tag> read(final String userName,
                               final String id,
                               final Locale locale) {
-        final String query = "SELECT id,title,created_by,"
+        final String query = locale == null
+                ? "SELECT id,title,created_by,"
                 + "created_at, modified_at, modified_by FROM tags "
-                + "WHERE id = ?";
-
+                + "WHERE id = ?"
+                : "SELECT DISTINCT b.ID, "
+                + "CASE WHEN bl.LOCALE = ? "
+                + "THEN bl.TITLE "
+                + "ELSE b.TITLE "
+                + "END AS TITLE, "
+                + "created_by,created_at, modified_at, modified_by "
+                + "FROM TAGS b "
+                + "LEFT JOIN TAGS_LOCALIZED bl "
+                + "ON b.ID = bl.TAG_ID "
+                + "WHERE b.ID = ? "
+                + "AND (bl.LOCALE IS NULL "
+                + "OR bl.LOCALE = ? OR "
+                + "b.ID NOT IN "
+                + "(SELECT TAG_ID FROM TAGS_LOCALIZED "
+                + "WHERE TAG_ID=b.ID AND LOCALE = ?))";
 
         try {
-            final Tag p = jdbcTemplate
+            final Tag p = locale == null ? jdbcTemplate
                     .queryForObject(query, new Object[]{id},
+                            this::rowMapper)
+                    : jdbcTemplate
+                    .queryForObject(query, new Object[]{
+                                    locale.getLanguage(),
+                                    id,
+                                    locale.getLanguage(),
+                                    locale.getLanguage()},
                             this::rowMapper);
             return Optional.of(p);
         } catch (final EmptyResultDataAccessException e) {
@@ -140,16 +180,31 @@ public final class TagService {
                             final String userName,
                             final Locale locale,
                             final Tag tag) {
-        logger.debug("Entering Update for Tag {}", id);
-        final String query =
-                "UPDATE tags SET title = ?,"
-                        + "modified_by = ? WHERE id = ?";
-        final Integer updatedRows =
-                jdbcTemplate.update(query, tag.title(),
-                        userName, id);
+        logger.debug("Entering update for Tag {}", id);
+        final String query = locale == null
+                ? "UPDATE tags SET title=?,"
+                + "modified_by=? WHERE id=?"
+                : "UPDATE tags SET modified_by=? WHERE id=?";
+        Integer updatedRows = locale == null
+                ? jdbcTemplate.update(query, tag.title(),
+                 userName, id)
+                : jdbcTemplate.update(query, userName, id);
         if (updatedRows == 0) {
-            logger.error("Update not found {}", id);
+            logger.error("Update not found", id);
             throw new IllegalArgumentException("Tag not found");
+        } else if (locale != null) {
+            updatedRows = jdbcTemplate.update(
+                    "UPDATE tags_localized SET title=?,locale=?"
+                            + " WHERE tag_id=? AND locale=?",
+                    tag.title(), locale.getLanguage(),
+                     id, locale.getLanguage());
+            if (updatedRows == 0) {
+                final Map<String, Object> valueMap = new HashMap<>(4);
+                valueMap.put("tag_id", id);
+                valueMap.put("locale", locale.getLanguage());
+                valueMap.put("title", tag.title());
+                createLocalizedTag(valueMap);
+            }
         }
         return read(userName, id, locale).get();
     }
@@ -176,9 +231,31 @@ public final class TagService {
      */
     public List<Tag> list(final String userName,
                           final Locale locale) {
-        String query = "SELECT id,title,created_by,"
-                + "created_at, modified_at, modified_by FROM tags";
-        return jdbcTemplate.query(query, this::rowMapper);
+        final String query = locale == null
+                ? "SELECT id,title,created_by,"
+                + "created_at, modified_at, modified_by FROM tags"
+                : "SELECT DISTINCT b.ID, "
+                + "CASE WHEN bl.LOCALE = ? "
+                + "THEN bl.TITLE "
+                + "ELSE b.TITLE "
+                + "END AS TITLE, "
+                + "created_by,created_at, modified_at, modified_by "
+                + "FROM TAGS b "
+                + "LEFT JOIN TAGS_LOCALIZED bl "
+                + "ON b.ID = bl.TAG_ID "
+                + "WHERE bl.LOCALE IS NULL "
+                + "OR bl.LOCALE = ? OR "
+                + "b.ID NOT IN "
+                + "(SELECT TAG_ID FROM TAGS_LOCALIZED "
+                + "WHERE TAG_ID=b.ID AND LOCALE = ?)";
+        return locale == null
+                ? jdbcTemplate.query(query, this::rowMapper)
+                : jdbcTemplate
+                .query(query, new Object[]{
+                                locale.getLanguage(),
+                                locale.getLanguage(),
+                                locale.getLanguage()},
+                        this::rowMapper);
     }
 
     /**
@@ -187,6 +264,7 @@ public final class TagService {
      * @return no.of tags deleted
      */
     public Integer deleteAll() {
+        jdbcTemplate.update("DELETE FROM tags_localized");
         final String query = "DELETE FROM tags";
         return jdbcTemplate.update(query);
     }
