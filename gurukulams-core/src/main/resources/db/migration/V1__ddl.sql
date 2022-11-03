@@ -1,7 +1,3 @@
-DROP TABLE IF EXISTS answers;
-DROP TABLE IF EXISTS questions;
-DROP TABLE IF EXISTS practices;
-
 CREATE TABLE practices (
   id UUID PRIMARY KEY,
   title VARCHAR(55) NOT NULL,
@@ -81,8 +77,6 @@ CREATE TABLE user_notes (
    text VARCHAR(500) NOT NULL,
    note VARCHAR(500)
 );
-
-
 
 CREATE TABLE boards (
     id UUID PRIMARY KEY,
