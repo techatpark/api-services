@@ -123,6 +123,23 @@ class TagServiceTest {
 
     }
 
+    @Test
+    void listLocalized() {
+
+        final Tag tag = tagService.create("hari",Locale.GERMAN,
+                anTag());
+        Tag newTag = new Tag(UUID.randomUUID().toString(), "HansiTag", null, null, null, null);
+        tagService.create("hari",null,
+                newTag);
+        List<Tag> listoftags = tagService.list("hari",null);
+        Assertions.assertEquals(2, listoftags.size());
+
+        listoftags = tagService.list("hari",Locale.GERMAN);
+        Assertions.assertEquals(2, listoftags.size());
+
+    }
+
+
     /**
      * Gets practice.
      *

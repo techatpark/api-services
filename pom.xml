@@ -77,7 +77,8 @@
                 <version>${jacoco-maven-plugin.version}</version>
                 <configuration>
                     <includes>
-                        <include>com/gurukulams/core/service/*</include>
+                        <include>com/gurukulams/core/service/Book*</include>
+                        <include>com/gurukulams/core/service/Tag*</include>
                     </includes>
 
                 </configuration>
@@ -114,7 +115,7 @@
                                         <limit>
                                             <counter>LINE</counter>
                                             <value>COVEREDRATIO</value>
-                                            <minimum>0.50</minimum>
+                                            <minimum>0.8</minimum>
                                         </limit>
                                     </limits>
                                 </rule>
