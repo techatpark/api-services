@@ -1,7 +1,9 @@
 package com.gurukulams;
 
+import com.gurukulams.core.util.BoardMaker;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.event.ContextRefreshedEvent;
@@ -19,6 +21,11 @@ public class Application {
      */
     private final Logger logger =
             LoggerFactory.getLogger(Application.class);
+    /**
+     * Board Maker.
+     */
+    @Autowired
+    private BoardMaker boardMaker;
 
     /**
      * Main method of this application.
@@ -36,5 +43,6 @@ public class Application {
     @EventListener
     public void onApplicationEvent(final ContextRefreshedEvent event) {
         logger.info("Application Started", event.getTimestamp());
+        boardMaker.createAllBoards("tom");
     }
 }
