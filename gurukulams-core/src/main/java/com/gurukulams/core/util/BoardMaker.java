@@ -8,11 +8,13 @@ import com.gurukulams.core.model.Grade;
 import com.gurukulams.core.model.Question;
 import com.gurukulams.core.model.QuestionType;
 import com.gurukulams.core.model.Subject;
+import com.gurukulams.core.model.Tag;
 import com.gurukulams.core.service.BoardService;
 import com.gurukulams.core.service.BookService;
 import com.gurukulams.core.service.GradeService;
 import com.gurukulams.core.service.QuestionService;
 import com.gurukulams.core.service.SubjectService;
+import com.gurukulams.core.service.TagService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -56,6 +58,12 @@ public class BoardMaker {
      */
     @Autowired
     private QuestionService questionService;
+
+    /**
+     * Tag Service.
+     */
+    @Autowired
+    private TagService tagService;
 
     /**
      * Json Mapper.
@@ -300,6 +308,7 @@ public class BoardMaker {
 
         if (seedFolder != null) {
             questionService.delete();
+            createAllTags(userName);
             File questionsFolder = new File(seedFolder, "questions");
             Files.find(Path.of(questionsFolder.getPath()),
                             Integer.MAX_VALUE,
@@ -315,6 +324,27 @@ public class BoardMaker {
                     });
         }
 
+    }
+
+    private void createAllTags(final String userName) throws IOException {
+        if (seedFolder != null) {
+            questionService.delete();
+            File questionsFolder = new File(seedFolder, "questions");
+            Files.find(Path.of(questionsFolder.getPath()),
+                            Integer.MAX_VALUE,
+                            (filePath, fileAttr)
+                                    -> fileAttr.isDirectory())
+                    .forEach(tagFolder -> {
+                        if (!tagFolder.equals(questionsFolder)) {
+                            tagService.create(userName, null,
+                                    new Tag(tagFolder.getFileName().toString(),
+                                    tagFolder.getFileName().toString(),
+                                            null,
+                                            userName, null,
+                                            userName));
+                        }
+                    });
+        }
     }
 
     private Question createQuestion(final String userName,

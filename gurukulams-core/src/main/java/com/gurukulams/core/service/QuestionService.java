@@ -201,8 +201,8 @@ public class QuestionService {
                 createChoices(question.getChoices(), locale, id);
             }
 
-//            List<String> tags = List.of(tagsPath.split("/"));
-//            tags.forEach(tag -> attachTag(id, tag));
+            List<String> tags = List.of(tagsPath.split("/"));
+            tags.forEach(tag -> attachTag(id, tag));
 
             return read(id, locale);
         } else {
