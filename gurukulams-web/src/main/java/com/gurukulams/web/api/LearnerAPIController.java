@@ -48,20 +48,20 @@ class LearnerAPIController {
     @Operation(summary = "creates a new Learner",
             description = "Can be called "
                     + "only by users with 'auth management' rights.",
-                        security = @SecurityRequirement(name = "bearerAuth"))
+            security = @SecurityRequirement(name = "bearerAuth"))
     @ApiResponses(value = {@ApiResponse(responseCode = "201",
-                              description = "learner created successfully"),
-                            @ApiResponse(responseCode = "400",
-                            description = "learner is invalid"),
-                            @ApiResponse(responseCode = "401",
-                            description = "invalid credentials")})
+            description = "learner created successfully"),
+            @ApiResponse(responseCode = "400",
+                    description = "learner is invalid"),
+            @ApiResponse(responseCode = "401",
+                    description = "invalid credentials")})
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping(produces = "application/json", consumes = "application/json")
     public ResponseEntity<Learner> create(final Principal principal,
                                           final @RequestBody Learner learner) {
-       Learner created = learnerService.create(principal.getName(), learner);
-       return ResponseEntity.created(URI.create("/api/learner" + created.id()))
-                                                               .body(created);
+        Learner created = learnerService.create(principal.getName(), learner);
+        return ResponseEntity.created(URI.create("/api/learner" + created.id()))
+                .body(created);
     }
 
     @Operation(summary = "Get the Learner with given id",
@@ -74,9 +74,9 @@ class LearnerAPIController {
                     description = "learner not found")})
     @GetMapping(value = "/{id}", produces = "application/json")
     public ResponseEntity<Learner> read(final Principal principal,
-                                  final @PathVariable UUID id) {
+                                        final @PathVariable UUID id) {
         return ResponseEntity.of(learnerService.read(principal.getName(),
-                                                        id));
+                id));
     }
 
     @Operation(summary = "Updates the learner by given id",
@@ -97,8 +97,8 @@ class LearnerAPIController {
                                           final Principal principal,
                                           final @RequestBody Learner learner)
             throws JsonProcessingException {
-       final Learner updatedLearner = learnerService.update(id,
-                                       principal.getName(), learner);
+        final Learner updatedLearner = learnerService.update(id,
+                principal.getName(), learner);
         return ResponseEntity.ok(updatedLearner);
     }
 
@@ -113,9 +113,9 @@ class LearnerAPIController {
     @DeleteMapping("/id")
     public ResponseEntity<Void> delete(final UUID id,
                                        final Principal principal) {
-    return learnerService.delete(principal.getName(), id)
-            ? ResponseEntity.ok().build()
-            : ResponseEntity.notFound().build();
+        return learnerService.delete(principal.getName(), id)
+                ? ResponseEntity.ok().build()
+                : ResponseEntity.notFound().build();
     }
 
     @Operation(summary = "lists the learner",
@@ -130,7 +130,7 @@ class LearnerAPIController {
     @GetMapping(produces = "application/json")
     public ResponseEntity<List<Learner>> list(final Principal principal) {
         final List<Learner> learnerList = learnerService.list(
-                                            principal.getName());
+                principal.getName());
         return learnerList.isEmpty() ? ResponseEntity.noContent().build()
                 : ResponseEntity.ok(learnerList);
     }

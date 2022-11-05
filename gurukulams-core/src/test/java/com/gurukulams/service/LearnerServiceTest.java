@@ -14,8 +14,6 @@ import java.io.IOException;
 import java.util.List;
 import java.util.UUID;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 @SpringBootTest
 public class LearnerServiceTest {
     @Autowired
@@ -37,49 +35,49 @@ public class LearnerServiceTest {
 
     @Test
     void create() {
-    final Learner learner = learnerService.create("mani",
-                                                      anLearner());
-        Assertions.assertTrue(learnerService.read("mani",learner.id()).isPresent(),"Created Learner");
+        final Learner learner = learnerService.create("mani",
+                anLearner());
+        Assertions.assertTrue(learnerService.read("mani", learner.id()).isPresent(), "Created Learner");
 
     }
 
     @Test
     void read() {
         final Learner learner = learnerService.create("Manikanta",
-                                     anLearner());
+                anLearner());
         Assertions.assertTrue(learnerService.read("Manikanta",
                 learner.id()).isPresent(), "Learner created");
     }
 
     @Test
     void update() {
-        final Learner learner=learnerService.create("Manikanta",
-                                                      anLearner());
+        final Learner learner = learnerService.create("Manikanta",
+                anLearner());
         final UUID newLearnerId = learner.id();
-        Learner newLearner=new Learner(null, "maniLearner", "An Learner",
+        Learner newLearner = new Learner(null, "maniLearner", "An Learner",
                 "Image Url", AuthProvider.local,
-                null,null,null,null);
-        Learner updatedLearner=learnerService.update(newLearnerId,
-                                    "Mani",newLearner);
+                null, null, null, null);
+        Learner updatedLearner = learnerService.update(newLearnerId,
+                "Mani", newLearner);
         Assertions.assertEquals("maniLearner", updatedLearner.email(), "updated");
-               Assertions.assertThrows(IllegalArgumentException.class, () -> {
-                   learnerService.update(UUID.randomUUID(), "Mani", newLearner);
+        Assertions.assertThrows(IllegalArgumentException.class, () -> {
+            learnerService.update(UUID.randomUUID(), "Mani", newLearner);
         });
     }
 
     @Test
     void delete() {
-        final Learner learner=learnerService.create("Manikanta",
-                                                 anLearner());
-        learnerService.delete("mani",learner.id());
-        Assertions.assertFalse(learnerService.read("mani",learner.id()).isPresent(),"Deleted Learner");
+        final Learner learner = learnerService.create("Manikanta",
+                anLearner());
+        learnerService.delete("mani", learner.id());
+        Assertions.assertFalse(learnerService.read("mani", learner.id()).isPresent(), "Deleted Learner");
     }
 
     @Test
     void list() {
-        final Learner learner=learnerService.create("Manikanta",
-                                                        anLearner());
-        Learner newLearner=new Learner(null, "tom", "An Learner",
+        final Learner learner = learnerService.create("Manikanta",
+                anLearner());
+        Learner newLearner = new Learner(null, "tom", "An Learner",
                 "Image Url", AuthProvider.local,
                 null, null, null, null);
         learnerService.create("Manikanta", newLearner);
@@ -88,10 +86,10 @@ public class LearnerServiceTest {
     }
 
     Learner anLearner() {
-        Learner learner=new Learner(null,"Manikanta",
+        Learner learner = new Learner(null, "Manikanta",
                 "An Description",
-                "Image Url", AuthProvider.local,null,null,
-                null,null);
+                "Image Url", AuthProvider.local, null, null,
+                null, null);
         return learner;
     }
 }

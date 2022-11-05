@@ -54,15 +54,15 @@ class SubjectAPIController {
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping(produces = "application/json", consumes = "application/json")
     public ResponseEntity<Subject> create(final Principal principal,
-                                           @RequestHeader
-                                                   (name = "Accept-Language",
-                                                           required = false)
-                                           final Locale locale,
-                                        final @RequestBody Subject subjects) {
-    Subject created = subjectsService.create(principal.getName(), locale,
-                                                                     subjects);
-    return ResponseEntity.created(URI.create("/api/subjects" + created.id()))
-                                                                 .body(created);
+                                          @RequestHeader
+                                                  (name = "Accept-Language",
+                                          required = false) final Locale locale,
+                                          final @RequestBody Subject subjects) {
+        Subject created = subjectsService.create(principal.getName(), locale,
+                subjects);
+        return ResponseEntity.created(
+                URI.create("/api/subjects" + created.id()))
+                .body(created);
     }
 
     @Operation(summary = "Get the Subject with given id",
@@ -76,16 +76,15 @@ class SubjectAPIController {
 
     @GetMapping("/{id}")
     public ResponseEntity<Subject> read(final @PathVariable UUID id,
-                                         @RequestHeader
-                                                 (name = "Accept-Language",
-                                                         required = false)
-                                         final Locale locale,
-                                         final Principal principal) {
+                                        @RequestHeader
+                                                (name = "Accept-Language",
+                                        required = false) final Locale locale,
+                                        final Principal principal) {
         return ResponseEntity.of(subjectsService.read(principal.getName(),
-                                                          locale, id));
+                locale, id));
     }
 
-   @Operation(summary = "Updates the subjects by given id",
+    @Operation(summary = "Updates the subjects by given id",
             description = "Can be called only by users "
                     + "with 'auth management' rights.",
             security = @SecurityRequirement(name = "bearerAuth"))
@@ -97,22 +96,21 @@ class SubjectAPIController {
                     description = "invalid credentials"),
             @ApiResponse(responseCode = "404",
                     description = "subjects not found")})
-   @PutMapping(value = "/{id}", produces = "application/json", consumes =
-                                                        "application/json")
-    public ResponseEntity<Subject> update(final@PathVariable UUID id,
-                                                     final Principal
-                                                        principal,
-                                           @RequestHeader
-                                                      (name = "Accept-Language",
-                                                              required = false)
-                                              final Locale locale,
-                                                     final @RequestBody
-                                                             Subject
-                                                             subjects)
+    @PutMapping(value = "/{id}", produces = "application/json", consumes =
+            "application/json")
+    public ResponseEntity<Subject> update(final @PathVariable UUID id,
+                                          final Principal
+                                                  principal,
+                                          @RequestHeader
+                                                  (name = "Accept-Language",
+                                      required = false) final Locale locale,
+                                          final @RequestBody
+                                                  Subject
+                                                  subjects)
             throws JsonProcessingException {
         final Subject updatedSubject =
                 subjectsService.update(id, principal.getName(),
-                                                 locale, subjects);
+                        locale, subjects);
         return updatedSubject == null ? ResponseEntity.notFound().build()
                 : ResponseEntity.ok(updatedSubject);
     }
@@ -130,7 +128,7 @@ class SubjectAPIController {
                                                UUID id,
                                        final Principal principal) {
         return subjectsService.delete(principal.getName(),
-                                  id) ? ResponseEntity.ok().build()
+                id) ? ResponseEntity.ok().build()
                 : ResponseEntity.notFound().build();
     }
 
@@ -145,11 +143,10 @@ class SubjectAPIController {
                     description = "invalid credentials")})
     @GetMapping(produces = "application/json")
     public ResponseEntity<List<Subject>> list(final Principal
-                                                     principal,
-                                               @RequestHeader
-                                                 (name = "Accept-Language",
-                                                     required = false)
-                                               final Locale locale) {
+                                                      principal,
+                                              @RequestHeader
+                                                      (name = "Accept-Language",
+                                      required = false) final Locale locale) {
         final List<Subject> subjectsList = subjectsService.list(
                 principal.getName(), locale);
         return subjectsList.isEmpty() ? ResponseEntity.noContent().build()

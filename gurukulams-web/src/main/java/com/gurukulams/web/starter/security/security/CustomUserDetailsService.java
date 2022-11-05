@@ -30,8 +30,8 @@ public class CustomUserDetailsService implements UserDetailsService {
      * @param alearnerService
      */
     public CustomUserDetailsService(final PasswordEncoder passwordEncoder,
-                                       final Environment environment,
-                                       final LearnerService alearnerService) {
+                                    final Environment environment,
+                                    final LearnerService alearnerService) {
         this.learnerService = alearnerService;
 
 

@@ -44,7 +44,7 @@ public class StaticContentConfiguration implements WebMvcConfigurer {
             final Path path = new File(pathPrefix).toPath();
             try {
                 Files.find(path,
-                        Integer.MAX_VALUE,
+                                Integer.MAX_VALUE,
                         (filePath, fileAttr) -> fileAttr.isRegularFile())
                         .map(path1 ->
                                 path1.toString()

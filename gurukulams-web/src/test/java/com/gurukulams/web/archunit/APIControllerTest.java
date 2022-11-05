@@ -96,7 +96,7 @@ public class APIControllerTest {
 
     @Test
     public void testSourceText() throws IOException {
-        List<Path> controllerFiles ;
+        List<Path> controllerFiles;
         //TODO: https://github.com/TNG/ArchUnit/issues/113
         // We should not validate at Controller Layer
         try (Stream<Path> walk = Files.walk(Paths.get("src/main/java"))) {
@@ -115,7 +115,7 @@ public class APIControllerTest {
                         e.printStackTrace();
                     }
                     return false;
-                }).toList() ;
+                }).toList();
 
         Assertions.assertEquals(0, problematicFiles.size(),
                 "No Validation at Controller " + problematicFiles.toString());

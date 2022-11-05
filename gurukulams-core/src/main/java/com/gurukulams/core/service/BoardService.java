@@ -12,11 +12,11 @@ import javax.sql.DataSource;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-import java.util.List;
 import java.util.Optional;
-import java.util.HashMap;
 import java.util.UUID;
 
 
@@ -41,11 +41,12 @@ public class BoardService {
 
     /**
      * this is the constructor.
+     *
      * @param ajdbcTemplate a jdbcTemplate
-     * @param adataSource a dataSource
+     * @param adataSource   a dataSource
      */
     public BoardService(final JdbcTemplate ajdbcTemplate,
-                           final DataSource adataSource) {
+                        final DataSource adataSource) {
         this.jdbcTemplate = ajdbcTemplate;
         this.dataSource = adataSource;
     }
@@ -59,7 +60,7 @@ public class BoardService {
      * @throws SQLException
      */
     private Board rowMapper(final ResultSet rs,
-                               final Integer rowNum)
+                            final Integer rowNum)
             throws SQLException {
         Board board = new Board((UUID)
                 rs.getObject("id"),
@@ -75,14 +76,15 @@ public class BoardService {
 
     /**
      * creates new syllabus.
+     *
      * @param userName the userName
-     * @param board the syllabus
-     * @param locale the locale
+     * @param board    the syllabus
+     * @param locale   the locale
      * @return board optional
      */
     public Board create(final String userName,
                         final Locale locale,
-                           final Board board) {
+                        final Board board) {
         final SimpleJdbcInsert insert = new SimpleJdbcInsert(dataSource)
                 .withTableName("boards")
                 .usingColumns("id", "title",
@@ -115,6 +117,7 @@ public class BoardService {
 
     /**
      * Create Localized Board.
+     *
      * @param valueMap
      * @return noOfBoards
      */
@@ -127,8 +130,9 @@ public class BoardService {
 
     /**
      * reads from syllabus.
-     * @param id the id
-     * @param locale the locale
+     *
+     * @param id       the id
+     * @param locale   the locale
      * @param userName the userName
      * @return board optional
      */
@@ -136,11 +140,11 @@ public class BoardService {
                                 final Locale locale, final UUID id) {
 
         final String query = locale == null
-              ? "SELECT id,title,description,created_by,"
-              + "created_at, modified_at, modified_by FROM boards "
-              + "WHERE id = ?"
-              : "SELECT DISTINCT b.ID, "
-              + "CASE WHEN bl.LOCALE = ? "
+                ? "SELECT id,title,description,created_by,"
+                + "created_at, modified_at, modified_by FROM boards "
+                + "WHERE id = ?"
+                : "SELECT DISTINCT b.ID, "
+                + "CASE WHEN bl.LOCALE = ? "
                 + "THEN bl.TITLE "
                 + "ELSE b.TITLE "
                 + "END AS TITLE, "
@@ -164,13 +168,13 @@ public class BoardService {
                     .queryForObject(query, new Object[]{id},
                             this::rowMapper)
                     : jdbcTemplate
-                            .queryForObject(query, new Object[]{
-                                            locale.getLanguage(),
-                                            locale.getLanguage(),
-                                            id,
-                                            locale.getLanguage(),
-                                            locale.getLanguage()},
-                                    this::rowMapper);
+                    .queryForObject(query, new Object[]{
+                                    locale.getLanguage(),
+                                    locale.getLanguage(),
+                                    id,
+                                    locale.getLanguage(),
+                                    locale.getLanguage()},
+                            this::rowMapper);
             return Optional.of(p);
         } catch (final EmptyResultDataAccessException e) {
             return Optional.empty();
@@ -179,16 +183,17 @@ public class BoardService {
 
     /**
      * update the board.
-     * @param id the id
+     *
+     * @param id       the id
      * @param userName the userName
-     * @param board the board
-     * @param locale the locale
+     * @param board    the board
+     * @param locale   the locale
      * @return board optional
      */
     public Board update(final UUID id,
-                           final String userName,
-                           final Locale locale,
-                           final Board board) {
+                        final String userName,
+                        final Locale locale,
+                        final Board board) {
         logger.debug("Entering update for Board {}", id);
         final String query = locale == null
                 ? "UPDATE boards SET title=?,"
@@ -196,7 +201,7 @@ public class BoardService {
                 : "UPDATE boards SET modified_by=? WHERE id=?";
         Integer updatedRows = locale == null
                 ? jdbcTemplate.update(query, board.title(),
-                        board.description(), userName, id)
+                board.description(), userName, id)
                 : jdbcTemplate.update(query, userName, id);
         if (updatedRows == 0) {
             logger.error("Update not found", id);
@@ -204,7 +209,7 @@ public class BoardService {
         } else if (locale != null) {
             updatedRows = jdbcTemplate.update(
                     "UPDATE boards_localized SET title=?,locale=?,"
-                    + "description=? WHERE board_id=? AND locale=?",
+                            + "description=? WHERE board_id=? AND locale=?",
                     board.title(), locale.getLanguage(),
                     board.description(), id, locale.getLanguage());
             if (updatedRows == 0) {
@@ -221,7 +226,8 @@ public class BoardService {
 
     /**
      * delete the board.
-     * @param id the id
+     *
+     * @param id       the id
      * @param userName the userName
      * @return board optional
      */
@@ -233,8 +239,9 @@ public class BoardService {
 
     /**
      * list the board.
+     *
      * @param userName the userName
-     * @param locale the locale
+     * @param locale   the locale
      * @return board optional
      */
     public List<Board> list(final String userName,
@@ -263,7 +270,7 @@ public class BoardService {
         return locale == null
                 ? jdbcTemplate.query(query, this::rowMapper)
                 : jdbcTemplate
-                    .query(query, new Object[]{
+                .query(query, new Object[]{
                                 locale.getLanguage(),
                                 locale.getLanguage(),
                                 locale.getLanguage(),
@@ -300,9 +307,10 @@ public class BoardService {
 
     /**
      * Adds subject to grade and board.
-     * @param userName the userName
-     * @param boardId the gradeId
-     * @param gradeId the gradeId
+     *
+     * @param userName  the userName
+     * @param boardId   the gradeId
+     * @param gradeId   the gradeId
      * @param subjectId the syllabusId
      * @return grade optional
      */
@@ -329,18 +337,19 @@ public class BoardService {
 
     /**
      * Adds book to grade, board and subject.
-     * @param userName the userName
-     * @param boardId the gradeId
-     * @param gradeId the gradeId
+     *
+     * @param userName  the userName
+     * @param boardId   the gradeId
+     * @param gradeId   the gradeId
      * @param subjectId the syllabusId
-     * @param bookId the bookId
+     * @param bookId    the bookId
      * @return grade optional
      */
     public boolean attachBook(final String userName,
-                                             final UUID boardId,
-                                             final UUID gradeId,
-                                             final UUID subjectId,
-                                             final UUID bookId) {
+                              final UUID boardId,
+                              final UUID gradeId,
+                              final UUID subjectId,
+                              final UUID bookId) {
         // Insert to boards_grades
         final SimpleJdbcInsert insert = new SimpleJdbcInsert(dataSource)
                 .withTableName("boards_grades_subjects_books")
@@ -358,9 +367,9 @@ public class BoardService {
 
         return noOfRowsInserted == 1;
     }
+
     /**
      * Cleaning up all boards.
-     *
      */
     public void deleteAll() {
         jdbcTemplate.update("DELETE FROM boards_grades_subjects_books");

@@ -1,7 +1,7 @@
 package com.gurukulams.web.starter.security.security.oauth2.user;
 
-import com.gurukulams.web.starter.security.exception.OAuth2AuthenticationProcessingException;
 import com.gurukulams.core.model.AuthProvider;
+import com.gurukulams.web.starter.security.exception.OAuth2AuthenticationProcessingException;
 
 import java.util.Map;
 

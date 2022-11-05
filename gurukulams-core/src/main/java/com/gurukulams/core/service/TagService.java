@@ -42,6 +42,7 @@ public final class TagService {
 
     /**
      * this is the constructor.
+     *
      * @param anJdbcTemplate
      * @param aDataSource
      */
@@ -60,7 +61,7 @@ public final class TagService {
      * @throws SQLException
      */
     private Tag rowMapper(final ResultSet rs,
-                                final Integer rowNum)
+                          final Integer rowNum)
             throws SQLException {
         Tag tag = new Tag(
                 rs.getString("id"),
@@ -71,16 +72,18 @@ public final class TagService {
                 rs.getString("modified_by"));
         return tag;
     }
+
     /**
      * inserts data.
+     *
      * @param userName the userName
      * @param locale
-     * @param tag the tag
+     * @param tag      the tag
      * @return question optional
      */
     public Tag create(final String userName,
                       final Locale locale,
-                            final Tag tag) {
+                      final Tag tag) {
 
         final SimpleJdbcInsert insert = new SimpleJdbcInsert(dataSource)
                 .withTableName("tags")
@@ -111,6 +114,7 @@ public final class TagService {
 
     /**
      * Create Localized Tag.
+     *
      * @param valueMap
      * @return noOfTags
      */
@@ -123,7 +127,8 @@ public final class TagService {
 
     /**
      * reads from tag.
-     * @param id the id
+     *
+     * @param id       the id
      * @param userName the userName
      * @param locale
      * @return question optional
@@ -170,16 +175,17 @@ public final class TagService {
 
     /**
      * update the tag.
-     * @param id the id
+     *
+     * @param id       the id
      * @param userName the userName
      * @param locale
-     * @param tag the tag
+     * @param tag      the tag
      * @return question optional
      */
     public Tag update(final String id,
-                            final String userName,
-                            final Locale locale,
-                            final Tag tag) {
+                      final String userName,
+                      final Locale locale,
+                      final Tag tag) {
         logger.debug("Entering update for Tag {}", id);
         final String query = locale == null
                 ? "UPDATE tags SET title=?,"
@@ -187,7 +193,7 @@ public final class TagService {
                 : "UPDATE tags SET modified_by=? WHERE id=?";
         Integer updatedRows = locale == null
                 ? jdbcTemplate.update(query, tag.title(),
-                 userName, id)
+                userName, id)
                 : jdbcTemplate.update(query, userName, id);
         if (updatedRows == 0) {
             logger.error("Update not found", id);
@@ -197,7 +203,7 @@ public final class TagService {
                     "UPDATE tags_localized SET title=?,locale=?"
                             + " WHERE tag_id=? AND locale=?",
                     tag.title(), locale.getLanguage(),
-                     id, locale.getLanguage());
+                    id, locale.getLanguage());
             if (updatedRows == 0) {
                 final Map<String, Object> valueMap = new HashMap<>(4);
                 valueMap.put("tag_id", id);
@@ -211,7 +217,8 @@ public final class TagService {
 
     /**
      * delete the tag.
-     * @param id the id
+     *
+     * @param id       the id
      * @param userName the userName
      * @return false
      */
@@ -225,6 +232,7 @@ public final class TagService {
 
     /**
      * list of tags.
+     *
      * @param userName the userName
      * @param locale
      * @return tags list

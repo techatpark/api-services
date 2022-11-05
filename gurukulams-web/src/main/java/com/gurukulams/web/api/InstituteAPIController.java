@@ -2,6 +2,7 @@ package com.gurukulams.web.api;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.gurukulams.core.model.Institute;
+import com.gurukulams.core.service.InstituteService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -18,7 +19,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
-import com.gurukulams.core.service.InstituteService;
 
 import java.net.URI;
 import java.security.Principal;
@@ -55,8 +55,8 @@ class InstituteAPIController {
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping(produces = "application/json", consumes = "application/json")
     public ResponseEntity<Institute> create(final Principal principal,
-                                                      final @RequestBody
-                                                     Institute institute) {
+                                            final @RequestBody
+                                                    Institute institute) {
         Institute createdInstitute =
                 instituteService.create(principal.getName(), institute);
         return ResponseEntity.created(URI.create("/api/syllabus"
@@ -75,8 +75,9 @@ class InstituteAPIController {
                     description = "institute not found")})
     @GetMapping(value = "/{id}", produces = "application/json")
     public ResponseEntity<Institute> read(final @PathVariable UUID id,
-                                         final Principal principal) {
-    return ResponseEntity.of(instituteService.read(principal.getName(), id));
+                                          final Principal principal) {
+        return ResponseEntity.of(
+                instituteService.read(principal.getName(), id));
     }
 
     @Operation(summary = "Updates the institute by given id",
@@ -93,13 +94,13 @@ class InstituteAPIController {
                     description = "institute not found")})
     @PutMapping(value = "/{id}", produces = "application/json", consumes =
             "application/json")
-    public ResponseEntity<Institute> update(final@PathVariable
-                                                UUID id,
-                                                     final Principal
-                                                             principal,
-                                                     final @RequestBody
-                                                                  Institute
-                                                                  institute)
+    public ResponseEntity<Institute> update(final @PathVariable
+                                                    UUID id,
+                                            final Principal
+                                                    principal,
+                                            final @RequestBody
+                                                    Institute
+                                                    institute)
             throws JsonProcessingException {
         final Institute updatedInstitute =
                 instituteService.update(id, principal.getName(), institute);
@@ -135,16 +136,12 @@ class InstituteAPIController {
                     description = "invalid credentials")})
     @GetMapping(produces = "application/json")
     public ResponseEntity<List<Institute>> list(final Principal
-                                                       principal) {
+                                                        principal) {
         final List<Institute> instituteList = instituteService.list(
                 principal.getName());
         return instituteList.isEmpty() ? ResponseEntity.noContent().build()
                 : ResponseEntity.ok(instituteList);
     }
-
-
-
-
 
 
 }

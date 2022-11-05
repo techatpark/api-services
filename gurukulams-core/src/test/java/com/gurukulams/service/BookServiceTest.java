@@ -48,29 +48,29 @@ public class BookServiceTest {
     }
 
     @Test
-    void create(){
-        final Book book = bookService.create("mani",null,
+    void create() {
+        final Book book = bookService.create("mani", null,
                 anBook());
-        Assertions.assertTrue(bookService.read("mani",null,book.id()).isPresent(),
+        Assertions.assertTrue(bookService.read("mani", null, book.id()).isPresent(),
                 "Created Book");
     }
 
     @Test
     void read() {
-        final Book book = bookService.create("mani",null,
+        final Book book = bookService.create("mani", null,
                 anBook());
         final UUID newBookId = book.id();
-        Assertions.assertTrue(bookService.read("mani",null, newBookId).isPresent(),
+        Assertions.assertTrue(bookService.read("mani", null, newBookId).isPresent(),
                 "Book Created");
     }
 
     @Test
     void update() {
 
-        final Book book = bookService.create("mani",null,
+        final Book book = bookService.create("mani", null,
                 anBook());
         final UUID newBookId = book.id();
-        Book newBook = new Book(null, "Book",LocalDateTime.now().toString(),"A " +
+        Book newBook = new Book(null, "Book", LocalDateTime.now().toString(), "A " +
                 "Book", null, "tom", null, null);
         Book updatedBook = bookService
                 .update(newBookId, "mani", null, newBook);
@@ -78,17 +78,17 @@ public class BookServiceTest {
 
         Assertions.assertThrows(IllegalArgumentException.class, () -> {
             bookService
-                    .update(UUID.randomUUID(), "mani", null,newBook);
+                    .update(UUID.randomUUID(), "mani", null, newBook);
         });
     }
 
     @Test
     void delete() {
 
-        final Book book = bookService.create("mani",null,
+        final Book book = bookService.create("mani", null,
                 anBook());
-        bookService.delete("mani",book.id());
-        Assertions.assertFalse(bookService.read("mani",null,book.id()).isPresent(),
+        bookService.delete("mani", book.id());
+        Assertions.assertFalse(bookService.read("mani", null, book.id()).isPresent(),
                 "Deleted Book");
 
     }
@@ -96,13 +96,13 @@ public class BookServiceTest {
     @Test
     void list() {
 
-        final Book book = bookService.create("mani",null,
+        final Book book = bookService.create("mani", null,
                 anBook());
-        Book newBook = new Book(null, "Book New",LocalDateTime.now().toString(), "A " +
+        Book newBook = new Book(null, "Book New", LocalDateTime.now().toString(), "A " +
                 "Book", null, "tom", null, null);
-        bookService.create("mani",null,
+        bookService.create("mani", null,
                 newBook);
-        List<Book> listofbook = bookService.list("manikanta",null);
+        List<Book> listofbook = bookService.list("manikanta", null);
         Assertions.assertEquals(2, listofbook.size());
 
     }
@@ -110,7 +110,7 @@ public class BookServiceTest {
     @Test
     void testLocalizationFromDefaultWithoutLocale() {
         // Create a Book without locale
-        final Book book = bookService.create("mani",null,
+        final Book book = bookService.create("mani", null,
                 anBook());
 
         testLocalization(book);
@@ -120,7 +120,7 @@ public class BookServiceTest {
     @Test
     void testLocalizationFromCreateWithLocale() {
         // Create a Book with locale
-        final Book book = bookService.create("mani",Locale.GERMAN,
+        final Book book = bookService.create("mani", Locale.GERMAN,
                 anBook());
 
         testLocalization(book);
@@ -130,18 +130,18 @@ public class BookServiceTest {
     void testLocalization(Book book) {
 
         // Update for China Language
-        bookService.update(book.id(),"mani", Locale.FRENCH,anBook(book,
-                STATE_BOARD_TITLE_IN_FRENCH,LocalDateTime.now().toString(),
+        bookService.update(book.id(), "mani", Locale.FRENCH, anBook(book,
+                STATE_BOARD_TITLE_IN_FRENCH, LocalDateTime.now().toString(),
                 STATE_BOARD_DESCRIPTION_IN_FRENCH));
 
         // Get for french Language
-        Book createBook = bookService.read("mani",Locale.FRENCH,
+        Book createBook = bookService.read("mani", Locale.FRENCH,
                 book.id()).get();
         Assertions.assertEquals(STATE_BOARD_TITLE_IN_FRENCH, createBook.title());
         Assertions.assertEquals(STATE_BOARD_DESCRIPTION_IN_FRENCH, createBook.description());
 
         final UUID id = createBook.id();
-        createBook = bookService.list("mani",Locale.FRENCH)
+        createBook = bookService.list("mani", Locale.FRENCH)
                 .stream()
                 .filter(book1 -> book1.id().equals(id))
                 .findFirst().get();
@@ -150,12 +150,12 @@ public class BookServiceTest {
                 createBook.description());
 
         // Get for France which does not have data
-        createBook = bookService.read("mani",Locale.CHINESE,
+        createBook = bookService.read("mani", Locale.CHINESE,
                 book.id()).get();
         Assertions.assertEquals(STATE_BOARD_IN_ENGLISH, createBook.title());
         Assertions.assertEquals(STATE_BOARD_DESCRIPTION_IN_ENGLISH, createBook.description());
 
-        createBook = bookService.list("mani",Locale.CHINESE)
+        createBook = bookService.list("mani", Locale.CHINESE)
                 .stream()
                 .filter(book1 -> book1.id().equals(id))
                 .findFirst().get();
@@ -182,8 +182,8 @@ public class BookServiceTest {
      *
      * @return the book
      */
-    Book anBook(final Book ref,final String title,final String path,final String description) {
-        return new Book(ref.id(), title,path,
+    Book anBook(final Book ref, final String title, final String path, final String description) {
+        return new Book(ref.id(), title, path,
                 description, ref.created_at(), ref.created_by(),
                 ref.modified_at(), ref.modified_by());
     }

@@ -40,6 +40,7 @@ public class Application {
 
     /**
      * This will be invoked one the application is started.
+     *
      * @param event
      */
     @EventListener

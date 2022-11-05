@@ -79,6 +79,7 @@ public class BoardMaker {
 
     /**
      * Create All Boards.
+     *
      * @param userName
      */
     public void createAllBoards(final String userName) {
@@ -157,19 +158,18 @@ public class BoardMaker {
         });
 
 
-
         return createdBoard;
     }
 
     private List<Grade> createGrades(final String userName,
-                             final File boardFile,
-                             final Board createdBoard) {
+                                     final File boardFile,
+                                     final Board createdBoard) {
         List<Grade> grades = new ArrayList<>();
         List<File> gradeFiles = List.of(
                 Objects.requireNonNull(
                         new File(boardFile.getParentFile(), "grades")
-                        .listFiles((dir, name) -> name.endsWith(".json")
-                                && !name.contains("-"))));
+                                .listFiles((dir, name) -> name.endsWith(".json")
+                                        && !name.contains("-"))));
 
         gradeFiles.forEach(gradeFile -> {
             grades.add(createGrade(userName, boardFile,
@@ -206,21 +206,19 @@ public class BoardMaker {
         });
 
 
-
         return createdGrade;
     }
 
 
-
     private List<Subject> createSubjects(final String userName,
-                                final File boardFile,
-                                final Board createdBoard) {
+                                         final File boardFile,
+                                         final Board createdBoard) {
         List<Subject> subjects = new ArrayList<>();
         List<File> subjectFiles = List.of(
                 Objects.requireNonNull(
                         new File(boardFile.getParentFile(), "subjects")
-                        .listFiles((dir, name) -> name.endsWith(".json")
-                                && !name.contains("-"))));
+                                .listFiles((dir, name) -> name.endsWith(".json")
+                                        && !name.contains("-"))));
 
         subjectFiles.forEach(subjectFile -> {
             subjects.add(createSubject(userName, createdBoard, subjectFile));
@@ -258,14 +256,14 @@ public class BoardMaker {
     }
 
     private List<Book> createBooks(final String userName,
-                             final File boardFile,
-                             final Board createdBoard) {
+                                   final File boardFile,
+                                   final Board createdBoard) {
         List<Book> books = new ArrayList<>();
         List<File> bookFiles = List.of(
                 Objects.requireNonNull(
                         new File(boardFile.getParentFile(), "books")
-                        .listFiles((dir, name) -> name.endsWith(".json")
-                                && !name.contains("-"))));
+                                .listFiles((dir, name) -> name.endsWith(".json")
+                                        && !name.contains("-"))));
 
         bookFiles.forEach(bookFile -> {
             books.add(createBook(userName, createdBoard, bookFile));
@@ -302,6 +300,7 @@ public class BoardMaker {
 
     /**
      * Create All Questions.
+     *
      * @param userName
      */
     public void createAllQuestions(final String userName) throws IOException {
@@ -311,8 +310,8 @@ public class BoardMaker {
             createAllTags(userName);
             File questionsFolder = new File(seedFolder, "questions");
             Files.find(Path.of(questionsFolder.getPath()),
-                            Integer.MAX_VALUE,
-                            (filePath, fileAttr)
+                    Integer.MAX_VALUE,
+                    (filePath, fileAttr)
                             -> fileAttr.isRegularFile()
                             && !filePath.toFile().getName().contains("-"))
                     .forEach(path -> {
@@ -338,7 +337,7 @@ public class BoardMaker {
                         if (!tagFolder.equals(questionsFolder)) {
                             tagService.create(userName, null,
                                     new Tag(tagFolder.getFileName().toString(),
-                                    tagFolder.getFileName().toString(),
+                                            tagFolder.getFileName().toString(),
                                             null,
                                             userName, null,
                                             userName));
@@ -348,7 +347,7 @@ public class BoardMaker {
     }
 
     private Question createQuestion(final String userName,
-                               final File questionFile)
+                                    final File questionFile)
             throws JsonProcessingException {
         Question question = getObject(questionFile, Question.class);
         final String nameOfQuestion = questionFile.getName()
@@ -358,9 +357,9 @@ public class BoardMaker {
         String bookName = tokens.remove(0);
         tokens.remove(tokens.size() - 1);
         String chapterPath = tokens.stream().collect(Collectors.joining("/"));
-        Question createdQuestion = questionService.create(
-                bookName, QuestionType.CHOOSE_THE_BEST,
-                null, question, userName, tokens).get();
+        Question createdQuestion = questionService.create(tokens,
+                QuestionType.CHOOSE_THE_BEST,
+                null, userName, question).get();
 
         List<File> questionLocalizedFiles = List.of(
                 Objects.requireNonNull(questionFile.getParentFile()
@@ -378,14 +377,11 @@ public class BoardMaker {
                 questionLocalized.getChoices().get(i)
                         .setId(createdQuestion.getChoices().get(i).getId());
             }
-            try {
-                questionService.update(
-                        bookName, QuestionType.CHOOSE_THE_BEST,
-                        createdQuestion.getId(), locale, questionLocalized,
-                        chapterPath).get();
-            } catch (JsonProcessingException e) {
-                throw new RuntimeException(e);
-            }
+
+            questionService.update(
+                    QuestionType.CHOOSE_THE_BEST,
+                    createdQuestion.getId(), locale, questionLocalized).get();
+
         });
 
         return createdQuestion;

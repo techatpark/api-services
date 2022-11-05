@@ -43,8 +43,9 @@ public class SubjectService {
 
     /**
      * this is the constructor.
+     *
      * @param ajdbcTemplate a jdbcTemplate
-     * @param adataSource a dataSource
+     * @param adataSource   a dataSource
      */
     public SubjectService(final JdbcTemplate ajdbcTemplate,
                           final DataSource adataSource) {
@@ -61,30 +62,31 @@ public class SubjectService {
      * @throws SQLException
      */
     private Subject rowMapper(final ResultSet rs,
-                               final Integer rowNum)
-        throws SQLException {
+                              final Integer rowNum)
+            throws SQLException {
         Subject subject = new Subject((UUID)
                 rs.getObject("id"),
-        rs.getString("title"),
-        rs.getString("description"),
-        rs.getObject("created_at", LocalDateTime.class),
-        rs.getString("created_by"),
-        rs.getObject("modified_at", LocalDateTime.class),
-        rs.getString("modified_by"));
+                rs.getString("title"),
+                rs.getString("description"),
+                rs.getObject("created_at", LocalDateTime.class),
+                rs.getString("created_by"),
+                rs.getObject("modified_at", LocalDateTime.class),
+                rs.getString("modified_by"));
 
         return subject;
     }
 
     /**
      * creates new subject.
+     *
      * @param userName the userName
-     * @param locale the locale
-     * @param subject the syllabus
+     * @param locale   the locale
+     * @param subject  the syllabus
      * @return syllabus optional
      */
     public Subject create(final String userName,
-                                     final Locale locale,
-                                     final Subject subject) {
+                          final Locale locale,
+                          final Subject subject) {
         final SimpleJdbcInsert insert = new SimpleJdbcInsert(dataSource)
                 .withTableName("subjects")
                 .usingColumns("id", "title",
@@ -116,6 +118,7 @@ public class SubjectService {
 
     /**
      * Create Localized subject.
+     *
      * @param valueMap
      * @return noOfSubject
      */
@@ -128,9 +131,10 @@ public class SubjectService {
 
     /**
      * reads from syllabus.
-     * @param id the id
+     *
+     * @param id       the id
      * @param userName the userName
-     * @param locale the locale
+     * @param locale   the locale
      * @return question optional
      */
     public Optional<Subject> read(final String userName,
@@ -180,16 +184,17 @@ public class SubjectService {
 
     /**
      * update the subjects.
-     * @param id the id
+     *
+     * @param id       the id
      * @param userName the userName
-     * @param locale the locale
-     * @param subject the subjects
+     * @param locale   the locale
+     * @param subject  the subjects
      * @return question optional
      */
     public Subject update(final UUID id,
-                                     final String userName,
-                                      final Locale locale,
-                                      final Subject subject) {
+                          final String userName,
+                          final Locale locale,
+                          final Subject subject) {
         logger.debug("Entering update for Subject {}", id);
         final String query = locale == null
                 ? "UPDATE subjects SET title=?,"
@@ -222,7 +227,8 @@ public class SubjectService {
 
     /**
      * delete the subject.
-     * @param id the id
+     *
+     * @param id       the id
      * @param userName the userName
      * @return question optional
      */
@@ -231,10 +237,12 @@ public class SubjectService {
         final Integer updatedRows = jdbcTemplate.update(query, id);
         return !(updatedRows == 0);
     }
+
     /**
      * list the subject.
+     *
      * @param userName the userName
-     * @param locale the locale
+     * @param locale   the locale
      * @return question optional
      */
     public List<Subject> list(final String userName,
@@ -275,16 +283,17 @@ public class SubjectService {
 
     /**
      * list the subject by grade and board.
+     *
      * @param userName the userName
-     * @param locale the locale
-     * @param boardId the grade
-     * @param gradeId the grade
+     * @param locale   the locale
+     * @param boardId  the grade
+     * @param gradeId  the grade
      * @return syllabus optional
      */
     public List<Subject> list(final String userName,
-                               final Locale locale,
-                               final UUID boardId,
-                               final UUID gradeId) {
+                              final Locale locale,
+                              final UUID boardId,
+                              final UUID gradeId) {
         final String query = locale == null
                 ? "SELECT id,title,description,created_by,"
                 + "created_at,modified_at,modified_by FROM subjects "
@@ -323,7 +332,6 @@ public class SubjectService {
 
     /**
      * Cleaning up all subjects.
-     *
      */
     public void deleteAll() {
         jdbcTemplate.update("DELETE FROM boards_grades_subjects");

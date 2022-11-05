@@ -29,25 +29,23 @@ public class TokenProvider {
      */
     private static final Logger LOG =
             LoggerFactory.getLogger(TokenProvider.class);
+    /**
+     * Cache Manager.
+     */
+    private final CacheManager cacheManager;
+    /**
+     * Cache to hold auth tokens.
+     */
+    private final Cache authCache;
     /***
      * hhh.
      */
     private AppProperties appProperties;
 
     /**
-     * Cache Manager.
-     */
-    private final CacheManager cacheManager;
-
-    /**
-     * Cache to hold auth tokens.
-     */
-    private final Cache authCache;
-
-    /**
      * gg.
      *
-     * @param appPropertie the app propertie
+     * @param appPropertie  the app propertie
      * @param acacheManager
      */
     public TokenProvider(final AppProperties appPropertie,
@@ -109,7 +107,7 @@ public class TokenProvider {
                 return false;
             }
             Jwts.parser().setSigningKey(appProperties.getAuth()
-                    .getTokenSecret())
+                            .getTokenSecret())
                     .parseClaimsJws(authToken.get().toString());
             return true;
         } catch (final SignatureException ex) {

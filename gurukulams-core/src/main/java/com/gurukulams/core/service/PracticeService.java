@@ -3,9 +3,9 @@ package com.gurukulams.core.service;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import com.gurukulams.core.service.connector.DatabaseConnector;
 import com.gurukulams.core.model.Practice;
 import com.gurukulams.core.model.sql.SqlPractice;
+import com.gurukulams.core.service.connector.DatabaseConnector;
 import com.gurukulams.core.util.PropertyPlaceholderExposer;
 import org.springframework.context.ApplicationContext;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -73,7 +73,8 @@ public class PracticeService {
 
     /**
      * Instantiates a new Practice service.
-     *  @param aJdbcTemplate        the a jdbc template
+     *
+     * @param aJdbcTemplate        the a jdbc template
      * @param aDatasource          the a datasource
      * @param anApplicationContext the an application context
      * @param aPExpo               the propery expser
@@ -172,18 +173,18 @@ public class PracticeService {
     /**
      * inserts data to database.
      *
-     * @param <T>      the type parameter
-     * @param type     the type
-     * @param createdBy    the createdBy
-     * @param locale     the locale
-     * @param practice the practice
+     * @param <T>       the type parameter
+     * @param type      the type
+     * @param createdBy the createdBy
+     * @param locale    the locale
+     * @param practice  the practice
      * @return p. optional
      * @throws JsonProcessingException the json processing exception
      */
     public <T extends Practice> Optional<T> create(final String type,
-                                                    final String createdBy,
-                                                    final Locale locale,
-                                                    final T practice)
+                                                   final String createdBy,
+                                                   final Locale locale,
+                                                   final T practice)
             throws JsonProcessingException {
 
         Set<ConstraintViolation<Practice>> violations = validator
@@ -230,6 +231,7 @@ public class PracticeService {
 
     /**
      * Create Localized practice.
+     *
      * @param valueMap
      * @return noOfPractices
      */
@@ -284,6 +286,7 @@ public class PracticeService {
 
     /**
      * Gets Book Id for BookPath.
+     *
      * @param bookPath
      * @return bookId
      */
@@ -295,6 +298,7 @@ public class PracticeService {
 
     /**
      * Adds Practice to a Book.
+     *
      * @param practiceId
      * @param bookId
      * @return added
@@ -316,14 +320,14 @@ public class PracticeService {
     }
 
     private <T extends Practice> Optional<T> readByBook(
-                                            final String bookPath) {
+            final String bookPath) {
         final String query =
-        "SELECT practices.id, practices.title, practices.created_by, "
-        + "practices.type, "
+            "SELECT practices.id, practices.title, practices.created_by, "
+            + "practices.type, "
         + "practices.meta_data, practices.description, practices.created_at, "
-        + "practices.modified_at FROM practices JOIN practices_books ON "
-        + "practices.id = practices_books.practice_id JOIN books "
-        + "ON practices_books.book_id = books.id WHERE books.PATH = ?";
+            + "practices.modified_at FROM practices JOIN practices_books ON "
+            + "practices.id = practices_books.practice_id JOIN books "
+            + "ON practices_books.book_id = books.id WHERE books.PATH = ?";
 
         try {
             final T p = (T) jdbcTemplate
@@ -364,7 +368,7 @@ public class PracticeService {
      * read an practice.
      *
      * @param <T>           the type parameter
-     * @param locale the locale
+     * @param locale        the locale
      * @param newPracticeId the new practice id
      * @return p. optional
      */
@@ -372,8 +376,8 @@ public class PracticeService {
                                                  final Locale locale) {
         final String query = locale == null
                 ? "SELECT id,title,created_by,type,meta_data,"
-                        + "description,created_at,modified_at "
-                        + "FROM practices WHERE id = ?"
+                + "description,created_at,modified_at "
+                + "FROM practices WHERE id = ?"
                 : "SELECT practices.id,practices_localized.title,"
                 + "practices.created_by,practices.type,practices.meta_data,"
                 + "practices_localized.description,practices.created_at,"
@@ -404,7 +408,7 @@ public class PracticeService {
      * @param <T>      the type parameter
      * @param id       the id
      * @param practice the practice
-     * @param locale the locale
+     * @param locale   the locale
      * @return p. optional
      * @throws JsonProcessingException the json processing exception
      */
@@ -417,25 +421,25 @@ public class PracticeService {
         if (violations.isEmpty()) {
             final String query = locale == null
                     ? "UPDATE practices SET title=?, meta_data=?,"
-                            + "description=?, modified_at=CURRENT_TIMESTAMP "
-                            + "WHERE id = ?"
+                    + "description=?, modified_at=CURRENT_TIMESTAMP "
+                    + "WHERE id = ?"
                     : "UPDATE practices SET meta_data=?,"
-                            + "modified_at=CURRENT_TIMESTAMP "
-                            + "WHERE id = ?";
+                    + "modified_at=CURRENT_TIMESTAMP "
+                    + "WHERE id = ?";
             Integer updatedRows = locale == null
                     ? jdbcTemplate.update(query,
                     practice.getTitle(),
                     getMetadata(practice),
                     practice.getDescription(), id)
                     : jdbcTemplate.update(query,
-                            getMetadata(practice),
-                            id);
+                    getMetadata(practice),
+                    id);
             if (updatedRows == 0) {
                 throw new IllegalArgumentException("Practice not found");
             } else if (locale != null) {
                 updatedRows = jdbcTemplate.update(
                         "UPDATE practices_localized SET title=?,locale=?,"
-                        + "description=? WHERE practice_id=? AND locale=?",
+                            + "description=? WHERE practice_id=? AND locale=?",
                         practice.getTitle(), locale.getLanguage(),
                         practice.getDescription(), id, locale.getLanguage());
                 if (updatedRows == 0) {

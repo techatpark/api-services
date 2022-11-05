@@ -13,8 +13,6 @@ import java.io.IOException;
 import java.util.List;
 import java.util.UUID;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 @SpringBootTest
 class InstituteServiceTest {
 
@@ -48,7 +46,7 @@ class InstituteServiceTest {
     void create() {
         final Institute institute = instituteService.create("hari",
                 anInstitute());
-        Assertions.assertTrue(instituteService.read("hari",institute.id()).isPresent(),"Created Institute");
+        Assertions.assertTrue(instituteService.read("hari", institute.id()).isPresent(), "Created Institute");
     }
 
     @Test
@@ -56,7 +54,7 @@ class InstituteServiceTest {
         final Institute institute = instituteService.create("hari",
                 anInstitute());
         final UUID newInstituteId = institute.id();
-        Assertions.assertTrue(instituteService.read("hari",institute.id()).isPresent(),
+        Assertions.assertTrue(instituteService.read("hari", institute.id()).isPresent(),
                 "Created Institute");
     }
 
@@ -72,19 +70,19 @@ class InstituteServiceTest {
                 .update(newInstituteId, "priya", newInstitute);
         Assertions.assertEquals("HansiInstitute", updatedInstitute.title(), "Updated");
 
-                Assertions.assertThrows(IllegalArgumentException.class, () -> {
-                    instituteService
-                            .update(UUID.randomUUID(), "priya", newInstitute);
+        Assertions.assertThrows(IllegalArgumentException.class, () -> {
+            instituteService
+                    .update(UUID.randomUUID(), "priya", newInstitute);
         });
     }
 
     @Test
     void delete() {
 
-            final Institute institute = instituteService.create("hari",
-                    anInstitute());
-        instituteService.delete("mani",institute.id());
-        Assertions.assertFalse(instituteService.read("mani",institute.id()).isPresent(),"Deleted Institute");
+        final Institute institute = instituteService.create("hari",
+                anInstitute());
+        instituteService.delete("mani", institute.id());
+        Assertions.assertFalse(instituteService.read("mani", institute.id()).isPresent(), "Deleted Institute");
     }
 
     @Test

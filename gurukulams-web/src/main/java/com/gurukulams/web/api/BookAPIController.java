@@ -56,7 +56,7 @@ class BookAPIController {
     /**
      * Instantiates a new Book api controller.
      *
-     * @param abookService the book service
+     * @param abookService   the book service
      * @param aAnswerService a Answer Service
      */
     BookAPIController(final BookService abookService,
@@ -64,12 +64,13 @@ class BookAPIController {
         this.bookService = abookService;
         this.answerService = aAnswerService;
     }
+
     /**
      * Create response entity.
      *
      * @param principal the principal
-     * @param book  the book name
-     * @param locale the locale
+     * @param book      the book name
+     * @param locale    the locale
      * @return the response entity
      */
     @Operation(summary = "Creates a new book",
@@ -86,8 +87,7 @@ class BookAPIController {
     @PostMapping(produces = "application/json", consumes = "application/json")
     public ResponseEntity<Book> create(final Principal principal,
                                        @RequestHeader(name = "Accept-Language",
-                                               required = false)
-                                       final Locale locale,
+                                       required = false) final Locale locale,
                                        @RequestBody final Book book) {
         Book created = bookService.create(principal.getName(), locale, book);
         return ResponseEntity.created(URI.create("/api/book" + created.id()))
@@ -96,9 +96,10 @@ class BookAPIController {
 
     /**
      * Read a book.
+     *
      * @param id
      * @param principal
-     * @param locale the locale
+     * @param locale    the locale
      * @return a book
      */
     @Operation(summary = "Get the Book with given id",
@@ -113,8 +114,7 @@ class BookAPIController {
     @GetMapping("/{id}")
     public ResponseEntity<Book> read(@PathVariable final UUID id,
                                      @RequestHeader(name = "Accept-Language",
-                                             required = false)
-                                     final Locale locale,
+                                     required = false) final Locale locale,
                                      final Principal principal) {
         return ResponseEntity.of(bookService.read(principal.getName(),
                 locale, id));
@@ -122,6 +122,7 @@ class BookAPIController {
 
     /**
      * Update a Book.
+     *
      * @param id
      * @param principal
      * @param locale
@@ -146,8 +147,7 @@ class BookAPIController {
                                        final Principal
                                                principal,
                                        @RequestHeader(name = "Accept-Language",
-                                               required = false)
-                                       final Locale locale,
+                                       required = false) final Locale locale,
                                        @RequestBody final Book
                                                book) {
         final Book updatedBook =
@@ -158,6 +158,7 @@ class BookAPIController {
 
     /**
      * Delete a Book.
+     *
      * @param id
      * @param principal
      * @return book
@@ -181,6 +182,7 @@ class BookAPIController {
 
     /**
      * List the Books.
+     *
      * @param principal
      * @param locale
      * @return list of book
@@ -199,8 +201,7 @@ class BookAPIController {
                                                    principal,
                                            @RequestHeader(
                                                    name = "Accept-Language",
-                                                   required = false)
-                                           final Locale locale) {
+                                   required = false) final Locale locale) {
         final List<Book> bookList = bookService.list(
                 principal.getName(), locale);
         return bookList.isEmpty() ? ResponseEntity.noContent().build()
@@ -238,7 +239,7 @@ class BookAPIController {
     /**
      * Create response entity.
      *
-     * @param principal the principal
+     * @param principal   the principal
      * @param bookName    the book name
      * @param chapterName the user note
      * @return the response entity
@@ -381,10 +382,9 @@ class BookAPIController {
                                                              question,
                                                      @RequestHeader(
                                                      name = "Accept-Language",
-                                                     required = false)
-                                                         final Locale locale,
-                                                    final Principal principal,
-                                  final HttpServletRequest request)
+                                         required = false) final Locale locale,
+                                                     final Principal principal,
+                                             final HttpServletRequest request)
             throws ServletException, IOException {
         String chapterPath = request.getRequestURI().replaceFirst("/api"
                 + "/books/" + bookName
@@ -399,11 +399,11 @@ class BookAPIController {
     /**
      * Update response entity.
      *
-     * @param bookName   the bookname
+     * @param bookName     the bookname
      * @param questionType the question type
-     * @param questionId           the questionId
+     * @param questionId   the questionId
      * @param question     the question
-     * @param request the request
+     * @param request      the request
      * @return the response entity
      */
     @Operation(summary = "Updates the question by given questionId",
@@ -425,8 +425,7 @@ class BookAPIController {
                                                              UUID questionId,
                                                      @RequestHeader(
                                                      name = "Accept-Language",
-                                                     required = false)
-                                                     final Locale locale,
+                                         required = false) final Locale locale,
                                                      final @PathVariable
                                                              QuestionType
                                                              questionType,
@@ -435,7 +434,7 @@ class BookAPIController {
                                                              Question
                                                              question,
                                                      final
-                                             HttpServletRequest request)
+                                                     HttpServletRequest request)
             throws JsonProcessingException {
         String chapterPath = request.getRequestURI().replaceFirst("/api"
                 + "/books/" + bookName
@@ -443,15 +442,15 @@ class BookAPIController {
                 + "/" + questionId + "/", "");
         final Optional<Question> updatedQuestion =
                 bookService.updateQuestion(
-                bookName, questionId, locale, questionType,
-                        question, chapterPath);
+                        questionId, locale, questionType,
+                        question);
         return updatedQuestion == null ? ResponseEntity.notFound().build()
                 : ResponseEntity.ok(updatedQuestion);
     }
+
     /**
      * Delete a question from the given question bank.
      *
-
      * @param bookName the bookname
      * @return the response entity
      */
@@ -465,7 +464,7 @@ class BookAPIController {
                     description = "question not found")})
     @DeleteMapping("/{bookName}/questions")
     public ResponseEntity<Void> deleteQuestionBank(final @PathVariable
-                                                    String bookName)
+                                                           String bookName)
             throws JsonProcessingException {
 
         boolean isDeleted = bookService.deleteQuestionBank(bookName);
@@ -478,8 +477,8 @@ class BookAPIController {
      *
      * @param id           the id
      * @param questionType the question type
-     * @param bookName the bookname
-     * @param request the request
+     * @param bookName     the bookname
+     * @param request      the request
      * @return the response entity
      */
     @Operation(summary = "Deletes the question by given id",
@@ -492,28 +491,22 @@ class BookAPIController {
                     description = "question not found")})
     @DeleteMapping("/{bookName}/questions/{questionType}/{id}/**")
     public ResponseEntity<Void> deleteAQuestionById(final @PathVariable
-                                                   String bookName,
-                                     final @PathVariable UUID id,
+                                                            String bookName,
+                                                    final @PathVariable UUID id,
                                                     final @PathVariable
                                                             QuestionType
-                                                            questionType,
-                                                    final
-                                                 HttpServletRequest request) {
-        String chapterPath = request.getRequestURI().replaceFirst("/api"
-                + "/books/" + bookName
-                + "/questions/" + questionType + "/" + id + "/", "");
+                                                            questionType) {
         bookService.deleteAQuestion(id, QuestionType.CHOOSE_THE_BEST);
         return null;
     }
 
 
-
     /**
      * Find all questions response entity.
      *
-     * @param principal   the principal
-     * @param bookName    the bookName
-     * @param request the request
+     * @param principal the principal
+     * @param bookName  the bookName
+     * @param request   the request
      * @return the response entity
      */
     @Operation(summary = "lists all the questions for given book and give "
@@ -531,9 +524,8 @@ class BookAPIController {
     findAllQuestionsByChap(final Principal
                                    principal,
                            @RequestHeader(
-                           name = "Accept-Language",
-                           required = false)
-                           final Locale locale,
+                                   name = "Accept-Language",
+                                   required = false) final Locale locale,
                            final
                            @PathVariable
                                    String
@@ -545,7 +537,7 @@ class BookAPIController {
                 + "/questions/", "");
         return ResponseEntity.status(HttpStatus.OK)
                 .body(bookService.listAllQuestions(principal.getName(),
-                bookName, locale, chapterPath));
+                        bookName, locale, chapterPath));
     }
 
 

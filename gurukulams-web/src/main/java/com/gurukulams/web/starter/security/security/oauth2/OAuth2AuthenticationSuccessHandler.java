@@ -64,8 +64,8 @@ public class OAuth2AuthenticationSuccessHandler
     /**
      * overrides the method onAuthenticationSuccess.
      *
-     * @param arequest request
-     * @param aresponse response
+     * @param arequest         request
+     * @param aresponse        response
      * @param anauthentication authentication
      * @throws IOException exception
      */
@@ -92,8 +92,8 @@ public class OAuth2AuthenticationSuccessHandler
     /**
      * determine target url.
      *
-     * @param arequest request
-     * @param aresponse response
+     * @param arequest         request
+     * @param aresponse        response
      * @param anauthentication authentication
      * @return targeturl target url
      */

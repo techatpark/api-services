@@ -155,13 +155,13 @@
                         </goals>
                         <configuration>
                             <rules>
-                                <banDuplicatePomDependencyVersions />
-<!--                                <requireFilesDontExist>-->
-<!--                                    <files>-->
-<!--                                        <file>${basedir}/pom.xml.versionsBackup</file>-->
-<!--                                    </files>-->
-<!--                                    <message>Please use the latest version. Check You POM that i have modified fo you</message>-->
-<!--                                </requireFilesDontExist>-->
+                                <banDuplicatePomDependencyVersions/>
+                                <!--                                <requireFilesDontExist>-->
+                                <!--                                    <files>-->
+                                <!--                                        <file>${basedir}/pom.xml.versionsBackup</file>-->
+                                <!--                                    </files>-->
+                                <!--                                    <message>Please use the latest version. Check You POM that i have modified fo you</message>-->
+                                <!--                                </requireFilesDontExist>-->
                                 <requireJavaVersion>
                                     <version>${maven.compiler.source}</version>
                                 </requireJavaVersion>

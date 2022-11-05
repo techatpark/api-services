@@ -41,8 +41,8 @@ public final class PostgressDatabaseConnector extends DatabaseConnector {
      */
     @Override
     public Boolean verify(final SqlPractice exam,
-                                final Question question,
-                                final String sqlAnswer) {
+                          final Question question,
+                          final String sqlAnswer) {
         Boolean isRigntAnswer = false;
         try {
             final String verificationSQL =

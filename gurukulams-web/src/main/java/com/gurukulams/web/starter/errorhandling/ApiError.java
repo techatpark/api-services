@@ -42,7 +42,6 @@ public final class ApiError {
     }
 
 
-
     /**
      * Gets message.
      *

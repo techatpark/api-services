@@ -15,5 +15,5 @@ public record Book(UUID id, String title, String path,
                    LocalDateTime modified_at,
                    @Schema(accessMode = Schema.AccessMode.READ_ONLY)
                    String modified_by) {
-    }
+}
 

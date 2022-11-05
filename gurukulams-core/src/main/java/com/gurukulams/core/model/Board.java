@@ -11,7 +11,7 @@ public record Board(UUID id, String title, String description,
                     @Schema(accessMode = Schema.AccessMode.READ_ONLY)
                     String created_by,
                     @Schema(accessMode = Schema.AccessMode.READ_ONLY)
-                   LocalDateTime modified_at,
+                    LocalDateTime modified_at,
                     @Schema(accessMode = Schema.AccessMode.READ_ONLY)
                     String modified_by) {
 }

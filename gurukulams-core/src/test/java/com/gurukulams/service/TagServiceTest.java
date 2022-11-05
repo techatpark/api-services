@@ -46,23 +46,23 @@ class TagServiceTest {
     @Test
     void create() {
         final Tag tag = tagService.create("hari"
-                , null,anTag());
-        Assertions.assertTrue(tagService.read("hari",tag.id(), null).isPresent(),"Created Tag");
+                , null, anTag());
+        Assertions.assertTrue(tagService.read("hari", tag.id(), null).isPresent(), "Created Tag");
     }
 
     @Test
     void createLocalized() {
         final Tag tag = tagService.create("hari"
-                , Locale.GERMAN,anTag());
-        Assertions.assertTrue(tagService.read("hari",tag.id(), Locale.GERMAN).isPresent(),"Created Localized Tag");
-        Assertions.assertTrue(tagService.read("hari",tag.id(), null).isPresent(),"Created Tag");
+                , Locale.GERMAN, anTag());
+        Assertions.assertTrue(tagService.read("hari", tag.id(), Locale.GERMAN).isPresent(), "Created Localized Tag");
+        Assertions.assertTrue(tagService.read("hari", tag.id(), null).isPresent(), "Created Tag");
     }
 
     @Test
     void read() {
         final Tag tag = tagService.create("hari",
-                null, anTag() );
-        Assertions.assertTrue(tagService.read("hari",tag.id(), null).isPresent(),
+                null, anTag());
+        Assertions.assertTrue(tagService.read("hari", tag.id(), null).isPresent(),
                 "Created Tag");
     }
 
@@ -70,15 +70,15 @@ class TagServiceTest {
     void update() {
 
         final Tag tag = tagService.create("hari",
-                 null,anTag());
+                null, anTag());
         Tag newTag = new Tag(tag.id(), "HansiTag", null, null, null, null);
         Tag updatedTag = tagService
-                .update(tag.id(), "priya", null , newTag);
+                .update(tag.id(), "priya", null, newTag);
         Assertions.assertEquals("HansiTag", updatedTag.title(), "Updated");
 
-                Assertions.assertThrows(IllegalArgumentException.class, () -> {
-                    tagService
-                            .update(UUID.randomUUID().toString(), "priya", null, newTag);
+        Assertions.assertThrows(IllegalArgumentException.class, () -> {
+            tagService
+                    .update(UUID.randomUUID().toString(), "priya", null, newTag);
         });
     }
 
@@ -86,10 +86,10 @@ class TagServiceTest {
     void updateLocalized() {
 
         final Tag tag = tagService.create("hari",
-                null,anTag());
+                null, anTag());
         Tag newTag = new Tag(tag.id(), "HansiTag", null, null, null, null);
         Tag updatedTag = tagService
-                .update(tag.id(), "priya", Locale.GERMAN , newTag);
+                .update(tag.id(), "priya", Locale.GERMAN, newTag);
 
         Assertions.assertEquals("HansiTag", tagService.read("mani", tag.id(), Locale.GERMAN).get().title(), "Updated");
         Assertions.assertNotEquals("HansiTag", tagService.read("mani", tag.id(), null).get().title(), "Updated");
@@ -104,21 +104,21 @@ class TagServiceTest {
     @Test
     void delete() {
 
-            final Tag tag = tagService.create("hari",null,
-                    anTag());
-        tagService.delete("mani",tag.id());
-        Assertions.assertFalse(tagService.read("mani",tag.id(), null).isPresent(),"Deleted Tag");
+        final Tag tag = tagService.create("hari", null,
+                anTag());
+        tagService.delete("mani", tag.id());
+        Assertions.assertFalse(tagService.read("mani", tag.id(), null).isPresent(), "Deleted Tag");
     }
 
     @Test
     void list() {
 
-        final Tag tag = tagService.create("hari",null,
+        final Tag tag = tagService.create("hari", null,
                 anTag());
         Tag newTag = new Tag(UUID.randomUUID().toString(), "HansiTag", null, null, null, null);
-        tagService.create("hari",null,
+        tagService.create("hari", null,
                 newTag);
-        List<Tag> listoftags = tagService.list("hari",null);
+        List<Tag> listoftags = tagService.list("hari", null);
         Assertions.assertEquals(2, listoftags.size());
 
     }
@@ -126,15 +126,15 @@ class TagServiceTest {
     @Test
     void listLocalized() {
 
-        final Tag tag = tagService.create("hari",Locale.GERMAN,
+        final Tag tag = tagService.create("hari", Locale.GERMAN,
                 anTag());
         Tag newTag = new Tag(UUID.randomUUID().toString(), "HansiTag", null, null, null, null);
-        tagService.create("hari",null,
+        tagService.create("hari", null,
                 newTag);
-        List<Tag> listoftags = tagService.list("hari",null);
+        List<Tag> listoftags = tagService.list("hari", null);
         Assertions.assertEquals(2, listoftags.size());
 
-        listoftags = tagService.list("hari",Locale.GERMAN);
+        listoftags = tagService.list("hari", Locale.GERMAN);
         Assertions.assertEquals(2, listoftags.size());
 
     }

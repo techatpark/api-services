@@ -79,7 +79,7 @@ public class GradeService {
      *
      * @param userName the userName
      * @param grade    the grade
-     * @param locale the locale
+     * @param locale   the locale
      * @return grade optional
      */
     public Grade create(final String userName,
@@ -119,6 +119,7 @@ public class GradeService {
 
     /**
      * Create Localized Grade.
+     *
      * @param valueMap
      * @return noOfGrades
      */
@@ -203,7 +204,7 @@ public class GradeService {
                 ? "UPDATE grades SET title=?,"
                 + "description=?,modified_by=? WHERE id=?"
                 : "UPDATE grades SET modified_by=? WHERE id=?";
-        Integer updatedRows =  locale == null
+        Integer updatedRows = locale == null
                 ? jdbcTemplate.update(query, grade.title(),
                 grade.description(), userName, id)
                 : jdbcTemplate.update(query, userName, id);
@@ -323,7 +324,7 @@ public class GradeService {
                 .query(query, new Object[]{
                                 locale.getLanguage(),
                                 locale.getLanguage(),
-                               boardId},
+                                boardId},
                         this::rowMapper);
     }
 

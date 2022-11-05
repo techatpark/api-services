@@ -18,13 +18,6 @@ public class TestApplication {
     private final Logger logger =
             LoggerFactory.getLogger(TestApplication.class);
 
-    @Bean
-    ObjectMapper objectMapper() {
-        return JsonMapper.builder()
-                .findAndAddModules()
-                .build();
-    }
-
     /**
      * Main method of this application.
      *
@@ -34,8 +27,16 @@ public class TestApplication {
         SpringApplication.run(TestApplication.class, args);
     }
 
+    @Bean
+    ObjectMapper objectMapper() {
+        return JsonMapper.builder()
+                .findAndAddModules()
+                .build();
+    }
+
     /**
      * This will be invoked one the application is started.
+     *
      * @param event
      */
     @EventListener

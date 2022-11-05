@@ -57,8 +57,8 @@ public final class H2DatabaseConnector extends DatabaseConnector {
      */
     @Override
     public Boolean verify(final SqlPractice exam,
-                                final Question question,
-                                final String sqlAnswer) {
+                          final Question question,
+                          final String sqlAnswer) {
         Boolean isRigntAnswer = false;
         try {
             final String verificationSQL = "SELECT COUNT(*) FROM ( "

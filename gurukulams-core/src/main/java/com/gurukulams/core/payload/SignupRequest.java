@@ -67,6 +67,7 @@ public class SignupRequest {
 
     /**
      * get Image Url.
+     *
      * @return imageUrl
      */
     public String getImageUrl() {
@@ -75,6 +76,7 @@ public class SignupRequest {
 
     /**
      * Sets Image Url.
+     *
      * @param aimageUrl
      */
     public void setImageUrl(final String aimageUrl) {

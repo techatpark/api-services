@@ -1,8 +1,6 @@
 package com.gurukulams.core.service;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.gurukulams.core.model.Choice;
-import com.gurukulams.core.model.Practice;
 import com.gurukulams.core.model.Question;
 import com.gurukulams.core.model.QuestionType;
 import org.hibernate.validator.internal.engine.ConstraintViolationImpl;
@@ -65,7 +63,6 @@ public class QuestionService {
     private final RowMapper<Question> rowMapper = (rs, rowNum) -> {
         final Question question = new Question();
         question.setId((UUID) rs.getObject("id"));
-        question.setExamId((UUID) rs.getObject("exam_id"));
         question.setQuestion(rs.getString("question"));
         question.setExplanation(rs.getString("explanation"));
         question.setType(QuestionType.valueOf(rs.getString("type")));
@@ -124,44 +121,24 @@ public class QuestionService {
         this.dataSource = aDataSource;
     }
 
-    /**
-     * inserts data, (method overloading).
-     *
-     * @param practiceId the practice id
-     * @param type       the type
-     * @param question   the question
-     * @param createdBy  the createdBy
-     * @param locale locale
-     * @return question optional
-     */
-    public Optional<Question> create(final UUID practiceId,
-                                     final QuestionType type,
-                                     final Locale locale,
-                                     final Question question,
-                                     final String createdBy) {
-        return create(practiceId, null, type,
-                locale, createdBy, question);
-    }
-
 
     /**
      * inserts data.
      *
-     * @param practiceId  the practice id
-     * @param tags the tags
-     * @param type        the type
-     * @param locale the locale
-     * @param createdBy    the createdBy
-     * @param question    the question
+     * @param tags      the tags
+     * @param type      the type
+     * @param locale    the locale
+     * @param createdBy the createdBy
+     * @param question  the question
      * @return question optional
      */
     @Transactional
-    public Optional<Question> create(final UUID practiceId,
-                                     final List<String> tags,
-                                     final QuestionType type,
-                                     final Locale locale,
-                                     final String createdBy,
-                                     final Question question) {
+    public Optional<Question> create(
+            final List<String> tags,
+            final QuestionType type,
+            final Locale locale,
+            final String createdBy,
+            final Question question) {
         question.setType(type);
         Set<ConstraintViolation<Question>> violations =
                 getViolations(question);
@@ -169,13 +146,12 @@ public class QuestionService {
             final SimpleJdbcInsert insert =
                     new SimpleJdbcInsert(dataSource)
                             .withTableName("questions")
-                            .usingColumns("id", "exam_id",
+                            .usingColumns("id",
                                     "question", "explanation",
-                                     "type",
-                                   "created_By", "answer");
+                                    "type",
+                                    "created_By", "answer");
 
             final Map<String, Object> valueMap = new HashMap<>();
-            valueMap.put("exam_id", practiceId);
             valueMap.put("question", question.getQuestion());
             valueMap.put("explanation", question.getExplanation());
             valueMap.put("type", type);
@@ -211,8 +187,8 @@ public class QuestionService {
     }
 
     private void createChoice(final Choice choice,
-                               final Locale locale,
-                               final UUID questionId) {
+                              final Locale locale,
+                              final UUID questionId) {
         final SimpleJdbcInsert insertQuestionChoice =
                 new SimpleJdbcInsert(dataSource)
                         .withTableName("question_choices")
@@ -220,23 +196,22 @@ public class QuestionService {
                                 "c_value", "is_answer");
 
 
+        Map<String, Object> valueMapQuestionChoice =
+                new HashMap<>();
+        valueMapQuestionChoice.put("question_id", questionId);
+        valueMapQuestionChoice.put("c_value", choice.getValue());
+        valueMapQuestionChoice.put("is_answer",
+                choice.isAnswer() != null && choice.isAnswer());
 
-            Map<String, Object> valueMapQuestionChoice =
-                    new HashMap<>();
-            valueMapQuestionChoice.put("question_id", questionId);
-            valueMapQuestionChoice.put("c_value", choice.getValue());
-            valueMapQuestionChoice.put("is_answer",
-                    choice.isAnswer() != null && choice.isAnswer());
+        UUID choiceId = UUID.randomUUID();
+        valueMapQuestionChoice.put("id", choiceId);
+        insertQuestionChoice
+                .execute(valueMapQuestionChoice);
 
-            UUID choiceId = UUID.randomUUID();
-            valueMapQuestionChoice.put("id", choiceId);
-            insertQuestionChoice
-                    .execute(valueMapQuestionChoice);
-
-            if (locale != null) {
-                choice.setId(choiceId);
-                createLocalizedChoice(locale, choice);
-            }
+        if (locale != null) {
+            choice.setId(choiceId);
+            createLocalizedChoice(locale, choice);
+        }
 
 
     }
@@ -278,35 +253,9 @@ public class QuestionService {
     }
 
     /**
-     * creates a new question for a book.
-     *
-     * @param bookName     the bookName
-     * @param questionType the questionType
-     * @param question     the question
-     * @param createdBy    the createdBy
-     * @param locale       the locale
-     * @param tags  tags
-     * @return question optional
-     */
-    public Optional<Question> create(final String bookName,
-                                     final QuestionType questionType,
-                                     final Locale locale,
-                                     final Question question,
-                                     final String createdBy,
-                                     final List<String> tags)
-            throws JsonProcessingException {
-
-        Practice practice = practiceService.getQuestionBank(bookName, locale);
-
-        return create(practice.getId(), tags,
-                questionType, locale, createdBy, question);
-
-    }
-
-    /**
      * List question choice list.
      *
-     * @param isOwner          isOwner calling
+     * @param isOwner    isOwner calling
      * @param questionId the question choice id
      * @param locale
      * @return the list
@@ -316,10 +265,10 @@ public class QuestionService {
                                             final Locale locale) {
         final String query = locale == null
                 ? "SELECT id,question_id,c_value,"
-                        + (isOwner ? "is_answer" : "NULL")
-                        + " AS is_answer"
-                        + " FROM question_choices WHERE"
-                        + " question_id = ?"
+                + (isOwner ? "is_answer" : "NULL")
+                + " AS is_answer"
+                + " FROM question_choices WHERE"
+                + " question_id = ?"
                 : "SELECT id,question_id,"
                 + "CASE WHEN qcl.LOCALE = ? "
                 + "THEN qcl.c_value "
@@ -347,19 +296,19 @@ public class QuestionService {
     /**
      * reads from question with given id.
      *
-     * @param id the id
+     * @param id     the id
      * @param locale
      * @return question optional
      */
     public Optional<Question> read(final UUID id,
                                    final Locale locale) {
         final String query = locale == null
-                ? "SELECT id,exam_id,question,explanation"
-                        + ",created_by,type,"
-                        + "answer,created_at,modified_at FROM "
-                        + "questions WHERE"
-                        + " id = ?"
-                : "SELECT id,exam_id,"
+                ? "SELECT id,question,explanation"
+                + ",created_by,type,"
+                + "answer,created_at,modified_at FROM "
+                + "questions WHERE"
+                + " id = ?"
+                : "SELECT id,"
                 + "CASE WHEN ql.LOCALE = ? "
                 + "THEN ql.question "
                 + "ELSE q.question "
@@ -399,72 +348,40 @@ public class QuestionService {
         }
     }
 
-
-    /**
-     * updates question with id for a book.
-     *
-     * @param bookName    the exam id
-     * @param id          the id
-     * @param type        the type
-     * @param locale the locale
-     * @param question    the question
-     * @param chapterPath the chapterPath
-     * @return question optional
-     */
-    @Transactional
-    public Optional<Question> update(final String bookName,
-                                     final QuestionType type,
-                                     final UUID id,
-                                     final Locale locale,
-                                     final Question question,
-                                     final String chapterPath)
-            throws JsonProcessingException {
-
-        Practice practice = practiceService.getQuestionBank(bookName, locale);
-
-        return update(practice.getId(), type,
-                id, locale, question);
-
-    }
-
-
     /**
      * updates question with id.
      *
-     * @param practiceId the exam id
-     * @param id         the id
-     * @param locale     the language
-     * @param type       the type
-     * @param question   the question
+     * @param id       the id
+     * @param locale   the language
+     * @param type     the type
+     * @param question the question
      * @return question optional
      */
-    public Optional<Question> update(final UUID practiceId,
-                                     final QuestionType type,
-                                     final UUID id,
-                                     final Locale locale,
-                                     final Question question) {
+    public Optional<Question> update(
+            final QuestionType type,
+            final UUID id,
+            final Locale locale,
+            final Question question) {
         question.setType(type);
         Set<ConstraintViolation<Question>> violations =
                 getViolations(question);
         if (violations.isEmpty()) {
             final String query = locale == null
                     ? "UPDATE questions SET "
-                         + "question = ?,explanation = ?, answer = ?,"
-                            + "modified_at=CURRENT_TIMESTAMP"
-                            + " WHERE id = ? AND type = ? AND exam_id = ?"
+                    + "question = ?,explanation = ?, answer = ?,"
+                    + "modified_at=CURRENT_TIMESTAMP"
+                    + " WHERE id = ? AND type = ? "
                     : "UPDATE questions SET "
-                        + "answer = ?,"
-                        + "modified_at=CURRENT_TIMESTAMP"
-                        + " WHERE id = ? AND type = ? AND exam_id = ?";
+                    + "answer = ?,"
+                    + "modified_at=CURRENT_TIMESTAMP"
+                    + " WHERE id = ? AND type = ? ";
             Integer updatedRows = locale == null
                     ? jdbcTemplate.update(query,
-                            question.getQuestion(),
-                            question.getExplanation(),
-                            question.getAnswer(), id, type.toString(),
-                            practiceId)
+                    question.getQuestion(),
+                    question.getExplanation(),
+                    question.getAnswer(), id, type.toString())
                     : jdbcTemplate.update(query,
-                        question.getAnswer(), id, type.toString(),
-                        practiceId);
+                    question.getAnswer(), id, type.toString());
 
             if (locale != null) {
                 final String localizedUpdateQuery = """
@@ -475,21 +392,20 @@ public class QuestionService {
                                 question_id IN
                                     ( SELECT id from questions
                                             where type
-                                            = ? AND exam_id = ? )
+                                            = ?  )
                         """;
 
                 updatedRows = jdbcTemplate.update(localizedUpdateQuery,
                         question.getQuestion(), question.getExplanation(),
                         id, locale.getLanguage(),
-                        type.toString(),
-                        practiceId);
+                        type.toString());
 
                 if (updatedRows == 0) {
                     final String localizedInsertQuery = """
-                        INSERT INTO QUESTIONS_LOCALIZED
-                            ( question_id, locale, question, explanation )
-                            VALUES ( ?, ? , ?, ?)
-                        """;
+                            INSERT INTO QUESTIONS_LOCALIZED
+                                ( question_id, locale, question, explanation )
+                                VALUES ( ?, ? , ?, ?)
+                            """;
                     updatedRows = jdbcTemplate.update(localizedInsertQuery,
                             id, locale.getLanguage(),
                             question.getQuestion(), question.getExplanation());
@@ -517,9 +433,8 @@ public class QuestionService {
                                     + ")";
                     availableIds.add(0, id);
                     jdbcTemplate.update(deletequestionChoice,
-                             availableIds.toArray());
+                            availableIds.toArray());
                 }
-
 
 
                 question.getChoices().forEach(choice -> {
@@ -543,8 +458,8 @@ public class QuestionService {
                               final Locale locale) {
         final String updatequestionChoice = locale == null
                 ? "UPDATE question_choices SET c_value = ?, "
-                        + "is_answer = ? "
-                        + "WHERE id = ?"
+                + "is_answer = ? "
+                + "WHERE id = ?"
                 : "UPDATE question_choices SET "
                 + "is_answer = ? "
                 + "WHERE id = ?";
@@ -573,8 +488,8 @@ public class QuestionService {
     public Boolean delete(final UUID id) {
         final String queryL =
                 """
-                    DELETE FROM questions_localized WHERE question_id = ?
-                    """;
+                        DELETE FROM questions_localized WHERE question_id = ?
+                        """;
         jdbcTemplate.update(queryL, id);
         String query = "DELETE FROM questions WHERE ID=?";
 
@@ -591,9 +506,9 @@ public class QuestionService {
     public Boolean deleteQuestionChoice(final UUID questionId) {
         final String queryL =
                 """
-                    DELETE FROM question_choices_localized WHERE choice_id IN
-                    (SELECT id FROM question_choices WHERE question_id = ?)
-                    """;
+                DELETE FROM question_choices_localized WHERE choice_id IN
+                (SELECT id FROM question_choices WHERE question_id = ?)
+                        """;
         jdbcTemplate.update(queryL, questionId);
         final String query =
                 "DELETE FROM question_choices WHERE question_id = ?";
@@ -615,98 +530,29 @@ public class QuestionService {
     /**
      * List questions of exam.
      *
-     * @param userName   the user name
-     * @param practiceId the practice id
-     * @param locale the locale
-     * @return quetions in given exam
-     */
-    public List<Question> list(final String userName,
-                               final Locale locale,
-                               final UUID practiceId) {
-
-        Practice practice = this.practiceService
-                .read(practiceId, locale)
-                .orElseThrow(IllegalArgumentException::new);
-
-        boolean isOwner = practice.getCreatedBy().equals(userName);
-
-        final String query = locale == null
-                ? "SELECT id,exam_id,question,explanation,type,"
-                + "created_by,created_at,modified_at,"
-                + (isOwner ? "answer" : "NULL")
-                + " AS answer"
-                + " FROM questions"
-                + " where exam_id = ? order by id"
-                : "SELECT id,exam_id,"
-                + "CASE WHEN ql.LOCALE = ? "
-                + "THEN ql.question "
-                + "ELSE q.question "
-                + "END AS question,"
-                + "CASE WHEN ql.LOCALE = ? "
-                + "THEN ql.explanation "
-                + "ELSE q.explanation "
-                + "END AS explanation,"
-                + "created_by,type,"
-                + (isOwner ? "q.answer" : "NULL")
-                + " AS answer"
-                + ",created_at,modified_at FROM "
-                + "questions q LEFT JOIN questions_localized ql ON "
-                + "q.ID = ql.QUESTION_ID WHERE"
-                + " exam_id = ? AND"
-                + " (ql.LOCALE IS NULL "
-                + "OR ql.LOCALE = ? OR "
-                + "q.ID NOT IN "
-                + "(SELECT question_id FROM questions_localized "
-                + "WHERE QUESTION_ID=q.ID AND LOCALE = ?))";
-        List<Question> questions = locale == null
-                ? jdbcTemplate.query(query, rowMapper,
-                practiceId)
-                : jdbcTemplate.query(query, rowMapper, locale.getLanguage(),
-                locale.getLanguage(),
-                practiceId, locale.getLanguage(), locale.getLanguage());
-        if (!questions.isEmpty()) {
-            questions.forEach(question -> {
-                if ((question.getType().equals(QuestionType.CHOOSE_THE_BEST)
-                        || question.getType()
-                        .equals(QuestionType.MULTI_CHOICE))) {
-                    question.setChoices(this
-                            .listQuestionChoice(isOwner,
-                                    question.getId(), locale));
-                }
-            });
-        }
-        return questions;
-    }
-
-    /**
-     * List questions of exam.
-     *
-     * @param userName    the user name
-     * @param bookName    the practice id
-     * @param tags the tags
-     * @param locale the locale
+     * @param userName the user name
+     * @param bookName the practice id
+     * @param tags     the tags
+     * @param locale   the locale
      * @return quetions in given exam
      */
     public List<Question> list(final String userName,
                                final String bookName,
                                final Locale locale,
-                               final List<String> tags)
-            throws JsonProcessingException {
+                               final List<String> tags) {
 
-        Practice practice = practiceService.getQuestionBank(bookName, locale);
-
-        boolean isOwner = practice.getCreatedBy().equals(userName);
+        boolean isOwner = true;
 
         final String query = locale == null
-                ? "SELECT id,exam_id,question,explanation,type,"
+                ? "SELECT id,question,explanation,type,"
                 + "created_by,created_at,modified_at,"
                 + (isOwner ? "answer" : "NULL")
                 + " AS answer"
                 + " FROM questions"
                 + " where "
                 + "id IN (" + getQuestionIdFilter(tags) + ") "
-                + "AND exam_id = ? order by id"
-                : "SELECT id,exam_id,"
+                + " order by id"
+                : "SELECT id,"
                 + "CASE WHEN ql.LOCALE = ? "
                 + "THEN ql.question "
                 + "ELSE q.question "
@@ -722,7 +568,7 @@ public class QuestionService {
                 + "questions q LEFT JOIN questions_localized ql ON "
                 + "q.ID = ql.QUESTION_ID WHERE"
                 + " q.ID IN (" + getQuestionIdFilter(tags) + ") "
-                + "AND exam_id = ?  AND"
+                + "  AND"
                 + " (ql.LOCALE IS NULL "
                 + "OR ql.LOCALE = ? OR "
                 + "q.ID NOT IN "
@@ -732,12 +578,10 @@ public class QuestionService {
         List<Object> parameters = new ArrayList<>();
         if (locale == null) {
             parameters.addAll(tags);
-            parameters.add(practice.getId());
         } else {
             parameters.add(locale.getLanguage());
             parameters.add(locale.getLanguage());
             parameters.addAll(tags);
-            parameters.add(practice.getId());
             parameters.add(locale.getLanguage());
             parameters.add(locale.getLanguage());
         }
@@ -778,14 +622,14 @@ public class QuestionService {
      *
      * @param pageNumber the page number
      * @param pageSize   the page size
-     * @param locale the locale
+     * @param locale     the locale
      * @return question list
      */
     public List<Question> list(final Integer pageNumber,
                                final Integer pageSize,
                                final Locale locale) {
-        String query = "SELECT id,exam_id,question,explanation,type,"
-                  + "created_by,created_at,modified_at,answer FROM questions";
+        String query = "SELECT id,question,explanation,type,"
+                + "created_by,created_at,modified_at,answer FROM questions";
         query = query + " LIMIT " + pageSize + " OFFSET " + (pageNumber - 1);
         return jdbcTemplate.query(query, rowMapper);
     }
@@ -891,12 +735,12 @@ public class QuestionService {
     /**
      * Adds tag to question.
      *
-     * @param questionId  the questionId
-     * @param tagId  the tagId
+     * @param questionId the questionId
+     * @param tagId      the tagId
      * @return grade optional
      */
     public boolean attachTag(final UUID questionId,
-                               final String tagId) {
+                             final String tagId) {
         final SimpleJdbcInsert insert = new SimpleJdbcInsert(dataSource)
                 .withTableName("questions_tags")
                 .usingColumns("question_id", "tag_id");

@@ -1,9 +1,9 @@
 package com.gurukulams.web.starter.security.security.oauth2;
 
+import com.gurukulams.core.model.AuthProvider;
 import com.gurukulams.core.model.Learner;
 import com.gurukulams.core.service.LearnerService;
 import com.gurukulams.web.starter.security.exception.OAuth2AuthenticationProcessingException;
-import com.gurukulams.core.model.AuthProvider;
 import com.gurukulams.web.starter.security.security.UserPrincipal;
 import com.gurukulams.web.starter.security.security.oauth2.user.OAuth2UserInfo;
 import com.gurukulams.web.starter.security.security.oauth2.user.OAuth2UserInfoFactory;
@@ -29,6 +29,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 
     /**
      * CustomOAuth2UserService.
+     *
      * @param anUserRepository user repository
      */
     public CustomOAuth2UserService(final LearnerService
@@ -95,7 +96,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
     }
 
     private Learner registerNewUser(final OAuth2UserRequest oAuth2UserRequest,
-                                 final OAuth2UserInfo oAuth2UserInfo) {
+                                    final OAuth2UserInfo oAuth2UserInfo) {
         final Learner user = new Learner(null, oAuth2UserInfo.getEmail(),
                 null,
                 oAuth2UserInfo.getImageUrl(), AuthProvider.valueOf(
@@ -106,7 +107,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
     }
 
     private Learner updateExistingUser(final Learner existingUser,
-                                    final OAuth2UserInfo oAuth2UserInfo) {
+                                       final OAuth2UserInfo oAuth2UserInfo) {
         return userRepository.update(existingUser.id(), "System",
                 new Learner(null, oAuth2UserInfo.getEmail(),
                         null,

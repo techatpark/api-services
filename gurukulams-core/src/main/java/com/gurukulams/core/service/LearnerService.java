@@ -10,11 +10,10 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Service;
 
-import javax.validation.ConstraintViolationException;
-import javax.validation.Validator;
-
 import javax.sql.DataSource;
 import javax.validation.ConstraintViolation;
+import javax.validation.ConstraintViolationException;
+import javax.validation.Validator;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
@@ -54,6 +53,7 @@ public class LearnerService {
 
     /**
      * this is the constructor.
+     *
      * @param anDataSource
      * @param anJdbcTemplate
      * @param pValidator
@@ -79,22 +79,23 @@ public class LearnerService {
                               final Integer rowNum)
             throws SQLException {
 
-            Learner learner = new Learner((UUID)
+        Learner learner = new Learner((UUID)
                 rs.getObject("id"),
-                    rs.getString("email"),
-                    rs.getString("password"),
-                    rs.getString("image_url"),
-                    AuthProvider.valueOf(rs.getString("provider")),
-                    rs.getObject("created_at", LocalDateTime.class),
-                    rs.getString("created_by"),
-                    rs.getObject("modified_at", LocalDateTime.class),
-                    rs.getString("modified_by")
-                );
-             return learner;
-            }
+                rs.getString("email"),
+                rs.getString("password"),
+                rs.getString("image_url"),
+                AuthProvider.valueOf(rs.getString("provider")),
+                rs.getObject("created_at", LocalDateTime.class),
+                rs.getString("created_by"),
+                rs.getObject("modified_at", LocalDateTime.class),
+                rs.getString("modified_by")
+        );
+        return learner;
+    }
 
     /**
      * Sigup an User.
+     *
      * @param signUpRequest
      * @param encoderFunction
      */
@@ -122,7 +123,6 @@ public class LearnerService {
     }
 
     /**
-     *
      * @param userName
      * @param learner
      * @return learner
@@ -130,10 +130,10 @@ public class LearnerService {
     public Learner create(final String userName,
                           final Learner learner) {
         final SimpleJdbcInsert insert = new SimpleJdbcInsert(dataSource)
-                                        .withTableName("learner")
-                                        .usingColumns("id", "email",
-                                                "password",
-                                  "provider", "image_url", "created_by");
+                .withTableName("learner")
+                .usingColumns("id", "email",
+                        "password",
+                        "provider", "image_url", "created_by");
         final Map<String, Object> valueMap = new HashMap<>();
         valueMap.put("email", learner.email());
         valueMap.put("password", learner.password());
@@ -151,16 +151,15 @@ public class LearnerService {
     }
 
     /**
-     *
      * @param userName
      * @param id
      * @return learner
      */
     public Optional<Learner> read(final String userName,
-                                 final UUID id) {
-            final String query = "SELECT id,email,password,image_url,provider"
-                    + ",created_by,created_at, modified_at, modified_by"
-                    + " FROM learner WHERE id = ?";
+                                  final UUID id) {
+        final String query = "SELECT id,email,password,image_url,provider"
+                + ",created_by,created_at, modified_at, modified_by"
+                + " FROM learner WHERE id = ?";
 
         try {
             final Learner p = jdbcTemplate.queryForObject(query,
@@ -172,13 +171,12 @@ public class LearnerService {
     }
 
     /**
-     *
      * @param userName
      * @param email
      * @return learner
      */
     public Optional<Learner> readByEmail(final String userName,
-                                  final String email) {
+                                         final String email) {
         final String query = "SELECT id,email,password,image_url,provider"
                 + ",created_by,created_at, modified_at, modified_by"
                 + " FROM learner WHERE email = ?";
@@ -193,7 +191,6 @@ public class LearnerService {
     }
 
     /**
-     *
      * @param id
      * @param userName
      * @param learner
@@ -206,7 +203,7 @@ public class LearnerService {
         final String query = "UPDATE learner SET email=?,provider=?,"
                 + "password=?,image_url=?,modified_by=? WHERE id=?";
         final Integer updatedRows = jdbcTemplate.update(query,
-                          learner.email(), learner.provider().toString(),
+                learner.email(), learner.provider().toString(),
                 learner.password(),
                 learner.imageUrl(), userName, id);
         if (updatedRows == 0) {
@@ -217,7 +214,6 @@ public class LearnerService {
     }
 
     /**
-     *
      * @param id
      * @param userName the userName
      * @return learner
@@ -230,7 +226,6 @@ public class LearnerService {
     }
 
     /**
-     *
      * @param userName
      * @return learner
      */

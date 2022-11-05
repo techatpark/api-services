@@ -1,6 +1,5 @@
 package com.gurukulams.core.service;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.gurukulams.core.model.Book;
 import com.gurukulams.core.model.Question;
 import com.gurukulams.core.model.QuestionType;
@@ -64,17 +63,17 @@ public class BookService {
     /**
      * Instantiates a new Book service.
      *
-     * @param ajdbcTemplate a jdbcTemplate
-     * @param adataSource a dataSource
+     * @param ajdbcTemplate       a jdbcTemplate
+     * @param adataSource         a dataSource
      * @param theUserNotesService the user note service
      * @param theQuestionService  the question service
      * @param thePracticeService  the practice service
      */
     public BookService(final JdbcTemplate ajdbcTemplate,
                        final DataSource adataSource,
-            final UserNoteService theUserNotesService, final
-    QuestionService theQuestionService,
-            final PracticeService thePracticeService) {
+                       final UserNoteService theUserNotesService, final
+                       QuestionService theQuestionService,
+                       final PracticeService thePracticeService) {
         this.jdbcTemplate = ajdbcTemplate;
         this.dataSource = adataSource;
         this.userNotesService = theUserNotesService;
@@ -108,9 +107,10 @@ public class BookService {
 
     /**
      * creates new book.
+     *
      * @param userName the userName
-     * @param locale the locale
-     * @param book the syllabus
+     * @param locale   the locale
+     * @param book     the syllabus
      * @return syllabus optional
      */
     public Book create(final String userName,
@@ -148,6 +148,7 @@ public class BookService {
 
     /**
      * Create Localized book.
+     *
      * @param valueMap
      * @return noOfBook
      */
@@ -160,9 +161,10 @@ public class BookService {
 
     /**
      * reads from syllabus.
-     * @param id the id
+     *
+     * @param id       the id
      * @param userName the userName
-     * @param locale the locale
+     * @param locale   the locale
      * @return question optional
      */
     public Optional<Book> read(final String userName,
@@ -213,10 +215,11 @@ public class BookService {
 
     /**
      * update the books.
-     * @param id the id
+     *
+     * @param id       the id
      * @param userName the userName
-     * @param locale the locale
-     * @param book the books
+     * @param locale   the locale
+     * @param book     the books
      * @return question optional
      */
     public Book update(final UUID id,
@@ -255,7 +258,8 @@ public class BookService {
 
     /**
      * delete the book.
-     * @param id the id
+     *
+     * @param id       the id
      * @param userName the userName
      * @return question optional
      */
@@ -264,10 +268,12 @@ public class BookService {
         final Integer updatedRows = jdbcTemplate.update(query, id);
         return !(updatedRows == 0);
     }
+
     /**
      * list the book.
+     *
      * @param userName the userName
-     * @param locale the locale
+     * @param locale   the locale
      * @return question optional
      */
     public List<Book> list(final String userName,
@@ -307,21 +313,21 @@ public class BookService {
     }
 
 
-
     /**
      * list the subject by grade and board.
-     * @param userName the userName
-     * @param locale the locale
-     * @param boardId the grade
-     * @param gradeId the grade
+     *
+     * @param userName  the userName
+     * @param locale    the locale
+     * @param boardId   the grade
+     * @param gradeId   the grade
      * @param subjectId the syllabusId
      * @return books optional
      */
     public List<Book> list(final String userName,
-                              final Locale locale,
-                              final UUID boardId,
-                              final UUID gradeId,
-                                final UUID subjectId) {
+                           final Locale locale,
+                           final UUID boardId,
+                           final UUID gradeId,
+                           final UUID subjectId) {
         final String query = locale == null
                 ? "SELECT id,title,path,description,created_by,"
                 + "created_at,modified_at,modified_by FROM books "
@@ -352,7 +358,7 @@ public class BookService {
                 + "AND bgs.subject_id = ? ";
         return locale == null
                 ? jdbcTemplate.query(query, this::rowMapper,
-                            gradeId, boardId, subjectId)
+                gradeId, boardId, subjectId)
                 : jdbcTemplate
                 .query(query, new Object[]{
                                 locale.getLanguage(),
@@ -362,9 +368,9 @@ public class BookService {
                                 subjectId},
                         this::rowMapper);
     }
+
     /**
      * Cleaning up all books.
-     *
      */
     public void deleteAll() {
         jdbcTemplate.update("DELETE FROM boards_grades_subjects_books");
@@ -377,7 +383,7 @@ public class BookService {
      * Create note optional.
      *
      * @param bookName  the book name
-     * @param createdBy     the createdBy
+     * @param createdBy the createdBy
      * @param userNotes the user note
      * @return the optional
      */
@@ -392,7 +398,7 @@ public class BookService {
     /**
      * Search note optional.
      *
-     * @param createdBy       the createdBy
+     * @param createdBy   the createdBy
      * @param bookName    the book name
      * @param chapterName the chapterName
      * @return the list
@@ -442,15 +448,14 @@ public class BookService {
      *
      * @param userName the username
      * @param bookName the username
-     * @param locale the locale
+     * @param locale   the locale
      * @param tagsPath the tagsPath
      * @return the optional
      */
     public List<Question> listAllQuestions(final String userName,
-                                    final String bookName,
+                                           final String bookName,
                                            final Locale locale,
-                                           final String tagsPath)
-            throws JsonProcessingException {
+                                           final String tagsPath) {
         return questionService.list(userName, bookName, locale,
                 List.of(tagsPath.split("/")));
 
@@ -466,14 +471,16 @@ public class BookService {
     public boolean isOwner(final String userName, final String bookName) {
         return practiceService.isOwner(userName, bookName);
     }
+
     /**
      * create the question.
-     * @param bookName bookName
+     *
+     * @param bookName     bookName
      * @param questionType the questionType
-     * @param question question
-     * @param tags tags
-     * @param locale the locale
-     * @param createdBy createdBy
+     * @param question     question
+     * @param tags         tags
+     * @param locale       the locale
+     * @param createdBy    createdBy
      * @return successflag boolean
      */
     public Optional<Question> createAQuestion(final String bookName,
@@ -481,19 +488,19 @@ public class BookService {
                                               final Locale locale,
                                               final String createdBy,
                                               final Question question,
-                                              final List<String> tags)
-            throws JsonProcessingException {
+                                              final List<String> tags) {
 
 
-        return questionService.create(bookName, questionType, locale,
-                question, createdBy, tags);
+        return questionService.create(tags, questionType, locale,
+                createdBy, question);
     }
 
     //create a function to delete, it must done inside question service
 
     /**
      * delete the question.
-     * @param id the id
+     *
+     * @param id           the id
      * @param questionType the questionType
      * @return successflag boolean
      */
@@ -505,47 +512,42 @@ public class BookService {
 
     /**
      * delete the questions of a book.
+     *
      * @param bookPath the id
      * @return successflag boolean
      */
-    public Boolean deleteQuestionBank(final String bookPath)
-            throws JsonProcessingException {
+    public Boolean deleteQuestionBank(final String bookPath) {
 
         return practiceService.deleteQuestionBank(bookPath);
     }
 
     /**
      * update the question.
-     * @param bookName the bookname
-     * @param id the id
+     *
+     * @param id           the id
      * @param questionType the questionType
-     * @param question question
-     * @param chapterPath the chapterPath
-     * @param locale the locale
+     * @param question     question
+     * @param locale       the locale
      * @return successflag boolean
      */
-    public Optional<Question> updateQuestion(final String bookName,
-                                             final UUID id,
+    public Optional<Question> updateQuestion(final UUID id,
                                              final Locale locale,
                                              final QuestionType questionType,
-                                             final Question question,
-                                              final String chapterPath)
-            throws JsonProcessingException {
-        return questionService.update(bookName, questionType, id, locale,
-                question, chapterPath);
+                                             final Question question) {
+        return questionService.update(questionType, id, locale,
+                question);
     }
 
     //learner create method
 
     /**
-     *
      * @param bookName
      * @param createdBy
      * @param chapterPath
      * @return 0
      */
     public Object learner(final String bookName, final String createdBy,
-                                          final String chapterPath) {
-     return 0;
+                          final String chapterPath) {
+        return 0;
     }
 }

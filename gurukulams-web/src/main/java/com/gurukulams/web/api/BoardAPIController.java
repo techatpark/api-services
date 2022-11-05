@@ -15,16 +15,17 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestController;
+
 import java.net.URI;
 import java.security.Principal;
 import java.util.List;
@@ -70,8 +71,8 @@ class BoardAPIController {
      * Create response entity.
      *
      * @param principal the principal
-     * @param board  the board name
-     * @param locale the locale
+     * @param board     the board name
+     * @param locale    the locale
      * @return the response entity
      */
     @Operation(summary = "Creates a new board",
@@ -87,9 +88,9 @@ class BoardAPIController {
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping(produces = "application/json", consumes = "application/json")
     public ResponseEntity<Board> create(final Principal principal,
-                    @RequestHeader(name = "Accept-Language", required = false)
-                     final Locale locale,
-                    @RequestBody final Board board) {
+                                @RequestHeader(name = "Accept-Language",
+                                        required = false) final Locale locale,
+                                        @RequestBody final Board board) {
         Board created = boardService.create(principal.getName(), locale, board);
         return ResponseEntity.created(URI.create("/api/board" + created.id()))
                 .body(created);
@@ -97,9 +98,10 @@ class BoardAPIController {
 
     /**
      * Read a board.
+     *
      * @param id
      * @param principal
-     * @param locale the locale
+     * @param locale    the locale
      * @return a board
      */
     @Operation(summary = "Get the Board with given id",
@@ -113,15 +115,16 @@ class BoardAPIController {
 
     @GetMapping("/{id}")
     public ResponseEntity<Board> read(@PathVariable final UUID id,
-                      @RequestHeader(name = "Accept-Language", required = false)
-                      final Locale locale,
-                      final Principal principal) {
+                                      @RequestHeader(name = "Accept-Language",
+                                          required = false) final Locale locale,
+                                      final Principal principal) {
         return ResponseEntity.of(boardService.read(principal.getName(),
-                                                            locale, id));
+                locale, id));
     }
 
     /**
      * Update a Board.
+     *
      * @param id
      * @param principal
      * @param locale
@@ -143,12 +146,12 @@ class BoardAPIController {
     @PutMapping(value = "/{id}", produces = "application/json", consumes =
             "application/json")
     public ResponseEntity<Board> update(@PathVariable final UUID id,
-                                           final Principal
-                                                   principal,
-                     @RequestHeader(name = "Accept-Language", required = false)
-                                            final Locale locale,
-                     @RequestBody final Board
-                                                       board) {
+                                        final Principal
+                                                principal,
+                                        @RequestHeader(name = "Accept-Language",
+                                        required = false) final Locale locale,
+                                        @RequestBody final Board
+                                                board) {
         final Board updatedBoard =
                 boardService.update(id, principal.getName(), locale, board);
         return updatedBoard == null ? ResponseEntity.notFound().build()
@@ -157,6 +160,7 @@ class BoardAPIController {
 
     /**
      * Delete a Board.
+     *
      * @param id
      * @param principal
      * @return board
@@ -171,7 +175,7 @@ class BoardAPIController {
                     description = "board not found")})
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable final
-                                           UUID id,
+                                       UUID id,
                                        final Principal principal) {
         return boardService.delete(principal.getName(),
                 id) ? ResponseEntity.ok().build()
@@ -180,6 +184,7 @@ class BoardAPIController {
 
     /**
      * List the Boards.
+     *
      * @param principal
      * @param locale
      * @return list of board
@@ -195,10 +200,9 @@ class BoardAPIController {
                     description = "invalid credentials")})
     @GetMapping(produces = "application/json")
     public ResponseEntity<List<Board>> list(final Principal
-                                                       principal,
+                                                    principal,
                                         @RequestHeader(name = "Accept-Language",
-                                                required = false)
-                                        final Locale locale) {
+                                        required = false) final Locale locale) {
         final List<Board> boardList = boardService.list(
                 principal.getName(), locale);
         return boardList.isEmpty() ? ResponseEntity.noContent().build()
@@ -208,6 +212,7 @@ class BoardAPIController {
 
     /**
      * List the Grades.
+     *
      * @param principal
      * @param locale
      * @param id
@@ -225,10 +230,9 @@ class BoardAPIController {
     @GetMapping("/{id}/grades")
     public ResponseEntity<List<Grade>> list(final Principal principal,
                                             @RequestHeader
-                                                    (name = "Accept-Language",
-                                                            required = false)
-                                            final Locale locale,
-                                            @PathVariable final UUID id) {
+                                                (name = "Accept-Language",
+                                    required = false) final Locale locale,
+                                    @PathVariable final UUID id) {
         final List<Grade> gradeList = gradeService.list(
                 principal.getName(), locale, id);
         return gradeList.isEmpty() ? ResponseEntity.noContent().build()
@@ -239,6 +243,7 @@ class BoardAPIController {
 
     /**
      * List the subjects as per board and grade.
+     *
      * @param principal
      * @param locale
      * @param boardId
@@ -250,16 +255,16 @@ class BoardAPIController {
             security = @SecurityRequirement(name = "bearerAuth"))
     @ApiResponses(value = {@ApiResponse(responseCode = "200",
             description = "Listing the syllabus with given"
-                     + " board id and grade id"),
+                    + " board id and grade id"),
             @ApiResponse(responseCode = "204",
                     description = "grades are not available"),
             @ApiResponse(responseCode = "401",
                     description = "invalid credentials")})
     @GetMapping("/{boardId}/grades/{gradeId}/subjects")
     public ResponseEntity<List<Subject>> list(final Principal principal,
-                             final Locale locale,
-                             @PathVariable final UUID boardId,
-                         @PathVariable final UUID gradeId) {
+                                              final Locale locale,
+                                          @PathVariable final UUID boardId,
+                                          @PathVariable final UUID gradeId) {
 
         final List<Subject> subjectList = subjectService.list(
                 principal.getName(), locale, boardId, gradeId);
@@ -280,13 +285,13 @@ class BoardAPIController {
                     description = "invalid credentials")})
     @PostMapping("/{boardId}/grades/{gradeId}")
     public ResponseEntity<Void> attachGrade(final Principal principal,
-                                           final Locale locale,
-                                           @PathVariable final UUID boardId,
-                                           @PathVariable final UUID gradeId) {
+                                            final Locale locale,
+                                            @PathVariable final UUID boardId,
+                                            @PathVariable final UUID gradeId) {
         return boardService.attachGrade(principal.getName(), boardId, gradeId)
-                        ? ResponseEntity.created(URI.create("/api/boards"
+                ? ResponseEntity.created(URI.create("/api/boards"
                 + boardId + "/grades" + gradeId)).build()
-                                : ResponseEntity.notFound().build();
+                : ResponseEntity.notFound().build();
     }
 
     @Operation(summary = "attaches grade to the given board",
@@ -301,9 +306,9 @@ class BoardAPIController {
                     description = "invalid credentials")})
     @PostMapping("/{boardId}/grades/{gradeId}/subjects/{subjectId}")
     public ResponseEntity<Void> attachSubject(final Principal principal,
-                                       @PathVariable final UUID boardId,
-                                       @PathVariable final UUID gradeId,
-                                       @PathVariable final UUID subjectId) {
+                                              @PathVariable final UUID boardId,
+                                              @PathVariable final UUID gradeId,
+                                          @PathVariable final UUID subjectId) {
         return boardService.attachSubject(principal.getName(), boardId,
                 gradeId, subjectId)
                 ? ResponseEntity.created(URI.create("/api/boards" + boardId
@@ -324,10 +329,10 @@ class BoardAPIController {
     @PostMapping("/{boardId}/grades/{gradeId}/subjects"
             + "/{subjectId}/books/{bookId}")
     public ResponseEntity<Void> attachBook(final Principal principal,
-                              @PathVariable final UUID boardId,
-                              @PathVariable final UUID gradeId,
-                              @PathVariable final UUID subjectId,
-                              @PathVariable final UUID bookId) {
+                                           @PathVariable final UUID boardId,
+                                           @PathVariable final UUID gradeId,
+                                           @PathVariable final UUID subjectId,
+                                           @PathVariable final UUID bookId) {
         return boardService.attachBook(principal.getName(), boardId,
                 gradeId, subjectId, bookId)
                 ? ResponseEntity.created(URI.create("/api/boards"
@@ -335,8 +340,10 @@ class BoardAPIController {
                 + "/subjects" + subjectId + "/books" + bookId)).build()
                 : ResponseEntity.notFound().build();
     }
+
     /**
      * List the books as per board and grade.
+     *
      * @param principal
      * @param locale
      * @param boardId

@@ -5,7 +5,6 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler;
 import org.springframework.web.util.UriComponentsBuilder;
 
-
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -25,6 +24,7 @@ public class OAuth2AuthenticationFailureHandler
 
     /**
      * OAuth2AuthenticationFailureHandler.
+     *
      * @param aHttpCookieOAuth2AuthorizationRequestRepository request
      */
     public OAuth2AuthenticationFailureHandler(
@@ -37,8 +37,8 @@ public class OAuth2AuthenticationFailureHandler
     /**
      * method defines the process on authentication failure.
      *
-     * @param request request
-     * @param response response
+     * @param request   request
+     * @param response  response
      * @param exception exception
      * @throws IOException exception
      */

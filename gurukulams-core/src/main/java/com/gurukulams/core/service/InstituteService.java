@@ -43,6 +43,7 @@ public final class InstituteService {
 
     /**
      * this is the constructor.
+     *
      * @param anJdbcTemplate
      * @param aDataSource
      */
@@ -61,7 +62,7 @@ public final class InstituteService {
      * @throws SQLException
      */
     private Institute rowMapper(final ResultSet rs,
-                                             final Integer rowNum)
+                                final Integer rowNum)
             throws SQLException {
 
 
@@ -76,14 +77,16 @@ public final class InstituteService {
 
         return institute;
     }
+
     /**
      * inserts data.
-     * @param userName the userName
+     *
+     * @param userName  the userName
      * @param institute the institute
      * @return question optional
      */
     public Institute create(final String userName,
-                                      final Institute institute) {
+                            final Institute institute) {
 
         final SimpleJdbcInsert insert = new SimpleJdbcInsert(dataSource)
                 .withTableName("institutes")
@@ -111,7 +114,8 @@ public final class InstituteService {
 
     /**
      * reads from institute.
-     * @param id the id
+     *
+     * @param id       the id
      * @param userName the userName
      * @return question optional
      */
@@ -133,14 +137,15 @@ public final class InstituteService {
 
     /**
      * update the institute.
-     * @param id the id
-     * @param userName the userName
+     *
+     * @param id        the id
+     * @param userName  the userName
      * @param institute the institute
      * @return question optional
      */
     public Institute update(final UUID id,
-                                     final String userName,
-                                     final Institute institute) {
+                            final String userName,
+                            final Institute institute) {
         logger.debug("Entering Update for Institute {}", id);
         final String query =
                 "UPDATE institutes SET title = ?,"
@@ -157,7 +162,8 @@ public final class InstituteService {
 
     /**
      * delete the institute.
-     * @param id the id
+     *
+     * @param id       the id
      * @param userName the userName
      * @return false
      */
@@ -171,6 +177,7 @@ public final class InstituteService {
 
     /**
      * list of institutes.
+     *
      * @param userName the userName
      * @return institutes list
      */

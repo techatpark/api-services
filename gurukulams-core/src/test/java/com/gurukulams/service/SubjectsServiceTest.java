@@ -122,7 +122,7 @@ public class SubjectsServiceTest {
     @Test
     void testLocalizationFromDefaultWithoutLocale() {
         // Create a Subject for Default Language
-        final Board board = boardService.create("mani",null,
+        final Board board = boardService.create("mani", null,
                 anBoard());
         final Grade grade = gradeService.create("tom", null, aGrade());
         final Subject subject = subjectService.create("mani", null,
@@ -130,17 +130,17 @@ public class SubjectsServiceTest {
 
         testLocalization(subject);
 
-        listbyBoardandgrade(board, grade, subject , null);
+        listbyBoardandgrade(board, grade, subject, null);
 
     }
 
     @Test
     void testLocalizationFromCreateWithLocale() {
         // Create a Subject for GERMAN Language
-        final Board board = boardService.create("mani",Locale.GERMAN,
+        final Board board = boardService.create("mani", Locale.GERMAN,
                 anBoard());
         final Grade grade = gradeService.create("tom", Locale.GERMAN, aGrade());
-        final Subject subject = subjectService.create("mani",Locale.GERMAN,
+        final Subject subject = subjectService.create("mani", Locale.GERMAN,
                 anSubject());
 
         testLocalization(subject);
@@ -152,18 +152,18 @@ public class SubjectsServiceTest {
     void testLocalization(Subject subject) {
 
         // Update for China Language
-        subjectService.update(subject.id(),"mani", Locale.FRENCH,anSubject(subject,
+        subjectService.update(subject.id(), "mani", Locale.FRENCH, anSubject(subject,
                 STATE_SUBJECT_TITLE_IN_FRENCH,
                 STATE_SUBJECT_DESCRIPTION_IN_FRENCH));
 
         // Get for french Language
-        Subject createSubject = subjectService.read("mani",Locale.FRENCH,
+        Subject createSubject = subjectService.read("mani", Locale.FRENCH,
                 subject.id()).get();
         Assertions.assertEquals(STATE_SUBJECT_TITLE_IN_FRENCH, createSubject.title());
         Assertions.assertEquals(STATE_SUBJECT_DESCRIPTION_IN_FRENCH, createSubject.description());
 
         final UUID id = createSubject.id();
-        createSubject = subjectService.list("mani",Locale.FRENCH)
+        createSubject = subjectService.list("mani", Locale.FRENCH)
                 .stream()
                 .filter(subject1 -> subject1.id().equals(id))
                 .findFirst().get();
@@ -172,12 +172,12 @@ public class SubjectsServiceTest {
                 createSubject.description());
 
         // Get for France which does not have data
-        createSubject = subjectService.read("mani",Locale.CHINESE,
+        createSubject = subjectService.read("mani", Locale.CHINESE,
                 subject.id()).get();
         Assertions.assertEquals(STATE_SUBJECT_IN_ENGLISH, createSubject.title());
         Assertions.assertEquals(STATE_SUBJECT_DESCRIPTION_IN_ENGLISH, createSubject.description());
 
-        createSubject = subjectService.list("mani",Locale.CHINESE)
+        createSubject = subjectService.list("mani", Locale.CHINESE)
                 .stream()
                 .filter(subject1 -> subject1.id().equals(id))
                 .findFirst().get();
@@ -187,27 +187,26 @@ public class SubjectsServiceTest {
 
     }
 
-    void listbyBoardandgrade(Board board, Grade grade , Subject subject , Locale locale) {
+    void listbyBoardandgrade(Board board, Grade grade, Subject subject, Locale locale) {
 
-        Assertions.assertTrue(boardService.attachSubject("tom", board.id(), grade.id(), subject.id()),"Unable to add grade to board");
+        Assertions.assertTrue(boardService.attachSubject("tom", board.id(), grade.id(), subject.id()), "Unable to add grade to board");
 
         final UUID id = subject.id();
-        Subject getSubject = subjectService.list("tom",locale , board.id(), grade.id()).stream()
+        Subject getSubject = subjectService.list("tom", locale, board.id(), grade.id()).stream()
                 .filter(subject1 -> subject1.id().equals(id))
                 .findFirst().get();
 
-        if(locale == null){
+        if (locale == null) {
 
             Assertions.assertEquals(STATE_SUBJECT_IN_ENGLISH, getSubject.title());
             Assertions.assertEquals(STATE_SUBJECT_DESCRIPTION_IN_ENGLISH, getSubject.description());
 
-        }else{
+        } else {
 
             Assertions.assertEquals(STATE_SUBJECT_TITLE_IN_FRENCH, getSubject.title());
             Assertions.assertEquals(STATE_SUBJECT_DESCRIPTION_IN_FRENCH, getSubject.description());
 
         }
-
 
 
     }
@@ -230,7 +229,7 @@ public class SubjectsServiceTest {
      *
      * @return the subject
      */
-    Subject anSubject(final Subject ref,final String title,final String description) {
+    Subject anSubject(final Subject ref, final String title, final String description) {
         return new Subject(ref.id(), title,
                 description, ref.created_at(), ref.created_by(),
                 ref.modified_at(), ref.modified_by());
@@ -238,7 +237,7 @@ public class SubjectsServiceTest {
 
     Grade aGrade() {
 
-        Grade grade = new Grade(null, "Student Grade"+ new Date().getTime(),
+        Grade grade = new Grade(null, "Student Grade" + new Date().getTime(),
                 "A " + "Grade", null, null,
                 null, null);
         return grade;
@@ -257,7 +256,6 @@ public class SubjectsServiceTest {
                 null, null);
         return board;
     }
-
 
 
 }

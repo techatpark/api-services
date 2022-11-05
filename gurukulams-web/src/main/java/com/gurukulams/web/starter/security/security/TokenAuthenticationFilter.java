@@ -39,7 +39,8 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
 
     /**
      * TokenAuthenticationFilter.
-     * @param aTokenProvider token provider
+     *
+     * @param aTokenProvider            token provider
      * @param aCustomUserDetailsService customer user detail service
      */
     public TokenAuthenticationFilter(final TokenProvider aTokenProvider,
@@ -52,8 +53,8 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
     /**
      * override method to.
      *
-     * @param request request
-     * @param response response
+     * @param request     request
+     * @param response    response
      * @param filterChain filterchain
      */
     @Override

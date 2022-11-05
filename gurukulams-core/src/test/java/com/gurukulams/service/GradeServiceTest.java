@@ -17,10 +17,6 @@ import java.util.List;
 import java.util.Locale;
 import java.util.UUID;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
 @SpringBootTest
 public class GradeServiceTest {
 
@@ -58,18 +54,18 @@ public class GradeServiceTest {
     }
 
     @Test
-    void create(){
-        final Board board = boardService.create("mani",null,
+    void create() {
+        final Board board = boardService.create("mani", null,
                 aBoard());
         final Grade grade = gradeService.create("mani", null,
                 aGrade());
-        Assertions.assertTrue(gradeService.read("mani", null,grade.id()).isPresent(),
+        Assertions.assertTrue(gradeService.read("mani", null, grade.id()).isPresent(),
                 "Created Grade");
     }
 
     @Test
     void read() {
-        final Board board = boardService.create("mani",null,
+        final Board board = boardService.create("mani", null,
                 aBoard());
         final Grade grade = gradeService.create("mani", null,
                 aGrade());
@@ -81,7 +77,7 @@ public class GradeServiceTest {
 
     @Test
     void update() {
-        final Board board = boardService.create("mani",null,
+        final Board board = boardService.create("mani", null,
                 aBoard());
         final Grade grade = gradeService.create("mani", null,
                 aGrade());
@@ -89,7 +85,7 @@ public class GradeServiceTest {
         Grade newGrade = new Grade(null, "Grade", "A " +
                 "Grade", null, "tom", null, null);
         Grade updatedGrade = gradeService
-                .update(newGradeId, "manikanta", null,  newGrade);
+                .update(newGradeId, "manikanta", null, newGrade);
         Assertions.assertEquals("Grade", updatedGrade.title(), "Updated");
 
         Assertions.assertThrows(IllegalArgumentException.class, () -> {
@@ -101,12 +97,12 @@ public class GradeServiceTest {
     @Test
     void delete() {
 
-        final Board board = boardService.create("mani",null,
+        final Board board = boardService.create("mani", null,
                 aBoard());
         final Grade grade = gradeService.create("mani", null,
                 aGrade());
-        gradeService.delete("mani",grade.id());
-        Assertions.assertFalse(gradeService.read("mani", null,grade.id()).isPresent(),
+        gradeService.delete("mani", grade.id());
+        Assertions.assertFalse(gradeService.read("mani", null, grade.id()).isPresent(),
                 "Deleted Grade");
 
     }
@@ -114,7 +110,7 @@ public class GradeServiceTest {
     @Test
     void list() {
 
-        final Board board = boardService.create("mani",null,
+        final Board board = boardService.create("mani", null,
                 aBoard());
         final Grade grade = gradeService.create("manikanta", null,
                 aGrade());
@@ -128,17 +124,16 @@ public class GradeServiceTest {
     }
 
 
-
     @Test
     void testLocalizationFromDefaultWithoutLocale() {
         // Create a Grade without locale
-        final Board board = boardService.create("mani",null,
+        final Board board = boardService.create("mani", null,
                 aBoard());
-        final Grade grade = gradeService.create("mani",null,
+        final Grade grade = gradeService.create("mani", null,
                 aGrade());
 
         testLocalization(grade);
-        listByBoard(board,grade, null);
+        listByBoard(board, grade, null);
 
     }
 
@@ -149,11 +144,11 @@ public class GradeServiceTest {
         final Board board = boardService.create("mani", Locale.FRENCH,
                 aBoard());
 
-        final Grade grade = gradeService.create("mani",Locale.GERMAN,
+        final Grade grade = gradeService.create("mani", Locale.GERMAN,
                 aGrade());
 
         testLocalization(grade);
-        listByBoard(board, grade , Locale.FRENCH);
+        listByBoard(board, grade, Locale.FRENCH);
 
 
     }
@@ -161,32 +156,32 @@ public class GradeServiceTest {
     void testLocalization(Grade grade) {
 
         // Update for French Language
-        gradeService.update(grade.id(),"mani", Locale.FRENCH,aGrade(grade,
+        gradeService.update(grade.id(), "mani", Locale.FRENCH, aGrade(grade,
                 STATE_BOARD_TITLE_IN_FRENCH,
                 STATE_BOARD_DESCRIPTION_IN_FRENCH));
 
         // Get for french Language
-        Grade createGrade = gradeService.read("mani",Locale.FRENCH,
+        Grade createGrade = gradeService.read("mani", Locale.FRENCH,
                 grade.id()).get();
         Assertions.assertEquals(STATE_BOARD_TITLE_IN_FRENCH, createGrade.title());
         Assertions.assertEquals(STATE_BOARD_DESCRIPTION_IN_FRENCH, createGrade.description());
 
         final UUID id = createGrade.id();
-        createGrade = gradeService.list("mani",Locale.FRENCH)
+        createGrade = gradeService.list("mani", Locale.FRENCH)
                 .stream()
                 .filter(grade1 -> grade1.id().equals(id))
                 .findFirst().get();
-        Assertions. assertEquals(STATE_BOARD_TITLE_IN_FRENCH, createGrade.title());
+        Assertions.assertEquals(STATE_BOARD_TITLE_IN_FRENCH, createGrade.title());
         Assertions.assertEquals(STATE_BOARD_DESCRIPTION_IN_FRENCH,
                 createGrade.description());
 
         // Get for Chinese which does not have data
-        createGrade = gradeService.read("mani",Locale.CHINESE,
+        createGrade = gradeService.read("mani", Locale.CHINESE,
                 grade.id()).get();
         Assertions.assertEquals(STATE_BOARD_IN_ENGLISH, createGrade.title());
         Assertions.assertEquals(STATE_BOARD_DESCRIPTION_IN_ENGLISH, createGrade.description());
 
-        createGrade = gradeService.list("mani",Locale.CHINESE)
+        createGrade = gradeService.list("mani", Locale.CHINESE)
                 .stream()
                 .filter(grade1 -> grade1.id().equals(id))
                 .findFirst().get();
@@ -196,25 +191,25 @@ public class GradeServiceTest {
 
     }
 
-    void listByBoard(Board board , Grade grade , Locale locale) {
+    void listByBoard(Board board, Grade grade, Locale locale) {
 
-        Assertions.assertTrue(boardService.attachGrade("tom", board.id(), grade.id()),"Unable to add grade to board");
+        Assertions.assertTrue(boardService.attachGrade("tom", board.id(), grade.id()), "Unable to add grade to board");
         final UUID id = grade.id();
-        Grade getGrade = gradeService.list("tom",locale, board.id()).stream()
+        Grade getGrade = gradeService.list("tom", locale, board.id()).stream()
                 .filter(grade1 -> grade1.id().equals(id))
                 .findFirst().get();
 
-      if(locale == null){
+        if (locale == null) {
 
-          Assertions.assertEquals(STATE_BOARD_IN_ENGLISH, getGrade.title());
-          Assertions.assertEquals(STATE_BOARD_DESCRIPTION_IN_ENGLISH, getGrade.description());
+            Assertions.assertEquals(STATE_BOARD_IN_ENGLISH, getGrade.title());
+            Assertions.assertEquals(STATE_BOARD_DESCRIPTION_IN_ENGLISH, getGrade.description());
 
-      }else{
+        } else {
 
-          Assertions.assertEquals(STATE_BOARD_TITLE_IN_FRENCH, getGrade.title());
-          Assertions.assertEquals(STATE_BOARD_DESCRIPTION_IN_FRENCH, getGrade.description());
+            Assertions.assertEquals(STATE_BOARD_TITLE_IN_FRENCH, getGrade.title());
+            Assertions.assertEquals(STATE_BOARD_DESCRIPTION_IN_FRENCH, getGrade.description());
 
-      }
+        }
 
     }
 
@@ -225,7 +220,7 @@ public class GradeServiceTest {
      */
     Grade aGrade() {
 
-        Grade grade = new Grade(null, STATE_BOARD_IN_ENGLISH ,
+        Grade grade = new Grade(null, STATE_BOARD_IN_ENGLISH,
                 STATE_BOARD_DESCRIPTION_IN_ENGLISH, null, null,
                 null, null);
         return grade;
@@ -236,7 +231,7 @@ public class GradeServiceTest {
      *
      * @return the board
      */
-    Grade aGrade(final Grade ref,final String title,final String description) {
+    Grade aGrade(final Grade ref, final String title, final String description) {
         return new Grade(ref.id(), title,
                 description, ref.created_at(), ref.created_by(),
                 ref.modified_at(), ref.modified_by());

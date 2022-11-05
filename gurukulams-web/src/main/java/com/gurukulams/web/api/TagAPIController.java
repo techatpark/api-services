@@ -1,6 +1,5 @@
 package com.gurukulams.web.api;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.gurukulams.core.model.Tag;
 import com.gurukulams.core.service.TagService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -57,10 +56,9 @@ class TagAPIController {
     @PostMapping(produces = "application/json", consumes = "application/json")
     public ResponseEntity<Tag> create(final Principal principal,
                                       @RequestHeader(name = "Accept-Language",
-                                              required = false)
-                                      final Locale locale,
-                                                      final @RequestBody
-                                                     Tag tag) {
+                                      required = false) final Locale locale,
+                                      final @RequestBody
+                                              Tag tag) {
         Tag createdTag =
                 tagService.create(principal.getName(), locale, tag);
         return ResponseEntity.created(URI.create("/api/syllabus"
@@ -80,10 +78,10 @@ class TagAPIController {
     @GetMapping(value = "/{id}", produces = "application/json")
     public ResponseEntity<Tag> read(final @PathVariable String id,
                                     @RequestHeader(name = "Accept-Language",
-                                            required = false)
-                                    final Locale locale,
-                                         final Principal principal) {
-    return ResponseEntity.of(tagService.read(principal.getName(), id, locale));
+                                required = false) final Locale locale,
+                                    final Principal principal) {
+        return ResponseEntity.of(
+                tagService.read(principal.getName(), id, locale));
     }
 
     @Operation(summary = "Updates the tag by given id",
@@ -100,17 +98,15 @@ class TagAPIController {
                     description = "tag not found")})
     @PutMapping(value = "/{id}", produces = "application/json", consumes =
             "application/json")
-    public ResponseEntity<Tag> update(final@PathVariable
-                                                String id,
-                                                     final Principal
-                                                             principal,
+    public ResponseEntity<Tag> update(final @PathVariable
+                                              String id,
+                                      final Principal
+                                              principal,
                                       @RequestHeader(name = "Accept-Language",
-                                              required = false)
-                                          final Locale locale,
-                                                     final @RequestBody
-                                                                  Tag
-                                                                  tag)
-            throws JsonProcessingException {
+                                      required = false) final Locale locale,
+                                      final @RequestBody
+                                              Tag
+                                              tag) {
         final Tag updatedTag =
                 tagService.update(id, principal.getName(), locale, tag);
         return ResponseEntity.ok(updatedTag);
@@ -145,19 +141,14 @@ class TagAPIController {
                     description = "invalid credentials")})
     @GetMapping(produces = "application/json")
     public ResponseEntity<List<Tag>> list(final Principal
-                                                       principal,
-                                      @RequestHeader(name = "Accept-Language",
-                                              required = false)
-                                          final Locale locale) {
+                                                  principal,
+                              @RequestHeader(name = "Accept-Language",
+                              required = false) final Locale locale) {
         final List<Tag> tagList = tagService.list(
                 principal.getName(), locale);
         return tagList.isEmpty() ? ResponseEntity.noContent().build()
                 : ResponseEntity.ok(tagList);
     }
-
-
-
-
 
 
 }

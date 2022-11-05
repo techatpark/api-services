@@ -1,6 +1,5 @@
 package com.gurukulams.core.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import javax.validation.constraints.NotBlank;
@@ -17,12 +16,6 @@ public class Question {
      */
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private UUID id;
-
-    /**
-     * tells the exam_id of the question.
-     */
-    @JsonIgnore
-    private UUID examId;
 
     /**
      * this is the question.
@@ -51,7 +44,6 @@ public class Question {
      */
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private Instant createdAt;
-
 
 
     /**
@@ -108,24 +100,6 @@ public class Question {
     }
 
     /**
-     * gets the exam id.
-     *
-     * @return exam_id exam id
-     */
-    public UUID getExamId() {
-        return examId;
-    }
-
-    /**
-     * sets the examid of question.
-     *
-     * @param anExamId the an exam id
-     */
-    public void setExamId(final UUID anExamId) {
-        this.examId = anExamId;
-    }
-
-    /**
      * gets the question.
      *
      * @return question question
@@ -145,6 +119,7 @@ public class Question {
 
     /**
      * Gets Explanation.
+     *
      * @return explanation
      */
     public String getExplanation() {
@@ -153,6 +128,7 @@ public class Question {
 
     /**
      * Sets Explanation.
+     *
      * @param anExplanation
      */
     public void setExplanation(final String anExplanation) {
@@ -215,6 +191,7 @@ public class Question {
 
     /**
      * sets created at.
+     *
      * @return createdAt
      */
     public Instant getCreatedAt() {
@@ -223,6 +200,7 @@ public class Question {
 
     /**
      * gets created At.
+     *
      * @param aCreatedAt the created at
      */
     public void setCreatedAt(final Instant aCreatedAt) {
@@ -231,6 +209,7 @@ public class Question {
 
     /**
      * gets updated at.
+     *
      * @return updatedAt
      */
     public Instant getUpdatedAt() {
@@ -239,6 +218,7 @@ public class Question {
 
     /**
      * Sets updated at.
+     *
      * @param aupdatedAt
      */
     public void setUpdatedAt(final Instant aupdatedAt) {

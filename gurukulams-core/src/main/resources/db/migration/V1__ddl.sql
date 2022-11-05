@@ -1,27 +1,5 @@
-CREATE TABLE practices (
-  id UUID PRIMARY KEY,
-  title VARCHAR(55) NOT NULL,
-  description TEXT,
-  type VARCHAR(55) NOT NULL,
-  meta_data TEXT,
-  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-  created_by VARCHAR(55) NOT NULL,
-  modified_at TIMESTAMP,
-  modified_by VARCHAR(200)
-);
-
-CREATE TABLE practices_localized (
-    practice_id UUID,
-    locale VARCHAR(8) NOT NULL,
-    title VARCHAR(55),
-    description TEXT,
-    FOREIGN KEY (practice_id) REFERENCES practices (id),
-    PRIMARY KEY(practice_id, locale)
-);
-
 CREATE TABLE questions (
   id UUID PRIMARY KEY,
-  exam_id UUID NOT NULL,
   question TEXT NOT NULL,
   explanation TEXT NOT NULL,
   type VARCHAR(55) NOT NULL,
@@ -29,8 +7,7 @@ CREATE TABLE questions (
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   created_by VARCHAR(55) NOT NULL,
   modified_at TIMESTAMP,
-  modified_by VARCHAR(200),
-  FOREIGN KEY (exam_id) REFERENCES practices (id)
+  modified_by VARCHAR(200)
 );
 
 CREATE TABLE questions_localized (
@@ -210,14 +187,6 @@ CREATE TABLE boards_grades_subjects_books(
     FOREIGN KEY (board_id) REFERENCES boards (id),
     FOREIGN KEY (grade_id) REFERENCES grades (id),
     FOREIGN KEY (subject_id) REFERENCES subjects (id),
-    FOREIGN KEY (book_id) REFERENCES books (id)
-);
-
-CREATE TABLE practices_books (
-    practice_id UUID NOT NULL,
-    book_id UUID NOT NULL,
-    PRIMARY KEY(practice_id, book_id),
-    FOREIGN KEY (practice_id) REFERENCES practices (id),
     FOREIGN KEY (book_id) REFERENCES books (id)
 );
 

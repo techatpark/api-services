@@ -40,7 +40,6 @@ public class Practice {
     private Instant createdAt;
 
 
-
     /**
      * created_by of exam.
      */
@@ -122,6 +121,7 @@ public class Practice {
 
     /**
      * sets created at.
+     *
      * @return createdAt
      */
     public Instant getCreatedAt() {
@@ -130,6 +130,7 @@ public class Practice {
 
     /**
      * gets created At.
+     *
      * @param aCreatedAt the created at
      */
     public void setCreatedAt(final Instant aCreatedAt) {
@@ -138,6 +139,7 @@ public class Practice {
 
     /**
      * gets updated at.
+     *
      * @return updatedAt
      */
     public Instant getUpdatedAt() {
@@ -146,6 +148,7 @@ public class Practice {
 
     /**
      * Sets updated at.
+     *
      * @param aupdatedAt
      */
     public void setUpdatedAt(final Instant aupdatedAt) {

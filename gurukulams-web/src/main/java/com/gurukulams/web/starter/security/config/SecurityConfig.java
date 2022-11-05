@@ -78,11 +78,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     /**
      * By default, Spring OAuth2 uses
      * HttpSessionOAuth2AuthorizationRequestRepository to save.
-     *
-     *  the authorization request. But, since our service is stateless,
-     *      we can't save it in
-     *      the session. We'll save the request in a
-     *      Base64 encoded cookie instead.
+     * <p>
+     * the authorization request. But, since our service is stateless,
+     * we can't save it in
+     * the session. We'll save the request in a
+     * Base64 encoded cookie instead.
      */
     private final HttpCookieOAuth2AuthorizationRequestRepository
             cookieAuthorizationRequestRepository;
@@ -97,9 +97,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
      * Creates Security Config.
      *
      * @param alearnerService
-     * @param appProperties  properties
-     * @param environment    environment
-     * @param aCacheManager  aCacheManager
+     * @param appProperties   properties
+     * @param environment     environment
+     * @param aCacheManager   aCacheManager
      */
     public SecurityConfig(final LearnerService alearnerService,
                           final AppProperties appProperties,
@@ -116,7 +116,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 cookieAuthorizationRequestRepository);
         oAuth2AuthenticationFailureHandler = new
                 OAuth2AuthenticationFailureHandler(
-                        cookieAuthorizationRequestRepository);
+                cookieAuthorizationRequestRepository);
         passwordEncoder = new BCryptPasswordEncoder();
         customUserDetailsService = new CustomUserDetailsService(
                 passwordEncoder, environment, this.learnerService);
@@ -128,14 +128,17 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     /**
      * passwordEncoder.
+     *
      * @return passwordEncoder
      */
     @Bean
     PasswordEncoder passwordEncoder() {
         return passwordEncoder;
     }
+
     /**
      * customUserDetailsService.
+     *
      * @return customUserDetailsService
      */
     @Bean

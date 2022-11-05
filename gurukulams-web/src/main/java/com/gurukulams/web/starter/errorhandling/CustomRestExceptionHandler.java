@@ -38,7 +38,6 @@ public final class CustomRestExceptionHandler
     }
 
     /**
-     *
      * @param exception
      * @param request
      * @return ResponseEntity
@@ -61,7 +60,6 @@ public final class CustomRestExceptionHandler
     }
 
     /**
-     *
      * @param exception
      * @param request
      * @return ResponseEntity

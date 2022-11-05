@@ -1,9 +1,9 @@
 package com.gurukulams.web.starter.security.controller;
 
-import com.gurukulams.core.service.LearnerService;
 import com.gurukulams.core.payload.AuthenticationRequest;
 import com.gurukulams.core.payload.AuthenticationResponse;
 import com.gurukulams.core.payload.SignupRequest;
+import com.gurukulams.core.service.LearnerService;
 import com.gurukulams.web.starter.security.security.TokenProvider;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -83,14 +83,12 @@ class AuthenticationAPIController {
      */
     @Operation(summary = "Signup the User")
     @PostMapping("/signup")
-    public ResponseEntity<Void> registerUser(final
-                                               @RequestBody
-                                                 SignupRequest signUpRequest) {
+    public ResponseEntity<Void> registerUser(
+            final @RequestBody SignupRequest signUpRequest) {
         userDetailsService.signUp(signUpRequest,
                 s -> passwordEncoder.encode(s));
         return ResponseEntity.ok().build();
     }
-
 
 
     /**
@@ -124,13 +122,14 @@ class AuthenticationAPIController {
                         "Refresh",
                         userDetailsService.readByEmail("System",
                                         authenticationRequest
-                                .getUserName())
+                                                .getUserName())
                                 .get().imageUrl());
         return ResponseEntity.ok().body(authenticationResponse);
     }
 
     /**
      * logout an user.
+     *
      * @param request
      * @return void response entity
      */
@@ -171,7 +170,7 @@ class AuthenticationAPIController {
                         "Refresh",
                         userDetailsService.readByEmail("System",
                                         principal
-                                .getName())
+                                                .getName())
                                 .get().imageUrl());
         return ResponseEntity.ok().body(authenticationResponse);
     }
