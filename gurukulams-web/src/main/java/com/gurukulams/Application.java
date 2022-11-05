@@ -9,6 +9,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.context.event.EventListener;
 
+import java.io.IOException;
+
 
 /**
  * The type Application.
@@ -41,8 +43,10 @@ public class Application {
      * @param event
      */
     @EventListener
-    public void onApplicationEvent(final ContextRefreshedEvent event) {
+    public void onApplicationEvent(final ContextRefreshedEvent event)
+            throws IOException {
         logger.info("Application Started", event.getTimestamp());
         boardMaker.createAllBoards("tom");
+        boardMaker.createAllQuestions("tom");
     }
 }

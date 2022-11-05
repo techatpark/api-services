@@ -1,0 +1,20 @@
+{
+  "question": "D",
+  "explanation": "",
+  "type": "CHOOSE_THE_BEST",
+  "choices": [
+    {
+      "value": "1"
+    },
+    {
+      "value": "2",
+      "answer": true
+    },
+    {
+      "value": "4"
+    },
+    {
+      "value": "6"
+    }
+  ]
+}

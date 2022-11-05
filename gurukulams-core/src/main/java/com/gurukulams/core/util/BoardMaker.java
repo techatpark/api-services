@@ -1,13 +1,17 @@
 package com.gurukulams.core.util;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.gurukulams.core.model.Board;
 import com.gurukulams.core.model.Book;
 import com.gurukulams.core.model.Grade;
+import com.gurukulams.core.model.Question;
+import com.gurukulams.core.model.QuestionType;
 import com.gurukulams.core.model.Subject;
 import com.gurukulams.core.service.BoardService;
 import com.gurukulams.core.service.BookService;
 import com.gurukulams.core.service.GradeService;
+import com.gurukulams.core.service.QuestionService;
 import com.gurukulams.core.service.SubjectService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -15,10 +19,13 @@ import org.springframework.stereotype.Component;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 @Component
 public class BoardMaker {
@@ -45,6 +52,12 @@ public class BoardMaker {
     private BookService bookService;
 
     /**
+     * Question Service.
+     */
+    @Autowired
+    private QuestionService questionService;
+
+    /**
      * Json Mapper.
      */
     @Autowired
@@ -53,11 +66,11 @@ public class BoardMaker {
     /**
      * Seed Folder.
      */
-    @Value("${app.seed.folder:src/main/resources/data/boards}")
+    @Value("${app.seed.folder:src/main/resources/data}")
     private String seedFolder;
 
     /**
-     * Crea All Boards.
+     * Create All Boards.
      * @param userName
      */
     public void createAllBoards(final String userName) {
@@ -66,7 +79,7 @@ public class BoardMaker {
             boardService.deleteAll();
 
             List<File> boardFiles = List.of(
-                    Objects.requireNonNull(new File(seedFolder)
+                    Objects.requireNonNull(new File(seedFolder, "boards")
                             .listFiles((dir, name)
                                     -> name.endsWith(".json")
                                     && !name.contains("-"))));
@@ -277,6 +290,75 @@ public class BoardMaker {
         });
 
         return createdBook;
+    }
+
+    /**
+     * Create All Questions.
+     * @param userName
+     */
+    public void createAllQuestions(final String userName) throws IOException {
+
+        if (seedFolder != null) {
+            questionService.delete();
+            File questionsFolder = new File(seedFolder, "questions");
+            Files.find(Path.of(questionsFolder.getPath()),
+                            Integer.MAX_VALUE,
+                            (filePath, fileAttr)
+                            -> fileAttr.isRegularFile()
+                            && !filePath.toFile().getName().contains("-"))
+                    .forEach(path -> {
+                        try {
+                            createQuestion(userName, path.toFile());
+                        } catch (JsonProcessingException e) {
+                            throw new RuntimeException(e);
+                        }
+                    });
+        }
+
+    }
+
+    private Question createQuestion(final String userName,
+                               final File questionFile)
+            throws JsonProcessingException {
+        Question question = getObject(questionFile, Question.class);
+        final String nameOfQuestion = questionFile.getName()
+                .replaceFirst(".json", "");
+        String thePath = questionFile.getPath().split("/questions/")[1];
+        List<String> tokens = new ArrayList<>(List.of(thePath.split("/")));
+        String bookName = tokens.remove(0);
+        tokens.remove(tokens.size() - 1);
+        String chapterPath = tokens.stream().collect(Collectors.joining("/"));
+        Question createdQuestion = questionService.create(
+                bookName, QuestionType.CHOOSE_THE_BEST,
+                null, question, userName, chapterPath).get();
+
+        List<File> questionLocalizedFiles = List.of(
+                Objects.requireNonNull(questionFile.getParentFile()
+                        .listFiles((dir, name) -> name.endsWith(".json")
+                                && name.contains(nameOfQuestion + "-"))));
+
+        questionLocalizedFiles.forEach(questionLocalizedFile -> {
+            Locale locale = new Locale(questionLocalizedFile.getName()
+                    .replaceFirst(nameOfQuestion + "-", "")
+                    .replaceFirst(".json", ""));
+            final Question questionLocalized =
+                    getObject(questionLocalizedFile, Question.class);
+            questionLocalized.setId(createdQuestion.getId());
+            for (int i = 0; i < createdQuestion.getChoices().size(); i++) {
+                questionLocalized.getChoices().get(i)
+                        .setId(createdQuestion.getChoices().get(i).getId());
+            }
+            try {
+                questionService.update(
+                        bookName, QuestionType.CHOOSE_THE_BEST,
+                        createdQuestion.getId(), locale, questionLocalized,
+                        chapterPath).get();
+            } catch (JsonProcessingException e) {
+                throw new RuntimeException(e);
+            }
+        });
+
+        return createdQuestion;
     }
 
 
