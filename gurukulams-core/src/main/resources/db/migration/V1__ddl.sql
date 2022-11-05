@@ -24,7 +24,6 @@ CREATE TABLE questions (
   exam_id UUID NOT NULL,
   question TEXT NOT NULL,
   explanation TEXT NOT NULL,
-  chapter_path VARCHAR(500),
   type VARCHAR(55) NOT NULL,
   answer VARCHAR(500),
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,

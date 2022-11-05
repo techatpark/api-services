@@ -443,15 +443,16 @@ public class BookService {
      * @param userName the username
      * @param bookName the username
      * @param locale the locale
-     * @param chapterPath the chapterPath
+     * @param tagsPath the tagsPath
      * @return the optional
      */
     public List<Question> listAllQuestions(final String userName,
                                     final String bookName,
                                            final Locale locale,
-                                           final String chapterPath)
+                                           final String tagsPath)
             throws JsonProcessingException {
-        return questionService.list(userName, bookName, locale, chapterPath);
+        return questionService.list(userName, bookName, locale,
+                List.of(tagsPath.split("/")));
 
     }
 
@@ -470,7 +471,7 @@ public class BookService {
      * @param bookName bookName
      * @param questionType the questionType
      * @param question question
-     * @param chapterPath chapterPath
+     * @param tags tags
      * @param locale the locale
      * @param createdBy createdBy
      * @return successflag boolean
@@ -480,12 +481,12 @@ public class BookService {
                                               final Locale locale,
                                               final String createdBy,
                                               final Question question,
-                                              final String chapterPath)
+                                              final List<String> tags)
             throws JsonProcessingException {
 
 
         return questionService.create(bookName, questionType, locale,
-                question, createdBy, chapterPath);
+                question, createdBy, tags);
     }
 
     //create a function to delete, it must done inside question service

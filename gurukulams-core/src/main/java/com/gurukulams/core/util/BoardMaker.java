@@ -360,7 +360,7 @@ public class BoardMaker {
         String chapterPath = tokens.stream().collect(Collectors.joining("/"));
         Question createdQuestion = questionService.create(
                 bookName, QuestionType.CHOOSE_THE_BEST,
-                null, question, userName, chapterPath).get();
+                null, question, userName, tokens).get();
 
         List<File> questionLocalizedFiles = List.of(
                 Objects.requireNonNull(questionFile.getParentFile()

@@ -24,6 +24,7 @@ import java.sql.Date;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -147,7 +148,7 @@ public class QuestionService {
      * inserts data.
      *
      * @param practiceId  the practice id
-     * @param tagsPath the tagsPath
+     * @param tags the tags
      * @param type        the type
      * @param locale the locale
      * @param createdBy    the createdBy
@@ -156,7 +157,7 @@ public class QuestionService {
      */
     @Transactional
     public Optional<Question> create(final UUID practiceId,
-                                     final String tagsPath,
+                                     final List<String> tags,
                                      final QuestionType type,
                                      final Locale locale,
                                      final String createdBy,
@@ -170,14 +171,13 @@ public class QuestionService {
                             .withTableName("questions")
                             .usingColumns("id", "exam_id",
                                     "question", "explanation",
-                                    "chapter_path", "type",
+                                     "type",
                                    "created_By", "answer");
 
             final Map<String, Object> valueMap = new HashMap<>();
             valueMap.put("exam_id", practiceId);
             valueMap.put("question", question.getQuestion());
             valueMap.put("explanation", question.getExplanation());
-            valueMap.put("chapter_path", tagsPath);
             valueMap.put("type", type);
             valueMap.put("created_by", createdBy);
             valueMap.put("answer", question.getAnswer());
@@ -201,7 +201,6 @@ public class QuestionService {
                 createChoices(question.getChoices(), locale, id);
             }
 
-            List<String> tags = List.of(tagsPath.split("/"));
             tags.forEach(tag -> attachTag(id, tag));
 
             return read(id, locale);
@@ -286,7 +285,7 @@ public class QuestionService {
      * @param question     the question
      * @param createdBy    the createdBy
      * @param locale       the locale
-     * @param chapterPath  chapterPath
+     * @param tags  tags
      * @return question optional
      */
     public Optional<Question> create(final String bookName,
@@ -294,12 +293,12 @@ public class QuestionService {
                                      final Locale locale,
                                      final Question question,
                                      final String createdBy,
-                                     final String chapterPath)
+                                     final List<String> tags)
             throws JsonProcessingException {
 
         Practice practice = practiceService.getQuestionBank(bookName, locale);
 
-        return create(practice.getId(), chapterPath,
+        return create(practice.getId(), tags,
                 questionType, locale, createdBy, question);
 
     }
@@ -356,7 +355,7 @@ public class QuestionService {
                                    final Locale locale) {
         final String query = locale == null
                 ? "SELECT id,exam_id,question,explanation"
-                        + ",created_by,chapter_path,type,"
+                        + ",created_by,type,"
                         + "answer,created_at,modified_at FROM "
                         + "questions WHERE"
                         + " id = ?"
@@ -369,7 +368,7 @@ public class QuestionService {
                 + "THEN ql.explanation "
                 + "ELSE q.explanation "
                 + "END AS explanation,"
-                + "created_by,chapter_path,type,"
+                + "created_by,type,"
                 + "answer,created_at,modified_at FROM "
                 + "questions q LEFT JOIN questions_localized ql ON "
                 + "q.ID = ql.QUESTION_ID WHERE"
@@ -647,7 +646,7 @@ public class QuestionService {
                 + "THEN ql.explanation "
                 + "ELSE q.explanation "
                 + "END AS explanation,"
-                + "created_by,chapter_path,type,"
+                + "created_by,type,"
                 + (isOwner ? "q.answer" : "NULL")
                 + " AS answer"
                 + ",created_at,modified_at FROM "
@@ -684,14 +683,14 @@ public class QuestionService {
      *
      * @param userName    the user name
      * @param bookName    the practice id
-     * @param chapterPath the chapterPath
+     * @param tags the tags
      * @param locale the locale
      * @return quetions in given exam
      */
     public List<Question> list(final String userName,
                                final String bookName,
                                final Locale locale,
-                               final String chapterPath)
+                               final List<String> tags)
             throws JsonProcessingException {
 
         Practice practice = practiceService.getQuestionBank(bookName, locale);
@@ -704,7 +703,9 @@ public class QuestionService {
                 + (isOwner ? "answer" : "NULL")
                 + " AS answer"
                 + " FROM questions"
-                + " where exam_id = ? AND chapter_path = ? order by id"
+                + " where "
+                + "id IN (" + getQuestionIdFilter(tags) + ") "
+                + "AND exam_id = ? order by id"
                 : "SELECT id,exam_id,"
                 + "CASE WHEN ql.LOCALE = ? "
                 + "THEN ql.question "
@@ -714,26 +715,36 @@ public class QuestionService {
                 + "THEN ql.explanation "
                 + "ELSE q.explanation "
                 + "END AS explanation,"
-                + "created_by,chapter_path,type,"
+                + "created_by,type,"
                 + (isOwner ? "q.answer" : "NULL")
                 + " AS answer"
                 + ",created_at,modified_at FROM "
                 + "questions q LEFT JOIN questions_localized ql ON "
                 + "q.ID = ql.QUESTION_ID WHERE"
-                + " exam_id = ? AND chapter_path = ? AND"
+                + " q.ID IN (" + getQuestionIdFilter(tags) + ") "
+                + "AND exam_id = ?  AND"
                 + " (ql.LOCALE IS NULL "
                 + "OR ql.LOCALE = ? OR "
                 + "q.ID NOT IN "
                 + "(SELECT question_id FROM questions_localized "
                 + "WHERE QUESTION_ID=q.ID AND LOCALE = ?))";
 
-        List<Question> questions = locale == null
-                ? jdbcTemplate.query(query, rowMapper,
-                practice.getId(), chapterPath)
-                : jdbcTemplate.query(query, rowMapper, locale.getLanguage(),
-                locale.getLanguage(),
-                practice.getId(), chapterPath, locale.getLanguage(),
-                locale.getLanguage());
+        List<Object> parameters = new ArrayList<>();
+        if (locale == null) {
+            parameters.addAll(tags);
+            parameters.add(practice.getId());
+        } else {
+            parameters.add(locale.getLanguage());
+            parameters.add(locale.getLanguage());
+            parameters.addAll(tags);
+            parameters.add(practice.getId());
+            parameters.add(locale.getLanguage());
+            parameters.add(locale.getLanguage());
+        }
+
+
+        List<Question> questions = jdbcTemplate.query(query, rowMapper,
+                parameters.toArray());
 
         if (!questions.isEmpty()) {
             questions.forEach(question -> {
@@ -747,6 +758,19 @@ public class QuestionService {
             });
         }
         return questions;
+    }
+
+    private String getQuestionIdFilter(final List<String> tags) {
+        StringBuilder builder =
+                new StringBuilder("SELECT QUESTION_ID FROM "
+                        + "QUESTIONS_TAGS WHERE TAG_ID IN (");
+        builder.append(tags.stream()
+                .map(tag -> "?")
+                .collect(Collectors.joining(",")));
+        builder.append(") ");
+        builder.append("GROUP BY QUESTION_ID HAVING COUNT(DISTINCT TAG_ID) = ");
+        builder.append(tags.size());
+        return builder.toString();
     }
 
     /**
@@ -779,7 +803,6 @@ public class QuestionService {
         if (violations.isEmpty()) {
             final String messageTemplate = null;
             final Class<Question> rootBeanClass = Question.class;
-            final Object rootBean = null;
             final Object leafBeanInstance = null;
             final Object cValue = null;
             final Path propertyPath = null;

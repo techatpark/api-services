@@ -392,7 +392,8 @@ class BookAPIController {
 
         return ResponseEntity.status(HttpStatus.CREATED).body(
                 bookService.createAQuestion(bookName, questionType, locale,
-                        principal.getName(), question, chapterPath));
+                        principal.getName(), question,
+                        List.of(chapterPath.split("/"))));
     }
 
     /**
