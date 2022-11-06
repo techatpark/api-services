@@ -17,6 +17,7 @@ import com.gurukulams.core.service.SubjectService;
 import com.gurukulams.core.service.TagService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Component;
 
 import java.io.File;
@@ -335,12 +336,18 @@ public class BoardMaker {
                                     -> fileAttr.isDirectory())
                     .forEach(tagFolder -> {
                         if (!tagFolder.equals(questionsFolder)) {
-                            tagService.create(userName, null,
+                            try {
+                                tagService.create(userName, null,
                                     new Tag(tagFolder.getFileName().toString(),
                                             tagFolder.getFileName().toString(),
                                             null,
                                             userName, null,
                                             userName));
+                            } catch (DuplicateKeyException e) {
+                                System.out.println("Duplicate Tag "
+                                        + tagFolder.getFileName().toString());
+                            }
+
                         }
                     });
         }

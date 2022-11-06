@@ -58,7 +58,6 @@ app:
       - myiosapp://oauth2/redirect
 
 admins:
-  basic: tom
-  12-biology: tom
-  12-physics: tom
+  12-biology: jerry
+  12-physics: jerry
 

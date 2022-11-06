@@ -541,7 +541,7 @@ public class QuestionService {
                                final Locale locale,
                                final List<String> tags) {
 
-        boolean isOwner = true;
+        boolean isOwner = false;
 
         final String query = locale == null
                 ? "SELECT id,question,explanation,type,"
