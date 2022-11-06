@@ -1,20 +1,20 @@
 {
-  "question": "In which type of parthenogenesis are only males produced?",
+  "question": "Choose the correct statement from the following?",
   "explanation": "",
   "type": "CHOOSE_THE_BEST",
   "choices": [
     {
-      "value": "Arrhenotoky",
+      "value": "Gametes are involved inasexual reproduction reproduce "
+    },
+    {
+      "value": " Bacteria sexually by budding"
+    },
+    {
+      "value": "Conidia formation is a method of sexual reproduction"
+    },
+    {
+      "value": "Yeast reproduce by budding",
       "answer": true
-    },
-    {
-      "value": "Thelytoky"
-    },
-    {
-      "value": "Amphitoky"
-    },
-    {
-      "value": "Both a and b"
     }
   ]
 }

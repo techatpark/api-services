@@ -1,19 +1,19 @@
 {
-  "question": "Haemophilia is more common in males because it is a",
+  "question": ".Extra nuclear inheritance is a consequence of presence of genes in",
   "explanation": "",
   "type": "CHOOSE_THE_BEST",
   "choices": [
     {
-      "value": "Recessive character carried by Y-chromosome"
+      "value": "Mitrochondria chloroplasts and"
     },
     {
-      "value": "Dominant character carried by Y-chromosome"
+      "value": "Endoplasmic and mitrochondriareticulum"
     },
     {
-      "value": "Dominant trait carried by X-chromosome"
+      "value": "Ribosomes and chloroplast"
     },
     {
-      "value": "Recessive trait carried by X-chromosome",
+      "value": "Lysososmes and ribosomes",
       "answer": true
     }
   ]
