@@ -1,0 +1,20 @@
+{
+  "question": "An eminent Indian embryologist is?",
+  "explanation": "",
+  "type": "CHOOSE_THE_BEST",
+  "choices": [
+    {
+      "value": "S.R.Kashyap "
+    },
+    {
+      "value": " P.Maheswari",
+      "answer": true
+    },
+    {
+      "value": "M.S. Swaminathan"
+    },
+    {
+      "value": "K.C.Mehta"
+    }
+  ]
+}
