@@ -1,0 +1,20 @@
+{
+  "question": "Identify the correctly matched pair?",
+  "explanation": "",
+  "type": "CHOOSE_THE_BEST",
+  "choices": [
+    {
+      "value": "Tuber- Allium cepa "
+    },
+    {
+      "value": " Sucker - Pistia"
+    },
+    {
+      "value": "Rhizome - Musa",
+      "answer": true
+    },
+    {
+      "value": "Stolon - Zingiber"
+    }
+  ]
+}
