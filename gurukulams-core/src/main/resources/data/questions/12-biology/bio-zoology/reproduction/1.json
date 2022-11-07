@@ -1,7 +1,7 @@
 {
   "question": "In which type of parthenogenesis are only males produced?",
   "explanation": "",
-  "type": "CHOOSE_THE_BEST",
+  "type": "MULTI_CHOICE",
   "choices": [
     {
       "value": "Arrhenotoky",
@@ -11,10 +11,8 @@
       "value": "Thelytoky"
     },
     {
-      "value": "Amphitoky"
-    },
-    {
-      "value": "Both a and b"
+      "value": "Amphitoky",
+      "answer": true
     }
   ]
 }
