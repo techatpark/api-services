@@ -3,14 +3,14 @@
     "explanation": "",
     "choices": [
         {
-            "value": "Individual organism → Population Landscape → Ecosystem",
+            "value": "community → Ecosystem → Landscape → Biome",
             "answer": true
         },
         {
             "value": "Landscape → Ecosystem → Biome → Biosphere"
         },
         {
-            "value": "community → Ecosystem → Landscape → Biome"
+            "value": "Individual organism → Population Landscape → Ecosystem"
         },
         {
             "value": "Population → organism → Biome → Landscape"

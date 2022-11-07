@@ -3,14 +3,14 @@
     "explanation": "",
     "choices": [
         {
-            "value": "Myrmecophily",
+            "value": "Mimicry",
             "answer": true
         },
         {
             "value": "Ecological equivalents"
         },
         {
-            "value": "Mimicry"
+            "value": "Myrmecophily"
         },
         {
             "value": "None of these"

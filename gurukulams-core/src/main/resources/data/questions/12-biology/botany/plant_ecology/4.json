@@ -1,19 +1,19 @@
 {
-    "question": "Read the given statements and select the correct option",
+    "question": "Read the given statements and select the correct option \n i) Hydrophytes possess aerenchyma to support themselves in water. \n ii) Seeds of Viscum are positively photoblastic as they germinate only in presence of light. \n iii) Hygroscopic water is the only soil water available to roots of plant growing in soil as it is present inside the micropores. \n iv) High temperature reduces use of water and solute absorption by roots.",
     "explanation": "",
     "choices": [
         {
-            "value": "Hydrophytes possess aerenchyma to support themselves in water.",
+            "value": "ii, iii and iv",
             "answer": true
         },
         {
-            "value": "Seeds of Viscum are positively photoblastic as they germinate only in presence of light."
+            "value": "i, ii, and iii only"
         },
         {
-            "value": "Hygroscopic water is the only soil water available to roots of plant growing in soil as it is present inside the micropores"
+            "value": "ii and iii only"
         },
         {
-            "value": "High temperature reduces use of water and solute absorption by roots"
+            "value": "i and ii only"
         }
     ]
 }

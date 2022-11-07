@@ -3,7 +3,7 @@
     "explanation": "",
     "choices": [
         {
-            "value": "Xerophytes",
+            "value": "Halophytes",
             "answer": true
         },
         {
@@ -13,7 +13,7 @@
             "value": "Hydrophytes"
         },
         {
-            "value": "Halophytes"
+            "value": "Xerophytes"
         }
     ]
 }

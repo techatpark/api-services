@@ -3,11 +3,11 @@
     "explanation": "",
     "choices": [
         {
-            "value": "Both statements A and B are incorrect.",
+            "value": "Statement A is correct but statement B is incorrect",
             "answer": true
         },
         {
-            "value": "Statement A is correct but statement B is incorrect"
+            "value": "Both statements A and B are incorrect."
         },
         {
             "value": "Both statements A and B are correct but statement B is not the correct explanation of statement A"

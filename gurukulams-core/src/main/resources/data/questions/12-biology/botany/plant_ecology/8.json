@@ -3,14 +3,14 @@
     "explanation": "",
     "choices": [
         {
-            "value": "gravitational water",
+            "value": "capillary water",
             "answer": true
         },
         {
             "value": "chemically bound water"
         },
         {
-            "value": "capillary water"
+            "value": "gravitational water"
         },
         {
             "value": "hygroscopic water"

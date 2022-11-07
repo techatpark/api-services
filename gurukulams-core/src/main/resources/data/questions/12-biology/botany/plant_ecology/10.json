@@ -3,14 +3,14 @@
     "explanation": "",
     "choices": [
         {
-            "value": "ii iii iv i",
+            "value": "iii ii i iv",
             "answer": true
         },
         {
             "value": "iv i iii ii"
         },
         {
-            "value": "iii ii i iv"
+            "value": "ii iii iv i"
         },
         {
             "value": "None of the above"

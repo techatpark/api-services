@@ -3,11 +3,11 @@
     "explanation": "",
     "choices": [
         {
-            "value": "habitat",
+            "value": "niche",
             "answer": true
         },
         {
-            "value": "niche"
+            "value": "habitat"
         },
         {
             "value": "landscape"

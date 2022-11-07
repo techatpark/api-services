@@ -3,11 +3,11 @@
     "explanation": "",
     "choices": [
         {
-            "value": "Anemochory",
+            "value": "Zoochory",
             "answer": true
         },
         {
-            "value": "Zoochory"
+            "value": "Anemochory"
         },
         {
             "value": "Autochory"

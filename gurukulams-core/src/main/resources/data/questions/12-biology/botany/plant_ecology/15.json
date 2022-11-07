@@ -3,7 +3,7 @@
     "explanation": "",
     "choices": [
         {
-            "value": "Fossils",
+            "value": "Soil",
             "answer": true
         },
         {
@@ -13,7 +13,7 @@
             "value": "Population"
         },
         {
-            "value": "Soil"
+            "value": "Fossils"
         }
     ]
 }
