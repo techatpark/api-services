@@ -1,0 +1,19 @@
+{
+    "question": "New world species of cotton",
+    "explanation": "",
+    "choices": [
+        {
+            "value": "G.barbadense",
+            "answer": true
+        },
+        {
+            "value": "G.herbaceum"
+        },
+        {
+            "value": "Both a and b"
+        },
+        {
+            "value": "Gossipium arboretum"
+        }
+    ]
+}

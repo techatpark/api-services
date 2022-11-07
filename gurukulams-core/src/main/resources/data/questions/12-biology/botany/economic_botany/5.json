@@ -1,0 +1,19 @@
+{
+    "question": "Tectona grandis is coming under family",
+    "explanation": "",
+    "choices": [
+        {
+            "value": "Lamiaceae",
+            "answer": true
+        },
+        {
+            "value": "Fabaceae"
+        },
+        {
+            "value": "Dipterocaipaceae"
+        },
+        {
+            "value": "Ebenaceae"
+        }
+    ]
+}
