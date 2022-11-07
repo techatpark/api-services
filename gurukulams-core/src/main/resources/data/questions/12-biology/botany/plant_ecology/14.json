@@ -1,0 +1,19 @@
+{
+    "question": "A free living nitrogen fixing cyanobacterium which can also form symbiotic association with the water fern Azolla",
+    "explanation": "",
+    "choices": [
+        {
+            "value": "Nostoc",
+            "answer": true
+        },
+        {
+            "value": "Anabaena"
+        },
+        {
+            "value": "chlorella"
+        },
+        {
+            "value": "Rhizobium"
+        }
+    ]
+}

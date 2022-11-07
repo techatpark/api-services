@@ -1,0 +1,19 @@
+{
+    "question": "Which of the following plant has a non- succulent xerophytic and thick leathery leaves with waxy coating",
+    "explanation": "",
+    "choices": [
+        {
+            "value": "Bryophyllum",
+            "answer": true
+        },
+        {
+            "value": "Ruscus"
+        },
+        {
+            "value": "Nerium"
+        },
+        {
+            "value": "Calotropis"
+        }
+    ]
+}

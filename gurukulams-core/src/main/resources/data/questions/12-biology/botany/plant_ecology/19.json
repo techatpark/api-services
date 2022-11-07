@@ -1,0 +1,22 @@
+{
+    "question": "Match the following and choose the correct combination from the options given below:",
+    "explanation": "",
+    "choices": [
+        {
+            "value": "Mutualism i). Trichoderma and  Penicillium",
+            "answer": true
+        },
+        {
+            "value": "Commensalism ii). Balanophora,   Orobanche"
+        },
+        {
+            "value": "Parasitism iii). Orchids and Ferns"
+        },
+        {
+            "value": "Predation iv). Lichen and  Mycorrhiza"
+        },
+        {
+            "value": "Amensalism v). Nepenthes and  Diaonaea"
+        }
+    ]
+}

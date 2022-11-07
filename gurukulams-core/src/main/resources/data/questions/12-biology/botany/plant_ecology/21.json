@@ -1,0 +1,19 @@
+{
+    "question": "Sticky glands of Boerhaavia and Cleome support",
+    "explanation": "",
+    "choices": [
+        {
+            "value": "Anemochory",
+            "answer": true
+        },
+        {
+            "value": "Zoochory"
+        },
+        {
+            "value": "Autochory"
+        },
+        {
+            "value": "Hydrochory"
+        }
+    ]
+}

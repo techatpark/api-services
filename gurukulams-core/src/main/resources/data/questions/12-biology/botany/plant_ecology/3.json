@@ -1,0 +1,19 @@
+{
+    "question": "A specific place in an ecosystem, where an organism lives and performs its functions is",
+    "explanation": "",
+    "choices": [
+        {
+            "value": "habitat",
+            "answer": true
+        },
+        {
+            "value": "niche"
+        },
+        {
+            "value": "landscape"
+        },
+        {
+            "value": "biome"
+        }
+    ]
+}

@@ -1,0 +1,19 @@
+{
+    "question": "In soil water available for plants is",
+    "explanation": "",
+    "choices": [
+        {
+            "value": "gravitational water",
+            "answer": true
+        },
+        {
+            "value": "chemically bound water"
+        },
+        {
+            "value": "capillary water"
+        },
+        {
+            "value": "hygroscopic water"
+        }
+    ]
+}

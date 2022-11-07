@@ -1,0 +1,19 @@
+{
+    "question": "Column I represent the size of the soil particles and Column II represents type of soil components. Which of the following is correct match for the Column I and Column IL Column - I Column - II I). 0.2 to 2.00 mm i) Slit soil II) Less than 0.002 mm ii) Clayey soil III) 0.002 to 0.02 mm iii) Sandy soil IV) 0.002 to 0.2 mm iv) Loamy soil",
+    "explanation": "",
+    "choices": [
+        {
+            "value": "ii iii iv i",
+            "answer": true
+        },
+        {
+            "value": "iv i iii ii"
+        },
+        {
+            "value": "iii ii i iv"
+        },
+        {
+            "value": "None of the above"
+        }
+    ]
+}

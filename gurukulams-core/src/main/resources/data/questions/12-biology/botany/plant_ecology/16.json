@@ -1,0 +1,19 @@
+{
+    "question": "Mycorrhiza promotes plant growth by",
+    "explanation": "",
+    "choices": [
+        {
+            "value": "Serving as a plant growth regulators",
+            "answer": true
+        },
+        {
+            "value": "Absorbing inorganic ions from soil"
+        },
+        {
+            "value": "Helping the plant in utilizing atmospheric nitrogen"
+        },
+        {
+            "value": "Protecting the plant from infection"
+        }
+    ]
+}

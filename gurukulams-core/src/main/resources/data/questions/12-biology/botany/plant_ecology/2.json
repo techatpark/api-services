@@ -1,0 +1,19 @@
+{
+    "question": "Ecology is the study of an individual species is called",
+    "explanation": "",
+    "choices": [
+        {
+            "value": "Community ecology",
+            "answer": true
+        },
+        {
+            "value": "Autecology"
+        },
+        {
+            "value": "Species ecology"
+        },
+        {
+            "value": "Synecology"
+        }
+    ]
+}

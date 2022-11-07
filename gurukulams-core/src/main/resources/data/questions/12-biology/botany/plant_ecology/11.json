@@ -1,0 +1,19 @@
+{
+    "question": "The plant of this group are adapted to live partly in water and partly above substratum and free from water",
+    "explanation": "",
+    "choices": [
+        {
+            "value": "Xerophytes",
+            "answer": true
+        },
+        {
+            "value": "Mesophytes"
+        },
+        {
+            "value": "Hydrophytes"
+        },
+        {
+            "value": "Halophytes"
+        }
+    ]
+}

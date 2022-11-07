@@ -1,0 +1,19 @@
+{
+    "question": "animal’s feet are found in the fruits of",
+    "explanation": "",
+    "choices": [
+        {
+            "value": "Argemone",
+            "answer": true
+        },
+        {
+            "value": "Ecballium"
+        },
+        {
+            "value": "Heritier"
+        },
+        {
+            "value": "Crossandra"
+        }
+    ]
+}

@@ -1,0 +1,19 @@
+{
+    "question": "Read the given statements and select the correct option",
+    "explanation": "",
+    "choices": [
+        {
+            "value": "Hydrophytes possess aerenchyma to support themselves in water.",
+            "answer": true
+        },
+        {
+            "value": "Seeds of Viscum are positively photoblastic as they germinate only in presence of light."
+        },
+        {
+            "value": "Hygroscopic water is the only soil water available to roots of plant growing in soil as it is present inside the micropores"
+        },
+        {
+            "value": "High temperature reduces use of water and solute absorption by roots"
+        }
+    ]
+}
