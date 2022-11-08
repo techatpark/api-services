@@ -1,0 +1,19 @@
+{
+    "question": "Transmitting tissue is found in",
+    "explanation": "",
+    "choices": [
+        {
+            "value": "Micropylar region of ovule",
+            "answer": true
+        },
+        {
+            "value": "Pollen tube wall"
+        },
+        {
+            "value": "Stylar region of gynoecium"
+        },
+        {
+            "value": "Integument"
+        }
+    ]
+}

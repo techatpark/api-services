@@ -1,0 +1,19 @@
+{
+    "question": "A plant called X possesses small flower with reduced perianth and versatile anther. The probable agent for pollination would be",
+    "explanation": "",
+    "choices": [
+        {
+            "value": "water",
+            "answer": true
+        },
+        {
+            "value": "air"
+        },
+        {
+            "value": "butterflies"
+        },
+        {
+            "value": "beetles"
+        }
+    ]
+}

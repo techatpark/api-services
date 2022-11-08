@@ -1,0 +1,19 @@
+{
+    "question": "Which of the following represent megagametophyte",
+    "explanation": "",
+    "choices": [
+        {
+            "value": "Ovule",
+            "answer": true
+        },
+        {
+            "value": "Embryo sac"
+        },
+        {
+            "value": "Nucellus"
+        },
+        {
+            "value": "Endosperm"
+        }
+    ]
+}
