@@ -1,0 +1,19 @@
+{
+    "question": "Which one of the following is an example of polygenic inheritance?",
+    "explanation": "",
+    "choices": [
+        {
+            "value": "Flower colour in Mirabilis Jalapa",
+            "answer": true
+        },
+        {
+            "value": "Production of male honey bee"
+        },
+        {
+            "value": "Pod shape in garden pea"
+        },
+        {
+            "value": "Skin Colour in humans"
+        }
+    ]
+}

@@ -1,0 +1,16 @@
+{
+    "question": "Select the correct statement from the ones given below with respect to dihydrid cross",
+    "explanation": "",
+    "choices": [
+        {
+            "value": "Tightly linked genes on the same chromosomes show very few combinations",
+            "answer": true
+        },
+        {
+            "value": "Tightly linked genes on the same chromosomes show higher combinations"
+        },
+        {
+            "value": "Genes far apart on the same chromosomes show very few recombinations one"
+        }
+    ]
+}

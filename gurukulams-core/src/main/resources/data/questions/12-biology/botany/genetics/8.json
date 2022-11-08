@@ -1,0 +1,19 @@
+{
+    "question": "The genotype of a plant showing the dominant phenotype can be determined",
+    "explanation": "",
+    "choices": [
+        {
+            "value": "Back cross",
+            "answer": true
+        },
+        {
+            "value": "Test cross"
+        },
+        {
+            "value": "Dihybrid corss"
+        },
+        {
+            "value": "Pedigree analysis"
+        }
+    ]
+}

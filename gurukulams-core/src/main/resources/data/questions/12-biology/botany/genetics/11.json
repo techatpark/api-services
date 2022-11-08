@@ -1,0 +1,19 @@
+{
+    "question": "Fruit colour in squash is an example of",
+    "explanation": "",
+    "choices": [
+        {
+            "value": "Recessive epistatsis",
+            "answer": true
+        },
+        {
+            "value": "Dominant epistasis"
+        },
+        {
+            "value": "Complementary genes"
+        },
+        {
+            "value": "Inhibitory genes"
+        }
+    ]
+}

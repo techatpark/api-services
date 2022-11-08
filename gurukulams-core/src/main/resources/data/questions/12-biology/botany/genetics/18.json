@@ -1,0 +1,19 @@
+{
+    "question": "Gene which suppresses other genes activity but does not lie on the same locus is called as",
+    "explanation": "",
+    "choices": [
+        {
+            "value": "Epistatic",
+            "answer": true
+        },
+        {
+            "value": "Supplement only"
+        },
+        {
+            "value": "Hypostatic"
+        },
+        {
+            "value": "Codominant"
+        }
+    ]
+}
