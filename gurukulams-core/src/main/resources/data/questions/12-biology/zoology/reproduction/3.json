@@ -1,20 +1,17 @@
 {
     "question": "In which mode of reproduction variations are seen",
     "explanation": "",
-    "type": "CHOOSE_THE_BEST",
     "choices": [
         {
-            "value": "Asexual"
-        },
-        {
-            "value": "Parthenogenesis"
-        },
-        {
-            "value": "Sexual",
+            "value": "Asexual",
             "answer": true
         },
         {
-            "value": "Both a and b"
+            "value": "Parthenogenesis",
+            "answer": true
+        },
+        {
+            "value": "Sexual"
         }
     ]
-} 
+}
