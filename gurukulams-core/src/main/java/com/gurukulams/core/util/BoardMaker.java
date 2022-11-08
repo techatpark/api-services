@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.gurukulams.core.model.Board;
 import com.gurukulams.core.model.Book;
+import com.gurukulams.core.model.Choice;
 import com.gurukulams.core.model.Grade;
 import com.gurukulams.core.model.Question;
 import com.gurukulams.core.model.QuestionType;
@@ -29,6 +30,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Component
 public class BoardMaker {
@@ -364,8 +366,19 @@ public class BoardMaker {
         String bookName = tokens.remove(0);
         tokens.remove(tokens.size() - 1);
         String chapterPath = tokens.stream().collect(Collectors.joining("/"));
+
+        Stream<Choice> rightAnswers = question.getChoices()
+                .stream()
+                .filter(choice
+                        -> choice.isAnswer() != null
+                        && choice.isAnswer());
+
+        QuestionType questionType = rightAnswers.count() == 1
+                ? QuestionType.CHOOSE_THE_BEST
+                : QuestionType.MULTI_CHOICE;
+
         Question createdQuestion = questionService.create(tokens,
-                QuestionType.CHOOSE_THE_BEST,
+                questionType,
                 null, userName, question).get();
 
         List<File> questionLocalizedFiles = List.of(
@@ -386,7 +399,7 @@ public class BoardMaker {
             }
 
             questionService.update(
-                    QuestionType.CHOOSE_THE_BEST,
+                    questionType,
                     createdQuestion.getId(), locale, questionLocalized).get();
 
         });

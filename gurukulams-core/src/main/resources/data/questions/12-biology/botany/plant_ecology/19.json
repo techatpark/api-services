@@ -1,0 +1,19 @@
+{
+    "question": "Match the following and choose the correct combination from the ptions given below: \n I. Mutualism i). Trichoderma and  Penicillium \n II. Commensalism ii). Balanophora, Orobanche \n III. Parasitism iii). Orchids and Ferns \n IV. Predation iv). Lichen and  Mycorrhiza \n V.Amensalism v). Nepenthes and  Diaonaea",
+    "explanation": "",
+    "choices": [
+        {
+            "value": "iv, iii, ii, v, i",
+            "answer": true
+        },
+        {
+            "value": "ii, iii, iv, v, i"
+        },
+        {
+            "value": "iii, iv, v, i, ii"
+        },
+        {
+            "value": "i, ii, iii, iv, v"
+        }
+    ]
+}

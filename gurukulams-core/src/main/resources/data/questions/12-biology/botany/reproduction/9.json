@@ -1,0 +1,19 @@
+{
+    "question": "Identify the incorrect pair",
+    "explanation": "",
+    "choices": [
+        {
+            "value": "sporopollenin - exine of pollen",
+            "answer": true
+        },
+        {
+            "value": "tapetum – nutritive tissue for developing microspores"
+        },
+        {
+            "value": "Nucellus – nutritive tissue for developing embryo"
+        },
+        {
+            "value": "obturator – directs the pollen tube into micropyle"
+        }
+    ]
+}

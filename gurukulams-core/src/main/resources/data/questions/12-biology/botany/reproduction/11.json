@@ -1,0 +1,19 @@
+{
+    "question": "Choose the correct statement(s) about tenuinucellate ovule",
+    "explanation": "",
+    "choices": [
+        {
+            "value": "Sporogenous cell is hypodermal",
+            "answer": true
+        },
+        {
+            "value": "Ovules have fairly large nucellus"
+        },
+        {
+            "value": "sporogenous cell is epidermal"
+        },
+        {
+            "value": "ovules have single layer of nucellus tissue"
+        }
+    ]
+}

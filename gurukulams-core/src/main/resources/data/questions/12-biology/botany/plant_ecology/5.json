@@ -1,0 +1,19 @@
+{
+    "question": "Which of the given plant produces cardiac glycosides?",
+    "explanation": "",
+    "choices": [
+        {
+            "value": "Calotropis",
+            "answer": true
+        },
+        {
+            "value": "Acacia"
+        },
+        {
+            "value": "Nepenthes"
+        },
+        {
+            "value": "Utricularia"
+        }
+    ]
+}

@@ -1,0 +1,19 @@
+{
+    "question": "In Mendel’s experiments with garden pea, round seed shape (RR) was dominant over wrinkled seeds (rr), yellow cotyledon (YY) was dominant over green cotyledon (yy). What are the expected phenotypes in the F2 generation of the cross RRYY x rryy?",
+    "explanation": "",
+    "choices": [
+        {
+            "value": "Only round seeds with green cotyledons",
+            "answer": true
+        },
+        {
+            "value": "Only wrinkled seeds with yellow cotyledons"
+        },
+        {
+            "value": "Only wrinkled seeds with green cotyledons"
+        },
+        {
+            "value": "Round seeds with yellow cotyledons an wrinkled seeds with yellow cotyledons"
+        }
+    ]
+}

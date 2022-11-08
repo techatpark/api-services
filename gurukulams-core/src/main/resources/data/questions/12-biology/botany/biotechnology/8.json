@@ -1,0 +1,19 @@
+{
+    "question": "The prevention of large scale loss of biological interity",
+    "explanation": "",
+    "choices": [
+        {
+            "value": "Biopatent",
+            "answer": true
+        },
+        {
+            "value": "Bioethics"
+        },
+        {
+            "value": "Biosafety"
+        },
+        {
+            "value": "Biofuel"
+        }
+    ]
+}

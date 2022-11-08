@@ -1,0 +1,19 @@
+{
+    "question": "In majority of plants pollen is liberated at",
+    "explanation": "",
+    "choices": [
+        {
+            "value": "1 celled stage",
+            "answer": true
+        },
+        {
+            "value": "2 celled stage"
+        },
+        {
+            "value": "3 celled stage"
+        },
+        {
+            "value": "4 celled stage"
+        }
+    ]
+}

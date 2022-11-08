@@ -1,0 +1,19 @@
+{
+  "question": "Pollen tube was discovered by?",
+  "explanation": "",
+  "choices": [
+    {
+      "value": "J.G.Kolreuter "
+    },
+    {
+      "value": " G.B.Amici",
+      "answer": true
+    },
+    {
+      "value": "E.Strasburger"
+    },
+    {
+      "value": "E.Hanning"
+    }
+  ]
+}

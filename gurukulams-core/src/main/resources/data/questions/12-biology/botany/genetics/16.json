@@ -1,0 +1,19 @@
+{
+    "question": "Which of the following explains how progeny can posses the combinations of traits that none of the parent possessed?",
+    "explanation": "",
+    "choices": [
+        {
+            "value": "Law of segregation",
+            "answer": true
+        },
+        {
+            "value": "Chromosome theory"
+        },
+        {
+            "value": "Law of independent assortment"
+        },
+        {
+            "value": "Polygenic inheritance"
+        }
+    ]
+}

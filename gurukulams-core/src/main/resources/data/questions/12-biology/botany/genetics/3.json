@@ -1,0 +1,19 @@
+{
+    "question": "How many different kinds of gametes will be produced by a plant having the genotype AABbCC?",
+    "explanation": "",
+    "choices": [
+        {
+            "value": "Three",
+            "answer": true
+        },
+        {
+            "value": "Four"
+        },
+        {
+            "value": "Nine"
+        },
+        {
+            "value": "Two"
+        }
+    ]
+}

@@ -1,0 +1,19 @@
+{
+    "question": "Consider the following statement(s)\n i) In Protandrous flowers pistil matures earlier\n ii) In Protogynous flowers pistil matures earlier\n iii) Herkogamy is noticed in unisexual flowers\n iv) Distyly is present in Primula",
+    "explanation": "",
+    "choices": [
+        {
+            "value": "i and ii are correct",
+            "answer": true
+        },
+        {
+            "value": "ii and iv are correct"
+        },
+        {
+            "value": "ii and iii are correct"
+        },
+        {
+            "value": "i and iv are correct"
+        }
+    ]
+}

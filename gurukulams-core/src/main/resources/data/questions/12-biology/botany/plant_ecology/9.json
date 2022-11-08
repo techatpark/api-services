@@ -1,0 +1,19 @@
+{
+    "question": "Read the following statements and fill up the blanks with correct option. \n i) Total soil water content in soil is called \n ii) Soil water not available to plants is called \n iii) Soil water available to plants is called",
+    "explanation": "",
+    "choices": [
+        {
+            "value": "Holard Echard Chresard",
+            "answer": true
+        },
+        {
+            "value": "Echard Holard Chresard"
+        },
+        {
+            "value": "Chresard Echard Holard"
+        },
+        {
+            "value": "Holard Chresard Echard"
+        }
+    ]
+}

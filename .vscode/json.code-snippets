@@ -1,0 +1,51 @@
+{
+  "question-bank": {
+    "prefix": "mc",
+    "body": [
+      "{",
+      "\"question\": \"${1}\",",
+      "\"explanation\": \"\",",
+      "\"choices\": [",
+      " {",
+      "   \"value\": \"${2}\",",
+      "   \"answer\": true",
+      " },",
+      " {",
+      "   \"value\": \"${3}\",",
+      "   \"answer\": true",
+      " },",
+      " {",
+      "   \"value\": \"${4}\"",
+      " },",
+      " {",
+      "   \"value\": \"${5}\"",
+      " }]",
+      "}"
+    ],
+    "description": "Create Multi Choice Question"
+  },
+  "question-bank-ctb": {
+    "prefix": "ctb",
+    "body": [
+      "{",
+      "\"question\": \"${1}\",",
+      "\"explanation\": \"\",",
+      "\"choices\": [",
+      " {",
+      "   \"value\": \"${2}\",",
+      "   \"answer\": true",
+      " },",
+      " {",
+      "   \"value\": \"${3}\"",
+      " },",
+      " {",
+      "   \"value\": \"${4}\"",
+      " },",
+      " {",
+      "   \"value\": \"${5}\"",
+      " }]",
+      "}"
+    ],
+    "description": "Create Choose the best Question"
+  }
+}

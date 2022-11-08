@@ -1,0 +1,19 @@
+{
+    "question": "Statement A: Coffee contains caffeine Statement B: Drinking coffee enhances cancer",
+    "explanation": "",
+    "choices": [
+        {
+            "value": " A is correct, B is wrong",
+            "answer": true
+        },
+        {
+            "value": "A and B – Both are correct"
+        },
+        {
+            "value": "A is wrong, B is correct"
+        },
+        {
+            "value": " A and B – Both are wrong"
+        }
+    ]
+}

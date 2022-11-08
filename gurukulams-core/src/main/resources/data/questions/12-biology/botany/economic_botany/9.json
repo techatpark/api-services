@@ -1,0 +1,19 @@
+{
+    "question": "Find out the correctly matched pair.",
+    "explanation": "",
+    "choices": [
+        {
+            "value": "Dye - Lawsonia inermis",
+            "answer": true
+        },
+        {
+            "value": "Rubber - Shorea robusta"
+        },
+        {
+            "value": "Timber - Cyperus papyrus"
+        },
+        {
+            "value": "Pulp Hevea brasiliensis"
+        }
+    ]
+}
