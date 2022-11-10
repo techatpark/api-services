@@ -361,8 +361,8 @@ public class BoardMaker {
         Question question = getObject(questionFile, Question.class);
         final String nameOfQuestion = questionFile.getName()
                 .replaceFirst(".json", "");
-        String thePath = questionFile.getPath().split("/questions/")[1];
-        List<String> tokens = new ArrayList<>(List.of(thePath.split("/")));
+        String thePath = questionFile.getPath().split("\\\\questions\\\\")[1];
+        List<String> tokens = new ArrayList<>(List.of(thePath.split("\\\\")));
         String bookName = tokens.remove(0);
         tokens.remove(tokens.size() - 1);
         String chapterPath = tokens.stream().collect(Collectors.joining("/"));
