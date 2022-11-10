@@ -361,12 +361,16 @@ public class BoardMaker {
         Question question = getObject(questionFile, Question.class);
         final String nameOfQuestion = questionFile.getName()
                 .replaceFirst(".json", "");
-        boolean isWindows = System.getProperty("os.name").toLowerCase().indexOf("win") >= 0;
-        String regexForQuestions = isWindows ? "\\\\questions\\\\" : "/questions/" ;
-        String regexPath = isWindows ? "\\\\" : "/";
+        boolean isWindows = System
+                .getProperty("os.name").toLowerCase().indexOf("win") >= 0;
+        String regexForQuestions = isWindows
+                ? "\\\\questions\\\\" : "/questions/";
+        String regexPath = isWindows
+                ? "\\\\" : "/";
         String thePath = questionFile.getPath().split(regexForQuestions)[1];
 
-        List<String> tokens = new ArrayList<>(List.of(thePath.split(regexPath)));
+        List<String> tokens =
+                new ArrayList<>(List.of(thePath.split(regexPath)));
 
         String bookName = tokens.remove(0);
         tokens.remove(tokens.size() - 1);
