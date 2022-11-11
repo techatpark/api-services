@@ -29,10 +29,7 @@ public class UserNote {
      */
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String onSection;
-    /**
-     * declares variable previous word.
-     */
-    private String prevWord;
+
     /**
      * declare text.
      */
@@ -42,23 +39,6 @@ public class UserNote {
      */
     private String note;
 
-    /**
-     * Gets prev word.
-     *
-     * @return the prev word
-     */
-    public String getPrevWord() {
-        return prevWord;
-    }
-
-    /**
-     * Sets prev word.
-     *
-     * @param thePrevWord the prev word
-     */
-    public void setPrevWord(final String thePrevWord) {
-        this.prevWord = thePrevWord;
-    }
 
     /**
      * Gets id.

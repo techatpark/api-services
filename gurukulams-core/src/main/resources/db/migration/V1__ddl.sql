@@ -49,7 +49,6 @@ CREATE TABLE user_notes (
    on_instance VARCHAR NOT NULL,
    on_section VARCHAR NOT NULL,
    created_by VARCHAR(55) NOT NULL,
-   prev_word VARCHAR(500) NOT NULL,
    text VARCHAR(500) NOT NULL,
    note VARCHAR(500)
 );

@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import javax.sql.DataSource;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
@@ -37,7 +38,6 @@ public class UserNoteService {
         userNote.setOnType(rs.getString("on_type"));
         userNote.setOnInstance(rs.getString("on_instance"));
         userNote.setOnSection(rs.getString("on_section"));
-        userNote.setPrevWord(rs.getString("prev_word"));
         userNote.setText(rs.getString("text"));
         userNote.setNote(rs.getString("note"));
 
@@ -61,9 +61,11 @@ public class UserNoteService {
      *
      * @param userName user name
      * @param userNote the user note
+     * @param locale tha language
      * @return the optional
      */
     public Optional<UserNote> create(final UserNote userNote,
+                                     final Locale locale,
                                      final String userName) {
         final SimpleJdbcInsert insert =
                 new SimpleJdbcInsert(dataSource).withTableName("user_notes")
@@ -71,31 +73,32 @@ public class UserNoteService {
                         .usingColumns("id", "created_by",
                                 "on_type", "on_instance",
                                 "on_section",
-                                "prev_word", "text", "note");
+                                "text", "note");
 
         final Map<String, Object> valueMap = new HashMap<>();
         valueMap.put("created_by", userName);
         valueMap.put("on_type", userNote.getOnType());
         valueMap.put("on_instance", userNote.getOnInstance());
         valueMap.put("on_section", userNote.getOnSection());
-        valueMap.put("prev_word", userNote.getPrevWord());
         valueMap.put("text", userNote.getText());
         valueMap.put("note", userNote.getNote());
         final UUID id = UUID.randomUUID();
         valueMap.put("id", id);
         insert.execute(valueMap);
-        return read(id);
+        return read(id, locale);
     }
 
     /**
      * Read optional.
      *
      * @param id the id
+     * @param locale tha language
      * @return the optional
      */
-    public Optional<UserNote> read(final UUID id) {
+    public Optional<UserNote> read(final UUID id,
+                                   final Locale locale) {
         final String query =
-                "SELECT id,on_type,on_instance,on_section,prev_word,text,"
+                "SELECT id,on_type,on_instance,on_section,text,"
                         + "note FROM "
                         + "user_notes WHERE"
                         + " id = ?";
@@ -113,13 +116,15 @@ public class UserNoteService {
      * @param userName   user name
      * @param onInstance the on instance
      * @param onSection  the on section
+     * @param locale tha language
      * @return the list
      */
     public List<UserNote> searchNotes(final String userName,
+                                      final Locale locale,
                                       final String onInstance,
                                       final String onSection) {
         final String query = "SELECT id,on_type,on_instance,on_section,"
-                + "prev_word,text,note FROM "
+                + "text,note FROM "
                 + "user_notes WHERE"
                 + " on_instance = ? and on_section = ? and created_by = ?";
         return jdbcTemplate.query(query, rowMapper, onInstance,
@@ -131,17 +136,19 @@ public class UserNoteService {
      *
      * @param id       the id
      * @param userNote the user note
+     * @param locale tha language
      * @return the optional
      */
     public Optional<UserNote> updateNote(final UUID id,
+                                         final Locale locale,
                                          final UserNote userNote) {
         final String query =
-                "UPDATE user_notes SET prev_word = ?,"
+                "UPDATE user_notes SET "
                         + "text = ?, note = ? WHERE id = ?";
         final Integer updatedRows =
-                jdbcTemplate.update(query, userNote.getPrevWord(),
+                jdbcTemplate.update(query,
                         userNote.getText(), userNote.getNote(), id);
-        return updatedRows == 0 ? null : read(id);
+        return updatedRows == 0 ? null : read(id, locale);
     }
 
     /**
@@ -149,8 +156,10 @@ public class UserNoteService {
      *
      * @param id the id
      * @return the boolean
+     * @param locale tha language
      */
-    public Boolean delete(final UUID id) {
+    public Boolean delete(final UUID id,
+                          final Locale locale) {
         final String query = "DELETE FROM user_notes WHERE ID=?";
         final Integer updatedRows = jdbcTemplate.update(query, id);
         return !(updatedRows == 0);

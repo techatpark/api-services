@@ -384,15 +384,17 @@ public class BookService {
      *
      * @param bookName  the book name
      * @param createdBy the createdBy
+     * @param locale the language
      * @param userNotes the user note
      * @return the optional
      */
     public Optional<UserNote> createNote(final String bookName,
                                          final String createdBy,
+                                         final Locale locale,
                                          final UserNote userNotes) {
         userNotes.setOnType("books");
         userNotes.setOnInstance(bookName);
-        return userNotesService.create(userNotes, createdBy);
+        return userNotesService.create(userNotes, locale, createdBy);
     }
 
     /**
@@ -401,23 +403,28 @@ public class BookService {
      * @param createdBy   the createdBy
      * @param bookName    the book name
      * @param chapterName the chapterName
+     * @param locale language
      * @return the list
      */
     public List<UserNote> searchNotes(final String bookName,
                                       final String createdBy,
+                                      final Locale locale,
                                       final String chapterName) {
 
-        return userNotesService.searchNotes(createdBy, bookName, chapterName);
+        return userNotesService.searchNotes(createdBy, locale,
+                bookName, chapterName);
     }
 
     /**
      * Read note optional.
      *
      * @param id the id
+     * @param locale language
      * @return the optional
      */
-    public Optional<UserNote> readNote(final UUID id) {
-        return userNotesService.read(id);
+    public Optional<UserNote> readNote(final UUID id,
+                                       final Locale locale) {
+        return userNotesService.read(id, locale);
 
     }
 
@@ -425,22 +432,26 @@ public class BookService {
      * Update note optional.
      *
      * @param id       the id
+     * @param locale language
      * @param userNote the user note
      * @return the optional
      */
     public Optional<UserNote> updateNote(final UUID id,
+                                         final Locale locale,
                                          final UserNote userNote) {
-        return userNotesService.updateNote(id, userNote);
+        return userNotesService.updateNote(id, locale, userNote);
     }
 
     /**
      * Delete boolean.
      *
      * @param id the id
+     * @param locale language
      * @return the boolean
      */
-    public boolean deleteNote(final UUID id) {
-        return userNotesService.delete(id);
+    public boolean deleteNote(final UUID id,
+                              final Locale locale) {
+        return userNotesService.delete(id, locale);
     }
 
     /**

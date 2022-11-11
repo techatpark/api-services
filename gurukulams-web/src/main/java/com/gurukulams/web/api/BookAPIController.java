@@ -230,9 +230,13 @@ class BookAPIController {
     public ResponseEntity<Optional<UserNote>> createNote(
             final Principal principal,
             final @NotBlank @PathVariable String bookName,
+            @RequestHeader(
+                    name = "Accept-Language",
+                    required = false) final Locale locale,
             final @RequestBody UserNote userNotes) {
         return ResponseEntity.status(HttpStatus.CREATED).body(
                 bookService.createNote(bookName, principal.getName(),
+                        locale,
                         userNotes));
     }
 
@@ -260,9 +264,13 @@ class BookAPIController {
     public ResponseEntity<List<UserNote>> searchNotes(
             final Principal principal,
             final @PathVariable String bookName,
+            @RequestHeader(
+                    name = "Accept-Language",
+                    required = false) final Locale locale,
             final @RequestBody String chapterName) {
         return ResponseEntity.status(HttpStatus.OK).body(
                 bookService.searchNotes(bookName, principal.getName(),
+                        locale,
                         chapterName));
     }
 
@@ -289,10 +297,13 @@ class BookAPIController {
     @PutMapping("/{bookName}/note/{id}")
     public ResponseEntity<Optional<UserNote>> update(
             final @PathVariable String bookName,
+            @RequestHeader(
+                    name = "Accept-Language",
+                    required = false) final Locale locale,
             final @PathVariable UUID id,
             final @RequestBody UserNote userNote) {
         final Optional<UserNote> updatednote = bookService.updateNote(
-                id, userNote);
+                id, locale, userNote);
         return updatednote == null ? ResponseEntity.notFound().build()
                 : ResponseEntity.ok(updatednote);
     }
@@ -315,8 +326,11 @@ class BookAPIController {
     @DeleteMapping("/{bookName}/note/{id}")
     public ResponseEntity<Void> deleteNoteById(
             final @PathVariable String bookName,
+            @RequestHeader(
+                    name = "Accept-Language",
+                    required = false) final Locale locale,
             final @PathVariable UUID id) {
-        return bookService.deleteNote(id) ? ResponseEntity.ok().build()
+        return bookService.deleteNote(id, locale) ? ResponseEntity.ok().build()
                 : ResponseEntity.notFound().build();
     }
 
@@ -478,7 +492,6 @@ class BookAPIController {
      * @param id           the id
      * @param questionType the question type
      * @param bookName     the bookname
-     * @param request      the request
      * @return the response entity
      */
     @Operation(summary = "Deletes the question by given id",
