@@ -1,0 +1,19 @@
+{
+    "question": "Which one of the following crop varieties correct matches with its resistance to a disease?",
+    "explanation": "",
+    "choices": [
+        {
+            "value": "Pusa Komal - Bacterial blight",
+            "answer": true
+        },
+        {
+            "value": "Pusa Sadabahar - White rust"
+        },
+        {
+            "value": "Pusa Shubhra - Chilli mosaic virus"
+        },
+        {
+            "value": "Brassica - Pusa swarnim"
+        }
+    ]
+}

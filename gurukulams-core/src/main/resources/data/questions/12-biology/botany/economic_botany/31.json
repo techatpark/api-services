@@ -1,0 +1,19 @@
+{
+    "question": "Which of the following is incorrectly paired?",
+    "explanation": "",
+    "choices": [
+        {
+            "value": "Wheat - Himgiri",
+            "answer": true
+        },
+        {
+            "value": "Milch breed - Sahiwal"
+        },
+        {
+            "value": "Rice - Ratna"
+        },
+        {
+            "value": "Pusa Komal - Brassica"
+        }
+    ]
+}
