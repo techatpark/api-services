@@ -2,6 +2,7 @@ package com.gurukulams.web;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 
 
 /**
@@ -22,11 +23,13 @@ class QuestionBankController {
 
     /**
      * Forwards Practice Requests.
-     *
+     * @param languageCode
      * @return forward
      */
     @GetMapping("/{languageCode}/practices/books/**")
-    public String questionBankLocalized() {
-        return "forward:/practices/basic/index.html";
+    public String questionBankLocalized(
+            final @PathVariable String languageCode) {
+        return "forward:/" + languageCode
+                + "/practices/basic/index.html";
     }
 }
