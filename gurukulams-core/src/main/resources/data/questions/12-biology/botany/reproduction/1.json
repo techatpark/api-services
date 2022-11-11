@@ -3,7 +3,8 @@
   "explanation": "",
   "choices": [
     {
-      "value": "Gametes are involved inasexual reproduction reproduce "
+      "value": "Gametes are involved inasexual reproduction reproduce ",
+      "answer": true
     },
     {
       "value": " Bacteria sexually by budding"
@@ -12,8 +13,7 @@
       "value": "Conidia formation is a method of sexual reproduction"
     },
     {
-      "value": "Yeast reproduce by budding",
-      "answer": true
+      "value": "Yeast reproduce by budding"
     }
   ]
 }
