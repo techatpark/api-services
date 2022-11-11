@@ -1,0 +1,22 @@
+{
+    "question": "Assertion : Agrobacterium tumifaciens is popular in genetic engineering because this bacteriumis associated with the root nodules of all cereals and pulse crops \n Reason: A gene incorporated in the bacterial chromosomal genome gets atomatically transferred to the cross with which bacterium is associated.",
+    "explanation": "",
+    "choices": [
+        {
+            "value": " Both assertion and reason are true. But reason is correct explanation of assertion.",
+            "answer": true
+        },
+        {
+            "value": "Both assertion and reason are true. But reason is not correct explanation of assertion."
+        },
+        {
+            "value": " Assertion is true, but reason is false."
+        },
+        {
+            "value": "Assertion is false, but reason is true."
+        },
+        {
+            "value": "Both assertion and reason are false."
+        }
+    ]
+}

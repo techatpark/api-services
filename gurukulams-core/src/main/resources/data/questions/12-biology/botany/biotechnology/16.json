@@ -1,0 +1,19 @@
+{
+    "question": "The process of recombinant DNA technology has the following steps \n I. amplication of the gene \n II. Insertion of recombinant DNA into the host cells \n III. Cutting of DNA at specific location using restriction enzyme . \n IV. Isolation of genetic material (DNA) Pick out the correct sequence of step for recombinant DNA technology.",
+    "explanation": "",
+    "choices": [
+        {
+            "value": "II, III, IV, I ",
+            "answer": true
+        },
+        {
+            "value": "IV, II, III, I"
+        },
+        {
+            "value": "I, II, III, IV"
+        },
+        {
+            "value": "IV, III, I, II"
+        }
+    ]
+}

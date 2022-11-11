@@ -1,0 +1,19 @@
+{
+    "question": "An analysis of chromosomal DNA using the southern hybridisation technique does not use",
+    "explanation": "",
+    "choices": [
+        {
+            "value": "Electrophoresis",
+            "answer": true
+        },
+        {
+            "value": "Blotting"
+        },
+        {
+            "value": "Autoradiography"
+        },
+        {
+            "value": "Polymerase Chain Reaction"
+        }
+    ]
+}

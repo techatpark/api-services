@@ -1,0 +1,19 @@
+{
+    "question": "EcoRI cleaves DNA at",
+    "explanation": "",
+    "choices": [
+        {
+            "value": "AGGGTT",
+            "answer": true
+        },
+        {
+            "value": "GTATATC"
+        },
+        {
+            "value": "GAATTC"
+        },
+        {
+            "value": "TATAGC"
+        }
+    ]
+}

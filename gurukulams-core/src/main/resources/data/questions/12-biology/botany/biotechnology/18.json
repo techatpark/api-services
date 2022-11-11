@@ -1,0 +1,19 @@
+{
+    "question": "pBR 322, BR stands for",
+    "explanation": "",
+    "choices": [
+        {
+            "value": "Plasmid Bacterial Recombination",
+            "answer": true
+        },
+        {
+            "value": "Plasmid Bacterial Replication"
+        },
+        {
+            "value": "Plasmid Boliver and Rodriguez"
+        },
+        {
+            "value": "Plasmid Baltimore and Rodriguez"
+        }
+    ]
+}

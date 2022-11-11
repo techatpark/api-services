@@ -1,0 +1,19 @@
+{
+    "question": "An antibiotic gene in a vector usually helps in the selection of",
+    "explanation": "",
+    "choices": [
+        {
+            "value": "Competent cells",
+            "answer": true
+        },
+        {
+            "value": "Transformed cells"
+        },
+        {
+            "value": "Recombinant cells"
+        },
+        {
+            "value": "None of the above"
+        }
+    ]
+}

@@ -1,0 +1,19 @@
+{
+    "question": "Match the following : \n Column A      Column B \n 1 Exonuclease    a. add or remove phosphate \n 2 Endonuclease     b. binding the DNA fragments \n 3 Alkaline Phosphatase    c. cut the DNA at terminus \n 4 Ligase   d. cut the DNA at middle",
+    "explanation": "",
+    "choices": [
+        {
+            "value": "A) 1-a 2-b 3-c 4-d",
+            "answer": true
+        },
+        {
+            "value": "B) 1-c 2-d 3-b 4-a"
+        },
+        {
+            "value": "C) 1-a 2-c 3-b 4-d"
+        },
+        {
+            "value": "D) 1-c 2-d 3-a 4-b"
+        }
+    ]
+}

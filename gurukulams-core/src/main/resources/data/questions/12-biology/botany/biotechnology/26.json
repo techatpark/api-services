@@ -1,0 +1,19 @@
+{
+    "question": "Some of the characteristics of Bt cotton are",
+    "explanation": "",
+    "choices": [
+        {
+            "value": "Long fibre and resistant to aphids",
+            "answer": true
+        },
+        {
+            "value": "Medium yield, long fibre and resistant to beetle pests"
+        },
+        {
+            "value": "high yield and production of toxic protein crystals which kill dipteran pests."
+        },
+        {
+            "value": "High yield and resistant to ball worms"
+        }
+    ]
+}
