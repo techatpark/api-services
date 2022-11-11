@@ -1,0 +1,19 @@
+{
+    "question": ". Changing the codon AGC to AGA represents",
+    "explanation": "",
+    "choices": [
+        {
+            "value": "missense mutation",
+            "answer": true
+        },
+        {
+            "value": "nonsense mutation"
+        },
+        {
+            "value": "frameshift mutation"
+        },
+        {
+            "value": "deletion mutation"
+        }
+    ]
+}

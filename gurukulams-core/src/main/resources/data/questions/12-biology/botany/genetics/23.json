@@ -1,0 +1,19 @@
+{
+    "question": "An allohexaploidy contains",
+    "explanation": "",
+    "choices": [
+        {
+            "value": "Six different genomes",
+            "answer": true
+        },
+        {
+            "value": "Six copies of three different genomes"
+        },
+        {
+            "value": "Two copies of three different genomes"
+        },
+        {
+            "value": "Six copies of one genome"
+        }
+    ]
+}

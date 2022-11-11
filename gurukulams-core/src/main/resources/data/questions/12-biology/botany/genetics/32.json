@@ -1,0 +1,19 @@
+{
+    "question": "If haploid number in a cell is 18. The double monosomic and trisomic number will be",
+    "explanation": "",
+    "choices": [
+        {
+            "value": "35 and 37",
+            "answer": true
+        },
+        {
+            "value": "34 and 35"
+        },
+        {
+            "value": "37 and 35"
+        },
+        {
+            "value": "17 and 19"
+        }
+    ]
+}

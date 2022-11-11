@@ -1,0 +1,19 @@
+{
+    "question": "The point mutation sequence for transition, transition, transversion and transversion in DNA are",
+    "explanation": "",
+    "choices": [
+        {
+            "value": "A to T, T to A, C to G and G to C",
+            "answer": true
+        },
+        {
+            "value": "A to G, C to T, C to G and T to A"
+        },
+        {
+            "value": "C to G, A to G, T to A and G to A"
+        },
+        {
+            "value": "G to C, A to T, T to A and C to G"
+        }
+    ]
+}

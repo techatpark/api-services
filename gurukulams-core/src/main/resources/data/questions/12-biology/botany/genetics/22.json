@@ -1,0 +1,19 @@
+{
+    "question": "Among the following characters which one was not considered by Mendel in his experimentation pea?",
+    "explanation": "",
+    "choices": [
+        {
+            "value": "Stem – Tall or dwarf",
+            "answer": true
+        },
+        {
+            "value": "Trichomal glandular or non-glandula"
+        },
+        {
+            "value": "Seed – Green or yellow"
+        },
+        {
+            "value": "Pod – Inflated or constricted"
+        }
+    ]
+}
