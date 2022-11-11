@@ -1,0 +1,19 @@
+{
+    "question": "Which of the following isnot a abiotic component of the ecosystem?",
+    "explanation": "",
+    "choices": [
+        {
+            "value": "Bacteria",
+            "answer": true
+        },
+        {
+            "value": "Humus"
+        },
+        {
+            "value": "Organic compounds"
+        },
+        {
+            "value": "Inorganic compounds"
+        }
+    ]
+}

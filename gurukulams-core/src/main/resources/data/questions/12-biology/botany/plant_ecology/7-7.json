@@ -1,0 +1,19 @@
+{
+    "question": "Which of the following ecosystem has the highest primary productivity?",
+    "explanation": "",
+    "choices": [
+        {
+            "value": "Pond ecosystem",
+            "answer": true
+        },
+        {
+            "value": "Lake ecosystem"
+        },
+        {
+            "value": "Grassland ecosystem"
+        },
+        {
+            "value": "Forest ecosystem"
+        }
+    ]
+}
