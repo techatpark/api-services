@@ -1,0 +1,14 @@
+{
+  "question" : "The enzyme attached to RNA of HIV is __________",
+  "explanation" : "",
+  "choices" : [ {
+    "value" : "RNA polymerase"
+  }, {
+    "value" : "reverse transcriptase",
+    "answer" : true
+  }, {
+    "value" : "primase"
+  }, {
+    "value" : "endonuclease"
+  } ]
+}

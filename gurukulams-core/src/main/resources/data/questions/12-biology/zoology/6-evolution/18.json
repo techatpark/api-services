@@ -1,0 +1,14 @@
+{
+  "question" : "Placental mammals develop during _______",
+  "explanation" : "",
+  "choices" : [ {
+    "value" : "Eocene"
+  }, {
+    "value" : "Oligocene"
+  }, {
+    "value" : "Pliocene"
+  }, {
+    "value" : "Paleocene",
+    "answer" : true
+  } ]
+}

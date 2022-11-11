@@ -1,0 +1,14 @@
+{
+  "question" : "The first clinical gene therapy was done for the treatment of ______",
+  "explanation" : "",
+  "choices" : [ {
+    "value" : "AIDS"
+  }, {
+    "value" : "Cancer"
+  }, {
+    "value" : "Cystic fibrosis"
+  }, {
+    "value" : "SCID",
+    "answer" : true
+  } ]
+}

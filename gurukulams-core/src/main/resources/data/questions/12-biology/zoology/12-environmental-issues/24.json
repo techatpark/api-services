@@ -1,0 +1,14 @@
+{
+  "question" : "UN conference on Sustainable development in 2012 was held at ________",
+  "explanation" : "",
+  "choices" : [ {
+    "value" : "Ruanda"
+  }, {
+    "value" : "Rio de Janeiro",
+    "answer" : true
+  }, {
+    "value" : "Geneva"
+  }, {
+    "value" : "Stockholm"
+  } ]
+}

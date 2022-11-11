@@ -1,0 +1,14 @@
+{
+  "question" : "Identify the correct statement indicating 4Rs of treating water.",
+  "explanation" : "",
+  "choices" : [ {
+    "value" : "Regenerate, Reduce, Reuse and Recycle"
+  }, {
+    "value" : "Refuse, Reduce, Rejenuvate and Reuse"
+  }, {
+    "value" : "Redeem, Refuse, Rejenuvate and Reduce"
+  }, {
+    "value" : "Refuse, Reduce, Rescue and Recycle.",
+    "answer" : true
+  } ]
+}

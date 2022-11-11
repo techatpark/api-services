@@ -1,0 +1,14 @@
+{
+  "question" : "Which among the following animal is not a continuous breeder?",
+  "explanation" : "",
+  "choices" : [ {
+    "value" : "Hen"
+  }, {
+    "value" : "Rabbit"
+  }, {
+    "value" : "Honey bees"
+  }, {
+    "value" : "Frogs",
+    "answer" : true
+  } ]
+}

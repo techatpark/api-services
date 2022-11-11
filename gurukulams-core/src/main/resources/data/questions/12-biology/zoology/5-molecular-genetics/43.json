@@ -1,0 +1,14 @@
+{
+  "question" : "Lac Z gene codes for __________",
+  "explanation" : "",
+  "choices" : [ {
+    "value" : "Permease"
+  }, {
+    "value" : "transacetylase"
+  }, {
+    "value" : "β -galactosidase",
+    "answer" : true
+  }, {
+    "value" : "Aminoacyl transferase"
+  } ]
+}

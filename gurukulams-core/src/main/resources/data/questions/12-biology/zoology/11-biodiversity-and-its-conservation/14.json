@@ -1,0 +1,14 @@
+{
+  "question" : "Select the proper sequence indicating the increasing order of biodiversity __________",
+  "explanation" : "",
+  "choices" : [ {
+    "value" : "Polar, Temperate and Polar",
+    "answer" : true
+  }, {
+    "value" : "Tropics, Temperate and Polar"
+  }, {
+    "value" : "Temperate, Tropic and Polar"
+  }, {
+    "value" : "Polar, Tropic and Temperate"
+  } ]
+}

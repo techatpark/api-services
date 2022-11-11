@@ -1,0 +1,14 @@
+{
+  "question" : "Pick out the incorrect statement.",
+  "explanation" : "",
+  "choices" : [ {
+    "value" : "tRNA acts as a adapter molecule"
+  }, {
+    "value" : "Stop codons donot have tRNA’s"
+  }, {
+    "value" : "Addition of aminoacid leads to hydrolysis of tRNA",
+    "answer" : true
+  }, {
+    "value" : "tRNA has four major loops"
+  } ]
+}

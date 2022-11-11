@@ -1,0 +1,13 @@
+{
+  "question" : "According to WHO, India is the largest HIV affected country.",
+  "explanation" : "",
+  "choices" : [ {
+    "value" : "first"
+  }, {
+    "value" : "second"
+  }, {
+    "value" : "third"
+  }, {
+    "value" : "seventh"
+  } ]
+}

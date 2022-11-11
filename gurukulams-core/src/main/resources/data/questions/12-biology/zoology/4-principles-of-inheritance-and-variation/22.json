@@ -1,0 +1,14 @@
+{
+  "question" : "ZW-ZZ system of sex determination occurs in _________",
+  "explanation" : "",
+  "choices" : [ {
+    "value" : "Fishes"
+  }, {
+    "value" : "Reptiles"
+  }, {
+    "value" : "Birds"
+  }, {
+    "value" : "All of these",
+    "answer" : true
+  } ]
+}

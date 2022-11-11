@@ -1,0 +1,14 @@
+{
+  "question" : "With which of the following, the Agenda 21 of Rio Summit, 1992 is related to?",
+  "explanation" : "",
+  "choices" : [ {
+    "value" : "Sustainable development",
+    "answer" : true
+  }, {
+    "value" : "Combating the consequences of population"
+  }, {
+    "value" : "Mitigation norms of Green House Gases (GHGs"
+  }, {
+    "value" : "Technology transfer mechanism to developing countries for ‘clean energy’ production"
+  } ]
+}

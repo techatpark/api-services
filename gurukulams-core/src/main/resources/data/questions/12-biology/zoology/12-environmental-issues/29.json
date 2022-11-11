@@ -1,0 +1,14 @@
+{
+  "question" : "Stratosphere is mainly depleted by ________",
+  "explanation" : "",
+  "choices" : [ {
+    "value" : "Excess CO"
+  }, {
+    "value" : "CFC’s",
+    "answer" : true
+  }, {
+    "value" : "Ozone"
+  }, {
+    "value" : "Exess CO"
+  } ]
+}

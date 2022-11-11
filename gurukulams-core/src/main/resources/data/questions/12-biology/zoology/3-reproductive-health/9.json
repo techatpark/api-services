@@ -1,0 +1,14 @@
+{
+  "question" : "Legalized marriageable age of female in India is",
+  "explanation" : "",
+  "choices" : [ {
+    "value" : "19 years"
+  }, {
+    "value" : "20 years"
+  }, {
+    "value" : "18 years",
+    "answer" : true
+  }, {
+    "value" : "21 years"
+  } ]
+}

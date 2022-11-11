@@ -1,0 +1,14 @@
+{
+  "question" : "In Hershey – Chase experiment, the DNA of T<sup>2</sup> phase was made radioactive by using ___________",
+  "explanation" : "",
+  "choices" : [ {
+    "value" : "<sup>32</sup>P",
+    "answer" : true
+  }, {
+    "value" : "<sup>32</sup>S"
+  }, {
+    "value" : "<sup>35</sup>P"
+  }, {
+    "value" : "<sup>32</sup>S"
+  } ]
+}

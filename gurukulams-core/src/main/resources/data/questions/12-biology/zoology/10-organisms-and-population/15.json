@@ -1,0 +1,14 @@
+{
+  "question" : "Locomotary speed of an organism changes due to light. This phenomenon is referred as ________",
+  "explanation" : "",
+  "choices" : [ {
+    "value" : "Photonasty"
+  }, {
+    "value" : "Photokinesis",
+    "answer" : true
+  }, {
+    "value" : "Phototropism"
+  }, {
+    "value" : "Phototaxis"
+  } ]
+}

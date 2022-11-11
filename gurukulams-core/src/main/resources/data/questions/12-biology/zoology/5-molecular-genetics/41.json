@@ -1,0 +1,14 @@
+{
+  "question" : "The cluster of genes with related function is called _________",
+  "explanation" : "",
+  "choices" : [ {
+    "value" : "Cistron"
+  }, {
+    "value" : "Operon",
+    "answer" : true
+  }, {
+    "value" : "Muton"
+  }, {
+    "value" : "Recon"
+  } ]
+}

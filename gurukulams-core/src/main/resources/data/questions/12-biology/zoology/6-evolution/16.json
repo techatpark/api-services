@@ -1,0 +1,14 @@
+{
+  "question" : "Identify the incorrect statement in concern with Neanderthals.",
+  "explanation" : "",
+  "choices" : [ {
+    "value" : "Neanderthal human was found in Germany."
+  }, {
+    "value" : "They possessed flat cranium."
+  }, {
+    "value" : "They used to bury their dead."
+  }, {
+    "value" : "Their brain size is of 650 – 800 cc",
+    "answer" : true
+  } ]
+}

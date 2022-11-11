@@ -1,0 +1,14 @@
+{
+  "question" : "In India, a family planning programme was initiated in",
+  "explanation" : "",
+  "choices" : [ {
+    "value" : "1961"
+  }, {
+    "value" : "1981"
+  }, {
+    "value" : "1951",
+    "answer" : true
+  }, {
+    "value" : "1971"
+  } ]
+}

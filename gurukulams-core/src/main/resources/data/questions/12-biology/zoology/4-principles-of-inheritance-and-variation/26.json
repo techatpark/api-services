@@ -1,0 +1,13 @@
+{
+  "question" : "Excess hair growth on pinna is a feature noticed only in males because _________",
+  "explanation" : "",
+  "choices" : [ {
+    "value" : "Males produce more testosterone"
+  }, {
+    "value" : "a gene responsible for the character is located in Y-chromosome"
+  }, {
+    "value" : "Estrogen suppresses the character in females"
+  }, {
+    "value" : "females act only as a carrier for this character"
+  } ]
+}

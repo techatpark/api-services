@@ -1,0 +1,14 @@
+{
+  "question" : "Mammal in human male is",
+  "explanation" : "",
+  "choices" : [ {
+    "value" : "Atavistic organ"
+  }, {
+    "value" : "Rudimentary Organ"
+  }, {
+    "value" : "Vestigial organ",
+    "answer" : true
+  }, {
+    "value" : "Homologous structure"
+  } ]
+}

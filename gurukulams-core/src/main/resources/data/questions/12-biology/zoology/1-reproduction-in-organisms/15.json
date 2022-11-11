@@ -1,0 +1,14 @@
+{
+  "question" : "Pick out the organism whose fertilization occurs internally.",
+  "explanation" : "",
+  "choices" : [ {
+    "value" : "reptiles",
+    "answer" : true
+  }, {
+    "value" : "sponges"
+  }, {
+    "value" : "Pisces"
+  }, {
+    "value" : "amphibians"
+  } ]
+}

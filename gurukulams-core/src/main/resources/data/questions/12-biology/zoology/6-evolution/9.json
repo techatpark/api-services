@@ -1,0 +1,14 @@
+{
+  "question" : "Fossils are generally found in __________",
+  "explanation" : "",
+  "choices" : [ {
+    "value" : "igneous rocks"
+  }, {
+    "value" : "metamorphics"
+  }, {
+    "value" : "volcanic rocks"
+  }, {
+    "value" : "sedimentary rocks",
+    "answer" : true
+  } ]
+}

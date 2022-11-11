@@ -1,0 +1,14 @@
+{
+  "question" : "The ‘thickness’ of Stratospheric Ozone layer is measured in/on _________",
+  "explanation" : "",
+  "choices" : [ {
+    "value" : "Sieverts units"
+  }, {
+    "value" : "Dobson units",
+    "answer" : true
+  }, {
+    "value" : "Melson units"
+  }, {
+    "value" : "Beaufort Scale"
+  } ]
+}

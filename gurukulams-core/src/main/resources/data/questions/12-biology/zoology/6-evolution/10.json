@@ -1,0 +1,14 @@
+{
+  "question" : "Evolutionary history of an organism is called __________",
+  "explanation" : "",
+  "choices" : [ {
+    "value" : "ancestry"
+  }, {
+    "value" : "ontogeny"
+  }, {
+    "value" : "phylogeny",
+    "answer" : true
+  }, {
+    "value" : "paleontology"
+  } ]
+}

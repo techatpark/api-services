@@ -1,0 +1,14 @@
+{
+  "question" : "All populations in a given physical area are defined as ___________",
+  "explanation" : "",
+  "choices" : [ {
+    "value" : "Biome",
+    "answer" : true
+  }, {
+    "value" : "Ecosystem"
+  }, {
+    "value" : "Territory"
+  }, {
+    "value" : "Biotic factors"
+  } ]
+}

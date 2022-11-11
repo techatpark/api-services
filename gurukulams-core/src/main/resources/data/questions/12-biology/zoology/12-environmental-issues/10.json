@@ -1,0 +1,14 @@
+{
+  "question" : "The Hydro chlorofluorocarbons (HCFCs) are the compounds which have the following molecules _________",
+  "explanation" : "",
+  "choices" : [ {
+    "value" : "Hydrogen"
+  }, {
+    "value" : "Carbon"
+  }, {
+    "value" : "Chlorine",
+    "answer" : true
+  }, {
+    "value" : "Fluorine"
+  } ]
+}

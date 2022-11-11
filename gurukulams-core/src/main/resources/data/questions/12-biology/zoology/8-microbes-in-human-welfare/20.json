@@ -1,0 +1,14 @@
+{
+  "question" : "The flavour in the yogurt is due to ___________",
+  "explanation" : "",
+  "choices" : [ {
+    "value" : "Formaldehyde"
+  }, {
+    "value" : "Lactate"
+  }, {
+    "value" : "Acetaldehyde",
+    "answer" : true
+  }, {
+    "value" : "Caesin"
+  } ]
+}

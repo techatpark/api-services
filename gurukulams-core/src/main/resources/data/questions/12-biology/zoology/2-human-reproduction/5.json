@@ -1,0 +1,14 @@
+{
+  "question" : "The site of embryo implantation is the ________",
+  "explanation" : "",
+  "choices" : [ {
+    "value" : "Uterus",
+    "answer" : true
+  }, {
+    "value" : "Peritoneal cavity"
+  }, {
+    "value" : "Vagina"
+  }, {
+    "value" : "Fallopian tube"
+  } ]
+}

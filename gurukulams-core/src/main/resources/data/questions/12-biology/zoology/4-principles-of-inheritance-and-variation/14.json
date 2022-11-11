@@ -1,0 +1,14 @@
+{
+  "question" : "Mangolism is a genetic disorder which is caused by the presence of an extra chromosome number.",
+  "explanation" : "",
+  "choices" : [ {
+    "value" : "20"
+  }, {
+    "value" : "21",
+    "answer" : true
+  }, {
+    "value" : "4"
+  }, {
+    "value" : "23"
+  } ]
+}

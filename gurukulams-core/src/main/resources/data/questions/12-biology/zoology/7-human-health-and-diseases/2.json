@@ -1,0 +1,14 @@
+{
+  "question" : "Exo-erythrocytic schizogony of Plasmodium takes place in __________",
+  "explanation" : "",
+  "choices" : [ {
+    "value" : "RBC"
+  }, {
+    "value" : "Leucocytes"
+  }, {
+    "value" : "Stomach"
+  }, {
+    "value" : "Liver",
+    "answer" : true
+  } ]
+}

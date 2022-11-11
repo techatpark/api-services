@@ -1,0 +1,14 @@
+{
+  "question" : "Pick out the correct statement regarding K-selected species",
+  "explanation" : "",
+  "choices" : [ {
+    "value" : "Produce many offsprings"
+  }, {
+    "value" : "Only few reach adulthood"
+  }, {
+    "value" : "Unstable environment"
+  }, {
+    "value" : "Long life expectancy",
+    "answer" : true
+  } ]
+}

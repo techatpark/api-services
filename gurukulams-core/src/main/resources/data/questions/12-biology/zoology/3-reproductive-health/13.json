@@ -1,0 +1,14 @@
+{
+  "question" : "In chorionic villus sampling test, the tissue sample is taken from",
+  "explanation" : "",
+  "choices" : [ {
+    "value" : "amniotic fluid"
+  }, {
+    "value" : "placental tissue",
+    "answer" : true
+  }, {
+    "value" : "Intestinal villi"
+  }, {
+    "value" : "foetal liver"
+  } ]
+}

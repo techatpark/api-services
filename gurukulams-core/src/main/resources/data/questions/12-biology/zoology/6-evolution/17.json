@@ -1,0 +1,14 @@
+{
+  "question" : "Which of the following statement does not satisfy the Hardy Weinberg’s principle?",
+  "explanation" : "",
+  "choices" : [ {
+    "value" : "A population undergoing random mating"
+  }, {
+    "value" : "Small-sized population",
+    "answer" : true
+  }, {
+    "value" : "Population where there is no mutation or gene flow"
+  }, {
+    "value" : "Absence of natural selection"
+  } ]
+}

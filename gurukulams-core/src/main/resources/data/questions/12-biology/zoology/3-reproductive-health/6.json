@@ -1,0 +1,14 @@
+{
+  "question" : "Which of the following is Not a natural contraceptive?",
+  "explanation" : "",
+  "choices" : [ {
+    "value" : "Rhythm method"
+  }, {
+    "value" : "Lactational amenorrhoea"
+  }, {
+    "value" : "Progestasert",
+    "answer" : true
+  }, {
+    "value" : "Continuous abstinence"
+  } ]
+}

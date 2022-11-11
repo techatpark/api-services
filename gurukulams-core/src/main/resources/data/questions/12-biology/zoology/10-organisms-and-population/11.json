@@ -1,0 +1,14 @@
+{
+  "question" : "The study dealing with animal behaviour is called as ________",
+  "explanation" : "",
+  "choices" : [ {
+    "value" : "Euthenics"
+  }, {
+    "value" : "Ethology",
+    "answer" : true
+  }, {
+    "value" : "Ecology"
+  }, {
+    "value" : "Pedogenesis"
+  } ]
+}

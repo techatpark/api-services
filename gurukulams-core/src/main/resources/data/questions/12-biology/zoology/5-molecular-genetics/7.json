@@ -1,0 +1,14 @@
+{
+  "question" : "Which of the following is the correct sequence of event with reference to the central dogma?",
+  "explanation" : "",
+  "choices" : [ {
+    "value" : "Transcription, Translation, Replication"
+  }, {
+    "value" : "Transcription, Replication, Translation"
+  }, {
+    "value" : "Duplication, Translation, Transcription"
+  }, {
+    "value" : "Replication, Transcription, Translation",
+    "answer" : true
+  } ]
+}

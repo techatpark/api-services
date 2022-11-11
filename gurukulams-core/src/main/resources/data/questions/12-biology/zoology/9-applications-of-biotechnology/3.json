@@ -1,0 +1,14 @@
+{
+  "question" : "The genetic defect adenosine deaminase deficiency may be cured permanently by ______",
+  "explanation" : "",
+  "choices" : [ {
+    "value" : "Enzyme replacement therapy"
+  }, {
+    "value" : "periodic infusion of genetically engineered lymphocytes having ADA cDNA"
+  }, {
+    "value" : "administering adenosine deaminase activators"
+  }, {
+    "value" : "introducing bone marrow cells producing ADA into embryo at an early stage of development.",
+    "answer" : true
+  } ]
+}

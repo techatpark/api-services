@@ -1,0 +1,14 @@
+{
+  "question" : "Which of the following forests is known as the lungs of the planet Earth?",
+  "explanation" : "",
+  "choices" : [ {
+    "value" : "Tundra forest"
+  }, {
+    "value" : "Rain forest of north east India"
+  }, {
+    "value" : "Taiga forest"
+  }, {
+    "value" : "Amazon rain forest",
+    "answer" : true
+  } ]
+}

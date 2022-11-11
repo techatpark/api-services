@@ -1,0 +1,14 @@
+{
+  "question" : "The process which the sperm undergoes before penetrating the ovum is ________",
+  "explanation" : "",
+  "choices" : [ {
+    "value" : "Spermiation"
+  }, {
+    "value" : "Cortical reaction"
+  }, {
+    "value" : "Spermiogenesis"
+  }, {
+    "value" : "Capacitation",
+    "answer" : true
+  } ]
+}

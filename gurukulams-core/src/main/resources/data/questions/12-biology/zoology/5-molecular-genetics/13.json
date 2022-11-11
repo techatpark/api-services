@@ -1,0 +1,14 @@
+{
+  "question" : "When lactose is present in the culture medium:",
+  "explanation" : "",
+  "choices" : [ {
+    "value" : "Transcription of lacy, lac z, lac a genes occurs"
+  }, {
+    "value" : "Repressor is unable to bind to the operator"
+  }, {
+    "value" : "Repressor is able to bind to the operator"
+  }, {
+    "value" : "Both (a",
+    "answer" : true
+  } ]
+}

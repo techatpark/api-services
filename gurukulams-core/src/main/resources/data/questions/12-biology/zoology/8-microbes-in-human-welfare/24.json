@@ -1,0 +1,14 @@
+{
+  "question" : "Which of the following plant species is the most suitable oilseed for direct production?",
+  "explanation" : "",
+  "choices" : [ {
+    "value" : "Groundnut"
+  }, {
+    "value" : "Areca nut"
+  }, {
+    "value" : "Jatropha curcas",
+    "answer" : true
+  }, {
+    "value" : "Phyllanthus anarus"
+  } ]
+}

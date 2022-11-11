@@ -1,0 +1,14 @@
+{
+  "question" : "Functional status of an organism in its community is ________",
+  "explanation" : "",
+  "choices" : [ {
+    "value" : "Biome"
+  }, {
+    "value" : "Niche",
+    "answer" : true
+  }, {
+    "value" : "Species"
+  }, {
+    "value" : "Population"
+  } ]
+}

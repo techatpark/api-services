@@ -1,0 +1,14 @@
+{
+  "question" : "Wild ass is endemic to __________",
+  "explanation" : "",
+  "choices" : [ {
+    "value" : "the Western Ghats"
+  }, {
+    "value" : "Deccan Peninsula"
+  }, {
+    "value" : "the Himalayas"
+  }, {
+    "value" : "Indian desert",
+    "answer" : true
+  } ]
+}

@@ -1,0 +1,14 @@
+{
+  "question" : "Study dealing with body’s defence mechanism against disease is called __________",
+  "explanation" : "",
+  "choices" : [ {
+    "value" : "Pathology"
+  }, {
+    "value" : "Immunology",
+    "answer" : true
+  }, {
+    "value" : "Microbiology"
+  }, {
+    "value" : "Dermatology"
+  } ]
+}

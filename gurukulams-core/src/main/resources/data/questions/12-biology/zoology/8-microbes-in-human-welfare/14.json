@@ -1,0 +1,14 @@
+{
+  "question" : "Identify the name and the formula of industrial alcohol.",
+  "explanation" : "",
+  "choices" : [ {
+    "value" : "Butanol, C<sub>4</sub>H<sub>9</sub>OH"
+  }, {
+    "value" : "Propanol, C<sub>3</sub>H<sub>7</sub>OH"
+  }, {
+    "value" : "Ethanol, C<sub>2</sub>H<sub>5</sub>OH",
+    "answer" : true
+  }, {
+    "value" : "Methanol, CH<sub>3</sub>OH"
+  } ]
+}

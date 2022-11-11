@@ -1,0 +1,14 @@
+{
+  "question" : "The entire process of spermatogenesis takes about ________ days",
+  "explanation" : "",
+  "choices" : [ {
+    "value" : "60 days"
+  }, {
+    "value" : "44 days"
+  }, {
+    "value" : "64 days",
+    "answer" : true
+  }, {
+    "value" : "50 days"
+  } ]
+}

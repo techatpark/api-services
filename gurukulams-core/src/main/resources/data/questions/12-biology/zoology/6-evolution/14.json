@@ -1,0 +1,14 @@
+{
+  "question" : "The Neanderthal man had the brain capacity of __________",
+  "explanation" : "",
+  "choices" : [ {
+    "value" : "650 – 800cc"
+  }, {
+    "value" : "1200cc"
+  }, {
+    "value" : "900cc"
+  }, {
+    "value" : "1400c",
+    "answer" : true
+  } ]
+}

@@ -1,0 +1,14 @@
+{
+  "question" : "are the major causes of CO polution in large cities and towns ________",
+  "explanation" : "",
+  "choices" : [ {
+    "value" : "Fossil fuels"
+  }, {
+    "value" : "Ocean"
+  }, {
+    "value" : "Deforestation"
+  }, {
+    "value" : "Automobiles",
+    "answer" : true
+  } ]
+}

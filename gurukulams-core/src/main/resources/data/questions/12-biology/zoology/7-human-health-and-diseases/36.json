@@ -1,0 +1,14 @@
+{
+  "question" : "Cocaine is a __________ potent.",
+  "explanation" : "",
+  "choices" : [ {
+    "value" : "Sedative"
+  }, {
+    "value" : "Hallucinogen",
+    "answer" : true
+  }, {
+    "value" : "pain reliever"
+  }, {
+    "value" : "neurotransmitter"
+  } ]
+}

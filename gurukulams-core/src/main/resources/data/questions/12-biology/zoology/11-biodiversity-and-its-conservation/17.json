@@ -1,0 +1,14 @@
+{
+  "question" : "Which is considered as the Biogeographical Gateway of India?",
+  "explanation" : "",
+  "choices" : [ {
+    "value" : "the Himalayas"
+  }, {
+    "value" : "Andaman &amp; Nicobar"
+  }, {
+    "value" : "North-East India",
+    "answer" : true
+  }, {
+    "value" : "Mumbai"
+  } ]
+}

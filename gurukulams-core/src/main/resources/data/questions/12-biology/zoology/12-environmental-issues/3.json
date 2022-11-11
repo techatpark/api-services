@@ -1,0 +1,14 @@
+{
+  "question" : "Which among the following awards instituted by the Government of India for individuals or communities from rural areas that have shown extraordinary courage and dedication in protecting Wildlife?",
+  "explanation" : "",
+  "choices" : [ {
+    "value" : "Indira Gandhi Paryavaran Puraskar"
+  }, {
+    "value" : "Medini Puraskar Yojana"
+  }, {
+    "value" : "Amrita Devi Bishnoi Award",
+    "answer" : true
+  }, {
+    "value" : "Pitambar Pant National Award"
+  } ]
+}

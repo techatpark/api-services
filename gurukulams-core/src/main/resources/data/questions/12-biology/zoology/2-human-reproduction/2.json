@@ -1,0 +1,14 @@
+{
+  "question" : "The male sex hormone testosterone is secreted from ________",
+  "explanation" : "",
+  "choices" : [ {
+    "value" : "Sertoli cells"
+  }, {
+    "value" : "Leydig cell",
+    "answer" : true
+  }, {
+    "value" : "Epididymis"
+  }, {
+    "value" : "Prostate gland"
+  } ]
+}

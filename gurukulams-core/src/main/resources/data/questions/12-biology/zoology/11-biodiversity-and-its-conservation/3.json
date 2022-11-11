@@ -1,0 +1,14 @@
+{
+  "question" : "Which one of the following is not coming under in-situ conservation?",
+  "explanation" : "",
+  "choices" : [ {
+    "value" : "Sanctuaries"
+  }, {
+    "value" : "Natural parks"
+  }, {
+    "value" : "Zoological park",
+    "answer" : true
+  }, {
+    "value" : "Biosphere reserve"
+  } ]
+}

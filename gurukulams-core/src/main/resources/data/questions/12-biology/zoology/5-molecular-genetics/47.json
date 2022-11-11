@@ -1,0 +1,14 @@
+{
+  "question" : "In DNA fingerprinting, separation of DNA fragments is done by __________",
+  "explanation" : "",
+  "choices" : [ {
+    "value" : "Centrifugation"
+  }, {
+    "value" : "Electrophoresis",
+    "answer" : true
+  }, {
+    "value" : "X-ray diffraction"
+  }, {
+    "value" : "denaturation"
+  } ]
+}

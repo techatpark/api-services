@@ -1,0 +1,14 @@
+{
+  "question" : "Which of the following feature is absent in prokaryotes?",
+  "explanation" : "",
+  "choices" : [ {
+    "value" : "Prokaryotes possess three major types of RNAs"
+  }, {
+    "value" : "Structural genes are polycistronic"
+  }, {
+    "value" : "Initiation process of transcription requires ‘P’ factor"
+  }, {
+    "value" : "Split gene feature",
+    "answer" : true
+  } ]
+}

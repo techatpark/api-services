@@ -1,0 +1,14 @@
+{
+  "question" : "Cirrhosis of liver is caused by chronic intake of __________",
+  "explanation" : "",
+  "choices" : [ {
+    "value" : "Opium"
+  }, {
+    "value" : "Alcohol",
+    "answer" : true
+  }, {
+    "value" : "Tobacco"
+  }, {
+    "value" : "Cocaine"
+  } ]
+}

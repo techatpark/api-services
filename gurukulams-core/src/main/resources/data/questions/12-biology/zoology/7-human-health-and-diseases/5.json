@@ -1,0 +1,14 @@
+{
+  "question" : "Choose the correctly match pair.",
+  "explanation" : "",
+  "choices" : [ {
+    "value" : "Amphetamines – Stimulant",
+    "answer" : true
+  }, {
+    "value" : "LSD-Narcotic"
+  }, {
+    "value" : "Heroin – Psychotropic"
+  }, {
+    "value" : "Benzodiazepine – Pain killer"
+  } ]
+}

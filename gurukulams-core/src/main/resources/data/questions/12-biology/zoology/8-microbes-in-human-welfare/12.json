@@ -1,0 +1,14 @@
+{
+  "question" : "Name the person who was the first to use the term antibiotic.",
+  "explanation" : "",
+  "choices" : [ {
+    "value" : "Selman Waksman",
+    "answer" : true
+  }, {
+    "value" : "Alexander Flemming"
+  }, {
+    "value" : "Earnest Chain"
+  }, {
+    "value" : "Howard Florey"
+  } ]
+}

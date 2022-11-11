@@ -1,0 +1,14 @@
+{
+  "question" : "The intensity of noise is measured in ________",
+  "explanation" : "",
+  "choices" : [ {
+    "value" : "Dobson"
+  }, {
+    "value" : "Hertz"
+  }, {
+    "value" : "Decibel",
+    "answer" : true
+  }, {
+    "value" : "Frequency"
+  } ]
+}

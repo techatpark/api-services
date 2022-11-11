@@ -1,0 +1,14 @@
+{
+  "question" : "Multiple fission occurring in the oocyte of plasmodium is called ___________",
+  "explanation" : "",
+  "choices" : [ {
+    "value" : "Schizogony"
+  }, {
+    "value" : "Merogamy"
+  }, {
+    "value" : "Syngamy"
+  }, {
+    "value" : "Sporogony",
+    "answer" : true
+  } ]
+}

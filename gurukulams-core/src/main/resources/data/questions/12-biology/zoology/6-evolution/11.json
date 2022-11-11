@@ -1,0 +1,14 @@
+{
+  "question" : "The golden age of reptiles was __________",
+  "explanation" : "",
+  "choices" : [ {
+    "value" : "Mesozoic era",
+    "answer" : true
+  }, {
+    "value" : "Cenozoic era"
+  }, {
+    "value" : "Paleozoic era"
+  }, {
+    "value" : "Proteroic era"
+  } ]
+}

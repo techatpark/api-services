@@ -1,0 +1,14 @@
+{
+  "question" : "The soil zone is known as ________",
+  "explanation" : "",
+  "choices" : [ {
+    "value" : "Pedosphere",
+    "answer" : true
+  }, {
+    "value" : "Atmosphere"
+  }, {
+    "value" : "Hydrosphere"
+  }, {
+    "value" : "Stratosphere"
+  } ]
+}

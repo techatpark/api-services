@@ -1,0 +1,13 @@
+{
+  "question" : "Identify the mismatched pair.",
+  "explanation" : "",
+  "choices" : [ {
+    "value" : "Castration – Orchidectomy"
+  }, {
+    "value" : "Spermiogenesis – Release of sperms into the cavity of seminiferous tubule"
+  }, {
+    "value" : "Ovulation – Release of egg from ovary"
+  }, {
+    "value" : "Capacitation – Process enabling the sperm to penetrate the egg."
+  } ]
+}

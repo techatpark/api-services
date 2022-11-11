@@ -1,0 +1,14 @@
+{
+  "question" : "Colostrum is rich in ________",
+  "explanation" : "",
+  "choices" : [ {
+    "value" : "IgE"
+  }, {
+    "value" : "IgA",
+    "answer" : true
+  }, {
+    "value" : "IgD"
+  }, {
+    "value" : "Ig M"
+  } ]
+}

@@ -1,0 +1,13 @@
+{
+  "question" : "Find out the proper sequence representing the parts of female reproductive system.",
+  "explanation" : "",
+  "choices" : [ {
+    "value" : "Vagina → Ovary → Uterus → Cervix → Infundibulum → Oviduct"
+  }, {
+    "value" : "Vagina → Ovary → Oviduct → Infundibulum → Cervix → Uterus"
+  }, {
+    "value" : "Ovary → Infundibulum → Oviduct → Uterus → Cervix → Vagina"
+  }, {
+    "value" : "Oviduct → Ovary → Uterus → Infundibulum Vagina → Cervix"
+  } ]
+}

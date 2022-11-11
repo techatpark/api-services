@@ -1,0 +1,14 @@
+{
+  "question" : "Who proposed the Germplasm theory?",
+  "explanation" : "",
+  "choices" : [ {
+    "value" : "Darwin"
+  }, {
+    "value" : "August Weismann",
+    "answer" : true
+  }, {
+    "value" : "Lamarck"
+  }, {
+    "value" : "analysis of bones"
+  } ]
+}

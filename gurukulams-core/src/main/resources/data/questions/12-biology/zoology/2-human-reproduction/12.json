@@ -1,0 +1,14 @@
+{
+  "question" : "The Androgen Binding Protein (ABP) is produced by ________",
+  "explanation" : "",
+  "choices" : [ {
+    "value" : "Leydig cells"
+  }, {
+    "value" : "Hypothalamus"
+  }, {
+    "value" : "Sertoli cells",
+    "answer" : true
+  }, {
+    "value" : "Pituitary gland"
+  } ]
+}

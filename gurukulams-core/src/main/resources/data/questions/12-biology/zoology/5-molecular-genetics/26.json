@@ -1,0 +1,14 @@
+{
+  "question" : "Which is NOT a part of the transcription unit?",
+  "explanation" : "",
+  "choices" : [ {
+    "value" : "Promoter"
+  }, {
+    "value" : "Operator",
+    "answer" : true
+  }, {
+    "value" : "Structural gene"
+  }, {
+    "value" : "Terminator"
+  } ]
+}

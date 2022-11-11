@@ -1,0 +1,14 @@
+{
+  "question" : "Pick out the incorrect statement regarding the character of a good contraceptive.",
+  "explanation" : "",
+  "choices" : [ {
+    "value" : "It should be user friendly"
+  }, {
+    "value" : "should not affect sexual drive"
+  }, {
+    "value" : "side effects must be least"
+  }, {
+    "value" : "should not be easily available",
+    "answer" : true
+  } ]
+}

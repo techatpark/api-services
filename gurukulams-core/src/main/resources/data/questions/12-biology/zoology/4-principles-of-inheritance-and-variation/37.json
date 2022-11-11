@@ -1,0 +1,13 @@
+{
+  "question" : "Identify the incorrect statement regarding haplodiploidy.",
+  "explanation" : "",
+  "choices" : [ {
+    "value" : "Haplodiploidy is noticed in honeybees and drosophila"
+  }, {
+    "value" : "Unfertilized eggs develop into drones"
+  }, {
+    "value" : "Fertilized eggs develop into queen and worker bees"
+  }, {
+    "value" : "Males have half the total chromosomal number"
+  } ]
+}

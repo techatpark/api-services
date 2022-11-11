@@ -1,0 +1,14 @@
+{
+  "question" : "The relationship between sucker fish and shark is ___________",
+  "explanation" : "",
+  "choices" : [ {
+    "value" : "Competition"
+  }, {
+    "value" : "Commensalism",
+    "answer" : true
+  }, {
+    "value" : "Predation"
+  }, {
+    "value" : "Parasitism"
+  } ]
+}

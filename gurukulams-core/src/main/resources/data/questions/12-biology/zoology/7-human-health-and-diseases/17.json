@@ -1,0 +1,14 @@
+{
+  "question" : "Yellow fever is a __________ type of disease.",
+  "explanation" : "",
+  "choices" : [ {
+    "value" : "Neurotropic"
+  }, {
+    "value" : "Viscerotropic",
+    "answer" : true
+  }, {
+    "value" : "Pneumotropic"
+  }, {
+    "value" : "Dermotropic"
+  } ]
+}

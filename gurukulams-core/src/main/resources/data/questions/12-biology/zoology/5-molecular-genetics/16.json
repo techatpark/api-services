@@ -1,0 +1,14 @@
+{
+  "question" : "A nucleoside is composed of ___________",
+  "explanation" : "",
+  "choices" : [ {
+    "value" : "Sugar and Phosphate"
+  }, {
+    "value" : "Nitrogen base and Phosphate"
+  }, {
+    "value" : "Sugar and a Nitrogen base",
+    "answer" : true
+  }, {
+    "value" : "Sugar, Phosphate, and Nitrogenous base"
+  } ]
+}

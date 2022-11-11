@@ -1,0 +1,14 @@
+{
+  "question" : "Number of genes located in chromosome Y is __________",
+  "explanation" : "",
+  "choices" : [ {
+    "value" : "2968"
+  }, {
+    "value" : "213"
+  }, {
+    "value" : "2869"
+  }, {
+    "value" : "231",
+    "answer" : true
+  } ]
+}

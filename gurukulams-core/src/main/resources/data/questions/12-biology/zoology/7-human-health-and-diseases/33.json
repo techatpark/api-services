@@ -1,0 +1,14 @@
+{
+  "question" : "Plant source of Heroin is __________",
+  "explanation" : "",
+  "choices" : [ {
+    "value" : "Poppy plants",
+    "answer" : true
+  }, {
+    "value" : "Cannabis plants"
+  }, {
+    "value" : "Datura species"
+  }, {
+    "value" : "Atropa species"
+  } ]
+}

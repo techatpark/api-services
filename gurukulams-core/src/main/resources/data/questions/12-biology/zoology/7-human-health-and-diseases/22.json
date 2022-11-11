@@ -1,0 +1,14 @@
+{
+  "question" : "Which of the following is not a feature of passive immunity?",
+  "explanation" : "",
+  "choices" : [ {
+    "value" : "It is transient and less effective"
+  }, {
+    "value" : "Immunological memory is present",
+    "answer" : true
+  }, {
+    "value" : "Immunity develops immunity"
+  }, {
+    "value" : "Antibodies are obtained from outside"
+  } ]
+}

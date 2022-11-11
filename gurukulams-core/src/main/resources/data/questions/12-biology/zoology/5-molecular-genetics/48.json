@@ -1,0 +1,14 @@
+{
+  "question" : "SNP stands for",
+  "explanation" : "",
+  "choices" : [ {
+    "value" : "Single nucleotide Polymorphism",
+    "answer" : true
+  }, {
+    "value" : "Single Nucleoside Polypeptide"
+  }, {
+    "value" : "Single nucleotide Polymorphism"
+  }, {
+    "value" : "Single nucleotide polymer"
+  } ]
+}

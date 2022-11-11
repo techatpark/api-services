@@ -1,0 +1,14 @@
+{
+  "question" : "AIDS is characterized by sharp reduction in number of __________",
+  "explanation" : "",
+  "choices" : [ {
+    "value" : "helper T cells",
+    "answer" : true
+  }, {
+    "value" : "killer T cells"
+  }, {
+    "value" : "superior T cells"
+  }, {
+    "value" : "B-cells"
+  } ]
+}

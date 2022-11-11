@@ -1,0 +1,14 @@
+{
+  "question" : "Infection of Ascariasis occur due to __________",
+  "explanation" : "",
+  "choices" : [ {
+    "value" : "Sand fly"
+  }, {
+    "value" : "contaminated food",
+    "answer" : true
+  }, {
+    "value" : "mosquito bite"
+  }, {
+    "value" : "stagnant water"
+  } ]
+}

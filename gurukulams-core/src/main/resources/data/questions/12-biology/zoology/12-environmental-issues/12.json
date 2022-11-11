@@ -1,0 +1,14 @@
+{
+  "question" : "Excess of fluoride in drinking water causes _________",
+  "explanation" : "",
+  "choices" : [ {
+    "value" : "Lung disease"
+  }, {
+    "value" : "Intestinal infection"
+  }, {
+    "value" : "Fluorosis",
+    "answer" : true
+  }, {
+    "value" : "None of the above"
+  } ]
+}

@@ -1,0 +1,14 @@
+{
+  "question" : "A pair of fungal disease __________",
+  "explanation" : "",
+  "choices" : [ {
+    "value" : "Amoebiasis, Kala-azar"
+  }, {
+    "value" : "Candidiasis, Athlete’s foot",
+    "answer" : true
+  }, {
+    "value" : "Ascariasis, Filariasis"
+  }, {
+    "value" : "Poliomyelitis, Amoebiasis"
+  } ]
+}

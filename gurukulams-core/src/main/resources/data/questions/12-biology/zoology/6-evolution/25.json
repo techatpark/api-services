@@ -1,0 +1,13 @@
+{
+  "question" : "Genetic drift leads to",
+  "explanation" : "",
+  "choices" : [ {
+    "value" : "Mutation"
+  }, {
+    "value" : "Bottle neck effect"
+  }, {
+    "value" : "Immigration"
+  }, {
+    "value" : "Isolation"
+  } ]
+}

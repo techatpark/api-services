@@ -1,0 +1,14 @@
+{
+  "question" : "Which of the following types of asexual reproduction is noticed in Amoeba?",
+  "explanation" : "",
+  "choices" : [ {
+    "value" : "Sporulation"
+  }, {
+    "value" : "Encystment"
+  }, {
+    "value" : "Binary fission"
+  }, {
+    "value" : "All the above",
+    "answer" : true
+  } ]
+}

@@ -1,0 +1,14 @@
+{
+  "question" : "Which of the following denotation is correct regarding increasing diversity?",
+  "explanation" : "",
+  "choices" : [ {
+    "value" : "Poles &lt; Equator",
+    "answer" : true
+  }, {
+    "value" : "Equator &lt; Pole"
+  }, {
+    "value" : "Pole = Equator"
+  }, {
+    "value" : "Latitude = Longitude"
+  } ]
+}

@@ -1,0 +1,14 @@
+{
+  "question" : "Watson and Crick proposed their double helical DNA model based on the X-ray diffraction analysis o<span style=\"font-size: 16px; font-style: normal; font-weight: 400;\">f ___________ </span>",
+  "explanation" : "",
+  "choices" : [ {
+    "value" : "Erwin Chargaff"
+  }, {
+    "value" : "Meselson and Stahl"
+  }, {
+    "value" : "Wilkins and Franklin",
+    "answer" : true
+  }, {
+    "value" : "Griffith"
+  } ]
+}

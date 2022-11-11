@@ -1,0 +1,14 @@
+{
+  "question" : "Which one of the following pairs is wrong.",
+  "explanation" : "",
+  "choices" : [ {
+    "value" : "Amoebiasis – Home fly"
+  }, {
+    "value" : "African sleeping sickness – Tsetse flies"
+  }, {
+    "value" : "Kala-azar – Sandfly"
+  }, {
+    "value" : "Malaria – female Anopheles mosquito",
+    "answer" : true
+  } ]
+}

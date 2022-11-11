@@ -1,0 +1,14 @@
+{
+  "question" : "“Universal Donor” and “Universal Recipients” blood group are _________ and _________ respectively.",
+  "explanation" : "",
+  "choices" : [ {
+    "value" : "AB, O"
+  }, {
+    "value" : "O, AB",
+    "answer" : true
+  }, {
+    "value" : "A, B"
+  }, {
+    "value" : "B, A"
+  } ]
+}

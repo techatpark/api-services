@@ -1,0 +1,13 @@
+{
+  "question" : "Bacillary dysentery is caused due to __________",
+  "explanation" : "",
+  "choices" : [ {
+    "value" : "Salmonella"
+  }, {
+    "value" : "Shigella"
+  }, {
+    "value" : "Clostridium"
+  }, {
+    "value" : "Yersinia"
+  } ]
+}

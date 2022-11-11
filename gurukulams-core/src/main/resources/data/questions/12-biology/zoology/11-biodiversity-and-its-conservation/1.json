@@ -1,0 +1,14 @@
+{
+  "question" : "Which of the following region has maximum biodiversity?",
+  "explanation" : "",
+  "choices" : [ {
+    "value" : "Taiga"
+  }, {
+    "value" : "Tropical forest",
+    "answer" : true
+  }, {
+    "value" : "Temperate rain forest"
+  }, {
+    "value" : "Mangroves"
+  } ]
+}

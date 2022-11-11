@@ -1,0 +1,14 @@
+{
+  "question" : "E. coli cell grown on 15N medium are transferred to 14N medium and allowed to grow for two generations. DNA extracted from these cells is ultracentrifuged in a cesium chloride density gradient. What density distribution of DNA would you expect in this experiment?",
+  "explanation" : "",
+  "choices" : [ {
+    "value" : "One high and one low density band"
+  }, {
+    "value" : "One intermediate density band"
+  }, {
+    "value" : "One high and one intermediate density band"
+  }, {
+    "value" : "One low and one intermediate density band",
+    "answer" : true
+  } ]
+}

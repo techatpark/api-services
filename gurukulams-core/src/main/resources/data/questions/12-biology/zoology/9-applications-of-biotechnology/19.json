@@ -1,0 +1,14 @@
+{
+  "question" : "The first transgenic clone of sheep was called as",
+  "explanation" : "",
+  "choices" : [ {
+    "value" : "Rosie"
+  }, {
+    "value" : "Dolly",
+    "answer" : true
+  }, {
+    "value" : "Sameera"
+  }, {
+    "value" : "Joel"
+  } ]
+}

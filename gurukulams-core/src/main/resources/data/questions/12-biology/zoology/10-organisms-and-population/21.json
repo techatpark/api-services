@@ -1,0 +1,14 @@
+{
+  "question" : "As altitude increases ________",
+  "explanation" : "",
+  "choices" : [ {
+    "value" : "O<sub>2</sub> density increases"
+  }, {
+    "value" : "Precipitation decreases",
+    "answer" : true
+  }, {
+    "value" : "Temperature increases"
+  }, {
+    "value" : "Snowing decreases"
+  } ]
+}

@@ -1,0 +1,14 @@
+{
+  "question" : "Allergy involves __________",
+  "explanation" : "",
+  "choices" : [ {
+    "value" : "IgE",
+    "answer" : true
+  }, {
+    "value" : "IgG"
+  }, {
+    "value" : "IgA"
+  }, {
+    "value" : "IgM"
+  } ]
+}

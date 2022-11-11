@@ -1,0 +1,14 @@
+{
+  "question" : "and are the major cause for acid rain ________",
+  "explanation" : "",
+  "choices" : [ {
+    "value" : "Sulphur di oxide and Hydrogen peroxide"
+  }, {
+    "value" : "Hydrogen peroxide and Sulphuric acid"
+  }, {
+    "value" : "Hydrochloride and sulphur dioxide"
+  }, {
+    "value" : "Sulphur dioxide and Nitrogen oxide",
+    "answer" : true
+  } ]
+}

@@ -1,0 +1,14 @@
+{
+  "question" : "The wings of birds and butterflies is an example of __________",
+  "explanation" : "",
+  "choices" : [ {
+    "value" : "Adaptive radiation"
+  }, {
+    "value" : "convergent evolution",
+    "answer" : true
+  }, {
+    "value" : "divergent evolution"
+  }, {
+    "value" : "variation"
+  } ]
+}

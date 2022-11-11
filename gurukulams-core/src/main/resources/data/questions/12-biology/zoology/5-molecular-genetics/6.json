@@ -1,0 +1,14 @@
+{
+  "question" : "What is the basis for the difference in the synthesis of the leading and lagging strand of DNA molecules?",
+  "explanation" : "",
+  "choices" : [ {
+    "value" : "Origin of replication occurs only at the 5’ end of the molecules"
+  }, {
+    "value" : "DNA ligase works only in the 3’ → 5’ direction"
+  }, {
+    "value" : "DNA polymerase can join new nucleotides only to the 3 ’ end of the growing stand"
+  }, {
+    "value" : "Helicases and single-strand binding proteins that work at the 5’ end",
+    "answer" : true
+  } ]
+}

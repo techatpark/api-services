@@ -1,0 +1,14 @@
+{
+  "question" : "Who is the founder of Modem Eugenics movement?",
+  "explanation" : "",
+  "choices" : [ {
+    "value" : "Mendel"
+  }, {
+    "value" : "Darwin"
+  }, {
+    "value" : "Fransis Galton",
+    "answer" : true
+  }, {
+    "value" : "Karl pearson"
+  } ]
+}

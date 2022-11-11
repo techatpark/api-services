@@ -1,0 +1,14 @@
+{
+  "question" : "Which of the following is true about Rh factor in the offspring of a parental combination DdXDd (both Rh positive)?",
+  "explanation" : "",
+  "choices" : [ {
+    "value" : "All will be Rh positive"
+  }, {
+    "value" : "Half will be Rh positive"
+  }, {
+    "value" : "About 3/4 will be Rh negative"
+  }, {
+    "value" : "About one fourth will be Rh negative",
+    "answer" : true
+  } ]
+}

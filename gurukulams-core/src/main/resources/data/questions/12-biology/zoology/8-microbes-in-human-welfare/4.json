@@ -1,0 +1,14 @@
+{
+  "question" : "Cry toxins obtained from Bacillus thuringiensis are effective against for __________",
+  "explanation" : "",
+  "choices" : [ {
+    "value" : "Mosquitoes"
+  }, {
+    "value" : "Flies"
+  }, {
+    "value" : "Nematodes"
+  }, {
+    "value" : "Bollworms",
+    "answer" : true
+  } ]
+}

@@ -1,0 +1,14 @@
+{
+  "question" : "Identify the correct statement.",
+  "explanation" : "",
+  "choices" : [ {
+    "value" : "Homozygous sex chromosome (XX"
+  }, {
+    "value" : "Homozygous sex chromosome (ZZ"
+  }, {
+    "value" : "Heterozygous sex chromosome (XO",
+    "answer" : true
+  }, {
+    "value" : "Heterozygous sex chromosome (ZW"
+  } ]
+}

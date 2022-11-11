@@ -1,0 +1,14 @@
+{
+  "question" : "Predation and parasitism are which type of interactions?",
+  "explanation" : "",
+  "choices" : [ {
+    "value" : "(+,+"
+  }, {
+    "value" : "(+, O"
+  }, {
+    "value" : "(-, -,"
+  }, {
+    "value" : "(+, -",
+    "answer" : true
+  } ]
+}

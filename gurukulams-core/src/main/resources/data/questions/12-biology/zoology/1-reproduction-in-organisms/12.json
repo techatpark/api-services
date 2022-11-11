@@ -1,0 +1,14 @@
+{
+  "question" : "Identify the mismatched pair.",
+  "explanation" : "",
+  "choices" : [ {
+    "value" : "Paedogenesis – Liver fluke"
+  }, {
+    "value" : "Strobilation – Aurelia"
+  }, {
+    "value" : "Amphitoky – Honey bee",
+    "answer" : true
+  }, {
+    "value" : "Encystment – Amoeba"
+  } ]
+}

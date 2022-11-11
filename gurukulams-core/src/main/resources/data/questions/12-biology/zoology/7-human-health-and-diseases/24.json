@@ -1,0 +1,14 @@
+{
+  "question" : "Which is not a granulocyte?",
+  "explanation" : "",
+  "choices" : [ {
+    "value" : "Lymphocytes",
+    "answer" : true
+  }, {
+    "value" : "Neutrophils"
+  }, {
+    "value" : "Basophils"
+  }, {
+    "value" : "Eosinophils"
+  } ]
+}

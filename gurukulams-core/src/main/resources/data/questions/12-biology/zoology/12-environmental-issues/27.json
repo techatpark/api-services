@@ -1,0 +1,14 @@
+{
+  "question" : "Eutrophication is a result of ________",
+  "explanation" : "",
+  "choices" : [ {
+    "value" : "Agricultural and sewage waste"
+  }, {
+    "value" : "Vehical emission"
+  }, {
+    "value" : "Pesticides",
+    "answer" : true
+  }, {
+    "value" : "Indutrial effluent"
+  } ]
+}

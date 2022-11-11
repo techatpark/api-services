@@ -1,0 +1,14 @@
+{
+  "question" : "The gaseous envelope which surrounds the Earth is called as ________",
+  "explanation" : "",
+  "choices" : [ {
+    "value" : "Stratosphere"
+  }, {
+    "value" : "Atmosphere",
+    "answer" : true
+  }, {
+    "value" : "Troposphere"
+  }, {
+    "value" : "Ozonosphere"
+  } ]
+}

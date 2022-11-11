@@ -1,0 +1,14 @@
+{
+  "question" : "The _________ deals with the control of several inherited human diseases especially inborn errors of metabolism.",
+  "explanation" : "",
+  "choices" : [ {
+    "value" : "Euphenics",
+    "answer" : true
+  }, {
+    "value" : "Eugenics"
+  }, {
+    "value" : "Euthenics"
+  }, {
+    "value" : "All of these"
+  } ]
+}

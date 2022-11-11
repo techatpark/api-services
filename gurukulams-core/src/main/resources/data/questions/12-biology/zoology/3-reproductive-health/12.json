@@ -1,0 +1,14 @@
+{
+  "question" : "Identify the correct statement.",
+  "explanation" : "",
+  "choices" : [ {
+    "value" : "MTP is the voluntary killing of infant."
+  }, {
+    "value" : "MTP is legalized in India from 1974."
+  }, {
+    "value" : "Performing MTP during second trimester is riskier.",
+    "answer" : true
+  }, {
+    "value" : "It is a surgical – based abortion."
+  } ]
+}

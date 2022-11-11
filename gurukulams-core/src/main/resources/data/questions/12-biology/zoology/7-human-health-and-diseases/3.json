@@ -1,0 +1,14 @@
+{
+  "question" : "The sporozoites of Plasmodium vivax are formed from __________",
+  "explanation" : "",
+  "choices" : [ {
+    "value" : "Gametocytes"
+  }, {
+    "value" : "Sporoblasts"
+  }, {
+    "value" : "Oocysts",
+    "answer" : true
+  }, {
+    "value" : "Spores"
+  } ]
+}

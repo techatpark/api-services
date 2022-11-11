@@ -1,0 +1,14 @@
+{
+  "question" : "The distance between two consecutive base pairs in DNA is ___________",
+  "explanation" : "",
+  "choices" : [ {
+    "value" : "0.34 nm",
+    "answer" : true
+  }, {
+    "value" : "3.4 nm"
+  }, {
+    "value" : "0.034 nm"
+  }, {
+    "value" : "34 nm"
+  } ]
+}

@@ -1,0 +1,14 @@
+{
+  "question" : "The first cloned organism was.",
+  "explanation" : "",
+  "choices" : [ {
+    "value" : "Goat"
+  }, {
+    "value" : "Cow"
+  }, {
+    "value" : "Sheep",
+    "answer" : true
+  }, {
+    "value" : "Pig"
+  } ]
+}

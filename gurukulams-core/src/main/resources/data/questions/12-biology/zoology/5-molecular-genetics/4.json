@@ -1,0 +1,14 @@
+{
+  "question" : "The total number of nitrogenous bases in human genome is estimated to be about",
+  "explanation" : "",
+  "choices" : [ {
+    "value" : "3.5 million"
+  }, {
+    "value" : "35000"
+  }, {
+    "value" : "35 million"
+  }, {
+    "value" : "3.1 billion",
+    "answer" : true
+  } ]
+}

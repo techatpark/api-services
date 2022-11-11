@@ -1,0 +1,14 @@
+{
+  "question" : "What is the role of fimbriae?",
+  "explanation" : "",
+  "choices" : [ {
+    "value" : "Secretion of oestrogen and prolactin."
+  }, {
+    "value" : "Helps in the collection of the ovum after ovulation.",
+    "answer" : true
+  }, {
+    "value" : "Attaches the ovary to the abdominal cavity."
+  }, {
+    "value" : "Connects oviduct with ovary."
+  } ]
+}

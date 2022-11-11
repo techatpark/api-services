@@ -1,0 +1,14 @@
+{
+  "question" : "Which one of the following groups includes sexually transmitted diseases caused by bacteria . only?",
+  "explanation" : "",
+  "choices" : [ {
+    "value" : "Syphilis, gonorrhoea and candidiasis"
+  }, {
+    "value" : "Syphilis, chlamydiasis and gonorrhoea",
+    "answer" : true
+  }, {
+    "value" : "Syphilis, gonorrhoea and trichomoniasis"
+  }, {
+    "value" : "Syphilis, trichomoniasis and pediculosis"
+  } ]
+}

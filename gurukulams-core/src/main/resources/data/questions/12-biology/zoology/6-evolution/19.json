@@ -1,0 +1,14 @@
+{
+  "question" : "Anatomical structures that have similar functions but not similar structures are called",
+  "explanation" : "",
+  "choices" : [ {
+    "value" : "Homologous structures"
+  }, {
+    "value" : "Vestigial structures"
+  }, {
+    "value" : "Analogous structures",
+    "answer" : true
+  }, {
+    "value" : "Generalized structures"
+  } ]
+}

@@ -1,0 +1,14 @@
+{
+  "question" : "Identify the mismatched pair and give a reason.",
+  "explanation" : "",
+  "choices" : [ {
+    "value" : "Plague – Yersinia pestis"
+  }, {
+    "value" : "Filariasis – Wuchereria bancrofti"
+  }, {
+    "value" : "Dermatomycosis – Trypanosoma gambiense",
+    "answer" : true
+  }, {
+    "value" : "Common cold – Rhinovirus"
+  } ]
+}

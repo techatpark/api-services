@@ -1,0 +1,14 @@
+{
+  "question" : "ABO blood group is a classical example for _________",
+  "explanation" : "",
+  "choices" : [ {
+    "value" : "Multiple allelism",
+    "answer" : true
+  }, {
+    "value" : "Pleotropism"
+  }, {
+    "value" : "Incomplete dominance"
+  }, {
+    "value" : "Polygenic mechanism"
+  } ]
+}

@@ -1,0 +1,14 @@
+{
+  "question" : "Amphetamines are stimulants of the CNS, whereas barbiturates are __________",
+  "explanation" : "",
+  "choices" : [ {
+    "value" : "CNS stimulant"
+  }, {
+    "value" : "both a and b"
+  }, {
+    "value" : "hallucinogenic"
+  }, {
+    "value" : "CNS depressants",
+    "answer" : true
+  } ]
+}

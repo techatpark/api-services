@@ -1,0 +1,14 @@
+{
+  "question" : "Which of the following is not correct?",
+  "explanation" : "",
+  "choices" : [ {
+    "value" : "Three or more alleles of a trait in the population are called multiple alleles."
+  }, {
+    "value" : "A normal gene undergoes mutations to form many alleles"
+  }, {
+    "value" : "Multiple alleles map at different loci of a chromosome",
+    "answer" : true
+  }, {
+    "value" : "A diploid organism has only two alleles out of many in the population"
+  } ]
+}

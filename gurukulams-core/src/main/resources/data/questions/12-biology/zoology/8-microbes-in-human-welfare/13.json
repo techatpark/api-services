@@ -1,0 +1,14 @@
+{
+  "question" : "Chlortetracycline was isolated from the culture __________",
+  "explanation" : "",
+  "choices" : [ {
+    "value" : "Streptomyces aureofaciens",
+    "answer" : true
+  }, {
+    "value" : "Streptomyces griseus"
+  }, {
+    "value" : "Streptococcus lactis"
+  }, {
+    "value" : "Aspergillus niger"
+  } ]
+}

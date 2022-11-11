@@ -1,0 +1,14 @@
+{
+  "question" : "Arrange the steps of PCR in proper sequence.",
+  "explanation" : "",
+  "choices" : [ {
+    "value" : "Denaturation, Primer extension, Renaturation"
+  }, {
+    "value" : "Renaturation, Denaturation, Primer extension"
+  }, {
+    "value" : "Primer extension, Denaturation, Renaturation"
+  }, {
+    "value" : "Denaturation, Renaturation, Primer extension",
+    "answer" : true
+  } ]
+}

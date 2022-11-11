@@ -1,0 +1,14 @@
+{
+  "question" : "In ZIFT technique, the zygote is transferred at the stage of",
+  "explanation" : "",
+  "choices" : [ {
+    "value" : "16 blastomere"
+  }, {
+    "value" : "morula"
+  }, {
+    "value" : "12 blastomere"
+  }, {
+    "value" : "8 blastomere",
+    "answer" : true
+  } ]
+}

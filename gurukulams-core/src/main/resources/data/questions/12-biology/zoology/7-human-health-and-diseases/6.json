@@ -1,0 +1,14 @@
+{
+  "question" : "The Athlete’s foot disease in human is caused by __________",
+  "explanation" : "",
+  "choices" : [ {
+    "value" : "Bacteria"
+  }, {
+    "value" : "Fungi",
+    "answer" : true
+  }, {
+    "value" : "Virus"
+  }, {
+    "value" : "Protozoan"
+  } ]
+}

@@ -1,0 +1,14 @@
+{
+  "question" : "Mammalian egg is ________",
+  "explanation" : "",
+  "choices" : [ {
+    "value" : "Mesolecithal and non-cleidoic"
+  }, {
+    "value" : "Microlecithal and non-cleidoic"
+  }, {
+    "value" : "Alecithal and non-cleidoic",
+    "answer" : true
+  }, {
+    "value" : "Alecithal and cleidoic"
+  } ]
+}

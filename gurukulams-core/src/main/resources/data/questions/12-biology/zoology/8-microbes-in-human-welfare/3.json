@@ -1,0 +1,14 @@
+{
+  "question" : "The most common substrate used in distilleries for the production of ethanol is __________",
+  "explanation" : "",
+  "choices" : [ {
+    "value" : "Soyameal"
+  }, {
+    "value" : "Groundgram"
+  }, {
+    "value" : "Molasses",
+    "answer" : true
+  }, {
+    "value" : "Commeal"
+  } ]
+}

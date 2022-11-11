@@ -1,0 +1,14 @@
+{
+  "question" : "How many structural genes are located in lac operon of E.Coli?",
+  "explanation" : "",
+  "choices" : [ {
+    "value" : "4"
+  }, {
+    "value" : "3",
+    "answer" : true
+  }, {
+    "value" : "2"
+  }, {
+    "value" : "1"
+  } ]
+}

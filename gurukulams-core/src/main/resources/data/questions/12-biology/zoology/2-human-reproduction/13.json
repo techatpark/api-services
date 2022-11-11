@@ -1,0 +1,14 @@
+{
+  "question" : "Which one of the following menstrual irregularities is correctly matched?",
+  "explanation" : "",
+  "choices" : [ {
+    "value" : "Menorrhagia – excessive menstruation"
+  }, {
+    "value" : "Amenorrhoea – absence of menstruation",
+    "answer" : true
+  }, {
+    "value" : "Dysmenorrhoea – irregularity of menstruation"
+  }, {
+    "value" : "Oligomenorrhoea – painful menstruation"
+  } ]
+}

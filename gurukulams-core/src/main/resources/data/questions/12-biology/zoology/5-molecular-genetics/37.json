@@ -1,0 +1,14 @@
+{
+  "question" : "The promoter region of eukaryote is __________",
+  "explanation" : "",
+  "choices" : [ {
+    "value" : "TATAA",
+    "answer" : true
+  }, {
+    "value" : "AUGUT"
+  }, {
+    "value" : "UUUGA"
+  }, {
+    "value" : "AAAAU"
+  } ]
+}

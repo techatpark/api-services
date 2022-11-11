@@ -1,0 +1,14 @@
+{
+  "question" : "Select the correct option denoting the proper sequence of sewage tratment.",
+  "explanation" : "",
+  "choices" : [ {
+    "value" : "Filtration, Sedimentation, Aeration, Biological oxidation and UV radiation",
+    "answer" : true
+  }, {
+    "value" : "Sedimentation, Filtration, Biological oxidation, Aeration and UV radiation."
+  }, {
+    "value" : "Filtration, Aeration, Biological oxidation, Sedimentation and UV radiation."
+  }, {
+    "value" : "UV radiation, Sedimentation, Filtration, Biological oxidation and Aeration."
+  } ]
+}

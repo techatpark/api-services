@@ -1,0 +1,14 @@
+{
+  "question" : "Secretion of HCL in stomach is an example for __________",
+  "explanation" : "",
+  "choices" : [ {
+    "value" : "Anatomical barriers"
+  }, {
+    "value" : "Phagocytic barriers"
+  }, {
+    "value" : "Physiological barriers",
+    "answer" : true
+  }, {
+    "value" : "Inflammatory barriers"
+  } ]
+}

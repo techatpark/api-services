@@ -1,0 +1,14 @@
+{
+  "question" : "The B-chain of Insulin is composed of aminoacids __________",
+  "explanation" : "",
+  "choices" : [ {
+    "value" : "70"
+  }, {
+    "value" : "30",
+    "answer" : true
+  }, {
+    "value" : "45"
+  }, {
+    "value" : "60"
+  } ]
+}

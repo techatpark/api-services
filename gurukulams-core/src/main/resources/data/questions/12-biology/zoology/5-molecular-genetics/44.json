@@ -1,0 +1,14 @@
+{
+  "question" : "Which of the chromosome has higher gene density?",
+  "explanation" : "",
+  "choices" : [ {
+    "value" : "Chromosome 20"
+  }, {
+    "value" : "Chromosome 19",
+    "answer" : true
+  }, {
+    "value" : "Chromosome 13"
+  }, {
+    "value" : "Chromosome Y"
+  } ]
+}

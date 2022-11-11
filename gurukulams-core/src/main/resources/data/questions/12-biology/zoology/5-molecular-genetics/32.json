@@ -1,0 +1,14 @@
+{
+  "question" : "The transcription termination factor associated with RNA polymerase in prokaryotes is",
+  "explanation" : "",
+  "choices" : [ {
+    "value" : "θ"
+  }, {
+    "value" : "σ"
+  }, {
+    "value" : "ρ",
+    "answer" : true
+  }, {
+    "value" : "∑"
+  } ]
+}

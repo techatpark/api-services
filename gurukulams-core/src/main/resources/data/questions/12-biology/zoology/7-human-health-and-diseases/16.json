@@ -1,0 +1,14 @@
+{
+  "question" : "Identify the wrong statement regarding polio disease.",
+  "explanation" : "",
+  "choices" : [ {
+    "value" : "Polio is caused by an RNA virus."
+  }, {
+    "value" : "One of the infection site of polio is the intestine."
+  }, {
+    "value" : "Culex mosquito acts as a vector for polio.",
+    "answer" : true
+  }, {
+    "value" : "Paralysis and respiratory failure are the symptoms"
+  } ]
+}

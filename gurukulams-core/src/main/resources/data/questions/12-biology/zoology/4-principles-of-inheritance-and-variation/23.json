@@ -1,0 +1,14 @@
+{
+  "question" : "Co-dominant blood group is _________",
+  "explanation" : "",
+  "choices" : [ {
+    "value" : "A"
+  }, {
+    "value" : "AB",
+    "answer" : true
+  }, {
+    "value" : "B"
+  }, {
+    "value" : "O"
+  } ]
+}

@@ -1,0 +1,14 @@
+{
+  "question" : "Alkaloid found in tobacco is __________",
+  "explanation" : "",
+  "choices" : [ {
+    "value" : "Atropine"
+  }, {
+    "value" : "cocaine"
+  }, {
+    "value" : "heroin"
+  }, {
+    "value" : "nicotine",
+    "answer" : true
+  } ]
+}

@@ -1,0 +1,14 @@
+{
+  "question" : "__________ test is done to confirm typhoid.",
+  "explanation" : "",
+  "choices" : [ {
+    "value" : "ELISA"
+  }, {
+    "value" : "Western blot"
+  }, {
+    "value" : "Widal test",
+    "answer" : true
+  }, {
+    "value" : "Southern blot"
+  } ]
+}

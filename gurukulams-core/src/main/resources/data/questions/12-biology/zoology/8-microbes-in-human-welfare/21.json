@@ -1,0 +1,14 @@
+{
+  "question" : "In primary sewage treatment, the floating debris are removed by ___________",
+  "explanation" : "",
+  "choices" : [ {
+    "value" : "Distillation"
+  }, {
+    "value" : "Sedimentation"
+  }, {
+    "value" : "Sequential filtration",
+    "answer" : true
+  }, {
+    "value" : "Biological oxidation"
+  } ]
+}

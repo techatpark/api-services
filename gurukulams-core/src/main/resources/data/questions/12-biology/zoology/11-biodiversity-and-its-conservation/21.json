@@ -1,0 +1,14 @@
+{
+  "question" : "Which is not an accepted biodiversity hotspot of India?",
+  "explanation" : "",
+  "choices" : [ {
+    "value" : "Indian Himalayas"
+  }, {
+    "value" : "the Western Ghats"
+  }, {
+    "value" : "Indo-Burma"
+  }, {
+    "value" : "Deccan Plateau",
+    "answer" : true
+  } ]
+}

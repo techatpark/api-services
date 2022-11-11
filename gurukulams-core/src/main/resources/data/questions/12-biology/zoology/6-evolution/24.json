@@ -1,0 +1,14 @@
+{
+  "question" : "According to the theory of spontaneous generation, life originated from",
+  "explanation" : "",
+  "choices" : [ {
+    "value" : "Cosmic particles"
+  }, {
+    "value" : "Non-living materials",
+    "answer" : true
+  }, {
+    "value" : "Coacervates"
+  }, {
+    "value" : "Sea"
+  } ]
+}

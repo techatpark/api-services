@@ -1,0 +1,14 @@
+{
+  "question" : "A marriage between a colour blind man and a normal woman produces _________",
+  "explanation" : "",
+  "choices" : [ {
+    "value" : "All carrier daughters and normal sons",
+    "answer" : true
+  }, {
+    "value" : "50% carrier daughters, 50% normal daughters"
+  }, {
+    "value" : "50% colour blind sons, 50% normal sons"
+  }, {
+    "value" : "All carrier off springs"
+  } ]
+}

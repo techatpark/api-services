@@ -1,0 +1,14 @@
+{
+  "question" : "A colorblind man marries a woman with normal sight who has no history of color blindness in her family. What is the probability of their grandson being colorblind?",
+  "explanation" : "",
+  "choices" : [ {
+    "value" : "1/4",
+    "answer" : true
+  }, {
+    "value" : "3/4"
+  }, {
+    "value" : "2/4"
+  }, {
+    "value" : "4/4"
+  } ]
+}

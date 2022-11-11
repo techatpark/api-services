@@ -1,0 +1,14 @@
+{
+  "question" : "The interaction in nature, where one gets benefit on the expense of other is _________",
+  "explanation" : "",
+  "choices" : [ {
+    "value" : "Predation"
+  }, {
+    "value" : "Mutualism"
+  }, {
+    "value" : "Amensalism"
+  }, {
+    "value" : "Commensalism",
+    "answer" : true
+  } ]
+}

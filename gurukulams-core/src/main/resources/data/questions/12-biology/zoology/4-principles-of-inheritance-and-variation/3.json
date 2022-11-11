@@ -1,0 +1,13 @@
+{
+  "question" : "Three children of a family have blood groups A, AB and B. What could be the geno types of their parents?",
+  "explanation" : "",
+  "choices" : [ {
+    "value" : "I<sup>A </sup>I<sup>B</sup> and ii"
+  }, {
+    "value" : "I<sup>A </sup>1<sup>O</sup> and I<sup>B </sup>I<sup>O</sup>"
+  }, {
+    "value" : "I<sup>B</sup> I<sup>B</sup> and I<sup>A </sup>I<sup>A</sup>"
+  }, {
+    "value" : "I<sup>A </sup>I<sup>A</sup> and ii"
+  } ]
+}

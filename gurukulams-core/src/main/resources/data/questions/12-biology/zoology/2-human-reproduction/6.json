@@ -1,0 +1,14 @@
+{
+  "question" : "The foetal membrane that forms the basis of the umbilical cord is ________",
+  "explanation" : "",
+  "choices" : [ {
+    "value" : "Allantois",
+    "answer" : true
+  }, {
+    "value" : "Amnion"
+  }, {
+    "value" : "Chorion"
+  }, {
+    "value" : "Yolk sac"
+  } ]
+}

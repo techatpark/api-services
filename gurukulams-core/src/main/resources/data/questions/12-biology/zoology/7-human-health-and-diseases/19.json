@@ -1,0 +1,14 @@
+{
+  "question" : "Schizogony of plasmodium parasite in human liver cells returns in __________",
+  "explanation" : "",
+  "choices" : [ {
+    "value" : "sporozoites"
+  }, {
+    "value" : "merozoites",
+    "answer" : true
+  }, {
+    "value" : "trophozoites"
+  }, {
+    "value" : "schizont"
+  } ]
+}

@@ -1,0 +1,14 @@
+{
+  "question" : "Identify the proper ratio of normal visioned individuals against colorblind individuals, if colorblind carrier female marries a normal male.",
+  "explanation" : "",
+  "choices" : [ {
+    "value" : "1 : 1"
+  }, {
+    "value" : "3 : 1"
+  }, {
+    "value" : "1 : 3",
+    "answer" : true
+  }, {
+    "value" : "All four are normal visioned"
+  } ]
+}

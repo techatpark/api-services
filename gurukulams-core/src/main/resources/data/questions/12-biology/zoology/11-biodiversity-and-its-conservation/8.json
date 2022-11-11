@@ -1,0 +1,14 @@
+{
+  "question" : "Which one of the following are at high risk extinction due to habitat destruction?",
+  "explanation" : "",
+  "choices" : [ {
+    "value" : "Mammals"
+  }, {
+    "value" : "Birds"
+  }, {
+    "value" : "Amphibians",
+    "answer" : true
+  }, {
+    "value" : "Echinoderms"
+  } ]
+}

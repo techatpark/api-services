@@ -1,0 +1,14 @@
+{
+  "question" : "Egg-laying hen is an example for ___________",
+  "explanation" : "",
+  "choices" : [ {
+    "value" : "Thelytoky"
+  }, {
+    "value" : "Ovovivipary"
+  }, {
+    "value" : "Vivipary"
+  }, {
+    "value" : "Ovipary",
+    "answer" : true
+  } ]
+}

@@ -1,0 +1,14 @@
+{
+  "question" : "Which of the following is incorrect regarding ZW-ZZ type of sex determination?",
+  "explanation" : "",
+  "choices" : [ {
+    "value" : "It occurs in birds and some reptiles"
+  }, {
+    "value" : "Females are homogametic and males are heterogametic",
+    "answer" : true
+  }, {
+    "value" : "Male produce two types of gametes"
+  }, {
+    "value" : "It occurs in gypsy moth"
+  } ]
+}

@@ -1,0 +1,14 @@
+{
+  "question" : "Pick the odd one out regarding Mendelian disorder.",
+  "explanation" : "",
+  "choices" : [ {
+    "value" : "Thalassemia"
+  }, {
+    "value" : "phenylketonuria"
+  }, {
+    "value" : "Albinism"
+  }, {
+    "value" : "Huntington’s chorea",
+    "answer" : true
+  } ]
+}

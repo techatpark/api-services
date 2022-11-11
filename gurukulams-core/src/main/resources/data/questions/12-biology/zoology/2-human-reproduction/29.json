@@ -1,0 +1,14 @@
+{
+  "question" : "The type of antibodies present in colostrum.",
+  "explanation" : "",
+  "choices" : [ {
+    "value" : "IgE"
+  }, {
+    "value" : "IgM"
+  }, {
+    "value" : "IgA",
+    "answer" : true
+  }, {
+    "value" : "IgB"
+  } ]
+}

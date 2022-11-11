@@ -1,0 +1,14 @@
+{
+  "question" : "Darwin’s finches are an excellent example of __________",
+  "explanation" : "",
+  "choices" : [ {
+    "value" : "connecting links"
+  }, {
+    "value" : "seasonal migration"
+  }, {
+    "value" : "adaptive radiation",
+    "answer" : true
+  }, {
+    "value" : "parasitism"
+  } ]
+}

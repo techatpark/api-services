@@ -1,0 +1,14 @@
+{
+  "question" : "Taenia solium requires ___________ as a secondary host to complete its life cycle.",
+  "explanation" : "",
+  "choices" : [ {
+    "value" : "Mosquito"
+  }, {
+    "value" : "pig",
+    "answer" : true
+  }, {
+    "value" : "dog"
+  }, {
+    "value" : "human"
+  } ]
+}

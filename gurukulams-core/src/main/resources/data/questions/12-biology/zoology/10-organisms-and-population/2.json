@@ -1,0 +1,14 @@
+{
+  "question" : "Organisms which can survive a wide range of temperature are called ___________",
+  "explanation" : "",
+  "choices" : [ {
+    "value" : "Ectotherms"
+  }, {
+    "value" : "Eurytherms",
+    "answer" : true
+  }, {
+    "value" : "Endotherms"
+  }, {
+    "value" : "Stenotherms"
+  } ]
+}

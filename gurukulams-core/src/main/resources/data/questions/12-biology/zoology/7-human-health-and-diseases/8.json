@@ -1,0 +1,14 @@
+{
+  "question" : "The sporozoite of the malarial parasite is present in __________",
+  "explanation" : "",
+  "choices" : [ {
+    "value" : "saliva of infected female Anopheles mosquito.",
+    "answer" : true
+  }, {
+    "value" : "RBC of human suffering from malaria."
+  }, {
+    "value" : "Spleen of infected humans."
+  }, {
+    "value" : "Gut of female Anopheles mosquito"
+  } ]
+}

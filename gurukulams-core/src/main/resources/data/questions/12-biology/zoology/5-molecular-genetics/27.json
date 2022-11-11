@@ -1,0 +1,14 @@
+{
+  "question" : "The RNA polymerase of prokaryotes binds with the factor to initiate polymerization.",
+  "explanation" : "",
+  "choices" : [ {
+    "value" : "rho"
+  }, {
+    "value" : "theta"
+  }, {
+    "value" : "sigma",
+    "answer" : true
+  }, {
+    "value" : "psi"
+  } ]
+}

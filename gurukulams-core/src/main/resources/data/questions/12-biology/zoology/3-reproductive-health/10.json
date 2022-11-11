@@ -1,0 +1,14 @@
+{
+  "question" : "Identify the correct statement.",
+  "explanation" : "",
+  "choices" : [ {
+    "value" : "Lactational amenorrhea is a permanent birth control method"
+  }, {
+    "value" : "Condoms are made of polyethylene glycol and lambskin"
+  }, {
+    "value" : "LNG -20 is a copper – releasing IUD"
+  }, {
+    "value" : "Diaphragm covers the cervix thereby preventing sperm entry",
+    "answer" : true
+  } ]
+}

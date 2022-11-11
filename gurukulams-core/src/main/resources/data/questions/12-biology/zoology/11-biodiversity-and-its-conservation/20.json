@@ -1,0 +1,14 @@
+{
+  "question" : "Mention the correct number of biodiversity hotspots identified throughout the world __________",
+  "explanation" : "",
+  "choices" : [ {
+    "value" : "29"
+  }, {
+    "value" : "16"
+  }, {
+    "value" : "34",
+    "answer" : true
+  }, {
+    "value" : "46"
+  } ]
+}

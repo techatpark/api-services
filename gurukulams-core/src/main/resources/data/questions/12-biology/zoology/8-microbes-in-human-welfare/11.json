@@ -1,0 +1,14 @@
+{
+  "question" : "The leaving of the dough during fermentation is due to _______",
+  "explanation" : "",
+  "choices" : [ {
+    "value" : "Formation of ethyl alcohol"
+  }, {
+    "value" : "Formation of CO<sub>2</sub>",
+    "answer" : true
+  }, {
+    "value" : "Formation of oxygen"
+  }, {
+    "value" : "Action of zymase enzyme"
+  } ]
+}

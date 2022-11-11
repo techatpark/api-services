@@ -1,0 +1,14 @@
+{
+  "question" : "Treatment of sewage involves",
+  "explanation" : "",
+  "choices" : [ {
+    "value" : "Floatation, Filtration and Sedimentation of suspended particles"
+  }, {
+    "value" : "Aerating it for bacterial action"
+  }, {
+    "value" : "Removal of nitrates and phosphates"
+  }, {
+    "value" : "All of the above",
+    "answer" : true
+  } ]
+}

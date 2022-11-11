@@ -1,0 +1,14 @@
+{
+  "question" : "The first codon to be deciphered was which codes for",
+  "explanation" : "",
+  "choices" : [ {
+    "value" : "AAA, proline"
+  }, {
+    "value" : "GGG, alanine"
+  }, {
+    "value" : "UUU, Phenylalanine",
+    "answer" : true
+  }, {
+    "value" : "TTT, arginine"
+  } ]
+}

@@ -1,0 +1,14 @@
+{
+  "question" : "Identify the proper dominance hierarchy.",
+  "explanation" : "",
+  "choices" : [ {
+    "value" : "I<sup>B</sup> = 1° &gt; I<sup>B</sup>"
+  }, {
+    "value" : "I<sup>A</sup> = I<sup>B </sup>&gt; 0",
+    "answer" : true
+  }, {
+    "value" : "I<sup>O</sup> = I<sup>B</sup>&nbsp;&gt;<sup>&nbsp;</sup>"
+  }, {
+    "value" : "I<sup>B</sup> = I<sup>A</sup> &gt; O"
+  } ]
+}

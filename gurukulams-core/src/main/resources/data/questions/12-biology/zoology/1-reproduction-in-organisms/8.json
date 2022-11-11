@@ -1,0 +1,14 @@
+{
+  "question" : "Which type of parthenogenesis only females are produced?",
+  "explanation" : "",
+  "choices" : [ {
+    "value" : "Arrhenotoky"
+  }, {
+    "value" : "Amphitoky"
+  }, {
+    "value" : "Thelytoky",
+    "answer" : true
+  }, {
+    "value" : "Both (a"
+  } ]
+}

@@ -1,0 +1,14 @@
+{
+  "question" : "Oil strains in laundry can be removed using ___________",
+  "explanation" : "",
+  "choices" : [ {
+    "value" : "Peptidane"
+  }, {
+    "value" : "Protease"
+  }, {
+    "value" : "Amylase"
+  }, {
+    "value" : "Lipase",
+    "answer" : true
+  } ]
+}
