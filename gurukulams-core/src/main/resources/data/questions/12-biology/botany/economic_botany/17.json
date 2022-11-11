@@ -1,0 +1,19 @@
+{
+    "question": "Pick out the odd pair.",
+    "explanation": "",
+    "choices": [
+        {
+            "value": "Mass selection - Morphological characters",
+            "answer": true
+        },
+        {
+            "value": "Purline selection - Repeated self pollination"
+        },
+        {
+            "value": "Clonal selection - Sexually propagated"
+        },
+        {
+            "value": "Natural selection - Involves nature"
+        }
+    ]
+}

@@ -1,0 +1,19 @@
+{
+    "question": "Match column I (crop) with column II (Corresponding disease resistant variety) and select the correct option from the given codes. \n Column I Column II \n I) Cowpea i) Himgiri \n II) Wheat ii) Pusa komal \n III) Chilli iii) Pusa Sadabahar \n IV) Brassica iv) Pusa Swarnim",
+    "explanation": "",
+    "choices": [
+        {
+            "value": "I-iv II-iii III-ii IV-i",
+            "answer": true
+        },
+        {
+            "value": "I-ii II-i III-iii IV-iv"
+        },
+        {
+            "value": "I-ii II-iv III-i IV-iii"
+        },
+        {
+            "value": "I-i IV-iii III-iv IV-ii"
+        }
+    ]
+}

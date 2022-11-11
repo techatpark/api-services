@@ -1,0 +1,19 @@
+{
+    "question": "The quickest method of plant breeding is",
+    "explanation": "",
+    "choices": [
+        {
+            "value": "Introduction",
+            "answer": true
+        },
+        {
+            "value": "Selection"
+        },
+        {
+            "value": "Hybridization"
+        },
+        {
+            "value": "Mutation breeding"
+        }
+    ]
+}

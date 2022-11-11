@@ -1,0 +1,19 @@
+{
+    "question": "Progeny obtained as a result of repeat self pollination a cross pollinated crop to called",
+    "explanation": "",
+    "choices": [
+        {
+            "value": "pure line",
+            "answer": true
+        },
+        {
+            "value": "pedigree line"
+        },
+        {
+            "value": "inbreed line"
+        },
+        {
+            "value": "heterosis"
+        }
+    ]
+}

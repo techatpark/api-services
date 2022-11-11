@@ -1,0 +1,19 @@
+{
+    "question": "Plants having similar genotypes produced by plant breeding are called",
+    "explanation": "",
+    "choices": [
+        {
+            "value": "clone",
+            "answer": true
+        },
+        {
+            "value": "haploid"
+        },
+        {
+            "value": "autopolyploid"
+        },
+        {
+            "value": "genome"
+        }
+    ]
+}
