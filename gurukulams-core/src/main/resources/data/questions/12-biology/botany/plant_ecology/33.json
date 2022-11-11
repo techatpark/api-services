@@ -1,0 +1,19 @@
+{
+    "question": " Which of the following is / are not the mechanism of decomposition",
+    "explanation": "",
+    "choices": [
+        {
+            "value": "Eluviation",
+            "answer": true
+        },
+        {
+            "value": "Catabolism"
+        },
+        {
+            "value": "Anabolism"
+        },
+        {
+            "value": "Fragmentation"
+        }
+    ]
+}

@@ -1,0 +1,19 @@
+{
+    "question": "Ecosystem consists of",
+    "explanation": "",
+    "choices": [
+        {
+            "value": "decomposer"
+        },
+        {
+            "value": "producers"
+        },
+        {
+            "value": "consumers"
+        },
+        {
+            "value": "all of the above",
+            "answer": true
+        }
+    ]
+}

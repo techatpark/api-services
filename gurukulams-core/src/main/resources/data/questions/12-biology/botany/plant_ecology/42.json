@@ -1,0 +1,19 @@
+{
+    "question": "One of the chief reasons among the following for the depletion in the number of species making endangered is",
+    "explanation": "",
+    "choices": [
+        {
+            "value": "over hunting and poaching",
+            "answer": true
+        },
+        {
+            "value": "green house effect"
+        },
+        {
+            "value": "competition and predation"
+        },
+        {
+            "value": "habitat destruction"
+        }
+    ]
+}

@@ -1,0 +1,19 @@
+{
+    "question": "One green house gas contributes 14% of total global warming and another contributes 6%. These are respectively identified as",
+    "explanation": "",
+    "choices": [
+        {
+            "value": "N₂0 and CO",
+            "answer": true
+        },
+        {
+            "value": "CFCs and N₂0"
+        },
+        {
+            "value": "CH₄ and CO₂"
+        },
+        {
+            "value": "CH₄ and CFCS"
+        }
+    ]
+}

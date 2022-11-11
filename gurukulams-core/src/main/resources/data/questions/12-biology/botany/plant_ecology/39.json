@@ -1,0 +1,22 @@
+{
+    "question": "Find the wrongly matched pair",
+    "explanation": "",
+    "choices": [
+        {
+            "value": " Endemism - Species confined to a region and not found anywhere else.",
+            "answer": true
+        },
+        {
+            "value": "Hotspots - Western ghats  "
+        },
+        {
+            "value": "Ex-situ Conservation - Zoological parks"
+        },
+        {
+            "value": "Alien sp. Of India - Water hyacinth"
+        },
+        {
+            "value": "Sacred groves - Saintri hills of Rajasthan"
+        }
+    ]
+}

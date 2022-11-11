@@ -1,0 +1,19 @@
+{
+    "question": "Significance of food web is / are",
+    "explanation": "",
+    "choices": [
+        {
+            "value": "it does not maintain stability in nature",
+            "answer": true
+        },
+        {
+            "value": "it shows patterns of energy transfer"
+        },
+        {
+            "value": "it explains species interaction"
+        },
+        {
+            "value": "b and c"
+        }
+    ]
+}

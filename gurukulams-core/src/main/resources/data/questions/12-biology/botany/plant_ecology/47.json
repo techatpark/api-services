@@ -1,0 +1,19 @@
+{
+    "question": "The plants which are grown in silivpasture system are",
+    "explanation": "",
+    "choices": [
+        {
+            "value": "Sesbania and Acacia",
+            "answer": true
+        },
+        {
+            "value": "Solenum and Crotalaria"
+        },
+        {
+            "value": "Clitoria and Begonia"
+        },
+        {
+            "value": "Teak and sandal"
+        }
+    ]
+}

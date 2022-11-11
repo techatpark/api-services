@@ -1,0 +1,19 @@
+{
+    "question": "Which one is in descending order of a food chain",
+    "explanation": "",
+    "choices": [
+        {
+            "value": "Producers → Secondary consumers → Primary consumers → Tertiary consumers",
+            "answer": true
+        },
+        {
+            "value": "Tertiary consumers → Primary consumers → Secondary consumers → Producers"
+        },
+        {
+            "value": "Tertiary consumers → Secondary consumers → Primary consumers → Producers"
+        },
+        {
+            "value": "Tertiary consumers → Producers → Primary consumers → Secondary consumers"
+        }
+    ]
+}

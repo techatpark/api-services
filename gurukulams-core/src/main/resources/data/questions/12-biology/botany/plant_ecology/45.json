@@ -1,0 +1,19 @@
+{
+    "question": "The unit for measuring ozone thickness",
+    "explanation": "",
+    "choices": [
+        {
+            "value": "Joule",
+            "answer": true
+        },
+        {
+            "value": "Watt"
+        },
+        {
+            "value": "Kilos"
+        },
+        {
+            "value": "Dobson"
+        }
+    ]
+}

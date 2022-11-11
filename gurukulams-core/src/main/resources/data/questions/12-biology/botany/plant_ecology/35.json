@@ -1,0 +1,19 @@
+{
+    "question": "Which of the following is not a sedimentary cycle",
+    "explanation": "",
+    "choices": [
+        {
+            "value": "Nitrogen cycle",
+            "answer": true
+        },
+        {
+            "value": "Phosphorous cycle"
+        },
+        {
+            "value": "Sulphur cycle"
+        },
+        {
+            "value": "Calcium cycle"
+        }
+    ]
+}
