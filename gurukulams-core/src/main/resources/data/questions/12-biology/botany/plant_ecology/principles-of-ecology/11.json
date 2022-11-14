@@ -1,0 +1,14 @@
+{
+  "question" : "The study of soil is called as __________",
+  "explanation" : "",
+  "choices" : [ {
+    "value" : "Lithotripsy"
+  }, {
+    "value" : "Lithosphere"
+  }, {
+    "value" : "Pedology",
+    "answer" : true
+  }, {
+    "value" : "Pedology analysis"
+  } ]
+}

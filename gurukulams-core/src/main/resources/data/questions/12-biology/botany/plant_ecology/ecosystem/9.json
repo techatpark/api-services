@@ -1,0 +1,14 @@
+{
+  "question" : "Which one is in descending order of a food chain?",
+  "explanation" : "",
+  "choices" : [ {
+    "value" : "Producers → Secondary consumers → Primary consumers → Tertiary consumers"
+  }, {
+    "value" : "Tertiary consumers → Primary consumers → Secondary consumers → Producers"
+  }, {
+    "value" : "Tertiary consumers → Secondary consumers → Primary consumers → Producers",
+    "answer" : true
+  }, {
+    "value" : "Tertiary consumers → Producers → Primary consumers → Secondary consumers Significance of food web is / are"
+  } ]
+}

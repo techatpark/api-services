@@ -1,0 +1,14 @@
+{
+  "question" : "Autoecology deals with the study of ________",
+  "explanation" : "",
+  "choices" : [ {
+    "value" : "Community"
+  }, {
+    "value" : "Population"
+  }, {
+    "value" : "Individual species",
+    "answer" : true
+  }, {
+    "value" : "Niche of species"
+  } ]
+}

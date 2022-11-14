@@ -1,0 +1,14 @@
+{
+  "question" : "Which group of organism occupies the third tropic level in an ecosystem?",
+  "explanation" : "",
+  "choices" : [ {
+    "value" : "Primary consumers"
+  }, {
+    "value" : "Secondary consumers",
+    "answer" : true
+  }, {
+    "value" : "Secondary carnivores"
+  }, {
+    "value" : "Omnivores"
+  } ]
+}

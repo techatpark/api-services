@@ -1,0 +1,14 @@
+{
+  "question" : "Which type of ecosystem service does the genetic resources comes under?",
+  "explanation" : "",
+  "choices" : [ {
+    "value" : "Provisioning services",
+    "answer" : true
+  }, {
+    "value" : "Supporting services"
+  }, {
+    "value" : "Regulating services"
+  }, {
+    "value" : "Cultural services"
+  } ]
+}

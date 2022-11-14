@@ -1,0 +1,14 @@
+{
+  "question" : "The type of ecosystem with maximum net primary productivity is __________",
+  "explanation" : "",
+  "choices" : [ {
+    "value" : "Desert ecosystem"
+  }, {
+    "value" : "Deciduous forest ecosystem"
+  }, {
+    "value" : "Tropical rain forest ecosystem",
+    "answer" : true
+  }, {
+    "value" : "Grassland ecosystem"
+  } ]
+}

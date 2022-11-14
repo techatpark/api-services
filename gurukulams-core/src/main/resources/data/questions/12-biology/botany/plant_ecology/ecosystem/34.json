@@ -1,0 +1,14 @@
+{
+  "question" : "_______ is the climax community of hydrosere.",
+  "explanation" : "",
+  "choices" : [ {
+    "value" : "Reed swamp stage"
+  }, {
+    "value" : "Marsh medow stage"
+  }, {
+    "value" : "Shrub stage"
+  }, {
+    "value" : "Forest stage",
+    "answer" : true
+  } ]
+}

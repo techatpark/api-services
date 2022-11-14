@@ -1,0 +1,14 @@
+{
+  "question" : "Clean Development Mechanism (CDM) is defined in __________",
+  "explanation" : "",
+  "choices" : [ {
+    "value" : "Copenhagen Acord"
+  }, {
+    "value" : "Montreal Protocol"
+  }, {
+    "value" : "Paris Agreement"
+  }, {
+    "value" : "Kyoto Protocol",
+    "answer" : true
+  } ]
+}

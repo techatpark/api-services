@@ -1,0 +1,14 @@
+{
+  "question" : "Which of the following is / are not a natural ecosystem?",
+  "explanation" : "",
+  "choices" : [ {
+    "value" : "Forest ecosystem"
+  }, {
+    "value" : "Rice field",
+    "answer" : true
+  }, {
+    "value" : "Grassland ecosystem"
+  }, {
+    "value" : "Desert ecosystem Pond is a type"
+  } ]
+}

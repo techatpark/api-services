@@ -1,0 +1,14 @@
+{
+  "question" : "Succession initiating on a sand referred as",
+  "explanation" : "",
+  "choices" : [ {
+    "value" : "Hydrosere"
+  }, {
+    "value" : "Psammosere",
+    "answer" : true
+  }, {
+    "value" : "Halosere"
+  }, {
+    "value" : "Lithosere"
+  } ]
+}

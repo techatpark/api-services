@@ -1,0 +1,13 @@
+{
+  "question" : "Methane is __________ times as effective as CO<sub>2</sub> at trapping heat.",
+  "explanation" : "",
+  "choices" : [ {
+    "value" : "5"
+  }, {
+    "value" : "10"
+  }, {
+    "value" : "20"
+  }, {
+    "value" : "100"
+  } ]
+}

@@ -1,0 +1,14 @@
+{
+  "question" : "The upright pyramid is not a feature of. __________",
+  "explanation" : "",
+  "choices" : [ {
+    "value" : "Pond ecosystem",
+    "answer" : true
+  }, {
+    "value" : "Grassland ecosystem"
+  }, {
+    "value" : "Forest ecosystem"
+  }, {
+    "value" : "Terminal ecosystem"
+  } ]
+}

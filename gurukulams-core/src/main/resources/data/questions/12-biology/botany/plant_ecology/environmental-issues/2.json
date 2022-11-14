@@ -1,0 +1,14 @@
+{
+  "question" : "Depletion of which gas in the atmosphere can lead to an increased incidence of skin cancer?",
+  "explanation" : "",
+  "choices" : [ {
+    "value" : "Ammonia"
+  }, {
+    "value" : "Methane"
+  }, {
+    "value" : "Nitrous oxide"
+  }, {
+    "value" : "Ozone",
+    "answer" : true
+  } ]
+}

@@ -1,0 +1,14 @@
+{
+  "question" : "Which is not a beneficial aspect of Agroforestry?",
+  "explanation" : "",
+  "choices" : [ {
+    "value" : "Nutrient cycling is improved"
+  }, {
+    "value" : "Balance in O<sub>2</sub> – CO<sub>2</sub> composition"
+  }, {
+    "value" : "Suitable for wet land where rainfall is maximum",
+    "answer" : true
+  }, {
+    "value" : "Reduces water run-off problem"
+  } ]
+}

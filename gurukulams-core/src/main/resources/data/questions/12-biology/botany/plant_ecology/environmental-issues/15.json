@@ -1,0 +1,14 @@
+{
+  "question" : "Which is not reduced by deforestation?",
+  "explanation" : "",
+  "choices" : [ {
+    "value" : "Amount of habitat"
+  }, {
+    "value" : "Amount of animal population"
+  }, {
+    "value" : "Amount of biodiversity"
+  }, {
+    "value" : "Amount of agricultural land",
+    "answer" : true
+  } ]
+}

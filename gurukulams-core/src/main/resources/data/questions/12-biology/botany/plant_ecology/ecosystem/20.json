@@ -1,0 +1,14 @@
+{
+  "question" : "Which is irrelevant to the first law of thermodynamics?",
+  "explanation" : "",
+  "choices" : [ {
+    "value" : "Energy can be transmitted from one system to other in many forms."
+  }, {
+    "value" : "Energy transformation results in reduction of free energy.",
+    "answer" : true
+  }, {
+    "value" : "Energy can neither be created nor destroyed."
+  }, {
+    "value" : "Energy in the universe is constant."
+  } ]
+}
