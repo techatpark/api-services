@@ -1,0 +1,14 @@
+{
+  "question" : "__________ is a plant species which acts as an indicator of Nitrate pollution.",
+  "explanation" : "",
+  "choices" : [ {
+    "value" : "Petunia",
+    "answer" : true
+  }, {
+    "value" : "Lichens"
+  }, {
+    "value" : "Gladiolus"
+  }, {
+    "value" : "Pinus"
+  } ]
+}

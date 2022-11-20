@@ -1,0 +1,14 @@
+{
+  "question" : "People’s movement for the protection of environment in Sirsi of Karnataka is ________",
+  "explanation" : "",
+  "choices" : [ {
+    "value" : "Chipko movement"
+  }, {
+    "value" : "Amirtha Devi Bishwas movement"
+  }, {
+    "value" : "Appiko movement",
+    "answer" : true
+  }, {
+    "value" : "None of the above"
+  } ]
+}

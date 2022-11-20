@@ -1,0 +1,14 @@
+{
+  "question" : "Pick out the odd one out __________",
+  "explanation" : "",
+  "choices" : [ {
+    "value" : "Biosphere reserve"
+  }, {
+    "value" : "National Park"
+  }, {
+    "value" : "Wild life sanctuaries"
+  }, {
+    "value" : "Botanical gardens",
+    "answer" : true
+  } ]
+}

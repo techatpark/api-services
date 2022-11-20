@@ -1,0 +1,14 @@
+{
+  "question" : "Deforestation means ______",
+  "explanation" : "",
+  "choices" : [ {
+    "value" : "growing plants and trees in an area where there is no forest"
+  }, {
+    "value" : "growing plants and trees in an area where the forest is removed"
+  }, {
+    "value" : "growing plants and trees in a pond"
+  }, {
+    "value" : "removal of plants and trees",
+    "answer" : true
+  } ]
+}

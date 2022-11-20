@@ -406,7 +406,8 @@ public class BoardMaker {
                 questionLocalized.getChoices().get(i)
                         .setId(createdQuestion.getChoices().get(i).getId());
                 questionLocalized.getChoices().get(i)
-                        .setAnswer(createdQuestion.getChoices().get(i).isAnswer());
+                        .setAnswer(
+                        createdQuestion.getChoices().get(i).isAnswer());
             }
 
             questionService.update(

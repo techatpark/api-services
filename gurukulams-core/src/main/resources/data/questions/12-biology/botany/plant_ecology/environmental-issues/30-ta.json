@@ -1,0 +1,14 @@
+{
+  "question" : "Identify the plant species that is not used as a live fence.",
+  "explanation" : "",
+  "choices" : [ {
+    "value" : "Sesbania grandiflora"
+  }, {
+    "value" : "Acacia species"
+  }, {
+    "value" : "Petunia species",
+    "answer" : true
+  }, {
+    "value" : "Erythrina species"
+  } ]
+}

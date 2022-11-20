@@ -1,0 +1,13 @@
+{
+  "question" : "Which is not a true statement regarding rain water harvesting?",
+  "explanation" : "",
+  "choices" : [ {
+    "value" : "Mitigates groundwater quality"
+  }, {
+    "value" : "Reduces soil erosion"
+  }, {
+    "value" : "Decreases soil salinity"
+  }, {
+    "value" : "No wastage of land for storing"
+  } ]
+}
