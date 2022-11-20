@@ -6,8 +6,7 @@
             "value": "I-iv;II-i;III-ii;IV-iii"
         },
         {
-            "value": "I-iii;II-iv;III-i;IV-ii",
-            "answer": true
+            "value": "I-iii;II-iv;III-i;IV-ii"
         },
         {
             "value": "I-iii;II-iv;III-ii,IV-i"

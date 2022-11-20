@@ -405,6 +405,8 @@ public class BoardMaker {
             for (int i = 0; i < createdQuestion.getChoices().size(); i++) {
                 questionLocalized.getChoices().get(i)
                         .setId(createdQuestion.getChoices().get(i).getId());
+                questionLocalized.getChoices().get(i)
+                        .setAnswer(createdQuestion.getChoices().get(i).isAnswer());
             }
 
             questionService.update(
