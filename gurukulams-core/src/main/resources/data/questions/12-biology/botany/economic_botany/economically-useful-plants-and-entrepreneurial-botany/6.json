@@ -1,0 +1,14 @@
+{
+  "question" : "The active principle trans-tetra hydro canabial is present in _____________",
+  "explanation" : "",
+  "choices" : [ {
+    "value" : "Opium"
+  }, {
+    "value" : "Curcuma"
+  }, {
+    "value" : "Marijuana",
+    "answer" : true
+  }, {
+    "value" : "Andrographis"
+  } ]
+}

@@ -1,0 +1,14 @@
+{
+  "question" : "The enzymatic mixture for chemical isolation of protoplast is",
+  "explanation" : "",
+  "choices" : [ {
+    "value" : "0.5% macrozyme, 2% onozuka cellulase, 13% mannitol",
+    "answer" : true
+  }, {
+    "value" : "1.5% macrozyme, 0.5% onozuka cellulase, 12% sorbitol"
+  }, {
+    "value" : "2% macrozyme, 0.5% onozuka cellulase, 13% sorbitol"
+  }, {
+    "value" : "0.1% macrozyme, 2% onozuka cellulase, 15% mannitol"
+  } ]
+}

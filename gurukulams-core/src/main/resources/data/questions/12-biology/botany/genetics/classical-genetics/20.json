@@ -1,0 +1,14 @@
+{
+  "question" : "Select the period for Mendel’s hybridization experiments.",
+  "explanation" : "",
+  "choices" : [ {
+    "value" : "1856 – 1863",
+    "answer" : true
+  }, {
+    "value" : "1850 – 1870"
+  }, {
+    "value" : "1857-1869"
+  }, {
+    "value" : "1870 – 1877"
+  } ]
+}

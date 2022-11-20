@@ -1,0 +1,14 @@
+{
+  "question" : "Damping off of tomato is controlled by ________",
+  "explanation" : "",
+  "choices" : [ {
+    "value" : "Beauveria species",
+    "answer" : true
+  }, {
+    "value" : "Trichoderma species"
+  }, {
+    "value" : "Acacia species"
+  }, {
+    "value" : "Pseudomonas species"
+  } ]
+}

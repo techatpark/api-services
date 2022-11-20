@@ -1,0 +1,14 @@
+{
+  "question" : "Groundnut is native of _____________",
+  "explanation" : "",
+  "choices" : [ {
+    "value" : "Philippines"
+  }, {
+    "value" : "India"
+  }, {
+    "value" : "North America"
+  }, {
+    "value" : "Brazil",
+    "answer" : true
+  } ]
+}

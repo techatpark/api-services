@@ -1,0 +1,14 @@
+{
+  "question" : "Identity the mutant variety of castor.",
+  "explanation" : "",
+  "choices" : [ {
+    "value" : "Sharbathi Sonora variety"
+  }, {
+    "value" : "Aruna variety",
+    "answer" : true
+  }, {
+    "value" : "Reimei variety"
+  }, {
+    "value" : "Erectiferm variety"
+  } ]
+}

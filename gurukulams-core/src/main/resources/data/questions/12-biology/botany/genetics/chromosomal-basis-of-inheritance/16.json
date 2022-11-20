@@ -1,0 +1,14 @@
+{
+  "question" : "At which stage of meiosis, does the chromosomes undergo recombination process?",
+  "explanation" : "",
+  "choices" : [ {
+    "value" : "Leptotene stage of prophase I"
+  }, {
+    "value" : "Zygotene stage of prophase I"
+  }, {
+    "value" : "Diplotene stage of prophase I"
+  }, {
+    "value" : "Pachytene stage of prophase I",
+    "answer" : true
+  } ]
+}

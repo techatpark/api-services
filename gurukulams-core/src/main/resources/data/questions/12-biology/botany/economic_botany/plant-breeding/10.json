@@ -1,0 +1,14 @@
+{
+  "question" : "Jaya and Ratna are the semi dwarf varieties of __________",
+  "explanation" : "",
+  "choices" : [ {
+    "value" : "wheat"
+  }, {
+    "value" : "rice",
+    "answer" : true
+  }, {
+    "value" : "cowpea"
+  }, {
+    "value" : "mustard"
+  } ]
+}

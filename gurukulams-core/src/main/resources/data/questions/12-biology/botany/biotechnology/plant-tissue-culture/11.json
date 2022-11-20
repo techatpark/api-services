@@ -1,0 +1,14 @@
+{
+  "question" : "Protoplast are the cells devoid of ___________",
+  "explanation" : "",
+  "choices" : [ {
+    "value" : "Cell wall",
+    "answer" : true
+  }, {
+    "value" : "Cell membrane"
+  }, {
+    "value" : "Plasma membrane"
+  }, {
+    "value" : "both A and B"
+  } ]
+}

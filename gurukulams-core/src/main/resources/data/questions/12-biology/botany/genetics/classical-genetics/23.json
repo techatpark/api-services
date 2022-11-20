@@ -1,0 +1,14 @@
+{
+  "question" : "An allede is __________",
+  "explanation" : "",
+  "choices" : [ {
+    "value" : "another word for a gene"
+  }, {
+    "value" : "alternate forms of a gene",
+    "answer" : true
+  }, {
+    "value" : "morphological expression of a gene"
+  }, {
+    "value" : "genitic"
+  } ]
+}

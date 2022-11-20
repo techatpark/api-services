@@ -1,0 +1,14 @@
+{
+  "question" : "Genes G S L H are located on same chromosome. The recombination percentage is between and G is 15%, S and L is 50% and H and S are 20%. The correct order of genes is ___________",
+  "explanation" : "",
+  "choices" : [ {
+    "value" : "GHSL"
+  }, {
+    "value" : "SHGL",
+    "answer" : true
+  }, {
+    "value" : "SGHL"
+  }, {
+    "value" : "HSLG"
+  } ]
+}

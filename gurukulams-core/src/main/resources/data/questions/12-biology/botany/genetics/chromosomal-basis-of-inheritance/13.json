@@ -1,0 +1,14 @@
+{
+  "question" : "Identify the syntenic gene from the given genes sequence of a chromosome G-H-I-J-K-L-M-A-B",
+  "explanation" : "",
+  "choices" : [ {
+    "value" : "G and H"
+  }, {
+    "value" : "J, K and L"
+  }, {
+    "value" : "G and B",
+    "answer" : true
+  }, {
+    "value" : "A and B"
+  } ]
+}

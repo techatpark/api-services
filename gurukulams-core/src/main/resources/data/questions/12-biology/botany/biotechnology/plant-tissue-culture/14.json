@@ -1,0 +1,14 @@
+{
+  "question" : "The optimal pH of culture medium is generally ___________",
+  "explanation" : "",
+  "choices" : [ {
+    "value" : "Acidic",
+    "answer" : true
+  }, {
+    "value" : "Basic"
+  }, {
+    "value" : "Neutral"
+  }, {
+    "value" : "Slightly basic"
+  } ]
+}

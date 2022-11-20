@@ -1,0 +1,14 @@
+{
+  "question" : "In an intergenic interaction, the gene that suppresses the pherotype of a gene is said to Crossing of F, to any one of the parent refers to __________",
+  "explanation" : "",
+  "choices" : [ {
+    "value" : "Dominant"
+  }, {
+    "value" : "Inhibitory"
+  }, {
+    "value" : "Epistatic",
+    "answer" : true
+  }, {
+    "value" : "Hypostatic"
+  } ]
+}

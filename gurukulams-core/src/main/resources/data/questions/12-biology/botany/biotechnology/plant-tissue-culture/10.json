@@ -1,0 +1,14 @@
+{
+  "question" : "Which of the following condition favours callus induction?",
+  "explanation" : "",
+  "choices" : [ {
+    "value" : "Temperature of 25°C ± 5°C with 12 hours of photoperiod"
+  }, {
+    "value" : "Temperature of 25°C ± 2°C with 18 hours of photoperiod"
+  }, {
+    "value" : "Temperature of 25°C + 5°C with 14 hours of photoperiod"
+  }, {
+    "value" : "Temperature of 25°C ± 2°C with 16 hours of photoperiod",
+    "answer" : true
+  } ]
+}

@@ -1,0 +1,14 @@
+{
+  "question" : "Due to incomplete linkage in maize, the ratio of parental and recombinants are ___________",
+  "explanation" : "",
+  "choices" : [ {
+    "value" : "50 : 50"
+  }, {
+    "value" : "7 : 1 : 1 : 7",
+    "answer" : true
+  }, {
+    "value" : "96.4 : 3.6"
+  }, {
+    "value" : "1 : 7 : 7 : 1"
+  } ]
+}

@@ -1,0 +1,14 @@
+{
+  "question" : "Transition type of gene mutation is caused when __________",
+  "explanation" : "",
+  "choices" : [ {
+    "value" : "AC is replaced by GT",
+    "answer" : true
+  }, {
+    "value" : "AG is replaced by TC"
+  }, {
+    "value" : "AC is replaced by TG"
+  }, {
+    "value" : "TC is replaced by AG"
+  } ]
+}

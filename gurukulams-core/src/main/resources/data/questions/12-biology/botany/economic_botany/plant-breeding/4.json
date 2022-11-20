@@ -1,0 +1,14 @@
+{
+  "question" : "Desired improved variety of economically useful crops are raised by __________",
+  "explanation" : "",
+  "choices" : [ {
+    "value" : "natural selection"
+  }, {
+    "value" : "hybridization",
+    "answer" : true
+  }, {
+    "value" : "mutation"
+  }, {
+    "value" : "biofertilisers"
+  } ]
+}

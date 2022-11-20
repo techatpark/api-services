@@ -1,0 +1,14 @@
+{
+  "question" : "How many genetically different gametes are produced by a plant have genotype TtYyRr?",
+  "explanation" : "",
+  "choices" : [ {
+    "value" : "2"
+  }, {
+    "value" : "4"
+  }, {
+    "value" : "6"
+  }, {
+    "value" : "8",
+    "answer" : true
+  } ]
+}

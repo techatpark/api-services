@@ -1,0 +1,14 @@
+{
+  "question" : "Mutation theory was proposed by. __________",
+  "explanation" : "",
+  "choices" : [ {
+    "value" : "T. H. Morgan"
+  }, {
+    "value" : "Hugo de Vries",
+    "answer" : true
+  }, {
+    "value" : "Alfred variety"
+  }, {
+    "value" : "Erectiferm"
+  } ]
+}

@@ -1,0 +1,14 @@
+{
+  "question" : "Restriction enzymes are ___________",
+  "explanation" : "",
+  "choices" : [ {
+    "value" : "Not always required in genetic engineering"
+  }, {
+    "value" : "Essential tools in genetic engineering"
+  }, {
+    "value" : "Nucleases that cleave DNA at specific sites"
+  }, {
+    "value" : "both b and c",
+    "answer" : true
+  } ]
+}

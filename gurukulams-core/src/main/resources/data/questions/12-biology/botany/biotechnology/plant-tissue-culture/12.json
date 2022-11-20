@@ -1,0 +1,14 @@
+{
+  "question" : "A widely used fusogen in protoplast culture is ___________",
+  "explanation" : "",
+  "choices" : [ {
+    "value" : "Polymethyl glycol"
+  }, {
+    "value" : "Polyethylene glycol",
+    "answer" : true
+  }, {
+    "value" : "Polyethylene chloride"
+  }, {
+    "value" : "Polyvinyl chloride"
+  } ]
+}

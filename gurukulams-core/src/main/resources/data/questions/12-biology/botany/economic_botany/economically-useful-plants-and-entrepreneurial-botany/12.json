@@ -1,0 +1,14 @@
+{
+  "question" : "Statement 1: Arachis hypogea belongs to Fabaceae Statement 2: It is a native of Brazil.",
+  "explanation" : "",
+  "choices" : [ {
+    "value" : "Statement 1 is correct and Statement 2 is also correct",
+    "answer" : true
+  }, {
+    "value" : "Statement 1 is correct and Statement 2 is incorrect"
+  }, {
+    "value" : "Statement 1 is incorrect and Statement 2 is correct"
+  }, {
+    "value" : "Both the Statements are incorrect"
+  } ]
+}

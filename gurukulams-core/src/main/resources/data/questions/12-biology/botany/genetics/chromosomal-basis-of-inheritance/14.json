@@ -1,0 +1,14 @@
+{
+  "question" : "Incomplete linkage was reported by Hutchinson in",
+  "explanation" : "",
+  "choices" : [ {
+    "value" : "Drosophila"
+  }, {
+    "value" : "Maize",
+    "answer" : true
+  }, {
+    "value" : "Neurospora"
+  }, {
+    "value" : "Lathyrus odoratus"
+  } ]
+}

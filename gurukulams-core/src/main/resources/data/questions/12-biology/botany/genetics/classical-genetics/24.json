@@ -1,0 +1,14 @@
+{
+  "question" : "How many characters studied by Mendel in pisum sativum",
+  "explanation" : "",
+  "choices" : [ {
+    "value" : "Three"
+  }, {
+    "value" : "Five"
+  }, {
+    "value" : "Seven",
+    "answer" : true
+  }, {
+    "value" : "Nine"
+  } ]
+}

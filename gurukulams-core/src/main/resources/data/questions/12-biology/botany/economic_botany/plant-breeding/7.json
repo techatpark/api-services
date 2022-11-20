@@ -1,0 +1,14 @@
+{
+  "question" : "Dwarfing gene of wheat is __________",
+  "explanation" : "",
+  "choices" : [ {
+    "value" : "pall"
+  }, {
+    "value" : "Atomita 1"
+  }, {
+    "value" : "Norin 10",
+    "answer" : true
+  }, {
+    "value" : "pelita 2"
+  } ]
+}

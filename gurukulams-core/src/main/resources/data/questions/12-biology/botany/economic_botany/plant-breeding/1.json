@@ -1,0 +1,14 @@
+{
+  "question" : "While studying the history of domestication of various cultivated plants recognized earlier.",
+  "explanation" : "",
+  "choices" : [ {
+    "value" : "Centres of origin",
+    "answer" : true
+  }, {
+    "value" : "Centres of domestication"
+  }, {
+    "value" : "Centres of hybrid"
+  }, {
+    "value" : "Centres of variation"
+  } ]
+}

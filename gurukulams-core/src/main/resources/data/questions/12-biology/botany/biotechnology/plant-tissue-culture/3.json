@@ -1,0 +1,14 @@
+{
+  "question" : "The time duration for sterilization process by using autoclave is ___________ minutes and the temperature is ___________",
+  "explanation" : "",
+  "choices" : [ {
+    "value" : "10 to 30 minutes and 125° C"
+  }, {
+    "value" : "15 to 30 minutes and 121° C",
+    "answer" : true
+  }, {
+    "value" : "15 to 20 minutes and 125° C"
+  }, {
+    "value" : "10 to 20 minutes and 121° C"
+  } ]
+}

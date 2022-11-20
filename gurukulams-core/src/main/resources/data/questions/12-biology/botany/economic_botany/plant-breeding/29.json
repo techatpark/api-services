@@ -1,0 +1,14 @@
+{
+  "question" : "Pusa Sawani variety of okra is resistant against ________",
+  "explanation" : "",
+  "choices" : [ {
+    "value" : "Aphids"
+  }, {
+    "value" : "Fruit borers"
+  }, {
+    "value" : "Shoot and fruit borers",
+    "answer" : true
+  }, {
+    "value" : "Jassids"
+  } ]
+}

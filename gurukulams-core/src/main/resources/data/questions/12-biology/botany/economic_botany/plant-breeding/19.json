@@ -1,0 +1,13 @@
+{
+  "question" : "Azolla is best suited biofertilizer for ____________",
+  "explanation" : "",
+  "choices" : [ {
+    "value" : "Sugar cane cultivation"
+  }, {
+    "value" : "Paddy cultivation"
+  }, {
+    "value" : "Wheat cultivation"
+  }, {
+    "value" : "Cotton cultivation"
+  } ]
+}

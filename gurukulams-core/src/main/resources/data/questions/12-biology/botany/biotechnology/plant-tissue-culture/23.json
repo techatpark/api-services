@@ -1,0 +1,14 @@
+{
+  "question" : "Identify the mismatched pair:",
+  "explanation" : "",
+  "choices" : [ {
+    "value" : "Digoxin – Digitalis purpuria"
+  }, {
+    "value" : "Codeine – Capsicum annum",
+    "answer" : true
+  }, {
+    "value" : "Vincristine – Catharanthus roseus"
+  }, {
+    "value" : "Quinine – Cinchona officinalis"
+  } ]
+}

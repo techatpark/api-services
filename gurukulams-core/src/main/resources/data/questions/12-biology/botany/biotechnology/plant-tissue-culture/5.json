@@ -1,0 +1,14 @@
+{
+  "question" : "Vims free plants are developed from",
+  "explanation" : "",
+  "choices" : [ {
+    "value" : "Organ culture"
+  }, {
+    "value" : "Meristem culture",
+    "answer" : true
+  }, {
+    "value" : "Protoplast culture"
+  }, {
+    "value" : "Cell suspension culture"
+  } ]
+}

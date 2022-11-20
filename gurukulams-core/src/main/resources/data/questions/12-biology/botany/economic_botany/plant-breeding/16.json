@@ -1,0 +1,14 @@
+{
+  "question" : "Identify the incorrect statement:",
+  "explanation" : "",
+  "choices" : [ {
+    "value" : "Bio-inoculants are efficient in solubilising phosphate"
+  }, {
+    "value" : "Bio-inoculants are ecofriendly organic agro outputs"
+  }, {
+    "value" : "Bio-inoculants are obtained from dead organic matters",
+    "answer" : true
+  }, {
+    "value" : "Bio-inoculants are designed to improve soil fertility"
+  } ]
+}

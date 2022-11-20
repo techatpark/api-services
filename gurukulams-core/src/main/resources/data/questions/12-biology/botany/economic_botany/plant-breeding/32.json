@@ -1,0 +1,14 @@
+{
+  "question" : "Luxuriance is the term used on par with ________",
+  "explanation" : "",
+  "choices" : [ {
+    "value" : "Heterosis",
+    "answer" : true
+  }, {
+    "value" : "Anthesis"
+  }, {
+    "value" : "Hybrids"
+  }, {
+    "value" : "Mutant breeds"
+  } ]
+}

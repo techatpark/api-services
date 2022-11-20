@@ -1,0 +1,14 @@
+{
+  "question" : "According to Mendel, which is not a dominant trait?",
+  "explanation" : "",
+  "choices" : [ {
+    "value" : "Wrinkled seeds",
+    "answer" : true
+  }, {
+    "value" : "Purple flower"
+  }, {
+    "value" : "Inflated pod form"
+  }, {
+    "value" : "Axial flower portion"
+  } ]
+}

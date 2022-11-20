@@ -1,0 +1,14 @@
+{
+  "question" : "Number of chromosomes (2n) in Ophioglossum is ________",
+  "explanation" : "",
+  "choices" : [ {
+    "value" : "1226"
+  }, {
+    "value" : "1622"
+  }, {
+    "value" : "1262",
+    "answer" : true
+  }, {
+    "value" : "2126"
+  } ]
+}

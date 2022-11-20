@@ -1,0 +1,14 @@
+{
+  "question" : "Pick out the co-mutagen from the following:",
+  "explanation" : "",
+  "choices" : [ {
+    "value" : "Eosin"
+  }, {
+    "value" : "Mustard gas"
+  }, {
+    "value" : "Ascorbic acid",
+    "answer" : true
+  }, {
+    "value" : "Nitrous acid"
+  } ]
+}

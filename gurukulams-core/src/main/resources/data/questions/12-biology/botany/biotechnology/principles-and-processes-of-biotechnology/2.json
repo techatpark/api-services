@@ -1,0 +1,14 @@
+{
+  "question" : "Plasmids are ___________",
+  "explanation" : "",
+  "choices" : [ {
+    "value" : "circular protein molecules"
+  }, {
+    "value" : "required by bacteria"
+  }, {
+    "value" : "tiny bacteria"
+  }, {
+    "value" : "confer resistance to antibiotics",
+    "answer" : true
+  } ]
+}

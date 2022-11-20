@@ -1,0 +1,14 @@
+{
+  "question" : "Raphanobrassica is an example for ________",
+  "explanation" : "",
+  "choices" : [ {
+    "value" : "Autopolyploid"
+  }, {
+    "value" : "Allopolyploid",
+    "answer" : true
+  }, {
+    "value" : "Polyploid"
+  }, {
+    "value" : "Polysomy"
+  } ]
+}

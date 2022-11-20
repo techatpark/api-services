@@ -1,0 +1,14 @@
+{
+  "question" : "Which one of the following is not correct statement?",
+  "explanation" : "",
+  "choices" : [ {
+    "value" : "Ti plasmid causes the bunchy top disease",
+    "answer" : true
+  }, {
+    "value" : "Multiple cloning site is known as Polylinker"
+  }, {
+    "value" : "Non-viral method of transfection of Nucleic acid in cell"
+  }, {
+    "value" : "Polylactic acid is a kind of biodegradable and bioactive thermoplastic."
+  } ]
+}

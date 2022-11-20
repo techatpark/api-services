@@ -1,0 +1,14 @@
+{
+  "question" : "Identify the mismatched pair",
+  "explanation" : "",
+  "choices" : [ {
+    "value" : "Chloroplast inheritance – Gregor Mendel",
+    "answer" : true
+  }, {
+    "value" : "Polygenic inheritance – H. Nilsson"
+  }, {
+    "value" : "Lethal genes – E. Baur"
+  }, {
+    "value" : "Incomplete dominance – Carl Correns"
+  } ]
+}

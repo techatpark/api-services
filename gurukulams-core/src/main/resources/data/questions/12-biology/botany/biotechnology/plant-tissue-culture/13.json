@@ -1,0 +1,14 @@
+{
+  "question" : "Synseeds are developed by encapsulating embryoids with ___________",
+  "explanation" : "",
+  "choices" : [ {
+    "value" : "Sodium chloride"
+  }, {
+    "value" : "Potassium iodide"
+  }, {
+    "value" : "Sodium alginate",
+    "answer" : true
+  }, {
+    "value" : "Potassium dichromate"
+  } ]
+}

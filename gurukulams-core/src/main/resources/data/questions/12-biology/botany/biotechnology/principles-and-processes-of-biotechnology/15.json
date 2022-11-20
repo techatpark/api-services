@@ -1,0 +1,14 @@
+{
+  "question" : "Identify the incorrect statement:",
+  "explanation" : "",
+  "choices" : [ {
+    "value" : "French chemist Louis Pasteur demonstrated the fermentation."
+  }, {
+    "value" : "Fermentor is a vessel providing optimal condition for microbial action."
+  }, {
+    "value" : "Solvent extraction is an upstream process of fermentation.",
+    "answer" : true
+  }, {
+    "value" : "Distillation and filtration comes under down stream process."
+  } ]
+}

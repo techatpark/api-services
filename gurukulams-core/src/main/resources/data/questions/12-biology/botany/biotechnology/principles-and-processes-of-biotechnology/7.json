@@ -1,0 +1,14 @@
+{
+  "question" : "Which of the following one is used as a Biosensors?",
+  "explanation" : "",
+  "choices" : [ {
+    "value" : "Electrophoresis"
+  }, {
+    "value" : "Bioreactors",
+    "answer" : true
+  }, {
+    "value" : "Vectors"
+  }, {
+    "value" : "Electroporation"
+  } ]
+}

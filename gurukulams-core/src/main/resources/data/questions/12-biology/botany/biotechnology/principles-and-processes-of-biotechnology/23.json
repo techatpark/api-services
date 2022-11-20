@@ -1,0 +1,13 @@
+{
+  "question" : "Today more than restriction enzymes have been isolated.",
+  "explanation" : "",
+  "choices" : [ {
+    "value" : "800"
+  }, {
+    "value" : "900"
+  }, {
+    "value" : "1000"
+  }, {
+    "value" : "870"
+  } ]
+}

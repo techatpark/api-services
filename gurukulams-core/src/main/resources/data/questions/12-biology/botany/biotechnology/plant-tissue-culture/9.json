@@ -1,0 +1,14 @@
+{
+  "question" : "Identify the group of scientists who developed the intergenic hybrid – the pomato.",
+  "explanation" : "",
+  "choices" : [ {
+    "value" : "Yamada et al."
+  }, {
+    "value" : "Horsh et al."
+  }, {
+    "value" : "Takebe et al."
+  }, {
+    "value" : "Melchers et al.",
+    "answer" : true
+  } ]
+}

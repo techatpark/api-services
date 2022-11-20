@@ -1,0 +1,14 @@
+{
+  "question" : "Which of the following scientist developed world’s first cotton hybrid?",
+  "explanation" : "",
+  "choices" : [ {
+    "value" : "Dr. B.P. Pal"
+  }, {
+    "value" : "C.T. Patel",
+    "answer" : true
+  }, {
+    "value" : "Dr. K. Ramiah"
+  }, {
+    "value" : "N.G.P. Rao"
+  } ]
+}

@@ -1,0 +1,14 @@
+{
+  "question" : "The plant source of Marijuana is ________",
+  "explanation" : "",
+  "choices" : [ {
+    "value" : "Andrographis paniculata"
+  }, {
+    "value" : "Phyllanthus maderspatensis"
+  }, {
+    "value" : "Cannabis sativa",
+    "answer" : true
+  }, {
+    "value" : "Papaver somniferum"
+  } ]
+}

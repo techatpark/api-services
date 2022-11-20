@@ -1,0 +1,14 @@
+{
+  "question" : "Cryopreservation means it is a process to preserve plant cells, tissues or organs",
+  "explanation" : "",
+  "choices" : [ {
+    "value" : "at very low temperature by using ether"
+  }, {
+    "value" : "at very high temperature by using liquid nitrogen"
+  }, {
+    "value" : "at very low temperature of-196 by using liquid nitrogen",
+    "answer" : true
+  }, {
+    "value" : "at very low temperature by using liquid nitrogen"
+  } ]
+}

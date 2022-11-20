@@ -1,0 +1,14 @@
+{
+  "question" : "The term used to define the ability of a cell to generate entire individual is",
+  "explanation" : "",
+  "choices" : [ {
+    "value" : "Pleuripotent"
+  }, {
+    "value" : "Totipotent",
+    "answer" : true
+  }, {
+    "value" : "Multipotent"
+  }, {
+    "value" : "Unipotent"
+  } ]
+}

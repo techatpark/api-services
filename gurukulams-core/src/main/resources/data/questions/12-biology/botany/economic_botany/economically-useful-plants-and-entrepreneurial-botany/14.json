@@ -1,0 +1,14 @@
+{
+  "question" : "Identify the mismatched pair:",
+  "explanation" : "",
+  "choices" : [ {
+    "value" : "Holy basil – Ocimum sanctum"
+  }, {
+    "value" : "Indian gooseberry – Phyllanthus amarus",
+    "answer" : true
+  }, {
+    "value" : "Vilvam – Aegle marmelos"
+  }, {
+    "value" : "Veldt grape – Cissus quadrangularis"
+  } ]
+}

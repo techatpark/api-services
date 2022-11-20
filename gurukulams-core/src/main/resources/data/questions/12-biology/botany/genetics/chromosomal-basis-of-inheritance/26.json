@@ -1,0 +1,14 @@
+{
+  "question" : "One of the following is not the kind of euploidy",
+  "explanation" : "",
+  "choices" : [ {
+    "value" : "Diploidy"
+  }, {
+    "value" : "Polyploidy"
+  }, {
+    "value" : "Hyperploidy",
+    "answer" : true
+  }, {
+    "value" : "Autoploidy"
+  } ]
+}

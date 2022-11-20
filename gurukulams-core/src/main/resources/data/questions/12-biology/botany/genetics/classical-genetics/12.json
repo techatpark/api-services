@@ -1,0 +1,14 @@
+{
+  "question" : "In his classic experiments on Pea plants, Mendel did not use __________",
+  "explanation" : "",
+  "choices" : [ {
+    "value" : "Flowering position"
+  }, {
+    "value" : "Seed colour"
+  }, {
+    "value" : "Pod length",
+    "answer" : true
+  }, {
+    "value" : "Seed shape"
+  } ]
+}

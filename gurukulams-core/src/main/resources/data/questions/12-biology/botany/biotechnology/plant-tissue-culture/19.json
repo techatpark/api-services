@@ -1,0 +1,14 @@
+{
+  "question" : "Identify the plant tissue used for virus free germplasm",
+  "explanation" : "",
+  "choices" : [ {
+    "value" : "Apical meristem",
+    "answer" : true
+  }, {
+    "value" : "Intercalary meristem"
+  }, {
+    "value" : "Lateral meristem"
+  }, {
+    "value" : "Plate meristem"
+  } ]
+}

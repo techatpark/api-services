@@ -1,0 +1,14 @@
+{
+  "question" : "Arbuscular mycorrhizae is a symbiotic association between ________",
+  "explanation" : "",
+  "choices" : [ {
+    "value" : "Algae and fungi"
+  }, {
+    "value" : "Angiosperm roots and fungi",
+    "answer" : true
+  }, {
+    "value" : "Blue green algae and Azolla fern"
+  }, {
+    "value" : "Cyanobacteria and corolloid root"
+  } ]
+}

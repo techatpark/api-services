@@ -1,0 +1,14 @@
+{
+  "question" : "Pusa swamim variety of Brassica species show resistance to ________",
+  "explanation" : "",
+  "choices" : [ {
+    "value" : "White rust",
+    "answer" : true
+  }, {
+    "value" : "Leaf curl"
+  }, {
+    "value" : "Black rot"
+  }, {
+    "value" : "Hill bunt"
+  } ]
+}

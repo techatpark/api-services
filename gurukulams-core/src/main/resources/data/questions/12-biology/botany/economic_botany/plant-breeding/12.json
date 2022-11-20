@@ -1,0 +1,14 @@
+{
+  "question" : "A wheat variety, Atlas 66 which has been used as a donor for improving cultivated wheat, which is rich in __________",
+  "explanation" : "",
+  "choices" : [ {
+    "value" : "iron"
+  }, {
+    "value" : "carbohydrates"
+  }, {
+    "value" : "proteins",
+    "answer" : true
+  }, {
+    "value" : "vitamins"
+  } ]
+}

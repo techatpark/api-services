@@ -1,0 +1,14 @@
+{
+  "question" : "“Gametes are never hybrid”. This is a statement of __________",
+  "explanation" : "",
+  "choices" : [ {
+    "value" : "Law of dominance"
+  }, {
+    "value" : "Law of independent assortment"
+  }, {
+    "value" : "Law of segregation",
+    "answer" : true
+  }, {
+    "value" : "Law of random fertilization"
+  } ]
+}

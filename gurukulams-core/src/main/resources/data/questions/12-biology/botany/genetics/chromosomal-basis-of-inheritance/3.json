@@ -1,0 +1,14 @@
+{
+  "question" : "Accurate mapping of genes can be done by three point test cross because increases ___________",
+  "explanation" : "",
+  "choices" : [ {
+    "value" : "Possibility of single cross over"
+  }, {
+    "value" : "Possibility of double cross over",
+    "answer" : true
+  }, {
+    "value" : "Possibility of multiple cross over"
+  }, {
+    "value" : "Possibility of recombination frequency"
+  } ]
+}

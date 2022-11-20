@@ -1,0 +1,14 @@
+{
+  "question" : "Genetic engineering is ___________",
+  "explanation" : "",
+  "choices" : [ {
+    "value" : "making artificial genes"
+  }, {
+    "value" : "hybridization of DNA of one organism to that of the others.",
+    "answer" : true
+  }, {
+    "value" : "production of alcohol by using micro organisms."
+  }, {
+    "value" : "making artificial limbs, diagnostic instruments such as ECG and EEG, etc."
+  } ]
+}

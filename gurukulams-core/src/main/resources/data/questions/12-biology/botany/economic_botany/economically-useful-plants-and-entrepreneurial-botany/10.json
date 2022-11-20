@@ -1,0 +1,14 @@
+{
+  "question" : "Identify the tamil name for flaked rice",
+  "explanation" : "",
+  "choices" : [ {
+    "value" : "Nel"
+  }, {
+    "value" : "Aval",
+    "answer" : true
+  }, {
+    "value" : "Pori"
+  }, {
+    "value" : "Umi"
+  } ]
+}

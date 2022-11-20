@@ -1,0 +1,14 @@
+{
+  "question" : "Which is not a free-living nitrogen fixing species?",
+  "explanation" : "",
+  "choices" : [ {
+    "value" : "Azotobacter"
+  }, {
+    "value" : "Clostridium"
+  }, {
+    "value" : "Nostop"
+  }, {
+    "value" : "Anabaena",
+    "answer" : true
+  } ]
+}

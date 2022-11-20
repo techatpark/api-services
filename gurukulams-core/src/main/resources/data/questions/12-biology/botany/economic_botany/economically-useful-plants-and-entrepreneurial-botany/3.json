@@ -1,0 +1,14 @@
+{
+  "question" : "Tamarindus indica is indigenous to _____________",
+  "explanation" : "",
+  "choices" : [ {
+    "value" : "Tropical African region",
+    "answer" : true
+  }, {
+    "value" : "South India, Sri Lanka"
+  }, {
+    "value" : "South America, Greece"
+  }, {
+    "value" : "India alone"
+  } ]
+}

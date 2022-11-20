@@ -1,0 +1,14 @@
+{
+  "question" : "Atlas 66 is a improved variety of ________",
+  "explanation" : "",
+  "choices" : [ {
+    "value" : "Rice"
+  }, {
+    "value" : "Maize"
+  }, {
+    "value" : "Wheat",
+    "answer" : true
+  }, {
+    "value" : "Spinach"
+  } ]
+}

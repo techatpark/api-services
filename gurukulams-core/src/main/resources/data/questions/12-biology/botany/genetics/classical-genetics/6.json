@@ -1,0 +1,13 @@
+{
+  "question" : "Test cross involves __________",
+  "explanation" : "",
+  "choices" : [ {
+    "value" : "Crossing between two genotypes with recessive trait"
+  }, {
+    "value" : "Crossing between two F<sub>1</sub>&nbsp;hybrids"
+  }, {
+    "value" : "Crossing the F<sub>1</sub>&nbsp;hybrid with a double recessive genotype"
+  }, {
+    "value" : "Crossing between two genotypes with dominant trait"
+  } ]
+}

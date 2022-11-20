@@ -1,0 +1,14 @@
+{
+  "question" : "During cross over, chiasma occurs between",
+  "explanation" : "",
+  "choices" : [ {
+    "value" : "Sister chromatids of non-homologous chromosomes"
+  }, {
+    "value" : "Non-sister chromatids of non- homologous chromosomes"
+  }, {
+    "value" : "Non-sister chromatids of homologous chromosomes",
+    "answer" : true
+  }, {
+    "value" : "Sister chromatids of homologous chromosomes"
+  } ]
+}

@@ -1,0 +1,14 @@
+{
+  "question" : "ABO blood group is a classical example for __________",
+  "explanation" : "",
+  "choices" : [ {
+    "value" : "Polygenic inheritance"
+  }, {
+    "value" : "Incomplete Dominance"
+  }, {
+    "value" : "Epistasis"
+  }, {
+    "value" : "Dominance",
+    "answer" : true
+  } ]
+}

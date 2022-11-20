@@ -1,0 +1,14 @@
+{
+  "question" : "Importing better varieties and plants from outside and acclimatising them to local environment is called __________",
+  "explanation" : "",
+  "choices" : [ {
+    "value" : "cloning"
+  }, {
+    "value" : "heterosis"
+  }, {
+    "value" : "selection"
+  }, {
+    "value" : "introduction",
+    "answer" : true
+  } ]
+}

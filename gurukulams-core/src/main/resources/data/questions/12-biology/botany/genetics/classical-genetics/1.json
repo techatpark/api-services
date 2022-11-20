@@ -1,0 +1,14 @@
+{
+  "question" : "Extra nuclear inheritance is a consequence of presence of genes in __________",
+  "explanation" : "",
+  "choices" : [ {
+    "value" : "Mitrochondria and chloroplasts",
+    "answer" : true
+  }, {
+    "value" : "Endoplasmic reticulum and mitrochondria"
+  }, {
+    "value" : "Ribosomes and chloroplast"
+  }, {
+    "value" : "Lysosomes and ribosomes"
+  } ]
+}

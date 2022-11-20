@@ -1,0 +1,14 @@
+{
+  "question" : "Statement 1: Liposomes are the artificial lipoprotein vesicles. Statement 2: Liposomes are highly used in gene transfer.",
+  "explanation" : "",
+  "choices" : [ {
+    "value" : "Statement 1 is correct and Statement 2 is also correct."
+  }, {
+    "value" : "Statement 1 is correct and Statement 2 is incorrect."
+  }, {
+    "value" : "Both the statements are incorrect."
+  }, {
+    "value" : "Statement 1 is incorrect and Statement 2 is correct.",
+    "answer" : true
+  } ]
+}

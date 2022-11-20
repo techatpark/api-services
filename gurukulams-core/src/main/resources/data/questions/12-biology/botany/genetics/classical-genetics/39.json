@@ -1,0 +1,14 @@
+{
+  "question" : "Identify the allelic interaction.",
+  "explanation" : "",
+  "choices" : [ {
+    "value" : "Domination epistasis"
+  }, {
+    "value" : "Co – dominance",
+    "answer" : true
+  }, {
+    "value" : "Recessive epistasis"
+  }, {
+    "value" : "Duplicate genes"
+  } ]
+}

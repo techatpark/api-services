@@ -1,0 +1,14 @@
+{
+  "question" : "Ratio of recessive epistasis is __________",
+  "explanation" : "",
+  "choices" : [ {
+    "value" : "12 : 3 : 1"
+  }, {
+    "value" : "9 : 7"
+  }, {
+    "value" : "9 : 3 : 4",
+    "answer" : true
+  }, {
+    "value" : "9 : 6 : 1"
+  } ]
+}

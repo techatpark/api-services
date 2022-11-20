@@ -1,0 +1,14 @@
+{
+  "question" : "Which one of the following matches is correct?",
+  "explanation" : "",
+  "choices" : [ {
+    "value" : "Palmyra – Native of Brazil"
+  }, {
+    "value" : "Saccharun – Abundant in Kanyakumari"
+  }, {
+    "value" : "Steveocide – Natural sweetener",
+    "answer" : true
+  }, {
+    "value" : "Palmyra sap – Fermented to give ethanol"
+  } ]
+}

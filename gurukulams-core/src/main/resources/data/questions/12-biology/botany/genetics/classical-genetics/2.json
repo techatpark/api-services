@@ -1,0 +1,14 @@
+{
+  "question" : "In order to find out the different types of gametes produced by a pea plant having the genotype AaBb, it should be crossed to a plant with the genotype __________",
+  "explanation" : "",
+  "choices" : [ {
+    "value" : "aaBB"
+  }, {
+    "value" : "AaBB"
+  }, {
+    "value" : "AABB"
+  }, {
+    "value" : "aabb",
+    "answer" : true
+  } ]
+}
