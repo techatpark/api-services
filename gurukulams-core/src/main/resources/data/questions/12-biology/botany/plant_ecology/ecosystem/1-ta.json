@@ -1,0 +1,14 @@
+{
+  "question" : "",
+  "explanation" : "",
+  "choices" : [ {
+    "value" : "Bacteria"
+  }, {
+    "value" : "Humus",
+    "answer" : true
+  }, {
+    "value" : "Organic compounds"
+  }, {
+    "value" : "Inorganic compounds"
+  } ]
+}
