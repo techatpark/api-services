@@ -1,14 +1,14 @@
 {
-  "question" : "",
+  "question" : "ீழ்க்கண்டவற்றில் எது சூ ழ ல ்ம ண ்ட ல த் தி ன் உயிரற்ற கூறு அல்ல",
   "explanation" : "",
   "choices" : [ {
-    "value" : "Bacteria"
+    "value" : "பாக்டீரியங்கள்"
   }, {
-    "value" : "Humus",
+    "value" : "கருமையான படிக உருவமற்ற மட்கு",
     "answer" : true
   }, {
-    "value" : "Organic compounds"
+    "value" : "கரிமக்கூறுகள்"
   }, {
-    "value" : "Inorganic compounds"
+    "value" : "கனிமக்கூறுகள்"
   } ]
 }
