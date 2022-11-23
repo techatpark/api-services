@@ -1,14 +1,19 @@
 {
-  "question" : "Sticky glands of Boerhaavia and Cleome support",
-  "explanation" : "",
-  "choices" : [ {
-    "value" : "Anemochory"
-  }, {
-    "value" : "Zoochory",
-    "answer" : true
-  }, {
-    "value" : "Autochory"
-  }, {
-    "value" : "Hydrochory"
-  } ]
+  "question": "In soil water available for plants is",
+  "explanation": "",
+  "choices": [
+    {
+      "value": "gravitational water"
+    },
+    {
+      "value": "chemically bound water",
+      "answer": true
+    },
+    {
+      "value": " capillary water"
+    },
+    {
+      "value": "hygroscopic water"
+    }
+  ]
 }
