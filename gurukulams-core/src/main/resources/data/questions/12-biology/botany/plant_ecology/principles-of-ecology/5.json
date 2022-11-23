@@ -1,14 +1,19 @@
 {
-  "question" : "Which of the following plant has a non-succulent xerophytic and thick leathery leaves with waxy coating?",
-  "explanation" : "",
-  "choices" : [ {
-    "value" : "Bryophyllum"
-  }, {
-    "value" : "Ruscus"
-  }, {
-    "value" : "Nerium"
-  }, {
-    "value" : "Calotropis",
-    "answer" : true
-  } ]
+  "question": "Which of the given plant produces cardiac glycosides?",
+  "explanation": "",
+  "choices": [
+    {
+      "value": " Calotropis"
+    },
+    {
+      "value": "Acacia"
+    },
+    {
+      "value": "Nepenthes"
+    },
+    {
+      "value": "Utricularia",
+      "answer": true
+    }
+  ]
 }

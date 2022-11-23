@@ -1,14 +1,19 @@
 {
-  "question" : "Pedogenesis refers to",
-  "explanation" : "",
-  "choices" : [ {
-    "value" : "Fossils"
-  }, {
-    "value" : "Water"
-  }, {
-    "value" : "Population"
-  }, {
-    "value" : "Soil",
-    "answer" : true
-  } ]
+  "question": "A specific place in an ecosystem, where an organism lives and performs its functions is",
+  "explanation": "",
+  "choices": [
+    {
+      "value": "habitat"
+    },
+    {
+      "value": "niche"
+    },
+    {
+      "value": "landscape"
+    },
+    {
+      "value": "biome",
+      "answer": true
+    }
+  ]
 }

@@ -1,14 +1,19 @@
 {
-  "question" : "In a fresh water environment like pond, rooted autotrophs are",
-  "explanation" : "",
-  "choices" : [ {
-    "value" : "Nymphaea and typha",
-    "answer" : true
-  }, {
-    "value" : "Ceratophyllum and Utricularia"
-  }, {
-    "value" : "Wolffia and pistia"
-  }, {
-    "value" : "Azolla and lemna"
-  } ]
+  "question": " Read the given statements and select the correct option \n i) Loamy soil is best suited for plant growth as it contains a mixture of silt, sand and clay \n ii) The process of humification is slow in case of organic remains containing a large amount of lignin and cellulose. \n  iii) Capillary water is the only water available to plant roots as it is present inside the micropores. \n  iv) Leaves of shade plant have more total chlorophyll per reaction centre, low ratio of chl a and chl b are usually thinner leaves.",
+  "explanation": "",
+  "choices": [
+    {
+      "value": " i, ii and iii only",
+      "answer": true
+    },
+    {
+      "value": "ii, iii and iv only"
+    },
+    {
+      "value": " i, ii and iv only"
+    },
+    {
+      "value": "ii and iii only"
+    }
+  ]
 }

@@ -1,14 +1,19 @@
 {
-  "question" : "A free living nitrogen fixing cyanobacterium which can also form symbiotic association with the water fem Azolla",
-  "explanation" : "",
-  "choices" : [ {
-    "value" : "Nostoc"
-  }, {
-    "value" : "Anabaena",
-    "answer" : true
-  }, {
-    "value" : "Chlorella"
-  }, {
-    "value" : "Rhizobium"
-  } ]
+  "question": "Ecology is the study of an individual species is called  \n i) Community ecology  \n ii) Autecology  \n iii) Species ecology  \n iv) Synecology__________ ",
+  "explanation": "",
+  "choices": [
+    {
+      "value": "i only"
+    },
+    {
+      "value": " ii only",
+      "answer": true
+    },
+    {
+      "value": "i and iv only"
+    },
+    {
+      "value": "ii and iii only"
+    }
+  ]
 }
