@@ -1,0 +1,14 @@
+{
+  "question" : "Identify the incorrect option among the following component sequence.",
+  "explanation" : "",
+  "choices" : [ {
+    "value" : "air, water, sunlight and temperature"
+  }, {
+    "value" : "latitude, altitude, direction of mountain and aptitude",
+    "answer" : true
+  }, {
+    "value" : "soil air, pH of soil, saltwater and soil moisture"
+  }, {
+    "value" : "carbohydrate, protein, lipids and humic substances"
+  } ]
+}

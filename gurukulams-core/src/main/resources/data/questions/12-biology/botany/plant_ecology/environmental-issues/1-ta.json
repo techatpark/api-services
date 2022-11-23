@@ -1,14 +1,19 @@
 {
-  "question" : "Which of the following would most likely help to slow down the greenhouse effect?",
-  "explanation" : "",
-  "choices" : [ {
-    "value" : "Converting tropical forests into grazing land for cattle."
-  }, {
-    "value" : "Ensuring that all excess paper packaging is buried to ashes."
-  }, {
-    "value" : "Redesigning landfill dumps to allow methane to be collected."
-  }, {
-    "value" : "Promoting the use of private rather than public transport.",
-    "answer" : true
-  } ]
+  "question": "பசுமை இல்ல விளைவினை அதிக அளவிலே குறைப்பது கீழ்கண்டவற்றுள் எது எனக் குறிப்பிடுக?",
+  "explanation": "",
+  "choices": [
+    {
+      "value": "வெப்பமண்டலக் காடுகளைக் கால்நடைக்கான மேய்ச்சல் நிலங்களாக மாற்றுதல."
+    },
+    {
+      "value": "அதிகப்படியான பொதிக்கும் தாள்களை எரித்துச் சாம்பாலாக்கிப் புதைத்தலை உறுதிப்படுத்துவத."
+    },
+    {
+      "value": "மறுவடிவமைப்பு மூலம் நில நிரப்பு அடைதல் மீத்தேன் சேமிக்க அனுமதித்தல."
+    },
+    {
+      "value": " பொதுப் போக்குவரத்தினை விடத் தனியார் போக்குவரத்தினைப் பயன்படுத்துல் ஊக்குவித்தல.",
+      "answer": true
+    }
+  ]
 }
