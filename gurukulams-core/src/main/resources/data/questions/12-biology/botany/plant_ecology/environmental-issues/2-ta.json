@@ -1,14 +1,19 @@
 {
-  "question" : "Depletion of which gas in the atmosphere can lead to an increased incidence of skin cancer?",
-  "explanation" : "",
-  "choices" : [ {
-    "value" : "Ammonia"
-  }, {
-    "value" : "Methane"
-  }, {
-    "value" : "Nitrous oxide"
-  }, {
-    "value" : "Ozone",
-    "answer" : true
-  } ]
+  "question": "தோல் புற்றுந�ோயை அதிகரிக்கும் நிகழ்வு எந்த வளிமண்டல வாயு குறைவு காரணமாக ஏற்படுகிறது?",
+  "explanation": "",
+  "choices": [
+    {
+      "value": "அம்மோனியா"
+    },
+    {
+      "value": "மீத்தேன்"
+    },
+    {
+      "value": "நைட்ரஸ் ஆக்ஸைட"
+    },
+    {
+      "value": "ஓசோன்",
+      "answer": true
+    }
+  ]
 }

@@ -1,14 +1,19 @@
 {
-  "question" : "One green house gas contributes 14% of total global warming and another contributes 6%. These are respectively identified as ________",
-  "explanation" : "",
-  "choices" : [ {
-    "value" : "N<sub>2</sub>O and CO<sub>2</sub>"
-  }, {
-    "value" : "CFCs and N<sub>2</sub>O",
-    "answer" : true
-  }, {
-    "value" : "CH<sub>4 </sub>and CO<sub>2</sub>"
-  }, {
-    "value" : "CH<sub>4</sub> and CFCS"
-  } ]
+  "question": " 14% மற்றும் 6% பசுமை இல்ல வாயுக்கள் புவி வெப்பமயமாதலுக்குக் காரணமான மு ________",
+  "explanation": "",
+  "choices": [
+    {
+      "value": "N<sub>2</sub>O  மற்றும CO<sub>2</sub>"
+    },
+    {
+      "value": "CFCs  மற்றும N<sub>2</sub>O",
+      "answer": true
+    },
+    {
+      "value": "CH<sub>4 </sub> மற்றும CO<sub>2</sub>"
+    },
+    {
+      "value": "CH<sub>4</sub>  மற்றும CFCS"
+    }
+  ]
 }

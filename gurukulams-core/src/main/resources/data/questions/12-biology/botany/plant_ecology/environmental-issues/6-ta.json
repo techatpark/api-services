@@ -1,14 +1,19 @@
 {
-  "question" : "Deforestation does not lead to _______",
-  "explanation" : "",
-  "choices" : [ {
-    "value" : "Quick nutrient cycling",
-    "answer" : true
-  }, {
-    "value" : "Soil erosion"
-  }, {
-    "value" : "alternation of local weather conditions"
-  }, {
-    "value" : "Destruction of natural habitat weather conditions"
-  } ]
+  "question": "காடுகள் அழித்தல் எதை முன்னிறுத்திச் செல்வதில்லை? _______",
+  "explanation": "",
+  "choices": [
+    {
+      "value": " வேகமான ஊட்டசத்து சுழற்ச",
+      "answer": true
+    },
+    {
+      "value": "மண் அரிப்ப"
+    },
+    {
+      "value": "மாற்றியமைக்கப்பட்ட உள்ளூர் வானில"
+    },
+    {
+      "value": "இயற்கை வாழிட வானிலை நிலை அழிதல"
+    }
+  ]
 }

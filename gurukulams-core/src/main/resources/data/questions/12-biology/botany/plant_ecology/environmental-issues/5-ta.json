@@ -1,14 +1,19 @@
 {
-  "question" : "Deforestation means ______",
-  "explanation" : "",
-  "choices" : [ {
-    "value" : "growing plants and trees in an area where there is no forest"
-  }, {
-    "value" : "growing plants and trees in an area where the forest is removed"
-  }, {
-    "value" : "growing plants and trees in a pond"
-  }, {
-    "value" : "removal of plants and trees",
-    "answer" : true
-  } ]
+  "question": "காடுகள் அழிக்கப்படுதல் எனப்படுவத ______",
+  "explanation": "",
+  "choices": [
+    {
+      "value": ") காடுகளற்ற பகுதிகளில் வளரும் தாவரங்கள் மற்றும் மரங்கள்"
+    },
+    {
+      "value": "காடுகள் அழிந்த பகுதிகளில் வளரும்  தாவரங்கள் மற்றும் மரங்கள்"
+    },
+    {
+      "value": "குளங்களில் வளரும் தாவரங்கள் மற்றும்  மரங்கள்"
+    },
+    {
+      "value": "தாவரங்கள் மற்றும் மரங்கள் ஆகியவற்றை அகற்றுதல",
+      "answer": true
+    }
+  ]
 }

@@ -1,14 +1,19 @@
 {
-  "question" : "The unit for measuring ozone thickness ______",
-  "explanation" : "",
-  "choices" : [ {
-    "value" : "Joule"
-  }, {
-    "value" : "Kilos"
-  }, {
-    "value" : "Dobson",
-    "answer" : true
-  }, {
-    "value" : "Watt"
-  } ]
+  "question": "ஓசோனின் தடிமனை அளவிடும் அலக ______",
+  "explanation": "",
+  "choices": [
+    {
+      "value": " ஜூல"
+    },
+    {
+      "value": "கிலோ"
+    },
+    {
+      "value": "டாப்சன",
+      "answer": true
+    },
+    {
+      "value": "வாட"
+    }
+  ]
 }

@@ -1,14 +1,19 @@
 {
-  "question" : "One of the chief reasons among the following for the depletion in the number of species making endangered is ______",
-  "explanation" : "",
-  "choices" : [ {
-    "value" : "over hunting and poaching"
-  }, {
-    "value" : "green house effect"
-  }, {
-    "value" : "competition and predation"
-  }, {
-    "value" : "habitat destruction",
-    "answer" : true
-  } ]
+  "question": "கீழ்கண்டவற்றில் எது அச்சுறுத்தும் சிற்றினங்கள் உண்டாவதைக் குறைக்கும் முக்கிய காரணமாகக் கருதப்படுவது? ______",
+  "explanation": "",
+  "choices": [
+    {
+      "value": "அதிகப்படியான வேட்டையாடுதல் மற்றும் அத்துமீறல்கள்"
+    },
+    {
+      "value": "பசுமை இல்ல விளைவ"
+    },
+    {
+      "value": "போட்டியிடுதல் மற்றும் கொன்று உண்ணுதல"
+    },
+    {
+      "value": "வாழிட அழிவ",
+      "answer": true
+    }
+  ]
 }
