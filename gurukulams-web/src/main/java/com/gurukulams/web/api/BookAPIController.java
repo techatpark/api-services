@@ -518,7 +518,6 @@ class BookAPIController {
      * Find all questions response entity.
      *
      * @param principal the principal
-     * @param bookName  the bookName
      * @param request   the request
      * @return the response entity
      */
@@ -539,18 +538,12 @@ class BookAPIController {
                            @RequestHeader(
                                    name = "Accept-Language",
                                    required = false) final Locale locale,
-                           final
-                           @PathVariable
-                                   String
-                                   bookName, final HttpServletRequest request)
-            throws JsonProcessingException {
+                           final HttpServletRequest request) {
 
-        String chapterPath = request.getRequestURI().replaceFirst("/api"
-                + "/books/" + bookName
-                + "/questions/", "");
+        String chapterPath = request.getRequestURI().split("/questions/")[1];
         return ResponseEntity.status(HttpStatus.OK)
                 .body(bookService.listAllQuestions(principal.getName(),
-                        bookName, locale, chapterPath));
+                        locale, chapterPath));
     }
 
 

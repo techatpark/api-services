@@ -458,16 +458,14 @@ public class BookService {
      * Read note optional.
      *
      * @param userName the username
-     * @param bookName the username
      * @param locale   the locale
      * @param tagsPath the tagsPath
      * @return the optional
      */
     public List<Question> listAllQuestions(final String userName,
-                                           final String bookName,
                                            final Locale locale,
                                            final String tagsPath) {
-        return questionService.list(userName, bookName, locale,
+        return questionService.list(userName, locale,
                 List.of(tagsPath.split("/")));
 
     }

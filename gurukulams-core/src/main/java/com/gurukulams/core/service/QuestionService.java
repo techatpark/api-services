@@ -531,13 +531,11 @@ public class QuestionService {
      * List questions of exam.
      *
      * @param userName the user name
-     * @param bookName the practice id
      * @param tags     the tags
      * @param locale   the locale
      * @return quetions in given exam
      */
     public List<Question> list(final String userName,
-                               final String bookName,
                                final Locale locale,
                                final List<String> tags) {
 
