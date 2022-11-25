@@ -1,6 +1,6 @@
 package com.gurukulams.core.service;
 
-import com.gurukulams.core.model.UserNote;
+import com.gurukulams.core.model.Annotation;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -19,7 +19,7 @@ import java.util.UUID;
  * The type User note service.
  */
 @Service
-public class UserNoteService {
+public class AnnotationService {
     /**
      * this helps to execute sql queries.
      */
@@ -32,16 +32,16 @@ public class UserNoteService {
     /**
      * Maps the data from and to the database. return question.
      */
-    private final RowMapper<UserNote> rowMapper = (rs, rowNum) -> {
-        final UserNote userNote = new UserNote();
-        userNote.setId((UUID) rs.getObject("id"));
-        userNote.setOnType(rs.getString("on_type"));
-        userNote.setOnInstance(rs.getString("on_instance"));
-        userNote.setOnSection(rs.getString("on_section"));
-        userNote.setText(rs.getString("text"));
-        userNote.setNote(rs.getString("note"));
+    private final RowMapper<Annotation> rowMapper = (rs, rowNum) -> {
+        final Annotation annotation = new Annotation();
+        annotation.setId((UUID) rs.getObject("id"));
+        annotation.setOnType(rs.getString("on_type"));
+        annotation.setOnInstance(rs.getString("on_instance"));
+        annotation.setOnSection(rs.getString("on_section"));
+        annotation.setText(rs.getString("text"));
+        annotation.setNote(rs.getString("note"));
 
-        return userNote;
+        return annotation;
     };
 
     /**
@@ -50,7 +50,7 @@ public class UserNoteService {
      * @param aJdbcTemplate the a jdbc template
      * @param aDataSource   the a data source
      */
-    public UserNoteService(final JdbcTemplate aJdbcTemplate,
+    public AnnotationService(final JdbcTemplate aJdbcTemplate,
                            final DataSource aDataSource) {
         this.jdbcTemplate = aJdbcTemplate;
         this.dataSource = aDataSource;
@@ -60,15 +60,15 @@ public class UserNoteService {
      * Create optional.
      *
      * @param userName user name
-     * @param userNote the user note
+     * @param annotation the user note
      * @param locale tha language
      * @return the optional
      */
-    public Optional<UserNote> create(final UserNote userNote,
+    public Optional<Annotation> create(final Annotation annotation,
                                      final Locale locale,
                                      final String userName) {
         final SimpleJdbcInsert insert =
-                new SimpleJdbcInsert(dataSource).withTableName("user_notes")
+                new SimpleJdbcInsert(dataSource).withTableName("annotations")
 
                         .usingColumns("id", "created_by",
                                 "on_type", "on_instance",
@@ -77,11 +77,11 @@ public class UserNoteService {
 
         final Map<String, Object> valueMap = new HashMap<>();
         valueMap.put("created_by", userName);
-        valueMap.put("on_type", userNote.getOnType());
-        valueMap.put("on_instance", userNote.getOnInstance());
-        valueMap.put("on_section", userNote.getOnSection());
-        valueMap.put("text", userNote.getText());
-        valueMap.put("note", userNote.getNote());
+        valueMap.put("on_type", annotation.getOnType());
+        valueMap.put("on_instance", annotation.getOnInstance());
+        valueMap.put("on_section", annotation.getOnSection());
+        valueMap.put("text", annotation.getText());
+        valueMap.put("note", annotation.getNote());
         final UUID id = UUID.randomUUID();
         valueMap.put("id", id);
         insert.execute(valueMap);
@@ -95,12 +95,12 @@ public class UserNoteService {
      * @param locale tha language
      * @return the optional
      */
-    public Optional<UserNote> read(final UUID id,
+    public Optional<Annotation> read(final UUID id,
                                    final Locale locale) {
         final String query =
                 "SELECT id,on_type,on_instance,on_section,text,"
                         + "note FROM "
-                        + "user_notes WHERE"
+                        + "annotations WHERE"
                         + " id = ?";
         try {
             return Optional.of(jdbcTemplate
@@ -119,13 +119,13 @@ public class UserNoteService {
      * @param locale tha language
      * @return the list
      */
-    public List<UserNote> searchNotes(final String userName,
+    public List<Annotation> searchAnnotations(final String userName,
                                       final Locale locale,
                                       final String onInstance,
                                       final String onSection) {
         final String query = "SELECT id,on_type,on_instance,on_section,"
                 + "text,note FROM "
-                + "user_notes WHERE"
+                + "annotations WHERE"
                 + " on_instance = ? and on_section = ? and created_by = ?";
         return jdbcTemplate.query(query, rowMapper, onInstance,
                 onSection, userName);
@@ -135,19 +135,19 @@ public class UserNoteService {
      * Update note optional.
      *
      * @param id       the id
-     * @param userNote the user note
+     * @param annotation the user note
      * @param locale tha language
      * @return the optional
      */
-    public Optional<UserNote> updateNote(final UUID id,
+    public Optional<Annotation> updateNote(final UUID id,
                                          final Locale locale,
-                                         final UserNote userNote) {
+                                         final Annotation annotation) {
         final String query =
-                "UPDATE user_notes SET "
+                "UPDATE annotations SET "
                         + "text = ?, note = ? WHERE id = ?";
         final Integer updatedRows =
                 jdbcTemplate.update(query,
-                        userNote.getText(), userNote.getNote(), id);
+                        annotation.getText(), annotation.getNote(), id);
         return updatedRows == 0 ? null : read(id, locale);
     }
 
@@ -160,7 +160,7 @@ public class UserNoteService {
      */
     public Boolean delete(final UUID id,
                           final Locale locale) {
-        final String query = "DELETE FROM user_notes WHERE ID=?";
+        final String query = "DELETE FROM annotations WHERE ID=?";
         final Integer updatedRows = jdbcTemplate.update(query, id);
         return !(updatedRows == 0);
     }

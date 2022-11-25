@@ -43,14 +43,14 @@ CREATE TABLE answers (
   FOREIGN KEY (question_id) REFERENCES questions (id)
 );
 
-CREATE TABLE user_notes (
+CREATE TABLE annotations (
    id UUID PRIMARY KEY,
    on_type VARCHAR NOT NULL,
    on_instance VARCHAR NOT NULL,
    on_section VARCHAR NOT NULL,
-   created_by VARCHAR(55) NOT NULL,
    text VARCHAR(500) NOT NULL,
-   note VARCHAR(500)
+   note VARCHAR(500),
+   created_by VARCHAR(55) NOT NULL
 );
 
 CREATE TABLE boards (

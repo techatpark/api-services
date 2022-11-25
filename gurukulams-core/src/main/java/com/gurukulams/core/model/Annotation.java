@@ -6,9 +6,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.UUID;
 
 /**
- * The type User note.
+ * The type User annotation.
  */
-public class UserNote {
+public class Annotation {
     /**
      * declare id.
      */
@@ -35,7 +35,7 @@ public class UserNote {
      */
     private String text;
     /**
-     * declare note.
+     * declare annotation.
      */
     private String note;
 

@@ -3,7 +3,7 @@ package com.gurukulams.core.service;
 import com.gurukulams.core.model.Book;
 import com.gurukulams.core.model.Question;
 import com.gurukulams.core.model.QuestionType;
-import com.gurukulams.core.model.UserNote;
+import com.gurukulams.core.model.Annotation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -45,9 +45,9 @@ public class BookService {
     private final DataSource dataSource;
 
     /**
-     * The User note service.
+     * The User annotation service.
      */
-    private final UserNoteService userNotesService;
+    private final AnnotationService annotationsService;
 
     /**
      * Service for Practices.
@@ -65,18 +65,18 @@ public class BookService {
      *
      * @param ajdbcTemplate       a jdbcTemplate
      * @param adataSource         a dataSource
-     * @param theUserNotesService the user note service
+     * @param theAnnotationsService the user annotation service
      * @param theQuestionService  the question service
      * @param thePracticeService  the practice service
      */
     public BookService(final JdbcTemplate ajdbcTemplate,
                        final DataSource adataSource,
-                       final UserNoteService theUserNotesService, final
+                       final AnnotationService theAnnotationsService, final
                        QuestionService theQuestionService,
                        final PracticeService thePracticeService) {
         this.jdbcTemplate = ajdbcTemplate;
         this.dataSource = adataSource;
-        this.userNotesService = theUserNotesService;
+        this.annotationsService = theAnnotationsService;
         this.questionService = theQuestionService;
         this.practiceService = thePracticeService;
     }
@@ -380,25 +380,25 @@ public class BookService {
     }
 
     /**
-     * Create note optional.
+     * Create annotation optional.
      *
      * @param bookName  the book name
      * @param createdBy the createdBy
      * @param locale the language
-     * @param userNotes the user note
+     * @param annotations the user annotation
      * @return the optional
      */
-    public Optional<UserNote> createNote(final String bookName,
+    public Optional<Annotation> createNote(final String bookName,
                                          final String createdBy,
                                          final Locale locale,
-                                         final UserNote userNotes) {
-        userNotes.setOnType("books");
-        userNotes.setOnInstance(bookName);
-        return userNotesService.create(userNotes, locale, createdBy);
+                                         final Annotation annotations) {
+        annotations.setOnType("books");
+        annotations.setOnInstance(bookName);
+        return annotationsService.create(annotations, locale, createdBy);
     }
 
     /**
-     * Search note optional.
+     * Search annotation optional.
      *
      * @param createdBy   the createdBy
      * @param bookName    the book name
@@ -406,40 +406,40 @@ public class BookService {
      * @param locale language
      * @return the list
      */
-    public List<UserNote> searchNotes(final String bookName,
+    public List<Annotation> searchAnnotations(final String bookName,
                                       final String createdBy,
                                       final Locale locale,
                                       final String chapterName) {
 
-        return userNotesService.searchNotes(createdBy, locale,
+        return annotationsService.searchAnnotations(createdBy, locale,
                 bookName, chapterName);
     }
 
     /**
-     * Read note optional.
+     * Read annotation optional.
      *
      * @param id the id
      * @param locale language
      * @return the optional
      */
-    public Optional<UserNote> readNote(final UUID id,
+    public Optional<Annotation> readNote(final UUID id,
                                        final Locale locale) {
-        return userNotesService.read(id, locale);
+        return annotationsService.read(id, locale);
 
     }
 
     /**
-     * Update note optional.
+     * Update annotation optional.
      *
      * @param id       the id
      * @param locale language
-     * @param userNote the user note
+     * @param annotation the user annotation
      * @return the optional
      */
-    public Optional<UserNote> updateNote(final UUID id,
+    public Optional<Annotation> updateNote(final UUID id,
                                          final Locale locale,
-                                         final UserNote userNote) {
-        return userNotesService.updateNote(id, locale, userNote);
+                                         final Annotation annotation) {
+        return annotationsService.updateNote(id, locale, annotation);
     }
 
     /**
@@ -451,11 +451,11 @@ public class BookService {
      */
     public boolean deleteNote(final UUID id,
                               final Locale locale) {
-        return userNotesService.delete(id, locale);
+        return annotationsService.delete(id, locale);
     }
 
     /**
-     * Read note optional.
+     * Read annotation optional.
      *
      * @param userName the username
      * @param locale   the locale

@@ -4,7 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.gurukulams.core.model.Book;
 import com.gurukulams.core.model.Question;
 import com.gurukulams.core.model.QuestionType;
-import com.gurukulams.core.model.UserNote;
+import com.gurukulams.core.model.Annotation;
 import com.gurukulams.core.service.AnswerService;
 import com.gurukulams.core.service.BookService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -213,7 +213,7 @@ class BookAPIController {
      *
      * @param principal the principal
      * @param bookName  the book name
-     * @param userNotes the user note
+     * @param annotations the user note
      * @return the response entity
      */
     @Operation(summary = "Creates a new user note",
@@ -226,18 +226,18 @@ class BookAPIController {
                     description = "invalid credentials"),
             @ApiResponse(responseCode = "400",
                     description = "user note is invalid")})
-    @PostMapping("/{bookName}/note")
-    public ResponseEntity<Optional<UserNote>> createNote(
+    @PostMapping("/{bookName}/annotations")
+    public ResponseEntity<Optional<Annotation>> createNote(
             final Principal principal,
             final @NotBlank @PathVariable String bookName,
             @RequestHeader(
                     name = "Accept-Language",
                     required = false) final Locale locale,
-            final @RequestBody UserNote userNotes) {
+            final @RequestBody Annotation annotations) {
         return ResponseEntity.status(HttpStatus.CREATED).body(
                 bookService.createNote(bookName, principal.getName(),
                         locale,
-                        userNotes));
+                        annotations));
     }
 
     /**
@@ -260,8 +260,8 @@ class BookAPIController {
                     description = "invalid credentials"),
             @ApiResponse(responseCode = "404",
                     description = "user note not found")})
-    @PostMapping("/{bookName}/note/_search")
-    public ResponseEntity<List<UserNote>> searchNotes(
+    @PostMapping("/{bookName}/annotations/_search")
+    public ResponseEntity<List<Annotation>> searchAnnotations(
             final Principal principal,
             final @PathVariable String bookName,
             @RequestHeader(
@@ -269,7 +269,7 @@ class BookAPIController {
                     required = false) final Locale locale,
             final @RequestBody String chapterName) {
         return ResponseEntity.status(HttpStatus.OK).body(
-                bookService.searchNotes(bookName, principal.getName(),
+                bookService.searchAnnotations(bookName, principal.getName(),
                         locale,
                         chapterName));
     }
@@ -279,7 +279,7 @@ class BookAPIController {
      *
      * @param bookName the book name
      * @param id       the id
-     * @param userNote the user note
+     * @param annotation the user note
      * @return the response entity
      */
     @Operation(summary = "Updates the note by given id",
@@ -294,16 +294,16 @@ class BookAPIController {
                     description = "invalid credentials"),
             @ApiResponse(responseCode = "404",
                     description = "note not found")})
-    @PutMapping("/{bookName}/note/{id}")
-    public ResponseEntity<Optional<UserNote>> update(
+    @PutMapping("/{bookName}/annotations/{id}")
+    public ResponseEntity<Optional<Annotation>> update(
             final @PathVariable String bookName,
             @RequestHeader(
                     name = "Accept-Language",
                     required = false) final Locale locale,
             final @PathVariable UUID id,
-            final @RequestBody UserNote userNote) {
-        final Optional<UserNote> updatednote = bookService.updateNote(
-                id, locale, userNote);
+            final @RequestBody Annotation annotation) {
+        final Optional<Annotation> updatednote = bookService.updateNote(
+                id, locale, annotation);
         return updatednote == null ? ResponseEntity.notFound().build()
                 : ResponseEntity.ok(updatednote);
     }
@@ -323,7 +323,7 @@ class BookAPIController {
                     description = "invalid credentials"),
             @ApiResponse(responseCode = "404",
                     description = "note not found")})
-    @DeleteMapping("/{bookName}/note/{id}")
+    @DeleteMapping("/{bookName}/annotations/{id}")
     public ResponseEntity<Void> deleteNoteById(
             final @PathVariable String bookName,
             @RequestHeader(
