@@ -1,14 +1,14 @@
 {
-  "question" : "Crossing of F<sub>1</sub>, to any one of the parent refers to __________",
+  "question" : "Mendel’s work were rediscovered by __________",
   "explanation" : "",
   "choices" : [ {
-    "value" : "selling"
+    "value" : "Hugo de Vries"
   }, {
-    "value" : "back cross",
+    "value" : "Tschermak"
+  }, {
+    "value" : "Carl Correns"
+  }, {
+    "value" : "All the above",
     "answer" : true
-  }, {
-    "value" : "test cross"
-  }, {
-    "value" : "all of the above"
   } ]
 }

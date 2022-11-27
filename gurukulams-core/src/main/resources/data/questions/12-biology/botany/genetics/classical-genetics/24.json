@@ -1,14 +1,14 @@
 {
-  "question" : "How many characters studied by Mendel in pisum sativum",
+  "question" : "An allede is __________",
   "explanation" : "",
   "choices" : [ {
-    "value" : "Three"
+    "value" : "another word for a gene"
   }, {
-    "value" : "Five"
-  }, {
-    "value" : "Seven",
+    "value" : "alternate forms of a gene",
     "answer" : true
   }, {
-    "value" : "Nine"
+    "value" : "morphological expression of a gene"
+  }, {
+    "value" : "genitic"
   } ]
 }

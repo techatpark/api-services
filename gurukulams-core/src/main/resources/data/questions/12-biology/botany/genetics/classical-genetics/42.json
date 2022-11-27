@@ -1,14 +1,14 @@
 {
-  "question" : "The 1:2:1 ratio of co-dominance process Mendel’s __________",
+  "question" : "Factor hypothesis was proposed by __________",
   "explanation" : "",
   "choices" : [ {
-    "value" : "Law of dominance"
+    "value" : "Reginald Punnett"
   }, {
-    "value" : "Law of recessiveness",
+    "value" : "W. Bateson",
     "answer" : true
   }, {
-    "value" : "Law of segregation"
+    "value" : "Gregor Mende"
   }, {
-    "value" : "Law of independent assortment"
+    "value" : "Carl Correns"
   } ]
 }

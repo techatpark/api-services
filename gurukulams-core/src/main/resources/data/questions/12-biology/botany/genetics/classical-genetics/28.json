@@ -1,14 +1,14 @@
 {
-  "question" : "What is the phenotypic ratio in case of incomplete dominance",
+  "question" : "In an intergenic interaction, the gene that suppresses the pherotype of a gene is said to Crossing of F, to any one of the parent refers to __________",
   "explanation" : "",
   "choices" : [ {
-    "value" : "9 : 7"
+    "value" : "Dominant"
   }, {
-    "value" : "3 : 1"
+    "value" : "Inhibitory"
   }, {
-    "value" : "1 : 2 : 1",
+    "value" : "Epistatic",
     "answer" : true
   }, {
-    "value" : "1 : 1 : 1 : 1"
+    "value" : "Hypostatic"
   } ]
 }

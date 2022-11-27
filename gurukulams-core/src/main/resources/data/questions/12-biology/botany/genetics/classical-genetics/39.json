@@ -1,14 +1,14 @@
 {
-  "question" : "Identify the allelic interaction.",
+  "question" : "According to Mendel, which is not a dominant trait?",
   "explanation" : "",
   "choices" : [ {
-    "value" : "Domination epistasis"
-  }, {
-    "value" : "Co – dominance",
+    "value" : "Wrinkled seeds",
     "answer" : true
   }, {
-    "value" : "Recessive epistasis"
+    "value" : "Purple flower"
   }, {
-    "value" : "Duplicate genes"
+    "value" : "Inflated pod form"
+  }, {
+    "value" : "Axial flower portion"
   } ]
 }

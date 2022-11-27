@@ -1,14 +1,14 @@
 {
-  "question" : "Ratio of recessive epistasis is __________",
+  "question" : "According to Mendel which character shown dominance.",
   "explanation" : "",
   "choices" : [ {
-    "value" : "12 : 3 : 1"
+    "value" : "Yellow flower color"
   }, {
-    "value" : "9 : 7"
+    "value" : "Yellow cotyledon color"
   }, {
-    "value" : "9 : 3 : 4",
+    "value" : "Wrinkled seeds"
+  }, {
+    "value" : "Inflated pod",
     "answer" : true
-  }, {
-    "value" : "9 : 6 : 1"
   } ]
 }

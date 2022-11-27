@@ -1,14 +1,14 @@
 {
-  "question" : "In case of co-dominance, monohybrid F<sub>1&nbsp;__________ </sub>is 1 : 2 : 1",
+  "question" : "Identify the mismatched pair",
   "explanation" : "",
   "choices" : [ {
-    "value" : "Genotype ratio"
-  }, {
-    "value" : "Phenotype ratio"
-  }, {
-    "value" : "Both genotype &amp; Phenotype ratio",
+    "value" : "Chloroplast inheritance – Gregor Mendel",
     "answer" : true
   }, {
-    "value" : "Ratio is wrong"
+    "value" : "Polygenic inheritance – H. Nilsson"
+  }, {
+    "value" : "Lethal genes – E. Baur"
+  }, {
+    "value" : "Incomplete dominance – Carl Correns"
   } ]
 }

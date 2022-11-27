@@ -1,14 +1,14 @@
 {
-  "question" : "An allede is __________",
+  "question" : "The term ‘Genetics’ was introduced by __________",
   "explanation" : "",
   "choices" : [ {
-    "value" : "another word for a gene"
+    "value" : "Gregor Mendel"
   }, {
-    "value" : "alternate forms of a gene",
+    "value" : "Bateson",
     "answer" : true
   }, {
-    "value" : "morphological expression of a gene"
+    "value" : "Hugo de vries"
   }, {
-    "value" : "genitic"
+    "value" : "Carl Correns"
   } ]
 }

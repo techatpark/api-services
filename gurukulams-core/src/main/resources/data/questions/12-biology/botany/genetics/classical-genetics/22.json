@@ -1,14 +1,14 @@
 {
-  "question" : "The term ‘Genetics’ was introduced by __________",
+  "question" : "Among the following characters which one was not considered by Mendel in his experimentation pea?",
   "explanation" : "",
   "choices" : [ {
-    "value" : "Gregor Mendel"
+    "value" : "Stem – Tall or dwarf"
   }, {
-    "value" : "Bateson",
+    "value" : "Trichomal glandular or non-glandular",
     "answer" : true
   }, {
-    "value" : "Hugo de vries"
+    "value" : "Seed – Green or yellow"
   }, {
-    "value" : "Carl Correns"
+    "value" : "Pod – Inflated or constricted"
   } ]
 }

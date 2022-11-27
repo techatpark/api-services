@@ -1,14 +1,14 @@
 {
-  "question" : "How many genetically different gametes are produced by a plant have genotype TtYyRr?",
+  "question" : "RR (Red) flower of Mirabilis is crossed with White (WW) flowers. Resultant offspring are pink RW. This is an example of __________",
   "explanation" : "",
   "choices" : [ {
-    "value" : "2"
+    "value" : "Epistasis"
   }, {
-    "value" : "4"
+    "value" : "Co-dominance"
   }, {
-    "value" : "6"
-  }, {
-    "value" : "8",
+    "value" : "Incomplete dominance",
     "answer" : true
+  }, {
+    "value" : "Pleiotropism"
   } ]
 }

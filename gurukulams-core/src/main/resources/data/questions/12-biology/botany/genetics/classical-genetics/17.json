@@ -1,14 +1,14 @@
 {
-  "question" : "Gene which suppresses other genes activity but does not lie on the same locus is called as __________",
+  "question" : "“Gametes are never hybrid”. This is a statement of __________",
   "explanation" : "",
   "choices" : [ {
-    "value" : "Epistatic"
+    "value" : "Law of dominance"
   }, {
-    "value" : "Supplement only"
+    "value" : "Law of independent assortment"
   }, {
-    "value" : "Hypostatic",
+    "value" : "Law of segregation",
     "answer" : true
   }, {
-    "value" : "Codominant"
+    "value" : "Law of random fertilization"
   } ]
 }

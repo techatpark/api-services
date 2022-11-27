@@ -1,14 +1,14 @@
 {
-  "question" : "Identify the mismatched pair",
+  "question" : "What is the phenotypic ratio in case of incomplete dominance",
   "explanation" : "",
   "choices" : [ {
-    "value" : "Chloroplast inheritance – Gregor Mendel",
+    "value" : "9 : 7"
+  }, {
+    "value" : "3 : 1"
+  }, {
+    "value" : "1 : 2 : 1",
     "answer" : true
   }, {
-    "value" : "Polygenic inheritance – H. Nilsson"
-  }, {
-    "value" : "Lethal genes – E. Baur"
-  }, {
-    "value" : "Incomplete dominance – Carl Correns"
+    "value" : "1 : 1 : 1 : 1"
   } ]
 }

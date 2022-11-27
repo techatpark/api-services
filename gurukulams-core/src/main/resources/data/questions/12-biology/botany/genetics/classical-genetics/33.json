@@ -1,14 +1,14 @@
 {
-  "question" : "RR (Red) flower of Mirabilis is crossed with White (WW) flowers. Resultant offspring are pink RW. This is an example of __________",
+  "question" : "ABO blood group is a classical example for __________",
   "explanation" : "",
   "choices" : [ {
+    "value" : "Polygenic inheritance"
+  }, {
+    "value" : "Incomplete Dominance"
+  }, {
     "value" : "Epistasis"
   }, {
-    "value" : "Co-dominance"
-  }, {
-    "value" : "Incomplete dominance",
+    "value" : "Dominance",
     "answer" : true
-  }, {
-    "value" : "Pleiotropism"
   } ]
 }

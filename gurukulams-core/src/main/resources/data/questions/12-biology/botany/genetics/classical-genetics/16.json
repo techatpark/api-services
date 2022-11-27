@@ -1,14 +1,19 @@
 {
-  "question" : "“Gametes are never hybrid”. This is a statement of __________",
-  "explanation" : "",
-  "choices" : [ {
-    "value" : "Law of dominance"
-  }, {
-    "value" : "Law of independent assortment"
-  }, {
-    "value" : "Law of segregation",
-    "answer" : true
-  }, {
-    "value" : "Law of random fertilization"
-  } ]
+    "question": "Which of the following explains how progeny can posses the combinations of traits that none of the parent possessed?",
+    "explanation": "",
+    "choices": [
+        {
+            "value": "Law of segregation",
+            "answer": true
+        },
+        {
+            "value": "Chromosome theory"
+        },
+        {
+            "value": "Law of independent assortment"
+        },
+        {
+            "value": "Polygenic inheritance"
+        }
+    ]
 }

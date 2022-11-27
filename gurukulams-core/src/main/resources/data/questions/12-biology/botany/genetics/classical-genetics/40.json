@@ -1,14 +1,14 @@
 {
-  "question" : "Gametes are never hybrid’ is concluded by __________",
+  "question" : "Identify the allelic interaction.",
   "explanation" : "",
   "choices" : [ {
-    "value" : "Law of dominance"
+    "value" : "Domination epistasis"
   }, {
-    "value" : "Law of segregation",
+    "value" : "Co – dominance",
     "answer" : true
   }, {
-    "value" : "Law of independent environment"
+    "value" : "Recessive epistasis"
   }, {
-    "value" : "Law of lethality"
+    "value" : "Duplicate genes"
   } ]
 }

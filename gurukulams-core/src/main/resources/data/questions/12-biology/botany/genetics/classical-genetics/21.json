@@ -1,14 +1,14 @@
 {
-  "question" : "Among the following characters which one was not considered by Mendel in his experimentation pea?",
+  "question" : "Select the period for Mendel’s hybridization experiments.",
   "explanation" : "",
   "choices" : [ {
-    "value" : "Stem – Tall or dwarf"
-  }, {
-    "value" : "Trichomal glandular or non-glandular",
+    "value" : "1856 – 1863",
     "answer" : true
   }, {
-    "value" : "Seed – Green or yellow"
+    "value" : "1850 – 1870"
   }, {
-    "value" : "Pod – Inflated or constricted"
+    "value" : "1857-1869"
+  }, {
+    "value" : "1870 – 1877"
   } ]
 }

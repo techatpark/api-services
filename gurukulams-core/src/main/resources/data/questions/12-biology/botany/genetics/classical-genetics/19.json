@@ -1,14 +1,14 @@
 {
-  "question" : "The dominant epistatis ratio is _________",
+  "question" : "Pure tall plants are crossed with pure dwarf plants. In the F<sub>1</sub> generation, all plants were tall. These tall plants of generation were selfed and the ratio of tall to dwarf plants obtained was 3:1. This is called __________",
   "explanation" : "",
   "choices" : [ {
-    "value" : "9:3:3:1"
-  }, {
-    "value" : "12:3:1",
+    "value" : "Dominance",
     "answer" : true
   }, {
-    "value" : "9:3:4"
+    "value" : "Inheritance"
   }, {
-    "value" : "9:6:1"
+    "value" : "Codominance"
+  }, {
+    "value" : "Heredity"
   } ]
 }

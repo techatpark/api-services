@@ -1,14 +1,14 @@
 {
-  "question" : "Heterozygous Tall mono hybrid is cross with homozygous dwarf. What will be characteristic of offspring?",
+  "question" : "In case of co-dominance, monohybrid F<sub>1&nbsp;__________ </sub>is 1 : 2 : 1",
   "explanation" : "",
   "choices" : [ {
-    "value" : "25 % recessive 75% dominant"
+    "value" : "Genotype ratio"
   }, {
-    "value" : "75 % recessive 25% dominant"
+    "value" : "Phenotype ratio"
   }, {
-    "value" : "50 % recessive 50% dominant",
+    "value" : "Both genotype &amp; Phenotype ratio",
     "answer" : true
   }, {
-    "value" : "All are dominance"
+    "value" : "Ratio is wrong"
   } ]
 }

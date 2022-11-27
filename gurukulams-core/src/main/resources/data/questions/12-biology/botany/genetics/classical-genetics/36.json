@@ -1,14 +1,14 @@
 {
-  "question" : "According to Mendel which character shown dominance.",
+  "question" : "When a single gene influences multiple traits then the phenomenon is called __________",
   "explanation" : "",
   "choices" : [ {
-    "value" : "Yellow flower color"
-  }, {
-    "value" : "Yellow cotyledon color"
-  }, {
-    "value" : "Wrinkled seeds"
-  }, {
-    "value" : "Inflated pod",
+    "value" : "Pleiotropy",
     "answer" : true
+  }, {
+    "value" : "Polygenic inheritance"
+  }, {
+    "value" : "Epistasis"
+  }, {
+    "value" : "Atavism"
   } ]
 }

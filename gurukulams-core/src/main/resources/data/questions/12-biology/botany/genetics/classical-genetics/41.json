@@ -1,14 +1,14 @@
 {
-  "question" : "Factor hypothesis was proposed by __________",
+  "question" : "Gametes are never hybrid’ is concluded by __________",
   "explanation" : "",
   "choices" : [ {
-    "value" : "Reginald Punnett"
+    "value" : "Law of dominance"
   }, {
-    "value" : "W. Bateson",
+    "value" : "Law of segregation",
     "answer" : true
   }, {
-    "value" : "Gregor Mende"
+    "value" : "Law of independent environment"
   }, {
-    "value" : "Carl Correns"
+    "value" : "Law of lethality"
   } ]
 }

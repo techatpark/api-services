@@ -1,14 +1,14 @@
 {
-  "question" : "When a single gene influences multiple traits then the phenomenon is called __________",
+  "question" : "How many genetically different gametes are produced by a plant have genotype TtYyRr?",
   "explanation" : "",
   "choices" : [ {
-    "value" : "Pleiotropy",
+    "value" : "2"
+  }, {
+    "value" : "4"
+  }, {
+    "value" : "6"
+  }, {
+    "value" : "8",
     "answer" : true
-  }, {
-    "value" : "Polygenic inheritance"
-  }, {
-    "value" : "Epistasis"
-  }, {
-    "value" : "Atavism"
   } ]
 }
