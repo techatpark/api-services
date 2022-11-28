@@ -98,7 +98,7 @@ public class AnnotationService {
                 new SimpleJdbcInsert(dataSource).withTableName("annotations")
                         .usingColumns("id", "created_by",
                                 "on_type", "on_instance",
-                                "json_value");
+                                "locale", "json_value");
 
         final Map<String, Object> valueMap = new HashMap<>();
         valueMap.put("created_by", userName);
@@ -106,6 +106,11 @@ public class AnnotationService {
         valueMap.put("on_instance", onInstance);
         valueMap.put("json_value", objectMapper
                 .writeValueAsString(annotation.getValue()));
+        if (locale == null) {
+            valueMap.put("locale", null);
+        } else {
+            valueMap.put("locale", locale.getLanguage());
+        }
         final UUID id = UUID.randomUUID();
         valueMap.put("id", id);
         insert.execute(valueMap);
@@ -125,10 +130,19 @@ public class AnnotationService {
                 "SELECT id,json_value"
                         + " FROM "
                         + "annotations WHERE"
-                        + " id = ?";
+                        + " id = ? AND "
+                        + ((locale == null)
+                        ? "locale IS NULL" : "locale = ?");
         try {
+            Object[] params;
+            if (locale == null) {
+                params = new Object[]{id};
+            } else {
+                params = new Object[]{id, locale.getLanguage()};
+            }
             return Optional.of(jdbcTemplate
-                    .queryForObject(query, new Object[]{id}, this::rowMapper));
+                    .queryForObject(query, params, this::rowMapper));
+
         } catch (final EmptyResultDataAccessException e) {
             return Optional.empty();
         }
@@ -150,9 +164,14 @@ public class AnnotationService {
         final String query = "SELECT id,"
                 + "json_value FROM "
                 + "annotations WHERE"
-                + " on_type = ? and on_instance = ? and created_by = ?";
-        return jdbcTemplate.query(query, this::rowMapper, onType, onInstance,
-                userName);
+                + " on_type = ? and on_instance = ? and created_by = ? AND "
+                + ((locale == null)
+                ? "locale IS NULL" : "locale = ?");
+        return (locale == null)
+                ? jdbcTemplate.query(query, this::rowMapper, onType, onInstance,
+                userName)
+                : jdbcTemplate.query(query, this::rowMapper, onType, onInstance,
+                userName, locale.getLanguage());
     }
 
     /**
@@ -169,11 +188,16 @@ public class AnnotationService {
             throws JsonProcessingException {
         final String query =
                 "UPDATE annotations SET "
-                        + "json_value = ? WHERE id = ?";
-        final Integer updatedRows =
+                        + "json_value = ? WHERE id = ? AND "
+                        + ((locale == null) ? "locale IS NULL" : "locale = ?");
+        final Integer updatedRows = (locale == null)
+                ?
                 jdbcTemplate.update(query,
                         objectMapper.writeValueAsString(annotation.getValue()),
-                        id);
+                        id)
+                : jdbcTemplate.update(query,
+                objectMapper.writeValueAsString(annotation.getValue()),
+                id, locale.getLanguage());
         return updatedRows == 0 ? null : read(id, locale);
     }
 
