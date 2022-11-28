@@ -18,10 +18,6 @@ public class Annotation {
      * declare text.
      */
     private String text;
-    /**
-     * declare annotation.
-     */
-    private String note;
 
 
     /**
@@ -58,24 +54,6 @@ public class Annotation {
      */
     public void setText(final String theText) {
         this.text = theText;
-    }
-
-    /**
-     * Gets note.
-     *
-     * @return the note
-     */
-    public String getNote() {
-        return note;
-    }
-
-    /**
-     * Sets note.
-     *
-     * @param theNote the note
-     */
-    public void setNote(final String theNote) {
-        this.note = theNote;
     }
 
 }

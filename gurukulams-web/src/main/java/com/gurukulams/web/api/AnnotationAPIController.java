@@ -146,7 +146,7 @@ class AnnotationAPIController {
                     required = false) final Locale locale,
             final @PathVariable UUID id,
             final @RequestBody Annotation annotation) {
-        final Optional<Annotation> updatednote = annotationService.updateNote(
+        final Optional<Annotation> updatednote = annotationService.update(
                 id, locale, annotation);
         return updatednote == null ? ResponseEntity.notFound().build()
                 : ResponseEntity.ok(updatednote);

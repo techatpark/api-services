@@ -16,7 +16,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 /**
- * The type User note service.
+ * The type User Annotation service.
  */
 @Service
 public class AnnotationService {
@@ -36,8 +36,6 @@ public class AnnotationService {
         final Annotation annotation = new Annotation();
         annotation.setId((UUID) rs.getObject("id"));
         annotation.setText(rs.getString("text"));
-        annotation.setNote(rs.getString("note"));
-
         return annotation;
     };
 
@@ -57,7 +55,7 @@ public class AnnotationService {
      * Create optional.
      *
      * @param userName user name
-     * @param annotation the user note
+     * @param annotation the  annotation
      * @param onType
      * @param onInstance
      * @param locale tha language
@@ -74,14 +72,13 @@ public class AnnotationService {
 
                         .usingColumns("id", "created_by",
                                 "on_type", "on_instance",
-                                "text", "note");
+                                "text");
 
         final Map<String, Object> valueMap = new HashMap<>();
         valueMap.put("created_by", userName);
         valueMap.put("on_type", onType);
         valueMap.put("on_instance", onInstance);
         valueMap.put("text", annotation.getText());
-        valueMap.put("note", annotation.getNote());
         final UUID id = UUID.randomUUID();
         valueMap.put("id", id);
         insert.execute(valueMap);
@@ -99,7 +96,7 @@ public class AnnotationService {
                                    final Locale locale) {
         final String query =
                 "SELECT id,on_type,on_instance,text,"
-                        + "note FROM "
+                        + " FROM "
                         + "annotations WHERE"
                         + " id = ?";
         try {
@@ -124,7 +121,7 @@ public class AnnotationService {
                                  final String onType,
                                  final String onInstance) {
         final String query = "SELECT id,on_type,on_instance,"
-                + "text,note FROM "
+                + "text FROM "
                 + "annotations WHERE"
                 + " on_type = ? and on_instance = ? and created_by = ?";
         return jdbcTemplate.query(query, rowMapper, onType, onInstance,
@@ -132,22 +129,22 @@ public class AnnotationService {
     }
 
     /**
-     * Update note optional.
+     * Update Annotation optional.
      *
      * @param id       the id
-     * @param annotation the user note
+     * @param annotation the user Annotation
      * @param locale tha language
      * @return the optional
      */
-    public Optional<Annotation> updateNote(final UUID id,
-                                         final Locale locale,
-                                         final Annotation annotation) {
+    public Optional<Annotation> update(final UUID id,
+                                       final Locale locale,
+                                       final Annotation annotation) {
         final String query =
                 "UPDATE annotations SET "
-                        + "text = ?, note = ? WHERE id = ?";
+                        + "text = ? WHERE id = ?";
         final Integer updatedRows =
                 jdbcTemplate.update(query,
-                        annotation.getText(), annotation.getNote(), id);
+                        annotation.getText(), id);
         return updatedRows == 0 ? null : read(id, locale);
     }
 

@@ -48,7 +48,6 @@ CREATE TABLE annotations (
    on_type VARCHAR NOT NULL,
    on_instance VARCHAR NOT NULL,
    text VARCHAR(500) NOT NULL,
-   note VARCHAR(500),
    created_by VARCHAR(55) NOT NULL
 );
 
