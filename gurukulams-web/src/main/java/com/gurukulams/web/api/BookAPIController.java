@@ -4,7 +4,6 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.gurukulams.core.model.Book;
 import com.gurukulams.core.model.Question;
 import com.gurukulams.core.model.QuestionType;
-import com.gurukulams.core.model.Annotation;
 import com.gurukulams.core.service.AnswerService;
 import com.gurukulams.core.service.BookService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -27,7 +26,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
-import javax.validation.constraints.NotBlank;
 import java.io.IOException;
 import java.net.URI;
 import java.security.Principal;
@@ -208,131 +206,7 @@ class BookAPIController {
                 : ResponseEntity.ok(bookList);
     }
 
-    /**
-     * Create response entity.
-     *
-     * @param principal the principal
-     * @param bookName  the book name
-     * @param annotations the user note
-     * @return the response entity
-     */
-    @Operation(summary = "Creates a new user note",
-            description = "Can be called "
-                    + "only by users with 'auth management' rights.",
-            security = @SecurityRequirement(name = "bearerAuth"))
-    @ApiResponses(value = {@ApiResponse(responseCode = "201",
-            description = "user note created successfully"),
-            @ApiResponse(responseCode = "401",
-                    description = "invalid credentials"),
-            @ApiResponse(responseCode = "400",
-                    description = "user note is invalid")})
-    @PostMapping("/{bookName}/annotations")
-    public ResponseEntity<Optional<Annotation>> createNote(
-            final Principal principal,
-            final @NotBlank @PathVariable String bookName,
-            @RequestHeader(
-                    name = "Accept-Language",
-                    required = false) final Locale locale,
-            final @RequestBody Annotation annotations) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(
-                bookService.createNote(bookName, principal.getName(),
-                        locale,
-                        annotations));
-    }
 
-    /**
-     * Create response entity.
-     *
-     * @param principal   the principal
-     * @param bookName    the book name
-     * @param chapterName the user note
-     * @return the response entity
-     */
-    @Operation(summary = "Creates a new user note",
-            description =
-                    "Can be called only by users "
-                            + "with 'auth management'"
-                            + " rights.",
-            security = @SecurityRequirement(name = "bearerAuth"))
-    @ApiResponses(value = {@ApiResponse(responseCode = "200",
-            description = "user note found successfully"),
-            @ApiResponse(responseCode = "401",
-                    description = "invalid credentials"),
-            @ApiResponse(responseCode = "404",
-                    description = "user note not found")})
-    @PostMapping("/{bookName}/annotations/_search")
-    public ResponseEntity<List<Annotation>> searchAnnotations(
-            final Principal principal,
-            final @PathVariable String bookName,
-            @RequestHeader(
-                    name = "Accept-Language",
-                    required = false) final Locale locale,
-            final @RequestBody String chapterName) {
-        return ResponseEntity.status(HttpStatus.OK).body(
-                bookService.searchAnnotations(bookName, principal.getName(),
-                        locale,
-                        chapterName));
-    }
-
-    /**
-     * Update response entity.
-     *
-     * @param bookName the book name
-     * @param id       the id
-     * @param annotation the user note
-     * @return the response entity
-     */
-    @Operation(summary = "Updates the note by given id",
-            description = "Can be called only by users with "
-                    + "'auth management' rights.",
-            security = @SecurityRequirement(name = "bearerAuth"))
-    @ApiResponses(value = {@ApiResponse(responseCode = "200",
-            description = "note updated successfully"),
-            @ApiResponse(responseCode = "400",
-                    description = "note is invalid"),
-            @ApiResponse(responseCode = "401",
-                    description = "invalid credentials"),
-            @ApiResponse(responseCode = "404",
-                    description = "note not found")})
-    @PutMapping("/{bookName}/annotations/{id}")
-    public ResponseEntity<Optional<Annotation>> update(
-            final @PathVariable String bookName,
-            @RequestHeader(
-                    name = "Accept-Language",
-                    required = false) final Locale locale,
-            final @PathVariable UUID id,
-            final @RequestBody Annotation annotation) {
-        final Optional<Annotation> updatednote = bookService.updateNote(
-                id, locale, annotation);
-        return updatednote == null ? ResponseEntity.notFound().build()
-                : ResponseEntity.ok(updatednote);
-    }
-
-    /**
-     * Delete note by id response entity.
-     *
-     * @param bookName the book name
-     * @param id       the id
-     * @return the response entity
-     */
-    @Operation(summary = "Deletes the note by given id",
-            security = @SecurityRequirement(name = "bearerAuth"))
-    @ApiResponses(value = {@ApiResponse(responseCode = "200",
-            description = "note deleted successfully"),
-            @ApiResponse(responseCode = "401",
-                    description = "invalid credentials"),
-            @ApiResponse(responseCode = "404",
-                    description = "note not found")})
-    @DeleteMapping("/{bookName}/annotations/{id}")
-    public ResponseEntity<Void> deleteNoteById(
-            final @PathVariable String bookName,
-            @RequestHeader(
-                    name = "Accept-Language",
-                    required = false) final Locale locale,
-            final @PathVariable UUID id) {
-        return bookService.deleteNote(id, locale) ? ResponseEntity.ok().build()
-                : ResponseEntity.notFound().build();
-    }
 
     /**
      * Is the created_by of the book current user.
