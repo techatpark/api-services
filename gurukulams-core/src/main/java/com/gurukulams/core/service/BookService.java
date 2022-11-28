@@ -375,14 +375,14 @@ public class BookService {
      *
      * @param userName the username
      * @param locale   the locale
-     * @param tagsPath the tagsPath
+     * @param categoriesPath the categoriesPath
      * @return the optional
      */
     public List<Question> listAllQuestions(final String userName,
                                            final Locale locale,
-                                           final String tagsPath) {
+                                           final String categoriesPath) {
         return questionService.list(userName, locale,
-                List.of(tagsPath.split("/")));
+                List.of(categoriesPath.split("/")));
 
     }
 
@@ -403,7 +403,7 @@ public class BookService {
      * @param bookName     bookName
      * @param questionType the questionType
      * @param question     question
-     * @param tags         tags
+     * @param categories         categories
      * @param locale       the locale
      * @param createdBy    createdBy
      * @return successflag boolean
@@ -413,10 +413,10 @@ public class BookService {
                                               final Locale locale,
                                               final String createdBy,
                                               final Question question,
-                                              final List<String> tags) {
+                                              final List<String> categories) {
 
 
-        return questionService.create(tags, questionType, locale,
+        return questionService.create(categories, questionType, locale,
                 createdBy, question);
     }
 

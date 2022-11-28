@@ -1,6 +1,6 @@
 package com.gurukulams.core.service;
 
-import com.gurukulams.core.model.Tag;
+import com.gurukulams.core.model.Category;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -19,16 +19,16 @@ import java.util.Map;
 import java.util.Optional;
 
 /**
- * The type Tag service.
+ * The type Category service.
  */
 @Service
-public final class TagService {
+public final class CategoryService {
 
     /**
      * Logger Facade.
      */
     private final Logger logger =
-            LoggerFactory.getLogger(TagService.class);
+            LoggerFactory.getLogger(CategoryService.class);
 
     /**
      * this helps to execute sql queries.
@@ -46,7 +46,7 @@ public final class TagService {
      * @param anJdbcTemplate
      * @param aDataSource
      */
-    public TagService(
+    public CategoryService(
             final JdbcTemplate anJdbcTemplate, final DataSource aDataSource) {
         this.jdbcTemplate = anJdbcTemplate;
         this.dataSource = aDataSource;
@@ -60,10 +60,10 @@ public final class TagService {
      * @return p
      * @throws SQLException
      */
-    private Tag rowMapper(final ResultSet rs,
-                          final Integer rowNum)
+    private Category rowMapper(final ResultSet rs,
+                               final Integer rowNum)
             throws SQLException {
-        Tag tag = new Tag(
+        Category tag = new Category(
                 rs.getString("id"),
                 rs.getString("title"),
                 rs.getObject("created_at", LocalDateTime.class),
@@ -81,12 +81,12 @@ public final class TagService {
      * @param tag      the tag
      * @return question optional
      */
-    public Tag create(final String userName,
-                      final Locale locale,
-                      final Tag tag) {
+    public Category create(final String userName,
+                           final Locale locale,
+                           final Category tag) {
 
         final SimpleJdbcInsert insert = new SimpleJdbcInsert(dataSource)
-                .withTableName("tags")
+                .withTableName("categories")
                 .usingColumns("id", "title",
                         "created_by");
 
@@ -99,29 +99,29 @@ public final class TagService {
         insert.execute(valueMap);
 
         if (locale != null) {
-            valueMap.put("tag_id", tag.id());
+            valueMap.put("category_id", tag.id());
             valueMap.put("locale", locale.getLanguage());
             createLocalizedTag(valueMap);
         }
 
-        final Optional<Tag> createdTag =
+        final Optional<Category> optionalCategory =
                 read(userName, tag.id(), locale);
 
-        logger.info("Created Tag {}", tag.id());
+        logger.info("Created Category {}", tag.id());
 
-        return createdTag.get();
+        return optionalCategory.get();
     }
 
     /**
-     * Create Localized Tag.
+     * Create Localized Category.
      *
      * @param valueMap
-     * @return noOfTags
+     * @return noOfCategories
      */
     private int createLocalizedTag(final Map<String, Object> valueMap) {
         return new SimpleJdbcInsert(dataSource)
-                .withTableName("tags_localized")
-                .usingColumns("tag_id", "locale", "title")
+                .withTableName("categories_localized")
+                .usingColumns("category_id", "locale", "title")
                 .execute(valueMap);
     }
 
@@ -133,12 +133,12 @@ public final class TagService {
      * @param locale
      * @return question optional
      */
-    public Optional<Tag> read(final String userName,
-                              final String id,
-                              final Locale locale) {
+    public Optional<Category> read(final String userName,
+                                   final String id,
+                                   final Locale locale) {
         final String query = locale == null
                 ? "SELECT id,title,created_by,"
-                + "created_at, modified_at, modified_by FROM tags "
+                + "created_at, modified_at, modified_by FROM categories "
                 + "WHERE id = ?"
                 : "SELECT DISTINCT b.ID, "
                 + "CASE WHEN bl.LOCALE = ? "
@@ -146,18 +146,18 @@ public final class TagService {
                 + "ELSE b.TITLE "
                 + "END AS TITLE, "
                 + "created_by,created_at, modified_at, modified_by "
-                + "FROM TAGS b "
-                + "LEFT JOIN TAGS_LOCALIZED bl "
-                + "ON b.ID = bl.TAG_ID "
+                + "FROM CATEGORIES b "
+                + "LEFT JOIN CATEGORIES_LOCALIZED bl "
+                + "ON b.ID = bl.category_id "
                 + "WHERE b.ID = ? "
                 + "AND (bl.LOCALE IS NULL "
                 + "OR bl.LOCALE = ? OR "
                 + "b.ID NOT IN "
-                + "(SELECT TAG_ID FROM TAGS_LOCALIZED "
-                + "WHERE TAG_ID=b.ID AND LOCALE = ?))";
+                + "(SELECT category_id FROM CATEGORIES_LOCALIZED "
+                + "WHERE category_id=b.ID AND LOCALE = ?))";
 
         try {
-            final Tag p = locale == null ? jdbcTemplate
+            final Category p = locale == null ? jdbcTemplate
                     .queryForObject(query, new Object[]{id},
                             this::rowMapper)
                     : jdbcTemplate
@@ -182,31 +182,31 @@ public final class TagService {
      * @param tag      the tag
      * @return question optional
      */
-    public Tag update(final String id,
-                      final String userName,
-                      final Locale locale,
-                      final Tag tag) {
-        logger.debug("Entering update for Tag {}", id);
+    public Category update(final String id,
+                           final String userName,
+                           final Locale locale,
+                           final Category tag) {
+        logger.debug("Entering update for Category {}", id);
         final String query = locale == null
-                ? "UPDATE tags SET title=?,"
+                ? "UPDATE categories SET title=?,"
                 + "modified_by=? WHERE id=?"
-                : "UPDATE tags SET modified_by=? WHERE id=?";
+                : "UPDATE categories SET modified_by=? WHERE id=?";
         Integer updatedRows = locale == null
                 ? jdbcTemplate.update(query, tag.title(),
                 userName, id)
                 : jdbcTemplate.update(query, userName, id);
         if (updatedRows == 0) {
             logger.error("Update not found", id);
-            throw new IllegalArgumentException("Tag not found");
+            throw new IllegalArgumentException("Category not found");
         } else if (locale != null) {
             updatedRows = jdbcTemplate.update(
-                    "UPDATE tags_localized SET title=?,locale=?"
-                            + " WHERE tag_id=? AND locale=?",
+                    "UPDATE categories_localized SET title=?,locale=?"
+                            + " WHERE category_id=? AND locale=?",
                     tag.title(), locale.getLanguage(),
                     id, locale.getLanguage());
             if (updatedRows == 0) {
                 final Map<String, Object> valueMap = new HashMap<>(4);
-                valueMap.put("tag_id", id);
+                valueMap.put("category_id", id);
                 valueMap.put("locale", locale.getLanguage());
                 valueMap.put("title", tag.title());
                 createLocalizedTag(valueMap);
@@ -223,7 +223,7 @@ public final class TagService {
      * @return false
      */
     public Boolean delete(final String userName, final String id) {
-        String query = "DELETE FROM tags WHERE ID=?";
+        String query = "DELETE FROM categories WHERE ID=?";
 
         final Integer updatedRows = jdbcTemplate.update(query, id);
         return !(updatedRows == 0);
@@ -231,31 +231,31 @@ public final class TagService {
 
 
     /**
-     * list of tags.
+     * list of categories.
      *
      * @param userName the userName
      * @param locale
-     * @return tags list
+     * @return categories list
      */
-    public List<Tag> list(final String userName,
-                          final Locale locale) {
+    public List<Category> list(final String userName,
+                               final Locale locale) {
         final String query = locale == null
                 ? "SELECT id,title,created_by,"
-                + "created_at, modified_at, modified_by FROM tags"
+                + "created_at, modified_at, modified_by FROM categories"
                 : "SELECT DISTINCT b.ID, "
                 + "CASE WHEN bl.LOCALE = ? "
                 + "THEN bl.TITLE "
                 + "ELSE b.TITLE "
                 + "END AS TITLE, "
                 + "created_by,created_at, modified_at, modified_by "
-                + "FROM TAGS b "
-                + "LEFT JOIN TAGS_LOCALIZED bl "
-                + "ON b.ID = bl.TAG_ID "
+                + "FROM CATEGORIES b "
+                + "LEFT JOIN CATEGORIES_LOCALIZED bl "
+                + "ON b.ID = bl.category_id "
                 + "WHERE bl.LOCALE IS NULL "
                 + "OR bl.LOCALE = ? OR "
                 + "b.ID NOT IN "
-                + "(SELECT TAG_ID FROM TAGS_LOCALIZED "
-                + "WHERE TAG_ID=b.ID AND LOCALE = ?)";
+                + "(SELECT category_id FROM CATEGORIES_LOCALIZED "
+                + "WHERE category_id=b.ID AND LOCALE = ?)";
         return locale == null
                 ? jdbcTemplate.query(query, this::rowMapper)
                 : jdbcTemplate
@@ -267,13 +267,13 @@ public final class TagService {
     }
 
     /**
-     * Cleaning up all tags.
+     * Cleaning up all categories.
      *
-     * @return no.of tags deleted
+     * @return no.of categories deleted
      */
     public Integer deleteAll() {
-        jdbcTemplate.update("DELETE FROM tags_localized");
-        final String query = "DELETE FROM tags";
+        jdbcTemplate.update("DELETE FROM categories_localized");
+        final String query = "DELETE FROM categories";
         return jdbcTemplate.update(query);
     }
 }

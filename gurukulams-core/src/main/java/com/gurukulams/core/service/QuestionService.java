@@ -125,7 +125,7 @@ public class QuestionService {
     /**
      * inserts data.
      *
-     * @param tags      the tags
+     * @param categories      the categories
      * @param type      the type
      * @param locale    the locale
      * @param createdBy the createdBy
@@ -134,7 +134,7 @@ public class QuestionService {
      */
     @Transactional
     public Optional<Question> create(
-            final List<String> tags,
+            final List<String> categories,
             final QuestionType type,
             final Locale locale,
             final String createdBy,
@@ -177,7 +177,7 @@ public class QuestionService {
                 createChoices(question.getChoices(), locale, id);
             }
 
-            tags.forEach(tag -> attachTag(id, tag));
+            categories.forEach(tag -> attachTag(id, tag));
 
             return read(id, locale);
         } else {
@@ -531,13 +531,13 @@ public class QuestionService {
      * List questions of exam.
      *
      * @param userName the user name
-     * @param tags     the tags
+     * @param categories     the categories
      * @param locale   the locale
      * @return quetions in given exam
      */
     public List<Question> list(final String userName,
                                final Locale locale,
-                               final List<String> tags) {
+                               final List<String> categories) {
 
         boolean isOwner = false;
 
@@ -548,7 +548,7 @@ public class QuestionService {
                 + " AS answer"
                 + " FROM questions"
                 + " where "
-                + "id IN (" + getQuestionIdFilter(tags) + ") "
+                + "id IN (" + getQuestionIdFilter(categories) + ") "
                 + " order by id"
                 : "SELECT id,"
                 + "CASE WHEN ql.LOCALE = ? "
@@ -565,7 +565,7 @@ public class QuestionService {
                 + ",created_at,modified_at FROM "
                 + "questions q LEFT JOIN questions_localized ql ON "
                 + "q.ID = ql.QUESTION_ID WHERE"
-                + " q.ID IN (" + getQuestionIdFilter(tags) + ") "
+                + " q.ID IN (" + getQuestionIdFilter(categories) + ") "
                 + "  AND"
                 + " (ql.LOCALE IS NULL "
                 + "OR ql.LOCALE = ? OR "
@@ -575,11 +575,11 @@ public class QuestionService {
 
         List<Object> parameters = new ArrayList<>();
         if (locale == null) {
-            parameters.addAll(tags);
+            parameters.addAll(categories);
         } else {
             parameters.add(locale.getLanguage());
             parameters.add(locale.getLanguage());
-            parameters.addAll(tags);
+            parameters.addAll(categories);
             parameters.add(locale.getLanguage());
             parameters.add(locale.getLanguage());
         }
@@ -602,16 +602,17 @@ public class QuestionService {
         return questions;
     }
 
-    private String getQuestionIdFilter(final List<String> tags) {
+    private String getQuestionIdFilter(final List<String> categories) {
         StringBuilder builder =
                 new StringBuilder("SELECT QUESTION_ID FROM "
-                        + "QUESTIONS_TAGS WHERE TAG_ID IN (");
-        builder.append(tags.stream()
+                        + "questions_categories WHERE category_id IN (");
+        builder.append(categories.stream()
                 .map(tag -> "?")
                 .collect(Collectors.joining(",")));
         builder.append(") ");
-        builder.append("GROUP BY QUESTION_ID HAVING COUNT(DISTINCT TAG_ID) = ");
-        builder.append(tags.size());
+        builder.append("GROUP BY QUESTION_ID ");
+        builder.append("HAVING COUNT(DISTINCT category_id) = ");
+        builder.append(categories.size());
         return builder.toString();
     }
 
@@ -740,13 +741,13 @@ public class QuestionService {
     public boolean attachTag(final UUID questionId,
                              final String tagId) {
         final SimpleJdbcInsert insert = new SimpleJdbcInsert(dataSource)
-                .withTableName("questions_tags")
-                .usingColumns("question_id", "tag_id");
+                .withTableName("questions_categories")
+                .usingColumns("question_id", "category_id");
 
         final Map<String, Object> valueMap = new HashMap<>();
 
         valueMap.put("question_id", questionId);
-        valueMap.put("tag_id", tagId);
+        valueMap.put("category_id", tagId);
 
         int noOfRowsInserted = insert.execute(valueMap);
 

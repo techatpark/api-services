@@ -4,18 +4,18 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.gurukulams.core.model.Board;
 import com.gurukulams.core.model.Book;
+import com.gurukulams.core.model.Category;
 import com.gurukulams.core.model.Choice;
 import com.gurukulams.core.model.Grade;
 import com.gurukulams.core.model.Question;
 import com.gurukulams.core.model.QuestionType;
 import com.gurukulams.core.model.Subject;
-import com.gurukulams.core.model.Tag;
 import com.gurukulams.core.service.BoardService;
 import com.gurukulams.core.service.BookService;
 import com.gurukulams.core.service.GradeService;
 import com.gurukulams.core.service.QuestionService;
 import com.gurukulams.core.service.SubjectService;
-import com.gurukulams.core.service.TagService;
+import com.gurukulams.core.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.dao.DuplicateKeyException;
@@ -63,10 +63,10 @@ public class BoardMaker {
     private QuestionService questionService;
 
     /**
-     * Tag Service.
+     * Category Service.
      */
     @Autowired
-    private TagService tagService;
+    private CategoryService tagService;
 
     /**
      * Json Mapper.
@@ -310,7 +310,7 @@ public class BoardMaker {
 
         if (seedFolder != null) {
             questionService.delete();
-            createAllTags(userName);
+            createAllCategories(userName);
             File questionsFolder = new File(seedFolder, "questions");
             Files.find(Path.of(questionsFolder.getPath()),
                     Integer.MAX_VALUE,
@@ -328,7 +328,7 @@ public class BoardMaker {
 
     }
 
-    private void createAllTags(final String userName) throws IOException {
+    private void createAllCategories(final String userName) throws IOException {
         if (seedFolder != null) {
             questionService.delete();
             File questionsFolder = new File(seedFolder, "questions");
@@ -340,13 +340,13 @@ public class BoardMaker {
                         if (!tagFolder.equals(questionsFolder)) {
                             try {
                                 tagService.create(userName, null,
-                                    new Tag(tagFolder.getFileName().toString(),
-                                            tagFolder.getFileName().toString(),
-                                            null,
-                                            userName, null,
-                                            userName));
+                                new Category(tagFolder.getFileName().toString(),
+                                        tagFolder.getFileName().toString(),
+                                        null,
+                                        userName, null,
+                                        userName));
                             } catch (DuplicateKeyException e) {
-                                System.out.println("Duplicate Tag "
+                                System.out.println("Duplicate Category "
                                         + tagFolder.getFileName().toString());
                             }
 

@@ -187,28 +187,28 @@ CREATE TABLE boards_grades_subjects_books(
     FOREIGN KEY (book_id) REFERENCES books (id)
 );
 
-CREATE TABLE tags (
+CREATE TABLE categories (
     id VARCHAR(55) PRIMARY KEY,
     title TEXT,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     created_by VARCHAR(55) NOT NULL,
     modified_at TIMESTAMP,
     modified_by VARCHAR(200),
-    CONSTRAINT tags_title_constraint UNIQUE (title)
+    CONSTRAINT categories_title_constraint UNIQUE (title)
 );
 
-CREATE TABLE tags_localized (
-    tag_id VARCHAR(55),
+CREATE TABLE categories_localized (
+    category_id VARCHAR(55),
     locale VARCHAR(8) NOT NULL,
     title TEXT,
-    FOREIGN KEY (tag_id) REFERENCES tags (id),
-    PRIMARY KEY(tag_id, locale)
+    FOREIGN KEY (category_id) REFERENCES categories (id),
+    PRIMARY KEY(category_id, locale)
 );
 
-CREATE TABLE questions_tags (
+CREATE TABLE questions_categories (
     question_id UUID NOT NULL,
-    tag_id VARCHAR(55) NOT NULL,
-    PRIMARY KEY(question_id, tag_id),
+    category_id VARCHAR(55) NOT NULL,
+    PRIMARY KEY(question_id, category_id),
     FOREIGN KEY (question_id) REFERENCES questions (id),
-    FOREIGN KEY (tag_id) REFERENCES tags (id)
+    FOREIGN KEY (category_id) REFERENCES categories (id)
 );
