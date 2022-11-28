@@ -3,7 +3,6 @@ package com.gurukulams.core.service;
 import com.gurukulams.core.model.Book;
 import com.gurukulams.core.model.Question;
 import com.gurukulams.core.model.QuestionType;
-import com.gurukulams.core.model.Annotation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -45,11 +44,6 @@ public class BookService {
     private final DataSource dataSource;
 
     /**
-     * The User annotation service.
-     */
-    private final AnnotationService annotationsService;
-
-    /**
      * Service for Practices.
      */
     private final QuestionService questionService;
@@ -65,18 +59,15 @@ public class BookService {
      *
      * @param ajdbcTemplate       a jdbcTemplate
      * @param adataSource         a dataSource
-     * @param theAnnotationsService the user annotation service
      * @param theQuestionService  the question service
      * @param thePracticeService  the practice service
      */
     public BookService(final JdbcTemplate ajdbcTemplate,
                        final DataSource adataSource,
-                       final AnnotationService theAnnotationsService, final
-                       QuestionService theQuestionService,
+                       final QuestionService theQuestionService,
                        final PracticeService thePracticeService) {
         this.jdbcTemplate = ajdbcTemplate;
         this.dataSource = adataSource;
-        this.annotationsService = theAnnotationsService;
         this.questionService = theQuestionService;
         this.practiceService = thePracticeService;
     }
@@ -377,81 +368,6 @@ public class BookService {
         jdbcTemplate.update("DELETE FROM books_localized");
         jdbcTemplate.update("DELETE FROM books");
 
-    }
-
-    /**
-     * Create annotation optional.
-     *
-     * @param bookName  the book name
-     * @param createdBy the createdBy
-     * @param locale the language
-     * @param annotations the user annotation
-     * @return the optional
-     */
-    public Optional<Annotation> createNote(final String bookName,
-                                         final String createdBy,
-                                         final Locale locale,
-                                         final Annotation annotations) {
-        annotations.setOnType("books");
-        annotations.setOnInstance(bookName);
-        return annotationsService.create(annotations, locale, createdBy);
-    }
-
-    /**
-     * Search annotation optional.
-     *
-     * @param createdBy   the createdBy
-     * @param bookName    the book name
-     * @param chapterName the chapterName
-     * @param locale language
-     * @return the list
-     */
-    public List<Annotation> searchAnnotations(final String bookName,
-                                      final String createdBy,
-                                      final Locale locale,
-                                      final String chapterName) {
-
-        return annotationsService.searchAnnotations(createdBy, locale,
-                bookName, chapterName);
-    }
-
-    /**
-     * Read annotation optional.
-     *
-     * @param id the id
-     * @param locale language
-     * @return the optional
-     */
-    public Optional<Annotation> readNote(final UUID id,
-                                       final Locale locale) {
-        return annotationsService.read(id, locale);
-
-    }
-
-    /**
-     * Update annotation optional.
-     *
-     * @param id       the id
-     * @param locale language
-     * @param annotation the user annotation
-     * @return the optional
-     */
-    public Optional<Annotation> updateNote(final UUID id,
-                                         final Locale locale,
-                                         final Annotation annotation) {
-        return annotationsService.updateNote(id, locale, annotation);
-    }
-
-    /**
-     * Delete boolean.
-     *
-     * @param id the id
-     * @param locale language
-     * @return the boolean
-     */
-    public boolean deleteNote(final UUID id,
-                              final Locale locale) {
-        return annotationsService.delete(id, locale);
     }
 
     /**

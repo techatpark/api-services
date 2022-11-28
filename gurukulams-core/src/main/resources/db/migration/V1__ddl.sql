@@ -47,7 +47,6 @@ CREATE TABLE annotations (
    id UUID PRIMARY KEY,
    on_type VARCHAR NOT NULL,
    on_instance VARCHAR NOT NULL,
-   on_section VARCHAR NOT NULL,
    text VARCHAR(500) NOT NULL,
    note VARCHAR(500),
    created_by VARCHAR(55) NOT NULL

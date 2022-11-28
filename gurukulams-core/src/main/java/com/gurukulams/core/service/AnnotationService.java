@@ -35,9 +35,6 @@ public class AnnotationService {
     private final RowMapper<Annotation> rowMapper = (rs, rowNum) -> {
         final Annotation annotation = new Annotation();
         annotation.setId((UUID) rs.getObject("id"));
-        annotation.setOnType(rs.getString("on_type"));
-        annotation.setOnInstance(rs.getString("on_instance"));
-        annotation.setOnSection(rs.getString("on_section"));
         annotation.setText(rs.getString("text"));
         annotation.setNote(rs.getString("note"));
 
@@ -61,10 +58,15 @@ public class AnnotationService {
      *
      * @param userName user name
      * @param annotation the user note
+     * @param onType
+     * @param onInstance
      * @param locale tha language
      * @return the optional
      */
-    public Optional<Annotation> create(final Annotation annotation,
+    public Optional<Annotation> create(
+            final String onType,
+            final String onInstance,
+            final Annotation annotation,
                                      final Locale locale,
                                      final String userName) {
         final SimpleJdbcInsert insert =
@@ -72,14 +74,12 @@ public class AnnotationService {
 
                         .usingColumns("id", "created_by",
                                 "on_type", "on_instance",
-                                "on_section",
                                 "text", "note");
 
         final Map<String, Object> valueMap = new HashMap<>();
         valueMap.put("created_by", userName);
-        valueMap.put("on_type", annotation.getOnType());
-        valueMap.put("on_instance", annotation.getOnInstance());
-        valueMap.put("on_section", annotation.getOnSection());
+        valueMap.put("on_type", onType);
+        valueMap.put("on_instance", onInstance);
         valueMap.put("text", annotation.getText());
         valueMap.put("note", annotation.getNote());
         final UUID id = UUID.randomUUID();
@@ -98,7 +98,7 @@ public class AnnotationService {
     public Optional<Annotation> read(final UUID id,
                                    final Locale locale) {
         final String query =
-                "SELECT id,on_type,on_instance,on_section,text,"
+                "SELECT id,on_type,on_instance,text,"
                         + "note FROM "
                         + "annotations WHERE"
                         + " id = ?";
@@ -115,20 +115,20 @@ public class AnnotationService {
      *
      * @param userName   user name
      * @param onInstance the on instance
-     * @param onSection  the on section
+     * @param onType
      * @param locale tha language
      * @return the list
      */
-    public List<Annotation> searchAnnotations(final String userName,
-                                      final Locale locale,
-                                      final String onInstance,
-                                      final String onSection) {
-        final String query = "SELECT id,on_type,on_instance,on_section,"
+    public List<Annotation> list(final String userName,
+                                 final Locale locale,
+                                 final String onType,
+                                 final String onInstance) {
+        final String query = "SELECT id,on_type,on_instance,"
                 + "text,note FROM "
                 + "annotations WHERE"
-                + " on_instance = ? and on_section = ? and created_by = ?";
-        return jdbcTemplate.query(query, rowMapper, onInstance,
-                onSection, userName);
+                + " on_type = ? and on_instance = ? and created_by = ?";
+        return jdbcTemplate.query(query, rowMapper, onType, onInstance,
+                userName);
     }
 
     /**
