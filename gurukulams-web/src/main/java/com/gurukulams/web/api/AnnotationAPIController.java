@@ -1,5 +1,6 @@
 package com.gurukulams.web.api;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.gurukulams.core.model.Annotation;
 import com.gurukulams.core.service.AnnotationService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -72,7 +73,8 @@ class AnnotationAPIController {
             @RequestHeader(
                     name = "Accept-Language",
                     required = false) final Locale locale,
-            final @RequestBody Annotation annotation) {
+            final @RequestBody Annotation annotation)
+            throws JsonProcessingException {
         return ResponseEntity.status(HttpStatus.CREATED).body(
                 annotationService.create(onType,
                         onInstance,
@@ -145,7 +147,8 @@ class AnnotationAPIController {
                     name = "Accept-Language",
                     required = false) final Locale locale,
             final @PathVariable UUID id,
-            final @RequestBody Annotation annotation) {
+            final @RequestBody Annotation annotation)
+            throws JsonProcessingException {
         final Optional<Annotation> updatednote = annotationService.update(
                 id, locale, annotation);
         return updatednote == null ? ResponseEntity.notFound().build()

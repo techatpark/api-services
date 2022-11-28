@@ -1,13 +1,17 @@
 package com.gurukulams.core.service;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.gurukulams.core.model.Annotation;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Service;
 
 import javax.sql.DataSource;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -29,26 +33,48 @@ public class AnnotationService {
      * this creates connection functionalities.
      */
     private final DataSource dataSource;
+
+    /**
+     * this is ObjectMapper of Spring.
+     */
+    private final ObjectMapper objectMapper;
     /**
      * Maps the data from and to the database. return question.
+     * @param rowNum
+     * @param rs
+     * @return annotation
      */
-    private final RowMapper<Annotation> rowMapper = (rs, rowNum) -> {
+    private Annotation rowMapper(final ResultSet rs,
+                                 final int rowNum)
+            throws SQLException {
         final Annotation annotation = new Annotation();
         annotation.setId((UUID) rs.getObject("id"));
-        annotation.setText(rs.getString("text"));
+        final TypeReference<HashMap<String, Object>> typeRef
+                = new TypeReference<>() {
+        };
+        try {
+            String unwrappedJSON = objectMapper
+                    .readValue(rs.getString("json_value"), String.class);
+            annotation.setValue(objectMapper.readValue(unwrappedJSON,
+                    typeRef));
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
         return annotation;
     };
 
     /**
      * initializes.
-     *
-     * @param aJdbcTemplate the a jdbc template
+     *  @param aJdbcTemplate the a jdbc template
      * @param aDataSource   the a data source
+     * @param anObjectMapper
      */
     public AnnotationService(final JdbcTemplate aJdbcTemplate,
-                           final DataSource aDataSource) {
+                             final DataSource aDataSource,
+                             final ObjectMapper anObjectMapper) {
         this.jdbcTemplate = aJdbcTemplate;
         this.dataSource = aDataSource;
+        this.objectMapper = anObjectMapper;
     }
 
     /**
@@ -66,19 +92,20 @@ public class AnnotationService {
             final String onInstance,
             final Annotation annotation,
                                      final Locale locale,
-                                     final String userName) {
+                                     final String userName)
+            throws JsonProcessingException {
         final SimpleJdbcInsert insert =
                 new SimpleJdbcInsert(dataSource).withTableName("annotations")
-
                         .usingColumns("id", "created_by",
                                 "on_type", "on_instance",
-                                "text");
+                                "json_value");
 
         final Map<String, Object> valueMap = new HashMap<>();
         valueMap.put("created_by", userName);
         valueMap.put("on_type", onType);
         valueMap.put("on_instance", onInstance);
-        valueMap.put("text", annotation.getText());
+        valueMap.put("json_value", objectMapper
+                .writeValueAsString(annotation.getValue()));
         final UUID id = UUID.randomUUID();
         valueMap.put("id", id);
         insert.execute(valueMap);
@@ -95,13 +122,13 @@ public class AnnotationService {
     public Optional<Annotation> read(final UUID id,
                                    final Locale locale) {
         final String query =
-                "SELECT id,on_type,on_instance,text,"
+                "SELECT id,json_value"
                         + " FROM "
                         + "annotations WHERE"
                         + " id = ?";
         try {
             return Optional.of(jdbcTemplate
-                    .queryForObject(query, new Object[]{id}, rowMapper));
+                    .queryForObject(query, new Object[]{id}, this::rowMapper));
         } catch (final EmptyResultDataAccessException e) {
             return Optional.empty();
         }
@@ -120,11 +147,11 @@ public class AnnotationService {
                                  final Locale locale,
                                  final String onType,
                                  final String onInstance) {
-        final String query = "SELECT id,on_type,on_instance,"
-                + "text FROM "
+        final String query = "SELECT id,"
+                + "json_value FROM "
                 + "annotations WHERE"
                 + " on_type = ? and on_instance = ? and created_by = ?";
-        return jdbcTemplate.query(query, rowMapper, onType, onInstance,
+        return jdbcTemplate.query(query, this::rowMapper, onType, onInstance,
                 userName);
     }
 
@@ -138,13 +165,15 @@ public class AnnotationService {
      */
     public Optional<Annotation> update(final UUID id,
                                        final Locale locale,
-                                       final Annotation annotation) {
+                                       final Annotation annotation)
+            throws JsonProcessingException {
         final String query =
                 "UPDATE annotations SET "
-                        + "text = ? WHERE id = ?";
+                        + "json_value = ? WHERE id = ?";
         final Integer updatedRows =
                 jdbcTemplate.update(query,
-                        annotation.getText(), id);
+                        objectMapper.writeValueAsString(annotation.getValue()),
+                        id);
         return updatedRows == 0 ? null : read(id, locale);
     }
 

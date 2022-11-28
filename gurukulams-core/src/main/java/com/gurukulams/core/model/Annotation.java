@@ -2,6 +2,7 @@ package com.gurukulams.core.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import java.util.Map;
 import java.util.UUID;
 
 /**
@@ -17,7 +18,7 @@ public class Annotation {
     /**
      * declare text.
      */
-    private String text;
+    private Map<String, Object> value;
 
 
     /**
@@ -43,8 +44,8 @@ public class Annotation {
      *
      * @return the text
      */
-    public String getText() {
-        return text;
+    public Map<String, Object> getValue() {
+        return value;
     }
 
     /**
@@ -52,8 +53,8 @@ public class Annotation {
      *
      * @param theText the text
      */
-    public void setText(final String theText) {
-        this.text = theText;
+    public void setValue(final Map<String, Object> theText) {
+        this.value = theText;
     }
 
 }
