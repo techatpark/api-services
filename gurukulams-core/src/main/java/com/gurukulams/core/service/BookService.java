@@ -400,7 +400,6 @@ public class BookService {
     /**
      * create the question.
      *
-     * @param bookName     bookName
      * @param questionType the questionType
      * @param question     question
      * @param categories         categories
@@ -408,7 +407,7 @@ public class BookService {
      * @param createdBy    createdBy
      * @return successflag boolean
      */
-    public Optional<Question> createAQuestion(final String bookName,
+    public Optional<Question> createAQuestion(
                                               final QuestionType questionType,
                                               final Locale locale,
                                               final String createdBy,

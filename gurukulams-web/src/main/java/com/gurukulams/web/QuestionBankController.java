@@ -16,7 +16,7 @@ class QuestionBankController {
      *
      * @return forward
      */
-    @GetMapping("/practices/books/**")
+    @GetMapping("/questions/**")
     public String questionBank() {
         return "forward:/practices/basic/index.html";
     }
@@ -26,7 +26,7 @@ class QuestionBankController {
      * @param languageCode
      * @return forward
      */
-    @GetMapping("/{languageCode}/practices/books/**")
+    @GetMapping("/{languageCode}/questions/**")
     public String questionBankLocalized(
             final @PathVariable String languageCode) {
         return "forward:/" + languageCode

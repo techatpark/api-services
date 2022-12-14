@@ -243,7 +243,6 @@ class BookAPIController {
      *
      * @param questionType the question type
      * @param question     the question
-     * @param bookName     the bookName
      * @param request      the request
      * @return the response entity
      */
@@ -258,9 +257,8 @@ class BookAPIController {
             @ApiResponse(responseCode = "401",
                     description = "invalid credentials")})
     @ResponseStatus(HttpStatus.CREATED)
-    @PostMapping("/{bookName}/questions/{questionType}/**")
-    public ResponseEntity<Optional<Question>> create(final @PathVariable
-                                                             String bookName,
+    @PostMapping("/questions/{questionType}/**")
+    public ResponseEntity<Optional<Question>> create(
                                                      final @PathVariable
                                                              QuestionType
                                                              questionType,
@@ -275,11 +273,10 @@ class BookAPIController {
                                              final HttpServletRequest request)
             throws ServletException, IOException {
         String chapterPath = request.getRequestURI().replaceFirst("/api"
-                + "/books/" + bookName
                 + "/questions/" + questionType + "/", "");
 
         return ResponseEntity.status(HttpStatus.CREATED).body(
-                bookService.createAQuestion(bookName, questionType, locale,
+                bookService.createAQuestion(questionType, locale,
                         principal.getName(), question,
                         List.of(chapterPath.split("/"))));
     }
@@ -287,7 +284,6 @@ class BookAPIController {
     /**
      * Update response entity.
      *
-     * @param bookName     the bookname
      * @param questionType the question type
      * @param questionId   the questionId
      * @param question     the question
@@ -306,9 +302,8 @@ class BookAPIController {
                     description = "invalid credentials"),
             @ApiResponse(responseCode = "404",
                     description = "question not found")})
-    @PutMapping("/{bookName}/questions/{questionType}/{questionId}/**")
-    public ResponseEntity<Optional<Question>> update(final @PathVariable
-                                                             String bookName,
+    @PutMapping("/questions/{questionType}/{questionId}/**")
+    public ResponseEntity<Optional<Question>> update(
                                                      final @PathVariable
                                                              UUID questionId,
                                                      @RequestHeader(
@@ -325,7 +320,6 @@ class BookAPIController {
                                                      HttpServletRequest request)
             throws JsonProcessingException {
         String chapterPath = request.getRequestURI().replaceFirst("/api"
-                + "/books/" + bookName
                 + "/questions/" + questionType
                 + "/" + questionId + "/", "");
         final Optional<Question> updatedQuestion =
@@ -336,36 +330,12 @@ class BookAPIController {
                 : ResponseEntity.ok(updatedQuestion);
     }
 
-    /**
-     * Delete a question from the given question bank.
-     *
-     * @param bookName the bookname
-     * @return the response entity
-     */
-    @Operation(summary = "Deletes the question bank for the book",
-            security = @SecurityRequirement(name = "bearerAuth"))
-    @ApiResponses(value = {@ApiResponse(responseCode = "200",
-            description = "question deleted successfully"),
-            @ApiResponse(responseCode = "401",
-                    description = "invalid credentials"),
-            @ApiResponse(responseCode = "404",
-                    description = "question not found")})
-    @DeleteMapping("/{bookName}/questions")
-    public ResponseEntity<Void> deleteQuestionBank(final @PathVariable
-                                                           String bookName)
-            throws JsonProcessingException {
-
-        boolean isDeleted = bookService.deleteQuestionBank(bookName);
-        return isDeleted ? ResponseEntity.ok().build()
-                : ResponseEntity.notFound().build();
-    }
 
     /**
      * Delete a question from the given question bank.
      *
      * @param id           the id
      * @param questionType the question type
-     * @param bookName     the bookname
      * @return the response entity
      */
     @Operation(summary = "Deletes the question by given id",
@@ -376,9 +346,8 @@ class BookAPIController {
                     description = "invalid credentials"),
             @ApiResponse(responseCode = "404",
                     description = "question not found")})
-    @DeleteMapping("/{bookName}/questions/{questionType}/{id}/**")
-    public ResponseEntity<Void> deleteAQuestionById(final @PathVariable
-                                                            String bookName,
+    @DeleteMapping("/questions/{questionType}/{id}/**")
+    public ResponseEntity<Void> deleteAQuestionById(
                                                     final @PathVariable UUID id,
                                                     final @PathVariable
                                                             QuestionType
@@ -405,7 +374,7 @@ class BookAPIController {
                     description = "questions are not available"),
             @ApiResponse(responseCode = "401",
                     description = "invalid credentials")})
-    @GetMapping("/{bookName}/questions/**")
+    @GetMapping("/questions/**")
     public ResponseEntity<List<Question>>
     findAllQuestionsByChap(final Principal
                                    principal,
@@ -439,7 +408,7 @@ class BookAPIController {
             @ApiResponse(responseCode = "406",
                     description = "Answer is invalid")})
     @ResponseStatus(HttpStatus.ACCEPTED)
-    @PostMapping("/{bookName}/questions/{questionId}/answer")
+    @PostMapping("/questions/{questionId}/answer")
     public ResponseEntity<Void> answer(final @PathVariable
                                                UUID questionId,
                                        final @RequestBody
