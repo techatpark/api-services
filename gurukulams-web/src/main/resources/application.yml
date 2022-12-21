@@ -33,16 +33,6 @@ springdoc:
   swagger-ui:
     operationsSorter: method
     tagsSorter: alpha
-logging:
-  file:
-    name: myapp.log
-  level:
-    root: ERROR
-    com:
-      gurukulams: INFO
-    org:
-      springframework:
-        jdbc: DEBUG
 app:
   auth:
     tokenSecret: 926D96C90030DD58429D2751926D96C90030DD58429D2751AC1BDBBC926D96C90030DD58429D2751AC1BDBBC926D96C90030DD58429D2751AC1BDBBC926D96C90030DD58429D2751AC1BDBBC926D96C90030DD58429D2751AC1BDBBC926D96C90030DD58429D2751AC1BDBBC926D96C90030DD58429D2751AC1BDBBCAC1BDBBC
@@ -63,3 +53,15 @@ admins:
   12-biology: jerry
   12-physics: jerry
 
+logging:
+  level:
+    root: DEBUG
+  pattern:
+    console: '%black(%d{ISO8601}) %highlight(%-5level) [%blue(%t)] %yellow(%C{1.}): %msg%n%throwable'
+    file: '%d %p %C{1.} [%t] %m%n'
+  logback:
+    rollingpolicy:
+      file-name-pattern: ./logs/archived/api-logger-%d{yyyy-MM-dd}.%i.log
+      max-file-size: 10MB
+  file:
+    name: ./logs/api-logger.log

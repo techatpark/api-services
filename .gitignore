@@ -33,3 +33,4 @@ build/
 src/test/java/com/techatpark/hackerrank/*
 /*.log
 /pom.xml.versionsBackup
+/logs/
