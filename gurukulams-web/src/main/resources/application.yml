@@ -34,6 +34,8 @@ springdoc:
     operationsSorter: method
     tagsSorter: alpha
 logging:
+  file:
+    name: myapp.log
   level:
     root: ERROR
     com:
@@ -53,7 +55,7 @@ app:
     # redirectUri mentioned by the client in the /oauth2/authorize request.
     # We're not using cookies because they won't work well in mobile clients.
     authorizedRedirectUris:
-      - http://localhost:3000/oauth2/redirect
+      - http://localhost/oauth2/redirect
       - myandroidapp://oauth2/redirect
       - myiosapp://oauth2/redirect
 

@@ -110,7 +110,7 @@ public class OAuth2AuthenticationSuccessHandler
                 && !isAuthorizedRedirectUri(redirectUri.get())) {
             throw new BadRequestException(
                     "Sorry! We've got an Unauthorized Redirect URI and"
-                            + " can't proceed with the authentication");
+                            + " can't proceed with the authentication: " + redirectUri.get() );
         }
 
         final String targetUrl = redirectUri.orElse(getDefaultTargetUrl());
