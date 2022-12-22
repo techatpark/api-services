@@ -55,7 +55,11 @@ admins:
 
 logging:
   level:
-    root: DEBUG
+    root: ERROR
+    com:
+      gurukulams: DEBUG
+    org:
+      springframework: INFO
   pattern:
     console: '%black(%d{ISO8601}) %highlight(%-5level) [%blue(%t)] %yellow(%C{1.}): %msg%n%throwable'
     file: '%d %p %C{1.} [%t] %m%n'
