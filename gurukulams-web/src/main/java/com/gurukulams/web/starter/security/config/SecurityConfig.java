@@ -15,16 +15,16 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.config.BeanIds;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -43,7 +43,7 @@ import java.util.List;
         prePostEnabled = true
 )
 @EnableConfigurationProperties(AppProperties.class)
-public class SecurityConfig extends WebSecurityConfigurerAdapter {
+public class SecurityConfig {
 
     /**
      * PasswordEncoder.
@@ -146,31 +146,36 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         return customUserDetailsService;
     }
 
-    /**
-     * method configure is override here.
-     *
-     * @param authenticationManagerBuilder authentication manager builder
-     * @throws Exception exception
-     */
-    @Override
-    public void configure(final
-                          AuthenticationManagerBuilder
-                                  authenticationManagerBuilder)
-            throws Exception {
-        authenticationManagerBuilder
-                .userDetailsService(customUserDetailsService)
-                .passwordEncoder(passwordEncoder);
-    }
 
     /**
-     * Hi.
-     *
-     * @param web web
-     * @throws Exception exception
+     * Configure Authentication Manager.
+     * @param http
+     * @param bCryptPasswordEncoder
+     * @param userDetailService
+     * @return AuthenticationManager
+     * @throws Exception
      */
-    @Override
-    public void configure(final WebSecurity web) {
-        web.ignoring().antMatchers("/api/metrics/**",
+    @Bean
+    public AuthenticationManager authenticationManager(
+           final HttpSecurity http,
+           final BCryptPasswordEncoder bCryptPasswordEncoder,
+           final UserDetailsService userDetailService)
+            throws Exception {
+        return http.getSharedObject(AuthenticationManagerBuilder.class)
+                .userDetailsService(customUserDetailsService)
+                .passwordEncoder(bCryptPasswordEncoder)
+                .and()
+                .build();
+    }
+
+
+    /**
+     * WebSecurityCustomizer.
+     * @return WebSecurityCustomizer
+     */
+    @Bean
+    public WebSecurityCustomizer webSecurityCustomizer() {
+        return (web) -> web.ignoring().antMatchers("/api/metrics/**",
                 "/h2-console", "/h2-console/**",
                 "/swagger-ui.html", "/swagger-ui/**",
                 "/v3/api-docs/**", "/resources/**",
@@ -195,25 +200,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     /**
-     * method authenticationManagerBean is overrided.
-     *
-     * @return AuthenticationManager
-     * @throws Exception
-     */
-    @Bean(BeanIds.AUTHENTICATION_MANAGER)
-    @Override
-    public AuthenticationManager authenticationManagerBean() throws Exception {
-        return super.authenticationManagerBean();
-    }
-
-    /**
      * method configure is overrided here.
      *
      * @param http http
+     * @return SecurityFilterChain
      * @throws Exception exception
      */
-    @Override
-    protected void configure(final HttpSecurity http) throws Exception {
+    @Bean
+    public SecurityFilterChain filterChain(
+            final HttpSecurity http) throws Exception {
         http
                 .cors()
                 .and()
@@ -266,6 +261,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         // Add our custom Token based authentication filter
         http.addFilterBefore(tokenAuthenticationFilter,
                 UsernamePasswordAuthenticationFilter.class);
+        return http.build();
     }
 
     /**
