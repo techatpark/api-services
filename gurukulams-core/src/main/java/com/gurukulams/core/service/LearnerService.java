@@ -163,7 +163,7 @@ public class LearnerService {
 
         try {
             final Learner p = jdbcTemplate.queryForObject(query,
-                    new Object[]{id}, this::rowMapper);
+                     this::rowMapper, id);
             return Optional.of(p);
         } catch (final EmptyResultDataAccessException e) {
             return Optional.empty();
@@ -183,7 +183,7 @@ public class LearnerService {
 
         try {
             final Learner p = jdbcTemplate.queryForObject(query,
-                    new Object[]{email}, this::rowMapper);
+                    this::rowMapper, email);
             return Optional.of(p);
         } catch (final EmptyResultDataAccessException e) {
             return Optional.empty();

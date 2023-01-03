@@ -151,7 +151,7 @@ public class BoardMaker {
                                 && name.contains(nameOfBoard + "-"))));
 
         boardLocalizedFiles.forEach(boardLocalizedFile -> {
-            Locale locale = new Locale(boardLocalizedFile.getName()
+            Locale locale =  Locale.of(boardLocalizedFile.getName()
                     .replaceFirst(nameOfBoard + "-", "")
                     .replaceFirst(".json", ""));
             final Board boardLocalized =
@@ -199,7 +199,7 @@ public class BoardMaker {
                                 && name.contains(nameOfGrade + "-"))));
 
         gradeLocalizedFiles.forEach(gradeLocalizedFile -> {
-            Locale locale = new Locale(gradeLocalizedFile.getName()
+            Locale locale =  Locale.of(gradeLocalizedFile.getName()
                     .replaceFirst(nameOfGrade + "-", "")
                     .replaceFirst(".json", ""));
             final Grade gradeLocalized =
@@ -246,7 +246,7 @@ public class BoardMaker {
                                 && name.contains(nameOfSubject + "-"))));
 
         subjectLocalizedFiles.forEach(subjectLocalizedFile -> {
-            Locale locale = new Locale(subjectLocalizedFile.getName()
+            Locale locale =  Locale.of(subjectLocalizedFile.getName()
                     .replaceFirst(nameOfSubject + "-", "")
                     .replaceFirst(".json", ""));
             final Subject subjectLocalized =
@@ -290,7 +290,7 @@ public class BoardMaker {
                                 && name.contains(nameOfBook + "-"))));
 
         bookLocalizedFiles.forEach(bookLocalizedFile -> {
-            Locale locale = new Locale(bookLocalizedFile.getName()
+            Locale locale =  Locale.of(bookLocalizedFile.getName()
                     .replaceFirst(nameOfBook + "-", "")
                     .replaceFirst(".json", ""));
             final Book bookLocalized = getObject(bookLocalizedFile, Book.class);
@@ -396,7 +396,7 @@ public class BoardMaker {
                                 && name.contains(nameOfQuestion + "-"))));
 
         questionLocalizedFiles.forEach(questionLocalizedFile -> {
-            Locale locale = new Locale(questionLocalizedFile.getName()
+            Locale locale =  Locale.of(questionLocalizedFile.getName()
                     .replaceFirst(nameOfQuestion + "-", "")
                     .replaceFirst(".json", ""));
             final Question questionLocalized =

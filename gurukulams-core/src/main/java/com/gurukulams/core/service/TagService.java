@@ -158,15 +158,13 @@ public final class TagService {
 
         try {
             final Tag p = locale == null ? jdbcTemplate
-                    .queryForObject(query, new Object[]{id},
-                            this::rowMapper)
+                    .queryForObject(query, this::rowMapper, id)
                     : jdbcTemplate
-                    .queryForObject(query, new Object[]{
+                    .queryForObject(query, this::rowMapper,
                                     locale.getLanguage(),
                                     id,
                                     locale.getLanguage(),
-                                    locale.getLanguage()},
-                            this::rowMapper);
+                                    locale.getLanguage());
             return Optional.of(p);
         } catch (final EmptyResultDataAccessException e) {
             return Optional.empty();
@@ -259,11 +257,10 @@ public final class TagService {
         return locale == null
                 ? jdbcTemplate.query(query, this::rowMapper)
                 : jdbcTemplate
-                .query(query, new Object[]{
+                .query(query, this::rowMapper,
                                 locale.getLanguage(),
                                 locale.getLanguage(),
-                                locale.getLanguage()},
-                        this::rowMapper);
+                                locale.getLanguage());
     }
 
     /**

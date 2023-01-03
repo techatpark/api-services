@@ -331,8 +331,7 @@ public class PracticeService {
 
         try {
             final T p = (T) jdbcTemplate
-                    .queryForObject(query, new Object[]{bookPath},
-                            this::rowMapper);
+                    .queryForObject(query, this::rowMapper, bookPath);
             return Optional.of(p);
         } catch (final EmptyResultDataAccessException e) {
             return Optional.empty();
@@ -390,11 +389,10 @@ public class PracticeService {
 
         try {
             final T p = locale == null ? (T) jdbcTemplate
-                    .queryForObject(query, new Object[]{newPracticeId},
-                            this::rowMapper) : (T) jdbcTemplate
-                    .queryForObject(query, new Object[]{newPracticeId,
-                                    locale.getLanguage()},
-                            this::rowMapper);
+                    .queryForObject(query, this::rowMapper, newPracticeId)
+                    : (T) jdbcTemplate
+                    .queryForObject(query, this::rowMapper, newPracticeId,
+                                    locale.getLanguage());
             return Optional.of(p);
         } catch (final EmptyResultDataAccessException e) {
             return Optional.empty();

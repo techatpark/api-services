@@ -166,16 +166,14 @@ public class SubjectService {
 
         try {
             final Subject p = locale == null ? jdbcTemplate
-                    .queryForObject(query, new Object[]{id},
-                            this::rowMapper)
+                    .queryForObject(query, this::rowMapper, id)
                     : jdbcTemplate
-                    .queryForObject(query, new Object[]{
+                    .queryForObject(query, this::rowMapper,
                                     locale.getLanguage(),
                                     locale.getLanguage(),
                                     id,
                                     locale.getLanguage(),
-                                    locale.getLanguage()},
-                            this::rowMapper);
+                                    locale.getLanguage());
             return Optional.of(p);
         } catch (final EmptyResultDataAccessException e) {
             return Optional.empty();
@@ -271,12 +269,11 @@ public class SubjectService {
         return locale == null
                 ? jdbcTemplate.query(query, this::rowMapper)
                 : jdbcTemplate
-                .query(query, new Object[]{
+                .query(query, this::rowMapper,
                                 locale.getLanguage(),
                                 locale.getLanguage(),
                                 locale.getLanguage(),
-                                locale.getLanguage()},
-                        this::rowMapper);
+                                locale.getLanguage());
 
     }
 
@@ -321,12 +318,11 @@ public class SubjectService {
         return locale == null
                 ? jdbcTemplate.query(query, this::rowMapper, gradeId, boardId)
                 : jdbcTemplate
-                .query(query, new Object[]{
+                .query(query, this::rowMapper,
                                 locale.getLanguage(),
                                 locale.getLanguage(),
                                 gradeId,
-                                boardId},
-                        this::rowMapper);
+                                boardId);
     }
 
 

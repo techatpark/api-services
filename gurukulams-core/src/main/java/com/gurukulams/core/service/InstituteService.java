@@ -127,8 +127,7 @@ public final class InstituteService {
 
         try {
             final Institute p = jdbcTemplate
-                    .queryForObject(query, new Object[]{id},
-                            this::rowMapper);
+                    .queryForObject(query, this::rowMapper, id);
             return Optional.of(p);
         } catch (final EmptyResultDataAccessException e) {
             return Optional.empty();

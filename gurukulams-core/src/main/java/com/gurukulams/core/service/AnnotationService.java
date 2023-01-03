@@ -141,7 +141,7 @@ public class AnnotationService {
                 params = new Object[]{id, locale.getLanguage()};
             }
             return Optional.of(jdbcTemplate
-                    .queryForObject(query, params, this::rowMapper));
+                    .queryForObject(query, this::rowMapper, params));
 
         } catch (final EmptyResultDataAccessException e) {
             return Optional.empty();

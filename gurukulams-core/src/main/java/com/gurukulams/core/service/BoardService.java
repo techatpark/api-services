@@ -165,16 +165,14 @@ public class BoardService {
 
         try {
             final Board p = locale == null ? jdbcTemplate
-                    .queryForObject(query, new Object[]{id},
-                            this::rowMapper)
+                    .queryForObject(query, this::rowMapper, id)
                     : jdbcTemplate
-                    .queryForObject(query, new Object[]{
+                    .queryForObject(query, this::rowMapper,
                                     locale.getLanguage(),
                                     locale.getLanguage(),
                                     id,
                                     locale.getLanguage(),
-                                    locale.getLanguage()},
-                            this::rowMapper);
+                                    locale.getLanguage());
             return Optional.of(p);
         } catch (final EmptyResultDataAccessException e) {
             return Optional.empty();
@@ -270,12 +268,12 @@ public class BoardService {
         return locale == null
                 ? jdbcTemplate.query(query, this::rowMapper)
                 : jdbcTemplate
-                .query(query, new Object[]{
+                .query(query, this::rowMapper,
                                 locale.getLanguage(),
                                 locale.getLanguage(),
                                 locale.getLanguage(),
-                                locale.getLanguage()},
-                        this::rowMapper);
+                                locale.getLanguage()
+                        );
 
     }
 

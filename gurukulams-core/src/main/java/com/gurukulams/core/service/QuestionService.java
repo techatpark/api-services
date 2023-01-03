@@ -330,12 +330,11 @@ public class QuestionService {
         try {
 
             Question question = locale == null ? jdbcTemplate
-                    .queryForObject(query, new Object[]{id}, rowMapper)
+                    .queryForObject(query, rowMapper, id)
                     : jdbcTemplate
-                    .queryForObject(query, new Object[]{locale.getLanguage(),
+                    .queryForObject(query, rowMapper, locale.getLanguage(),
                                     locale.getLanguage(),
-                            id, locale.getLanguage(), locale.getLanguage()},
-                            rowMapper);
+                            id, locale.getLanguage(), locale.getLanguage());
 
             if ((question.getType().equals(QuestionType.CHOOSE_THE_BEST)
                     || question.getType().equals(QuestionType.MULTI_CHOICE))) {
