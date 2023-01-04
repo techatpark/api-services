@@ -168,37 +168,16 @@ public class SecurityConfig {
                 .build();
     }
 
-
     /**
      * WebSecurityCustomizer.
      * @return WebSecurityCustomizer
      */
     @Bean
     public WebSecurityCustomizer webSecurityCustomizer() {
-        return (web) -> web.ignoring().antMatchers("/api/metrics/**",
-                "/h2-console", "/h2-console/**",
-                "/swagger-ui.html", "/swagger-ui/**",
-                "/v3/api-docs/**", "/resources/**",
-                "/static/**", "/css/**", "/js/**", "/images/**",
-                "/questions/**", "/ta/questions/**",
-                "/courses/**", "/courses/**/**", "/courses/**/**/**",
-                "/subjects/**",
-                "/books/**",
-                "/books/**/**",
-                "/books/**/**/**",
-                "/books/**/**/**/**",
-                "/books/**/**/**/**",
-                "/ta/books/**",
-                "/ta/books/**/**",
-                "/ta/books/**/**/**",
-                "/ta/books/**/**/**/**",
-                "/ta/books/**/**/**/**",
-                "/chat",
-                "/chat/**",
-                "/chat/**/**",
-                "/chat/**/**/**");
+        return (web) -> web.ignoring()
+                .requestMatchers("/questions/**",
+                        "/practices/**");
     }
-
     /**
      * method configure is overrided here.
      *
@@ -225,20 +204,10 @@ public class SecurityConfig {
                 .authenticationEntryPoint(new RestAuthenticationEntryPoint())
                 .and()
                 .authorizeRequests()
-                .antMatchers("/",
-                        "/error",
-                        "/favicon.ico",
-                        "/**/*.png",
-                        "/**/*.gif",
-                        "/**/*.svg",
-                        "/**/*.jpg",
-                        "/**/*.html",
-                        "/**/*.css",
-                        "/**/*.js")
-                .permitAll()
-                .antMatchers("/api/auth/login",
+
+                .requestMatchers("/api/auth/login",
                         "/api/auth/signup",
-                        "/oauth2/**")
+                        "/oauth2")
                 .permitAll()
                 .anyRequest()
                 .authenticated()

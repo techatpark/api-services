@@ -11,7 +11,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.validation.Valid;
+import jakarta.validation.Valid;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -49,12 +49,12 @@ public class APIControllerTest {
                 .bePackagePrivate()
                 .andShould().haveOnlyFinalFields()
                 .andShould().accessClassesThat()
-                .resideOutsideOfPackage("javax.validation")
+                .resideOutsideOfPackage("jakarta.validation")
                 .andShould().onlyDependOnClassesThat()
                 .resideInAnyPackage(
                         "com.gurukulams.web.api"
-                        , "javax.servlet.http"
-                        , "javax.servlet"
+                        , "jakarta.servlet.http"
+                        , "jakarta.servlet"
                         , "java.io"
                         , "java.net"
                         , "com.gurukulams.web.starter.security.security"
@@ -62,13 +62,13 @@ public class APIControllerTest {
                         , "org.springframework.security.authentication"
                         , "org.springframework.beans.factory.annotation"
                         , "java.util"
-                        , "javax.validation"
+                        , "jakarta.validation"
                         , "..service.."
                         , "..model.."
                         , "..payload.."
                         , "java.lang"
                         , "org.springframework.util"
-                        , "javax.servlet.http."
+                        , "jakarta.servlet.http."
                         , "org.springframework.http"
                         , "com.fasterxml.jackson.core"
                         , "org.springframework.web.bind.annotation"
