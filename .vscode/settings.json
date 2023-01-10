@@ -29,5 +29,6 @@
       "server": "localhost",
       "username": "user"
     }
-  ]
+  ],
+  "java.compile.nullAnalysis.mode": "automatic"
 }
