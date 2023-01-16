@@ -399,6 +399,7 @@ public class BookService {
      * @param questionType the questionType
      * @param question     question
      * @param categories         categories
+     * @param tags
      * @param locale       the locale
      * @param createdBy    createdBy
      * @return successflag boolean
@@ -408,10 +409,12 @@ public class BookService {
                                               final Locale locale,
                                               final String createdBy,
                                               final Question question,
-                                              final List<String> categories) {
+                                              final List<String> categories,
+                                              final List<String> tags) {
 
 
-        return questionService.create(categories, questionType, locale,
+        return questionService.create(categories, tags,
+                questionType, locale,
                 createdBy, question);
     }
 

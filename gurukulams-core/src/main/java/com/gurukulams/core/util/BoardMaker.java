@@ -387,6 +387,7 @@ public class BoardMaker {
                 : QuestionType.MULTI_CHOICE;
 
         Question createdQuestion = questionService.create(tokens,
+                null,
                 questionType,
                 null, userName, question).get();
 

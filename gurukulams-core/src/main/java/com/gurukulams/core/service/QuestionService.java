@@ -127,6 +127,7 @@ public class QuestionService {
      *
      * @param categories      the categories
      * @param type      the type
+     * @param tags
      * @param locale    the locale
      * @param createdBy the createdBy
      * @param question  the question
@@ -135,6 +136,7 @@ public class QuestionService {
     @Transactional
     public Optional<Question> create(
             final List<String> categories,
+            final List<String> tags,
             final QuestionType type,
             final Locale locale,
             final String createdBy,

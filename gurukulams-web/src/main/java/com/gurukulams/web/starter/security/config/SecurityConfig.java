@@ -38,7 +38,8 @@ import com.gurukulams.web.starter.security.security.oauth2.OAuth2AuthenticationS
  */
 @Configuration
 @EnableWebSecurity
-@EnableGlobalMethodSecurity(securedEnabled = true, jsr250Enabled = true, prePostEnabled = true)
+@EnableGlobalMethodSecurity(securedEnabled = true,
+        jsr250Enabled = true, prePostEnabled = true)
 @EnableConfigurationProperties(AppProperties.class)
 public class SecurityConfig {
 
@@ -69,7 +70,8 @@ public class SecurityConfig {
         /**
          * inject the oAuth2AuthenticationSuccessHandler object dependency.
          */
-        private final OAuth2AuthenticationSuccessHandler oAuth2AuthenticationSuccessHandler;
+        private final OAuth2AuthenticationSuccessHandler
+                oAuth2AuthenticationSuccessHandler;
 
         /**
          * By default, Spring OAuth2 uses
@@ -80,12 +82,14 @@ public class SecurityConfig {
          * the session. We'll save the request in a
          * Base64 encoded cookie instead.
          */
-        private final HttpCookieOAuth2AuthorizationRequestRepository cookieAuthorizationRequestRepository;
+        private final HttpCookieOAuth2AuthorizationRequestRepository
+                cookieAuthorizationRequestRepository;
 
         /**
          * inject the oAuth2AuthenticationFailureHandler object dependency.
          */
-        private final OAuth2AuthenticationFailureHandler oAuth2AuthenticationFailureHandler;
+        private final OAuth2AuthenticationFailureHandler
+                oAuth2AuthenticationFailureHandler;
 
         /**
          * Creates Security Config.
@@ -102,15 +106,19 @@ public class SecurityConfig {
                 this.learnerService = alearnerService;
                 TokenProvider tokenProvider = new TokenProvider(appProperties,
                                 aCacheManager);
-                cookieAuthorizationRequestRepository = new HttpCookieOAuth2AuthorizationRequestRepository();
-                oAuth2AuthenticationSuccessHandler = new OAuth2AuthenticationSuccessHandler(tokenProvider,
+                cookieAuthorizationRequestRepository
+                        = new HttpCookieOAuth2AuthorizationRequestRepository();
+                oAuth2AuthenticationSuccessHandler
+                        = new OAuth2AuthenticationSuccessHandler(tokenProvider,
                                 appProperties,
                                 cookieAuthorizationRequestRepository);
-                oAuth2AuthenticationFailureHandler = new OAuth2AuthenticationFailureHandler(
+                oAuth2AuthenticationFailureHandler
+                        = new OAuth2AuthenticationFailureHandler(
                                 cookieAuthorizationRequestRepository);
                 passwordEncoder = new BCryptPasswordEncoder();
                 customUserDetailsService = new CustomUserDetailsService(
-                                passwordEncoder, environment, this.learnerService);
+                                passwordEncoder, environment,
+                        this.learnerService);
                 customOAuth2UserService = new CustomOAuth2UserService(
                                 this.learnerService);
                 tokenAuthenticationFilter = new TokenAuthenticationFilter(
@@ -139,7 +147,6 @@ public class SecurityConfig {
 
         /**
          * Configure Authentication Manager.
-         * 
          * @param http
          * @param bCryptPasswordEncoder
          * @param userDetailService
@@ -161,20 +168,20 @@ public class SecurityConfig {
 
         /**
          * WebSecurityCustomizer.
-         * 
          * @return WebSecurityCustomizer
          */
         @Bean
         public WebSecurityCustomizer webSecurityCustomizer() {
                 return (web) -> web.ignoring()
                                 .requestMatchers("h2-console", "/h2-console/**",
-                                                "/swagger-ui.html", "/swagger-ui/**",
-                                                "/v3/api-docs/**",
-                                                "/questions/**",
-                                                "/error",
-                                                "/swagger-ui.html",
-                                                "/swagger-ui/**",
-                                                "/practices/**");
+                                        "/swagger-ui.html", "/swagger-ui/**",
+                                        "/oauth2/**",
+                                        "/v3/api-docs/**",
+                                        "/questions/**",
+                                        "/error",
+                                        "/swagger-ui.html",
+                                        "/swagger-ui/**",
+                                        "/practices/**");
         }
 
         /**
@@ -188,43 +195,43 @@ public class SecurityConfig {
         public SecurityFilterChain filterChain(
                         final HttpSecurity http) throws Exception {
                 http
-                                .cors()
-                                .and()
-                                .sessionManagement()
-                                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                                .and()
-                                .csrf()
-                                .disable()
-                                .formLogin()
-                                .disable()
-                                .httpBasic()
-                                .disable()
-                                .exceptionHandling()
-                                .authenticationEntryPoint(new RestAuthenticationEntryPoint())
-                                .and()
-                                .authorizeRequests()
+                .cors()
+                .and()
+                .sessionManagement()
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .and()
+                .csrf()
+                .disable()
+                .formLogin()
+                .disable()
+                .httpBasic()
+                .disable()
+                .exceptionHandling()
+                .authenticationEntryPoint(new RestAuthenticationEntryPoint())
+                .and()
+                .authorizeRequests()
 
-                                .requestMatchers("/api/auth/login",
-                                                "/api/auth/signup",
-                                                "/oauth2")
-                                .permitAll()
-                                .anyRequest()
-                                .authenticated()
-                                .and()
-                                .oauth2Login()
-                                .authorizationEndpoint()
-                                .baseUri("/oauth2/authorize")
-                                .authorizationRequestRepository(
-                                                cookieAuthorizationRequestRepository)
-                                .and()
-                                .redirectionEndpoint()
-                                .baseUri("/oauth2/callback/*")
-                                .and()
-                                .userInfoEndpoint()
-                                .userService(customOAuth2UserService)
-                                .and()
-                                .successHandler(oAuth2AuthenticationSuccessHandler)
-                                .failureHandler(oAuth2AuthenticationFailureHandler);
+                .requestMatchers("/api/auth/login",
+                                "/api/auth/signup",
+                                "/oauth2")
+                .permitAll()
+                .anyRequest()
+                .authenticated()
+                .and()
+                .oauth2Login()
+                .authorizationEndpoint()
+                .baseUri("/oauth2/authorize")
+                .authorizationRequestRepository(
+                                cookieAuthorizationRequestRepository)
+                .and()
+                .redirectionEndpoint()
+                .baseUri("/oauth2/callback/*")
+                .and()
+                .userInfoEndpoint()
+                .userService(customOAuth2UserService)
+                .and()
+                .successHandler(oAuth2AuthenticationSuccessHandler)
+                .failureHandler(oAuth2AuthenticationFailureHandler);
 
                 // Add our custom Token based authentication filter
                 http.addFilterBefore(tokenAuthenticationFilter,
@@ -243,9 +250,15 @@ public class SecurityConfig {
                 config.addAllowedOriginPattern("*");
                 config.addAllowedHeader("*");
                 config.setAllowedMethods(
-                                List.of("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
+                                List.of("GET",
+                                        "POST",
+                                        "PUT",
+                                        "PATCH",
+                                        "DELETE",
+                                        "OPTIONS"));
 
-                final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+                final UrlBasedCorsConfigurationSource source
+                        = new UrlBasedCorsConfigurationSource();
                 source.registerCorsConfiguration("/**", config);
 
                 return new CorsFilter(source);

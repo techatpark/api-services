@@ -18,7 +18,8 @@ public class RestAuthenticationEntryPoint implements AuthenticationEntryPoint {
         /**
          * declares the logger.
          */
-        private static final Logger LOGGER = LoggerFactory.getLogger(RestAuthenticationEntryPoint.class);
+        private static final Logger LOGGER
+                = LoggerFactory.getLogger(RestAuthenticationEntryPoint.class);
 
         /**
          * commence request.
@@ -33,9 +34,13 @@ public class RestAuthenticationEntryPoint implements AuthenticationEntryPoint {
                         final HttpServletResponse httpServletResponse,
                         final AuthenticationException e)
                         throws IOException {
-                LOGGER.error("Responding with unauthorized error. Url - {}, Message - {}",
-                                httpServletRequest.getRequestURL(), e.getMessage());
-                httpServletResponse.sendError(HttpServletResponse.SC_UNAUTHORIZED,
+                LOGGER
+                .error("Responding with unauthorized error. "
+                                + "Url - {}, Message - {}",
+                                httpServletRequest.getRequestURL(),
+                        e.getMessage());
+                httpServletResponse.sendError(
+                        HttpServletResponse.SC_UNAUTHORIZED,
                                 e.getLocalizedMessage());
         }
 }
