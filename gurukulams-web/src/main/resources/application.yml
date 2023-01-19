@@ -45,9 +45,9 @@ app:
     # redirectUri mentioned by the client in the /oauth2/authorize request.
     # We're not using cookies because they won't work well in mobile clients.
     authorizedRedirectUris:
-      - http://localhost:3000/oauth2/redirect
-      - myandroidapp://oauth2/redirect
-      - myiosapp://oauth2/redirect
+      - http://localhost:3000/oauth/redirect
+      - myandroidapp://oauth/redirect
+      - myiosapp://oauth/redirect
 
 admins:
   12-biology: jerry
