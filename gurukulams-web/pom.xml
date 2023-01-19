@@ -98,20 +98,7 @@
                     <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
                     <version>2.0.2</version>
                 </dependency>
-                  <!-- JAXB API only -->
-                <dependency>
-                    <groupId>javax.xml.bind</groupId>
-                    <artifactId>javax.xml.bind-api</artifactId>
-                    <version>3.0.0</version>
-                </dependency>
 
-                <!-- JAXB RI, Jakarta XML Binding -->
-                <dependency>
-                    <groupId>com.sun.xml.bind</groupId>
-                    <artifactId>jaxb-impl</artifactId>
-                    <version>3.0.0</version>
-                    <scope>runtime</scope>
-                </dependency>
             </dependencies>
         </profile>
         <profile>
