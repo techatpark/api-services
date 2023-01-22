@@ -239,3 +239,23 @@ CREATE TABLE questions_tags (
     FOREIGN KEY (question_id) REFERENCES questions (id),
     FOREIGN KEY (tag_id) REFERENCES tags (id)
 );
+
+CREATE TABLE events (
+    id UUID PRIMARY KEY,
+    title VARCHAR(55),
+    description TEXT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    created_by VARCHAR(55) NOT NULL,
+    modified_at TIMESTAMP,
+    modified_by VARCHAR(200),
+    CONSTRAINT event_title_constraint UNIQUE (title)
+);
+
+CREATE TABLE events_localized (
+    event_id UUID,
+    locale VARCHAR(8) NOT NULL,
+    title VARCHAR(55),
+    description TEXT,
+    FOREIGN KEY (event_id) REFERENCES events (id),
+    PRIMARY KEY(event_id, locale)
+);
