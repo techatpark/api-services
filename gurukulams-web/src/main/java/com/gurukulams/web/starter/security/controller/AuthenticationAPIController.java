@@ -132,16 +132,18 @@ class AuthenticationAPIController {
      * performs the login function.
      *
      * @param refreshToken the authentication request
+     * @param principal
      * @return authentication response
      */
     @Operation(summary = "Refresh the credentials")
     @PostMapping("/refresh")
     public ResponseEntity<AuthenticationResponse> refresh(
+            final Principal principal,
             final @RequestBody
             RefreshToken
                     refreshToken) {
-
-        return ResponseEntity.ok().body(tokenProvider.refresh(refreshToken));
+        return ResponseEntity.ok().body(tokenProvider
+                .refresh(principal, refreshToken));
     }
 
     /**

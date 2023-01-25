@@ -1,5 +1,6 @@
 package com.gurukulams.web.starter.security.config;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.gurukulams.core.service.LearnerService;
 import com.gurukulams.web.starter.security.security.CustomUserDetailsService;
 import com.gurukulams.web.starter.security.security.RestAuthenticationEntryPoint;
@@ -99,15 +100,17 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
          * @param alearnerService
          * @param appProperties   properties
          * @param environment     environment
+         * @param objectMapper
          * @param aCacheManager   aCacheManager
          */
         public SecurityConfig(final LearnerService alearnerService,
                               final AppProperties appProperties,
                               final Environment environment,
-                              final CacheManager aCacheManager) {
+                              final CacheManager aCacheManager,
+                              final ObjectMapper objectMapper) {
                 this.learnerService = alearnerService;
                 TokenProvider tokenProvider = new TokenProvider(appProperties,
-                        aCacheManager);
+                        aCacheManager, objectMapper);
                 cookieAuthorizationRequestRepository = new
                         HttpCookieOAuth2AuthorizationRequestRepository();
                 oAuth2AuthenticationSuccessHandler = new

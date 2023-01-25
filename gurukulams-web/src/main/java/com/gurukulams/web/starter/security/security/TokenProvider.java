@@ -1,5 +1,9 @@
 package com.gurukulams.web.starter.security.security;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.gurukulams.core.payload.AuthenticationResponse;
+import com.gurukulams.core.payload.RefreshToken;
 import com.gurukulams.web.starter.security.config.AppProperties;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
@@ -15,6 +19,9 @@ import org.springframework.cache.CacheManager;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.HttpServletRequest;
+import java.security.Principal;
+import java.util.Base64;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.UUID;
@@ -33,6 +40,12 @@ public class TokenProvider {
      * Cache Manager.
      */
     private final CacheManager cacheManager;
+
+    /**
+     * Object Mapper.
+     */
+    private final ObjectMapper objectMapper;
+
     /**
      * Cache to hold auth tokens.
      */
@@ -46,10 +59,13 @@ public class TokenProvider {
      * gg.
      *
      * @param appPropertie  the app propertie
+     * @param aobjectMapper
      * @param acacheManager
      */
     public TokenProvider(final AppProperties appPropertie,
-                         final CacheManager acacheManager) {
+                         final CacheManager acacheManager,
+                         final ObjectMapper aobjectMapper) {
+        this.objectMapper = aobjectMapper;
         this.appProperties = appPropertie;
         this.cacheManager = acacheManager;
         this.authCache = cacheManager.getCache("Auth");
@@ -83,9 +99,16 @@ public class TokenProvider {
      * gg.
      *
      * @param token the token
+     * @param request
      * @return token. user name from token
      */
-    public String getUserNameFromToken(final String token) {
+    public String getUserNameFromToken(final HttpServletRequest request,
+                                       final String token) {
+        if (request.getRequestURI().equals("/api/auth/refresh")) {
+
+            return getUserNameFromExpiredToken(token);
+        }
+
         final Claims claims = Jwts.parser()
                 .setSigningKey(appProperties.getAuth().getTokenSecret())
                 .parseClaimsJws(authCache.get(token).get().toString())
@@ -95,12 +118,36 @@ public class TokenProvider {
     }
 
     /**
+     * Gets Username from Expired Token.
+     * @param token
+     * @return userName
+     */
+    public String getUserNameFromExpiredToken(final String token)  {
+        Base64.Decoder decoder = Base64.getUrlDecoder();
+        // Splitting header, payload and signature
+        String[] parts = authCache.get(token)
+                .get().toString().split("\\.");
+        String headers =
+                new String(decoder.decode(parts[0])); // Header
+        String payload =
+                new String(decoder.decode(parts[1])); // Payload
+        String userName;
+        try {
+            userName = this.objectMapper.readTree(payload).get("sub").asText();
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
+        return userName;
+    }
+
+    /**
      * ddd.
-     *
+     * @param request
      * @param token the auth token
      * @return dd. boolean
      */
-    public boolean validateToken(final String token) {
+    public boolean validateToken(final HttpServletRequest request,
+                                 final String token) {
         try {
             Cache.ValueWrapper authToken = authCache.get(token);
             if (authToken == null) {
@@ -115,6 +162,9 @@ public class TokenProvider {
         } catch (final MalformedJwtException ex) {
             LOG.error("Invalid JWT token");
         } catch (final ExpiredJwtException ex) {
+            if (request.getRequestURI().equals("/api/auth/refresh")) {
+                return true;
+            }
             LOG.error("Expired JWT token");
         } catch (final UnsupportedJwtException ex) {
             LOG.error("Unsupported JWT token");
@@ -133,4 +183,27 @@ public class TokenProvider {
         authCache.evict(token);
     }
 
+    /**
+     * Generates Refresh Token.
+     * @param token
+     * @return refreshToken
+     */
+    public String generateRefreshToken(final String token) {
+        String refreshToken = UUID.randomUUID().toString();
+        this.authCache.put(refreshToken, token);
+        return refreshToken;
+    }
+
+    /**
+     * refresh.
+     * @param principal
+     * @param refreshToken
+     * @return authenticationResponse
+     */
+    public AuthenticationResponse refresh(final Principal principal,
+                                          final RefreshToken refreshToken) {
+        AuthenticationResponse authenticationResponse =
+                new AuthenticationResponse("a","a", "s", "a");
+        return authenticationResponse;
+    }
 }
