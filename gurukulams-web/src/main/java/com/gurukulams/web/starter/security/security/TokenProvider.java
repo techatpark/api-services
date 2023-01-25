@@ -16,6 +16,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.cache.Cache;
 import org.springframework.cache.CacheManager;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
@@ -202,8 +204,31 @@ public class TokenProvider {
      */
     public AuthenticationResponse refresh(final Principal principal,
                                           final RefreshToken refreshToken) {
-        AuthenticationResponse authenticationResponse =
-                new AuthenticationResponse("a","a", "s", "a");
-        return authenticationResponse;
+
+        // Cleanup Existing Tokens.
+        Cache.ValueWrapper refreshTokenCache = authCache.get(refreshToken.getToken());
+        if (refreshTokenCache == null) {
+            throw new BadCredentialsException("Refresh Token unavailable");
+        } else {
+            String authToken = refreshTokenCache.get().toString();
+
+            authCache.evict(refreshToken.getToken());
+            authCache.evict(authToken);
+
+            final Authentication authResult =
+                            new UsernamePasswordAuthenticationToken(
+                                    principal.getName(),
+                                    principal.getName());
+
+            authToken = generateToken(authResult);
+
+            AuthenticationResponse authenticationResponse =
+                    new AuthenticationResponse(principal.getName(),
+                            authToken,
+                            this.generateRefreshToken(authToken),
+                            null);
+            return authenticationResponse;
+        }
+
     }
 }
