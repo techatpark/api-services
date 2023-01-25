@@ -2,7 +2,7 @@ version: "3.9"
 
 services:
   gurukulam-postgres:
-    image: postgres:14.0-alpine
+    image: postgres:15.1-alpine
     container_name: gurukulam_postgres
     environment:
       POSTGRES_DB: practice_db

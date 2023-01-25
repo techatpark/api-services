@@ -206,7 +206,8 @@ public class TokenProvider {
                                           final RefreshToken refreshToken) {
 
         // Cleanup Existing Tokens.
-        Cache.ValueWrapper refreshTokenCache = authCache.get(refreshToken.getToken());
+        Cache.ValueWrapper refreshTokenCache = authCache
+                .get(refreshToken.getToken());
         if (refreshTokenCache == null) {
             throw new BadCredentialsException("Refresh Token unavailable");
         } else {

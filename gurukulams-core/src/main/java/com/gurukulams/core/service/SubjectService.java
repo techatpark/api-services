@@ -313,7 +313,7 @@ public class SubjectService {
                 + "LEFT JOIN SUBJECTS_LOCALIZED sl "
                 + "ON s.id = sl.subject_id "
                 + "LEFT JOIN boards_grades_subjects bgs "
-                + "ON s.id = bgs.subject_id where bgs.grade_id = ?"
+                + "ON s.id = bgs.subject_id where bgs.grade_id = ? "
                 + "AND bgs.board_id = ?";
         return locale == null
                 ? jdbcTemplate.query(query, this::rowMapper, gradeId, boardId)
