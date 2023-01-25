@@ -2,6 +2,7 @@ package com.gurukulams.web.starter.security.controller;
 
 import com.gurukulams.core.payload.AuthenticationRequest;
 import com.gurukulams.core.payload.AuthenticationResponse;
+import com.gurukulams.core.payload.RefreshToken;
 import com.gurukulams.core.payload.SignupRequest;
 import com.gurukulams.core.service.LearnerService;
 import com.gurukulams.web.starter.security.security.TokenProvider;
@@ -46,11 +47,11 @@ class AuthenticationAPIController {
     /**
      * instance of userDetailsService.
      */
-    private final LearnerService userDetailsService;
+    private final LearnerService learnerService;
     /**
      * instance of tokenUtil.
      */
-    private final TokenProvider tokenUtil;
+    private final TokenProvider tokenProvider;
 
     /**
      * instance of PasswordEncoder.
@@ -72,8 +73,8 @@ class AuthenticationAPIController {
                                 final PasswordEncoder apasswordEncoder,
                                 final TokenProvider aTokenUtil) {
         this.authenticationManager = anAuthenticationManager;
-        this.userDetailsService = anUserDetailsService;
-        this.tokenUtil = aTokenUtil;
+        this.learnerService = anUserDetailsService;
+        this.tokenProvider = aTokenUtil;
         this.passwordEncoder = apasswordEncoder;
     }
 
@@ -85,7 +86,7 @@ class AuthenticationAPIController {
     @PostMapping("/signup")
     public ResponseEntity<Void> registerUser(
             final @RequestBody SignupRequest signUpRequest) {
-        userDetailsService.signUp(signUpRequest,
+        learnerService.signUp(signUpRequest,
                 s -> passwordEncoder.encode(s));
         return ResponseEntity.ok().build();
     }
@@ -114,17 +115,33 @@ class AuthenticationAPIController {
         }
 
 
-        final String token = tokenUtil.generateToken(authResult);
+        final String token = tokenProvider.generateToken(authResult);
 
         final AuthenticationResponse authenticationResponse =
                 new AuthenticationResponse(authenticationRequest.getUserName(),
                         token,
-                        "Refresh",
-                        userDetailsService.readByEmail("System",
+                        this.tokenProvider.generateRefreshToken(token),
+                        learnerService.readByEmail("System",
                                         authenticationRequest
                                                 .getUserName())
                                 .get().imageUrl());
         return ResponseEntity.ok().body(authenticationResponse);
+    }
+
+    /**
+     * performs the login function.
+     *
+     * @param refreshToken the authentication request
+     * @return authentication response
+     */
+    @Operation(summary = "Refresh the credentials")
+    @PostMapping("/refresh")
+    public ResponseEntity<AuthenticationResponse> refresh(
+            final @RequestBody
+            RefreshToken
+                    refreshToken) {
+
+        return ResponseEntity.ok().body(tokenProvider.refresh(refreshToken));
     }
 
     /**
@@ -141,7 +158,7 @@ class AuthenticationAPIController {
 
         if (StringUtils.hasText(headerAuth) && headerAuth
                 .startsWith("Bearer ")) {
-            tokenUtil.logout(headerAuth.substring(VALUE));
+            tokenProvider.logout(headerAuth.substring(VALUE));
         }
 
         return ResponseEntity.ok().build();
@@ -168,7 +185,7 @@ class AuthenticationAPIController {
                 new AuthenticationResponse(principal.getName(),
                         "",
                         "Refresh",
-                        userDetailsService.readByEmail("System",
+                        learnerService.readByEmail("System",
                                         principal
                                                 .getName())
                                 .get().imageUrl());
