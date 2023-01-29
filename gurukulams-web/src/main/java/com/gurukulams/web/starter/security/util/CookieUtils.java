@@ -1,10 +1,11 @@
 package com.gurukulams.web.starter.security.util;
 
-import org.springframework.util.SerializationUtils;
-
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.apache.commons.lang3.SerializationUtils;
+
+import java.io.Serializable;
 import java.util.Base64;
 import java.util.Optional;
 
@@ -92,7 +93,7 @@ public final class CookieUtils {
      * @param object the object
      * @return nn. string
      */
-    public static String serialize(final Object object) {
+    public static String serialize(final Serializable object) {
         return Base64.getUrlEncoder()
                 .encodeToString(SerializationUtils.serialize(object));
     }

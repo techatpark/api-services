@@ -19,7 +19,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
-import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -37,10 +37,9 @@ import java.util.List;
  * The type Security config.
  */
 @Configuration
-@EnableGlobalMethodSecurity(
+@EnableMethodSecurity(
         securedEnabled = true,
-        jsr250Enabled = true,
-        prePostEnabled = true
+        jsr250Enabled = true
 )
 @EnableConfigurationProperties(AppProperties.class)
 public class SecurityConfig {
@@ -209,7 +208,7 @@ public class SecurityConfig {
                         .authenticationEntryPoint(
                                 new RestAuthenticationEntryPoint())
                         .and()
-                        .authorizeRequests()
+                        .authorizeHttpRequests()
                         .requestMatchers("/api/auth/login",
                                 "/api/auth/signup",
                                 "/oauth2/*")
