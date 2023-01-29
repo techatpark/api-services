@@ -176,21 +176,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 web.ignoring().antMatchers("/api/metrics/**",
                         "/h2-console", "/h2-console/**",
                         "/swagger-ui.html", "/swagger-ui/**",
-                        "/v3/api-docs/**", "/resources/**",
-                        "/static/**", "/css/**", "/js/**", "/images/**",
+                        "/v3/api-docs/**",
                         "/questions/**", "/ta/questions/**",
-                        "/courses/**", "/courses/**/**", "/courses/**/**/**",
-                        "/subjects/**",
-                        "/books/**",
-                        "/books/**/**",
-                        "/books/**/**/**",
-                        "/books/**/**/**/**",
-                        "/books/**/**/**/**",
-                        "/ta/books/**",
-                        "/ta/books/**/**",
-                        "/ta/books/**/**/**",
-                        "/ta/books/**/**/**/**",
-                        "/ta/books/**/**/**/**",
                         "/chat",
                         "/chat/**",
                         "/chat/**/**",
@@ -235,17 +222,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                                 new RestAuthenticationEntryPoint())
                         .and()
                         .authorizeRequests()
-                        .antMatchers("/",
-                                "/error",
-                                "/favicon.ico",
-                                "/**/*.png",
-                                "/**/*.gif",
-                                "/**/*.svg",
-                                "/**/*.jpg",
-                                "/**/*.html",
-                                "/**/*.css",
-                                "/**/*.js")
-                        .permitAll()
                         .antMatchers("/api/auth/login",
                                 "/api/auth/signup",
                                 "/oauth2/**")
