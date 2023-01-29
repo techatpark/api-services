@@ -10,8 +10,9 @@ import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.SignatureAlgorithm;
-import io.jsonwebtoken.SignatureException;
 import io.jsonwebtoken.UnsupportedJwtException;
+import io.jsonwebtoken.io.Decoders;
+import io.jsonwebtoken.security.Keys;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.cache.Cache;
@@ -22,6 +23,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
+import java.security.Key;
 import java.security.Principal;
 import java.util.Base64;
 import java.util.Date;
@@ -81,20 +83,24 @@ public class TokenProvider {
      */
     public String generateToken(final Authentication authentication) {
         String token = UUID.randomUUID().toString();
-
-        final Date now = new Date();
-        final Date expiryDate = new Date(now.getTime()
-                + appProperties.getAuth().getTokenExpirationMsec());
+        long now = System.currentTimeMillis();
 
         this.authCache.put(token, Jwts.builder()
                 .setClaims(new HashMap<>())
                 .setSubject(authentication.getName())
-                .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(expiryDate)
-                .signWith(SignatureAlgorithm.HS512, appProperties.getAuth()
-                        .getTokenSecret()).compact());
+                .setIssuedAt(new Date(now))
+                .setExpiration(new Date(now
+                        + appProperties.getAuth().getTokenExpirationMsec()))
+                .signWith(getSignInKey(), SignatureAlgorithm.HS256).compact());
         return token;
 
+    }
+
+
+    private Key getSignInKey() {
+        byte[] keyBytes = Decoders.BASE64.decode(appProperties.getAuth()
+                .getTokenSecret());
+        return Keys.hmacShaKeyFor(keyBytes);
     }
 
     /**
@@ -111,8 +117,9 @@ public class TokenProvider {
             return getUserNameFromExpiredToken(token);
         }
 
-        final Claims claims = Jwts.parser()
-                .setSigningKey(appProperties.getAuth().getTokenSecret())
+        final Claims claims = Jwts.parserBuilder()
+                .setSigningKey(getSignInKey())
+                .build()
                 .parseClaimsJws(authCache.get(token).get().toString())
                 .getBody();
 
@@ -155,12 +162,10 @@ public class TokenProvider {
             if (authToken == null) {
                 return false;
             }
-            Jwts.parser().setSigningKey(appProperties.getAuth()
-                            .getTokenSecret())
+            Jwts.parserBuilder()
+                    .setSigningKey(getSignInKey()).build()
                     .parseClaimsJws(authToken.get().toString());
             return true;
-        } catch (final SignatureException ex) {
-            LOG.error("Invalid JWT signature");
         } catch (final MalformedJwtException ex) {
             LOG.error("Invalid JWT token");
         } catch (final ExpiredJwtException ex) {
