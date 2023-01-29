@@ -11,7 +11,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.validation.Valid;
+import jakarta.validation.Valid;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;

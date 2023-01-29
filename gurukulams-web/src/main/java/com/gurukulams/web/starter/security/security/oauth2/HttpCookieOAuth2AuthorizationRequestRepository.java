@@ -5,8 +5,8 @@ import com.nimbusds.oauth2.sdk.util.StringUtils;
 import org.springframework.security.oauth2.client.web.AuthorizationRequestRepository;
 import org.springframework.security.oauth2.core.endpoint.OAuth2AuthorizationRequest;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
 
 public class HttpCookieOAuth2AuthorizationRequestRepository
@@ -73,15 +73,6 @@ public class HttpCookieOAuth2AuthorizationRequestRepository
         }
     }
 
-    /**
-     * @param request
-     * @deprecated
-     */
-    @Override
-    public OAuth2AuthorizationRequest
-    removeAuthorizationRequest(final HttpServletRequest request) {
-        return null;
-    }
 
     /**
      * removeAuthorizationRequest.

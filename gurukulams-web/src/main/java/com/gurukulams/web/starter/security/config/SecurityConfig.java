@@ -161,15 +161,15 @@ public class SecurityConfig {
          */
         @Bean
         public WebSecurityCustomizer webSecurityCustomizer() {
-                return (web) -> web.ignoring().antMatchers("/api/metrics/**",
-                        "/h2-console", "/h2-console/**",
-                        "/swagger-ui.html", "/swagger-ui/**",
-                        "/v3/api-docs/**",
-                        "/questions/**", "/ta/questions/**",
+                return (web) -> web.ignoring().requestMatchers("/api/metrics/**",
+                        "/h2-console", "/h2-console/*",
+                        "/swagger-ui.html", "/swagger-ui/*",
+                        "/v3/api-docs/*",
+                        "/questions/**", "/ta/questions/*",
                         "/chat",
-                        "/chat/**",
-                        "/chat/**/**",
-                        "/chat/**/**/**",
+                        "/chat/*",
+                        "/chat/*/*",
+                        "/chat/*/*/*",
                         "/api/auth/login");
         }
 
@@ -209,9 +209,9 @@ public class SecurityConfig {
                                 new RestAuthenticationEntryPoint())
                         .and()
                         .authorizeRequests()
-                        .antMatchers("/api/auth/login",
+                        .requestMatchers("/api/auth/login",
                                 "/api/auth/signup",
-                                "/oauth2/**")
+                                "/oauth2/*")
                         .permitAll()
                         .anyRequest()
                         .authenticated()
