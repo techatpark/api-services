@@ -25,7 +25,11 @@ public final class CustomRestExceptionHandler
         extends ResponseEntityExceptionHandler {
 
     @Override
-    protected ResponseEntity<Object> handleMethodArgumentNotValid(final MethodArgumentNotValidException ex, final HttpHeaders headers, final HttpStatusCode status, final WebRequest request) {
+    protected ResponseEntity<Object> handleMethodArgumentNotValid(
+            final MethodArgumentNotValidException ex,
+            final HttpHeaders headers,
+            final HttpStatusCode status,
+            final WebRequest request) {
         final List<String> errors = new ArrayList<String>();
         for (final FieldError error : ex.getBindingResult().getFieldErrors()) {
             errors.add(
@@ -35,11 +39,6 @@ public final class CustomRestExceptionHandler
         return handleExceptionInternal(ex, apiError, headers,
                 HttpStatus.BAD_REQUEST, request);
     }
-
-
-
-
-
     /**
      * @param exception
      * @param request
