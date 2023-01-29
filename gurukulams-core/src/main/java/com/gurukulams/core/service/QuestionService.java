@@ -426,7 +426,7 @@ public class QuestionService {
 
                 if (!availableIds.isEmpty()) {
                     final String deletequestionChoice =
-                            "DELETE question_choices "
+                            "DELETE FROM question_choices "
                                     + "WHERE question_id = ? AND id NOT IN ("
                                     + availableIds.stream()
                                     .map(aId -> "?")
@@ -517,16 +517,6 @@ public class QuestionService {
         return !(updatedRows == 0);
     }
 
-
-    /**
-     * Cleaning up all questions.
-     *
-     * @return no.of exams deleted
-     */
-    public Integer delete() {
-        final String query = "DELETE FROM questions";
-        return jdbcTemplate.update(query);
-    }
 
     /**
      * List questions of exam.
@@ -755,4 +745,24 @@ public class QuestionService {
         return noOfRowsInserted == 1;
     }
 
+    /**
+     * Deletes Questions.
+     */
+    public void deleteAll() {
+
+        jdbcTemplate.update("DELETE FROM questions_categories");
+        jdbcTemplate.update("DELETE FROM categories");
+
+        jdbcTemplate.update("DELETE FROM questions_tags");
+        jdbcTemplate.update("DELETE FROM tags");
+
+        jdbcTemplate.update("DELETE FROM question_choices_localized");
+        jdbcTemplate.update("DELETE FROM question_choices");
+
+        jdbcTemplate.update("DELETE FROM QUESTIONS_LOCALIZED");
+        jdbcTemplate.update("DELETE FROM QUESTIONS");
+
+
+
+    }
 }

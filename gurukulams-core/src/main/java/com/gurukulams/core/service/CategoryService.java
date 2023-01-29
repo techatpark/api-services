@@ -269,6 +269,7 @@ public final class CategoryService {
      * @return no.of categories deleted
      */
     public Integer deleteAll() {
+        jdbcTemplate.update("DELETE FROM questions_categories");
         jdbcTemplate.update("DELETE FROM categories_localized");
         final String query = "DELETE FROM categories";
         return jdbcTemplate.update(query);

@@ -85,10 +85,18 @@ public class BoardMaker {
      *
      * @param userName
      */
-    public void createAllBoards(final String userName) {
+    public void createAllBoards(final String userName) throws IOException {
 
-        if (seedFolder != null) {
+        if (seedFolder != null && boardService.list(userName, null).isEmpty()) {
+
+
+
             boardService.deleteAll();
+            gradeService.deleteAll();
+            subjectService.deleteAll();
+            bookService.deleteAll();
+
+
 
             List<File> boardFiles = List.of(
                     Objects.requireNonNull(new File(seedFolder, "boards")
@@ -130,6 +138,9 @@ public class BoardMaker {
                 });
 
             }
+
+            createAllQuestions(userName);
+
         }
 
 
@@ -309,7 +320,7 @@ public class BoardMaker {
     public void createAllQuestions(final String userName) throws IOException {
 
         if (seedFolder != null) {
-            questionService.delete();
+            questionService.deleteAll();
             createAllCategories(userName);
             File questionsFolder = new File(seedFolder, "questions");
             Files.find(Path.of(questionsFolder.getPath()),
@@ -330,7 +341,7 @@ public class BoardMaker {
 
     private void createAllCategories(final String userName) throws IOException {
         if (seedFolder != null) {
-            questionService.delete();
+            questionService.deleteAll();
             File questionsFolder = new File(seedFolder, "questions");
             Files.find(Path.of(questionsFolder.getPath()),
                             Integer.MAX_VALUE,

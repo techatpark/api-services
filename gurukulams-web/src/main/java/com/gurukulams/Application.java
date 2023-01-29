@@ -48,6 +48,6 @@ public class Application {
             throws IOException {
         logger.info("Application Started", event.getTimestamp());
         boardMaker.createAllBoards("tom");
-        boardMaker.createAllQuestions("tom");
+
     }
 }

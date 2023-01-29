@@ -50,7 +50,7 @@ public class GradeServiceTest {
     }
 
     private void cleanUp() {
-        gradeService.deleteAllForTestCase();
+        gradeService.deleteAll();
     }
 
     @Test
