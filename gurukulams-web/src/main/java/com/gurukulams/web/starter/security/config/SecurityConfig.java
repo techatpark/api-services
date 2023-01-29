@@ -16,16 +16,16 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.config.BeanIds;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.authentication.AuthenticationProvider;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.builders.WebSecurity;
-import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -37,14 +37,13 @@ import java.util.List;
  * The type Security config.
  */
 @Configuration
-@EnableWebSecurity
 @EnableGlobalMethodSecurity(
         securedEnabled = true,
         jsr250Enabled = true,
         prePostEnabled = true
 )
 @EnableConfigurationProperties(AppProperties.class)
-public class SecurityConfig extends WebSecurityConfigurerAdapter {
+public class SecurityConfig {
 
         /**
          * PasswordEncoder.
@@ -129,51 +128,40 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         tokenProvider, customUserDetailsService);
         }
 
+
         /**
-         * passwordEncoder.
-         *
-         * @return passwordEncoder
+         * Aithe Provide.
+         * @return authenticationProvider
          */
         @Bean
-        PasswordEncoder passwordEncoder() {
-                return passwordEncoder;
+        public AuthenticationProvider authenticationProvider() {
+                DaoAuthenticationProvider authProvider
+                        = new DaoAuthenticationProvider();
+                authProvider.setUserDetailsService(customUserDetailsService);
+                authProvider.setPasswordEncoder(passwordEncoder);
+                return authProvider;
         }
 
         /**
-         * customUserDetailsService.
-         *
-         * @return customUserDetailsService
+         * authenticationManager.
+         * @param config
+         * @return authenticationManager
+         * @throws Exception
          */
         @Bean
-        CustomUserDetailsService customUserDetailsService() {
-                return customUserDetailsService;
-        }
-
-        /**
-         * method configure is override here.
-         *
-         * @param authenticationManagerBuilder authentication manager builder
-         * @throws Exception exception
-         */
-        @Override
-        public void configure(final
-                              AuthenticationManagerBuilder
-                                      authenticationManagerBuilder)
-                throws Exception {
-                authenticationManagerBuilder
-                        .userDetailsService(customUserDetailsService)
-                        .passwordEncoder(passwordEncoder);
+        public AuthenticationManager authenticationManager(final
+                AuthenticationConfiguration config) throws Exception {
+                return config.getAuthenticationManager();
         }
 
         /**
          * Hi.
-         *
-         * @param web web
+         * @return webSecurityCustomizer
          * @throws Exception exception
          */
-        @Override
-        public void configure(final WebSecurity web) {
-                web.ignoring().antMatchers("/api/metrics/**",
+        @Bean
+        public WebSecurityCustomizer webSecurityCustomizer() {
+                return (web) -> web.ignoring().antMatchers("/api/metrics/**",
                         "/h2-console", "/h2-console/**",
                         "/swagger-ui.html", "/swagger-ui/**",
                         "/v3/api-docs/**",
@@ -181,30 +169,29 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         "/chat",
                         "/chat/**",
                         "/chat/**/**",
-                        "/chat/**/**/**");
+                        "/chat/**/**/**",
+                        "/api/auth/login");
         }
 
         /**
-         * method authenticationManagerBean is overrided.
-         *
-         * @return AuthenticationManager
-         * @throws Exception
+         * PasswordEncoder.
+         * @return passwordEncoder
          */
-        @Bean(BeanIds.AUTHENTICATION_MANAGER)
-        @Override
-        public AuthenticationManager
-        authenticationManagerBean() throws Exception {
-                return super.authenticationManagerBean();
+        @Bean
+        public PasswordEncoder passwordEncoder() {
+                return passwordEncoder;
         }
 
         /**
          * method configure is overrided here.
          *
          * @param http http
+         * @return filterChain
          * @throws Exception exception
          */
-        @Override
-        protected void configure(final HttpSecurity http) throws Exception {
+        @Bean
+        public SecurityFilterChain filterChain(
+                final HttpSecurity http) throws Exception {
                 http
                         .cors()
                         .and()
@@ -247,6 +234,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 // Add our custom Token based authentication filter
                 http.addFilterBefore(tokenAuthenticationFilter,
                         UsernamePasswordAuthenticationFilter.class);
+                return http.build();
         }
 
         /**
