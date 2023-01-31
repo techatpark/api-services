@@ -56,6 +56,8 @@ public class SubjectsServiceTest {
     }
 
     private void cleanUp() {
+        boardService.deleteAll();
+        gradeService.deleteAll();
         subjectService.deleteAll();
     }
 

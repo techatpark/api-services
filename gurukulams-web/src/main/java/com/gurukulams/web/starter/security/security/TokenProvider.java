@@ -112,15 +112,22 @@ public class TokenProvider {
      */
     public String getUserNameFromToken(final HttpServletRequest request,
                                        final String token) {
-        if (request.getRequestURI().equals("/api/auth/refresh")) {
 
-            return getUserNameFromExpiredToken(token);
+
+        Cache.ValueWrapper valueWrapper = authCache.get(token);
+
+        if (valueWrapper == null) {
+            throw new BadCredentialsException("Invalid Token");
+        }
+
+        if (request.getRequestURI().equals("/api/auth/refresh")) {
+            return getUserNameFromExpiredToken(valueWrapper.get().toString());
         }
 
         final Claims claims = Jwts.parserBuilder()
                 .setSigningKey(getSignInKey())
                 .build()
-                .parseClaimsJws(authCache.get(token).get().toString())
+                .parseClaimsJws(valueWrapper.get().toString())
                 .getBody();
 
         return claims.getSubject();
@@ -134,8 +141,7 @@ public class TokenProvider {
     public String getUserNameFromExpiredToken(final String token)  {
         Base64.Decoder decoder = Base64.getUrlDecoder();
         // Splitting header, payload and signature
-        String[] parts = authCache.get(token)
-                .get().toString().split("\\.");
+        String[] parts = token.split("\\.");
         String headers =
                 new String(decoder.decode(parts[0])); // Header
         String payload =
@@ -155,7 +161,7 @@ public class TokenProvider {
      * @param token the auth token
      * @return dd. boolean
      */
-    public boolean validateToken(final HttpServletRequest request,
+    private boolean validateToken(final HttpServletRequest request,
                                  final String token) {
         try {
             Cache.ValueWrapper authToken = authCache.get(token);
