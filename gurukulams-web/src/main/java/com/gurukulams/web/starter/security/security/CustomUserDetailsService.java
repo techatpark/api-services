@@ -4,18 +4,32 @@ package com.gurukulams.web.starter.security.security;
 import com.gurukulams.core.model.AuthProvider;
 import com.gurukulams.core.model.Learner;
 import com.gurukulams.core.service.LearnerService;
+import org.springframework.context.annotation.Bean;
 import org.springframework.core.env.Environment;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.AuthenticationProvider;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
 
 /**
  * The type Custom user details service.
  */
+@Service
 public class CustomUserDetailsService implements UserDetailsService {
+
+
+    /**
+     * PasswordEncoder.
+     */
+    private final PasswordEncoder passwordEncoder;
 
     /**
      * Holds all the application users.
@@ -25,13 +39,13 @@ public class CustomUserDetailsService implements UserDetailsService {
     /**
      * Builds the Object.
      *
-     * @param passwordEncoder the password encoder
      * @param environment     the environment
      * @param alearnerService
      */
-    public CustomUserDetailsService(final PasswordEncoder passwordEncoder,
+    public CustomUserDetailsService(
                                     final Environment environment,
                                     final LearnerService alearnerService) {
+        passwordEncoder = new BCryptPasswordEncoder();
         this.learnerService = alearnerService;
 
 
@@ -52,7 +66,40 @@ public class CustomUserDetailsService implements UserDetailsService {
 
     }
 
+    /**
+     * passwordEncoder.
+     * @return passwordEncoder
+     */
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return this.passwordEncoder;
+    }
 
+    /**
+     * authenticationManager.
+     * @param config
+     * @return authenticationManager
+     * @throws Exception
+     */
+    @Bean
+    public AuthenticationManager
+                            authenticationManager(final
+               AuthenticationConfiguration config) throws Exception {
+        return config.getAuthenticationManager();
+    }
+
+    /**
+     * Aithe Provide.
+     * @return authenticationProvider
+     */
+    @Bean
+    public AuthenticationProvider authenticationProvider() {
+        DaoAuthenticationProvider authProvider
+                = new DaoAuthenticationProvider();
+        authProvider.setUserDetailsService(this);
+        authProvider.setPasswordEncoder(passwordEncoder);
+        return authProvider;
+    }
     /**
      * load userdetails with username.
      *

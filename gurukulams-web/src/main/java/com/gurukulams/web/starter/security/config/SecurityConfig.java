@@ -2,7 +2,6 @@ package com.gurukulams.web.starter.security.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.gurukulams.core.service.LearnerService;
-import com.gurukulams.web.starter.security.security.CustomUserDetailsService;
 import com.gurukulams.web.starter.security.security.RestAuthenticationEntryPoint;
 import com.gurukulams.web.starter.security.security.TokenAuthenticationFilter;
 import com.gurukulams.web.starter.security.security.TokenProvider;
@@ -14,18 +13,11 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.cache.CacheManager;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.env.Environment;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.AuthenticationProvider;
-import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
-import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
@@ -45,10 +37,6 @@ import java.util.List;
 @EnableConfigurationProperties(AppProperties.class)
 public class SecurityConfig {
 
-        /**
-         * PasswordEncoder.
-         */
-        private final PasswordEncoder passwordEncoder;
         /**
          * Learner Service.
          */
@@ -102,19 +90,18 @@ public class SecurityConfig {
          *
          * @param alearnerService
          * @param appProperties   properties
-         * @param environment     environment
          * @param objectMapper
          * @param aCacheManager   aCacheManager
+         * @param auserDetailsService
          */
         public SecurityConfig(final LearnerService alearnerService,
                               final AppProperties appProperties,
-                              final Environment environment,
                               final CacheManager aCacheManager,
-                              final ObjectMapper objectMapper) {
+                              final ObjectMapper objectMapper,
+                              final UserDetailsService auserDetailsService) {
                 this.learnerService = alearnerService;
-                passwordEncoder = new BCryptPasswordEncoder();
-                userDetailsService = new CustomUserDetailsService(
-                        passwordEncoder, environment, this.learnerService);
+
+                userDetailsService = auserDetailsService;
                 tokenProvider = new TokenProvider(appProperties,
                         aCacheManager, objectMapper, userDetailsService);
                 cookieAuthorizationRequestRepository = new
@@ -146,30 +133,9 @@ public class SecurityConfig {
         }
 
 
-        /**
-         * Aithe Provide.
-         * @return authenticationProvider
-         */
-        @Bean
-        public AuthenticationProvider authenticationProvider() {
-                DaoAuthenticationProvider authProvider
-                        = new DaoAuthenticationProvider();
-                authProvider.setUserDetailsService(userDetailsService);
-                authProvider.setPasswordEncoder(passwordEncoder);
-                return authProvider;
-        }
 
-        /**
-         * authenticationManager.
-         * @param config
-         * @return authenticationManager
-         * @throws Exception
-         */
-        @Bean
-        public AuthenticationManager authenticationManager(final
-                AuthenticationConfiguration config) throws Exception {
-                return config.getAuthenticationManager();
-        }
+
+
 
         /**
          * Hi.
@@ -191,14 +157,7 @@ public class SecurityConfig {
                         "/api/auth/login");
         }
 
-        /**
-         * PasswordEncoder.
-         * @return passwordEncoder
-         */
-        @Bean
-        public PasswordEncoder passwordEncoder() {
-                return passwordEncoder;
-        }
+
 
         /**
          * method configure is overrided here.
