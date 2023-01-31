@@ -93,6 +93,10 @@ public class SecurityConfig {
                 oAuth2AuthenticationFailureHandler;
 
         /**
+         * TokenProvider.
+         */
+        private final TokenProvider tokenProvider;
+        /**
          * Creates Security Config.
          *
          * @param alearnerService
@@ -107,8 +111,11 @@ public class SecurityConfig {
                               final CacheManager aCacheManager,
                               final ObjectMapper objectMapper) {
                 this.learnerService = alearnerService;
-                TokenProvider tokenProvider = new TokenProvider(appProperties,
-                        aCacheManager, objectMapper);
+                passwordEncoder = new BCryptPasswordEncoder();
+                customUserDetailsService = new CustomUserDetailsService(
+                        passwordEncoder, environment, this.learnerService);
+                tokenProvider = new TokenProvider(appProperties,
+                        aCacheManager, objectMapper, customUserDetailsService);
                 cookieAuthorizationRequestRepository = new
                         HttpCookieOAuth2AuthorizationRequestRepository();
                 oAuth2AuthenticationSuccessHandler = new
@@ -118,13 +125,23 @@ public class SecurityConfig {
                 oAuth2AuthenticationFailureHandler = new
                         OAuth2AuthenticationFailureHandler(
                         cookieAuthorizationRequestRepository);
-                passwordEncoder = new BCryptPasswordEncoder();
-                customUserDetailsService = new CustomUserDetailsService(
-                        passwordEncoder, environment, this.learnerService);
+
+
                 customOAuth2UserService = new CustomOAuth2UserService(
                         this.learnerService);
+
+
                 tokenAuthenticationFilter = new TokenAuthenticationFilter(
                         tokenProvider, customUserDetailsService);
+        }
+
+        /**
+         * Aithe Provide.
+         * @return authenticationProvider
+         */
+        @Bean
+        public TokenProvider tokenProvider() {
+                return tokenProvider;
         }
 
 

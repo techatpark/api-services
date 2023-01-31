@@ -65,22 +65,10 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
         try {
             final String jwt = getJwtFromRequest(request);
 
-            if (StringUtils.hasText(jwt)
-                    && tokenProvider.validateToken(request, jwt)) {
-                final String userName =
-                        tokenProvider.getUserNameFromToken(request, jwt);
-
-                final UserDetails userDetails =
-                        customUserDetailsService.loadUserByUsername(userName);
-                final UsernamePasswordAuthenticationToken authentication =
-                        new UsernamePasswordAuthenticationToken(
-                                userDetails, null,
-                                userDetails.getAuthorities());
-                authentication.setDetails(new WebAuthenticationDetailsSource()
-                        .buildDetails(request));
-
+            if (StringUtils.hasText(jwt)) {
                 SecurityContextHolder.getContext()
-                        .setAuthentication(authentication);
+                        .setAuthentication(
+                                tokenProvider.getAuthendication(request, jwt));
             }
         } catch (final Exception ex) {
             LOG.error(
