@@ -2,10 +2,8 @@ package com.gurukulams.web.starter.security.security;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 
@@ -35,7 +33,7 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
     /**
      * customUserDetailsService.
      */
-    private final CustomUserDetailsService customUserDetailsService;
+    private final UserDetailsService customUserDetailsService;
 
     /**
      * TokenAuthenticationFilter.
@@ -44,7 +42,7 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
      * @param aCustomUserDetailsService customer user detail service
      */
     public TokenAuthenticationFilter(final TokenProvider aTokenProvider,
-                                     final CustomUserDetailsService
+                                     final UserDetailsService
                                              aCustomUserDetailsService) {
         this.tokenProvider = aTokenProvider;
         this.customUserDetailsService = aCustomUserDetailsService;
@@ -68,7 +66,7 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
             if (StringUtils.hasText(jwt)) {
                 SecurityContextHolder.getContext()
                         .setAuthentication(
-                                tokenProvider.getAuthendication(request, jwt));
+                                tokenProvider.getAuthentication(request, jwt));
             }
         } catch (final Exception ex) {
             LOG.error(

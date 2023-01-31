@@ -61,7 +61,7 @@ public class TokenProvider {
     private AppProperties appProperties;
 
     /**
-     * UserDetailsService
+     * UserDetailsService.
      */
     private UserDetailsService userDetailsService;
 
@@ -84,7 +84,13 @@ public class TokenProvider {
         this.authCache = cacheManager.getCache("Auth");
     }
 
-    public Authentication getAuthendication(final HttpServletRequest request,
+    /**
+     * Gets Authentication.
+     * @param request
+     * @param jwt
+     * @return authentication
+     */
+    public Authentication getAuthentication(final HttpServletRequest request,
                                             final String jwt) {
         final String userName =
                 getUserNameFromToken(request, jwt);

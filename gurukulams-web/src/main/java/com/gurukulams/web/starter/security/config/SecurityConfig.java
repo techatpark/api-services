@@ -23,6 +23,7 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -56,7 +57,7 @@ public class SecurityConfig {
         /**
          * inject the customUserDetailsService object dependency.
          */
-        private final CustomUserDetailsService customUserDetailsService;
+        private final UserDetailsService userDetailsService;
 
         /**
          * inject the customOAuth2UserService object dependency.
@@ -112,10 +113,10 @@ public class SecurityConfig {
                               final ObjectMapper objectMapper) {
                 this.learnerService = alearnerService;
                 passwordEncoder = new BCryptPasswordEncoder();
-                customUserDetailsService = new CustomUserDetailsService(
+                userDetailsService = new CustomUserDetailsService(
                         passwordEncoder, environment, this.learnerService);
                 tokenProvider = new TokenProvider(appProperties,
-                        aCacheManager, objectMapper, customUserDetailsService);
+                        aCacheManager, objectMapper, userDetailsService);
                 cookieAuthorizationRequestRepository = new
                         HttpCookieOAuth2AuthorizationRequestRepository();
                 oAuth2AuthenticationSuccessHandler = new
@@ -132,7 +133,7 @@ public class SecurityConfig {
 
 
                 tokenAuthenticationFilter = new TokenAuthenticationFilter(
-                        tokenProvider, customUserDetailsService);
+                        tokenProvider, userDetailsService);
         }
 
         /**
@@ -153,7 +154,7 @@ public class SecurityConfig {
         public AuthenticationProvider authenticationProvider() {
                 DaoAuthenticationProvider authProvider
                         = new DaoAuthenticationProvider();
-                authProvider.setUserDetailsService(customUserDetailsService);
+                authProvider.setUserDetailsService(userDetailsService);
                 authProvider.setPasswordEncoder(passwordEncoder);
                 return authProvider;
         }
