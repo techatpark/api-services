@@ -161,8 +161,8 @@ public class LearnerProfileService {
      * @return LearnerProfile
      */
     public Boolean delete(final String userName,
-                          final UUID id) {
-        final String query = "DELETE FROM learner_profile WHERE learner_id = ?";
+                          final String id) {
+        final String query = "DELETE FROM learner_profile WHERE id = ?";
         final Integer updatedRows = jdbcTemplate.update(query, id);
         return !(updatedRows == 0);
     }

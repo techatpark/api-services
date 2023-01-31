@@ -51,7 +51,7 @@ public class LearnerProfileServiceTest {
     void delete() {
         final LearnerProfile learner = learnerProfileService.create("Manikanta",
                 anLearner());
-        learnerProfileService.delete("mani", learner.learnerId());
+        learnerProfileService.delete("mani", learner.id());
         Assertions.assertFalse(learnerProfileService.readByUUID("Manikanta", learner.learnerId()).isPresent(), "Deleted Learner");
     }
 
