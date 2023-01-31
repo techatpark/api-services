@@ -160,7 +160,7 @@ CREATE TABLE learner (
 
 CREATE TABLE learner_profile (
     id VARCHAR(55) PRIMARY KEY,
-    learner_id UUID,
+    learner_id UUID NOT NULL UNIQUE,
     first_name VARCHAR(200),
     last_name VARCHAR(200),
     FOREIGN KEY (learner_id) REFERENCES learner (id)
