@@ -20,7 +20,9 @@ import org.springframework.cache.CacheManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.stereotype.Service;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 
 import jakarta.servlet.http.HttpServletRequest;
 import java.security.Key;
@@ -33,7 +35,6 @@ import java.util.UUID;
 /**
  * The type Token provider.
  */
-@Service
 public class TokenProvider {
     /**
      * hh.
@@ -60,19 +61,43 @@ public class TokenProvider {
     private AppProperties appProperties;
 
     /**
+     * UserDetailsService
+     */
+    private UserDetailsService userDetailsService;
+
+    /**
      * gg.
      *
      * @param appPropertie  the app propertie
      * @param aobjectMapper
      * @param acacheManager
+     * @param auserDetailsService
      */
     public TokenProvider(final AppProperties appPropertie,
                          final CacheManager acacheManager,
-                         final ObjectMapper aobjectMapper) {
+                         final ObjectMapper aobjectMapper,
+                         final UserDetailsService auserDetailsService) {
         this.objectMapper = aobjectMapper;
         this.appProperties = appPropertie;
         this.cacheManager = acacheManager;
+        this.userDetailsService = auserDetailsService;
         this.authCache = cacheManager.getCache("Auth");
+    }
+
+    public Authentication getAuthendication(final HttpServletRequest request,
+                                            final String jwt) {
+        final String userName =
+                getUserNameFromToken(request, jwt);
+
+        final UserDetails userDetails =
+                userDetailsService.loadUserByUsername(userName);
+        final UsernamePasswordAuthenticationToken authentication =
+                new UsernamePasswordAuthenticationToken(
+                        userDetails, null,
+                        userDetails.getAuthorities());
+        authentication.setDetails(new WebAuthenticationDetailsSource()
+                .buildDetails(request));
+        return authentication;
     }
 
     /**
