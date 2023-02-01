@@ -25,6 +25,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 
 import jakarta.servlet.http.HttpServletRequest;
+import org.springframework.util.StringUtils;
+
 import java.security.Key;
 import java.security.Principal;
 import java.util.Base64;
@@ -41,6 +43,12 @@ public class TokenProvider {
      */
     private static final Logger LOG =
             LoggerFactory.getLogger(TokenProvider.class);
+
+    /**
+     * value.
+     */
+    private static final int VALUE = 7;
+
     /**
      * Cache Manager.
      */
@@ -104,6 +112,30 @@ public class TokenProvider {
         authentication.setDetails(new WebAuthenticationDetailsSource()
                 .buildDetails(request));
         return authentication;
+    }
+
+
+    /**
+     * generate AuthenticationResponse.
+     *
+     * @param authentication the authentication
+     * @return token string
+     */
+    public AuthenticationResponse getAuthenticationResponse(
+            final Authentication authentication) {
+        final String token = generateToken(authentication);
+
+        UserPrincipal userPrincipal =
+                (UserPrincipal) userDetailsService
+                        .loadUserByUsername(authentication.getName());
+
+        final AuthenticationResponse authenticationResponse =
+                new AuthenticationResponse(authentication.getName(),
+                        token,
+                        appProperties.getAuth().getTokenExpirationMsec(),
+                        generateRefreshToken(token),
+                        userPrincipal.getProfilePicture());
+        return authenticationResponse;
     }
 
     /**
@@ -221,10 +253,16 @@ public class TokenProvider {
     /**
      * Logs Out user.
      *
-     * @param token
+     * @param request
      */
-    public void logout(final String token) {
-        authCache.evict(token);
+    public void logout(final HttpServletRequest request) {
+        String headerAuth = request.getHeader("Authorization");
+
+        if (StringUtils.hasText(headerAuth) && headerAuth
+                .startsWith("Bearer ")) {
+            authCache.evict(headerAuth.substring(VALUE));
+        }
+
     }
 
     /**
@@ -268,6 +306,7 @@ public class TokenProvider {
             AuthenticationResponse authenticationResponse =
                     new AuthenticationResponse(principal.getName(),
                             authToken,
+                            appProperties.getAuth().getTokenExpirationMsec(),
                             this.generateRefreshToken(authToken),
                             null);
             return authenticationResponse;

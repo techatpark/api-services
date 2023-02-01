@@ -17,7 +17,6 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -36,10 +35,7 @@ import java.security.Principal;
         description = "Resource to manage authentication")
 class AuthenticationAPIController {
 
-    /**
-     * value.
-     */
-    private static final int VALUE = 7;
+
     /**
      * instance of authenticationManager.
      */
@@ -114,18 +110,8 @@ class AuthenticationAPIController {
             throw new BadCredentialsException("Invalid Login Credentials");
         }
 
-
-        final String token = tokenProvider.generateToken(authResult);
-
-        final AuthenticationResponse authenticationResponse =
-                new AuthenticationResponse(authenticationRequest.getUserName(),
-                        token,
-                        this.tokenProvider.generateRefreshToken(token),
-                        learnerService.readByEmail("System",
-                                        authenticationRequest
-                                                .getUserName())
-                                .get().imageUrl());
-        return ResponseEntity.ok().body(authenticationResponse);
+        return ResponseEntity.ok().body(
+                tokenProvider.getAuthenticationResponse(authResult));
     }
 
     /**
@@ -156,20 +142,14 @@ class AuthenticationAPIController {
             security = @SecurityRequirement(name = "bearerAuth"))
     @PostMapping("/logout")
     public ResponseEntity<Void> logout(final HttpServletRequest request) {
-        String headerAuth = request.getHeader("Authorization");
-
-        if (StringUtils.hasText(headerAuth) && headerAuth
-                .startsWith("Bearer ")) {
-            tokenProvider.logout(headerAuth.substring(VALUE));
-        }
-
+        tokenProvider.logout(request);
         return ResponseEntity.ok().build();
     }
 
     /**
      * get the user details from the principal.
      *
-     * @param principal the principal
+     * @param authentication the principal
      * @return AuthenticationResponse response entity
      */
     @Operation(summary = "Get logged in user profile",
@@ -182,15 +162,8 @@ class AuthenticationAPIController {
                     description = "practice not found")})
     @GetMapping("/me")
     public ResponseEntity<AuthenticationResponse> me(
-            final Principal principal) {
-        final AuthenticationResponse authenticationResponse =
-                new AuthenticationResponse(principal.getName(),
-                        "",
-                        "Refresh",
-                        learnerService.readByEmail("System",
-                                        principal
-                                                .getName())
-                                .get().imageUrl());
-        return ResponseEntity.ok().body(authenticationResponse);
+            final Authentication authentication) {
+        return ResponseEntity.ok().body(
+                tokenProvider.getAuthenticationResponse(authentication));
     }
 }
