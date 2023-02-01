@@ -158,12 +158,19 @@ CREATE TABLE learner (
     CONSTRAINT learner_email_constraint UNIQUE (email)
 );
 
+CREATE TABLE handle (
+    id VARCHAR(55) PRIMARY KEY,
+    type VARCHAR(55),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
 CREATE TABLE learner_profile (
     id VARCHAR(55) PRIMARY KEY,
     learner_id UUID NOT NULL UNIQUE,
     first_name VARCHAR(200),
     last_name VARCHAR(200),
-    FOREIGN KEY (learner_id) REFERENCES learner (id)
+    FOREIGN KEY (learner_id) REFERENCES learner (id),
+    FOREIGN KEY (id) REFERENCES handle (id)
 );
 
 CREATE TABLE boards_grades(

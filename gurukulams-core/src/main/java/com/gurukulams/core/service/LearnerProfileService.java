@@ -1,5 +1,6 @@
 package com.gurukulams.core.service;
 
+import com.gurukulams.core.model.Handle;
 import com.gurukulams.core.model.LearnerProfile;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Service;
 import javax.sql.DataSource;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -66,6 +68,18 @@ public class LearnerProfileService {
         return learnerProfile;
     }
 
+    private Handle rowMapperHandle(final ResultSet resultSet,
+                                   final int i)
+            throws SQLException {
+
+
+        Handle handle = new Handle(resultSet.getString("id"),
+                resultSet.getString("type"),
+                resultSet.getObject("created_at", LocalDateTime.class)
+        );
+        return handle;
+    }
+
     /**
      * @param userName
      * @param learnerProfile
@@ -73,6 +87,10 @@ public class LearnerProfileService {
      */
     public LearnerProfile create(final String userName,
                           final LearnerProfile learnerProfile) {
+
+        Optional<Handle> handle = createHandle(userName,
+                learnerProfile, "Learner");
+
         final SimpleJdbcInsert insert = new SimpleJdbcInsert(dataSource)
                 .withTableName("learner_profile")
                 .usingColumns("id", "learner_id",
@@ -91,6 +109,38 @@ public class LearnerProfileService {
         logger.info("Created learner {}", learnerProfile.id());
         return createdLearner.get();
     }
+
+    private Optional<Handle> createHandle(final String userName,
+                                          final LearnerProfile learnerProfile,
+                                          final String type) {
+        final SimpleJdbcInsert insert = new SimpleJdbcInsert(dataSource)
+                .withTableName("handle")
+                .usingColumns("id", "type");
+        final Map<String, Object> valueMap = new HashMap<>();
+        valueMap.put("id", learnerProfile.id());
+        valueMap.put("type", type);
+
+        insert.execute(valueMap);
+
+        final Optional<Handle> createdHandle = readHandle(userName,
+                learnerProfile.id());
+        return createdHandle;
+    }
+
+    private Optional<Handle> readHandle(final String userName,
+                                        final String id) {
+        final String query = "SELECT id,type,created_at"
+                + " FROM handle WHERE id = ?";
+
+        try {
+            final Handle p = jdbcTemplate.queryForObject(query,
+                    this::rowMapperHandle, id);
+            return Optional.of(p);
+        } catch (final EmptyResultDataAccessException e) {
+            return Optional.empty();
+        }
+    }
+
 
     /**
      * @param userName
@@ -182,4 +232,11 @@ public class LearnerProfileService {
         return jdbcTemplate.update(query);
     }
 
+    /**
+     * @return handle
+     */
+    public Integer deleteAllHandle() {
+        final String query = "DELETE FROM handle";
+        return jdbcTemplate.update(query);
+    }
 }

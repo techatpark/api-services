@@ -37,6 +37,7 @@ public class LearnerProfileServiceTest {
     private void cleanup() {
         learnerProfileService.deleteAll();
         learnerService.deleteAll();
+        learnerProfileService.deleteAllHandle();
     }
 
     @Test

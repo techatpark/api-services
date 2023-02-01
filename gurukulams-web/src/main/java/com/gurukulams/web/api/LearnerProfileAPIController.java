@@ -70,7 +70,8 @@ public class LearnerProfileAPIController {
     public ResponseEntity<LearnerProfile> create(final Principal principal,
                                                  final @RequestBody
                                                  LearnerProfile
-                                                         learnerProfile) {
+                                                         learnerProfile
+                                                 ) {
         LearnerProfile created = learnerProfileService
                 .create(principal.getName(), learnerProfile);
         return ResponseEntity.created(URI.create("/api/profile" + created.id()))
