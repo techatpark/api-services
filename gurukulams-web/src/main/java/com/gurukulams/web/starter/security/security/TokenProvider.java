@@ -202,6 +202,9 @@ public class TokenProvider {
      * @return userName
      */
     public String getUserNameFromExpiredToken(final String token)  {
+        if (!isExpired(token)) {
+            throw new BadCredentialsException("Token is not expired");
+        }
         Base64.Decoder decoder = Base64.getUrlDecoder();
         // Splitting header, payload and signature
         String[] parts = token.split("\\.");
@@ -220,32 +223,19 @@ public class TokenProvider {
 
     /**
      * ddd.
-     * @param request
      * @param token the auth token
      * @return dd. boolean
      */
-    private boolean validateToken(final HttpServletRequest request,
-                                 final String token) {
+    private boolean isExpired(final String token) {
         try {
-            Cache.ValueWrapper authToken = authCache.get(token);
-            if (authToken == null) {
-                return false;
-            }
             Jwts.parserBuilder()
                     .setSigningKey(getSignInKey()).build()
-                    .parseClaimsJws(authToken.get().toString());
-            return true;
-        } catch (final MalformedJwtException ex) {
-            LOG.error("Invalid JWT token");
+                    .parseClaimsJws(token);
+        } catch (final MalformedJwtException | UnsupportedJwtException
+                       | IllegalArgumentException ex) {
+            throw new BadCredentialsException("Invalid Token", ex);
         } catch (final ExpiredJwtException ex) {
-            if (request.getRequestURI().equals("/api/auth/refresh")) {
-                return true;
-            }
-            LOG.error("Expired JWT token");
-        } catch (final UnsupportedJwtException ex) {
-            LOG.error("Unsupported JWT token");
-        } catch (final IllegalArgumentException ex) {
-            LOG.error("JWT claims string is empty.");
+            return true;
         }
         return false;
     }

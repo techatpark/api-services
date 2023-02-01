@@ -4,9 +4,11 @@ package com.gurukulams.web.starter.security.controller;
 
 import com.gurukulams.core.payload.AuthenticationRequest;
 import com.gurukulams.core.payload.AuthenticationResponse;
+import com.gurukulams.core.payload.RefreshToken;
 import com.gurukulams.core.payload.SignupRequest;
 import com.gurukulams.core.service.BoardService;
 import com.gurukulams.core.service.LearnerService;
+import com.gurukulams.web.starter.security.config.AppProperties;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -17,8 +19,13 @@ import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.test.context.DynamicPropertyRegistry;
+import org.springframework.test.context.DynamicPropertySource;
+import org.springframework.test.web.reactive.server.StatusAssertions;
 import org.springframework.test.web.reactive.server.WebTestClient;
 import reactor.core.publisher.Mono;
+
+import java.util.concurrent.TimeUnit;
 
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 class AuthenticationAPIControllerTest {
@@ -36,11 +43,19 @@ class AuthenticationAPIControllerTest {
     @Autowired
     private BoardService boardService;
 
+    @Autowired
+    private AppProperties appProperties;
+
     AuthenticationAPIControllerTest() {
         this.signupRequest = new SignupRequest();
         this.signupRequest.setEmail("email@email.com");
         this.signupRequest.setPassword("password");
         this.signupRequest.setImageUrl("image_url");
+    }
+
+    @DynamicPropertySource
+    static void authProperties(DynamicPropertyRegistry registry) {
+        registry.add("app.auth.tokenExpirationMsec",() -> 1000);
     }
 
     @BeforeEach
@@ -73,6 +88,30 @@ class AuthenticationAPIControllerTest {
                 this.signupRequest.getEmail(),
                 this.signupRequest.getPassword());
 
+        AuthenticationResponse authenticationResponse = login(authenticationRequest);
+
+        getBoards(authenticationResponse).isEqualTo(HttpStatus.NO_CONTENT.value());
+
+        refresh(authenticationResponse).isEqualTo(HttpStatus.UNAUTHORIZED.value());
+
+        // Wait for Token Expiry
+        TimeUnit.MILLISECONDS.sleep(appProperties.getAuth().getTokenExpirationMsec());
+
+        AuthenticationResponse refreshedResponse = refresh(authenticationResponse).isEqualTo(HttpStatus.OK.value())
+                .expectBody(AuthenticationResponse.class)
+                .returnResult().getResponseBody();
+
+        getBoards(authenticationResponse).isEqualTo(HttpStatus.UNAUTHORIZED.value());
+
+        getBoards(refreshedResponse).isEqualTo(HttpStatus.NO_CONTENT.value());
+
+        logout(authenticationRequest, refreshedResponse).isEqualTo(HttpStatus.OK.value());
+
+        getBoards(authenticationResponse).isEqualTo(HttpStatus.UNAUTHORIZED.value());
+
+    }
+
+    private AuthenticationResponse login(final AuthenticationRequest authenticationRequest) {
         AuthenticationResponse authenticationResponse = this.webTestClient
                 .post()
                 .uri("/api/auth/login")
@@ -83,17 +122,23 @@ class AuthenticationAPIControllerTest {
                 .isEqualTo(HttpStatus.OK.value())
                 .expectBody(AuthenticationResponse.class)
                 .returnResult().getResponseBody();
+        return authenticationResponse;
+    }
 
-        this.webTestClient
-                .get()
-                .uri("/api/boards")
-                .header("Authorization", "Bearer " + authenticationResponse.getAuthToken())
+    private StatusAssertions refresh(final AuthenticationResponse expiredAutResp) {
+        RefreshToken refreshToken = new RefreshToken(expiredAutResp.getRefreshToken());
+        return this.webTestClient
+                .post()
+                .uri("/api/auth/refresh")
+                .body(Mono.just(refreshToken), RefreshToken.class)
+                .header("Authorization", "Bearer " + expiredAutResp.getAuthToken())
                 .accept(MediaType.APPLICATION_JSON)
                 .exchange()
-                .expectStatus()
-                .isEqualTo(HttpStatus.NO_CONTENT.value());
+                .expectStatus();
+    }
 
-        this.webTestClient
+    private StatusAssertions logout(final AuthenticationRequest authenticationRequest, final AuthenticationResponse authenticationResponse) {
+        return this.webTestClient
                 .post()
                 .uri("/api/auth/logout")
                 .body(Mono.just(authenticationRequest), AuthenticationRequest.class)
@@ -101,17 +146,17 @@ class AuthenticationAPIControllerTest {
                 .accept(MediaType.APPLICATION_JSON)
                 .exchange()
                 .expectStatus()
-                .isEqualTo(HttpStatus.OK.value());
+                ;
+    }
 
-        this.webTestClient
+    private StatusAssertions getBoards(final AuthenticationResponse authenticationResponse) {
+        return this.webTestClient
                 .get()
                 .uri("/api/boards")
                 .header("Authorization", "Bearer " + authenticationResponse.getAuthToken())
                 .accept(MediaType.APPLICATION_JSON)
                 .exchange()
-                .expectStatus()
-                .isEqualTo(HttpStatus.UNAUTHORIZED.value());
-
+                .expectStatus();
     }
 
 }
