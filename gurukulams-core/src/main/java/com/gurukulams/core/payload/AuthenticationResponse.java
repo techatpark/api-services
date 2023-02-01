@@ -15,6 +15,12 @@ public final class AuthenticationResponse {
      * declares variable authToken.
      */
     private final String authToken;
+
+    /**
+     * declares variable expiresIn.
+     */
+    private final long expiresIn;
+
     /**
      * declares variable refreshToken.
      */
@@ -29,6 +35,7 @@ public final class AuthenticationResponse {
      *
      * @param anUserName      the an user name
      * @param anAuthToken     the an auth token
+     * @param anExpiresIn       the anExpiresIn
      * @param aRefreshToken   the a refresh token
      * @param aProfilePicture the a profile picture
      */
@@ -36,12 +43,22 @@ public final class AuthenticationResponse {
     public AuthenticationResponse(
             @JsonProperty("userName") final String anUserName,
             @JsonProperty("authToken") final String anAuthToken,
+            @JsonProperty("expires_in") final long anExpiresIn,
             @JsonProperty("refresh_token") final String aRefreshToken,
             @JsonProperty("profile_pic") final String aProfilePicture) {
         this.userName = anUserName;
         this.authToken = anAuthToken;
+        this.expiresIn = anExpiresIn;
         this.refreshToken = aRefreshToken;
         this.profilePicture = aProfilePicture;
+    }
+    /**
+     * gets the value for expiresIn.
+     *
+     * @return expiresIn
+     */
+    public long getExpiresIn() {
+        return expiresIn;
     }
 
     /**

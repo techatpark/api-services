@@ -24,6 +24,13 @@ public class UserPrincipal implements OAuth2User, UserDetails {
      * declares variable password.
      */
     private String password;
+
+
+    /**
+     * declares variable profilePicture.
+     */
+    private String profilePicture;
+
     /**
      * declares collection of authority.
      */
@@ -38,14 +45,18 @@ public class UserPrincipal implements OAuth2User, UserDetails {
      *
      * @param theName        the name
      * @param thePassword    the password
+     * @param theProfilePicture
      * @param theAuthorities the authorities
      */
-    public UserPrincipal(final String theName, final String thePassword,
+    public UserPrincipal(final String theName,
+                         final String thePassword,
+                         final String theProfilePicture,
                          final Collection<? extends GrantedAuthority>
                                  theAuthorities) {
 
         this.name = theName;
         this.password = thePassword;
+        this.profilePicture = theProfilePicture;
         this.authorities = theAuthorities;
     }
 
@@ -63,6 +74,7 @@ public class UserPrincipal implements OAuth2User, UserDetails {
 
                 user.email(),
                 user.password(),
+                user.imageUrl(),
                 authorities
         );
     }
@@ -80,7 +92,14 @@ public class UserPrincipal implements OAuth2User, UserDetails {
         userPrincipal.setAttributes(attributes);
         return userPrincipal;
     }
-
+    /**
+     * gets the profilePicture.
+     *
+     * @return profilePicture
+     */
+    public String getProfilePicture() {
+        return profilePicture;
+    }
 
     /**
      * gets the password.
