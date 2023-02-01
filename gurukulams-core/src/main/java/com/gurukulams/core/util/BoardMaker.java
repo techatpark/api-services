@@ -87,7 +87,14 @@ public class BoardMaker {
      */
     public void createAllBoards(final String userName) throws IOException {
 
-        if (seedFolder != null && boardService.list(userName, null).isEmpty()) {
+        File[] boardFiles = new File(seedFolder, "boards")
+                .listFiles((dir, name)
+                        -> name.endsWith(".json")
+                        && !name.contains("-"));
+
+        if (seedFolder != null
+                && boardService.list(userName, null).isEmpty()
+                && boardFiles != null) {
 
 
 
@@ -98,11 +105,8 @@ public class BoardMaker {
 
 
 
-            List<File> boardFiles = List.of(
-                    Objects.requireNonNull(new File(seedFolder, "boards")
-                            .listFiles((dir, name)
-                                    -> name.endsWith(".json")
-                                    && !name.contains("-"))));
+
+
 
             for (File boardFile : boardFiles) {
                 Board createdBoard = createBoard(userName, boardFile);
