@@ -133,17 +133,18 @@ public class LearnerProfileService {
     /**
      * @param id
      * @param userName
-     * @param LearnerProfile
+     * @param learnerProfile
      * @return LearnerProfile
      */
     public LearnerProfile update(final String id,
                           final String userName,
-                          final LearnerProfile LearnerProfile) {
+                          final LearnerProfile learnerProfile) {
         logger.debug("Entering updating from LearnerProfile {}", id);
-        final String query = "UPDATE learner_profile SET first_name=?, last_name=? WHERE id=?";
+        final String query = "UPDATE learner_profile SET first_name=?,"
+                + "last_name=? WHERE id=?";
         final Integer updatedRows = jdbcTemplate.update(query,
-                LearnerProfile.firstName(),
-                LearnerProfile.lastName(), id);
+                learnerProfile.firstName(),
+                learnerProfile.lastName(), id);
         if (updatedRows == 0) {
             logger.error("update not found", id);
             throw new IllegalArgumentException("LearnerProfile not found");
@@ -168,7 +169,8 @@ public class LearnerProfileService {
      * @return LearnerProfile
      */
     public List<LearnerProfile> list(final String userName) {
-        final String query = "SELECT id,learner_id,first_name,last_name FROM learner_profile";
+        final String query = "SELECT id,learner_id,"
+                + "first_name,last_name FROM learner_profile";
         return jdbcTemplate.query(query, this::rowMapper);
     }
 

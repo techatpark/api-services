@@ -24,9 +24,13 @@ import java.net.URI;
 import java.security.Principal;
 import java.util.List;
 
+/**
+ * The type Learner profile api controller.
+ */
 @RestController
 @RequestMapping("/api/profile")
-@Tag(name = "Learner Profiles", description = "Resources to manage Learner Profile")
+@Tag(name = "Learner Profiles",
+        description = "Resources to manage Learner Profile")
 public class LearnerProfileAPIController {
 
     /**
@@ -34,10 +38,23 @@ public class LearnerProfileAPIController {
      */
     private final LearnerProfileService learnerProfileService;
 
-    public LearnerProfileAPIController(LearnerProfileService learnerProfileService) {
-        this.learnerProfileService = learnerProfileService;
+    /**
+     * Instantiates a new Learner profile api controller.
+     *
+     * @param aLearnerProfileService the learner profile service
+     */
+    public LearnerProfileAPIController(final LearnerProfileService
+                                               aLearnerProfileService) {
+        this.learnerProfileService = aLearnerProfileService;
     }
 
+    /**
+     * Create response entity.
+     *
+     * @param principal      the principal
+     * @param learnerProfile the learner profile
+     * @return the response entity
+     */
     @Operation(summary = "creates a new Learner Profile",
             description = "Can be called "
                     + "only by users with 'auth management' rights.",
@@ -51,12 +68,22 @@ public class LearnerProfileAPIController {
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping(produces = "application/json", consumes = "application/json")
     public ResponseEntity<LearnerProfile> create(final Principal principal,
-                                                 final @RequestBody LearnerProfile learnerProfile) {
-        LearnerProfile created = learnerProfileService.create(principal.getName(), learnerProfile);
+                                                 final @RequestBody
+                                                 LearnerProfile
+                                                         learnerProfile) {
+        LearnerProfile created = learnerProfileService
+                .create(principal.getName(), learnerProfile);
         return ResponseEntity.created(URI.create("/api/profile" + created.id()))
                 .body(created);
     }
 
+    /**
+     * Read response entity.
+     *
+     * @param principal the principal
+     * @param id        the id
+     * @return the response entity
+     */
     @Operation(summary = "Get the LearnerProfile with given id",
             security = @SecurityRequirement(name = "bearerAuth"))
     @ApiResponses(value = {@ApiResponse(responseCode = "200",
@@ -72,6 +99,15 @@ public class LearnerProfileAPIController {
                 id));
     }
 
+    /**
+     * Update response entity.
+     *
+     * @param id        the id
+     * @param principal the principal
+     * @param learner   the learner
+     * @return the response entity
+     * @throws JsonProcessingException the json processing exception
+     */
     @Operation(summary = "Updates the LearnerProfile by given id",
             description = "Can be called only by users "
                     + "with 'auth management' rights.",
@@ -88,13 +124,21 @@ public class LearnerProfileAPIController {
             "application/json")
     public ResponseEntity<LearnerProfile> update(final @PathVariable String id,
                                           final Principal principal,
-                                          final @RequestBody LearnerProfile learner)
+                                          final @RequestBody
+                                                     LearnerProfile learner)
             throws JsonProcessingException {
         final LearnerProfile updatedLearner = learnerProfileService.update(id,
                 principal.getName(), learner);
         return ResponseEntity.ok(updatedLearner);
     }
 
+    /**
+     * Delete response entity.
+     *
+     * @param id        the id
+     * @param principal the principal
+     * @return the response entity
+     */
     @Operation(summary = "Deletes the LearnerProfile by given id",
             security = @SecurityRequirement(name = "bearerAuth"))
     @ApiResponses(value = {@ApiResponse(responseCode = "200",
@@ -111,6 +155,12 @@ public class LearnerProfileAPIController {
                 : ResponseEntity.notFound().build();
     }
 
+    /**
+     * List response entity.
+     *
+     * @param principal the principal
+     * @return the response entity
+     */
     @Operation(summary = "lists the LearnerProfile",
             description = " Can be invoked by auth users only",
             security = @SecurityRequirement(name = "bearerAuth"))
@@ -121,7 +171,8 @@ public class LearnerProfileAPIController {
             @ApiResponse(responseCode = "401",
                     description = "invalid credentials")})
     @GetMapping(produces = "application/json")
-    public ResponseEntity<List<LearnerProfile>> list(final Principal principal) {
+    public ResponseEntity<List<LearnerProfile>> list(final
+                                                         Principal principal) {
         final List<LearnerProfile> learnerList = learnerProfileService.list(
                 principal.getName());
         return learnerList.isEmpty() ? ResponseEntity.noContent().build()
