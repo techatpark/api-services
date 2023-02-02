@@ -6,8 +6,8 @@ spring:
     version: 2.0
   ## Database
   datasource:
-    jdbcUrl: jdbc:postgresql://localhost:5432/practice_db
-    username: user
+    jdbcUrl: jdbc:h2:mem:practice_db;INIT=create schema if not exists practice_db\;
+    username: sa
     password: password
   flyway:
     baselineOnMigrate: true
