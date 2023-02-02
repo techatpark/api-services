@@ -1,11 +1,9 @@
 package com.gurukulams.web.starter.security.security;
 
 
-import com.gurukulams.core.model.AuthProvider;
 import com.gurukulams.core.model.Learner;
 import com.gurukulams.core.service.LearnerService;
 import org.springframework.context.annotation.Bean;
-import org.springframework.core.env.Environment;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -16,8 +14,6 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
-import java.util.Arrays;
 
 /**
  * The type Custom user details service.
@@ -39,31 +35,11 @@ public class CustomUserDetailsService implements UserDetailsService {
     /**
      * Builds the Object.
      *
-     * @param environment     the environment
      * @param alearnerService
      */
-    public CustomUserDetailsService(
-                                    final Environment environment,
-                                    final LearnerService alearnerService) {
+    public CustomUserDetailsService(final LearnerService alearnerService) {
         passwordEncoder = new BCryptPasswordEncoder();
         this.learnerService = alearnerService;
-
-
-        if (Arrays.binarySearch(environment.getActiveProfiles(),
-                "prod") < 0 && learnerService.list("System").isEmpty()) {
-
-            learnerService.create("System", new Learner(null, "tom",
-                    passwordEncoder.encode("password"),
-                    "/images/tom.png", AuthProvider.local, null, null,
-                    null, null));
-
-            learnerService.create("System", new Learner(null, "jerry",
-                    passwordEncoder.encode("password"),
-                    "/images/jerry.png", AuthProvider.local, null, null,
-                    null, null));
-        }
-
-
     }
 
     /**

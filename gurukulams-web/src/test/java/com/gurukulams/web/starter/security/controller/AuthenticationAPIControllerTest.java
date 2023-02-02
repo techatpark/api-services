@@ -55,7 +55,7 @@ class AuthenticationAPIControllerTest {
 
     @DynamicPropertySource
     static void authProperties(DynamicPropertyRegistry registry) {
-        registry.add("app.auth.tokenExpirationMsec",() -> 1000);
+        registry.add("app.auth.tokenExpirationMsec",() -> 1500);
     }
 
     @BeforeEach
