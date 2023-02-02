@@ -264,7 +264,9 @@ CREATE TABLE events (
     modified_at TIMESTAMP,
     modified_by VARCHAR(200),
     CONSTRAINT event_title_constraint UNIQUE (title)
+    --add date field
 );
+
 
 CREATE TABLE events_localized (
     event_id UUID,
@@ -273,4 +275,13 @@ CREATE TABLE events_localized (
     description TEXT,
     FOREIGN KEY (event_id) REFERENCES events (id),
     PRIMARY KEY(event_id, locale)
+);
+
+CREATE TABLE event_users (
+    event_id UUID,
+    user_id UUID,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (event_id) REFERENCES events (id),
+    FOREIGN KEY (user_id) REFERENCES learner (id),
+    PRIMARY KEY(event_id, user_id)
 );

@@ -19,6 +19,9 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 
+/**
+ * The type Event service.
+ */
 @Service
 public class EventService {
 
@@ -77,8 +80,8 @@ public class EventService {
      * creates new syllabus.
      *
      * @param userName the userName
-     * @param event    the event
      * @param locale   the locale
+     * @param event    the event
      * @return event optional
      */
     public Event create(final String userName,
@@ -130,9 +133,9 @@ public class EventService {
     /**
      * reads from event.
      *
-     * @param id       the id
-     * @param locale   the locale
      * @param userName the userName
+     * @param locale   the locale
+     * @param id       the id
      * @return event optional
      */
     public Optional<Event> read(final String userName,
@@ -183,8 +186,8 @@ public class EventService {
      *
      * @param id       the id
      * @param userName the userName
-     * @param event    the event
      * @param locale   the locale
+     * @param event    the event
      * @return event optional
      */
     public Event update(final UUID id,
@@ -224,8 +227,8 @@ public class EventService {
     /**
      * delete the event.
      *
-     * @param id       the id
      * @param userName the userName
+     * @param id       the id
      * @return event optional
      */
     public Boolean delete(final String userName, final UUID id) {
@@ -280,8 +283,45 @@ public class EventService {
      * Cleaning up all events.
      */
     public void deleteAll() {
+        jdbcTemplate.update("DELETE FROM EVENT_USERS");
         jdbcTemplate.update("DELETE FROM events_localized");
         jdbcTemplate.update("DELETE FROM events");
     }
 
+    /**
+     * Register for event user.
+     *
+     * @param eventId   the event id
+     * @param userEmail the user email
+     * @return the event user
+     */
+    public boolean register(final UUID eventId,
+                            final String userEmail) {
+
+        UUID userId = getUserId(userEmail);
+
+        final SimpleJdbcInsert insert = new SimpleJdbcInsert(dataSource)
+                .withTableName("event_users")
+                .usingColumns("event_id", "user_id");
+
+        final Map<String, Object> valueMap = new HashMap<>();
+
+        valueMap.put("event_id", eventId);
+        valueMap.put("user_id", userId);
+
+        return insert.execute(valueMap) == 1;
+    }
+
+
+    /**
+     * Gets User Id for email.
+     *
+     * @param email the email
+     * @return bookId user id
+     */
+    public UUID getUserId(final String email) {
+        String query = "SELECT ID FROM LEARNER WHERE EMAIL=?";
+        return jdbcTemplate
+                .queryForObject(query, UUID.class, email);
+    }
 }

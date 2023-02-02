@@ -1,7 +1,10 @@
 package com.gurukulams.service;
 
+import com.gurukulams.core.model.AuthProvider;
 import com.gurukulams.core.model.Event;
+import com.gurukulams.core.model.Learner;
 import com.gurukulams.core.service.EventService;
+import com.gurukulams.core.service.LearnerService;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -18,11 +21,12 @@ public class EventServiceTest {
 
     public static final String STATE_BOARD_IN_ENGLISH = "State Board";
     public static final String STATE_BOARD_DESCRIPTION_IN_ENGLISH = "State Board Description";
-    public static final String STATE_BOARD_TITLE_IN_FRENCH = "Conseil d'État";
-    public static final String STATE_BOARD_DESCRIPTION_IN_FRENCH = "Description du conseil d'État";
 
     @Autowired
     private EventService eventService;
+
+    @Autowired
+    private LearnerService learnerService;
 
     /**
      * Before.
@@ -106,6 +110,17 @@ public class EventServiceTest {
 
     }
 
+    @Test
+    void registerForEvent(){
+        final Learner learner = learnerService.create("mani",
+                anLearner());
+
+        final Event event = eventService.create("mani", null,
+                anEvent());
+
+        Assertions.assertTrue(eventService.register(event.id(), learner.email()));
+    }
+
     /**
      * Gets board.
      *
@@ -127,5 +142,13 @@ public class EventServiceTest {
         return new Event(ref.id(), title,
                 description, ref.created_at(), ref.created_by(),
                 ref.modified_at(), ref.modified_by());
+    }
+
+    Learner anLearner() {
+        Learner learner = new Learner(null, "Manikanta",
+                "An Description",
+                "Image Url", AuthProvider.local, null, null,
+                null, null);
+        return learner;
     }
 }

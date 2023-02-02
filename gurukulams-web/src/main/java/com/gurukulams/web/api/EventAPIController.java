@@ -93,6 +93,26 @@ class EventAPIController {
                 .body(created);
     }
 
+    @Operation(summary = "Creates a new event",
+            description = "Can be called "
+                    + "only by users with 'auth management' rights.",
+            security = @SecurityRequirement(name = "bearerAuth"))
+    @ApiResponses(value = {@ApiResponse(responseCode = "201",
+            description = "event created successfully"),
+            @ApiResponse(responseCode = "400",
+                    description = "event is invalid"),
+            @ApiResponse(responseCode = "401",
+                    description = "invalid credentials")})
+    @ResponseStatus(HttpStatus.CREATED)
+    @PostMapping(value = "/{id}/_register",
+            produces = "application/json", consumes = "application/json")
+    public ResponseEntity<Void> register(
+            @PathVariable final UUID eventId, final Principal principal) {
+        boolean created = eventService.register(eventId, principal.getName());
+        return created ? ResponseEntity.status(HttpStatus.CREATED).build()
+                : ResponseEntity.badRequest().build();
+    }
+
     /**
      * Read a event.
      *
