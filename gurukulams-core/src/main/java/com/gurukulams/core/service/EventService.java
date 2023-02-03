@@ -282,6 +282,48 @@ public class EventService {
     }
 
     /**
+     * Register for event user.
+     *
+     * @param eventId   the event id
+     * @param userEmail the user email
+     * @return the event user
+     */
+    public boolean register(final UUID eventId,
+                            final String userEmail) {
+
+        String query = "SELECT EVENT_DATE FROM EVENTS WHERE ID=?";
+        LocalDateTime event = jdbcTemplate
+                .queryForObject(query, LocalDateTime.class, eventId);
+        if (LocalDateTime.now().isAfter(event)) {
+            throw new IllegalArgumentException("Event Date is expired");
+        }
+        UUID userId = getUserId(userEmail);
+
+        final SimpleJdbcInsert insert = new SimpleJdbcInsert(dataSource)
+                .withTableName("event_users")
+                .usingColumns("event_id", "user_id");
+
+        final Map<String, Object> valueMap = new HashMap<>();
+
+        valueMap.put("event_id", eventId);
+        valueMap.put("user_id", userId);
+
+        return insert.execute(valueMap) == 1;
+    }
+
+    /**
+     * Gets User Id for email.
+     *
+     * @param email the email
+     * @return bookId user id
+     */
+    public UUID getUserId(final String email) {
+        String query = "SELECT ID FROM LEARNER WHERE EMAIL=?";
+        return jdbcTemplate
+                .queryForObject(query, UUID.class, email);
+    }
+
+    /**
      * Cleaning up all events.
      */
     public void deleteAll() {
