@@ -19,9 +19,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 
-/**
- * The type Event service.
- */
+
 @Service
 public class EventService {
 
@@ -81,30 +79,24 @@ public class EventService {
      * creates new syllabus.
      *
      * @param userName the userName
+     * @param event    the syllabus
      * @param locale   the locale
-     * @param event    the event
      * @return event optional
      */
     public Event create(final String userName,
                         final Locale locale,
                         final Event event) {
-
-
-        if (!event.event_date().isAfter(LocalDateTime.now())) {
-            throw new IllegalArgumentException("Event Date is not valid");
-        }
-
         final SimpleJdbcInsert insert = new SimpleJdbcInsert(dataSource)
                 .withTableName("events")
                 .usingColumns("id", "title",
-                        "description", "event_date", "created_by");
+                        "event_date",
+                        "description", "created_by");
 
         final Map<String, Object> valueMap = new HashMap<>();
 
         valueMap.put("title", event.title());
-        valueMap.put("description", event.description());
         valueMap.put("event_date", event.event_date());
-
+        valueMap.put("description", event.description());
         valueMap.put("created_by", userName);
 
         final UUID eventId = UUID.randomUUID();
@@ -121,7 +113,7 @@ public class EventService {
         final Optional<Event> createdEvent =
                 read(userName, locale, eventId);
 
-        logger.info("Syllabus Created {}", eventId);
+        logger.info("Event Created {}", eventId);
 
         return createdEvent.get();
     }
@@ -140,11 +132,11 @@ public class EventService {
     }
 
     /**
-     * reads from event.
+     * reads from syllabus.
      *
-     * @param userName the userName
-     * @param locale   the locale
      * @param id       the id
+     * @param locale   the locale
+     * @param userName the userName
      * @return event optional
      */
     public Optional<Event> read(final String userName,
@@ -195,8 +187,8 @@ public class EventService {
      *
      * @param id       the id
      * @param userName the userName
-     * @param locale   the locale
      * @param event    the event
+     * @param locale   the locale
      * @return event optional
      */
     public Event update(final UUID id,
@@ -204,19 +196,15 @@ public class EventService {
                         final Locale locale,
                         final Event event) {
         logger.debug("Entering update for Event {}", id);
-
-        if (!event.event_date().isAfter(LocalDateTime.now())) {
-            throw new IllegalArgumentException("Event Date is not valid");
-        }
-
         final String query = locale == null
-                ? "UPDATE events SET title=?,"
-                + "description=?,event_date=?,modified_by=? WHERE id=?"
+                ? "UPDATE events SET title=?,event_date=?,"
+                + "description=?,modified_by=? WHERE id=?"
                 : "UPDATE events SET event_date=?,modified_by=? WHERE id=?";
         Integer updatedRows = locale == null
                 ? jdbcTemplate.update(query, event.title(),
-                event.description(), event.event_date(), userName, id)
-                : jdbcTemplate.update(query, userName, id);
+                event.event_date(),
+                event.description(), userName, id)
+                : jdbcTemplate.update(query, event.event_date(), userName, id);
         if (updatedRows == 0) {
             logger.error("Update not found", id);
             throw new IllegalArgumentException("Event not found");
@@ -241,8 +229,8 @@ public class EventService {
     /**
      * delete the event.
      *
-     * @param userName the userName
      * @param id       the id
+     * @param userName the userName
      * @return event optional
      */
     public Boolean delete(final String userName, final UUID id) {
@@ -261,7 +249,7 @@ public class EventService {
     public List<Event> list(final String userName,
                             final Locale locale) {
         final String query = locale == null
-                ? "SELECT id,title,description,event_date, created_by,"
+                ? "SELECT id,title,description,event_date,created_by,"
                 + "created_at, modified_at, modified_by FROM events"
                 : "SELECT DISTINCT b.ID, "
                 + "CASE WHEN bl.LOCALE = ? "
@@ -297,51 +285,8 @@ public class EventService {
      * Cleaning up all events.
      */
     public void deleteAll() {
-        jdbcTemplate.update("DELETE FROM EVENT_USERS");
+        jdbcTemplate.update("DELETE FROM event_users");
         jdbcTemplate.update("DELETE FROM events_localized");
         jdbcTemplate.update("DELETE FROM events");
-    }
-
-    /**
-     * Register for event user.
-     *
-     * @param eventId   the event id
-     * @param userEmail the user email
-     * @return the event user
-     */
-    public boolean register(final UUID eventId,
-                            final String userEmail) {
-
-        String query = "SELECT EVENT_DATE FROM EVENTS WHERE ID=?";
-        LocalDateTime event = jdbcTemplate
-                .queryForObject(query, LocalDateTime.class, eventId);
-        if (LocalDateTime.now().isAfter(event)) {
-            throw new IllegalArgumentException("Event Date is expired");
-        }
-        UUID userId = getUserId(userEmail);
-
-        final SimpleJdbcInsert insert = new SimpleJdbcInsert(dataSource)
-                .withTableName("event_users")
-                .usingColumns("event_id", "user_id");
-
-        final Map<String, Object> valueMap = new HashMap<>();
-
-        valueMap.put("event_id", eventId);
-        valueMap.put("user_id", userId);
-
-        return insert.execute(valueMap) == 1;
-    }
-
-
-    /**
-     * Gets User Id for email.
-     *
-     * @param email the email
-     * @return bookId user id
-     */
-    public UUID getUserId(final String email) {
-        String query = "SELECT ID FROM LEARNER WHERE EMAIL=?";
-        return jdbcTemplate
-                .queryForObject(query, UUID.class, email);
     }
 }
