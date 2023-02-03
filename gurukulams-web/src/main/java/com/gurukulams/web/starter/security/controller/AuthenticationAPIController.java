@@ -117,7 +117,7 @@ class AuthenticationAPIController {
 
     /**
      * performs the login function.
-     *
+     * @param authHeader
      * @param refreshToken the authentication request
      * @param principal
      * @return authentication response
@@ -126,11 +126,13 @@ class AuthenticationAPIController {
     @PostMapping("/refresh")
     public ResponseEntity<AuthenticationResponse> refresh(
             final Principal principal,
+            @RequestHeader(name = "Authorization") final String authHeader,
             final @RequestBody
             RefreshToken
                     refreshToken) {
         return ResponseEntity.ok().body(tokenProvider
-                .refresh(principal.getName(), refreshToken));
+                .refresh(authHeader,
+                        principal.getName(), refreshToken));
     }
 
     /**
@@ -143,7 +145,7 @@ class AuthenticationAPIController {
             security = @SecurityRequirement(name = "bearerAuth"))
     @PostMapping("/logout")
     public ResponseEntity<Void> logout(
-            @RequestHeader(name="Authorization") String authHeader) {
+            @RequestHeader(name = "Authorization") final String authHeader) {
         tokenProvider.logout(authHeader);
         return ResponseEntity.ok().build();
     }

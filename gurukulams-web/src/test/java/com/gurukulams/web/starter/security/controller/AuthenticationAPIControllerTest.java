@@ -92,12 +92,16 @@ class AuthenticationAPIControllerTest {
 
         getBoards(authenticationResponse).isEqualTo(HttpStatus.NO_CONTENT.value());
 
-        refresh(authenticationResponse).isEqualTo(HttpStatus.UNAUTHORIZED.value());
+        refresh(authenticationResponse.getAuthToken(),
+                authenticationResponse.getRefreshToken()).isEqualTo(HttpStatus.UNAUTHORIZED.value());
 
         // Wait for Token Expiry
         TimeUnit.MILLISECONDS.sleep(appProperties.getAuth().getTokenExpirationMsec());
 
-        AuthenticationResponse refreshedResponse = refresh(authenticationResponse).isEqualTo(HttpStatus.OK.value())
+        AuthenticationResponse refreshedResponse = refresh(
+                authenticationResponse.getAuthToken(),
+                authenticationResponse.getRefreshToken())
+                .isEqualTo(HttpStatus.OK.value())
                 .expectBody(AuthenticationResponse.class)
                 .returnResult().getResponseBody();
 
@@ -108,6 +112,25 @@ class AuthenticationAPIControllerTest {
         logout(authenticationRequest, refreshedResponse).isEqualTo(HttpStatus.OK.value());
 
         getBoards(authenticationResponse).isEqualTo(HttpStatus.UNAUTHORIZED.value());
+
+    }
+
+    @Test
+    void testSwapping() throws InterruptedException {
+        AuthenticationRequest authenticationRequest = new AuthenticationRequest(
+                this.signupRequest.getEmail(),
+                this.signupRequest.getPassword());
+
+        AuthenticationResponse originalAuth = login(authenticationRequest);
+
+        // Wait for Token Expiry
+        TimeUnit.MILLISECONDS.sleep(appProperties.getAuth().getTokenExpirationMsec());
+
+
+        AuthenticationResponse anotherAuth = login(authenticationRequest);
+
+        refresh(anotherAuth.getAuthToken(),
+                originalAuth.getRefreshToken()).isEqualTo(HttpStatus.UNAUTHORIZED.value());
 
     }
 
@@ -125,13 +148,13 @@ class AuthenticationAPIControllerTest {
         return authenticationResponse;
     }
 
-    private StatusAssertions refresh(final AuthenticationResponse expiredAutResp) {
-        RefreshToken refreshToken = new RefreshToken(expiredAutResp.getRefreshToken());
+    private StatusAssertions refresh(final String authToken, final String rToken) {
+        RefreshToken refreshToken = new RefreshToken(rToken);
         return this.webTestClient
                 .post()
                 .uri("/api/auth/refresh")
                 .body(Mono.just(refreshToken), RefreshToken.class)
-                .header("Authorization", "Bearer " + expiredAutResp.getAuthToken())
+                .header("Authorization", "Bearer " + authToken)
                 .accept(MediaType.APPLICATION_JSON)
                 .exchange()
                 .expectStatus();

@@ -254,12 +254,16 @@ public class TokenProvider {
      * @param authHeader
      */
     public void logout(final String authHeader) {
+        authCache.evict(getBearer(authHeader));
+    }
 
+
+    private String getBearer(final String authHeader) {
         if (StringUtils.hasText(authHeader) && authHeader
                 .startsWith("Bearer ")) {
-            authCache.evict(authHeader.substring(VALUE));
+            return authHeader.substring(VALUE);
         }
-
+        throw new BadCredentialsException("Invalid Token");
     }
 
     /**
@@ -275,12 +279,14 @@ public class TokenProvider {
 
     /**
      * refresh.
+     * @param authHeader
      * @param userName
      * @param refreshToken
      * @return authenticationResponse
      */
-    public AuthenticationResponse refresh(final String userName,
-                                          final RefreshToken refreshToken) {
+    public AuthenticationResponse refresh(final String authHeader,
+                                final String userName,
+                                final RefreshToken refreshToken) {
 
         // Cleanup Existing Tokens.
         Cache.ValueWrapper refreshTokenCache = authCache
@@ -303,6 +309,9 @@ public class TokenProvider {
                 throw new BadCredentialsException("Token is not Expired Yet");
             }
 
+            if (!authToken.equals(getBearer(authHeader))) {
+                throw new BadCredentialsException("Tokens are not matching");
+            }
 
             authCache.evict(refreshToken.getToken());
             authCache.evict(authToken);
