@@ -13,7 +13,6 @@ import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.UnsupportedJwtException;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
-import jakarta.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.cache.Cache;
@@ -23,7 +22,6 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 
 import org.springframework.util.StringUtils;
 
@@ -93,14 +91,15 @@ public class TokenProvider {
 
     /**
      * Gets Authentication.
-     * @param request
+     * @param requestURI
      * @param jwt
      * @return authentication
      */
-    public Authentication getAuthentication(final HttpServletRequest request,
-                                            final String jwt) {
+    public UsernamePasswordAuthenticationToken getAuthentication(
+                            final String requestURI,
+                            final String jwt) {
         final String userName =
-                getUserNameFromToken(request, jwt);
+                getUserNameFromToken(requestURI, jwt);
 
         final UserDetails userDetails =
                 userDetailsService.loadUserByUsername(userName);
@@ -108,8 +107,7 @@ public class TokenProvider {
                 new UsernamePasswordAuthenticationToken(
                         userDetails, null,
                         userDetails.getAuthorities());
-        authentication.setDetails(new WebAuthenticationDetailsSource()
-                .buildDetails(request));
+
         return authentication;
     }
 
@@ -169,10 +167,10 @@ public class TokenProvider {
      * gg.
      *
      * @param token the token
-     * @param request
+     * @param requestURI
      * @return token. user name from token
      */
-    public String getUserNameFromToken(final HttpServletRequest request,
+    public String getUserNameFromToken(final String requestURI,
                                        final String token) {
 
 
@@ -197,7 +195,7 @@ public class TokenProvider {
                        | IllegalArgumentException ex) {
             throw new BadCredentialsException("Invalid Token", ex);
         } catch (final ExpiredJwtException ex) {
-            if (request.getRequestURI().equals("/api/auth/refresh")) {
+            if (requestURI.equals("/api/auth/refresh")) {
                 return getUserNameFromExpiredToken(jwtToken);
             } else {
                 throw new BadCredentialsException("Expired Token", ex);
