@@ -21,10 +21,10 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import jakarta.servlet.http.HttpServletRequest;
 import java.security.Principal;
 
 /**
@@ -130,20 +130,21 @@ class AuthenticationAPIController {
             RefreshToken
                     refreshToken) {
         return ResponseEntity.ok().body(tokenProvider
-                .refresh(principal, refreshToken));
+                .refresh(principal.getName(), refreshToken));
     }
 
     /**
      * logout an user.
      *
-     * @param request
+     * @param authHeader
      * @return void response entity
      */
     @Operation(summary = "logout current user",
             security = @SecurityRequirement(name = "bearerAuth"))
     @PostMapping("/logout")
-    public ResponseEntity<Void> logout(final HttpServletRequest request) {
-        tokenProvider.logout(request);
+    public ResponseEntity<Void> logout(
+            @RequestHeader(name="Authorization") String authHeader) {
+        tokenProvider.logout(authHeader);
         return ResponseEntity.ok().build();
     }
 

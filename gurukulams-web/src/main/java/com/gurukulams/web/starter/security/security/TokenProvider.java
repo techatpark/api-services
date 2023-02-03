@@ -13,6 +13,7 @@ import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.UnsupportedJwtException;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
+import jakarta.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.cache.Cache;
@@ -24,11 +25,9 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 
-import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.util.StringUtils;
 
 import java.security.Key;
-import java.security.Principal;
 import java.util.Base64;
 import java.util.Date;
 import java.util.HashMap;
@@ -183,17 +182,28 @@ public class TokenProvider {
             throw new BadCredentialsException("Invalid Token");
         }
 
-        if (request.getRequestURI().equals("/api/auth/refresh")) {
-            return getUserNameFromExpiredToken(valueWrapper.get().toString());
+        String jwtToken = valueWrapper.get().toString();
+
+
+
+        try {
+            final Claims claims = Jwts.parserBuilder()
+                    .setSigningKey(getSignInKey())
+                    .build()
+                    .parseClaimsJws(jwtToken)
+                    .getBody();
+            return claims.getSubject();
+        } catch (final MalformedJwtException | UnsupportedJwtException
+                       | IllegalArgumentException ex) {
+            throw new BadCredentialsException("Invalid Token", ex);
+        } catch (final ExpiredJwtException ex) {
+            if (request.getRequestURI().equals("/api/auth/refresh")) {
+                return getUserNameFromExpiredToken(jwtToken);
+            } else {
+                throw new BadCredentialsException("Expired Token", ex);
+            }
         }
 
-        final Claims claims = Jwts.parserBuilder()
-                .setSigningKey(getSignInKey())
-                .build()
-                .parseClaimsJws(valueWrapper.get().toString())
-                .getBody();
-
-        return claims.getSubject();
     }
 
     /**
@@ -202,9 +212,7 @@ public class TokenProvider {
      * @return userName
      */
     public String getUserNameFromExpiredToken(final String token)  {
-        if (!isExpired(token)) {
-            throw new BadCredentialsException("Token is not expired");
-        }
+
         Base64.Decoder decoder = Base64.getUrlDecoder();
         // Splitting header, payload and signature
         String[] parts = token.split("\\.");
@@ -243,14 +251,13 @@ public class TokenProvider {
     /**
      * Logs Out user.
      *
-     * @param request
+     * @param authHeader
      */
-    public void logout(final HttpServletRequest request) {
-        String headerAuth = request.getHeader("Authorization");
+    public void logout(final String authHeader) {
 
-        if (StringUtils.hasText(headerAuth) && headerAuth
+        if (StringUtils.hasText(authHeader) && authHeader
                 .startsWith("Bearer ")) {
-            authCache.evict(headerAuth.substring(VALUE));
+            authCache.evict(authHeader.substring(VALUE));
         }
 
     }
@@ -268,28 +275,42 @@ public class TokenProvider {
 
     /**
      * refresh.
-     * @param principal
+     * @param userName
      * @param refreshToken
      * @return authenticationResponse
      */
-    public AuthenticationResponse refresh(final Principal principal,
+    public AuthenticationResponse refresh(final String userName,
                                           final RefreshToken refreshToken) {
 
         // Cleanup Existing Tokens.
         Cache.ValueWrapper refreshTokenCache = authCache
                 .get(refreshToken.getToken());
+
+
         if (refreshTokenCache == null) {
             throw new BadCredentialsException("Refresh Token unavailable");
         } else {
             String authToken = refreshTokenCache.get().toString();
+
+            Cache.ValueWrapper authTokenCache = authCache
+                    .get(authToken);
+
+            if (authTokenCache == null) {
+                throw new BadCredentialsException("Invalid Token");
+            }
+
+            if (!isExpired(authTokenCache.get().toString())) {
+                throw new BadCredentialsException("Token is not Expired Yet");
+            }
+
 
             authCache.evict(refreshToken.getToken());
             authCache.evict(authToken);
 
             final Authentication authResult =
                             new UsernamePasswordAuthenticationToken(
-                                    principal.getName(),
-                                    principal.getName());
+                                    userName,
+                                    userName);
 
             UserPrincipal userPrincipal =
                     (UserPrincipal) userDetailsService
@@ -298,7 +319,7 @@ public class TokenProvider {
             authToken = generateToken(authResult);
 
             AuthenticationResponse authenticationResponse =
-                    new AuthenticationResponse(principal.getName(),
+                    new AuthenticationResponse(userName,
                             authToken,
                             appProperties.getAuth().getTokenExpirationMsec(),
                             this.generateRefreshToken(authToken),
