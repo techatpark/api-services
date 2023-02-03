@@ -1,6 +1,7 @@
 package com.gurukulams.core.service;
 
 import com.gurukulams.core.model.Event;
+import jakarta.validation.ConstraintViolationException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -88,6 +89,12 @@ public class EventService {
     public Event create(final String userName,
                         final Locale locale,
                         final Event event) {
+
+
+        if (!event.event_date().isAfter(LocalDateTime.now())) {
+            throw new IllegalArgumentException("Event Date is not valid");
+        }
+
         final SimpleJdbcInsert insert = new SimpleJdbcInsert(dataSource)
                 .withTableName("events")
                 .usingColumns("id", "title",
@@ -98,6 +105,7 @@ public class EventService {
         valueMap.put("title", event.title());
         valueMap.put("description", event.description());
         valueMap.put("event_date", event.event_date());
+
         valueMap.put("created_by", userName);
 
         final UUID eventId = UUID.randomUUID();
@@ -197,6 +205,11 @@ public class EventService {
                         final Locale locale,
                         final Event event) {
         logger.debug("Entering update for Event {}", id);
+
+        if (!event.event_date().isAfter(LocalDateTime.now())) {
+            throw new IllegalArgumentException("Event Date is not valid");
+        }
+
         final String query = locale == null
                 ? "UPDATE events SET title=?,"
                 + "description=?,event_date=?,modified_by=? WHERE id=?"
