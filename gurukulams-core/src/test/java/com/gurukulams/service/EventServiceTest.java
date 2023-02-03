@@ -13,6 +13,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
+import java.time.Month;
 import java.util.List;
 import java.util.UUID;
 
@@ -69,12 +71,13 @@ public class EventServiceTest {
 
     @Test
     void update() {
-
+        LocalDateTime date =
+                LocalDateTime.of(2022, Month.MARCH, 10, 0, 0);
         final Event event = eventService.create("mani", null,
                 anEvent());
         final UUID newEventId = event.id();
         Event newEvent = new Event(null, "Event", "A " +
-                "Event", null, "tom", null, null);
+                "Event", date, null, "tom", null, null);
         Event updatedBoard = eventService
                 .update(newEventId, "mani", null, newEvent);
         Assertions.assertEquals("Event", updatedBoard.title(), "Updated");
@@ -98,11 +101,12 @@ public class EventServiceTest {
 
     @Test
     void list() {
-
+        LocalDateTime date =
+                LocalDateTime.of(2022, Month.MARCH, 10, 0, 0);
         final Event event = eventService.create("mani", null,
                 anEvent());
         Event newEvent = new Event(null, "Event New", "A " +
-                "Event", null, "tom", null, null);
+                "Event", date, null, "tom", null, null);
         eventService.create("mani", null,
                 newEvent);
         List<Event> listofEvents = eventService.list("manikanta", null);
@@ -127,8 +131,10 @@ public class EventServiceTest {
      * @return the board
      */
     Event anEvent() {
+                LocalDateTime date =
+                LocalDateTime.of(2022, Month.MARCH, 10, 0, 0);
         Event event = new Event(null, STATE_BOARD_IN_ENGLISH,
-                STATE_BOARD_DESCRIPTION_IN_ENGLISH, null, null,
+                STATE_BOARD_DESCRIPTION_IN_ENGLISH, date, null, null,
                 null, null);
         return event;
     }
@@ -139,8 +145,10 @@ public class EventServiceTest {
      * @return the board
      */
     Event anEvent(final Event ref, final String title, final String description) {
+        LocalDateTime date =
+                LocalDateTime.of(2022, Month.MARCH, 10, 0, 0);
         return new Event(ref.id(), title,
-                description, ref.created_at(), ref.created_by(),
+                description, date, ref.created_at(), ref.created_by(),
                 ref.modified_at(), ref.modified_by());
     }
 

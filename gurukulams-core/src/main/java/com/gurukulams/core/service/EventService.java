@@ -68,6 +68,7 @@ public class EventService {
                 rs.getObject("id"),
                 rs.getString("title"),
                 rs.getString("description"),
+                rs.getObject("event_date", LocalDateTime.class),
                 rs.getObject("created_at", LocalDateTime.class),
                 rs.getString("created_by"),
                 rs.getObject("modified_at", LocalDateTime.class),
@@ -90,12 +91,13 @@ public class EventService {
         final SimpleJdbcInsert insert = new SimpleJdbcInsert(dataSource)
                 .withTableName("events")
                 .usingColumns("id", "title",
-                        "description", "created_by");
+                        "description", "event_date", "created_by");
 
         final Map<String, Object> valueMap = new HashMap<>();
 
         valueMap.put("title", event.title());
         valueMap.put("description", event.description());
+        valueMap.put("event_date", event.event_date());
         valueMap.put("created_by", userName);
 
         final UUID eventId = UUID.randomUUID();
@@ -142,7 +144,7 @@ public class EventService {
                                 final Locale locale, final UUID id) {
 
         final String query = locale == null
-                ? "SELECT id,title,description,created_by,"
+                ? "SELECT id,title,description,event_date,created_by,"
                 + "created_at, modified_at, modified_by FROM events "
                 + "WHERE id = ?"
                 : "SELECT DISTINCT b.ID, "
@@ -154,7 +156,7 @@ public class EventService {
                 + "THEN bl.DESCRIPTION "
                 + "ELSE b.DESCRIPTION "
                 + "END AS DESCRIPTION,"
-                + "created_by,created_at, modified_at, modified_by "
+                + "event_date,created_by,created_at, modified_at, modified_by "
                 + "FROM EVENTS b "
                 + "LEFT JOIN EVENTS_LOCALIZED bl "
                 + "ON b.ID = bl.EVENT_ID "
@@ -197,11 +199,11 @@ public class EventService {
         logger.debug("Entering update for Event {}", id);
         final String query = locale == null
                 ? "UPDATE events SET title=?,"
-                + "description=?,modified_by=? WHERE id=?"
-                : "UPDATE events SET modified_by=? WHERE id=?";
+                + "description=?,event_date=?,modified_by=? WHERE id=?"
+                : "UPDATE events SET event_date=?,modified_by=? WHERE id=?";
         Integer updatedRows = locale == null
                 ? jdbcTemplate.update(query, event.title(),
-                event.description(), userName, id)
+                event.description(), event.event_date(), userName, id)
                 : jdbcTemplate.update(query, userName, id);
         if (updatedRows == 0) {
             logger.error("Update not found", id);
@@ -247,7 +249,7 @@ public class EventService {
     public List<Event> list(final String userName,
                             final Locale locale) {
         final String query = locale == null
-                ? "SELECT id,title,description,created_by,"
+                ? "SELECT id,title,description,event_date, created_by,"
                 + "created_at, modified_at, modified_by FROM events"
                 : "SELECT DISTINCT b.ID, "
                 + "CASE WHEN bl.LOCALE = ? "
@@ -258,7 +260,7 @@ public class EventService {
                 + "THEN bl.DESCRIPTION "
                 + "ELSE b.DESCRIPTION "
                 + "END AS DESCRIPTION,"
-                + "created_by,created_at, modified_at, modified_by "
+                + "event_date,created_by,created_at, modified_at, modified_by "
                 + "FROM EVENTS b "
                 + "LEFT JOIN EVENTS_LOCALIZED bl "
                 + "ON b.ID = bl.EVENT_ID "

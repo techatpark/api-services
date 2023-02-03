@@ -7,6 +7,8 @@ import java.util.UUID;
 
 public record Event(UUID id, String title, String description,
                     @Schema(accessMode = Schema.AccessMode.READ_ONLY)
+                    LocalDateTime event_date,
+                    @Schema(accessMode = Schema.AccessMode.READ_ONLY)
                     LocalDateTime created_at,
                     @Schema(accessMode = Schema.AccessMode.READ_ONLY)
                     String created_by,
