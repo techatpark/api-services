@@ -312,6 +312,12 @@ public class EventService {
     public boolean register(final UUID eventId,
                             final String userEmail) {
 
+        String query = "SELECT EVENT_DATE FROM EVENTS WHERE ID=?";
+        LocalDateTime event = jdbcTemplate
+                .queryForObject(query, LocalDateTime.class, eventId);
+        if (LocalDateTime.now().isAfter(event)) {
+            throw new IllegalArgumentException("Event Date is expired");
+        }
         UUID userId = getUserId(userEmail);
 
         final SimpleJdbcInsert insert = new SimpleJdbcInsert(dataSource)
