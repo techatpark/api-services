@@ -72,7 +72,7 @@ public class EventServiceTest {
     @Test
     void update() {
         LocalDateTime date =
-                LocalDateTime.of(2022, Month.MARCH, 10, 0, 0);
+                LocalDateTime.of(2023, Month.MARCH, 10, 0, 0);
         final Event event = eventService.create("mani", null,
                 anEvent());
         final UUID newEventId = event.id();
@@ -102,7 +102,7 @@ public class EventServiceTest {
     @Test
     void list() {
         LocalDateTime date =
-                LocalDateTime.of(2022, Month.MARCH, 10, 0, 0);
+                LocalDateTime.of(2023, Month.MARCH, 10, 0, 0);
         final Event event = eventService.create("mani", null,
                 anEvent());
         Event newEvent = new Event(null, "Event New", "A " +
@@ -132,7 +132,7 @@ public class EventServiceTest {
      */
     Event anEvent() {
                 LocalDateTime date =
-                LocalDateTime.of(2022, Month.MARCH, 10, 0, 0);
+                LocalDateTime.of(2023, Month.MARCH, 10, 0, 0);
         Event event = new Event(null, STATE_BOARD_IN_ENGLISH,
                 STATE_BOARD_DESCRIPTION_IN_ENGLISH, date, null, null,
                 null, null);
@@ -146,7 +146,7 @@ public class EventServiceTest {
      */
     Event anEvent(final Event ref, final String title, final String description) {
         LocalDateTime date =
-                LocalDateTime.of(2022, Month.MARCH, 10, 0, 0);
+                LocalDateTime.of(2023, Month.MARCH, 10, 0, 0);
         return new Event(ref.id(), title,
                 description, date, ref.created_at(), ref.created_by(),
                 ref.modified_at(), ref.modified_by());

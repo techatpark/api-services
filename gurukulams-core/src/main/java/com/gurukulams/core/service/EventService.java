@@ -88,6 +88,12 @@ public class EventService {
     public Event create(final String userName,
                         final Locale locale,
                         final Event event) {
+
+
+        if (!event.event_date().isAfter(LocalDateTime.now())) {
+            throw new IllegalArgumentException("Event Date is not valid");
+        }
+
         final SimpleJdbcInsert insert = new SimpleJdbcInsert(dataSource)
                 .withTableName("events")
                 .usingColumns("id", "title",
@@ -98,6 +104,7 @@ public class EventService {
         valueMap.put("title", event.title());
         valueMap.put("description", event.description());
         valueMap.put("event_date", event.event_date());
+
         valueMap.put("created_by", userName);
 
         final UUID eventId = UUID.randomUUID();
@@ -197,6 +204,11 @@ public class EventService {
                         final Locale locale,
                         final Event event) {
         logger.debug("Entering update for Event {}", id);
+
+        if (!event.event_date().isAfter(LocalDateTime.now())) {
+            throw new IllegalArgumentException("Event Date is not valid");
+        }
+
         final String query = locale == null
                 ? "UPDATE events SET title=?,"
                 + "description=?,event_date=?,modified_by=? WHERE id=?"
@@ -300,6 +312,12 @@ public class EventService {
     public boolean register(final UUID eventId,
                             final String userEmail) {
 
+        String query = "SELECT EVENT_DATE FROM EVENTS WHERE ID=?";
+        LocalDateTime event = jdbcTemplate
+                .queryForObject(query, LocalDateTime.class, eventId);
+        if (LocalDateTime.now().isAfter(event)) {
+            throw new IllegalArgumentException("Event Date is expired");
+        }
         UUID userId = getUserId(userEmail);
 
         final SimpleJdbcInsert insert = new SimpleJdbcInsert(dataSource)
