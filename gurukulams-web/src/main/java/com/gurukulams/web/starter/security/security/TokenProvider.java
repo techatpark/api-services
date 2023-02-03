@@ -291,6 +291,10 @@ public class TokenProvider {
                                     principal.getName(),
                                     principal.getName());
 
+            UserPrincipal userPrincipal =
+                    (UserPrincipal) userDetailsService
+                            .loadUserByUsername(authResult.getName());
+
             authToken = generateToken(authResult);
 
             AuthenticationResponse authenticationResponse =
@@ -298,7 +302,7 @@ public class TokenProvider {
                             authToken,
                             appProperties.getAuth().getTokenExpirationMsec(),
                             this.generateRefreshToken(authToken),
-                            null);
+                            userPrincipal.getProfilePicture());
             return authenticationResponse;
         }
 
