@@ -1,10 +1,7 @@
 package com.gurukulams.service;
 
-import com.gurukulams.core.model.AuthProvider;
 import com.gurukulams.core.model.Event;
-import com.gurukulams.core.model.Learner;
 import com.gurukulams.core.service.EventService;
-import com.gurukulams.core.service.LearnerService;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -14,21 +11,19 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
-import java.time.Month;
 import java.util.List;
+import java.util.Locale;
 import java.util.UUID;
 
 @SpringBootTest
 public class EventServiceTest {
 
-    public static final String STATE_BOARD_IN_ENGLISH = "State Board";
-    public static final String STATE_BOARD_DESCRIPTION_IN_ENGLISH = "State Board Description";
-
+    public static final String STATE_BOARD_IN_ENGLISH = "State Event";
+    public static final String STATE_BOARD_DESCRIPTION_IN_ENGLISH = "State Event Description";
+    public static final String STATE_BOARD_TITLE_IN_FRENCH = "Conseil d'État";
+    public static final String STATE_BOARD_DESCRIPTION_IN_FRENCH = "Description du conseil d'État";
     @Autowired
     private EventService eventService;
-
-    @Autowired
-    private LearnerService learnerService;
 
     /**
      * Before.
@@ -71,16 +66,16 @@ public class EventServiceTest {
 
     @Test
     void update() {
-        LocalDateTime date =
-                LocalDateTime.of(2023, Month.MARCH, 10, 0, 0);
+
         final Event event = eventService.create("mani", null,
                 anEvent());
         final UUID newEventId = event.id();
         Event newEvent = new Event(null, "Event", "A " +
-                "Event", date, null, "tom", null, null);
-        Event updatedBoard = eventService
+                "Event", LocalDateTime.now(),
+                null, "tom", null, null);
+        Event updatedEvent = eventService
                 .update(newEventId, "mani", null, newEvent);
-        Assertions.assertEquals("Event", updatedBoard.title(), "Updated");
+        Assertions.assertEquals("Event", updatedEvent.title(), "Updated");
 
         Assertions.assertThrows(IllegalArgumentException.class, () -> {
             eventService
@@ -101,62 +96,99 @@ public class EventServiceTest {
 
     @Test
     void list() {
-        LocalDateTime date =
-                LocalDateTime.of(2023, Month.MARCH, 10, 0, 0);
+
         final Event event = eventService.create("mani", null,
                 anEvent());
         Event newEvent = new Event(null, "Event New", "A " +
-                "Event", date, null, "tom", null, null);
+                "Event", LocalDateTime.now(),
+                null, "tom", null, null);
         eventService.create("mani", null,
                 newEvent);
-        List<Event> listofEvents = eventService.list("manikanta", null);
-        Assertions.assertEquals(2, listofEvents.size());
+        List<Event> listofevent = eventService.list("manikanta", null);
+        Assertions.assertEquals(2, listofevent.size());
 
     }
 
     @Test
-    void registerForEvent(){
-        final Learner learner = learnerService.create("mani",
-                anLearner());
-
+    void testLocalizationFromDefaultWithoutLocale() {
+        // Create a Event without locale
         final Event event = eventService.create("mani", null,
                 anEvent());
 
-        Assertions.assertTrue(eventService.register(event.id(), learner.email()));
+        testLocalization(event);
+
+    }
+
+    @Test
+    void testLocalizationFromCreateWithLocale() {
+        // Create a Event with locale
+        final Event event = eventService.create("mani", Locale.GERMAN,
+                anEvent());
+
+        testLocalization(event);
+
+    }
+
+    void testLocalization(Event event) {
+
+        // Update for China Language
+        eventService.update(event.id(), "mani", Locale.FRENCH, anEvent(event,
+                STATE_BOARD_TITLE_IN_FRENCH,
+                STATE_BOARD_DESCRIPTION_IN_FRENCH));
+
+        // Get for french Language
+        Event createEvent = eventService.read("mani", Locale.FRENCH,
+                event.id()).get();
+        Assertions.assertEquals(STATE_BOARD_TITLE_IN_FRENCH, createEvent.title());
+        Assertions.assertEquals(STATE_BOARD_DESCRIPTION_IN_FRENCH, createEvent.description());
+
+        final UUID id = createEvent.id();
+        createEvent = eventService.list("mani", Locale.FRENCH)
+                .stream()
+                .filter(event1 -> event1.id().equals(id))
+                .findFirst().get();
+        Assertions.assertEquals(STATE_BOARD_TITLE_IN_FRENCH, createEvent.title());
+        Assertions.assertEquals(STATE_BOARD_DESCRIPTION_IN_FRENCH,
+                createEvent.description());
+
+        // Get for France which does not have data
+        createEvent = eventService.read("mani", Locale.CHINESE,
+                event.id()).get();
+        Assertions.assertEquals(STATE_BOARD_IN_ENGLISH, createEvent.title());
+        Assertions.assertEquals(STATE_BOARD_DESCRIPTION_IN_ENGLISH, createEvent.description());
+
+        createEvent = eventService.list("mani", Locale.CHINESE)
+                .stream()
+                .filter(event1 -> event1.id().equals(id))
+                .findFirst().get();
+
+        Assertions.assertEquals(STATE_BOARD_IN_ENGLISH, createEvent.title());
+        Assertions.assertEquals(STATE_BOARD_DESCRIPTION_IN_ENGLISH, createEvent.description());
+
     }
 
     /**
-     * Gets board.
+     * Gets event.
      *
-     * @return the board
+     * @return the event
      */
     Event anEvent() {
-                LocalDateTime date =
-                LocalDateTime.of(2023, Month.MARCH, 10, 0, 0);
         Event event = new Event(null, STATE_BOARD_IN_ENGLISH,
-                STATE_BOARD_DESCRIPTION_IN_ENGLISH, date, null, null,
+                STATE_BOARD_DESCRIPTION_IN_ENGLISH, LocalDateTime.now().plusDays(1L),
+                null, null,
                 null, null);
         return event;
     }
 
     /**
-     * Gets board from reference board.
+     * Gets event from reference event.
      *
-     * @return the board
+     * @return the event
      */
     Event anEvent(final Event ref, final String title, final String description) {
-        LocalDateTime date =
-                LocalDateTime.of(2023, Month.MARCH, 10, 0, 0);
         return new Event(ref.id(), title,
-                description, date, ref.created_at(), ref.created_by(),
+                description, ref.event_date(),
+                ref.created_at(), ref.created_by(),
                 ref.modified_at(), ref.modified_by());
-    }
-
-    Learner anLearner() {
-        Learner learner = new Learner(null, "Manikanta",
-                "An Description",
-                "Image Url", AuthProvider.local, null, null,
-                null, null);
-        return learner;
     }
 }
