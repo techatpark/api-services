@@ -314,25 +314,27 @@ public class TokenProvider {
             authCache.evict(refreshToken.getToken());
             authCache.evict(authToken);
 
-            final Authentication authResult =
-                            new UsernamePasswordAuthenticationToken(
-                                    userName,
-                                    userName);
-
-            UserPrincipal userPrincipal =
-                    (UserPrincipal) userDetailsService
-                            .loadUserByUsername(authResult.getName());
-
-            authToken = generateToken(authResult);
-
-            AuthenticationResponse authenticationResponse =
-                    new AuthenticationResponse(userName,
-                            authToken,
-                            appProperties.getAuth().getTokenExpirationMsec(),
-                            this.generateRefreshToken(authToken),
-                            userPrincipal.getProfilePicture());
-            return authenticationResponse;
+            return getAuthenticationResponse(userName);
         }
 
+    }
+
+    private AuthenticationResponse getAuthenticationResponse(final String userName) {
+        final Authentication authResult =
+                new UsernamePasswordAuthenticationToken(
+                        userName,
+                        userName);
+
+        UserPrincipal userPrincipal =
+                (UserPrincipal) userDetailsService
+                        .loadUserByUsername(authResult.getName());
+        String authToken = generateToken(authResult);
+        AuthenticationResponse authenticationResponse =
+                new AuthenticationResponse(userName,
+                        authToken,
+                        appProperties.getAuth().getTokenExpirationMsec(),
+                        this.generateRefreshToken(authToken),
+                        userPrincipal.getProfilePicture());
+        return authenticationResponse;
     }
 }
