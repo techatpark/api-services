@@ -120,34 +120,52 @@ public class TokenProvider {
      */
     public AuthenticationResponse getAuthenticationResponse(
             final Authentication authentication) {
-        final String token = generateToken(authentication);
+        return getAuthenticationResponse(authentication.getName());
+    }
+    /**
+     * generate AuthenticationResponse.
+     *
+     * @param authHeader the auth Header
+     * @return token string
+     */
+    public AuthenticationResponse getWelcomeResponse(
+            final String authHeader) {
+        Cache.ValueWrapper valueWrapper = authCache.get(authHeader);
 
-        UserPrincipal userPrincipal =
-                (UserPrincipal) userDetailsService
-                        .loadUserByUsername(authentication.getName());
+        if (valueWrapper == null) {
+            throw new BadCredentialsException("Invalid Token");
+        }
+        AuthenticationResponse response =
+                getAuthenticationResponse(valueWrapper.get().toString());
 
-        final AuthenticationResponse authenticationResponse =
-                new AuthenticationResponse(authentication.getName(),
-                        token,
-                        appProperties.getAuth().getTokenExpirationMsec(),
-                        generateRefreshToken(token),
-                        userPrincipal.getProfilePicture());
-        return authenticationResponse;
+        authCache.evictIfPresent(authHeader);
+
+        return response;
+    }
+    /**
+     * Generates Welcome Token.
+     * @param userName
+     * @return welcomeToken
+     */
+    public String generateWelcomeToken(final String userName) {
+        String welcomeToken = UUID.randomUUID().toString();
+        this.authCache.put(welcomeToken, userName);
+        return welcomeToken;
     }
 
     /**
      * generate token after login.
      *
-     * @param authentication the authentication
+     * @param userName the userName
      * @return token string
      */
-    public String generateToken(final Authentication authentication) {
+    private String generateToken(final String userName) {
         String token = UUID.randomUUID().toString();
         long now = System.currentTimeMillis();
 
         this.authCache.put(token, Jwts.builder()
                 .setClaims(new HashMap<>())
-                .setSubject(authentication.getName())
+                .setSubject(userName)
                 .setIssuedAt(new Date(now))
                 .setExpiration(new Date(now
                         + appProperties.getAuth().getTokenExpirationMsec()))
@@ -319,16 +337,12 @@ public class TokenProvider {
 
     }
 
-    private AuthenticationResponse getAuthenticationResponse(final String userName) {
-        final Authentication authResult =
-                new UsernamePasswordAuthenticationToken(
-                        userName,
-                        userName);
-
+    private AuthenticationResponse getAuthenticationResponse(
+            final String userName) {
         UserPrincipal userPrincipal =
                 (UserPrincipal) userDetailsService
-                        .loadUserByUsername(authResult.getName());
-        String authToken = generateToken(authResult);
+                        .loadUserByUsername(userName);
+        String authToken = generateToken(userName);
         AuthenticationResponse authenticationResponse =
                 new AuthenticationResponse(userName,
                         authToken,

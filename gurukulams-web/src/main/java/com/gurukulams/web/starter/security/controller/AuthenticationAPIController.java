@@ -153,7 +153,7 @@ class AuthenticationAPIController {
     /**
      * get the user details from the principal.
      *
-     * @param authentication the principal
+     * @param authHeader the auth Header
      * @return AuthenticationResponse response entity
      */
     @Operation(summary = "Get logged in user profile",
@@ -166,8 +166,8 @@ class AuthenticationAPIController {
                     description = "practice not found")})
     @GetMapping("/me")
     public ResponseEntity<AuthenticationResponse> me(
-            final Authentication authentication) {
+            @RequestHeader(name = "Authorization") final String authHeader) {
         return ResponseEntity.ok().body(
-                tokenProvider.getAuthenticationResponse(authentication));
+                tokenProvider.getWelcomeResponse(authHeader));
     }
 }

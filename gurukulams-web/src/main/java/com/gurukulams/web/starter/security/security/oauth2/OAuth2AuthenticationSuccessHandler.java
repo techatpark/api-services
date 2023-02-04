@@ -116,7 +116,8 @@ public class OAuth2AuthenticationSuccessHandler
 
         final String targetUrl = redirectUri.orElse(getDefaultTargetUrl());
 
-        final String token = tokenProvider.generateToken(anauthentication);
+        final String token = tokenProvider
+                .generateWelcomeToken(anauthentication.getName());
 
         return UriComponentsBuilder.fromUriString(targetUrl)
                 .queryParam("token", token)
