@@ -22,8 +22,8 @@ jobs:
           java-version: 19
       - name: Checkstyle with Maven
         run: mvn -B validate compile --file pom.xml
-      - name: Build the docker-compose stack
-        run: docker-compose up -d
+#      - name: Build the docker-compose stack
+#        run: docker-compose up -d
       - name: Test with Maven
         run: mvn -B jacoco:prepare-agent install jacoco:report -Pprod --file pom.xml
       - name: Copy Artifacts

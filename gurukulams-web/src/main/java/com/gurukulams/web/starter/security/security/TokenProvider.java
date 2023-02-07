@@ -213,7 +213,8 @@ public class TokenProvider {
                        | IllegalArgumentException ex) {
             throw new BadCredentialsException("Invalid Token", ex);
         } catch (final ExpiredJwtException ex) {
-            if (requestURI.equals("/api/auth/refresh")) {
+            if (requestURI.equals("/api/auth/logout")
+                   || requestURI.equals("/api/auth/refresh")) {
                 return getUserNameFromExpiredToken(jwtToken);
             } else {
                 throw new BadCredentialsException("Expired Token", ex);
