@@ -31,7 +31,7 @@ import java.util.List;
 @RequestMapping("/api/profile")
 @Tag(name = "Learner Profiles",
         description = "Resources to manage Learner Profile")
-public class LearnerProfileAPIController {
+class LearnerProfileAPIController {
 
     /**
      * declare a learnerprofile service.
@@ -43,7 +43,7 @@ public class LearnerProfileAPIController {
      *
      * @param aLearnerProfileService the learner profile service
      */
-    public LearnerProfileAPIController(final LearnerProfileService
+    LearnerProfileAPIController(final LearnerProfileService
                                                aLearnerProfileService) {
         this.learnerProfileService = aLearnerProfileService;
     }
