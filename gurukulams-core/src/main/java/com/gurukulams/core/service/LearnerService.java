@@ -239,7 +239,8 @@ public class LearnerService {
      * @return learner
      */
     public Integer deleteAll() {
-        final String query = "DELETE FROM learner";
-        return jdbcTemplate.update(query);
+        jdbcTemplate.update("DELETE FROM LEARNER_PROFILE");
+        jdbcTemplate.update("DELETE FROM HANDLE WHERE type='Learner'");
+        return jdbcTemplate.update("DELETE FROM learner");
     }
 }

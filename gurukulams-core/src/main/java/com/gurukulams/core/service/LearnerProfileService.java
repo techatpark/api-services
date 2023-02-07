@@ -61,7 +61,6 @@ public class LearnerProfileService {
             throws SQLException {
 
         LearnerProfile learnerProfile = new LearnerProfile(rs.getString("id"),
-                (UUID) rs.getObject("learner_id"),
                 rs.getString("first_name"),
                 rs.getString("last_name")
         );
@@ -98,7 +97,7 @@ public class LearnerProfileService {
                         "last_name");
         final Map<String, Object> valueMap = new HashMap<>();
         valueMap.put("id", learnerProfile.id());
-        valueMap.put("learner_id", learnerProfile.learnerId());
+        valueMap.put("learner_id", getLearnerId(userName).get());
         valueMap.put("first_name", learnerProfile.firstName());
         valueMap.put("last_name", learnerProfile.lastName());
 
@@ -115,10 +114,11 @@ public class LearnerProfileService {
                                           final String type) {
         final SimpleJdbcInsert insert = new SimpleJdbcInsert(dataSource)
                 .withTableName("handle")
-                .usingColumns("id", "type");
+                .usingColumns("id", "type", "type_id");
         final Map<String, Object> valueMap = new HashMap<>();
         valueMap.put("id", learnerProfile.id());
         valueMap.put("type", type);
+        valueMap.put("type_id", getLearnerId(userName).get());
 
         insert.execute(valueMap);
 
@@ -166,7 +166,7 @@ public class LearnerProfileService {
      * @param learnerId
      * @return learnerprofile
      */
-    public Optional<LearnerProfile> readByUUID(final String userName,
+    public Optional<LearnerProfile> read(final String userName,
                                          final UUID learnerId) {
         final String query = "SELECT id,learner_id,first_name,last_name"
                 + " FROM learner_profile WHERE learner_id = ?";
@@ -238,5 +238,21 @@ public class LearnerProfileService {
     public Integer deleteAllHandle() {
         final String query = "DELETE FROM handle";
         return jdbcTemplate.update(query);
+    }
+
+    /**
+     * @param email
+     * @return learner
+     */
+    private Optional<UUID> getLearnerId(final String email) {
+        final String query = "SELECT id FROM learner WHERE email = ?";
+
+        try {
+            final UUID p = jdbcTemplate.queryForObject(query,
+                    UUID.class, email);
+            return Optional.of(p);
+        } catch (final EmptyResultDataAccessException e) {
+            return Optional.empty();
+        }
     }
 }

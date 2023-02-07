@@ -161,7 +161,9 @@ CREATE TABLE learner (
 CREATE TABLE handle (
     id VARCHAR(55) PRIMARY KEY,
     type VARCHAR(55),
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    type_id UUID NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT type_id_constraint UNIQUE (type, type_id)
 );
 
 CREATE TABLE learner_profile (

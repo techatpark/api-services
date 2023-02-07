@@ -2,6 +2,7 @@ package com.gurukulams.web.starter.security.security;
 
 
 import com.gurukulams.core.model.Learner;
+import com.gurukulams.core.service.LearnerProfileService;
 import com.gurukulams.core.service.LearnerService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -33,11 +34,19 @@ public class CustomUserDetailsService implements UserDetailsService {
     private final LearnerService learnerService;
 
     /**
+     * Learner Details Service.
+     */
+    private final LearnerProfileService learnerProfileService;
+
+    /**
      * Builds the Object.
      *
      * @param alearnerService
+     * @param profileService
      */
-    public CustomUserDetailsService(final LearnerService alearnerService) {
+    public CustomUserDetailsService(final LearnerService alearnerService,
+                            final LearnerProfileService profileService) {
+        this.learnerProfileService = profileService;
         passwordEncoder = new BCryptPasswordEncoder();
         this.learnerService = alearnerService;
     }
@@ -92,7 +101,8 @@ public class CustomUserDetailsService implements UserDetailsService {
                                 "User not found with email : " + email)
                 );
 
-        return UserPrincipal.create(user);
+        return UserPrincipal.create(user, learnerProfileService.read("System",
+                user.id()));
     }
 
 

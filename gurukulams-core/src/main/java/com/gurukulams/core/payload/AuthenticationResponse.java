@@ -19,12 +19,18 @@ public final class AuthenticationResponse {
     /**
      * declares variable expiresIn.
      */
-    private final long expiresIn;
+    private final Long expiresIn;
 
     /**
      * declares variable refreshToken.
      */
     private final String refreshToken;
+
+    /**
+     * declares variable registrationToken.
+     */
+    private final String registrationToken;
+
     /**
      * declares variable profilePicture.
      */
@@ -37,19 +43,22 @@ public final class AuthenticationResponse {
      * @param anAuthToken     the an auth token
      * @param anExpiresIn       the anExpiresIn
      * @param aRefreshToken   the a refresh token
+     * @param aRegistrationToken the a registration token
      * @param aProfilePicture the a profile picture
      */
     @JsonCreator
     public AuthenticationResponse(
             @JsonProperty("userName") final String anUserName,
             @JsonProperty("authToken") final String anAuthToken,
-            @JsonProperty("expires_in") final long anExpiresIn,
+            @JsonProperty("expires_in") final Long anExpiresIn,
             @JsonProperty("refresh_token") final String aRefreshToken,
+            @JsonProperty("registration_token") final String aRegistrationToken,
             @JsonProperty("profile_pic") final String aProfilePicture) {
         this.userName = anUserName;
         this.authToken = anAuthToken;
         this.expiresIn = anExpiresIn;
         this.refreshToken = aRefreshToken;
+        this.registrationToken = aRegistrationToken;
         this.profilePicture = aProfilePicture;
     }
     /**
@@ -57,7 +66,7 @@ public final class AuthenticationResponse {
      *
      * @return expiresIn
      */
-    public long getExpiresIn() {
+    public Long getExpiresIn() {
         return expiresIn;
     }
 
@@ -68,6 +77,15 @@ public final class AuthenticationResponse {
      */
     public String getAuthToken() {
         return authToken;
+    }
+
+    /**
+     * gets the value for registration token.
+     *
+     * @return registration token
+     */
+    public String getRegistrationToken() {
+        return registrationToken;
     }
 
     /**

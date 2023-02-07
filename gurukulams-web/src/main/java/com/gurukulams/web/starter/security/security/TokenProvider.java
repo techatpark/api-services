@@ -2,8 +2,11 @@ package com.gurukulams.web.starter.security.security;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.gurukulams.core.model.LearnerProfile;
 import com.gurukulams.core.payload.AuthenticationResponse;
 import com.gurukulams.core.payload.RefreshToken;
+import com.gurukulams.core.payload.RegistrationRequest;
+import com.gurukulams.core.service.LearnerProfileService;
 import com.gurukulams.web.starter.security.config.AppProperties;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
@@ -47,6 +50,11 @@ public class TokenProvider {
     private static final int VALUE = 7;
 
     /**
+     * REG_EXPIRATION.
+     */
+    public static final int REG_EXPIRATION = 20000;
+
+    /**
      * Cache Manager.
      */
     private final CacheManager cacheManager;
@@ -71,22 +79,30 @@ public class TokenProvider {
     private UserDetailsService userDetailsService;
 
     /**
+     * LearnerProfileService.
+     */
+    private LearnerProfileService learnerProfileService;
+
+    /**
      * gg.
      *
      * @param appPropertie  the app propertie
      * @param aobjectMapper
      * @param acacheManager
      * @param auserDetailsService
+     * @param alearnerProfileService
      */
     public TokenProvider(final AppProperties appPropertie,
                          final CacheManager acacheManager,
                          final ObjectMapper aobjectMapper,
-                         final UserDetailsService auserDetailsService) {
+                         final UserDetailsService auserDetailsService,
+                         final LearnerProfileService alearnerProfileService) {
         this.objectMapper = aobjectMapper;
         this.appProperties = appPropertie;
         this.cacheManager = acacheManager;
         this.userDetailsService = auserDetailsService;
         this.authCache = cacheManager.getCache("Auth");
+        this.learnerProfileService = alearnerProfileService;
     }
 
     /**
@@ -161,17 +177,22 @@ public class TokenProvider {
      */
     private String generateToken(final String userName) {
         String token = UUID.randomUUID().toString();
-        long now = System.currentTimeMillis();
+        this.authCache.put(token, getJWTCompact(userName,
+                appProperties.getAuth().getTokenExpirationMsec()));
+        return token;
 
-        this.authCache.put(token, Jwts.builder()
+    }
+
+    private String getJWTCompact(final String userName,
+                                 final long expiration) {
+        long now = System.currentTimeMillis();
+        return Jwts.builder()
                 .setClaims(new HashMap<>())
                 .setSubject(userName)
                 .setIssuedAt(new Date(now))
                 .setExpiration(new Date(now
-                        + appProperties.getAuth().getTokenExpirationMsec()))
-                .signWith(getSignInKey(), SignatureAlgorithm.HS256).compact());
-        return token;
-
+                        + expiration))
+                .signWith(getSignInKey(), SignatureAlgorithm.HS256).compact();
     }
 
 
@@ -298,6 +319,30 @@ public class TokenProvider {
      * refresh.
      * @param authHeader
      * @param userName
+     * @param registrationRequest
+     * @return authenticationResponse
+     */
+    public AuthenticationResponse register(final String authHeader,
+                              final String userName,
+                              final RegistrationRequest registrationRequest) {
+        String authToken = getBearer(authHeader);
+
+        LearnerProfile learnerProfile = new LearnerProfile(
+                registrationRequest.getId(),
+                registrationRequest.getFirstName(),
+                registrationRequest.getLastName());
+
+
+        learnerProfileService.create(userName, learnerProfile);
+
+        authCache.evict(authToken);
+        return getAuthenticationResponse(userName);
+    }
+
+    /**
+     * refresh.
+     * @param authHeader
+     * @param userName
      * @param refreshToken
      * @return authenticationResponse
      */
@@ -344,12 +389,21 @@ public class TokenProvider {
                 (UserPrincipal) userDetailsService
                         .loadUserByUsername(userName);
         String authToken = generateToken(userName);
-        AuthenticationResponse authenticationResponse =
-                new AuthenticationResponse(userName,
-                        authToken,
-                        appProperties.getAuth().getTokenExpirationMsec(),
-                        this.generateRefreshToken(authToken),
-                        userPrincipal.getProfilePicture());
-        return authenticationResponse;
+
+        if (userPrincipal.isRegistered()) {
+            return new AuthenticationResponse(userName,
+                    authToken,
+                    appProperties.getAuth().getTokenExpirationMsec(),
+                    this.generateRefreshToken(authToken),
+                    null,
+                    userPrincipal.getProfilePicture());
+        }
+
+        return new AuthenticationResponse(userName,
+                null,
+                null,
+                null,
+                generateToken(userName),
+                userPrincipal.getProfilePicture());
     }
 }

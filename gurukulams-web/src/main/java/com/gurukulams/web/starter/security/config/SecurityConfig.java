@@ -1,6 +1,7 @@
 package com.gurukulams.web.starter.security.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.gurukulams.core.service.LearnerProfileService;
 import com.gurukulams.core.service.LearnerService;
 import com.gurukulams.web.starter.security.security.RestAuthenticationEntryPoint;
 import com.gurukulams.web.starter.security.security.TokenAuthenticationFilter;
@@ -41,6 +42,11 @@ public class SecurityConfig {
          * Learner Service.
          */
         private final LearnerService learnerService;
+
+        /**
+         * Learner Details Service.
+         */
+        private final LearnerProfileService learnerProfileService;
 
         /**
          * inject the customUserDetailsService object dependency.
@@ -89,21 +95,25 @@ public class SecurityConfig {
          * Creates Security Config.
          *
          * @param alearnerService
-         * @param appProperties   properties
+         * @param alearnerProfileService
+         * @param appProperties         properties
+         * @param aCacheManager         aCacheManager
          * @param objectMapper
-         * @param aCacheManager   aCacheManager
          * @param auserDetailsService
          */
         public SecurityConfig(final LearnerService alearnerService,
-                              final AppProperties appProperties,
-                              final CacheManager aCacheManager,
-                              final ObjectMapper objectMapper,
-                              final UserDetailsService auserDetailsService) {
+                      final LearnerProfileService alearnerProfileService,
+                      final AppProperties appProperties,
+                      final CacheManager aCacheManager,
+                      final ObjectMapper objectMapper,
+                      final UserDetailsService auserDetailsService) {
                 this.learnerService = alearnerService;
+                this.learnerProfileService = alearnerProfileService;
 
                 userDetailsService = auserDetailsService;
                 tokenProvider = new TokenProvider(appProperties,
-                        aCacheManager, objectMapper, userDetailsService);
+                        aCacheManager, objectMapper, userDetailsService,
+                        learnerProfileService);
                 cookieAuthorizationRequestRepository = new
                         HttpCookieOAuth2AuthorizationRequestRepository();
                 oAuth2AuthenticationSuccessHandler = new
@@ -116,7 +126,8 @@ public class SecurityConfig {
 
 
                 customOAuth2UserService = new CustomOAuth2UserService(
-                        this.learnerService);
+                        this.learnerService,
+                        this.learnerProfileService);
 
 
                 tokenAuthenticationFilter = new TokenAuthenticationFilter(

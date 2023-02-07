@@ -14,7 +14,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.UUID;
 
 @SpringBootTest
 public class LearnerProfileServiceTest {
@@ -42,42 +41,42 @@ public class LearnerProfileServiceTest {
 
     @Test
     void create() {
-        final LearnerProfile learner = learnerProfileService.create("mani",
+        final LearnerProfile learner = learnerProfileService.create("jhjhf@gmail",
                 anLearner());
-        Assertions.assertTrue(learnerProfileService.read("mani", learner.id()).isPresent(), "Created Learner");
+        Assertions.assertTrue(learnerProfileService.read("jhjhf@gmail", learner.id()).isPresent(), "Created Learner");
 
     }
 
     @Test
     void delete() {
-        final LearnerProfile learner = learnerProfileService.create("Manikanta",
+        final LearnerProfile learner = learnerProfileService.create("jhjhf@gmail",
                 anLearner());
-        learnerProfileService.delete("mani", learner.id());
-        Assertions.assertFalse(learnerProfileService.readByUUID("Manikanta", learner.learnerId()).isPresent(), "Deleted Learner");
+        learnerProfileService.delete("jhjhf@gmail", learner.id());
+        Assertions.assertFalse(learnerProfileService.read("jhjhf@gmail", learner.id()).isPresent(), "Deleted Learner");
     }
 
 
     @Test
     void list() {
-        LearnerProfile learner = learnerProfileService.create("Manikanta",
+        LearnerProfile learner = learnerProfileService.create("jhjhf@gmail",
                 anLearner());
-        LearnerProfile learner1 = learnerProfileService.create("Manikanta",
+        LearnerProfile learner1 = learnerProfileService.create("jhjsvhjcksdvsd@gmail",
                         anLearner1());
-        List<LearnerProfile> listOfLearner = learnerProfileService.list("Manikanta");
+        List<LearnerProfile> listOfLearner = learnerProfileService.list("jhjhf@gmail");
         Assertions.assertEquals(2, listOfLearner.size());
     }
 
     @Test
     void update() {
-        final LearnerProfile learner = learnerProfileService.create("Manikanta",
+        final LearnerProfile learner = learnerProfileService.create("jhjhf@gmail",
                 anLearner());
         final String newLearnerId = learner.id();
 
         LearnerProfile updatedLearner = learnerProfileService.update(newLearnerId,
-                "Mani", anLearner1());
+                "jhjhf@gmail", anLearner1());
         Assertions.assertEquals("Hari", updatedLearner.firstName(), "updated");
 //        Assertions.assertThrows(IllegalArgumentException.class, () -> {
-//            learnerProfileService.update(UUID.randomUUID(), "Mani", anLearner1());
+//            learnerProfileService.update(UUID.randomUUID(), "jhjhf@gmail", anLearner1());
 //        });
     }
 
@@ -86,10 +85,10 @@ public class LearnerProfileServiceTest {
                 "An Description",
                 "Image Url", AuthProvider.local, null, null,
                 null, null);
-        Learner l = learnerService.create("Manikanta",
+        Learner l = learnerService.create("jhjhf@gmail",
                 learner);
 
-        LearnerProfile learnerProfile = new LearnerProfile("HariUserID", l.id(),
+        LearnerProfile learnerProfile = new LearnerProfile("HariUserID",
                 "First Name",
                 "Last Name");
         return learnerProfile;
@@ -99,9 +98,9 @@ public class LearnerProfileServiceTest {
                 "An Description",
                 "Image Url", AuthProvider.local, null, null,
                 null, null);
-        Learner l = learnerService.create("Manikanta",
+        Learner l = learnerService.create("jhjhf@gmail",
                 learner);
-        LearnerProfile learnerProfile = new LearnerProfile("HariPriyaUserID", l.id(),
+        LearnerProfile learnerProfile = new LearnerProfile("HariPriyaUserID",
                 "Hari",
                 "Priya");
         return learnerProfile;

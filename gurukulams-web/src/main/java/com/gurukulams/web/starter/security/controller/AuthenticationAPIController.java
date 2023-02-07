@@ -3,6 +3,7 @@ package com.gurukulams.web.starter.security.controller;
 import com.gurukulams.core.payload.AuthenticationRequest;
 import com.gurukulams.core.payload.AuthenticationResponse;
 import com.gurukulams.core.payload.RefreshToken;
+import com.gurukulams.core.payload.RegistrationRequest;
 import com.gurukulams.core.payload.SignupRequest;
 import com.gurukulams.core.service.LearnerService;
 import com.gurukulams.web.starter.security.security.TokenProvider;
@@ -81,13 +82,31 @@ class AuthenticationAPIController {
      */
     @Operation(summary = "Signup the User")
     @PostMapping("/signup")
-    public ResponseEntity<Void> registerUser(
+    public ResponseEntity<Void> signUp(
             final @RequestBody SignupRequest signUpRequest) {
         learnerService.signUp(signUpRequest,
                 s -> passwordEncoder.encode(s));
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
+    /**
+     * @param registrationRequest
+     * @param authHeader
+     * @param principal
+     * @return loginRequest
+     */
+    @Operation(summary = "Register the User")
+    @PostMapping("/register")
+    public ResponseEntity<AuthenticationResponse> register(
+            final Principal principal,
+            @RequestHeader(name = "Authorization") final String authHeader,
+            final @RequestBody RegistrationRequest registrationRequest) {
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(
+                tokenProvider.register(authHeader,
+                        principal.getName(),
+                        registrationRequest));
+    }
 
     /**
      * performs the login function.
