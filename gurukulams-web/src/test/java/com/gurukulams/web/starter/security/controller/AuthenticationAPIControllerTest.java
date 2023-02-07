@@ -134,6 +134,23 @@ class AuthenticationAPIControllerTest {
 
     }
 
+    @Test
+    void testExpiredLogout() throws InterruptedException {
+        AuthenticationRequest authenticationRequest = new AuthenticationRequest(
+                this.signupRequest.getEmail(),
+                this.signupRequest.getPassword());
+
+        AuthenticationResponse authenticationResponse = login(authenticationRequest);
+
+        getBoards(authenticationResponse).isEqualTo(HttpStatus.NO_CONTENT.value());
+
+        // Wait for Token Expiry
+        TimeUnit.MILLISECONDS.sleep(appProperties.getAuth().getTokenExpirationMsec());
+
+        logout(authenticationRequest, authenticationResponse).isEqualTo(HttpStatus.OK.value());
+
+    }
+
     private AuthenticationResponse login(final AuthenticationRequest authenticationRequest) {
         AuthenticationResponse authenticationResponse = this.webTestClient
                 .post()
