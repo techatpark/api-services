@@ -11,6 +11,7 @@ import com.gurukulams.core.service.BoardService;
 import com.gurukulams.core.service.LearnerService;
 import com.gurukulams.web.starter.security.config.AppProperties;
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -160,6 +161,26 @@ class AuthenticationAPIControllerTest {
         // Wait for Token Expiry
         TimeUnit.MILLISECONDS.sleep(appProperties.getAuth().getTokenExpirationMsec());
 
+        logout(authenticationRequest, authenticationResponse).isEqualTo(HttpStatus.OK.value());
+
+    }
+
+    @Test
+    void testMultiRegistration() throws InterruptedException {
+        AuthenticationRequest authenticationRequest = new AuthenticationRequest(
+                this.signupRequest.getEmail(),
+                this.signupRequest.getPassword());
+
+        AuthenticationResponse authenticationResponse = login(authenticationRequest);
+
+        AuthenticationResponse authenticationResponse1 = register(authenticationRequest, authenticationResponse);
+
+        AssertionError error = Assertions.assertThrows(AssertionError.class, () -> {
+            register(authenticationRequest, authenticationResponse1);
+        });
+        Assertions.assertEquals("Status expected:<201 CREATED> but was:<401 UNAUTHORIZED>", error.getMessage());
+
+        authenticationResponse = login(authenticationRequest);
         logout(authenticationRequest, authenticationResponse).isEqualTo(HttpStatus.OK.value());
 
     }
