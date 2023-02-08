@@ -154,7 +154,7 @@ public class TokenProvider {
         AuthenticationResponse response =
                 getAuthenticationResponse(valueWrapper.get().toString());
 
-        authCache.evictIfPresent(authHeader);
+        authCache.evict(authHeader);
 
         return response;
     }
