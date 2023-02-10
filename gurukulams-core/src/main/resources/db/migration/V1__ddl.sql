@@ -145,6 +145,39 @@ CREATE TABLE institutes (
     CONSTRAINT institutes_title_constraint UNIQUE (title)
 );
 
+CREATE TABLE campuses (
+    id UUID PRIMARY KEY,
+    title VARCHAR(55),
+    description TEXT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    created_by VARCHAR(55) NOT NULL,
+    modified_at TIMESTAMP,
+    modified_by VARCHAR(200)
+    --CONSTRAINT institutes_title_constraint UNIQUE (title)
+);
+
+CREATE TABLE degree (
+    id UUID PRIMARY KEY,
+    title VARCHAR(55),
+    description TEXT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    created_by VARCHAR(55) NOT NULL,
+    modified_at TIMESTAMP,
+    modified_by VARCHAR(200)
+    --CONSTRAINT institutes_title_constraint UNIQUE (title)
+);
+
+CREATE TABLE courses (
+    id UUID PRIMARY KEY,
+    title VARCHAR(55),
+    description TEXT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    created_by VARCHAR(55) NOT NULL,
+    modified_at TIMESTAMP,
+    modified_by VARCHAR(200)
+    --CONSTRAINT institutes_title_constraint UNIQUE (title)
+);
+
 CREATE TABLE learner (
     id UUID PRIMARY KEY,
     email VARCHAR(200) NOT NULL,
