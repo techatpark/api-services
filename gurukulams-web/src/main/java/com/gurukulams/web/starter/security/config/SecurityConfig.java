@@ -160,6 +160,7 @@ public class SecurityConfig {
                         "/h2-console", "/h2-console/*",
                         "/swagger-ui.html", "/swagger-ui/*",
                         "/v3/api-docs/*",
+                        "/events", "/events/**", "/ta/events/*",
                         "/questions/**", "/ta/questions/*",
                         "/api/auth/login", "/api/auth/me");
         }
@@ -195,6 +196,8 @@ public class SecurityConfig {
                         .authorizeHttpRequests()
                         .requestMatchers("/api/auth/login",
                                 "/api/auth/signup",
+                                "/h2-console",
+                                "/h2-console/**",
                                 "/oauth2/*")
                         .permitAll()
                         .anyRequest()
