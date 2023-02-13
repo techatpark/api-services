@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import javax.sql.DataSource;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
@@ -66,7 +67,7 @@ public class EventService {
                 rs.getObject("id"),
                 rs.getString("title"),
                 rs.getString("description"),
-                rs.getObject("event_date", LocalDateTime.class),
+                rs.getObject("event_date", LocalDate.class),
                 rs.getObject("created_at", LocalDateTime.class),
                 rs.getString("created_by"),
                 rs.getObject("modified_at", LocalDateTime.class),

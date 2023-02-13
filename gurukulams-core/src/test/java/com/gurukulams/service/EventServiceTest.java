@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.io.IOException;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Locale;
@@ -71,7 +72,7 @@ public class EventServiceTest {
                 anEvent());
         final UUID newEventId = event.id();
         Event newEvent = new Event(null, "Event", "A " +
-                "Event", LocalDateTime.now(),
+                "Event", LocalDate.now(),
                 null, "tom", null, null);
         Event updatedEvent = eventService
                 .update(newEventId, "mani", null, newEvent);
@@ -100,7 +101,7 @@ public class EventServiceTest {
         final Event event = eventService.create("mani", null,
                 anEvent());
         Event newEvent = new Event(null, "Event New", "A " +
-                "Event", LocalDateTime.now(),
+                "Event", LocalDate.now(),
                 null, "tom", null, null);
         eventService.create("mani", null,
                 newEvent);
@@ -174,7 +175,7 @@ public class EventServiceTest {
      */
     Event anEvent() {
         Event event = new Event(null, STATE_BOARD_IN_ENGLISH,
-                STATE_BOARD_DESCRIPTION_IN_ENGLISH, LocalDateTime.now().plusDays(1L),
+                STATE_BOARD_DESCRIPTION_IN_ENGLISH, LocalDate.now().plusDays(1L),
                 null, null,
                 null, null);
         return event;

@@ -294,7 +294,7 @@ CREATE TABLE events (
     id UUID PRIMARY KEY,
     title VARCHAR(55),
     description TEXT,
-    event_date TIMESTAMP NOT NULL,
+    event_date DATE NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     created_by VARCHAR(55) NOT NULL,
     modified_at TIMESTAMP,
