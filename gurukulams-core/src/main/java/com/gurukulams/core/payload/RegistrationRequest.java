@@ -2,17 +2,14 @@ package com.gurukulams.core.payload;
 
 import jakarta.validation.constraints.NotBlank;
 
+import java.time.LocalDate;
+
 /**
  * SignupRequest.
  */
 
 public class RegistrationRequest {
 
-    /**
-     * Id.
-     */
-    @NotBlank
-    private String id;
 
     /**
      * firstName.
@@ -27,22 +24,11 @@ public class RegistrationRequest {
     private String lastName;
 
     /**
-     * getEmail.
-     *
-     * @return Id
+     * Date of Birth
      */
-    public String getId() {
-        return id;
-    }
+    @NotBlank
+    private LocalDate dob;
 
-    /**
-     * setEmail.
-     *
-     * @param theId
-     */
-    public void setId(final String theId) {
-        this.id = theId;
-    }
 
     /**
      * getPassword.

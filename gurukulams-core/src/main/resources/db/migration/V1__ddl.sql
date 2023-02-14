@@ -202,8 +202,9 @@ CREATE TABLE handle (
 CREATE TABLE learner_profile (
     id VARCHAR(55) PRIMARY KEY,
     learner_id UUID NOT NULL UNIQUE,
-    first_name VARCHAR(200),
-    last_name VARCHAR(200),
+    first_name VARCHAR(200) NOT NULL,
+    last_name VARCHAR(200) NOT NULL,
+    dob DATE NOT NULL,
     FOREIGN KEY (learner_id) REFERENCES learner (id),
     FOREIGN KEY (id) REFERENCES handle (id)
 );
