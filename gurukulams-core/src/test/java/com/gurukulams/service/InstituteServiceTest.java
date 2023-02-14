@@ -53,7 +53,6 @@ class InstituteServiceTest {
     void read() {
         final Institute institute = instituteService.create("hari",
                 anInstitute());
-        final UUID newInstituteId = institute.id();
         Assertions.assertTrue(instituteService.read("hari", institute.id()).isPresent(),
                 "Created Institute");
     }

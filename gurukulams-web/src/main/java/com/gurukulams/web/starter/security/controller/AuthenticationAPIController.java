@@ -59,10 +59,10 @@ class AuthenticationAPIController {
     /**
      * constructs authenticationManager,userDetailsService,tokenUtil.
      *
-     * @param anAuthenticationManager the an authentication manager
-     * @param anUserDetailsService    the an user details service
-     * @param apasswordEncoder        the a apasswordEncoder
-     * @param aTokenUtil              the a token util
+     * @param anAuthenticationManager the authentication manager
+     * @param anUserDetailsService    the user details service
+     * @param apasswordEncoder        the apasswordEncoder
+     * @param aTokenUtil              a token util
      */
     AuthenticationAPIController(final AuthenticationManager
                                         anAuthenticationManager,

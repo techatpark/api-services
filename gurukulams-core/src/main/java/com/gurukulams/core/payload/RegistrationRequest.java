@@ -5,9 +5,8 @@ import jakarta.validation.constraints.NotBlank;
 import java.time.LocalDate;
 
 /**
- * SignupRequest.
+ * The type Registration request.
  */
-
 public class RegistrationRequest {
 
 
@@ -24,7 +23,7 @@ public class RegistrationRequest {
     private String lastName;
 
     /**
-     * Date of Birth
+     * Date of Birth.
      */
     @NotBlank
     private LocalDate dob;
@@ -64,5 +63,22 @@ public class RegistrationRequest {
      */
     public void setLastName(final String aimageUrl) {
         this.lastName = aimageUrl;
+    }
+
+
+    /**
+     * Gets Dob.
+     * @return dob
+     */
+    public LocalDate getDob() {
+        return dob;
+    }
+
+    /**
+     * sets Dob.
+     * @param aDob
+     */
+    public void setDob(final LocalDate aDob) {
+        this.dob = aDob;
     }
 }

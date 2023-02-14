@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.List;
 
 @SpringBootTest
@@ -90,7 +91,8 @@ public class LearnerProfileServiceTest {
 
         LearnerProfile learnerProfile = new LearnerProfile("HariUserID",
                 "First Name",
-                "Last Name");
+                "Last Name",
+                LocalDate.now());
         return learnerProfile;
     }
     LearnerProfile anLearner1() {
@@ -102,7 +104,8 @@ public class LearnerProfileServiceTest {
                 learner);
         LearnerProfile learnerProfile = new LearnerProfile("HariPriyaUserID",
                 "Hari",
-                "Priya");
+                "Priya",
+                LocalDate.now());
         return learnerProfile;
     }
 

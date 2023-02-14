@@ -27,6 +27,7 @@ import org.springframework.test.web.reactive.server.StatusAssertions;
 import org.springframework.test.web.reactive.server.WebTestClient;
 import reactor.core.publisher.Mono;
 
+import java.time.LocalDate;
 import java.util.concurrent.TimeUnit;
 
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
@@ -203,9 +204,9 @@ class AuthenticationAPIControllerTest {
                                             final AuthenticationResponse authenticationResponse) {
 
         RegistrationRequest registrationRequest = new RegistrationRequest();
-        registrationRequest.setId(authenticationRequest.getUserName());
         registrationRequest.setFirstName("Sathish Kumar");
         registrationRequest.setLastName("Thiyagarajan");
+        registrationRequest.setDob(LocalDate.now());
 
         return this.webTestClient
                 .post()

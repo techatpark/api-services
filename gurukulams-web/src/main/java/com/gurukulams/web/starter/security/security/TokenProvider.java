@@ -326,11 +326,12 @@ public class TokenProvider {
                               final String userName,
                               final RegistrationRequest registrationRequest) {
         String authToken = getBearer(authHeader);
-
-        LearnerProfile learnerProfile = new LearnerProfile(
-                registrationRequest.getId(),
+        String[] parts = userName.split("@");
+        String userId = parts[0];
+        LearnerProfile learnerProfile = new LearnerProfile(userId,
                 registrationRequest.getFirstName(),
-                registrationRequest.getLastName());
+                registrationRequest.getLastName(),
+                registrationRequest.getDob());
 
 
         learnerProfileService.create(userName, learnerProfile);

@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import javax.sql.DataSource;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
@@ -62,7 +63,8 @@ public class LearnerProfileService {
 
         LearnerProfile learnerProfile = new LearnerProfile(rs.getString("id"),
                 rs.getString("first_name"),
-                rs.getString("last_name")
+                rs.getString("last_name"),
+                rs.getObject("dob", LocalDate.class)
         );
         return learnerProfile;
     }
@@ -94,12 +96,13 @@ public class LearnerProfileService {
                 .withTableName("learner_profile")
                 .usingColumns("id", "learner_id",
                         "first_name",
-                        "last_name");
+                        "last_name", "dob");
         final Map<String, Object> valueMap = new HashMap<>();
         valueMap.put("id", learnerProfile.id());
         valueMap.put("learner_id", getLearnerId(userName).get());
         valueMap.put("first_name", learnerProfile.firstName());
         valueMap.put("last_name", learnerProfile.lastName());
+        valueMap.put("dob", learnerProfile.dob());
 
         insert.execute(valueMap);
 
@@ -149,7 +152,7 @@ public class LearnerProfileService {
      */
     public Optional<LearnerProfile> read(final String userName,
                                   final String id) {
-        final String query = "SELECT id,learner_id,first_name,last_name"
+        final String query = "SELECT id,learner_id,first_name,last_name,dob"
                 + " FROM learner_profile WHERE id = ?";
 
         try {
@@ -168,7 +171,7 @@ public class LearnerProfileService {
      */
     public Optional<LearnerProfile> read(final String userName,
                                          final UUID learnerId) {
-        final String query = "SELECT id,learner_id,first_name,last_name"
+        final String query = "SELECT id,learner_id,first_name,last_name,dob"
                 + " FROM learner_profile WHERE learner_id = ?";
 
         try {
@@ -220,7 +223,7 @@ public class LearnerProfileService {
      */
     public List<LearnerProfile> list(final String userName) {
         final String query = "SELECT id,learner_id,"
-                + "first_name,last_name FROM learner_profile";
+                + "first_name,last_name, dob FROM learner_profile";
         return jdbcTemplate.query(query, this::rowMapper);
     }
 
