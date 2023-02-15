@@ -11,7 +11,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.UUID;
 
 @SpringBootTest
 class InstituteServiceTest {
@@ -39,8 +38,8 @@ class InstituteServiceTest {
 
     private void cleanUp() {
         instituteService.deleteAll();
+        instituteService.deleteAllHandle();
     }
-
 
     @Test
     void create() {

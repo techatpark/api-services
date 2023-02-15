@@ -2,7 +2,6 @@ package com.gurukulams.core.service;
 
 import com.gurukulams.core.model.Handle;
 import com.gurukulams.core.model.Institute;
-import com.gurukulams.core.model.LearnerProfile;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -240,6 +239,14 @@ public final class InstituteService {
      */
     public Integer deleteAll() {
         final String query = "DELETE FROM institutes";
+        return jdbcTemplate.update(query);
+    }
+
+    /**
+     * @return handle
+     */
+    public Integer deleteAllHandle() {
+        final String query = "DELETE FROM handle";
         return jdbcTemplate.update(query);
     }
 }

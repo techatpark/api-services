@@ -117,11 +117,10 @@ public class LearnerProfileService {
                                           final String type) {
         final SimpleJdbcInsert insert = new SimpleJdbcInsert(dataSource)
                 .withTableName("handle")
-                .usingColumns("id", "type", "type_id");
+                .usingColumns("id", "type");
         final Map<String, Object> valueMap = new HashMap<>();
         valueMap.put("id", learnerProfile.id());
         valueMap.put("type", type);
-        valueMap.put("type_id", getLearnerId(userName).get());
 
         insert.execute(valueMap);
 
