@@ -134,6 +134,13 @@ CREATE TABLE books_localized (
     PRIMARY KEY(book_id, locale)
 );
 
+CREATE TABLE handle (
+    id VARCHAR(55) PRIMARY KEY,
+    type VARCHAR(55),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT type_id_constraint UNIQUE (type, id)
+);
+
 CREATE TABLE institutes (
     id VARCHAR(55) PRIMARY KEY,
     title VARCHAR(55),
@@ -147,7 +154,7 @@ CREATE TABLE institutes (
 );
 
 CREATE TABLE institutes_localized (
-    institute_id UUID,
+    institute_id VARCHAR(55),
     locale VARCHAR(8) NOT NULL,
     title VARCHAR(55),
     description TEXT,
@@ -201,13 +208,6 @@ CREATE TABLE learner (
     CONSTRAINT learner_email_constraint UNIQUE (email)
 );
 
-CREATE TABLE handle (
-    id VARCHAR(55) PRIMARY KEY,
-    type VARCHAR(55),
-    type_id UUID NOT NULL,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    CONSTRAINT type_id_constraint UNIQUE (type, type_id)
-);
 
 CREATE TABLE learner_profile (
     id VARCHAR(55) PRIMARY KEY,

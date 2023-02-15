@@ -62,7 +62,7 @@ class InstituteServiceTest {
 
         final Institute institute = instituteService.create("hari",
                 anInstitute());
-        final UUID newInstituteId = institute.id();
+        final String newInstituteId = institute.id();
         Institute newInstitute = new Institute(null, "HansiInstitute", "An " +
                 "Institute", null, null, null, null);
         Institute updatedInstitute = instituteService
@@ -71,7 +71,7 @@ class InstituteServiceTest {
 
         Assertions.assertThrows(IllegalArgumentException.class, () -> {
             instituteService
-                    .update(UUID.randomUUID(), "priya", newInstitute);
+                    .update("HariIn", "priya", newInstitute);
         });
     }
 
@@ -89,7 +89,7 @@ class InstituteServiceTest {
 
         final Institute institute = instituteService.create("hari",
                 anInstitute());
-        Institute newInstitute = new Institute(null, "HansiInstitute", "An " +
+        Institute newInstitute = new Institute("HansiCollege", "HansiInstitute", "An " +
                 "Institute", null, null, null, null);
         instituteService.create("hari",
                 newInstitute);
@@ -105,7 +105,7 @@ class InstituteServiceTest {
      */
     Institute anInstitute() {
 
-        Institute institute = new Institute(null, "HariInstitute", "An " +
+        Institute institute = new Institute("AnnaUniv", "HariInstitute", "An " +
                 "Institute", null, null, null, null);
         return institute;
     }

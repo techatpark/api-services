@@ -1,6 +1,8 @@
 package com.gurukulams.core.service;
 
+import com.gurukulams.core.model.Handle;
 import com.gurukulams.core.model.Institute;
+import com.gurukulams.core.model.LearnerProfile;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -16,7 +18,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.UUID;
 
 /**
  * The type Institute service.
@@ -66,8 +67,8 @@ public final class InstituteService {
             throws SQLException {
 
 
-        Institute institute = new Institute((UUID)
-                rs.getObject("id"),
+        Institute institute = new Institute(
+                rs.getString("id"),
                 rs.getString("title"),
                 rs.getString("description"),
                 rs.getObject("created_at", LocalDateTime.class),
@@ -76,6 +77,18 @@ public final class InstituteService {
                 rs.getString("modified_by"));
 
         return institute;
+    }
+
+    private Handle rowMapperHandle(final ResultSet resultSet,
+                                   final int i)
+            throws SQLException {
+
+
+        Handle handle = new Handle(resultSet.getString("id"),
+                resultSet.getString("type"),
+                resultSet.getObject("created_at", LocalDateTime.class)
+        );
+        return handle;
     }
 
     /**
@@ -88,6 +101,9 @@ public final class InstituteService {
     public Institute create(final String userName,
                             final Institute institute) {
 
+        Optional<Handle> handle = createHandle(userName,
+                institute, "Institute");
+
         final SimpleJdbcInsert insert = new SimpleJdbcInsert(dataSource)
                 .withTableName("institutes")
                 .usingColumns("id", "title",
@@ -95,20 +111,51 @@ public final class InstituteService {
                         "created_by");
 
         final Map<String, Object> valueMap = new HashMap<>();
+        valueMap.put("id", institute.id());
         valueMap.put("title",
                 institute.title());
         valueMap.put("description", institute.description());
         valueMap.put("created_by", userName);
 
-        final UUID instituteId = UUID.randomUUID();
-        valueMap.put("id", instituteId);
+//        final UUID instituteId = UUID.randomUUID();
         insert.execute(valueMap);
         final Optional<Institute> createdInstitute =
-                read(userName, instituteId);
+                read(userName, institute.id());
 
-        logger.info("Created Institute {}", instituteId);
+        logger.info("Created Institute {}", institute.id());
 
         return createdInstitute.get();
+    }
+
+    private Optional<Handle> createHandle(final String userName,
+                                          final Institute institute,
+                                          final String type) {
+        final SimpleJdbcInsert insert = new SimpleJdbcInsert(dataSource)
+                .withTableName("handle")
+                .usingColumns("id", "type");
+        final Map<String, Object> valueMap = new HashMap<>();
+        valueMap.put("id", institute.id());
+        valueMap.put("type", type);
+
+        insert.execute(valueMap);
+
+        final Optional<Handle> createdHandle = readHandle(userName,
+                institute.id());
+        return createdHandle;
+    }
+
+    private Optional<Handle> readHandle(final String userName,
+                                        final String id) {
+        final String query = "SELECT id,type,created_at"
+                + " FROM handle WHERE id = ?";
+
+        try {
+            final Handle p = jdbcTemplate.queryForObject(query,
+                    this::rowMapperHandle, id);
+            return Optional.of(p);
+        } catch (final EmptyResultDataAccessException e) {
+            return Optional.empty();
+        }
     }
 
 
@@ -119,7 +166,7 @@ public final class InstituteService {
      * @param userName the userName
      * @return question optional
      */
-    public Optional<Institute> read(final String userName, final UUID id) {
+    public Optional<Institute> read(final String userName, final String id) {
         final String query = "SELECT id,title,description,created_by,"
                 + "created_at, modified_at, modified_by FROM institutes "
                 + "WHERE id = ?";
@@ -142,7 +189,7 @@ public final class InstituteService {
      * @param institute the institute
      * @return question optional
      */
-    public Institute update(final UUID id,
+    public Institute update(final String id,
                             final String userName,
                             final Institute institute) {
         logger.debug("Entering Update for Institute {}", id);
@@ -166,7 +213,7 @@ public final class InstituteService {
      * @param userName the userName
      * @return false
      */
-    public Boolean delete(final String userName, final UUID id) {
+    public Boolean delete(final String userName, final String id) {
         String query = "DELETE FROM institutes WHERE ID=?";
 
         final Integer updatedRows = jdbcTemplate.update(query, id);
