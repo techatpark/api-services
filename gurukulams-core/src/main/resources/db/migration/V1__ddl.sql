@@ -164,13 +164,15 @@ CREATE TABLE institutes_localized (
 
 CREATE TABLE campuses (
     id UUID PRIMARY KEY,
+    institute_id VARCHAR(55),
     title VARCHAR(55),
     description TEXT,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     created_by VARCHAR(55) NOT NULL,
     modified_at TIMESTAMP,
-    modified_by VARCHAR(200)
-    --CONSTRAINT institutes_title_constraint UNIQUE (title)
+    modified_by VARCHAR(200),
+    FOREIGN KEY (institute_id) REFERENCES institutes (id),
+    CONSTRAINT campuses_title_constraint UNIQUE (title)
 );
 
 CREATE TABLE degree (
