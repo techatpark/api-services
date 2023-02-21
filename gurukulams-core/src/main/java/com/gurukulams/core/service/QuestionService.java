@@ -179,7 +179,7 @@ public class QuestionService {
                 createChoices(question.getChoices(), locale, id);
             }
 
-            categories.forEach(tag -> attachTag(id, tag));
+            categories.forEach(category -> attachCategories(id, category));
 
             return read(id, locale);
         } else {
@@ -729,8 +729,8 @@ public class QuestionService {
      * @param tagId      the tagId
      * @return grade optional
      */
-    public boolean attachTag(final UUID questionId,
-                             final String tagId) {
+    private boolean attachCategories(final UUID questionId,
+                                    final String tagId) {
         final SimpleJdbcInsert insert = new SimpleJdbcInsert(dataSource)
                 .withTableName("questions_categories")
                 .usingColumns("question_id", "category_id");
@@ -761,8 +761,6 @@ public class QuestionService {
 
         jdbcTemplate.update("DELETE FROM QUESTIONS_LOCALIZED");
         jdbcTemplate.update("DELETE FROM QUESTIONS");
-
-
 
     }
 }

@@ -16,7 +16,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.SecurityFilterChain;
@@ -143,31 +142,6 @@ public class SecurityConfig {
                 return tokenProvider;
         }
 
-
-
-
-
-
-        /**
-         * Hi.
-         * @return webSecurityCustomizer
-         * @throws Exception exception
-         */
-        @Bean
-        public WebSecurityCustomizer webSecurityCustomizer() {
-                return (web) -> web.ignoring()
-                        .requestMatchers("/api/metrics/**",
-                        "/h2-console", "/h2-console/*",
-                        "/swagger-ui.html", "/swagger-ui/*",
-                        "/v3/api-docs/*",
-                        "/events", "/ta/events",
-                        "/events/**", "/ta/events/*",
-                        "/questions/**", "/ta/questions/*",
-                        "/api/auth/login", "/api/auth/me");
-        }
-
-
-
         /**
          * method configure is overrided here.
          *
@@ -179,6 +153,19 @@ public class SecurityConfig {
         public SecurityFilterChain filterChain(
                 final HttpSecurity http) throws Exception {
                 http
+                        .authorizeHttpRequests()
+                        .requestMatchers("/api/auth/login",
+                                "/api/auth/signup",
+                                "/favicon.ico",
+                                "/error",
+                                "/h2-console",
+                                "/h2-console/**",
+                                "/questions/biology/botany",
+                                "/oauth2/*")
+                        .permitAll()
+                        .anyRequest()
+                        .authenticated()
+                        .and()
                         .cors()
                         .and()
                         .sessionManagement()
@@ -194,16 +181,7 @@ public class SecurityConfig {
                         .authenticationEntryPoint(
                                 new RestAuthenticationEntryPoint())
                         .and()
-                        .authorizeHttpRequests()
-                        .requestMatchers("/api/auth/login",
-                                "/api/auth/signup",
-                                "/h2-console",
-                                "/h2-console/**",
-                                "/oauth2/*")
-                        .permitAll()
-                        .anyRequest()
-                        .authenticated()
-                        .and()
+
                         .oauth2Login()
                         .authorizationEndpoint()
                         .baseUri("/oauth2/authorize")

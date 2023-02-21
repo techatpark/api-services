@@ -371,14 +371,13 @@ public class BookService {
      *
      * @param userName the username
      * @param locale   the locale
-     * @param categoriesPath the categoriesPath
+     * @param categories the categoriesPath
      * @return the optional
      */
     public List<Question> listAllQuestions(final String userName,
                                            final Locale locale,
-                                           final String categoriesPath) {
-        return questionService.list(userName, locale,
-                List.of(categoriesPath.split("/")));
+                                           final List<String> categories) {
+        return questionService.list(userName, locale, categories);
 
     }
 

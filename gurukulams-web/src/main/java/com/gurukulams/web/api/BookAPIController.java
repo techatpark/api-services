@@ -272,13 +272,11 @@ class BookAPIController {
                                                      final Principal principal,
                                              final HttpServletRequest request)
             throws ServletException, IOException {
-        String chapterPath = request.getRequestURI().replaceFirst("/api"
-                + "/questions/" + questionType + "/", "");
 
         return ResponseEntity.status(HttpStatus.CREATED).body(
                 bookService.createAQuestion(questionType, locale,
                         principal.getName(), question,
-                        List.of(chapterPath.split("/")),
+                        getCategories(request.getRequestURI(), questionType),
                         null));
     }
 
@@ -320,9 +318,7 @@ class BookAPIController {
                                                      final
                                                      HttpServletRequest request)
             throws JsonProcessingException {
-        String chapterPath = request.getRequestURI().replaceFirst("/api"
-                + "/questions/" + questionType
-                + "/" + questionId + "/", "");
+
         final Optional<Question> updatedQuestion =
                 bookService.updateQuestion(
                         questionId, locale, questionType,
@@ -384,12 +380,10 @@ class BookAPIController {
                                    required = false) final Locale locale,
                            final HttpServletRequest request) {
 
-        String chapterPath = request.getRequestURI().split("/questions/")[1];
         return ResponseEntity.status(HttpStatus.OK)
                 .body(bookService.listAllQuestions(principal.getName(),
-                        locale, chapterPath));
+                        locale, getCategories(request.getRequestURI())));
     }
-
 
     /**
      * Answer response entity.
@@ -419,4 +413,18 @@ class BookAPIController {
                 HttpStatus.ACCEPTED).build()
                 : ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).build();
     }
+
+    private List<String> getCategories(final String requestURI,
+                                       final QuestionType questionType) {
+        return List.of(
+                requestURI.split("/questions/"
+                        + questionType.toString() + "/")[1]
+                .split("/"));
+    }
+
+    private List<String> getCategories(final String requestURI) {
+        return List.of(requestURI.split("/questions/")[1]
+                .split("/"));
+    }
+
 }
