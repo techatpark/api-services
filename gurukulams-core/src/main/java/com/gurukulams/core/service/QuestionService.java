@@ -1,9 +1,11 @@
 package com.gurukulams.core.service;
 
+import com.gurukulams.core.model.Category;
 import com.gurukulams.core.model.Choice;
 import com.gurukulams.core.model.Question;
 import com.gurukulams.core.model.QuestionType;
 import org.hibernate.validator.internal.engine.ConstraintViolationImpl;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -46,7 +48,7 @@ public class QuestionService {
     /**
      * this helps to practiceService.
      */
-    private final PracticeService practiceService;
+    private final CategoryService categoryService;
 
     /**
      * Validator.
@@ -107,16 +109,16 @@ public class QuestionService {
      * initializes.
      *
      * @param aJdbcTemplate    the a jdbc template
-     * @param aPracticeService the practiceservice
+     * @param aCategoryService the practiceservice
      * @param aValidator       thevalidator
      * @param aDataSource      the a data source
      */
     public QuestionService(final JdbcTemplate aJdbcTemplate,
-                           final PracticeService aPracticeService,
+                           final CategoryService aCategoryService,
                            final Validator aValidator,
                            final DataSource aDataSource) {
         this.jdbcTemplate = aJdbcTemplate;
-        this.practiceService = aPracticeService;
+        this.categoryService = aCategoryService;
         this.validator = aValidator;
         this.dataSource = aDataSource;
     }
@@ -179,7 +181,8 @@ public class QuestionService {
                 createChoices(question.getChoices(), locale, id);
             }
 
-            categories.forEach(category -> attachCategories(id, category));
+            categories.forEach(category -> attachCategories(createdBy,
+                    id, category));
 
             return read(id, locale);
         } else {
@@ -724,13 +727,14 @@ public class QuestionService {
 
     /**
      * Adds tag to question.
-     *
+     * @param userName
      * @param questionId the questionId
-     * @param tagId      the tagId
+     * @param categoryId      the categoryId
      * @return grade optional
      */
-    private boolean attachCategories(final UUID questionId,
-                                    final String tagId) {
+    private boolean attachCategories(final String userName,
+                                    final UUID questionId,
+                                    final String categoryId) {
         final SimpleJdbcInsert insert = new SimpleJdbcInsert(dataSource)
                 .withTableName("questions_categories")
                 .usingColumns("question_id", "category_id");
@@ -738,9 +742,25 @@ public class QuestionService {
         final Map<String, Object> valueMap = new HashMap<>();
 
         valueMap.put("question_id", questionId);
-        valueMap.put("category_id", tagId);
+        valueMap.put("category_id", categoryId);
 
-        int noOfRowsInserted = insert.execute(valueMap);
+        int noOfRowsInserted = 0;
+
+        try {
+            noOfRowsInserted = insert.execute(valueMap);
+        } catch (final DataIntegrityViolationException e) {
+            // Retry with Auto Create Category
+            Category category = new Category(categoryId,
+                    categoryId.toUpperCase(), null, null,
+                    null, null);
+            this.categoryService.create(userName, null, category);
+
+            noOfRowsInserted = insert.execute(valueMap);
+
+
+        }
+
+        // DataIntegrityViolationException
 
         return noOfRowsInserted == 1;
     }
