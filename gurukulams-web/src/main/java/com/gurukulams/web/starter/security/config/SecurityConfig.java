@@ -16,6 +16,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.SecurityFilterChain;
@@ -140,6 +141,27 @@ public class SecurityConfig {
         @Bean
         public TokenProvider tokenProvider() {
                 return tokenProvider;
+        }
+
+        /**
+         * Hi.
+         * @return webSecurityCustomizer
+         * @throws Exception exception
+         */
+        @Bean
+        public WebSecurityCustomizer webSecurityCustomizer() {
+                return (web) -> web.ignoring()
+                        .requestMatchers("/api/metrics/**",
+                                "/h2-console", "/h2-console/*",
+                                "/swagger-ui.html", "/swagger-ui/*",
+                                "/v3/api-docs/*",
+                                "/questions/**", "/ta/questions/*",
+                                "/chat",
+                                "/chat/*",
+                                "/chat/*/*",
+                                "/chat/*/*/*",
+                                "/api/auth/me",
+                                "/api/auth/login");
         }
 
         /**
