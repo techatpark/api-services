@@ -157,11 +157,13 @@ public class SecurityConfig {
                         .requestMatchers("/api/auth/login",
                                 "/api/auth/signup",
                                 "/practices/basic/index.html",
+                                "/ta/practices/basic/index.html",
                                 "/favicon.ico",
                                 "/error",
                                 "/h2-console",
                                 "/h2-console/**",
                                 "/questions/biology/botany",
+                                "/ta/questions/biology/botany",
                                 "/oauth2/*")
                         .permitAll()
                         .anyRequest()
