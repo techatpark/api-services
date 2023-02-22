@@ -156,6 +156,7 @@ public class SecurityConfig {
                         .authorizeHttpRequests()
                         .requestMatchers("/api/auth/login",
                                 "/api/auth/signup",
+                                "/practices/basic/index.html",
                                 "/favicon.ico",
                                 "/error",
                                 "/h2-console",

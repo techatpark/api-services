@@ -530,7 +530,7 @@ public class QuestionService {
                                final Locale locale,
                                final List<String> categories) {
 
-        boolean isOwner = false;
+        boolean isOwner = true;
 
         final String query = locale == null
                 ? "SELECT id,question,explanation,type,"
