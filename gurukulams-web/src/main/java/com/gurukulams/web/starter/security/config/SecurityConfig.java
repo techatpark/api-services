@@ -184,6 +184,10 @@ public class SecurityConfig {
                                 "/error",
                                 "/h2-console",
                                 "/h2-console/**",
+                                "/events",
+                                "/events/**",
+                                "/ta/events",
+                                "/ta/events/**",
                                 "/questions/biology/botany",
                                 "/ta/questions/biology/botany",
                                 "/oauth2/*")
