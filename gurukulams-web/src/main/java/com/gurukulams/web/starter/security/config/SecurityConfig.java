@@ -154,7 +154,7 @@ public class SecurityConfig {
                         .requestMatchers("/api/metrics/**",
                                 "/h2-console", "/h2-console/*",
                                 "/swagger-ui.html", "/swagger-ui/*",
-                                "/v3/api-docs/*",
+                                "/v3/api-docs", "/v3/api-docs/*",
                                 "/questions/**", "/ta/questions/*",
                                 "/chat",
                                 "/chat/*",
@@ -190,6 +190,7 @@ public class SecurityConfig {
                                 "/ta/events/**",
                                 "/questions/biology/botany",
                                 "/ta/questions/biology/botany",
+                                "/v3/api-docs",
                                 "/oauth2/*")
                         .permitAll()
                         .anyRequest()

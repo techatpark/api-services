@@ -23,12 +23,13 @@
         <maven.compiler.showDeprecation>true</maven.compiler.showDeprecation>
         <maven.compiler.failOnWarning>true</maven.compiler.failOnWarning>
         <!-- Version of Dependencies -->
-        <springdoc.version>1.6.14</springdoc.version>
-        <springdoc.core.version>1.1.49</springdoc.core.version>
+        <springdoc.version>2.0.2</springdoc.version>
+        <swagger.version>2.2.8</swagger.version>
+
         <maven.checkstyle.version>3.2.0</maven.checkstyle.version>
         <checkstyle.version>10.4</checkstyle.version>
         <jsonwebtoken.version>0.11.2</jsonwebtoken.version>
-        <swagger.version>2.2.0</swagger.version>
+
         <archunit.version>1.0.1</archunit.version>
         <exec-maven.version>${maven-enforcer-plugin.version}</exec-maven.version>
         <jacoco-maven-plugin.version>0.8.8</jacoco-maven-plugin.version>
