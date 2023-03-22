@@ -39,12 +39,7 @@
             <artifactId>spring-security-oauth2-client</artifactId>
         </dependency>
 
-        <dependency>
-            <groupId>io.swagger.core.v3</groupId>
-            <artifactId>swagger-annotations</artifactId>
-            <version>${swagger.version}</version>
-            <scope>compile</scope>
-        </dependency>
+
 
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -102,14 +97,11 @@
                 <spring.profiles.active>local</spring.profiles.active>
             </properties>
             <dependencies>
-
-
                 <dependency>
                     <groupId>org.springdoc</groupId>
                     <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
                     <version>${springdoc.version}</version>
                 </dependency>
-
             </dependencies>
         </profile>
         <profile>
@@ -117,6 +109,20 @@
             <properties>
                 <spring.profiles.active>prod</spring.profiles.active>
             </properties>
+            <dependencies>
+                <dependency>
+                    <groupId>io.swagger.core.v3</groupId>
+                    <artifactId>swagger-annotations</artifactId>
+                    <version>${swagger.version}</version>
+                    <scope>compile</scope>
+                </dependency>
+                <dependency>
+                    <groupId>io.swagger.core.v3</groupId>
+                    <artifactId>swagger-integration</artifactId>
+                    <version>${swagger.version}</version>
+                    <scope>compile</scope>
+                </dependency>
+            </dependencies>
         </profile>
     </profiles>
 
