@@ -131,7 +131,7 @@ public class SecurityConfig {
 
 
                 tokenAuthenticationFilter = new TokenAuthenticationFilter(
-                        tokenProvider, userDetailsService);
+                        tokenProvider);
         }
 
         /**
